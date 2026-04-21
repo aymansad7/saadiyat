@@ -186,7 +186,7 @@ export default function Landing() {
                 </h3>
                 <div className="mt-auto pt-6 flex items-baseline justify-between border-t border-border/60 mt-6">
                   <div>
-                    <div className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Plots</div>
+                    <div className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Villas</div>
                     <div className="font-display num-display text-2xl">
                       {c.available ? c.plots : "—"}
                     </div>
