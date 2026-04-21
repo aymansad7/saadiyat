@@ -83,6 +83,12 @@ export default function SiteHeader({ subTitle, back }: Props) {
                   <span className="text-[0.65rem] font-mono text-foreground/70 border border-border px-1 rounded-sm">83</span>
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/saadiyat-lagoons" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">Saadiyat Lagoons</span>
+                  <span className="text-[0.65rem] font-mono text-primary border border-primary/40 px-1 rounded-sm">1549</span>
+                </Link>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

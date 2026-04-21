@@ -16,6 +16,7 @@ import SiteHeader from "@/components/SiteHeader";
 import { toast } from "sonner";
 import { villas } from "@/data/villas";
 import { COMMUNITIES } from "@/data/communities";
+import { LAGOONS_DATASET } from "@/data/lagoons";
 
 const jawaher = COMMUNITIES.find((c) => c.slug === "jawaher")!;
 const sbv = COMMUNITIES.find((c) => c.slug === "saadiyat-beach-villas")!;
@@ -50,6 +51,15 @@ const communities = [
     href: "/jawaher",
     available: true,
     rich: false,
+  },
+  {
+    slug: "saadiyat-lagoons",
+    name: "Saadiyat Lagoons",
+    cluster: "Aldar · SDE1 / SDE2 / SDE3",
+    plots: LAGOONS_DATASET.total_villas,
+    href: "/saadiyat-lagoons",
+    available: true,
+    rich: true,
   },
   { slug: "hidd", name: "Hidd Al Saadiyat", cluster: "Saadiyat Reserve", plots: 0, href: "#", available: false, rich: false },
 ];
@@ -95,11 +105,11 @@ export default function Landing() {
             <dl className="mt-10 grid grid-cols-3 gap-6 max-w-md border-t border-border pt-6">
               <div>
                 <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Plots</dt>
-                <dd className="font-display text-3xl text-foreground tabular num-display mt-1">{villas.length + jawaher.totalPlots + sbv.totalPlots}</dd>
+                <dd className="font-display text-3xl text-foreground tabular num-display mt-1">{villas.length + jawaher.totalPlots + sbv.totalPlots + LAGOONS_DATASET.total_villas}</dd>
               </div>
               <div>
                 <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Communities</dt>
-                <dd className="font-display text-2xl text-foreground mt-1">3</dd>
+                <dd className="font-display text-2xl text-foreground mt-1">4</dd>
               </div>
               <div>
                 <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Source</dt>
@@ -148,7 +158,7 @@ export default function Landing() {
           </div>
           <p className="hidden sm:block text-sm text-muted-foreground max-w-sm">
             We are progressively cataloguing every gated cluster on the island.
-            Today: St. Regis Villas. More to follow.
+            Today: four communities, {villas.length + jawaher.totalPlots + sbv.totalPlots + LAGOONS_DATASET.total_villas} plots.
           </p>
         </div>
 
@@ -222,7 +232,7 @@ export default function Landing() {
             Saadiyat · An editorial property atlas
           </div>
           <div>
-            Data sourced from DMT GeoSmart, Department of Municipalities and Transport, Abu Dhabi.
+Data sourced from DMT GeoSmart and Aldar (world.aldar.com).
           </div>
         </div>
       </footer>
