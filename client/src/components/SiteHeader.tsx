@@ -3,8 +3,16 @@
  * Editorial wordmark "Saadiyat" with breadcrumb-style sub-label.
  */
 import { Link, useLocation } from "wouter";
-import { ArrowLeft, MapPin } from "lucide-react";
+import { ArrowLeft, MapPin, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 interface Props {
   subTitle?: string;
@@ -46,9 +54,37 @@ export default function SiteHeader({ subTitle, back }: Props) {
               <Link href="/">Home</Link>
             </Button>
           )}
-          <Button asChild variant="outline" size="sm" className="bg-card border-primary/30 text-primary hover:bg-primary/10 hover:text-primary">
-            <Link href="/st-regis">St. Regis Villas</Link>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="bg-card border-primary/30 text-primary hover:bg-primary/10 hover:text-primary gap-1.5">
+                Communities <ChevronDown className="h-3.5 w-3.5" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-64">
+              <DropdownMenuLabel className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
+                Saadiyat Island
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/st-regis" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">St. Regis Villas</span>
+                  <span className="text-[0.65rem] font-mono text-primary border border-primary/40 px-1 rounded-sm">FULL</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/saadiyat-beach-villas" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">Saadiyat Beach Villas</span>
+                  <span className="text-[0.65rem] font-mono text-foreground/70 border border-border px-1 rounded-sm">446</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/jawaher" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">Jawaher Saadiyat</span>
+                  <span className="text-[0.65rem] font-mono text-foreground/70 border border-border px-1 rounded-sm">83</span>
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

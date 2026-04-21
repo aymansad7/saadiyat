@@ -15,6 +15,10 @@ import { Button } from "@/components/ui/button";
 import SiteHeader from "@/components/SiteHeader";
 import { toast } from "sonner";
 import { villas } from "@/data/villas";
+import { COMMUNITIES } from "@/data/communities";
+
+const jawaher = COMMUNITIES.find((c) => c.slug === "jawaher")!;
+const sbv = COMMUNITIES.find((c) => c.slug === "saadiyat-beach-villas")!;
 
 const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030641160/cdNSYhri6jzahGcw5xtfw3/saadiyat-hero-fXHXGvSP5PsLtB8b7Rpzwu.webp";
 const COMPASS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030641160/cdNSYhri6jzahGcw5xtfw3/compass-rose-deQv7pJ8D2hyEVdwDAWyyr.webp";
@@ -27,10 +31,27 @@ const communities = [
     plots: villas.length,
     href: "/st-regis",
     available: true,
+    rich: true,
   },
-  { slug: "mamsha", name: "Mamsha Al Saadiyat", cluster: "Cultural District", plots: 0, href: "#", available: false },
-  { slug: "hidd", name: "Hidd Al Saadiyat", cluster: "Saadiyat Reserve", plots: 0, href: "#", available: false },
-  { slug: "nudra", name: "Nudra Villas", cluster: "Saadiyat Beach", plots: 0, href: "#", available: false },
+  {
+    slug: "saadiyat-beach-villas",
+    name: sbv.name,
+    cluster: sbv.cluster,
+    plots: sbv.totalPlots,
+    href: "/saadiyat-beach-villas",
+    available: true,
+    rich: false,
+  },
+  {
+    slug: "jawaher",
+    name: jawaher.name,
+    cluster: jawaher.cluster,
+    plots: jawaher.totalPlots,
+    href: "/jawaher",
+    available: true,
+    rich: false,
+  },
+  { slug: "hidd", name: "Hidd Al Saadiyat", cluster: "Saadiyat Reserve", plots: 0, href: "#", available: false, rich: false },
 ];
 
 export default function Landing() {
@@ -73,12 +94,12 @@ export default function Landing() {
 
             <dl className="mt-10 grid grid-cols-3 gap-6 max-w-md border-t border-border pt-6">
               <div>
-                <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Villas</dt>
-                <dd className="font-display text-3xl text-foreground tabular num-display mt-1">{villas.length}</dd>
+                <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Plots</dt>
+                <dd className="font-display text-3xl text-foreground tabular num-display mt-1">{villas.length + jawaher.totalPlots + sbv.totalPlots}</dd>
               </div>
               <div>
-                <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Cluster</dt>
-                <dd className="font-display text-2xl text-foreground mt-1">SB-01</dd>
+                <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Communities</dt>
+                <dd className="font-display text-2xl text-foreground mt-1">3</dd>
               </div>
               <div>
                 <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Source</dt>
@@ -145,9 +166,15 @@ export default function Landing() {
                     {c.cluster}
                   </div>
                   {c.available ? (
-                    <span className="text-[0.65rem] uppercase tracking-[0.16em] font-mono text-primary border border-primary/40 px-1.5 py-0.5 rounded-sm">
-                      Live
-                    </span>
+                    c.rich ? (
+                      <span className="text-[0.65rem] uppercase tracking-[0.16em] font-mono text-primary border border-primary/40 px-1.5 py-0.5 rounded-sm bg-primary/5">
+                        Full data
+                      </span>
+                    ) : (
+                      <span className="text-[0.65rem] uppercase tracking-[0.16em] font-mono text-foreground border border-foreground/30 px-1.5 py-0.5 rounded-sm">
+                        Index
+                      </span>
+                    )
                   ) : (
                     <span className="text-[0.65rem] uppercase tracking-[0.16em] font-mono text-muted-foreground border border-border px-1.5 py-0.5 rounded-sm">
                       Soon

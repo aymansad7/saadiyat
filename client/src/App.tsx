@@ -14,6 +14,8 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Landing from "./pages/Landing";
 import StRegis from "./pages/StRegis";
 import VillaDetail from "./pages/VillaDetail";
+import Jawaher from "./pages/Jawaher";
+import SaadiyatBeachVillas from "./pages/SaadiyatBeachVillas";
 
 function Router() {
   return (
@@ -21,6 +23,8 @@ function Router() {
       <Route path="/" component={Landing} />
       <Route path="/st-regis" component={StRegis} />
       <Route path="/st-regis/villa/:id" component={VillaDetail} />
+      <Route path="/jawaher" component={Jawaher} />
+      <Route path="/saadiyat-beach-villas" component={SaadiyatBeachVillas} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
