@@ -8,9 +8,10 @@
  *   /saadiyat-lagoons/al-ghaf
  */
 import { Link } from "wouter";
-import { ArrowUpRight, Compass, Trees, Waves, Building2 } from "lucide-react";
+import { ArrowUpRight, Compass, Trees, Waves, Building2, Tag } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { LAGOONS_DATASET } from "@/data/lagoons";
+import { LAGOONS_RESALE, RESALE_BY_UNIT } from "@/data/lagoonsResale";
 
 const CLUSTERS = [
   {
@@ -41,6 +42,16 @@ const CLUSTERS = [
 
 export default function SaadiyatLagoons() {
   const totals = LAGOONS_DATASET.summary;
+  const resaleByCluster: Record<string, number> = {};
+  for (const r of LAGOONS_RESALE) {
+    resaleByCluster[r.cluster] = (resaleByCluster[r.cluster] ?? 0) + 1;
+  }
+  const candidatesByCluster: Record<string, number> = {};
+  for (const v of LAGOONS_DATASET.villas) {
+    if (RESALE_BY_UNIT[v.unit_name]) {
+      candidatesByCluster[v.cluster] = (candidatesByCluster[v.cluster] ?? 0) + 1;
+    }
+  }
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader
@@ -71,9 +82,9 @@ export default function SaadiyatLagoons() {
             </p>
           </div>
           <div className="col-span-12 md:col-span-4 flex flex-wrap gap-3 md:justify-end">
-            <Stat label="Villas" value={String(LAGOONS_DATASET.total_villas)} accent />
+            <Stat label="Villas" value={String(LAGOONS_DATASET.total_villas)} />
             <Stat label="Villages" value="3" />
-            <Stat label="Models" value="4 · 5 · 6 BR" />
+            <Stat label="Resale" value={String(LAGOONS_RESALE.length)} accent />
           </div>
         </div>
       </section>
@@ -143,7 +154,7 @@ export default function SaadiyatLagoons() {
                     </dd>
                   </dl>
 
-                  <div className="mt-auto pt-6 flex items-baseline justify-between border-t border-border/60 mt-6">
+                  <div className="mt-auto pt-6 flex items-baseline justify-between border-t border-border/60 mt-6 gap-3">
                     <div>
                       <div className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">
                         Corners · Single-row
@@ -152,7 +163,18 @@ export default function SaadiyatLagoons() {
                         {s?.corners ?? 0} · {s?.edges ?? 0}
                       </div>
                     </div>
-                    <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                    {(resaleByCluster[c.slug] ?? 0) > 0 ? (
+                      <div className="text-right">
+                        <div className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-emerald-700">
+                          Resale
+                        </div>
+                        <div className="font-mono text-sm tabular text-emerald-700 mt-0.5">
+                          {resaleByCluster[c.slug]} listing{(resaleByCluster[c.slug] ?? 0) === 1 ? "" : "s"}
+                        </div>
+                      </div>
+                    ) : (
+                      <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                    )}
                   </div>
                 </div>
               </Link>
@@ -160,8 +182,46 @@ export default function SaadiyatLagoons() {
           })}
         </div>
 
+        {/* Resale rail */}
+        <div className="mt-14 border border-emerald-200 rounded-md bg-emerald-50/40 p-5 sm:p-7">
+          <div className="flex items-center gap-2 mb-3 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-emerald-700">
+            <Tag className="h-3.5 w-3.5" />
+            Resale market · 21 Apr 2026
+          </div>
+          <p className="text-sm text-muted-foreground max-w-3xl">
+            All 1,549 villas are sold in primary launch. The current secondary
+            market shows{" "}
+            <strong className="text-foreground">
+              {LAGOONS_RESALE.length} resale listings
+            </strong>
+            {" "}across the three villages — broker-supplied codes only, exact
+            villa numbers withheld until offer stage. Each listing is mapped to
+            the candidate plots in its block on the corresponding villa page,
+            and surfaced with the green “Available · Resale” tag in the cluster
+            grids.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3 font-mono text-[0.7rem]">
+            {CLUSTERS.map((c) => (
+              <div
+                key={c.slug}
+                className="inline-flex items-center gap-2 px-3 py-1.5 border border-emerald-200 bg-white rounded-sm"
+              >
+                <span className="uppercase tracking-[0.16em] text-muted-foreground">
+                  {c.name}
+                </span>
+                <span className="tabular text-foreground text-sm">
+                  {resaleByCluster[c.slug] ?? 0} listing{(resaleByCluster[c.slug] ?? 0) === 1 ? "" : "s"}
+                </span>
+                <span className="text-muted-foreground">
+                  ({candidatesByCluster[c.slug] ?? 0} candidate villas)
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Amenity rail */}
-        <div className="mt-14 border border-border rounded-md bg-card/50 p-5 sm:p-7">
+        <div className="mt-6 border border-border rounded-md bg-card/50 p-5 sm:p-7">
           <div className="flex items-center gap-2 mb-3 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
             <span className="h-px w-6 bg-primary/60" />
             Master amenities
