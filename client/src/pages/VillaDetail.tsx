@@ -11,6 +11,7 @@ import PlotMap from "@/components/PlotMap";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, FileText, MapPin, Globe2, Copy, ExternalLink, Download } from "lucide-react";
 import { toast } from "sonner";
+import { FilesPanel } from "@/components/FilesPanel";
 
 export default function VillaDetail() {
   const params = useParams<{ id: string }>();
@@ -204,6 +205,15 @@ export default function VillaDetail() {
             </div>
           )}
         </div>
+      </section>
+
+      {/* File attachments */}
+      <section className="container pb-14">
+        <FilesPanel
+          scope="villa"
+          villaKey={`st-regis/villa-${villa.id}`}
+          subtitle={`Add or browse files attached to Villa ${villa.id} (${villa.admPlotId}). Visible to anyone; sign in to upload.`}
+        />
       </section>
 
       <footer className="mt-auto border-t border-border bg-card/60">

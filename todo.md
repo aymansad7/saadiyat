@@ -24,3 +24,16 @@
 ## Phase 4 — Deliver
 - [ ] Bundle all PDFs into one ZIP
 - [ ] Send final ZIP attachment + final checkpoint
+
+
+## Password Gate (added 2026-04-21)
+- [ ] Create PasswordGate component that shows lock screen when not authenticated
+- [ ] Persist successful auth in sessionStorage so it sticks per browser session
+- [ ] Wrap App routes with the gate so every page is protected
+- [ ] Use password value `062026`
+- [ ] Style the gate to match Coastal Atelier design
+- [ ] Test and save checkpoint
+
+## Pending (deferred)
+- [ ] Confirm if "St. Regis Villas" should be renamed to "Saadiyat Lagoons" OR add Lagoons as a new community
+- [ ] Finish File Storage UI testing (FilesPanel + Documents page already wired)

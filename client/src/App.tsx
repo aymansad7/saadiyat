@@ -11,6 +11,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import PasswordGate from "./components/PasswordGate";
 import Landing from "./pages/Landing";
 import StRegis from "./pages/StRegis";
 import VillaDetail from "./pages/VillaDetail";
@@ -19,8 +20,10 @@ import SaadiyatBeachVillas from "./pages/SaadiyatBeachVillas";
 import SaadiyatLagoons from "./pages/SaadiyatLagoons";
 import LagoonsCluster from "./pages/LagoonsCluster";
 import LagoonsVillaDetail from "./pages/LagoonsVillaDetail";
+import Documents from "./pages/Documents";
 
 function Router() {
+  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path="/" component={Landing} />
@@ -31,6 +34,7 @@ function Router() {
       <Route path="/saadiyat-lagoons" component={SaadiyatLagoons} />
       <Route path="/saadiyat-lagoons/:cluster/:unit" component={LagoonsVillaDetail} />
       <Route path="/saadiyat-lagoons/:cluster" component={LagoonsCluster} />
+      <Route path="/documents" component={Documents} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -43,7 +47,9 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <PasswordGate>
+            <Router />
+          </PasswordGate>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
