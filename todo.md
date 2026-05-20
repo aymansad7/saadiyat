@@ -37,3 +37,19 @@
 ## Pending (deferred)
 - [ ] Confirm if "St. Regis Villas" should be renamed to "Saadiyat Lagoons" OR add Lagoons as a new community
 - [ ] Finish File Storage UI testing (FilesPanel + Documents page already wired)
+
+## Backup ZIPs (added 2026-05-08)
+- [ ] Inventory all DCR PDF URLs across 3 communities (33 + 83 + 446 = 562 files)
+- [ ] Background-download all 562 PDFs via Wayback Machine
+- [ ] Parse each PDF to extract bedroom count + plot ID for naming
+- [ ] Build `StRegis_Backup.zip` with `StRegis_Plot##_NBR.pdf`
+- [ ] Build `Jawaher_Backup.zip` with `Jawaher_Plot##_NBR.pdf`
+- [ ] Build `SBV_Backup.zip` with `SBV_Gate#_Plot##_NBR.pdf`
+- [ ] Deliver all backup ZIPs to user
+
+## Aldar Lagoons enrichment (added 2026-05-20)
+- [ ] Inspect Aldar_lagoons.xlsx columns
+- [ ] Define matching key between Aldar rows and Lagoons villas
+- [ ] Update Lagoons data file with new fields
+- [ ] Show new fields on Lagoons cards/detail
+- [ ] Save checkpoint

@@ -8,7 +8,7 @@
  * all detail fields.
  */
 import { Redirect, useParams, Link } from "wouter";
-import { ArrowLeft, ExternalLink, MapPin, Tag } from "lucide-react";
+import { ArrowLeft, ExternalLink, MapPin, Tag, Sparkles } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { getLagoonsVilla } from "@/data/lagoons";
@@ -140,6 +140,121 @@ export default function LagoonsVillaDetail() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {villa.aldar_data && (
+        <section className="border-b border-border bg-card/40">
+          <div className="container py-6 sm:py-8">
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <div className="flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
+                <Sparkles className="h-3.5 w-3.5" />
+                Aldar inventory record
+              </div>
+              {villa.aldar_data.aldar_link && (
+                <a
+                  href={villa.aldar_data.aldar_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[0.7rem] uppercase tracking-[0.18em] font-mono text-primary hover:underline"
+                >
+                  Aldar deep link <ExternalLink className="h-3 w-3" />
+                </a>
+              )}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {villa.aldar_data.aldar_unit_name && (
+                <AldarStat label="Aldar Unit Name" value={villa.aldar_data.aldar_unit_name} mono />
+              )}
+              {villa.aldar_data.project_name && (
+                <AldarStat label="Project" value={villa.aldar_data.project_name} />
+              )}
+              {villa.aldar_data.building_section && (
+                <AldarStat label="Building Section" value={villa.aldar_data.building_section} mono />
+              )}
+              {villa.aldar_data.status && (
+                <AldarStat label="Status" value={villa.aldar_data.status} />
+              )}
+              {villa.aldar_data.property_status && (
+                <AldarStat label="Property Status" value={villa.aldar_data.property_status} />
+              )}
+              {villa.aldar_data.inventory_category && (
+                <AldarStat label="Inventory Category" value={villa.aldar_data.inventory_category} />
+              )}
+              {villa.aldar_data.unit_type && (
+                <AldarStat label="Unit Type" value={villa.aldar_data.unit_type} />
+              )}
+              {villa.aldar_data.unit_category && (
+                <AldarStat label="Unit Category" value={villa.aldar_data.unit_category} />
+              )}
+              {villa.aldar_data.unit_finishes && (
+                <AldarStat label="Finishes" value={villa.aldar_data.unit_finishes} />
+              )}
+              {villa.aldar_data.selling_price_aed != null && (
+                <AldarStat label="Selling price" value={`AED ${fmtAed(villa.aldar_data.selling_price_aed)}`} highlight />
+              )}
+              {villa.aldar_data.reservation_amount != null && (
+                <AldarStat label="Reservation" value={`AED ${fmtAed(villa.aldar_data.reservation_amount)}`} />
+              )}
+              {villa.aldar_data.online_reservation_fee != null && (
+                <AldarStat label="Online reservation" value={`AED ${fmtAed(villa.aldar_data.online_reservation_fee)}`} />
+              )}
+              {villa.aldar_data.plot_area_sqm != null && (
+                <AldarStat label="Plot area (Aldar)" value={`${villa.aldar_data.plot_area_sqm.toFixed(2)} m²`} />
+              )}
+              {villa.aldar_data.saleable_area_sqm != null && (
+                <AldarStat label="Saleable area (Aldar)" value={`${villa.aldar_data.saleable_area_sqm.toFixed(2)} m²`} />
+              )}
+              {villa.aldar_data.total_area_sqm != null && (
+                <AldarStat label="Total area" value={`${villa.aldar_data.total_area_sqm.toFixed(2)} m²`} />
+              )}
+              {villa.aldar_data.terrace_area_sqm != null && (
+                <AldarStat label="Terrace" value={`${villa.aldar_data.terrace_area_sqm.toFixed(2)} m²`} />
+              )}
+              {villa.aldar_data.car_parks != null && (
+                <AldarStat label="Car parks" value={`${villa.aldar_data.car_parks}`} />
+              )}
+              {villa.aldar_data.service_charges_aed_sqm != null && (
+                <AldarStat label="Service charges" value={`AED ${villa.aldar_data.service_charges_aed_sqm}/m²`} />
+              )}
+              {villa.aldar_data.service_charge_escalation_pct != null && (
+                <AldarStat label="SC escalation" value={`${villa.aldar_data.service_charge_escalation_pct}%`} />
+              )}
+              {villa.aldar_data.mandatory_pool != null && (
+                <AldarStat label="Mandatory pool" value={villa.aldar_data.mandatory_pool ? "Yes" : "No"} />
+              )}
+              {villa.aldar_data.mandatory_premium != null && (
+                <AldarStat label="Premium finishing" value={villa.aldar_data.mandatory_premium ? "Yes" : "No"} />
+              )}
+              {villa.aldar_data.darna_applicable != null && (
+                <AldarStat label="Darna applicable" value={villa.aldar_data.darna_applicable ? "Yes" : "No"} />
+              )}
+              {villa.aldar_data.virtual_tour && (
+                <AldarStat
+                  label="Virtual tour"
+                  value={
+                    <a
+                      href={villa.aldar_data.virtual_tour}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      Open
+                    </a>
+                  }
+                />
+              )}
+              {villa.aldar_data.payment_plans && (
+                <AldarStat label="Payment plans" value={villa.aldar_data.payment_plans} wide />
+              )}
+              {villa.aldar_data.features_spec && (
+                <AldarStat label="Features / spec" value={villa.aldar_data.features_spec} wide />
+              )}
+            </div>
+            <div className="mt-3 text-[0.62rem] font-mono uppercase tracking-[0.18em] text-muted-foreground">
+              Source: Aldar inventory export · 1,549 units matched 1-on-1 by cluster + bedrooms
             </div>
           </div>
         </section>
@@ -318,5 +433,38 @@ function ResRow({ label, value }: { label: string; value: string }) {
       </dt>
       <dd className="text-foreground tabular">{value}</dd>
     </>
+  );
+}
+
+function AldarStat({
+  label,
+  value,
+  mono = false,
+  highlight = false,
+  wide = false,
+}: {
+  label: string;
+  value: React.ReactNode;
+  mono?: boolean;
+  highlight?: boolean;
+  wide?: boolean;
+}) {
+  return (
+    <div
+      className={`border border-border rounded-md bg-card p-3 sm:p-4 ${
+        wide ? "md:col-span-3" : ""
+      } ${highlight ? "ring-1 ring-primary/40" : ""}`}
+    >
+      <div className="text-[0.62rem] uppercase tracking-[0.16em] font-mono text-muted-foreground">
+        {label}
+      </div>
+      <div
+        className={`mt-1 text-sm text-foreground ${
+          mono ? "font-mono" : "font-display"
+        } ${highlight ? "text-2xl num-display tabular" : ""}`}
+      >
+        {value}
+      </div>
+    </div>
   );
 }
