@@ -48,8 +48,14 @@
 - [ ] Deliver all backup ZIPs to user
 
 ## Aldar Lagoons enrichment (added 2026-05-20)
-- [ ] Inspect Aldar_lagoons.xlsx columns
-- [ ] Define matching key between Aldar rows and Lagoons villas
-- [ ] Update Lagoons data file with new fields
-- [ ] Show new fields on Lagoons cards/detail
-- [ ] Save checkpoint
+- [x] Inspect Aldar_lagoons.xlsx columns
+- [x] Define matching key between Aldar rows and Lagoons villas
+- [x] Update Lagoons data file with new fields
+- [x] Show new fields on Lagoons cards/detail
+- [x] Save checkpoint
+
+## Lagoons villa detail — Key Facts hero (added 2026-05-20)
+- [x] Add "Key facts" hero block at top of LagoonsVillaDetail showing Villa number, Original price (without add-ons), Plot area, Total built-up area, Premium finishing (Yes/No), Finishing tone (Warm/Cool/Light)
+- [x] Rename "Selling price" label to "Original price (without add-ons)" everywhere it appears
+- [x] Remove duplicates from the secondary Aldar inventory grid (since they now appear in the hero)
+- [x] Save checkpoint

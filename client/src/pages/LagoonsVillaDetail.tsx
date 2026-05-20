@@ -146,6 +146,56 @@ export default function LagoonsVillaDetail() {
       )}
 
       {villa.aldar_data && (
+        <section className="border-b border-border bg-gradient-to-br from-primary/5 to-card/60">
+          <div className="container py-8 sm:py-10">
+            <div className="flex items-center gap-2 mb-5 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
+              <Sparkles className="h-3.5 w-3.5" />
+              Key facts
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+              <KeyFact
+                label="Villa"
+                value={villa.short_name}
+                accent
+              />
+              {villa.aldar_data.selling_price_aed != null && (
+                <KeyFact
+                  label="Original price (without add-ons)"
+                  value={`AED ${fmtAed(villa.aldar_data.selling_price_aed)}`}
+                  accent
+                  wide
+                />
+              )}
+              {villa.aldar_data.plot_area_sqm != null && (
+                <KeyFact
+                  label="Plot area"
+                  value={`${villa.aldar_data.plot_area_sqm.toFixed(2)} m²`}
+                />
+              )}
+              {villa.aldar_data.total_area_sqm != null && (
+                <KeyFact
+                  label="Total built-up area"
+                  value={`${villa.aldar_data.total_area_sqm.toFixed(2)} m²`}
+                />
+              )}
+              {villa.aldar_data.mandatory_premium != null && (
+                <KeyFact
+                  label="Premium finishing"
+                  value={villa.aldar_data.mandatory_premium ? "Yes" : "No"}
+                />
+              )}
+              {villa.aldar_data.unit_finishes && (
+                <KeyFact
+                  label="Finishing tone"
+                  value={villa.aldar_data.unit_finishes}
+                />
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {villa.aldar_data && (
         <section className="border-b border-border bg-card/40">
           <div className="container py-6 sm:py-8">
             <div className="flex items-center justify-between gap-3 mb-4">
@@ -189,26 +239,15 @@ export default function LagoonsVillaDetail() {
               {villa.aldar_data.unit_category && (
                 <AldarStat label="Unit Category" value={villa.aldar_data.unit_category} />
               )}
-              {villa.aldar_data.unit_finishes && (
-                <AldarStat label="Finishes" value={villa.aldar_data.unit_finishes} />
-              )}
-              {villa.aldar_data.selling_price_aed != null && (
-                <AldarStat label="Selling price" value={`AED ${fmtAed(villa.aldar_data.selling_price_aed)}`} highlight />
-              )}
+
               {villa.aldar_data.reservation_amount != null && (
                 <AldarStat label="Reservation" value={`AED ${fmtAed(villa.aldar_data.reservation_amount)}`} />
               )}
               {villa.aldar_data.online_reservation_fee != null && (
                 <AldarStat label="Online reservation" value={`AED ${fmtAed(villa.aldar_data.online_reservation_fee)}`} />
               )}
-              {villa.aldar_data.plot_area_sqm != null && (
-                <AldarStat label="Plot area (Aldar)" value={`${villa.aldar_data.plot_area_sqm.toFixed(2)} m²`} />
-              )}
               {villa.aldar_data.saleable_area_sqm != null && (
                 <AldarStat label="Saleable area (Aldar)" value={`${villa.aldar_data.saleable_area_sqm.toFixed(2)} m²`} />
-              )}
-              {villa.aldar_data.total_area_sqm != null && (
-                <AldarStat label="Total area" value={`${villa.aldar_data.total_area_sqm.toFixed(2)} m²`} />
               )}
               {villa.aldar_data.terrace_area_sqm != null && (
                 <AldarStat label="Terrace" value={`${villa.aldar_data.terrace_area_sqm.toFixed(2)} m²`} />
@@ -224,9 +263,6 @@ export default function LagoonsVillaDetail() {
               )}
               {villa.aldar_data.mandatory_pool != null && (
                 <AldarStat label="Mandatory pool" value={villa.aldar_data.mandatory_pool ? "Yes" : "No"} />
-              )}
-              {villa.aldar_data.mandatory_premium != null && (
-                <AldarStat label="Premium finishing" value={villa.aldar_data.mandatory_premium ? "Yes" : "No"} />
               )}
               {villa.aldar_data.darna_applicable != null && (
                 <AldarStat label="Darna applicable" value={villa.aldar_data.darna_applicable ? "Yes" : "No"} />
@@ -433,6 +469,39 @@ function ResRow({ label, value }: { label: string; value: string }) {
       </dt>
       <dd className="text-foreground tabular">{value}</dd>
     </>
+  );
+}
+
+function KeyFact({
+  label,
+  value,
+  accent = false,
+  wide = false,
+}: {
+  label: string;
+  value: string;
+  accent?: boolean;
+  wide?: boolean;
+}) {
+  return (
+    <div
+      className={`rounded-md p-4 sm:p-5 border ${
+        accent
+          ? "bg-primary/10 border-primary/30"
+          : "bg-card border-border"
+      } ${wide ? "col-span-2 lg:col-span-2" : ""}`}
+    >
+      <div className="text-[0.6rem] uppercase tracking-[0.18em] font-mono text-muted-foreground leading-snug">
+        {label}
+      </div>
+      <div
+        className={`mt-1.5 font-display tabular text-foreground ${
+          accent ? "text-2xl sm:text-3xl num-display" : "text-lg sm:text-xl"
+        }`}
+      >
+        {value}
+      </div>
+    </div>
   );
 }
 
