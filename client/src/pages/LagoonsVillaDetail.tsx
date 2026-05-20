@@ -282,9 +282,6 @@ export default function LagoonsVillaDetail() {
                   }
                 />
               )}
-              {villa.aldar_data.payment_plans && (
-                <AldarStat label="Payment plans" value={villa.aldar_data.payment_plans} wide />
-              )}
               {villa.aldar_data.features_spec && (
                 <AldarStat label="Features / spec" value={villa.aldar_data.features_spec} wide />
               )}
@@ -294,6 +291,13 @@ export default function LagoonsVillaDetail() {
             </div>
           </div>
         </section>
+      )}
+
+      {villa.aldar_data?.payment_plans && villa.aldar_data?.selling_price_aed != null && (
+        <PaymentSchedule
+          rawPlans={villa.aldar_data.payment_plans}
+          basePrice={villa.aldar_data.selling_price_aed}
+        />
       )}
 
       <section className="container py-8 sm:py-10 grid grid-cols-12 gap-6">
@@ -469,6 +473,126 @@ function ResRow({ label, value }: { label: string; value: string }) {
       </dt>
       <dd className="text-foreground tabular">{value}</dd>
     </>
+  );
+}
+
+type ParsedPlan = {
+  name: string;
+  discountPct: number;
+  installments: { label: string; pct: number }[];
+};
+
+function parsePaymentPlans(raw: string): ParsedPlan[] {
+  return raw
+    .split("|||")
+    .map(s => s.trim())
+    .filter(Boolean)
+    .map(plan => {
+      // "100 (Standard) Disc:5% => Upon Signing SPA: 100%"
+      const [headerRaw, bodyRaw = ""] = plan.split("=>").map(s => s.trim());
+      const discMatch = headerRaw.match(/Disc:\s*(\d+(?:\.\d+)?)%/i);
+      const discountPct = discMatch ? parseFloat(discMatch[1]) : 0;
+      const name = headerRaw.replace(/Disc:.*$/i, "").trim();
+      const installments = bodyRaw
+        .split(",")
+        .map(part => part.trim())
+        .filter(Boolean)
+        .map(part => {
+          const m = part.match(/^(.*?):\s*(\d+(?:\.\d+)?)%$/);
+          if (!m) return null;
+          return { label: m[1].trim(), pct: parseFloat(m[2]) };
+        })
+        .filter((x): x is { label: string; pct: number } => Boolean(x));
+      return { name, discountPct, installments };
+    })
+    .filter(p => p.installments.length > 0);
+}
+
+function PaymentSchedule({
+  rawPlans,
+  basePrice,
+}: {
+  rawPlans: string;
+  basePrice: number;
+}) {
+  const plans = parsePaymentPlans(rawPlans);
+  if (plans.length === 0) return null;
+  return (
+    <section className="border-b border-border bg-card/40">
+      <div className="container py-6 sm:py-8">
+        <div className="flex items-center gap-2 mb-4 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
+          <Sparkles className="h-3.5 w-3.5" />
+          Payment plans
+        </div>
+        <div className="text-[0.7rem] font-mono uppercase tracking-[0.18em] text-muted-foreground mb-4">
+          Calculated on original price (without add-ons): AED {fmtAed(basePrice)}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {plans.map((plan, idx) => {
+            const effectivePrice = basePrice * (1 - plan.discountPct / 100);
+            return (
+              <div
+                key={idx}
+                className="rounded-md border border-border bg-card overflow-hidden flex flex-col"
+              >
+                <div className="px-4 py-3 border-b border-border bg-primary/5">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <div className="font-display text-lg text-foreground">
+                      Plan {plan.name}
+                    </div>
+                    {plan.discountPct > 0 && (
+                      <div className="text-[0.65rem] uppercase tracking-[0.18em] font-mono text-primary">
+                        {plan.discountPct}% discount
+                      </div>
+                    )}
+                  </div>
+                  {plan.discountPct > 0 && (
+                    <div className="mt-1 text-[0.7rem] font-mono text-muted-foreground">
+                      Effective price: AED {fmtAed(effectivePrice)}
+                    </div>
+                  )}
+                </div>
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left text-[0.65rem] uppercase tracking-[0.16em] font-mono text-muted-foreground border-b border-border">
+                      <th className="px-4 py-2 font-medium">Milestone</th>
+                      <th className="px-3 py-2 font-medium text-right">%</th>
+                      <th className="px-4 py-2 font-medium text-right">Amount (AED)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    {plan.installments.map((inst, i) => (
+                      <tr key={i} className="hover:bg-primary/5">
+                        <td className="px-4 py-2 text-foreground">{inst.label}</td>
+                        <td className="px-3 py-2 text-right tabular num-display">
+                          {inst.pct}%
+                        </td>
+                        <td className="px-4 py-2 text-right tabular num-display">
+                          {fmtAed(effectivePrice * (inst.pct / 100))}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot>
+                    <tr className="border-t-2 border-border bg-card/60">
+                      <td className="px-4 py-2 text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">
+                        Total
+                      </td>
+                      <td className="px-3 py-2 text-right tabular num-display font-medium">
+                        {plan.installments.reduce((s, i) => s + i.pct, 0).toFixed(0)}%
+                      </td>
+                      <td className="px-4 py-2 text-right tabular num-display font-medium">
+                        {fmtAed(effectivePrice)}
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 
