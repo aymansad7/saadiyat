@@ -48,12 +48,41 @@ export default function AldarBuilding() {
         return b !== "sold" && b !== "other";
       });
     if (bedroomFilter !== "all") list = list.filter(u => String(u.bedrooms) === bedroomFilter);
-    if (sort === "price_asc")
-      list.sort((a, b) => (a.price_aed ?? Infinity) - (b.price_aed ?? Infinity));
-    else if (sort === "price_desc")
-      list.sort((a, b) => (b.price_aed ?? -Infinity) - (a.price_aed ?? -Infinity));
-    else
-      list.sort((a, b) => String(a.unit_name).localeCompare(String(b.unit_name)));
+
+    // Status priority — live inventory first, sold last (lower number = earlier)
+    const statusOrder: Record<string, number> = {
+      available: 0,
+      new: 1,
+      reserved: 2,
+      booked: 3,
+      blocked: 4,
+      other: 5,
+      sold: 6,
+    };
+    const statusRank = (u: { status: string | null }) =>
+      statusOrder[statusBucket(u.status)] ?? 9;
+
+    if (sort === "price_asc") {
+      list.sort((a, b) => {
+        const sd = statusRank(a) - statusRank(b);
+        if (sd !== 0) return sd;
+        return (a.price_aed ?? Infinity) - (b.price_aed ?? Infinity);
+      });
+    } else if (sort === "price_desc") {
+      list.sort((a, b) => {
+        const sd = statusRank(a) - statusRank(b);
+        if (sd !== 0) return sd;
+        return (b.price_aed ?? -Infinity) - (a.price_aed ?? -Infinity);
+      });
+    } else {
+      list.sort((a, b) => {
+        const sd = statusRank(a) - statusRank(b);
+        if (sd !== 0) return sd;
+        return String(a.unit_name).localeCompare(String(b.unit_name), undefined, {
+          numeric: true,
+        });
+      });
+    }
     return list;
   }, [allUnits, availableOnly, bedroomFilter, sort]);
 
