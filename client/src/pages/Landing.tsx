@@ -17,6 +17,8 @@ import { toast } from "sonner";
 import { villas } from "@/data/villas";
 import { COMMUNITIES } from "@/data/communities";
 import { LAGOONS_DATASET } from "@/data/lagoons";
+import { ALDAR, breakdownForProject, actionableCount } from "@/data/aldar";
+import { AldarStatusPills } from "@/components/AldarStatusPills";
 
 const jawaher = COMMUNITIES.find((c) => c.slug === "jawaher")!;
 const sbv = COMMUNITIES.find((c) => c.slug === "saadiyat-beach-villas")!;
@@ -223,6 +225,84 @@ export default function Landing() {
               </button>
             );
           })}
+        </div>
+      </section>
+
+      {/* ALDAR PROJECTS DASHBOARD */}
+      <section id="aldar" className="border-t border-border bg-card/30">
+        <div className="container py-14 sm:py-20">
+          <div className="flex items-end justify-between gap-6 mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-3 text-xs uppercase tracking-[0.22em] font-mono text-primary">
+                <Compass className="h-3.5 w-3.5" />
+                Aldar Saadiyat inventory
+              </div>
+              <h2 className="font-display text-3xl sm:text-4xl text-foreground">
+                All other Aldar Saadiyat projects
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground max-w-2xl">
+                Live status breakdown for every Aldar inventory file we have ingested.
+                Apartments and townhouses across {ALDAR.project_count} projects · {ALDAR.total_units.toLocaleString()} units.
+              </p>
+            </div>
+            <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex bg-card border-primary/30 text-primary hover:bg-primary/10 hover:text-primary">
+              <Link href="/aldar-saadiyat">
+                Open Aldar browser
+                <ArrowUpRight className="h-3.5 w-3.5 ml-1" />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {ALDAR.projects
+              .slice()
+              .sort((a, b) => {
+                const ba = actionableCount(breakdownForProject(a));
+                const bb = actionableCount(breakdownForProject(b));
+                if (ba !== bb) return bb - ba;
+                return b.unit_count - a.unit_count;
+              })
+              .map(p => {
+                const bd = breakdownForProject(p);
+                const live = actionableCount(bd);
+                return (
+                  <Link
+                    key={p.slug}
+                    href={`/aldar-saadiyat/${p.slug}`}
+                    className="group block rounded-md border border-border bg-card p-4 hover:border-primary/60 transition-colors"
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                      <span className="text-[0.6rem] uppercase tracking-[0.22em] font-mono text-muted-foreground">
+                        Aldar · {p.building_count} bld
+                      </span>
+                      {live > 0 ? (
+                        <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded-sm">
+                          {live} live
+                        </span>
+                      ) : (
+                        <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono border border-border bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm">
+                          Sold out
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="font-display text-lg text-foreground group-hover:text-primary transition-colors leading-tight">
+                      {p.name}
+                    </h3>
+                    <div className="mt-1 text-[0.65rem] uppercase tracking-[0.18em] font-mono text-muted-foreground num-display">
+                      {p.unit_count} units
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-border/60">
+                      <AldarStatusPills breakdown={bd} size="xs" showSold={true} />
+                    </div>
+                  </Link>
+                );
+              })}
+          </div>
+          <div className="mt-6 sm:hidden">
+            <Button asChild variant="outline" size="sm" className="bg-card border-primary/30 text-primary hover:bg-primary/10 hover:text-primary w-full">
+              <Link href="/aldar-saadiyat">Open Aldar browser <ArrowUpRight className="h-3.5 w-3.5 ml-1" /></Link>
+            </Button>
+          </div>
         </div>
       </section>
 

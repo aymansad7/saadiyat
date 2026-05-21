@@ -14,7 +14,8 @@ import { Building2, Sparkles, ArrowUpDown } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
-import { getAldarBuilding, statusTone } from "@/data/aldar";
+import { getAldarBuilding, breakdownForBuilding, actionableCount, statusBucket } from "@/data/aldar";
+import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
@@ -41,7 +42,11 @@ export default function AldarBuilding() {
 
   const units = useMemo(() => {
     let list = allUnits.slice();
-    if (availableOnly) list = list.filter(u => statusTone(u.status) === "available");
+    if (availableOnly)
+      list = list.filter(u => {
+        const b = statusBucket(u.status);
+        return b !== "sold" && b !== "other";
+      });
     if (bedroomFilter !== "all") list = list.filter(u => String(u.bedrooms) === bedroomFilter);
     if (sort === "price_asc")
       list.sort((a, b) => (a.price_aed ?? Infinity) - (b.price_aed ?? Infinity));
@@ -81,16 +86,15 @@ export default function AldarBuilding() {
               <Building2 className="h-3.5 w-3.5" />
               {building.unit_count} units
             </span>
-            <span>·</span>
-            <span className="num-display text-primary">
-              {building.available_count} available now
-            </span>
+          </div>
+          <div className="mt-4">
+            <AldarStatusPills breakdown={breakdownForBuilding(building)} size="sm" />
           </div>
           <div className="mt-5 flex flex-wrap items-center gap-4">
             <label className="inline-flex items-center gap-2 text-sm">
               <Switch checked={availableOnly} onCheckedChange={setAvailableOnly} />
               <span className="text-muted-foreground">
-                Available only ({building.available_count})
+                Live inventory only ({actionableCount(breakdownForBuilding(building))})
               </span>
             </label>
             {bedroomOptions.length > 1 && (

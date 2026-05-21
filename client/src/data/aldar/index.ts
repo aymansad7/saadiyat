@@ -106,6 +106,77 @@ export function statusTone(
   return "other";
 }
 
+export type StatusBreakdown = {
+  available: number;
+  booked: number;
+  blocked: number;
+  reserved: number;
+  new: number;
+  sold: number;
+  other: number;
+  total: number;
+};
+
+export function statusBucket(
+  status: string | null | undefined,
+): keyof Omit<StatusBreakdown, "total"> {
+  const s = (status ?? "").toLowerCase().trim();
+  if (s === "available") return "available";
+  if (s === "new") return "new";
+  if (s === "booked") return "booked";
+  if (s === "blocked") return "blocked";
+  if (s === "reserved") return "reserved";
+  if (s === "sold") return "sold";
+  return "other";
+}
+
+export function emptyBreakdown(): StatusBreakdown {
+  return {
+    available: 0,
+    booked: 0,
+    blocked: 0,
+    reserved: 0,
+    new: 0,
+    sold: 0,
+    other: 0,
+    total: 0,
+  };
+}
+
+export function breakdownForUnits(units: AldarUnit[]): StatusBreakdown {
+  const out = emptyBreakdown();
+  for (const u of units) {
+    out[statusBucket(u.status)] += 1;
+    out.total += 1;
+  }
+  return out;
+}
+
+export function breakdownForBuilding(b: AldarBuilding): StatusBreakdown {
+  return breakdownForUnits(b.units);
+}
+
+export function breakdownForProject(p: AldarProject): StatusBreakdown {
+  const out = emptyBreakdown();
+  for (const b of p.buildings) {
+    const sub = breakdownForBuilding(b);
+    out.available += sub.available;
+    out.booked += sub.booked;
+    out.blocked += sub.blocked;
+    out.reserved += sub.reserved;
+    out.new += sub.new;
+    out.sold += sub.sold;
+    out.other += sub.other;
+    out.total += sub.total;
+  }
+  return out;
+}
+
+/** Statuses that we treat as "actionable" (something a broker could potentially move on). */
+export function actionableCount(b: StatusBreakdown): number {
+  return b.available + b.new + b.booked + b.blocked + b.reserved;
+}
+
 export function allAvailableUnits(): Array<{
   project: AldarProject;
   building: AldarBuilding;

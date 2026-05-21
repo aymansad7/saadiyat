@@ -92,3 +92,34 @@ describe("statusTone semantics", () => {
     expect(statusTone("Mystery")).toBe("other");
   });
 });
+
+
+describe("breakdownForUnits + actionableCount", () => {
+  it("buckets statuses correctly", async () => {
+    const { breakdownForUnits, actionableCount } = await import("@/data/aldar");
+    const units = [
+      { status: "Available" },
+      { status: "Available" },
+      { status: "New" },
+      { status: "Booked" },
+      { status: "Blocked" },
+      { status: "Reserved" },
+      { status: "Sold" },
+      { status: "Sold" },
+      { status: "Sold" },
+      { status: null },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ] as any;
+    const bd = breakdownForUnits(units);
+    expect(bd.available).toBe(2);
+    expect(bd.new).toBe(1);
+    expect(bd.booked).toBe(1);
+    expect(bd.blocked).toBe(1);
+    expect(bd.reserved).toBe(1);
+    expect(bd.sold).toBe(3);
+    expect(bd.other).toBe(1);
+    expect(bd.total).toBe(10);
+    // actionable = available + new + booked + blocked + reserved
+    expect(actionableCount(bd)).toBe(6);
+  });
+});

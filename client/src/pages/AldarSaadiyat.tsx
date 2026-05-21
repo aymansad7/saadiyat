@@ -14,8 +14,9 @@ import SiteHeader from "@/components/SiteHeader";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { ALDAR, allAvailableUnits } from "@/data/aldar";
+import { ALDAR, allAvailableUnits, breakdownForProject, actionableCount } from "@/data/aldar";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
+import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { fmtAed, shortUnitNumber } from "@/data/aldar/format";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 
@@ -26,7 +27,7 @@ export default function AldarSaadiyat() {
 
   const projects = useMemo(() => {
     if (availableOnly)
-      return ALDAR.projects.filter(p => p.available_count > 0);
+      return ALDAR.projects.filter(p => actionableCount(breakdownForProject(p)) > 0);
     return ALDAR.projects;
   }, [availableOnly]);
 
@@ -149,7 +150,8 @@ export default function AldarSaadiyat() {
       <section className="container py-8 sm:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map(p => {
-            const isLive = p.available_count > 0;
+            const bd = breakdownForProject(p);
+            const live = actionableCount(bd);
             return (
               <Link
                 key={p.slug}
@@ -162,9 +164,9 @@ export default function AldarSaadiyat() {
                       <Sparkles className="h-3 w-3" />
                       Aldar
                     </div>
-                    {isLive ? (
+                    {live > 0 ? (
                       <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-sm">
-                        {p.available_count} available
+                        {live} live
                       </span>
                     ) : (
                       <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">
@@ -182,7 +184,10 @@ export default function AldarSaadiyat() {
                     <span>·</span>
                     <span className="num-display">{p.unit_count} units</span>
                   </div>
-                  <div className="mt-4 flex items-center justify-end text-[0.72rem] font-mono uppercase tracking-[0.18em] text-primary">
+                  <div className="mt-3 pt-3 border-t border-border/60">
+                    <AldarStatusPills breakdown={bd} size="xs" />
+                  </div>
+                  <div className="mt-3 flex items-center justify-end text-[0.72rem] font-mono uppercase tracking-[0.18em] text-primary">
                     Explore <ArrowRight className="ml-1 h-3 w-3" />
                   </div>
                 </div>

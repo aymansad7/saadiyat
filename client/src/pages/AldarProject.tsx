@@ -10,8 +10,9 @@ import { Redirect, useParams, Link } from "wouter";
 import { Building2, ArrowRight, Sparkles } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Switch } from "@/components/ui/switch";
-import { getAldarProject } from "@/data/aldar";
+import { getAldarProject, breakdownForProject, breakdownForBuilding, actionableCount } from "@/data/aldar";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
+import { AldarStatusPills } from "@/components/AldarStatusPills";
 
 export default function AldarProject() {
   const { project: slug } = useParams<{ project: string }>();
@@ -19,7 +20,10 @@ export default function AldarProject() {
   const [availableOnly, setAvailableOnly] = useState(false);
   const buildings = useMemo(() => {
     if (!project) return [];
-    if (availableOnly) return project.buildings.filter(b => b.available_count > 0);
+    if (availableOnly)
+      return project.buildings.filter(
+        b => actionableCount(breakdownForBuilding(b)) > 0,
+      );
     return project.buildings;
   }, [project, availableOnly]);
 
@@ -47,16 +51,15 @@ export default function AldarProject() {
             </span>
             <span>·</span>
             <span className="num-display">{project.unit_count} units</span>
-            <span>·</span>
-            <span className="num-display text-primary">
-              {project.available_count} available now
-            </span>
+          </div>
+          <div className="mt-4">
+            <AldarStatusPills breakdown={breakdownForProject(project)} size="sm" />
           </div>
           <div className="mt-5">
             <label className="inline-flex items-center gap-2 text-sm">
               <Switch checked={availableOnly} onCheckedChange={setAvailableOnly} />
               <span className="text-muted-foreground">
-                Available only ({project.available_count})
+                Live inventory only ({actionableCount(breakdownForProject(project))})
               </span>
             </label>
           </div>
@@ -67,7 +70,8 @@ export default function AldarProject() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {buildings.map(b => {
             const dn = buildingDisplayName(b.name);
-            const isLive = b.available_count > 0;
+            const bd = breakdownForBuilding(b);
+            const live = actionableCount(bd);
             return (
               <Link
                 key={b.slug}
@@ -79,9 +83,9 @@ export default function AldarProject() {
                     <div className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.22em] font-mono text-primary">
                       <Building2 className="h-3 w-3" /> Building
                     </div>
-                    {isLive ? (
+                    {live > 0 ? (
                       <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-sm">
-                        {b.available_count} available
+                        {live} live
                       </span>
                     ) : (
                       <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">
@@ -100,7 +104,10 @@ export default function AldarProject() {
                   <div className="mt-2 text-[0.72rem] font-mono uppercase tracking-[0.18em] text-muted-foreground num-display">
                     {b.unit_count} units
                   </div>
-                  <div className="mt-4 flex items-center justify-end text-[0.72rem] font-mono uppercase tracking-[0.18em] text-primary">
+                  <div className="mt-3 pt-3 border-t border-border/60">
+                    <AldarStatusPills breakdown={bd} size="xs" />
+                  </div>
+                  <div className="mt-3 flex items-center justify-end text-[0.72rem] font-mono uppercase tracking-[0.18em] text-primary">
                     View units <ArrowRight className="ml-1 h-3 w-3" />
                   </div>
                 </div>
