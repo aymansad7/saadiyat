@@ -93,6 +93,16 @@ export default function SiteHeader({ subTitle, back }: Props) {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuLabel className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
+                Aldar inventory
+              </DropdownMenuLabel>
+              <DropdownMenuItem asChild>
+                <Link href="/aldar-saadiyat" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">All Aldar Saadiyat projects</span>
+                  <span className="text-[0.65rem] font-mono text-primary border border-primary/40 px-1 rounded-sm">18</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/documents" className="flex items-center justify-between w-full">
                   <span className="font-display text-sm flex items-center gap-2"><FolderOpen className="h-3.5 w-3.5" /> Documents</span>

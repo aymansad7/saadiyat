@@ -59,3 +59,14 @@
 - [x] Rename "Selling price" label to "Original price (without add-ons)" everywhere it appears
 - [x] Remove duplicates from the secondary Aldar inventory grid (since they now appear in the hero)
 - [x] Save checkpoint
+
+## Aldar All Saadiyat projects browser (added 2026-05-21)
+- [ ] Profile all 19 Aldar_*.xlsx workbooks for columns + building groupings
+- [ ] Build TS dataset: ProjectGroup → Project → Building → Unit
+- [ ] Map sub-buildings (Mamsha Gardens=7, Art House=3, Louvre=3, Barakat=2, Grove=Hard One/Two, Source I/II/Terraces, Faya I/II, Manarat I/II)
+- [ ] Index page /aldar-saadiyat: project grid + filter "Available only" + cross-project unit search
+- [ ] Project page: lists its buildings (with available/total counts)
+- [ ] Building page: list of units, each card highlights Original price (without add-ons) + Status badge + last update date
+- [ ] Unit detail page: hero (price, status+date, beds, plot, BUA) → details table → payment plans
+- [ ] Vitest coverage for status badge logic + cross-project "available only" filter
+- [ ] Save checkpoint
