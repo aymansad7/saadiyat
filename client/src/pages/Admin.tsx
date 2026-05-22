@@ -50,7 +50,7 @@ function shorten(s: string | null | undefined, n = 60) {
 
 export default function AdminPage() {
   const { user, loading, isAuthenticated } = useAuth();
-  const isOwner = user?.role === "admin";
+  const isOwner = user?.role === "admin" || user?.role === "master";
   const [reveal, setReveal] = useState(false);
   const [customPasscode, setCustomPasscode] = useState("");
 

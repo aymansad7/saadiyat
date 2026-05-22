@@ -102,6 +102,14 @@ export default function SiteHeader({ subTitle, back }: Props) {
                   <span className="text-[0.65rem] font-mono text-primary border border-primary/40 px-1 rounded-sm">18</span>
                 </Link>
               </DropdownMenuItem>
+              {user?.role === "master" && (
+                <DropdownMenuItem asChild>
+                  <Link href="/aldar-other" className="flex items-center justify-between w-full">
+                    <span className="font-display text-sm">Other Aldar projects</span>
+                    <span className="text-[0.6rem] font-mono uppercase tracking-wider text-rose-600 dark:text-rose-300 border border-rose-500/40 px-1 rounded-sm">Master</span>
+                  </Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/documents" className="flex items-center justify-between w-full">
@@ -120,6 +128,9 @@ export default function SiteHeader({ subTitle, back }: Props) {
                   {user?.role === "admin" && (
                     <span className="text-[0.6rem] font-mono uppercase tracking-wider text-primary border border-primary/40 px-1 rounded-sm">Admin</span>
                   )}
+                  {user?.role === "master" && (
+                    <span className="text-[0.6rem] font-mono uppercase tracking-wider text-rose-600 dark:text-rose-300 border border-rose-500/40 px-1 rounded-sm">Master</span>
+                  )}
                   <ChevronDown className="h-3.5 w-3.5" />
                 </Button>
               </DropdownMenuTrigger>
@@ -133,7 +144,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
                     {user?.email && <span className="text-xs text-muted-foreground">{user.email}</span>}
                   </div>
                 </DropdownMenuItem>
-                {user?.role === "admin" && (
+                {(user?.role === "admin" || user?.role === "master") && (
                   <>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
@@ -143,6 +154,14 @@ export default function SiteHeader({ subTitle, back }: Props) {
                       </Link>
                     </DropdownMenuItem>
                   </>
+                )}
+                {user?.role === "master" && (
+                  <DropdownMenuItem asChild>
+                    <Link href="/aldar-other" className="gap-2">
+                      <span className="text-[0.6rem] font-mono uppercase tracking-wider text-rose-600 dark:text-rose-300 border border-rose-500/40 px-1 rounded-sm">Master</span>
+                      <span>Other Aldar projects</span>
+                    </Link>
+                  </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={() => logout()} className="gap-2">

@@ -79,7 +79,7 @@ export function FilesPanel({ scope, villaKey, title, subtitle }: Props) {
   });
 
   const files = listQuery.data ?? [];
-  const isAdmin = user?.role === "admin";
+  const isAdmin = user?.role === "admin" || user?.role === "master";
 
   async function handleUpload() {
     if (!pendingFile) return;

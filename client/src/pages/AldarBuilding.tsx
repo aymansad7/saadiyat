@@ -10,9 +10,10 @@
  */
 import { useMemo, useState } from "react";
 import { Redirect, useParams, Link } from "wouter";
-import { Building2, Sparkles, ArrowUpDown } from "lucide-react";
+import { Building2, Sparkles, ArrowUpDown, Search } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { getAldarBuilding, breakdownForBuilding, actionableCount, statusBucket } from "@/data/aldar";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
@@ -29,6 +30,7 @@ export default function AldarBuilding() {
   const [availableOnly, setAvailableOnly] = useState(false);
   const [bedroomFilter, setBedroomFilter] = useState<string>("all");
   const [sort, setSort] = useState<"price_asc" | "price_desc" | "unit">("unit");
+  const [query, setQuery] = useState("");
 
   const allUnits = ctx?.building.units ?? [];
 
@@ -42,6 +44,9 @@ export default function AldarBuilding() {
 
   const units = useMemo(() => {
     let list = allUnits.slice();
+    const q = query.trim().toLowerCase();
+    if (q.length > 0)
+      list = list.filter(u => (u.unit_name ?? "").toLowerCase().includes(q));
     if (availableOnly)
       list = list.filter(u => {
         const b = statusBucket(u.status);
@@ -120,6 +125,15 @@ export default function AldarBuilding() {
             <AldarStatusPills breakdown={breakdownForBuilding(building)} size="sm" />
           </div>
           <div className="mt-5 flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Search className="h-4 w-4 text-muted-foreground" />
+              <Input
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                placeholder="Search unit number…"
+                className="w-56"
+              />
+            </div>
             <label className="inline-flex items-center gap-2 text-sm">
               <Switch checked={availableOnly} onCheckedChange={setAvailableOnly} />
               <span className="text-muted-foreground">

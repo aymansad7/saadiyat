@@ -31,8 +31,30 @@ export const adminProcedure = t.procedure.use(
   t.middleware(async opts => {
     const { ctx, next } = opts;
 
-    if (!ctx.user || ctx.user.role !== 'admin') {
+    if (!ctx.user || (ctx.user.role !== 'admin' && ctx.user.role !== 'master')) {
       throw new TRPCError({ code: "FORBIDDEN", message: NOT_ADMIN_ERR_MSG });
+    }
+
+    return next({
+      ctx: {
+        ...ctx,
+        user: ctx.user,
+      },
+    });
+  }),
+);
+
+/**
+ * Master procedure — strict tier above admin. Only users with role="master"
+ * can access Other Aldar projects (outside Saadiyat). Even regular admins
+ * are blocked.
+ */
+export const masterProcedure = t.procedure.use(
+  t.middleware(async opts => {
+    const { ctx, next } = opts;
+
+    if (!ctx.user || ctx.user.role !== 'master') {
+      throw new TRPCError({ code: "FORBIDDEN", message: "Master access required" });
     }
 
     return next({

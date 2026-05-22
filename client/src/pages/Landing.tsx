@@ -10,7 +10,7 @@
  *   - Terracotta accents only
  */
 import { Link } from "wouter";
-import { ArrowUpRight, Compass } from "lucide-react";
+import { ArrowUpRight, Compass, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SiteHeader from "@/components/SiteHeader";
 import { toast } from "sonner";
@@ -19,6 +19,8 @@ import { COMMUNITIES } from "@/data/communities";
 import { LAGOONS_DATASET } from "@/data/lagoons";
 import { ALDAR, breakdownForProject, actionableCount } from "@/data/aldar";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
 
 const jawaher = COMMUNITIES.find((c) => c.slug === "jawaher")!;
 const sbv = COMMUNITIES.find((c) => c.slug === "saadiyat-beach-villas")!;
@@ -306,6 +308,8 @@ export default function Landing() {
         </div>
       </section>
 
+      <AldarOtherRail />
+
       <footer className="mt-auto border-t border-border bg-card/60">
         <div className="container py-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-xs text-muted-foreground">
           <div className="font-mono uppercase tracking-[0.18em]">
@@ -317,5 +321,116 @@ Data sourced from DMT GeoSmart and Aldar (world.aldar.com).
         </div>
       </footer>
     </div>
+  );
+}
+
+/**
+ * Master-only rail listing Aldar projects outside Saadiyat.
+ * Data is fetched only when the user is a master, so non-master users
+ * never see any of these projects in their network traffic.
+ */
+function AldarOtherRail() {
+  const { user } = useAuth();
+  const isMaster = user?.role === "master";
+  const list = trpc.aldarOther.listProjects.useQuery(undefined, {
+    enabled: isMaster,
+  });
+
+  if (!isMaster) return null;
+  const projects = list.data?.projects ?? [];
+  const totalLive = projects.reduce((s, p) => s + p.live_count, 0);
+
+  return (
+    <section id="aldar-other" className="border-t border-border bg-background">
+      <div className="container py-14 sm:py-20">
+        <div className="flex items-end justify-between gap-6 mb-8">
+          <div>
+            <div className="flex items-center gap-2 mb-3 text-xs uppercase tracking-[0.22em] font-mono text-rose-600 dark:text-rose-300">
+              <Lock className="h-3.5 w-3.5" />
+              Master-only · Aldar outside Saadiyat
+            </div>
+            <h2 className="font-display text-3xl sm:text-4xl text-foreground">
+              Other Aldar projects
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground max-w-2xl">
+              Aldar inventory across Yas Island, Al Reeman, Al Ghadeer, Noya and
+              more. {list.data?.project_count ?? "…"} projects ·{" "}
+              <span className="num-display">
+                {list.data?.total_units.toLocaleString() ?? "…"}
+              </span>{" "}
+              units · <span className="text-primary num-display">{totalLive}</span> live.
+            </p>
+          </div>
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="hidden sm:inline-flex bg-card border-rose-500/30 text-rose-700 dark:text-rose-300 hover:bg-rose-500/10"
+          >
+            <Link href="/aldar-other">
+              Open Other browser
+              <ArrowUpRight className="h-3.5 w-3.5 ml-1" />
+            </Link>
+          </Button>
+        </div>
+
+        {list.isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-32 rounded-md border border-border bg-card animate-pulse"
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {projects.map(p => (
+              <Link
+                key={p.slug}
+                href={`/aldar-other/${p.slug}`}
+                className="group block rounded-md border border-border bg-card p-4 hover:border-rose-500/60 transition-colors"
+              >
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[0.6rem] uppercase tracking-[0.22em] font-mono text-muted-foreground">
+                    Aldar · {p.building_count} bld
+                  </span>
+                  {p.live_count > 0 ? (
+                    <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded-sm">
+                      {p.live_count} live
+                    </span>
+                  ) : (
+                    <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono border border-border bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm">
+                      Sold out
+                    </span>
+                  )}
+                </div>
+                <h3 className="font-display text-lg text-foreground group-hover:text-rose-600 dark:group-hover:text-rose-300 transition-colors leading-tight">
+                  {p.name}
+                </h3>
+                <div className="mt-1 text-[0.65rem] uppercase tracking-[0.18em] font-mono text-muted-foreground num-display">
+                  {p.unit_count} units
+                </div>
+                <div className="mt-3 pt-3 border-t border-border/60">
+                  <AldarStatusPills breakdown={p.breakdown} size="xs" showSold={true} />
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+        <div className="mt-6 sm:hidden">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="bg-card border-rose-500/30 text-rose-700 dark:text-rose-300 hover:bg-rose-500/10 w-full"
+          >
+            <Link href="/aldar-other">
+              Open Other browser <ArrowUpRight className="h-3.5 w-3.5 ml-1" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </section>
   );
 }

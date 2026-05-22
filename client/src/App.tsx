@@ -25,6 +25,10 @@ import AldarSaadiyat from "./pages/AldarSaadiyat";
 import AldarProject from "./pages/AldarProject";
 import AldarBuilding from "./pages/AldarBuilding";
 import AldarUnit from "./pages/AldarUnit";
+import AldarOther from "./pages/AldarOther";
+import AldarOtherProject from "./pages/AldarOtherProject";
+import AldarOtherBuilding from "./pages/AldarOtherBuilding";
+import AldarOtherUnit from "./pages/AldarOtherUnit";
 import AdminPage from "./pages/Admin";
 
 function Router() {
@@ -44,6 +48,10 @@ function Router() {
       <Route path="/aldar-saadiyat/:project/:building/:unit" component={AldarUnit} />
       <Route path="/aldar-saadiyat/:project/:building" component={AldarBuilding} />
       <Route path="/aldar-saadiyat/:project" component={AldarProject} />
+      <Route path="/aldar-other" component={AldarOther} />
+      <Route path="/aldar-other/:project/:building/:unit" component={AldarOtherUnit} />
+      <Route path="/aldar-other/:project/:building" component={AldarOtherBuilding} />
+      <Route path="/aldar-other/:project" component={AldarOtherProject} />
       <Route path="/admin" component={AdminPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
