@@ -133,6 +133,17 @@ export default function SiteHeader({ subTitle, back }: Props) {
                     {user?.email && <span className="text-xs text-muted-foreground">{user.email}</span>}
                   </div>
                 </DropdownMenuItem>
+                {user?.role === "admin" && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/admin" className="gap-2">
+                        <span className="text-[0.6rem] font-mono uppercase tracking-wider text-primary border border-primary/40 px-1 rounded-sm">Admin</span>
+                        <span>Admin console</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onSelect={() => logout()} className="gap-2">
                   <LogOut className="h-3.5 w-3.5" /> Sign out

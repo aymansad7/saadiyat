@@ -7,6 +7,7 @@ import superjson from "superjson";
 import App from "./App";
 import { getLoginUrl } from "./const";
 import "./index.css";
+import { ensureVisitorId } from "./lib/visitor";
 
 const queryClient = new QueryClient();
 
@@ -43,8 +44,15 @@ const trpcClient = trpc.createClient({
       url: "/api/trpc",
       transformer: superjson,
       fetch(input, init) {
+        const headers = new Headers(init?.headers ?? {});
+        try {
+          headers.set("X-Visitor-Id", ensureVisitorId());
+        } catch {
+          /* ignore (SSR / privacy mode) */
+        }
         return globalThis.fetch(input, {
           ...(init ?? {}),
+          headers,
           credentials: "include",
         });
       },

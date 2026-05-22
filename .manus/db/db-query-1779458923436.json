@@ -1,0 +1,9 @@
+{
+  "query": "INSERT IGNORE INTO app_settings (settingKey, settingValue) VALUES ('gate_passcode', '062026');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user fp2o6mumF24Gt2y.6742ed1df113 --database cdNSYhri6jzahGcw5xtfw3 --execute INSERT IGNORE INTO app_settings (settingKey, settingValue) VALUES ('gate_passcode', '062026');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1857
+}

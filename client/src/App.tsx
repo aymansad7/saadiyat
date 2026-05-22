@@ -25,6 +25,7 @@ import AldarSaadiyat from "./pages/AldarSaadiyat";
 import AldarProject from "./pages/AldarProject";
 import AldarBuilding from "./pages/AldarBuilding";
 import AldarUnit from "./pages/AldarUnit";
+import AdminPage from "./pages/Admin";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -43,6 +44,7 @@ function Router() {
       <Route path="/aldar-saadiyat/:project/:building/:unit" component={AldarUnit} />
       <Route path="/aldar-saadiyat/:project/:building" component={AldarBuilding} />
       <Route path="/aldar-saadiyat/:project" component={AldarProject} />
+      <Route path="/admin" component={AdminPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
