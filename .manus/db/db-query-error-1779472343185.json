@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, name, email, role FROM user WHERE email = 'aymansad7@gmail.com';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user fp2o6mumF24Gt2y.6742ed1df113 --database cdNSYhri6jzahGcw5xtfw3 --execute SELECT id, name, email, role FROM user WHERE email = 'aymansad7@gmail.com';",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1146 (42S02) at line 1: Table 'cdnsyhri6jzahgcw5xtfw3.user' doesn't exist"
+  ]
+}

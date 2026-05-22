@@ -85,8 +85,29 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 let DATA: Dataset | null = null;
 function getDataset(): Dataset {
   if (DATA) return DATA;
-  const filePath = resolve(__dirname, "..", "data", "aldar_other.json");
-  const raw = readFileSync(filePath, "utf-8");
+  // Try multiple plausible locations so the file is found both in
+  // development (tsx + server/data) and after esbuild bundling (dist/data).
+  const candidates = [
+    resolve(__dirname, "..", "data", "aldar_other.json"),
+    resolve(__dirname, "data", "aldar_other.json"),
+    resolve(process.cwd(), "server", "data", "aldar_other.json"),
+    resolve(process.cwd(), "dist", "data", "aldar_other.json"),
+    resolve(process.cwd(), "data", "aldar_other.json"),
+  ];
+  let raw: string | null = null;
+  let lastErr: unknown = null;
+  for (const p of candidates) {
+    try {
+      raw = readFileSync(p, "utf-8");
+      break;
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+  if (!raw) {
+    console.error("[aldarOther] Failed to load aldar_other.json from any of:", candidates, lastErr);
+    throw new Error("Aldar Other dataset not found on server");
+  }
   DATA = JSON.parse(raw) as Dataset;
   return DATA;
 }
