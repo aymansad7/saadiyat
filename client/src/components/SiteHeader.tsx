@@ -110,6 +110,14 @@ export default function SiteHeader({ subTitle, back }: Props) {
                   </Link>
                 </DropdownMenuItem>
               )}
+              {(user?.role === "admin" || user?.role === "master") && (
+                <DropdownMenuItem asChild>
+                  <Link href="/resale" className="flex items-center justify-between w-full">
+                    <span className="font-display text-sm">Resale with Aldar</span>
+                    <span className="text-[0.65rem] font-mono text-emerald-700 border border-emerald-500/40 px-1 rounded-sm">Live</span>
+                  </Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/documents" className="flex items-center justify-between w-full">

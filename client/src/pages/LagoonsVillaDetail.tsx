@@ -13,6 +13,7 @@ import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { getLagoonsVilla } from "@/data/lagoons";
 import { RESALE_BY_UNIT } from "@/data/lagoonsResale";
+import { ResaleCard } from "@/components/ResaleCard";
 
 function fmtAed(n: number): string {
   return new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(n);
@@ -144,6 +145,18 @@ export default function LagoonsVillaDetail() {
           </div>
         </section>
       )}
+
+      {/* Live resale listings (from Aldar Resale ALL workbook) */}
+      <section className="border-b border-border">
+        <div className="container py-6 sm:py-8">
+          <ResaleCard
+            unitNames={[
+              villa.unit_name,
+              villa.aldar_data?.aldar_unit_name ?? "",
+            ].filter(Boolean)}
+          />
+        </div>
+      </section>
 
       {villa.aldar_data && (
         <section className="border-b border-border bg-gradient-to-br from-primary/5 to-card/60">

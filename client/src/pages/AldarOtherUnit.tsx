@@ -13,6 +13,7 @@ import { trpc } from "@/lib/trpc";
 import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
 import { parsePaymentPlans } from "./AldarUnit";
+import { ResaleCard } from "@/components/ResaleCard";
 
 function Inner() {
   const params = useParams<{ project: string; building: string; unit: string }>();
@@ -145,6 +146,15 @@ function Inner() {
           </div>
         </div>
       </section>
+
+      {/* Resale with Aldar */}
+      {unit.unit_name && (
+        <section className="border-b border-border">
+          <div className="container py-6 sm:py-8">
+            <ResaleCard unitNames={[unit.unit_name]} />
+          </div>
+        </section>
+      )}
 
       {/* Payment plans */}
       {plans.length > 0 && unit.price_aed != null && (

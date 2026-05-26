@@ -30,6 +30,7 @@ import AldarOtherProject from "./pages/AldarOtherProject";
 import AldarOtherBuilding from "./pages/AldarOtherBuilding";
 import AldarOtherUnit from "./pages/AldarOtherUnit";
 import AdminPage from "./pages/Admin";
+import Resale from "./pages/Resale";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -52,6 +53,7 @@ function Router() {
       <Route path="/aldar-other/:project/:building/:unit" component={AldarOtherUnit} />
       <Route path="/aldar-other/:project/:building" component={AldarOtherBuilding} />
       <Route path="/aldar-other/:project" component={AldarOtherProject} />
+      <Route path="/resale" component={Resale} />
       <Route path="/admin" component={AdminPage} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />

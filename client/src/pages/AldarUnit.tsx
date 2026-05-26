@@ -12,6 +12,7 @@ import { getAldarUnit } from "@/data/aldar";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
+import { ResaleCard } from "@/components/ResaleCard";
 
 type ParsedPlan = {
   name: string;
@@ -169,6 +170,15 @@ export default function AldarUnit() {
           </div>
         </div>
       </section>
+
+      {/* Resale with Aldar */}
+      {unit.unit_name && (
+        <section className="border-b border-border">
+          <div className="container py-6 sm:py-8">
+            <ResaleCard unitNames={[unit.unit_name]} />
+          </div>
+        </section>
+      )}
 
       {/* Payment plans */}
       {plans.length > 0 && unit.price_aed != null && (

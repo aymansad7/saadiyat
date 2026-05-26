@@ -5,6 +5,7 @@ import { publicProcedure, router } from "./_core/trpc";
 import { aldarOtherRouter } from "./routers/aldarOther";
 import { filesRouter } from "./routers/files";
 import { gateRouter } from "./routers/gate";
+import { resaleRouter } from "./routers/resale";
 
 export const appRouter = router({
   system: systemRouter,
@@ -21,6 +22,7 @@ export const appRouter = router({
   files: filesRouter,
   gate: gateRouter,
   aldarOther: aldarOtherRouter,
+  resale: resaleRouter,
 });
 
 export type AppRouter = typeof appRouter;
