@@ -83,7 +83,7 @@ type Dataset = {
 // ---------------------------------------------------------------------------
 const __dirname = dirname(fileURLToPath(import.meta.url));
 let DATA: Dataset | null = null;
-function getDataset(): Dataset {
+export function getDataset(): Dataset {
   if (DATA) return DATA;
   // Try multiple plausible locations so the file is found both in
   // development (tsx + server/data) and after esbuild bundling (dist/data).

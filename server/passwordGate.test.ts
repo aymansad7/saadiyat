@@ -28,9 +28,18 @@ describe("PasswordGate", () => {
     expect(source).toContain("heartbeat.mutate({ path: location })");
   });
 
-  it("is wired into App.tsx so every route is protected", () => {
+  it("is wired into App.tsx so all gated routes go through <PasswordGate>", () => {
     const appSource = fs.readFileSync(path.resolve(__dirname, "../client/src/App.tsx"), "utf8");
     expect(appSource).toContain('import PasswordGate from "./components/PasswordGate"');
+    // The gated shell still wraps the internal <Router/> in <PasswordGate>.
     expect(appSource).toMatch(/<PasswordGate>[\s\S]*<Router\s*\/>/);
+  });
+
+  it("explicitly bypasses the gate for /resale-search (public filter)", () => {
+    const appSource = fs.readFileSync(path.resolve(__dirname, "../client/src/App.tsx"), "utf8");
+    expect(appSource).toContain('import PublicResaleSearch from "./pages/PublicResaleSearch"');
+    // The bypass branch must use the exact /resale-search path so
+    // typos don't accidentally expose other URLs.
+    expect(appSource).toContain('location === "/resale-search"');
   });
 });

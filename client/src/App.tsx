@@ -1,14 +1,16 @@
 /**
  * Coastal Atelier — App shell
+ *
  * Routes:
- *   /                     → Landing (Saadiyat overview, choose community)
- *   /st-regis             → St. Regis Villas explorer (filter + map + cards)
- *   /st-regis/villa/:id   → Single villa detail page
+ *   /resale-search  → PUBLIC. The "filter from outside" so anyone landing on
+ *                     the site can immediately see what's available across
+ *                     every area without entering the passcode.
+ *   everything else → Behind the PasswordGate (members area).
  */
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import PasswordGate from "./components/PasswordGate";
@@ -31,6 +33,7 @@ import AldarOtherBuilding from "./pages/AldarOtherBuilding";
 import AldarOtherUnit from "./pages/AldarOtherUnit";
 import AdminPage from "./pages/Admin";
 import Resale from "./pages/Resale";
+import PublicResaleSearch from "./pages/PublicResaleSearch";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -61,15 +64,29 @@ function Router() {
   );
 }
 
+/**
+ * Renders /resale-search OUTSIDE the PasswordGate (the entire point of the
+ * "filter from outside" feature). Every other route stays gated.
+ */
+function GatedShell() {
+  const [location] = useLocation();
+  if (location === "/resale-search" || location.startsWith("/resale-search/")) {
+    return <PublicResaleSearch />;
+  }
+  return (
+    <PasswordGate>
+      <Router />
+    </PasswordGate>
+  );
+}
+
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <PasswordGate>
-            <Router />
-          </PasswordGate>
+          <GatedShell />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

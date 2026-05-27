@@ -11,11 +11,11 @@
  * route change so the admin dashboard can show "who is currently in".
  */
 import { useState, useEffect, type FormEvent, type ReactNode } from "react";
-import { Lock, KeyRound, AlertTriangle } from "lucide-react";
+import { Lock, KeyRound, AlertTriangle, Search, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { trpc } from "@/lib/trpc";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 
 const STORAGE_KEY = "saadiyat:gate:unlocked";
 
@@ -178,6 +178,29 @@ export default function PasswordGate({ children }: Props) {
               </Button>
             </form>
           </div>
+
+          {/* PUBLIC RESALE FILTER — accessible without passcode */}
+          <Link
+            href="/resale-search"
+            className="mt-6 group flex items-start gap-3 rounded-md border border-primary/30 bg-primary/[0.04] p-4 hover:bg-primary/[0.07] hover:border-primary/50 transition-colors"
+          >
+            <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-sm border border-primary/40 bg-primary/10 text-primary">
+              <Search className="h-3.5 w-3.5" />
+            </span>
+            <div className="flex-1 leading-tight">
+              <div className="text-[0.65rem] uppercase tracking-[0.22em] font-mono text-primary">
+                No passcode? Browse anyway
+              </div>
+              <div className="font-display text-base text-foreground mt-0.5">
+                Open the Resale filter
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">
+                See every available property — Resale &amp; live primary —
+                across all areas in one view.
+              </div>
+            </div>
+            <ArrowUpRight className="h-4 w-4 text-primary mt-1 shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
 
           <p className="text-center text-xs text-muted-foreground mt-6 font-mono uppercase tracking-[0.18em]">
             Saadiyat Island · Abu Dhabi
