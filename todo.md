@@ -70,3 +70,22 @@
 - [ ] Unit detail page: hero (price, status+date, beds, plot, BUA) → details table → payment plans
 - [ ] Vitest coverage for status badge logic + cross-project "available only" filter
 - [ ] Save checkpoint
+
+
+## Public Resale Filter (May 27, 2026)
+- [x] Add public `/resale-search` page accessible without passcode
+- [x] Add `publicResale` tRPC router (summary + filtered list)
+- [x] Aggregate Aldar Resale workbook + live primary inventory across all areas
+- [x] Source / area / bedrooms / price / search / sort filters
+- [x] Entry point card on the passcode screen ("No passcode? Browse anyway")
+- [x] Vitest coverage for public router + App.tsx bypass invariant
+- [x] Save checkpoint
+
+
+## Restrict Resale Filter to admins only (May 27, 2026)
+- [x] Move /resale-search route inside the PasswordGate (no public bypass)
+- [x] Convert publicResale router → adminResale (adminProcedure on summary + list)
+- [x] Add client-side admin guard on PublicResaleSearch page (redirect / show "admin only")
+- [x] Remove "No passcode? Browse anyway" CTA from PasswordGate
+- [x] Update vitest: passwordGate test + resale router test for admin-only invariants
+- [x] Save checkpoint

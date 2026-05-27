@@ -1,30 +1,25 @@
 /**
- * /resale-search — Public Resale Filter
+ * /resale-search — Resale Filter (admin-only)
  *
- * Fully public: any visitor can use this page without entering the passcode
- * or signing in. The user explicitly asked for "a filter from outside" — the
- * moment a visitor lands on the site, they should be able to flip a single
- * filter and see every available property across every area.
+ * This page is gated TWICE:
+ *   1. It sits behind the site-wide PasswordGate (see App.tsx).
+ *   2. It additionally requires `ctx.user.role` to be `admin` or `master`.
  *
  * Two sources are merged:
- *   - "Resale with Aldar"  → owner-listed asking prices (119 listings)
+ *   - "Resale with Aldar"  → owner-listed asking prices (~119 listings)
  *   - "Live primary"       → Aldar's own live inventory across Saadiyat +
  *                            other areas (Yas Island / Al Ghadeer / etc.)
  *
  * Filters: source, area, bedrooms, price range, free-text search.
- *
- * The page is intentionally rendered OUTSIDE the PasswordGate (see App.tsx),
- * so it works as a public landing page. Internal links to unit pages still
- * go through the gate as expected.
  */
-import { useEffect, useMemo, useState } from "react";
-import { Link } from "wouter";
+import { useEffect, useState } from "react";
+import { Link, Redirect } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { getLoginUrl } from "@/const";
 import {
   ArrowUpRight,
   ExternalLink,
   Filter,
-  KeyRound,
-  Lock,
   MapPin,
   Search,
   SlidersHorizontal,
@@ -81,6 +76,10 @@ const BEDROOM_OPTIONS: { key: BedroomsKey; label: string }[] = [
 ];
 
 export default function PublicResaleSearch() {
+  const { user, loading } = useAuth();
+  const isMaster = user?.role === "master";
+  const isAdmin = user?.role === "admin" || isMaster;
+
   const [source, setSource] = useState<SourceKey>("all");
   const [area, setArea] = useState<AreaKey>("all");
   const [bedrooms, setBedrooms] = useState<BedroomsKey>("all");
@@ -98,23 +97,34 @@ export default function PublicResaleSearch() {
   const minNum = minPrice.trim() === "" ? undefined : Number(minPrice);
   const maxNum = maxPrice.trim() === "" ? undefined : Number(maxPrice);
 
-  const summary = trpc.publicResale.summary.useQuery();
-  const list = trpc.publicResale.list.useQuery({
-    query: debouncedQuery || undefined,
-    source,
-    area,
-    bedrooms,
-    sort,
-    minPrice: typeof minNum === "number" && !Number.isNaN(minNum) ? minNum : undefined,
-    maxPrice: typeof maxNum === "number" && !Number.isNaN(maxNum) ? maxNum : undefined,
-    limit: 800,
-  });
+  const summary = trpc.publicResale.summary.useQuery(undefined, { enabled: isAdmin });
+  const list = trpc.publicResale.list.useQuery(
+    {
+      query: debouncedQuery || undefined,
+      source,
+      area,
+      bedrooms,
+      sort,
+      minPrice: typeof minNum === "number" && !Number.isNaN(minNum) ? minNum : undefined,
+      maxPrice: typeof maxNum === "number" && !Number.isNaN(maxNum) ? maxNum : undefined,
+      limit: 800,
+    },
+    { enabled: isAdmin },
+  );
 
   const items = list.data?.items ?? [];
 
+  // Auth guard: must be signed in AND admin/master.
+  if (loading) return null;
+  if (!user) {
+    if (typeof window !== "undefined") window.location.href = getLoginUrl();
+    return null;
+  }
+  if (!isAdmin) return <Redirect to="/" />;
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* PUBLIC HEADER (no auth, no gate) */}
+      {/* Admin-only header */}
       <header className="border-b border-border/70 bg-background/80 backdrop-blur-md sticky top-0 z-40">
         <div className="container py-3 sm:py-4 flex items-center gap-4">
           <Link href="/resale-search" className="flex items-center gap-2.5 group">
@@ -126,7 +136,7 @@ export default function PublicResaleSearch() {
                 Saadiyat
               </div>
               <div className="text-[0.72rem] uppercase tracking-[0.18em] text-muted-foreground font-mono">
-                Public resale filter
+                Resale filter · admin
               </div>
             </div>
           </Link>
@@ -138,9 +148,8 @@ export default function PublicResaleSearch() {
               className="bg-card border-primary/30 text-primary hover:bg-primary/10 hover:text-primary gap-1.5"
             >
               <Link href="/">
-                <KeyRound className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Member sign-in</span>
-                <span className="sm:hidden">Sign in</span>
+                <ArrowUpRight className="h-3.5 w-3.5" />
+                <span>Back to dashboard</span>
               </Link>
             </Button>
           </div>
@@ -152,7 +161,7 @@ export default function PublicResaleSearch() {
         <div className="container py-8 sm:py-10">
           <div className="flex items-baseline gap-3 mb-2 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
             <Sparkles className="h-3.5 w-3.5" />
-            Open to everyone
+            Admin tools
           </div>
           <h1 className="font-display text-3xl sm:text-[3rem] leading-tight text-foreground">
             What is available right now,{" "}
@@ -161,8 +170,7 @@ export default function PublicResaleSearch() {
           <p className="mt-2 max-w-2xl text-muted-foreground">
             Pick a filter — Resale with Aldar, live Aldar inventory, or both —
             and instantly see every property currently on offer across
-            Saadiyat, Yas Island, Al Ghadeer and other Aldar communities. No
-            login required.
+            Saadiyat, Yas Island, Al Ghadeer and other Aldar communities.
           </p>
 
           {/* Summary stats */}
@@ -375,33 +383,10 @@ export default function PublicResaleSearch() {
         )}
       </main>
 
-      {/* CTA — sign in for full unit pages */}
-      <section className="border-t border-border bg-card/40">
-        <div className="container py-8 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-          <div className="max-w-xl">
-            <div className="flex items-center gap-2 mb-1 text-[0.65rem] uppercase tracking-[0.22em] font-mono text-primary">
-              <Lock className="h-3.5 w-3.5" />
-              Members get more
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Open the full unit pages — payment plans, plot sizes, premium
-              finishing details, and direct deal flow — by signing in with the
-              passcode shared with you.
-            </p>
-          </div>
-          <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 gap-2">
-            <Link href="/">
-              Enter member area
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
-      </section>
-
       <footer className="border-t border-border bg-card/60">
         <div className="container py-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-xs text-muted-foreground">
           <div className="font-mono uppercase tracking-[0.18em]">
-            Saadiyat · Public resale filter
+            Saadiyat · Resale filter · admin
           </div>
           <div>
             Sources: Aldar Resale workbook · Aldar primary inventory.

@@ -1,8 +1,10 @@
 /**
- * publicResale router — fully public, no authentication, no passcode.
+ * adminResale router (formerly "publicResale") — admin-only.
  *
- * This powers the external Resale Filter that any visitor can use from the
- * passcode screen or the Landing page. It aggregates two sources:
+ * This powers the cross-area Resale Filter at /resale-search. It is gated
+ * behind the passcode AND requires an admin role on top: only signed-in
+ * admins (ctx.user.role === 'admin' | 'master') can call these procedures.
+ * It aggregates two sources:
  *
  *   1) Aldar's own Resale workbook — owner-listed asking prices that Aldar
  *      itself promotes (we ingested 119 UAE rows; 111 matched to inventory).
@@ -25,7 +27,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, router } from "../_core/trpc";
 import type { ResaleItem } from "./resale";
 import { _internal as resaleInternal } from "./resale";
 
@@ -341,9 +343,9 @@ function getAllListings(): PublicListing[] {
 // ---------------------------------------------------------------------------
 export const publicResaleRouter = router({
   /**
-   * Public summary — counts per area and source.
+   * Admin-only summary — counts per area and source.
    */
-  summary: publicProcedure.query(() => {
+  summary: adminProcedure.query(() => {
     const all = getAllListings();
     const byArea: Record<string, number> = {
       saadiyat: 0,
@@ -367,10 +369,10 @@ export const publicResaleRouter = router({
   }),
 
   /**
-   * Public list — applies filters and returns a paginated card array.
-   * No login or passcode required.
+   * Admin-only list — applies filters and returns a paginated card array.
+   * Caller must be authenticated AND have admin/master role.
    */
-  list: publicProcedure
+  list: adminProcedure
     .input(
       z
         .object({

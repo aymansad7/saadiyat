@@ -28,18 +28,21 @@ describe("PasswordGate", () => {
     expect(source).toContain("heartbeat.mutate({ path: location })");
   });
 
-  it("is wired into App.tsx so all gated routes go through <PasswordGate>", () => {
+  it("is wired into App.tsx so every route goes through <PasswordGate>", () => {
     const appSource = fs.readFileSync(path.resolve(__dirname, "../client/src/App.tsx"), "utf8");
     expect(appSource).toContain('import PasswordGate from "./components/PasswordGate"');
-    // The gated shell still wraps the internal <Router/> in <PasswordGate>.
     expect(appSource).toMatch(/<PasswordGate>[\s\S]*<Router\s*\/>/);
   });
 
-  it("explicitly bypasses the gate for /resale-search (public filter)", () => {
+  it("keeps /resale-search inside the gate (no public bypass)", () => {
     const appSource = fs.readFileSync(path.resolve(__dirname, "../client/src/App.tsx"), "utf8");
-    expect(appSource).toContain('import PublicResaleSearch from "./pages/PublicResaleSearch"');
-    // The bypass branch must use the exact /resale-search path so
-    // typos don't accidentally expose other URLs.
-    expect(appSource).toContain('location === "/resale-search"');
+    // Must be declared as a regular gated <Route>, not a location-based bypass.
+    expect(appSource).toContain('<Route path="/resale-search" component={PublicResaleSearch} />');
+    expect(appSource).not.toContain('location === "/resale-search"');
+  });
+
+  it("does not expose a passcode-bypass CTA on the lock screen", () => {
+    expect(source).not.toContain("/resale-search");
+    expect(source).not.toMatch(/no\s*passcode/i);
   });
 });
