@@ -10,8 +10,8 @@
  *   /saadiyat-lagoons/al-sidr
  *   /saadiyat-lagoons/al-ghaf
  */
-import { useMemo, useState } from "react";
-import { Redirect, useParams } from "wouter";
+import { useEffect, useMemo, useState } from "react";
+import { Redirect, useParams, useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import LagoonsVillaCard from "@/components/LagoonsVillaCard";
 import {
@@ -39,7 +39,7 @@ const CLUSTER_LABELS: Record<string, string> = {
 
 type PositionFilter = "all" | "corner" | "edge" | "interior";
 type BedroomFilter = "all" | "4" | "5" | "6";
-type AvailabilityFilter = "all" | "any" | ResaleSource;
+type AvailabilityFilter = "all" | "any" | "none" | ResaleSource;
 
 export default function LagoonsCluster() {
   const params = useParams<{ cluster: string }>();
@@ -50,11 +50,32 @@ export default function LagoonsCluster() {
   const all = useMemo(() => getLagoonsVillasByCluster(cluster), [cluster]);
   const summary = LAGOONS_DATASET.summary[cluster];
 
+  const search = useSearch();
+  const initialAvail = useMemo<AvailabilityFilter>(() => {
+    const sp = new URLSearchParams(search);
+    const v = sp.get("avail");
+    if (
+      v === "any" ||
+      v === "none" ||
+      v === "nas-luxury" ||
+      v === "aldar" ||
+      v === "others"
+    ) {
+      return v as AvailabilityFilter;
+    }
+    return "all";
+  }, [search]);
+
   const [query, setQuery] = useState("");
   const [bedFilter, setBedFilter] = useState<BedroomFilter>("all");
   const [posFilter, setPosFilter] = useState<PositionFilter>("all");
-  const [availFilter, setAvailFilter] = useState<AvailabilityFilter>("all");
+  const [availFilter, setAvailFilter] = useState<AvailabilityFilter>(initialAvail);
   const [pageSize, setPageSize] = useState<number>(48);
+
+  // Keep filter in sync if the user navigates to a different ?avail= URL
+  useEffect(() => {
+    setAvailFilter(initialAvail);
+  }, [initialAvail]);
 
   // Per-cluster availability counts
   const availabilityCounts = useMemo(() => {
@@ -80,6 +101,8 @@ export default function LagoonsCluster() {
           const a = getAvailability(v.unit_name);
           if (availFilter === "any") {
             if (a.sources.length === 0) return false;
+          } else if (availFilter === "none") {
+            if (a.sources.length !== 0) return false;
           } else if (!a.sources.includes(availFilter as ResaleSource)) {
             return false;
           }
@@ -210,6 +233,10 @@ export default function LagoonsCluster() {
                 {
                   value: "others",
                   label: `Other brokers (${availabilityCounts.others})`,
+                },
+                {
+                  value: "none",
+                  label: `Not available (${all.length - availabilityCounts.any})`,
                 },
               ]}
             />

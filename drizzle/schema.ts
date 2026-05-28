@@ -180,3 +180,70 @@ export const securityEvents = mysqlTable(
   }),
 );
 export type SecurityEvent = typeof securityEvents.$inferSelect;
+
+
+/**
+ * Community-agnostic availability listings.
+ *
+ * Each row represents a single villa/unit that is currently available (or in
+ * some other status) — regardless of which community it belongs to.
+ *
+ * - `community` is the community slug (e.g. "saadiyat-lagoons", "jawaher",
+ *   "saadiyat-beach-villas"). Free-form to accept future communities.
+ * - `unitKey` is the canonical unit identifier within the community
+ *   (e.g. "Lagoons-AlSidr-V-065-01" for Lagoons, "Jawaher-Plot-83" for Jawaher,
+ *   "SBV-Gate2-Plot-15" for Saadiyat Beach Villas). Free-form to keep
+ *   flexibility across communities.
+ * - `source` distinguishes the data origin:
+ *     "nas-luxury" — confirmed with NAS Luxury (green badge)
+ *     "aldar"      — from official Aldar resale workbook (amber badge)
+ *     "others"     — known to be on the market with other brokers (neutral)
+ *     "manual"     — added manually via admin form
+ * - `status` is the displayable status:
+ *     "available", "reserved", "sold", "off-market"
+ */
+export const availabilityListings = mysqlTable(
+  "availability_listings",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    community: varchar("community", { length: 64 }).notNull(),
+    unitKey: varchar("unitKey", { length: 128 }).notNull(),
+    source: mysqlEnum("source", [
+      "nas-luxury",
+      "aldar",
+      "others",
+      "manual",
+    ]).notNull(),
+    status: mysqlEnum("status", [
+      "available",
+      "reserved",
+      "sold",
+      "off-market",
+    ])
+      .default("available")
+      .notNull(),
+    /** Asking price in AED. NULL when unknown. */
+    askingPriceAed: bigint("askingPriceAed", { mode: "number" }),
+    /** Bedrooms (e.g. 3, 4, 5, 6). NULL when unknown. */
+    bedrooms: int("bedrooms"),
+    /** Free-form notes (signature deal, finishing, payment plan, etc.). */
+    notes: text("notes"),
+    /** Optional contact/owner label (NOT shown publicly). */
+    contactLabel: varchar("contactLabel", { length: 128 }),
+    /** User who added this listing. */
+    addedBy: varchar("addedBy", { length: 128 }).notNull(),
+    /** Display-name snapshot of the user who added it. */
+    addedByName: varchar("addedByName", { length: 255 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  t => ({
+    communityIdx: index("availability_listings_community_idx").on(t.community),
+    unitKeyIdx: index("availability_listings_unitKey_idx").on(t.unitKey),
+    statusIdx: index("availability_listings_status_idx").on(t.status),
+    sourceIdx: index("availability_listings_source_idx").on(t.source),
+  }),
+);
+export type AvailabilityListing = typeof availabilityListings.$inferSelect;
+export type InsertAvailabilityListing =
+  typeof availabilityListings.$inferInsert;

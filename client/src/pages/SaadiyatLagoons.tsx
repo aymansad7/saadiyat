@@ -11,7 +11,7 @@ import { Link } from "wouter";
 import { ArrowUpRight, Compass, Trees, Waves, Building2, Tag } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { LAGOONS_DATASET } from "@/data/lagoons";
-import { LAGOONS_RESALE, RESALE_BY_UNIT } from "@/data/lagoonsResale";
+import { getAvailability } from "@/data/lagoonsAvailability";
 
 const CLUSTERS = [
   {
@@ -40,18 +40,55 @@ const CLUSTERS = [
   },
 ] as const;
 
+type AvailFilter = "all" | "any" | "nas-luxury" | "aldar" | "others" | "none";
+
 export default function SaadiyatLagoons() {
   const totals = LAGOONS_DATASET.summary;
-  const resaleByCluster: Record<string, number> = {};
-  for (const r of LAGOONS_RESALE) {
-    resaleByCluster[r.cluster] = (resaleByCluster[r.cluster] ?? 0) + 1;
-  }
-  const candidatesByCluster: Record<string, number> = {};
+
+  // Per-cluster availability counters
+  const counters: Record<
+    string,
+    { any: number; "nas-luxury": number; aldar: number; others: number; none: number }
+  > = {
+    ethir: { any: 0, "nas-luxury": 0, aldar: 0, others: 0, none: 0 },
+    "al-sidr": { any: 0, "nas-luxury": 0, aldar: 0, others: 0, none: 0 },
+    "al-ghaf": { any: 0, "nas-luxury": 0, aldar: 0, others: 0, none: 0 },
+  };
+  let totalAny = 0;
+  let totalNas = 0;
+  let totalAldar = 0;
+  let totalOthers = 0;
   for (const v of LAGOONS_DATASET.villas) {
-    if (RESALE_BY_UNIT[v.unit_name]) {
-      candidatesByCluster[v.cluster] = (candidatesByCluster[v.cluster] ?? 0) + 1;
+    const a = getAvailability(v.unit_name);
+    const c = counters[v.cluster];
+    if (!c) continue;
+    if (a.sources.length > 0) {
+      c.any += 1;
+      totalAny += 1;
+    } else {
+      c.none += 1;
+    }
+    if (a.sources.includes("nas-luxury")) {
+      c["nas-luxury"] += 1;
+      totalNas += 1;
+    }
+    if (a.sources.includes("aldar")) {
+      c.aldar += 1;
+      totalAldar += 1;
+    }
+    if (a.sources.includes("others")) {
+      c.others += 1;
+      totalOthers += 1;
     }
   }
+  const totalNone = LAGOONS_DATASET.total_villas - totalAny;
+
+  // Build hrefs that pre-apply the status filter on the cluster page
+  const filterHref = (slug: string, filter: AvailFilter) =>
+    filter === "all"
+      ? `/saadiyat-lagoons/${slug}`
+      : `/saadiyat-lagoons/${slug}?avail=${filter}`;
+
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader
@@ -84,8 +121,69 @@ export default function SaadiyatLagoons() {
           <div className="col-span-12 md:col-span-4 flex flex-wrap gap-3 md:justify-end">
             <Stat label="Villas" value={String(LAGOONS_DATASET.total_villas)} />
             <Stat label="Villages" value="3" />
-            <Stat label="Resale" value={String(LAGOONS_RESALE.length)} accent />
+            <Stat label="Available" value={String(totalAny)} accent />
           </div>
+        </div>
+      </section>
+
+      {/* Availability rail (unified status filter) */}
+      <section className="border-b border-border bg-background">
+        <div className="container py-6 sm:py-8">
+          <div className="flex items-center gap-2 mb-4 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
+            <Tag className="h-3.5 w-3.5" />
+            Status filter — pick a status, then a village
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            <StatusCard
+              label="Any available"
+              count={totalAny}
+              total={LAGOONS_DATASET.total_villas}
+              tone="emerald"
+              variant="any"
+              perCluster={counters}
+              hrefFor={filterHref}
+            />
+            <StatusCard
+              label="Available with NAS Luxury"
+              count={totalNas}
+              total={LAGOONS_DATASET.total_villas}
+              tone="emerald-strong"
+              variant="nas-luxury"
+              perCluster={counters}
+              hrefFor={filterHref}
+            />
+            <StatusCard
+              label="Aldar Resale"
+              count={totalAldar}
+              total={LAGOONS_DATASET.total_villas}
+              tone="amber"
+              variant="aldar"
+              perCluster={counters}
+              hrefFor={filterHref}
+            />
+            <StatusCard
+              label="Other brokers"
+              count={totalOthers}
+              total={LAGOONS_DATASET.total_villas}
+              tone="slate"
+              variant="others"
+              perCluster={counters}
+              hrefFor={filterHref}
+            />
+            <StatusCard
+              label="Not available"
+              count={totalNone}
+              total={LAGOONS_DATASET.total_villas}
+              tone="muted"
+              variant="none"
+              perCluster={counters}
+              hrefFor={filterHref}
+            />
+          </div>
+          <p className="mt-4 text-xs text-muted-foreground">
+            Pick any status to drill down into the village. The same filter is
+            also available on every cluster page and inside each villa detail.
+          </p>
         </div>
       </section>
 
@@ -111,6 +209,7 @@ export default function SaadiyatLagoons() {
           {CLUSTERS.map((c) => {
             const s = totals[c.slug];
             const Icon = c.icon;
+            const cc = counters[c.slug];
             return (
               <Link
                 key={c.slug}
@@ -163,13 +262,13 @@ export default function SaadiyatLagoons() {
                         {s?.corners ?? 0} · {s?.edges ?? 0}
                       </div>
                     </div>
-                    {(resaleByCluster[c.slug] ?? 0) > 0 ? (
+                    {cc && cc.any > 0 ? (
                       <div className="text-right">
                         <div className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-emerald-700">
-                          Resale
+                          Available
                         </div>
                         <div className="font-mono text-sm tabular text-emerald-700 mt-0.5">
-                          {resaleByCluster[c.slug]} listing{(resaleByCluster[c.slug] ?? 0) === 1 ? "" : "s"}
+                          {cc.any} villa{cc.any === 1 ? "" : "s"}
                         </div>
                       </div>
                     ) : (
@@ -182,46 +281,8 @@ export default function SaadiyatLagoons() {
           })}
         </div>
 
-        {/* Resale rail */}
-        <div className="mt-14 border border-emerald-200 rounded-md bg-emerald-50/40 p-5 sm:p-7">
-          <div className="flex items-center gap-2 mb-3 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-emerald-700">
-            <Tag className="h-3.5 w-3.5" />
-            Resale market · 21 Apr 2026
-          </div>
-          <p className="text-sm text-muted-foreground max-w-3xl">
-            All 1,549 villas are sold in primary launch. The current secondary
-            market shows{" "}
-            <strong className="text-foreground">
-              {LAGOONS_RESALE.length} resale listings
-            </strong>
-            {" "}across the three villages — broker-supplied codes only, exact
-            villa numbers withheld until offer stage. Each listing is mapped to
-            the candidate plots in its block on the corresponding villa page,
-            and surfaced with the green “Available · Resale” tag in the cluster
-            grids.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3 font-mono text-[0.7rem]">
-            {CLUSTERS.map((c) => (
-              <div
-                key={c.slug}
-                className="inline-flex items-center gap-2 px-3 py-1.5 border border-emerald-200 bg-white rounded-sm"
-              >
-                <span className="uppercase tracking-[0.16em] text-muted-foreground">
-                  {c.name}
-                </span>
-                <span className="tabular text-foreground text-sm">
-                  {resaleByCluster[c.slug] ?? 0} listing{(resaleByCluster[c.slug] ?? 0) === 1 ? "" : "s"}
-                </span>
-                <span className="text-muted-foreground">
-                  ({candidatesByCluster[c.slug] ?? 0} candidate villas)
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Amenity rail */}
-        <div className="mt-6 border border-border rounded-md bg-card/50 p-5 sm:p-7">
+        <div className="mt-10 border border-border rounded-md bg-card/50 p-5 sm:p-7">
           <div className="flex items-center gap-2 mb-3 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
             <span className="h-px w-6 bg-primary/60" />
             Master amenities
@@ -266,10 +327,87 @@ function Stat({
       </div>
       <div
         className={`font-display num-display tabular text-2xl leading-none mt-0.5 ${
-          accent ? "text-primary" : "text-foreground"
+          accent ? "text-emerald-700" : "text-foreground"
         }`}
       >
         {value}
+      </div>
+    </div>
+  );
+}
+
+function StatusCard({
+  label,
+  count,
+  total,
+  tone,
+  variant,
+  perCluster,
+  hrefFor,
+}: {
+  label: string;
+  count: number;
+  total: number;
+  tone: "emerald" | "emerald-strong" | "amber" | "slate" | "muted";
+  variant: AvailFilter;
+  perCluster: Record<
+    string,
+    { any: number; "nas-luxury": number; aldar: number; others: number; none: number }
+  >;
+  hrefFor: (slug: string, filter: AvailFilter) => string;
+}) {
+  const toneClasses: Record<typeof tone, string> = {
+    emerald: "border-emerald-200 bg-emerald-50/60 text-emerald-800",
+    "emerald-strong": "border-emerald-400 bg-emerald-100/70 text-emerald-900",
+    amber: "border-amber-200 bg-amber-50/60 text-amber-800",
+    slate: "border-slate-200 bg-slate-50/70 text-slate-700",
+    muted: "border-border bg-card text-muted-foreground",
+  };
+  const valueColor: Record<typeof tone, string> = {
+    emerald: "text-emerald-700",
+    "emerald-strong": "text-emerald-800",
+    amber: "text-amber-700",
+    slate: "text-slate-700",
+    muted: "text-foreground",
+  };
+  const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+  return (
+    <div
+      className={`p-4 rounded-md border ${toneClasses[tone]} flex flex-col gap-2`}
+    >
+      <div className="text-[0.65rem] uppercase tracking-[0.18em] font-mono">
+        {label}
+      </div>
+      <div className={`font-display tabular text-3xl leading-none ${valueColor[tone]}`}>
+        {count}
+        <span className="text-xs font-mono ml-1.5 align-middle text-muted-foreground">
+          / {total} ({pct}%)
+        </span>
+      </div>
+      <div className="grid grid-cols-3 gap-1 mt-1">
+        {(["ethir", "al-sidr", "al-ghaf"] as const).map((slug) => {
+          const c = perCluster[slug];
+          const n =
+            variant === "all"
+              ? 0
+              : variant === "any"
+              ? c.any
+              : variant === "none"
+              ? c.none
+              : c[variant];
+          return (
+            <Link
+              key={slug}
+              href={hrefFor(slug, variant)}
+              className="text-[0.62rem] font-mono uppercase tracking-[0.14em] px-1.5 py-1 rounded-sm bg-white/60 hover:bg-white border border-transparent hover:border-current transition-colors flex items-center justify-between"
+            >
+              <span className="truncate">
+                {slug === "al-sidr" ? "Sidr" : slug === "al-ghaf" ? "Ghaf" : "Ethir"}
+              </span>
+              <span className={`tabular ${valueColor[tone]}`}>{n}</span>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

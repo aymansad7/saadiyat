@@ -29,6 +29,20 @@
       "when": 1779471140808,
       "tag": "0003_rare_master_mold",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1779968488169,
+      "tag": "0004_steady_star_brand",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1779968954127,
+      "tag": "0005_confused_silhouette",
+      "breakpoints": true
     }
   ]
 }

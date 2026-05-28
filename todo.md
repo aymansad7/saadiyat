@@ -111,3 +111,27 @@
 - [ ] Restore correct Google Maps URLs (per-villa lat/lng or precise cluster pin)
 - [ ] Update vitest assertions
 - [ ] Save checkpoint
+
+
+## Status filter + restore maps (May 28, 2026)
+- [ ] Revert Lagoons Google Maps coordinates to previous (pre-2026-05-28) values
+- [ ] Verify reverted coords against Google Maps actual location
+- [ ] Add unified Status filter (NAS Luxury / All Available / Not Available) to Lagoons cluster pages
+- [ ] Add Status filter to Lagoons community landing
+- [ ] Add Status filter to top-level communities list
+- [ ] Tests + checkpoint
+
+
+## Community-agnostic availability system (May 28, 2026)
+- [ ] DB schema: availability_listings table (community, unit_key, source, status, asking_price, notes, addedBy, addedAt, updatedAt)
+- [ ] Push schema with `pnpm db:push`
+- [ ] Seed Lagoons NAS Luxury (9 villas) into DB on startup if empty
+- [ ] tRPC admin procedures: list/create/update/delete availability listings
+- [ ] tRPC summary procedure: counts per community per status
+- [ ] Admin page /admin/availability — table + add/edit/delete form
+- [ ] Status filter on Landing (all communities)
+- [ ] Status filter on each community page (Lagoons, Jawaher, Saadiyat Beach Villas)
+- [ ] Cluster pages read DB-backed availability
+- [ ] Display "Last updated: {date}" on availability badges
+- [ ] Vitest coverage for availability router + admin guard
+- [ ] Save checkpoint

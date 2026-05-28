@@ -1,0 +1,1 @@
+ALTER TABLE `availability_listings` MODIFY COLUMN `addedBy` varchar(128) NOT NULL;

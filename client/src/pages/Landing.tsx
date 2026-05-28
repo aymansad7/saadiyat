@@ -19,6 +19,7 @@ import { COMMUNITIES } from "@/data/communities";
 import { LAGOONS_DATASET } from "@/data/lagoons";
 import { ALDAR, breakdownForProject, actionableCount } from "@/data/aldar";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
+import { AvailabilityFilter } from "@/components/AvailabilityFilter";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 
@@ -165,6 +166,9 @@ export default function Landing() {
             Today: four communities, {villas.length + jawaher.totalPlots + sbv.totalPlots + LAGOONS_DATASET.total_villas} plots.
           </p>
         </div>
+
+        <AvailabilityFilter communities={communities} />
+
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {communities.map((c) => {

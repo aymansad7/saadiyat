@@ -29,6 +29,7 @@ import AldarOtherProject from "./pages/AldarOtherProject";
 import AldarOtherBuilding from "./pages/AldarOtherBuilding";
 import AldarOtherUnit from "./pages/AldarOtherUnit";
 import AdminPage from "./pages/Admin";
+import AdminAvailability from "./pages/AdminAvailability";
 import Resale from "./pages/Resale";
 import PublicResaleSearch from "./pages/PublicResaleSearch";
 
@@ -56,6 +57,7 @@ function Router() {
       <Route path="/resale" component={Resale} />
       <Route path="/resale-search" component={PublicResaleSearch} />
       <Route path="/admin" component={AdminPage} />
+      <Route path="/admin/availability" component={AdminAvailability} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
