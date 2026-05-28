@@ -89,3 +89,13 @@
 - [x] Remove "No passcode? Browse anyway" CTA from PasswordGate
 - [x] Update vitest: passwordGate test + resale router test for admin-only invariants
 - [x] Save checkpoint
+
+
+## Nas Leggieri Lagoons listings (May 27, 2026)
+- [ ] Extract villa numbers + asking price + extras from Seyit Amiri PDF
+- [ ] Persist as `nas_leggieri_lagoons.json` server dataset
+- [ ] Add `nas-leggieri` source to public resale router with extras (sqft, plot, notes)
+- [ ] Show "Available with Nas Leggieri" as a filter option in /resale-search
+- [ ] Strip prior generic green "Available" markers on Lagoons villas not in this list
+- [ ] Vitest coverage for nas-leggieri data + filter
+- [ ] Save checkpoint

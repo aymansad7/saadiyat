@@ -31,7 +31,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
 
-type SourceKey = "all" | "aldar-resale" | "primary-live";
+type SourceKey = "all" | "nas-luxury" | "aldar-resale" | "primary-live";
 type AreaKey = "all" | "saadiyat" | "yas-island" | "al-ghadeer" | "other";
 type BedroomsKey = "all" | "studio" | "1" | "2" | "3" | "4" | "5+";
 type SortKey = "price-asc" | "price-desc" | "area";
@@ -60,7 +60,8 @@ const AREA_OPTIONS: { key: AreaKey; label: string }[] = [
 ];
 
 const SOURCE_OPTIONS: { key: SourceKey; label: string; sub: string }[] = [
-  { key: "all", label: "Any resale", sub: "Asking + live primary" },
+  { key: "all", label: "Any availability", sub: "NAS Luxury + Resale + Live" },
+  { key: "nas-luxury", label: "Available with NAS Luxury", sub: "Curated Saadiyat Lagoons collection" },
   { key: "aldar-resale", label: "Resale with Aldar", sub: "Owner asking prices" },
   { key: "primary-live", label: "Live primary", sub: "Aldar inventory available now" },
 ];
@@ -174,7 +175,12 @@ export default function PublicResaleSearch() {
           </p>
 
           {/* Summary stats */}
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-3 max-w-4xl">
+            <Stat
+              label="NAS Luxury"
+              value={summary.data ? `${summary.data.nas_luxury}` : "…"}
+              accent
+            />
             <Stat
               label="Total listings"
               value={summary.data ? `${summary.data.total}` : "…"}
@@ -192,7 +198,6 @@ export default function PublicResaleSearch() {
               value={
                 list.data ? `${list.data.total_after_filters}` : "…"
               }
-              accent
             />
           </div>
         </div>
@@ -205,7 +210,7 @@ export default function PublicResaleSearch() {
             <Filter className="h-3.5 w-3.5" />
             Filter
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {SOURCE_OPTIONS.map(opt => (
               <button
                 key={opt.key}
@@ -430,7 +435,7 @@ function Stat({
 
 type Listing = {
   id: string;
-  source: "aldar-resale" | "primary-live";
+  source: "aldar-resale" | "primary-live" | "nas-luxury";
   area: string;
   area_label: string;
   project_name: string;
@@ -444,27 +449,59 @@ type Listing = {
   price_label: string;
   aldar_url: string | null;
   internal_href: string | null;
+  nas_luxury?: {
+    option: number;
+    short_code: string;
+    cluster_label: string;
+    plot_sqm: number | null;
+    built_up_sqft: number | null;
+    built_up_sqm: number | null;
+    position: string | null;
+    finishing: string | null;
+    specification: string | null;
+    pod: boolean;
+    premium: boolean;
+    original_price_aed: number | null;
+    payment_plan: string | null;
+    paid_percent: number | null;
+    highlights: string | null;
+    signature_deal: boolean;
+    agent: { name: string; email: string; phone: string };
+  } | null;
 };
 
 function ListingCard({ item }: { item: Listing }) {
   const priceShort = fmtAed(item.price_aed);
   const priceFull = fmtAedFull(item.price_aed);
   const isResale = item.source === "aldar-resale";
+  const isNas = item.source === "nas-luxury";
+  const nl = item.nas_luxury ?? null;
 
   const inner = (
     <Card
       className={
         "relative h-full p-4 sm:p-5 transition-colors " +
-        (item.internal_href || item.aldar_url
+        (isNas
+          ? "border-primary/40 bg-primary/[0.025] hover:border-primary hover:bg-primary/[0.05] cursor-pointer ring-1 ring-primary/10"
+          : item.internal_href || item.aldar_url
           ? "cursor-pointer hover:border-primary/50 hover:bg-primary/[0.02]"
           : "")
       }
     >
+      {isNas && nl?.signature_deal && (
+        <div className="absolute -top-2 right-3 text-[0.55rem] uppercase tracking-[0.2em] font-mono bg-primary text-primary-foreground px-2 py-0.5 rounded-sm shadow-sm">
+          Signature deal
+        </div>
+      )}
       <div className="flex items-center justify-between gap-2">
         <span className="text-[0.6rem] uppercase tracking-[0.22em] font-mono text-muted-foreground">
           {item.area_label}
         </span>
-        {isResale ? (
+        {isNas ? (
+          <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono px-1.5 py-0.5 rounded-sm border border-primary/50 bg-primary/10 text-primary">
+            NAS Luxury
+          </span>
+        ) : isResale ? (
           <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono px-1.5 py-0.5 rounded-sm border border-emerald-500/40 bg-emerald-50 text-emerald-800">
             Resale
           </span>
@@ -475,24 +512,72 @@ function ListingCard({ item }: { item: Listing }) {
         )}
       </div>
       <h3 className="font-display text-lg text-foreground mt-2 leading-tight">
-        {item.project_name}
+        {isNas && nl ? `Option ${nl.option} · ${nl.short_code}` : item.project_name}
       </h3>
       <div className="text-xs text-muted-foreground mt-0.5 truncate">
         {item.unit_number}
       </div>
       <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted-foreground">
-        {item.unit_type && <span>{item.unit_type}</span>}
         {typeof item.bedrooms === "number" && (
           <span>
-            {item.bedrooms === 0 ? "Studio" : `${item.bedrooms} BR`}
+            {item.bedrooms === 0 ? "Studio" : `${item.bedrooms} BR Villa`}
           </span>
         )}
-        {item.saleable_area_sqft && (
-          <span className="num-display">
-            {item.saleable_area_sqft.toLocaleString()} sqft
-          </span>
+        {isNas && nl?.plot_sqm ? (
+          <span className="num-display">{Math.round(nl.plot_sqm)} m² plot</span>
+        ) : (
+          item.saleable_area_sqft && (
+            <span className="num-display">
+              {item.saleable_area_sqft.toLocaleString()} sqft
+            </span>
+          )
+        )}
+        {isNas && nl?.built_up_sqft && (
+          <span className="num-display">{nl.built_up_sqft.toLocaleString()} sqft built-up</span>
         )}
       </div>
+      {isNas && nl && (
+        <div className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1.5 text-[0.7rem]">
+          {nl.specification && (
+            <div>
+              <div className="text-[0.55rem] uppercase tracking-[0.16em] font-mono text-muted-foreground">Spec</div>
+              <div className="text-foreground">{nl.specification}</div>
+            </div>
+          )}
+          {nl.position && (
+            <div>
+              <div className="text-[0.55rem] uppercase tracking-[0.16em] font-mono text-muted-foreground">Position</div>
+              <div className="text-foreground">{nl.position}</div>
+            </div>
+          )}
+          {nl.finishing && (
+            <div>
+              <div className="text-[0.55rem] uppercase tracking-[0.16em] font-mono text-muted-foreground">Finishing</div>
+              <div className="text-foreground">{nl.finishing}</div>
+            </div>
+          )}
+          {nl.payment_plan && (
+            <div>
+              <div className="text-[0.55rem] uppercase tracking-[0.16em] font-mono text-muted-foreground">Plan</div>
+              <div className="text-foreground num-display">
+                {nl.payment_plan}
+                {typeof nl.paid_percent === "number" ? ` · ${nl.paid_percent}% paid` : ""}
+              </div>
+            </div>
+          )}
+          {nl.original_price_aed && (
+            <div className="col-span-2">
+              <div className="text-[0.55rem] uppercase tracking-[0.16em] font-mono text-muted-foreground">Aldar original</div>
+              <div className="text-foreground num-display">
+                AED {fmtAedFull(nl.original_price_aed)}
+              </div>
+            </div>
+          )}
+          {nl.highlights && (
+            <div className="col-span-2 text-foreground/80 italic">{nl.highlights}</div>
+          )}
+        </div>
+      )}
       <div className="mt-4 pt-3 border-t border-border/60 flex items-baseline justify-between">
         <div>
           <div className="text-[0.6rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">

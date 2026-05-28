@@ -9,21 +9,8 @@
  * border, Fraunces numerals, mono labels, terracotta accents.
  */
 import { Link } from "wouter";
-import { ArrowUpRight, ExternalLink, MapPin, Tag } from "lucide-react";
+import { ArrowUpRight, ExternalLink, MapPin } from "lucide-react";
 import type { LagoonsVilla } from "@/data/lagoons";
-import { RESALE_BY_UNIT, type ResaleListing } from "@/data/lagoonsResale";
-
-function fmtAed(n: number): string {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(2).replace(/\.?0+$/, "")}M AED`;
-  return `${(n / 1000).toFixed(0)}K AED`;
-}
-
-function summariseResale(rs: ResaleListing[]): string {
-  if (rs.length === 1) return fmtAed(rs[0].sellingAed);
-  const min = Math.min(...rs.map((r) => r.sellingAed));
-  const max = Math.max(...rs.map((r) => r.sellingAed));
-  return min === max ? fmtAed(min) : `${fmtAed(min)} – ${fmtAed(max)}`;
-}
 
 interface Props {
   villa: LagoonsVilla;
@@ -48,8 +35,6 @@ function positionBadge(villa: LagoonsVilla): { label: string; cls: string } | nu
 export default function LagoonsVillaCard({ villa }: Props) {
   const badge = positionBadge(villa);
   const detailHref = `/saadiyat-lagoons/${villa.cluster}/${encodeURIComponent(villa.unit_name)}`;
-  const resaleListings = RESALE_BY_UNIT[villa.unit_name] ?? [];
-  const isResale = resaleListings.length > 0;
 
   return (
     <div className="villa-card group bg-card border border-border rounded-md overflow-hidden flex flex-col rise-in hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-22px_rgba(34,30,25,0.4)] transition-all">
@@ -70,11 +55,7 @@ export default function LagoonsVillaCard({ villa }: Props) {
                   {badge.label}
                 </span>
               )}
-              {isResale && (
-                <span className="text-[0.58rem] uppercase tracking-[0.16em] font-mono px-1.5 py-0.5 rounded-sm border leading-none border-emerald-600/60 text-emerald-700 bg-emerald-50">
-                  Available · Resale
-                </span>
-              )}
+
             </div>
             <div className="font-display num-display text-[2rem] leading-none text-foreground mt-1.5 group-hover:text-primary transition-colors">
               {villa.short_name}
@@ -106,44 +87,17 @@ export default function LagoonsVillaCard({ villa }: Props) {
           <div>
             <div className="text-[0.6rem] uppercase tracking-[0.16em]">Status</div>
             <div className="tabular text-foreground text-sm">
-              {isResale ? (
-                <span className="text-emerald-700 font-medium">Resale</span>
-              ) : (
-                villa.status ?? "—"
-              )}
+{villa.status ?? "—"}
             </div>
           </div>
           <div>
-            <div className="text-[0.6rem] uppercase tracking-[0.16em]">{isResale ? "Asking" : "Mirror"}</div>
+            <div className="text-[0.6rem] uppercase tracking-[0.16em]">Mirror</div>
             <div className="tabular text-foreground text-sm">
-              {isResale ? (
-                <span className="text-foreground">{summariseResale(resaleListings)}</span>
-              ) : villa.mirror === "MIRROR" ? (
-                "Yes"
-              ) : (
-                "No"
-              )}
+              {villa.mirror === "MIRROR" ? "Yes" : "No"}
             </div>
           </div>
         </dl>
-        {isResale && (
-          <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-            {resaleListings.slice(0, 3).map((r) => (
-              <span
-                key={r.code}
-                className="inline-flex items-center gap-1 text-[0.62rem] font-mono px-1.5 py-0.5 rounded-sm bg-emerald-50 border border-emerald-200 text-emerald-800"
-              >
-                <Tag className="h-2.5 w-2.5" />
-                {r.code} · {r.paymentPlan}
-              </span>
-            ))}
-            {resaleListings.length > 3 && (
-              <span className="text-[0.62rem] font-mono text-muted-foreground">
-                +{resaleListings.length - 3} more
-              </span>
-            )}
-          </div>
-        )}
+
       </Link>
 
       <div className="px-4 sm:px-5 pb-4 sm:pb-5 mt-auto">

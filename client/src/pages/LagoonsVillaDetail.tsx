@@ -12,7 +12,6 @@ import { ArrowLeft, ExternalLink, MapPin, Tag, Sparkles } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { getLagoonsVilla } from "@/data/lagoons";
-import { RESALE_BY_UNIT } from "@/data/lagoonsResale";
 import { ResaleCard } from "@/components/ResaleCard";
 
 function fmtAed(n: number): string {
@@ -24,7 +23,6 @@ export default function LagoonsVillaDetail() {
   const unit = params.unit ? decodeURIComponent(params.unit) : "";
   const villa = unit ? getLagoonsVilla(unit) : undefined;
   if (!villa) return <Redirect to={`/saadiyat-lagoons/${params.cluster ?? ""}`} />;
-  const resaleListings = RESALE_BY_UNIT[villa.unit_name] ?? [];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -57,11 +55,7 @@ export default function LagoonsVillaDetail() {
                   Single-row
                 </span>
               )}
-              {resaleListings.length > 0 && (
-                <span className="ml-3 text-[0.75rem] align-middle uppercase tracking-[0.18em] font-mono text-emerald-700 border border-emerald-600/60 bg-emerald-50 px-2 py-1 rounded-sm">
-                  Available · Resale
-                </span>
-              )}
+
             </h1>
             <p className="text-sm text-muted-foreground mt-3 max-w-2xl font-mono">
               {villa.unit_name}
@@ -95,56 +89,6 @@ export default function LagoonsVillaDetail() {
         </div>
       </section>
 
-      {resaleListings.length > 0 && (
-        <section className="border-b border-border bg-emerald-50/50">
-          <div className="container py-6 sm:py-8">
-            <div className="flex items-center gap-2 mb-3 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-emerald-700">
-              <Tag className="h-3.5 w-3.5" />
-              Resale availability · {resaleListings.length} listing{resaleListings.length === 1 ? "" : "s"} matched to this villa
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {resaleListings.map((r) => (
-                <div
-                  key={r.code}
-                  className="border border-emerald-200 rounded-md bg-white p-4 sm:p-5"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-emerald-700">
-                        Code {r.code}
-                      </div>
-                      <div className="font-display text-2xl text-foreground mt-1 num-display tabular">
-                        AED {fmtAed(r.sellingAed)}
-                      </div>
-                      {r.originalAed && r.originalAed !== r.sellingAed && (
-                        <div className="text-xs text-muted-foreground mt-0.5">
-                          Original: AED {fmtAed(r.originalAed)}
-                        </div>
-                      )}
-                    </div>
-                    <span className="text-[0.62rem] uppercase tracking-[0.18em] font-mono px-2 py-1 rounded-sm border border-primary/40 text-primary bg-primary/5">
-                      {r.specification} · {r.finish}
-                    </span>
-                  </div>
-                  <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-1.5 font-mono text-[0.7rem]">
-                    <ResRow label="Payment plan" value={r.paymentPlan} />
-                    <ResRow label="Resale policy" value={r.resalePolicy} />
-                    <ResRow label="Row" value={r.rowType} />
-                    <ResRow label="Position" value={r.positionType} />
-                    <ResRow label="POD" value={r.pod ? "Yes" : "No"} />
-                    <ResRow label="Parking" value={`${r.parking} bays`} />
-                    <ResRow label="Completion" value={r.completion} />
-                    {r.note && <ResRow label="Note" value={r.note} />}
-                  </dl>
-                  <div className="mt-3 text-[0.65rem] text-muted-foreground leading-relaxed">
-                    Match scope: this resale code is one of {r.candidateCount} candidate villa{r.candidateCount === 1 ? "" : "s"} in the same block. Confirm exact unit with the broker.
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Live resale listings (from Aldar Resale ALL workbook) */}
       <section className="border-b border-border">
@@ -478,16 +422,6 @@ function Row({ label, value }: { label: string; value: string }) {
   );
 }
 
-function ResRow({ label, value }: { label: string; value: string }) {
-  return (
-    <>
-      <dt className="text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground">
-        {label}
-      </dt>
-      <dd className="text-foreground tabular">{value}</dd>
-    </>
-  );
-}
 
 type ParsedPlan = {
   name: string;

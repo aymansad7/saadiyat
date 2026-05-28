@@ -60,7 +60,11 @@ describe("resale-filter router (publicResale, admin-only)", () => {
     expect(res.total).toBeGreaterThan(100);
     expect(res.aldar_resale).toBeGreaterThan(50);
     expect(res.primary_live).toBeGreaterThan(100);
-    expect(res.total).toBe(res.aldar_resale + res.primary_live);
+    // total now also includes NAS Luxury exclusive listings (>= 9)
+    expect(res.nas_luxury).toBeGreaterThanOrEqual(9);
+    expect(res.total).toBe(
+      res.aldar_resale + res.primary_live + res.nas_luxury,
+    );
     expect(res.by_area.saadiyat).toBeGreaterThan(0);
   });
 
@@ -90,6 +94,32 @@ describe("resale-filter router (publicResale, admin-only)", () => {
     const res = await c.publicResale.list({ source: "primary-live" });
     expect(res.items.length).toBeGreaterThan(0);
     for (const it of res.items) expect(it.source).toBe("primary-live");
+  });
+
+  it("admin: NAS Luxury filter returns the curated Lagoons collection only", async () => {
+    const c = caller("admin");
+    const res = await c.publicResale.list({ source: "nas-luxury" });
+    expect(res.items.length).toBeGreaterThanOrEqual(9);
+    for (const it of res.items) {
+      expect(it.source).toBe("nas-luxury");
+      expect(it.status).toBe("Available with NAS Luxury");
+      expect(it.area).toBe("saadiyat");
+      expect(it.project_name).toBe("Saadiyat Lagoons");
+      expect(it.price_aed).toBeGreaterThan(0);
+      // Rich detail block must be present for the UI card
+      expect((it as any).nas_luxury).toBeTruthy();
+      expect((it as any).nas_luxury.payment_plan).toBeTruthy();
+    }
+  });
+
+  it("admin: NAS Luxury listings never leak the client name in any field", async () => {
+    const c = caller("admin");
+    const res = await c.publicResale.list({ source: "nas-luxury" });
+    for (const it of res.items) {
+      const blob = JSON.stringify(it).toLowerCase();
+      expect(blob).not.toContain("seyit");
+      expect(blob).not.toContain("amiri");
+    }
   });
 
   it("admin: area filter narrows results to a single area", async () => {

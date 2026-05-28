@@ -56,6 +56,39 @@ type RawDataset = { projects: RawProject[] };
 let SAADIYAT: RawDataset | null = null;
 let OTHER: RawDataset | null = null;
 let LAGOONS: { villas: any[] } | null = null;
+let NAS_LUXURY: NasLuxuryDataset | null = null;
+
+type NasLuxuryListingRaw = {
+  option: number;
+  aldar_unit_name: string;
+  short_code: string;
+  cluster_label: string;
+  bedrooms: number;
+  unit_type: string | null;
+  plot_sqm: number | null;
+  built_up_sqft: number | null;
+  built_up_sqm?: number | null;
+  position: string | null;
+  finishing: string | null;
+  specification: string | null;
+  pod: boolean;
+  premium: boolean;
+  original_price_aed: number | null;
+  selling_price_aed: number;
+  payment_plan: string | null;
+  paid_percent: number | null;
+  highlights: string | null;
+  signature_deal: boolean;
+  aldar_url: string | null;
+  lagoons_unit_number: string | null;
+};
+type NasLuxuryDataset = {
+  source: string;
+  agent: { name: string; email: string; phone: string };
+  criteria: { location: string; positioning: string; privacy: string };
+  currency: string;
+  listings: NasLuxuryListingRaw[];
+};
 
 function readJsonFromCandidates(candidates: string[]): string {
   let lastErr: unknown = null;
@@ -95,6 +128,30 @@ function loadOther(): RawDataset {
   ]);
   OTHER = JSON.parse(raw) as RawDataset;
   return OTHER;
+}
+
+function loadNasLuxury(): NasLuxuryDataset {
+  if (NAS_LUXURY) return NAS_LUXURY;
+  try {
+    const raw = readJsonFromCandidates([
+      resolve(__dirname, "..", "data", "nas_luxury_lagoons.json"),
+      resolve(__dirname, "data", "nas_luxury_lagoons.json"),
+      resolve(process.cwd(), "server", "data", "nas_luxury_lagoons.json"),
+      resolve(process.cwd(), "dist", "data", "nas_luxury_lagoons.json"),
+      resolve(process.cwd(), "data", "nas_luxury_lagoons.json"),
+    ]);
+    NAS_LUXURY = JSON.parse(raw) as NasLuxuryDataset;
+  } catch (err) {
+    console.error("[publicResale] nas_luxury_lagoons load failed:", err);
+    NAS_LUXURY = {
+      source: "",
+      agent: { name: "", email: "", phone: "" },
+      criteria: { location: "", positioning: "", privacy: "" },
+      currency: "AED",
+      listings: [],
+    };
+  }
+  return NAS_LUXURY;
 }
 
 function loadLagoons(): { villas: any[] } {
@@ -137,7 +194,7 @@ function statusGroup(s: string | null) {
 // ---------------------------------------------------------------------------
 export type PublicListing = {
   id: string;
-  source: "aldar-resale" | "primary-live";
+  source: "aldar-resale" | "primary-live" | "nas-luxury";
   area: "saadiyat" | "yas-island" | "al-ghadeer" | "other";
   area_label: string;
   project_name: string;
@@ -148,12 +205,32 @@ export type PublicListing = {
   bedrooms: number | null;
   saleable_area_sqft: number | null;
   status: string | null;
-  /** Aldar resale rows = asking price from owner. Primary rows = original price. */
+  /** Aldar resale rows = asking price from owner. Primary rows = original price. NAS Luxury = NAS asking price. */
   price_aed: number | null;
   price_label: "Asking price" | "List price";
   aldar_url: string | null;
   /** Internal href to a unit page (only when authed/passcoded later) */
   internal_href: string | null;
+  /** Extra structured details exposed for the NAS Luxury exclusive listings. */
+  nas_luxury?: {
+    option: number;
+    short_code: string;
+    cluster_label: string;
+    plot_sqm: number | null;
+    built_up_sqft: number | null;
+    built_up_sqm: number | null;
+    position: string | null;
+    finishing: string | null;
+    specification: string | null;
+    pod: boolean;
+    premium: boolean;
+    original_price_aed: number | null;
+    payment_plan: string | null;
+    paid_percent: number | null;
+    highlights: string | null;
+    signature_deal: boolean;
+    agent: { name: string; email: string; phone: string };
+  };
 };
 
 function sqftFromSqm(sqm: number | null | undefined): number | null {
@@ -282,6 +359,61 @@ function getAllListings(): PublicListing[] {
   if (CACHE) return CACHE;
   const out: PublicListing[] = [];
 
+  // 0) NAS Luxury exclusive listings (Seyit Amiri collection).
+  try {
+    const nl = loadNasLuxury();
+    for (const l of nl.listings) {
+      const lbl =
+        l.cluster_label.toLowerCase().includes("al sidr") ? "Saadiyat Lagoons · Al Sidr"
+        : l.cluster_label.toLowerCase().includes("al ghaf") ? "Saadiyat Lagoons · Al Ghaf"
+        : l.cluster_label.toLowerCase().includes("ethir") ? "Saadiyat Lagoons · Ethir"
+        : "Saadiyat Lagoons";
+      const sqft = sqftFromSqm(l.plot_sqm);
+      const href = l.lagoons_unit_number
+        ? `/saadiyat-lagoons/${l.cluster_label.toLowerCase().includes("al sidr") ? "al-sidr" : l.cluster_label.toLowerCase().includes("ethir") ? "ethir" : "al-ghaf"}/${encodeURIComponent(l.lagoons_unit_number)}`
+        : null;
+      out.push({
+        id: `nas-luxury-${l.option}-${l.aldar_unit_name}`,
+        source: "nas-luxury",
+        area: "saadiyat",
+        area_label: lbl,
+        project_name: "Saadiyat Lagoons",
+        project_slug: "saadiyat-lagoons",
+        building_name: l.cluster_label,
+        unit_number: l.aldar_unit_name,
+        unit_type: l.unit_type,
+        bedrooms: l.bedrooms,
+        saleable_area_sqft: l.built_up_sqft ? Math.round(l.built_up_sqft) : sqft,
+        status: "Available with NAS Luxury",
+        price_aed: l.selling_price_aed,
+        price_label: "Asking price",
+        aldar_url: l.aldar_url,
+        internal_href: href,
+        nas_luxury: {
+          option: l.option,
+          short_code: l.short_code,
+          cluster_label: l.cluster_label,
+          plot_sqm: l.plot_sqm,
+          built_up_sqft: l.built_up_sqft,
+          built_up_sqm: l.built_up_sqm ?? null,
+          position: l.position,
+          finishing: l.finishing,
+          specification: l.specification,
+          pod: l.pod,
+          premium: l.premium,
+          original_price_aed: l.original_price_aed,
+          payment_plan: l.payment_plan,
+          paid_percent: l.paid_percent,
+          highlights: l.highlights,
+          signature_deal: l.signature_deal,
+          agent: nl.agent,
+        },
+      });
+    }
+  } catch (err) {
+    console.error("[publicResale] nas_luxury_lagoons inject failed:", err);
+  }
+
   // 1) Aldar Resale — these are owner asking prices (the headline source).
   try {
     const ds = resaleInternal.loadDataset();
@@ -355,15 +487,18 @@ export const publicResaleRouter = router({
     };
     let aldarResale = 0;
     let primaryLive = 0;
+    let nasLuxury = 0;
     for (const it of all) {
       byArea[it.area] = (byArea[it.area] ?? 0) + 1;
       if (it.source === "aldar-resale") aldarResale += 1;
+      else if (it.source === "nas-luxury") nasLuxury += 1;
       else primaryLive += 1;
     }
     return {
       total: all.length,
       aldar_resale: aldarResale,
       primary_live: primaryLive,
+      nas_luxury: nasLuxury,
       by_area: byArea,
     };
   }),
@@ -378,7 +513,7 @@ export const publicResaleRouter = router({
         .object({
           query: z.string().max(128).optional(),
           source: z
-            .enum(["all", "aldar-resale", "primary-live"])
+            .enum(["all", "aldar-resale", "primary-live", "nas-luxury"])
             .optional()
             .default("all"),
           area: z

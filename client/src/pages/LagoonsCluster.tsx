@@ -19,7 +19,6 @@ import {
   getLagoonsVillasByCluster,
   type LagoonsVilla,
 } from "@/data/lagoons";
-import { RESALE_BY_UNIT } from "@/data/lagoonsResale";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,7 +38,6 @@ const CLUSTER_LABELS: Record<string, string> = {
 
 type PositionFilter = "all" | "corner" | "edge" | "interior";
 type BedroomFilter = "all" | "4" | "5" | "6";
-type AvailabilityFilter = "all" | "resale" | "sold";
 
 export default function LagoonsCluster() {
   const params = useParams<{ cluster: string }>();
@@ -53,13 +51,8 @@ export default function LagoonsCluster() {
   const [query, setQuery] = useState("");
   const [bedFilter, setBedFilter] = useState<BedroomFilter>("all");
   const [posFilter, setPosFilter] = useState<PositionFilter>("all");
-  const [availFilter, setAvailFilter] = useState<AvailabilityFilter>("all");
   const [pageSize, setPageSize] = useState<number>(48);
 
-  const resaleCount = useMemo(
-    () => all.filter((v) => RESALE_BY_UNIT[v.unit_name]).length,
-    [all]
-  );
 
   const filtered: LagoonsVilla[] = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -67,11 +60,6 @@ export default function LagoonsCluster() {
       .filter((v) => {
         if (bedFilter !== "all" && String(v.bedrooms) !== bedFilter) return false;
         if (posFilter !== "all" && v.position_type !== posFilter) return false;
-        if (availFilter !== "all") {
-          const isResale = !!RESALE_BY_UNIT[v.unit_name];
-          if (availFilter === "resale" && !isResale) return false;
-          if (availFilter === "sold" && isResale) return false;
-        }
         if (q) {
           return (
             v.short_name.toLowerCase().includes(q) ||
@@ -81,14 +69,10 @@ export default function LagoonsCluster() {
         }
         return true;
       })
-      .sort((a, b) => {
-        // Bring resale candidates to the top, then alphabetical
-        const ar = RESALE_BY_UNIT[a.unit_name] ? 0 : 1;
-        const br = RESALE_BY_UNIT[b.unit_name] ? 0 : 1;
-        if (ar !== br) return ar - br;
-        return a.short_name.localeCompare(b.short_name, undefined, { numeric: true });
-      });
-  }, [all, query, bedFilter, posFilter, availFilter]);
+      .sort((a, b) =>
+        a.short_name.localeCompare(b.short_name, undefined, { numeric: true }),
+      );
+  }, [all, query, bedFilter, posFilter]);
 
   const visible = filtered.slice(0, pageSize);
 
@@ -96,7 +80,6 @@ export default function LagoonsCluster() {
     setQuery("");
     setBedFilter("all");
     setPosFilter("all");
-    setAvailFilter("all");
     setPageSize(48);
   }
 
@@ -141,11 +124,6 @@ export default function LagoonsCluster() {
               label="6 BR"
               value={String(summary?.by_model?.["6BHK"] ?? 0)}
             />
-            <Stat
-              label="Resale"
-              value={String(resaleCount)}
-              accent
-            />
           </div>
         </div>
       </section>
@@ -183,16 +161,6 @@ export default function LagoonsCluster() {
                 { value: "corner", label: "Corner" },
                 { value: "edge", label: "Single-row" },
                 { value: "interior", label: "Interior" },
-              ]}
-            />
-            <FilterSelect
-              label="Availability"
-              value={availFilter}
-              onChange={(v) => setAvailFilter(v as AvailabilityFilter)}
-              options={[
-                { value: "all", label: "All status" },
-                { value: "resale", label: `Available (${resaleCount})` },
-                { value: "sold", label: "Sold only" },
               ]}
             />
             <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
