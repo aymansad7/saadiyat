@@ -2,15 +2,21 @@
  * Coastal Atelier — Lagoons villa card.
  *
  * Compact card listing one Saadiyat Lagoons villa with: bedroom count,
- * plot/saleable area, position-type badge (corner / edge / interior),
- * and two CTAs (Aldar portal + Google Maps).
- *
- * Visual language matches SimplePlotCard / VillaCard: 8px radius, hairline
- * border, Fraunces numerals, mono labels, terracotta accents.
+ * plot/saleable area, position-type badge (corner / single-row / interior),
+ * two CTAs (Aldar portal + Google Maps), and **resale availability badges**
+ * for any of the three sources the villa is listed in:
+ *   - NAS Luxury Resale (emerald — confirmed availability)
+ *   - Aldar Resale (amber — official source, subject to confirmation)
+ *   - Others Resale (neutral — uncertain broker listings)
  */
 import { Link } from "wouter";
 import { ArrowUpRight, ExternalLink, MapPin } from "lucide-react";
 import type { LagoonsVilla } from "@/data/lagoons";
+import {
+  getAvailability,
+  SOURCE_META,
+  type ResaleSource,
+} from "@/data/lagoonsAvailability";
 
 interface Props {
   villa: LagoonsVilla;
@@ -35,9 +41,18 @@ function positionBadge(villa: LagoonsVilla): { label: string; cls: string } | nu
 export default function LagoonsVillaCard({ villa }: Props) {
   const badge = positionBadge(villa);
   const detailHref = `/saadiyat-lagoons/${villa.cluster}/${encodeURIComponent(villa.unit_name)}`;
+  const availability = getAvailability(villa.unit_name);
+
+  const hasNas = availability.sources.includes("nas-luxury");
+  const cardRing = hasNas ? SOURCE_META["nas-luxury"].cardCls : "";
 
   return (
-    <div className="villa-card group bg-card border border-border rounded-md overflow-hidden flex flex-col rise-in hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-22px_rgba(34,30,25,0.4)] transition-all">
+    <div
+      className={[
+        "villa-card group bg-card border border-border rounded-md overflow-hidden flex flex-col rise-in hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-22px_rgba(34,30,25,0.4)] transition-all",
+        cardRing,
+      ].join(" ")}
+    >
       <Link href={detailHref} className="block p-4 sm:p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
@@ -55,7 +70,6 @@ export default function LagoonsVillaCard({ villa }: Props) {
                   {badge.label}
                 </span>
               )}
-
             </div>
             <div className="font-display num-display text-[2rem] leading-none text-foreground mt-1.5 group-hover:text-primary transition-colors">
               {villa.short_name}
@@ -87,7 +101,7 @@ export default function LagoonsVillaCard({ villa }: Props) {
           <div>
             <div className="text-[0.6rem] uppercase tracking-[0.16em]">Status</div>
             <div className="tabular text-foreground text-sm">
-{villa.status ?? "—"}
+              {villa.status ?? "—"}
             </div>
           </div>
           <div>
@@ -98,6 +112,21 @@ export default function LagoonsVillaCard({ villa }: Props) {
           </div>
         </dl>
 
+        {availability.sources.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {availability.sources.map((src: ResaleSource) => (
+              <span
+                key={src}
+                className={[
+                  "text-[0.58rem] uppercase tracking-[0.14em] font-mono px-2 py-0.5 rounded-sm border leading-none",
+                  SOURCE_META[src].cls,
+                ].join(" ")}
+              >
+                {SOURCE_META[src].label}
+              </span>
+            ))}
+          </div>
+        )}
       </Link>
 
       <div className="px-4 sm:px-5 pb-4 sm:pb-5 mt-auto">

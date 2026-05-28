@@ -99,3 +99,15 @@
 - [ ] Strip prior generic green "Available" markers on Lagoons villas not in this list
 - [ ] Vitest coverage for nas-leggieri data + filter
 - [ ] Save checkpoint
+
+
+## Purge old broker codes + NAS Luxury filter + Google Maps fix (May 28, 2026)
+- [ ] Remove all UI usage of LAGOONS_RESALE (27 broker codes) from SaadiyatLagoons landing
+- [ ] Delete client/src/data/lagoonsResale.ts and ResaleCard if any consumers remain
+- [ ] Verify no other page imports lagoonsResale data
+- [ ] Add "Available with NAS Luxury" filter pill on SaadiyatLagoons landing and on cluster pages, scoped to the 9 villas
+- [ ] Show NAS Luxury badge on the 9 NAS Luxury villa cards inside Lagoons
+- [ ] Investigate the Google Maps URL regression on Lagoons villas
+- [ ] Restore correct Google Maps URLs (per-villa lat/lng or precise cluster pin)
+- [ ] Update vitest assertions
+- [ ] Save checkpoint

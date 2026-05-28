@@ -72,16 +72,16 @@ export const LAGOONS_DATASET: LagoonsDataset = {
   "total_villas": 1549,
   "community_centroids": {
     "ethir": {
-      "lat": 24.5352,
-      "lng": 54.437
+      "lat": 24.538,
+      "lng": 54.45
     },
     "al-sidr": {
-      "lat": 24.53,
-      "lng": 54.4355
+      "lat": 24.5365,
+      "lng": 54.451
     },
     "al-ghaf": {
-      "lat": 24.5275,
-      "lng": 54.441
+      "lat": 24.534,
+      "lng": 54.4525
     }
   },
   "summary": {
@@ -440,7 +440,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1482.51,
       "map_y": 1257.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-203-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -530,7 +530,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 407.13,
       "map_y": 744.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-070-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -620,7 +620,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1317.88,
       "map_y": 1094.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-137-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -710,7 +710,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 860.48,
       "map_y": 858.39,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-211-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -800,7 +800,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1054.2,
       "map_y": 720.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-042-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -890,7 +890,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 998.38,
       "map_y": 1277.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-170-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -980,7 +980,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 823.77,
       "map_y": 1119.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-345-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -1070,7 +1070,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 519.09,
       "map_y": 602.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-012-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -1160,7 +1160,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1008.83,
       "map_y": 1133.42,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-145-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -1250,7 +1250,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 962.52,
       "map_y": 1197.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-313-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -1340,7 +1340,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 839.13,
       "map_y": 1183.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-277-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -1430,7 +1430,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 766.88,
       "map_y": 844.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-226-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -1520,7 +1520,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1174.63,
       "map_y": 1180.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-189-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -1610,7 +1610,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 741.16,
       "map_y": 717.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-140-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -1700,7 +1700,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1258.5,
       "map_y": 939.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-062-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -1790,7 +1790,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 800.36,
       "map_y": 963.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-229-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -1880,7 +1880,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1505.34,
       "map_y": 875.01,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-089-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -1970,7 +1970,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 490.06,
       "map_y": 628.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-022-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -2060,7 +2060,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1284.73,
       "map_y": 1145.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-243-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -2150,7 +2150,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1255.0,
       "map_y": 1069.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-107-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -2240,7 +2240,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 375.59,
       "map_y": 747.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-086-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -2330,7 +2330,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 939.92,
       "map_y": 781.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-050-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -2420,7 +2420,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1395.92,
       "map_y": 1090.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-151-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -2510,7 +2510,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1328.52,
       "map_y": 1058.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-168-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -2600,7 +2600,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1246.09,
       "map_y": 935.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-075-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -2690,7 +2690,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1218.23,
       "map_y": 1117.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-145-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -2780,7 +2780,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1129.74,
       "map_y": 848.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-058-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -2870,7 +2870,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 930.02,
       "map_y": 1255.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-134-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -2960,7 +2960,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1168.22,
       "map_y": 1021.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-167-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -3050,7 +3050,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 533.31,
       "map_y": 850.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-251-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 3",
@@ -3140,7 +3140,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1381.09,
       "map_y": 1272.37,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-233-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -3230,7 +3230,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1115.12,
       "map_y": 1223.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-377-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -3320,7 +3320,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1375.25,
       "map_y": 1195.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-234-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -3410,7 +3410,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1368.22,
       "map_y": 915.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-039-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -3500,7 +3500,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1323.22,
       "map_y": 855.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-068-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -3590,7 +3590,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 785.4,
       "map_y": 1074.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-324-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -3680,7 +3680,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1276.03,
       "map_y": 1116.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-126-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -3770,7 +3770,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 720.52,
       "map_y": 1039.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-265-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -3860,7 +3860,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1453.62,
       "map_y": 860.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-017-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -3950,7 +3950,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1097.21,
       "map_y": 745.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-032-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -4040,7 +4040,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 787.86,
       "map_y": 689.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-135-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -4130,7 +4130,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 578.46,
       "map_y": 1101.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-312-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -4220,7 +4220,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1290.45,
       "map_y": 922.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-034-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -4310,7 +4310,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 591.46,
       "map_y": 694.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-143-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -4400,7 +4400,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 966.67,
       "map_y": 945.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-101-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -4490,7 +4490,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 611.49,
       "map_y": 1111.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-314-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -4580,7 +4580,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 879.74,
       "map_y": 549.21,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-124-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -4670,7 +4670,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 877.78,
       "map_y": 645.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-109-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -4760,7 +4760,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 784.71,
       "map_y": 677.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-095-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -4850,7 +4850,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1179.59,
       "map_y": 1149.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-137-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -4940,7 +4940,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 947.77,
       "map_y": 629.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-082-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -5030,7 +5030,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1493.68,
       "map_y": 1072.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-004-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -5120,7 +5120,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1298.1,
       "map_y": 1300.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-228-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -5210,7 +5210,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1520.98,
       "map_y": 1125.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-109-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -5300,7 +5300,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1003.31,
       "map_y": 672.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-171-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -5390,7 +5390,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1173.3,
       "map_y": 527.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-058-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -5480,7 +5480,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 475.3,
       "map_y": 753.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-062-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -5570,7 +5570,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1434.0,
       "map_y": 1028.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-178-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -5660,7 +5660,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1249.92,
       "map_y": 928.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-063-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -5750,7 +5750,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 814.44,
       "map_y": 914.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-195-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -5840,7 +5840,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1093.7,
       "map_y": 783.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-019-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -5930,7 +5930,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1526.9,
       "map_y": 1138.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-110-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -6020,7 +6020,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1105.28,
       "map_y": 1145.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-161-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -6110,7 +6110,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1381.75,
       "map_y": 822.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-080-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 2",
@@ -6200,7 +6200,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 853.98,
       "map_y": 1125.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-341-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -6290,7 +6290,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1352.25,
       "map_y": 1091.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-140-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -6380,7 +6380,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1476.35,
       "map_y": 1198.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-195-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -6470,7 +6470,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 895.56,
       "map_y": 718.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-124-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -6560,7 +6560,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1142.09,
       "map_y": 1105.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-251-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -6650,7 +6650,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 678.64,
       "map_y": 1098.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-300-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -6740,7 +6740,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1393.2,
       "map_y": 1242.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-235-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -6830,7 +6830,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1233.04,
       "map_y": 855.01,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-069-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -6920,7 +6920,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1351.16,
       "map_y": 1309.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-231-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -7010,7 +7010,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 639.77,
       "map_y": 653.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-080-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -7100,7 +7100,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 822.45,
       "map_y": 758.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-162-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -7190,7 +7190,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1422.0,
       "map_y": 1049.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-162-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -7280,7 +7280,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1340.28,
       "map_y": 1038.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-172-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -7370,7 +7370,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 296.74,
       "map_y": 767.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-115-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -7460,7 +7460,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1106.53,
       "map_y": 1233.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-179-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -7550,7 +7550,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 992.34,
       "map_y": 1175.62,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-148-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -7640,7 +7640,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1508.55,
       "map_y": 967.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-096-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -7730,7 +7730,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 614.45,
       "map_y": 903.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-255-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -7820,7 +7820,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1419.0,
       "map_y": 1030.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-177-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -7910,7 +7910,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 828.14,
       "map_y": 1074.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-355-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -8000,7 +8000,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1073.75,
       "map_y": 946.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-023-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -8090,7 +8090,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1309.55,
       "map_y": 974.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-003-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -8180,7 +8180,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1406.19,
       "map_y": 944.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-054-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -8270,7 +8270,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1051.68,
       "map_y": 589.18,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-065-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -8360,7 +8360,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 234.19,
       "map_y": 696.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-141-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -8450,7 +8450,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1161.06,
       "map_y": 1078.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-149-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -8540,7 +8540,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 301.69,
       "map_y": 732.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-106-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -8630,7 +8630,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1055.94,
       "map_y": 1216.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-296-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -8720,7 +8720,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1316.31,
       "map_y": 1084.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-138-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -8810,7 +8810,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 287.09,
       "map_y": 756.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-114-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -8900,7 +8900,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1200.18,
       "map_y": 971.99,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-004-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -8990,7 +8990,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 575.27,
       "map_y": 980.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-287-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -9080,7 +9080,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 896.97,
       "map_y": 992.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-171-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -9170,7 +9170,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1338.56,
       "map_y": 1243.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-218-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -9260,7 +9260,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 858.92,
       "map_y": 859.92,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-197-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -9350,7 +9350,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1402.5,
       "map_y": 1126.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-148-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -9440,7 +9440,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1503.58,
       "map_y": 862.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-088-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -9530,7 +9530,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1252.86,
       "map_y": 982.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-092-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -9620,7 +9620,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1157.5,
       "map_y": 1056.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-159-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -9710,7 +9710,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 649.84,
       "map_y": 952.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-278-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -9800,7 +9800,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 340.56,
       "map_y": 769.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-102-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -9890,7 +9890,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 972.56,
       "map_y": 745.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-053-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -9980,7 +9980,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 568.3,
       "map_y": 684.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-032-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -10070,7 +10070,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1309.8,
       "map_y": 944.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-032-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -10160,7 +10160,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 750.38,
       "map_y": 854.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-201-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -10250,7 +10250,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 982.13,
       "map_y": 1254.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-302-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -10340,7 +10340,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1196.94,
       "map_y": 1092.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-263-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -10430,7 +10430,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1107.27,
       "map_y": 664.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-040-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -10520,7 +10520,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1054.07,
       "map_y": 572.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-066-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -10610,7 +10610,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 557.51,
       "map_y": 639.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-016-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -10700,7 +10700,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 877.41,
       "map_y": 714.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-123-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -10790,7 +10790,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 870.23,
       "map_y": 581.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-107-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -10880,7 +10880,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 357.56,
       "map_y": 701.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-075-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -10970,7 +10970,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1360.75,
       "map_y": 873.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-048-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -11060,7 +11060,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1321.39,
       "map_y": 1044.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-101-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -11150,7 +11150,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1315.5,
       "map_y": 1005.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-189-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -11240,7 +11240,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 855.25,
       "map_y": 691.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-121-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -11330,7 +11330,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1148.92,
       "map_y": 1038.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-111-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -11420,7 +11420,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 345.95,
       "map_y": 721.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-083-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -11510,7 +11510,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 555.41,
       "map_y": 633.18,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-139-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -11600,7 +11600,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 901.55,
       "map_y": 1234.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-132-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -11690,7 +11690,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 262.42,
       "map_y": 681.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-143-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -11780,7 +11780,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 449.52,
       "map_y": 674.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-045-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -11870,7 +11870,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 739.47,
       "map_y": 635.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-114-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -11960,7 +11960,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 784.82,
       "map_y": 1006.89,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-267-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -12050,7 +12050,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 810.64,
       "map_y": 1125.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-344-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -12140,7 +12140,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 835.84,
       "map_y": 1113.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-346-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -12230,7 +12230,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 762.95,
       "map_y": 992.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-184-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -12320,7 +12320,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 869.09,
       "map_y": 883.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-209-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -12410,7 +12410,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1264.1,
       "map_y": 931.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-074-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -12500,7 +12500,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 259.39,
       "map_y": 776.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-132-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -12590,7 +12590,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 804.55,
       "map_y": 811.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-159-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -12680,7 +12680,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 882.55,
       "map_y": 664.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-108-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -12770,7 +12770,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1460.25,
       "map_y": 1197.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-194-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -12860,7 +12860,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1235.09,
       "map_y": 449.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-037-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -12950,7 +12950,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1148.69,
       "map_y": 907.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-029-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -13040,7 +13040,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 942.86,
       "map_y": 556.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-103-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -13130,7 +13130,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1019.21,
       "map_y": 1235.62,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-299-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -13220,7 +13220,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1354.02,
       "map_y": 1286.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-211-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -13310,7 +13310,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1454.15,
       "map_y": 962.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-009-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -13400,7 +13400,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 906.0,
       "map_y": 615.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-116-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -13490,7 +13490,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1085.56,
       "map_y": 551.92,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-054-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -13580,7 +13580,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1275.18,
       "map_y": 1059.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-130-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -13670,7 +13670,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1452.02,
       "map_y": 1264.76,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-205-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -13760,7 +13760,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 599.73,
       "map_y": 812.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-207-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -13850,7 +13850,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 682.75,
       "map_y": 763.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-188-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -13940,7 +13940,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1336.98,
       "map_y": 1224.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-220-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -14030,7 +14030,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1261.01,
       "map_y": 1025.99,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-133-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -14120,7 +14120,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 706.82,
       "map_y": 826.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-238-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -14210,7 +14210,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 689.93,
       "map_y": 656.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-086-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -14300,7 +14300,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 926.32,
       "map_y": 851.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-163-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -14390,7 +14390,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1509.06,
       "map_y": 1006.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-099-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -14480,7 +14480,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1371.72,
       "map_y": 1286.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-210-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -14570,7 +14570,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 697.92,
       "map_y": 875.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-214-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -14660,7 +14660,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1075.48,
       "map_y": 1198.18,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-165-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -14750,7 +14750,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 676.32,
       "map_y": 972.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-276-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -14840,7 +14840,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 373.23,
       "map_y": 611.12,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-004-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -14930,7 +14930,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1003.27,
       "map_y": 1215.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-306-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -15020,7 +15020,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1187.81,
       "map_y": 1005.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-088-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -15110,7 +15110,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1256.93,
       "map_y": 1203.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-204-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -15200,7 +15200,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 743.98,
       "map_y": 896.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-217-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -15290,7 +15290,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 837.04,
       "map_y": 686.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-120-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -15380,7 +15380,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 802.48,
       "map_y": 744.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-144-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -15470,7 +15470,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1436.72,
       "map_y": 1045.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-161-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -15560,7 +15560,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1354.04,
       "map_y": 938.85,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-029-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -15650,7 +15650,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1040.83,
       "map_y": 916.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-036-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -15740,7 +15740,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1549.63,
       "map_y": 973.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-027-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -15830,7 +15830,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1261.37,
       "map_y": 1115.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-267-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -15920,7 +15920,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 888.73,
       "map_y": 574.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-106-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -16010,7 +16010,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 334.93,
       "map_y": 712.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-082-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -16100,7 +16100,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1090.2,
       "map_y": 1089.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-254-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -16190,7 +16190,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1470.25,
       "map_y": 1105.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-155-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -16280,7 +16280,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1244.85,
       "map_y": 1170.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-201-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -16370,7 +16370,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 345.77,
       "map_y": 806.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-120-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -16460,7 +16460,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 723.56,
       "map_y": 1016.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-255-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -16550,7 +16550,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 607.58,
       "map_y": 706.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-144-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -16640,7 +16640,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1123.27,
       "map_y": 829.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-056-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -16730,7 +16730,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1216.77,
       "map_y": 1126.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-247-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -16820,7 +16820,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 476.38,
       "map_y": 593.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-010-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -16910,7 +16910,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1327.89,
       "map_y": 1127.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-134-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -17000,7 +17000,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1222.09,
       "map_y": 598.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-008-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -17090,7 +17090,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 980.27,
       "map_y": 589.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-089-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -17180,7 +17180,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1295.91,
       "map_y": 1244.28,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-210-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -17270,7 +17270,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1220.2,
       "map_y": 1058.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-109-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -17360,7 +17360,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1222.42,
       "map_y": 1105.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-146-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -17450,7 +17450,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1410.62,
       "map_y": 1156.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-117-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -17540,7 +17540,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1016.68,
       "map_y": 791.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-074-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -17630,7 +17630,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1154.0,
       "map_y": 939.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-028-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -17720,7 +17720,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 738.05,
       "map_y": 1090.65,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-268-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -17810,7 +17810,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 830.21,
       "map_y": 596.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-113-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -17900,7 +17900,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1157.05,
       "map_y": 959.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-009-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -17990,7 +17990,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 475.66,
       "map_y": 622.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-023-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -18080,7 +18080,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 837.59,
       "map_y": 891.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-206-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -18170,7 +18170,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1311.94,
       "map_y": 1286.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-213-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -18260,7 +18260,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 718.53,
       "map_y": 945.28,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-249-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -18350,7 +18350,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 660.02,
       "map_y": 614.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-083-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -18440,7 +18440,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 931.7,
       "map_y": 635.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-081-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -18530,7 +18530,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 778.09,
       "map_y": 765.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-173-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -18620,7 +18620,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 954.91,
       "map_y": 866.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-161-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -18710,7 +18710,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1013.84,
       "map_y": 753.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-045-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -18800,7 +18800,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1121.84,
       "map_y": 1290.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-176-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -18890,7 +18890,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 989.82,
       "map_y": 1159.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-147-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -18980,7 +18980,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 855.97,
       "map_y": 1059.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-357-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -19070,7 +19070,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1017.9,
       "map_y": 1141.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-368-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -19160,7 +19160,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1065.66,
       "map_y": 1132.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-158-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -19250,7 +19250,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1118.16,
       "map_y": 910.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-031-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -19340,7 +19340,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 486.77,
       "map_y": 712.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-041-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -19430,7 +19430,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1210.23,
       "map_y": 1068.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-162-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -19520,7 +19520,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1063.27,
       "map_y": 1032.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-115-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -19610,7 +19610,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1297.2,
       "map_y": 818.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-075-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -19700,7 +19700,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1389.98,
       "map_y": 1280.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-209-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -19790,7 +19790,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1473.17,
       "map_y": 1072.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-158-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -19880,7 +19880,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 830.47,
       "map_y": 1140.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-343-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -19970,7 +19970,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1066.68,
       "map_y": 862.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-082-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -20060,7 +20060,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1066.72,
       "map_y": 893.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-043-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -20150,7 +20150,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1019.31,
       "map_y": 645.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-069-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -20240,7 +20240,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 315.41,
       "map_y": 783.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-117-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -20330,7 +20330,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 780.02,
       "map_y": 1024.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-257-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -20420,7 +20420,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 845.19,
       "map_y": 823.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-214-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -20510,7 +20510,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 431.11,
       "map_y": 818.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-094-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -20600,7 +20600,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 809.98,
       "map_y": 559.39,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-127-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -20690,7 +20690,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 708.52,
       "map_y": 1044.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-295-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -20780,7 +20780,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 842.07,
       "map_y": 797.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-169-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -20870,7 +20870,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1293.5,
       "map_y": 942.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-033-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -20960,7 +20960,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1467.24,
       "map_y": 1261.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-204-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -21050,7 +21050,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 776.83,
       "map_y": 834.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-227-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -21140,7 +21140,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1356.16,
       "map_y": 1138.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-272-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -21230,7 +21230,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 664.09,
       "map_y": 1019.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-292-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -21320,7 +21320,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 887.8,
       "map_y": 1148.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-125-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -21410,7 +21410,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1334.1,
       "map_y": 1304.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-230-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -21500,7 +21500,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 214.86,
       "map_y": 746.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-136-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -21590,7 +21590,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 470.12,
       "map_y": 695.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-043-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -21680,7 +21680,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1061.44,
       "map_y": 828.89,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-081-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -21770,7 +21770,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1399.0,
       "map_y": 914.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-041-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -21860,7 +21860,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1116.22,
       "map_y": 1077.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-152-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -21950,7 +21950,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 357.0,
       "map_y": 610.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-003-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -22040,7 +22040,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1048.67,
       "map_y": 1175.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-155-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -22130,7 +22130,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 995.54,
       "map_y": 1122.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-366-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -22220,7 +22220,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1394.09,
       "map_y": 549.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-016-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -22310,7 +22310,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 426.0,
       "map_y": 607.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-007-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -22400,7 +22400,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1276.27,
       "map_y": 504.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-030-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -22490,7 +22490,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 749.59,
       "map_y": 749.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-175-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -22580,7 +22580,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1027.9,
       "map_y": 1151.01,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-369-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -22670,7 +22670,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 632.13,
       "map_y": 946.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-279-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -22760,7 +22760,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 537.91,
       "map_y": 620.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-014-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -22850,7 +22850,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1100.0,
       "map_y": 892.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-045-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -22940,7 +22940,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1346.06,
       "map_y": 892.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-065-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -23030,7 +23030,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 901.77,
       "map_y": 1141.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-333-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -23120,7 +23120,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 944.51,
       "map_y": 1108.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-121-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -23210,7 +23210,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1216.53,
       "map_y": 1209.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-198-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -23300,7 +23300,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 629.09,
       "map_y": 709.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-184-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -23390,7 +23390,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 771.17,
       "map_y": 918.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-219-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -23480,7 +23480,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 843.34,
       "map_y": 907.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-193-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -23570,7 +23570,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 886.93,
       "map_y": 955.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-174-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -23660,7 +23660,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1134.62,
       "map_y": 822.71,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-015-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -23750,7 +23750,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1306.69,
       "map_y": 858.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-053-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -23840,7 +23840,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1434.44,
       "map_y": 1075.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-002-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -23930,7 +23930,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1110.87,
       "map_y": 1132.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-160-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -24020,7 +24020,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 624.55,
       "map_y": 916.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-256-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -24110,7 +24110,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1004.65,
       "map_y": 1063.71,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-117-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -24200,7 +24200,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 353.53,
       "map_y": 817.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-121-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -24290,7 +24290,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 413.32,
       "map_y": 782.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-090-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -24380,7 +24380,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 914.37,
       "map_y": 1128.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-123-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -24470,7 +24470,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1234.92,
       "map_y": 976.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-091-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -24560,7 +24560,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1502.16,
       "map_y": 983.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-097-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -24650,7 +24650,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1047.22,
       "map_y": 965.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-016-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -24740,7 +24740,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1105.45,
       "map_y": 1141.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-126-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -24830,7 +24830,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1001.55,
       "map_y": 527.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-048-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -24920,7 +24920,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 739.8,
       "map_y": 610.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-100-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -25010,7 +25010,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 589.27,
       "map_y": 584.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-136-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -25100,7 +25100,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 977.93,
       "map_y": 1186.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-149-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -25190,7 +25190,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1454.47,
       "map_y": 874.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-016-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -25280,7 +25280,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1254.5,
       "map_y": 916.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-064-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -25370,7 +25370,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1082.87,
       "map_y": 1284.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-174-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -25460,7 +25460,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 412.6,
       "map_y": 702.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-056-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -25550,7 +25550,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1018.86,
       "map_y": 1223.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-151-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -25640,7 +25640,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 751.95,
       "map_y": 1115.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-270-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -25730,7 +25730,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1091.6,
       "map_y": 851.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-012-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -25820,7 +25820,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 620.75,
       "map_y": 1126.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-315-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -25910,7 +25910,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1325.24,
       "map_y": 1193.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-214-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -26000,7 +26000,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1111.97,
       "map_y": 979.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-086-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -26090,7 +26090,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 750.53,
       "map_y": 1016.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-271-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -26180,7 +26180,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1042.63,
       "map_y": 692.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-058-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -26270,7 +26270,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1010.82,
       "map_y": 1239.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-150-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -26360,7 +26360,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1411.77,
       "map_y": 510.42,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-018-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -26450,7 +26450,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 723.07,
       "map_y": 853.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-223-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -26540,7 +26540,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1125.75,
       "map_y": 540.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-056-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -26630,7 +26630,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1281.53,
       "map_y": 861.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-070-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -26720,7 +26720,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1394.0,
       "map_y": 1156.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-118-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -26810,7 +26810,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 882.95,
       "map_y": 605.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-115-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -26900,7 +26900,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 684.59,
       "map_y": 1024.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-293-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -26990,7 +26990,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 738.27,
       "map_y": 629.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-099-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -27080,7 +27080,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1175.9,
       "map_y": 1294.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-222-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -27170,7 +27170,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1365.73,
       "map_y": 856.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-066-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -27260,7 +27260,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1384.84,
       "map_y": 910.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-059-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -27350,7 +27350,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 915.06,
       "map_y": 1244.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-133-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -27440,7 +27440,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 392.6,
       "map_y": 765.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-088-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -27530,7 +27530,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 567.56,
       "map_y": 997.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-288-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -27620,7 +27620,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1367.6,
       "map_y": 933.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-057-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -27710,7 +27710,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 935.09,
       "map_y": 584.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-121-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -27800,7 +27800,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 995.02,
       "map_y": 842.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-088-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -27890,7 +27890,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1349.46,
       "map_y": 1001.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-188-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -27980,7 +27980,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1315.16,
       "map_y": 1305.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-229-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -28070,7 +28070,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1167.89,
       "map_y": 1004.83,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-087-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -28160,7 +28160,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 977.46,
       "map_y": 783.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-048-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -28250,7 +28250,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 877.84,
       "map_y": 1113.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-339-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -28340,7 +28340,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1022.15,
       "map_y": 1121.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-144-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -28430,7 +28430,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1013.39,
       "map_y": 1128.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-367-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -28520,7 +28520,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 772.17,
       "map_y": 1050.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-260-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -28610,7 +28610,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 691.38,
       "map_y": 901.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-236-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -28700,7 +28700,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1065.6,
       "map_y": 1024.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-113-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -28790,7 +28790,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 361.74,
       "map_y": 742.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-085-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -28880,7 +28880,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1249.23,
       "map_y": 554.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-063-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -28970,7 +28970,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1025.72,
       "map_y": 915.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-037-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -29060,7 +29060,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 894.6,
       "map_y": 1057.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-359-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -29150,7 +29150,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 703.75,
       "map_y": 653.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-116-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -29240,7 +29240,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 949.93,
       "map_y": 1264.99,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-135-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -29330,7 +29330,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1182.78,
       "map_y": 1108.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-134-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -29420,7 +29420,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 961.91,
       "map_y": 792.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-089-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -29510,7 +29510,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1430.23,
       "map_y": 889.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-021-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -29600,7 +29600,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 378.52,
       "map_y": 721.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-073-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -29690,7 +29690,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1303.41,
       "map_y": 1149.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-242-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -29780,7 +29780,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1170.08,
       "map_y": 607.92,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-007-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -29870,7 +29870,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 830.48,
       "map_y": 760.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-146-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -29960,7 +29960,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1176.25,
       "map_y": 1073.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-148-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -30050,7 +30050,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1017.86,
       "map_y": 805.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-026-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -30140,7 +30140,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 822.46,
       "map_y": 1180.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-276-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -30230,7 +30230,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1439.52,
       "map_y": 964.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-008-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -30320,7 +30320,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1507.72,
       "map_y": 1040.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-102-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -30410,7 +30410,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 992.11,
       "map_y": 1156.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-322-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -30500,7 +30500,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1179.05,
       "map_y": 478.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-040-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -30590,7 +30590,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 940.72,
       "map_y": 1124.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-336-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -30680,7 +30680,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1130.68,
       "map_y": 625.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-005-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -30770,7 +30770,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 864.06,
       "map_y": 704.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-122-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -30860,7 +30860,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 407.09,
       "map_y": 640.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-049-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -30950,7 +30950,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1153.28,
       "map_y": 1110.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-132-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -31040,7 +31040,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 617.51,
       "map_y": 1067.87,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-303-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -31130,7 +31130,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 708.45,
       "map_y": 965.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-262-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -31220,7 +31220,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1247.83,
       "map_y": 1105.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-266-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -31310,7 +31310,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 934.16,
       "map_y": 1146.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-325-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -31400,7 +31400,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 894.09,
       "map_y": 646.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-079-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -31490,7 +31490,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 669.98,
       "map_y": 858.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-212-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -31580,7 +31580,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1064.61,
       "map_y": 598.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-064-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -31670,7 +31670,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 944.25,
       "map_y": 805.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-090-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -31760,7 +31760,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 673.34,
       "map_y": 866.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-242-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -31850,7 +31850,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 723.93,
       "map_y": 933.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-248-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -31940,7 +31940,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1005.62,
       "map_y": 1239.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-300-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -32030,7 +32030,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1278.83,
       "map_y": 870.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-057-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -32120,7 +32120,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1320.59,
       "map_y": 596.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-012-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -32210,7 +32210,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1004.41,
       "map_y": 766.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-046-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -32300,7 +32300,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 695.12,
       "map_y": 1081.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-299-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -32390,7 +32390,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1074.19,
       "map_y": 709.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-041-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -32480,7 +32480,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 823.17,
       "map_y": 860.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-216-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -32570,7 +32570,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1180.09,
       "map_y": 921.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-081-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -32660,7 +32660,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1305.17,
       "map_y": 437.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-034-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -32750,7 +32750,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1314.53,
       "map_y": 1267.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-220-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -32840,7 +32840,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 874.45,
       "map_y": 794.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-149-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -32930,7 +32930,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1510.48,
       "map_y": 1104.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-107-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -33020,7 +33020,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1038.56,
       "map_y": 1068.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-119-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -33110,7 +33110,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 637.45,
       "map_y": 1000.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-290-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -33200,7 +33200,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1195.24,
       "map_y": 910.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-080-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -33290,7 +33290,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1067.37,
       "map_y": 1245.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-294-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -33380,7 +33380,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 990.75,
       "map_y": 932.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-005-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -33470,7 +33470,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 938.27,
       "map_y": 1210.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-315-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -33560,7 +33560,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1430.42,
       "map_y": 877.39,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-020-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -33650,7 +33650,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1165.41,
       "map_y": 804.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-065-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -33740,7 +33740,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1157.91,
       "map_y": 1291.95,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-221-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -33830,7 +33830,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1037.03,
       "map_y": 728.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-043-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -33920,7 +33920,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1052.93,
       "map_y": 1081.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-256-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -34010,7 +34010,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1182.34,
       "map_y": 861.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-053-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -34100,7 +34100,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1362.99,
       "map_y": 886.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-049-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -34190,7 +34190,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 620.08,
       "map_y": 992.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-289-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -34280,7 +34280,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 889.08,
       "map_y": 930.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-176-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -34370,7 +34370,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 740.19,
       "map_y": 1060.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-297-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -34460,7 +34460,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1166.61,
       "map_y": 1042.71,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-110-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -34550,7 +34550,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 862.84,
       "map_y": 779.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-148-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -34640,7 +34640,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1449.95,
       "map_y": 1229.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-229-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -34730,7 +34730,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1269.61,
       "map_y": 1032.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-098-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -34820,7 +34820,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 824.58,
       "map_y": 688.83,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-107-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -34910,7 +34910,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1302.31,
       "map_y": 1044.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-100-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -35000,7 +35000,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 909.48,
       "map_y": 990.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-332-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -35090,7 +35090,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 765.76,
       "map_y": 1024.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-270-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -35180,7 +35180,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1109.11,
       "map_y": 631.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-004-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -35270,7 +35270,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1050.3,
       "map_y": 867.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-083-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -35360,7 +35360,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 724.64,
       "map_y": 791.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-189-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -35450,7 +35450,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1429.75,
       "map_y": 1154.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-116-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -35540,7 +35540,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 611.76,
       "map_y": 579.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-135-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -35630,7 +35630,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 374.45,
       "map_y": 662.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-052-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -35720,7 +35720,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 560.27,
       "map_y": 967.15,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-286-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -35810,7 +35810,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 729.75,
       "map_y": 1027.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-264-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -35900,7 +35900,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 859.07,
       "map_y": 1100.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-348-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -35990,7 +35990,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 564.78,
       "map_y": 1091.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-311-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -36080,7 +36080,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1457.75,
       "map_y": 1125.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-145-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -36170,7 +36170,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1032.22,
       "map_y": 967.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-017-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -36260,7 +36260,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 674.26,
       "map_y": 816.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-151-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -36350,7 +36350,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 665.27,
       "map_y": 673.92,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-181-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -36440,7 +36440,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 196.36,
       "map_y": 730.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-138-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -36530,7 +36530,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 356.79,
       "map_y": 865.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-122-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -36620,7 +36620,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1534.77,
       "map_y": 1235.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-200-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -36710,7 +36710,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 438.29,
       "map_y": 806.15,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-093-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -36800,7 +36800,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1101.38,
       "map_y": 849.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-061-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -36890,7 +36890,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1048.95,
       "map_y": 795.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-072-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -36980,7 +36980,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 460.38,
       "map_y": 599.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-009-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -37070,7 +37070,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 261.1,
       "map_y": 728.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-111-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -37160,7 +37160,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1001.51,
       "map_y": 1181.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-310-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -37250,7 +37250,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 279.1,
       "map_y": 745.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-113-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -37340,7 +37340,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1435.88,
       "map_y": 921.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-024-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -37430,7 +37430,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 722.69,
       "map_y": 763.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-072-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -37520,7 +37520,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1091.78,
       "map_y": 966.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-013-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -37610,7 +37610,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1163.56,
       "map_y": 993.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-002-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -37700,7 +37700,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1249.3,
       "map_y": 812.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-072-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -37790,7 +37790,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1107.16,
       "map_y": 1093.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-253-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -37880,7 +37880,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 749.66,
       "map_y": 906.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-200-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -37970,7 +37970,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1080.8,
       "map_y": 1198.01,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-374-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -38060,7 +38060,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1452.57,
       "map_y": 975.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-035-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -38150,7 +38150,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1208.22,
       "map_y": 1034.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-165-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -38240,7 +38240,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 322.17,
       "map_y": 610.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-001-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -38330,7 +38330,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1424.62,
       "map_y": 964.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-007-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -38420,7 +38420,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 779.65,
       "map_y": 1091.85,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-323-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -38510,7 +38510,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 567.27,
       "map_y": 670.83,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-031-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -38600,7 +38600,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 780.17,
       "map_y": 799.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-233-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -38690,7 +38690,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1091.83,
       "map_y": 1156.92,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-162-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -38780,7 +38780,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1510.6,
       "map_y": 1079.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-105-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -38870,7 +38870,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 806.48,
       "map_y": 952.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-188-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -38960,7 +38960,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1470.18,
       "map_y": 959.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-010-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -39050,7 +39050,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 980.77,
       "map_y": 1162.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-321-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -39140,7 +39140,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 569.59,
       "map_y": 763.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-245-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Access Road",
@@ -39230,7 +39230,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1255.34,
       "map_y": 1221.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-205-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -39320,7 +39320,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1325.86,
       "map_y": 1156.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-241-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -39410,7 +39410,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 977.51,
       "map_y": 847.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-156-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -39500,7 +39500,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1347.09,
       "map_y": 1007.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-015-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -39590,7 +39590,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1055.22,
       "map_y": 913.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-035-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -39680,7 +39680,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1491.17,
       "map_y": 954.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-032-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -39770,7 +39770,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1103.73,
       "map_y": 1065.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-258-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -39860,7 +39860,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 939.82,
       "map_y": 1167.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-141-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -39950,7 +39950,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 917.95,
       "map_y": 698.21,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-167-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -40040,7 +40040,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1101.22,
       "map_y": 1079.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-153-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -40130,7 +40130,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1060.1,
       "map_y": 1178.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-372-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -40220,7 +40220,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 933.77,
       "map_y": 1188.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-317-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -40310,7 +40310,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1093.01,
       "map_y": 1205.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-375-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -40400,7 +40400,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 972.36,
       "map_y": 956.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-102-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -40490,7 +40490,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1246.23,
       "map_y": 600.15,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-009-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -40580,7 +40580,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 986.47,
       "map_y": 1070.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-118-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -40670,7 +40670,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 607.13,
       "map_y": 850.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-242-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -40760,7 +40760,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 454.91,
       "map_y": 631.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-024-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -40850,7 +40850,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 764.9,
       "map_y": 756.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-174-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -40940,7 +40940,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1070.54,
       "map_y": 1117.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-123-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -41030,7 +41030,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 724.85,
       "map_y": 710.87,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-090-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -41120,7 +41120,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 370.98,
       "map_y": 708.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-074-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -41210,7 +41210,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 498.63,
       "map_y": 777.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-065-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -41300,7 +41300,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 837.19,
       "map_y": 813.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-215-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -41390,7 +41390,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 855.18,
       "map_y": 811.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-168-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -41480,7 +41480,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 992.48,
       "map_y": 1005.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-106-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -41570,7 +41570,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1437.39,
       "map_y": 866.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-019-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -41660,7 +41660,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1495.75,
       "map_y": 1158.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-112-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -41750,7 +41750,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 922.05,
       "map_y": 1196.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-316-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -41840,7 +41840,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 660.9,
       "map_y": 1090.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-301-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -41930,7 +41930,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 986.84,
       "map_y": 860.65,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-157-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -42020,7 +42020,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1489.6,
       "map_y": 969.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-033-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -42110,7 +42110,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 813.77,
       "map_y": 755.42,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-145-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -42200,7 +42200,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 805.77,
       "map_y": 776.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-161-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -42290,7 +42290,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 758.71,
       "map_y": 629.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-113-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -42380,7 +42380,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 304.11,
       "map_y": 821.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-127-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -42470,7 +42470,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1369.78,
       "map_y": 1035.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-174-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -42560,7 +42560,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 967.73,
       "map_y": 882.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-096-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -42650,7 +42650,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 509.29,
       "map_y": 645.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-020-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -42740,7 +42740,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1214.36,
       "map_y": 553.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-065-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -42830,7 +42830,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": null,
       "map_y": null,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-230-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [],
       "aldar_data": {
         "aldar_unit_name": "Lagoons-Ethir-SL2-V-230",
@@ -42894,7 +42894,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1290.49,
       "map_y": 892.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-059-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -42984,7 +42984,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1303.44,
       "map_y": 846.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-054-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -43074,7 +43074,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 323.41,
       "map_y": 706.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-081-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -43164,7 +43164,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 547.72,
       "map_y": 730.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-036-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -43254,7 +43254,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 991.85,
       "map_y": 1222.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-305-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -43344,7 +43344,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1238.77,
       "map_y": 1244.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-207-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -43434,7 +43434,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 953.81,
       "map_y": 1285.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-287-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -43524,7 +43524,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 393.0,
       "map_y": 843.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-097-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -43614,7 +43614,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1401.92,
       "map_y": 1023.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-012-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -43704,7 +43704,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1117.28,
       "map_y": 830.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-014-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -43794,7 +43794,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 884.66,
       "map_y": 1002.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-170-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -43884,7 +43884,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 959.59,
       "map_y": 792.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-049-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -43974,7 +43974,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1029.78,
       "map_y": 951.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-020-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -44064,7 +44064,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 805.66,
       "map_y": 1015.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-268-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -44154,7 +44154,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1155.54,
       "map_y": 1081.87,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-261-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -44244,7 +44244,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1341.3,
       "map_y": 583.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-013-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -44334,7 +44334,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 968.97,
       "map_y": 661.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-072-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -44424,7 +44424,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 736.59,
       "map_y": 816.35,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-236-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -44514,7 +44514,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 527.82,
       "map_y": 666.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-018-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -44604,7 +44604,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 764.0,
       "map_y": 870.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-220-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -44694,7 +44694,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1270.72,
       "map_y": 601.87,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-010-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -44784,7 +44784,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 645.78,
       "map_y": 631.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-081-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -44874,7 +44874,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 720.14,
       "map_y": 1056.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-296-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -44964,7 +44964,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1120.3,
       "map_y": 1209.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-181-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -45054,7 +45054,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1041.41,
       "map_y": 1156.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-370-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -45144,7 +45144,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 634.26,
       "map_y": 571.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-134-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -45234,7 +45234,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 711.4,
       "map_y": 679.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-088-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -45324,7 +45324,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1182.23,
       "map_y": 899.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-050-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -45414,7 +45414,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 850.75,
       "map_y": 948.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-191-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -45504,7 +45504,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1325.25,
       "map_y": 1154.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-122-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -45594,7 +45594,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1030.8,
       "map_y": 1109.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-143-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -45684,7 +45684,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 689.97,
       "map_y": 715.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-179-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -45774,7 +45774,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 831.13,
       "map_y": 597.15,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-109-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -45864,7 +45864,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 699.4,
       "map_y": 820.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-202-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -45954,7 +45954,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1198.8,
       "map_y": 1232.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-196-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -46044,7 +46044,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 754.03,
       "map_y": 908.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-218-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -46134,7 +46134,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1467.0,
       "map_y": 886.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-015-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -46224,7 +46224,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 811.66,
       "map_y": 668.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-118-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -46314,7 +46314,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1164.16,
       "map_y": 564.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-067-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -46404,7 +46404,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 984.43,
       "map_y": 735.76,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-054-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -46494,7 +46494,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 505.2,
       "map_y": 596.01,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-011-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -46584,7 +46584,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1046.11,
       "map_y": 653.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-001-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -46674,7 +46674,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 838.97,
       "map_y": 1047.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-327-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -46764,7 +46764,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1297.77,
       "map_y": 1121.39,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-269-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -46854,7 +46854,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1306.97,
       "map_y": 1082.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-104-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -46944,7 +46944,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1355.91,
       "map_y": 1053.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-103-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -47034,7 +47034,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 821.17,
       "map_y": 890.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-205-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -47124,7 +47124,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 640.11,
       "map_y": 921.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-257-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -47214,7 +47214,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1117.84,
       "map_y": 1223.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-180-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -47304,7 +47304,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 976.53,
       "map_y": 527.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-049-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -47394,7 +47394,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 870.82,
       "map_y": 869.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-210-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -47484,7 +47484,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1130.47,
       "map_y": 1198.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-182-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -47574,7 +47574,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 739.02,
       "map_y": 1105.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-269-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -47664,7 +47664,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 736.82,
       "map_y": 740.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-176-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -47754,7 +47754,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1282.92,
       "map_y": 857.83,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-056-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -47844,7 +47844,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1087.78,
       "map_y": 998.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-110-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -47934,7 +47934,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1462.41,
       "map_y": 1084.28,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-157-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -48024,7 +48024,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1190.73,
       "map_y": 948.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-006-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -48114,7 +48114,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1100.94,
       "map_y": 1248.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-178-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -48204,7 +48204,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1288.42,
       "map_y": 1034.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-099-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -48294,7 +48294,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1070.52,
       "map_y": 915.21,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-034-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -48384,7 +48384,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1045.25,
       "map_y": 823.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-023-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -48474,7 +48474,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1058.91,
       "map_y": 1257.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-293-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -48564,7 +48564,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1012.23,
       "map_y": 1174.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-309-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -48654,7 +48654,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1137.98,
       "map_y": 938.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-027-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -48744,7 +48744,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1250.33,
       "map_y": 890.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-066-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -48834,7 +48834,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1084.37,
       "map_y": 1242.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-295-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -48924,7 +48924,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1260.13,
       "map_y": 1301.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-226-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -49014,7 +49014,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1088.53,
       "map_y": 945.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-024-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -49104,7 +49104,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 974.66,
       "map_y": 931.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-100-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -49194,7 +49194,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1320.58,
       "map_y": 422.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-033-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -49284,7 +49284,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 636.69,
       "map_y": 780.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-205-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -49374,7 +49374,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 760.21,
       "map_y": 636.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-098-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -49464,7 +49464,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1085.71,
       "map_y": 797.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-070-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -49554,7 +49554,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1355.05,
       "map_y": 1125.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-143-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -49644,7 +49644,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1027.66,
       "map_y": 606.37,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-052-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -49734,7 +49734,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 791.88,
       "map_y": 691.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-094-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -49824,7 +49824,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1232.03,
       "map_y": 1180.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-200-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -49914,7 +49914,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1225.92,
       "map_y": 1128.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-144-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -50004,7 +50004,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 768.61,
       "map_y": 1000.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-266-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -50094,7 +50094,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1255.58,
       "map_y": 964.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-060-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -50184,7 +50184,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 816.2,
       "map_y": 667.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-106-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -50274,7 +50274,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1370.2,
       "map_y": 951.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-056-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -50364,7 +50364,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1512.18,
       "map_y": 906.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-091-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -50454,7 +50454,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1276.97,
       "map_y": 992.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-096-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -50544,7 +50544,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1505.98,
       "map_y": 848.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-087-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -50634,7 +50634,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 870.52,
       "map_y": 713.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-165-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -50724,7 +50724,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 945.63,
       "map_y": 599.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-091-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -50814,7 +50814,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 870.27,
       "map_y": 590.42,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-114-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -50904,7 +50904,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1191.0,
       "map_y": 1179.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-140-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -50994,7 +50994,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 844.31,
       "map_y": 1071.19,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-356-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -51084,7 +51084,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 845.67,
       "map_y": 987.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-179-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -51174,7 +51174,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 594.47,
       "map_y": 1106.42,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-313-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -51264,7 +51264,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 341.65,
       "map_y": 683.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-077-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -51354,7 +51354,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1348.95,
       "map_y": 822.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-078-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -51444,7 +51444,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 905.41,
       "map_y": 730.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-125-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -51534,7 +51534,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 798.28,
       "map_y": 710.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-093-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -51624,7 +51624,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1213.32,
       "map_y": 1222.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-197-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -51714,7 +51714,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1265.3,
       "map_y": 813.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-073-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -51804,7 +51804,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 883.86,
       "map_y": 826.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-166-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -51894,7 +51894,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 726.22,
       "map_y": 1079.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-267-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -51984,7 +51984,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1087.61,
       "map_y": 505.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-044-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -52074,7 +52074,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1006.75,
       "map_y": 1151.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-146-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -52164,7 +52164,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 203.64,
       "map_y": 705.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-139-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -52254,7 +52254,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1448.25,
       "map_y": 1011.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-023-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -52344,7 +52344,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 705.72,
       "map_y": 988.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-274-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -52434,7 +52434,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1102.06,
       "map_y": 578.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-070-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -52524,7 +52524,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1214.73,
       "map_y": 1094.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-147-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -52614,7 +52614,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1125.04,
       "map_y": 967.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-085-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -52704,7 +52704,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1108.33,
       "map_y": 496.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-043-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -52794,7 +52794,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 903.65,
       "map_y": 1171.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-328-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -52884,7 +52884,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 649.9,
       "map_y": 875.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-239-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -52974,7 +52974,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1337.11,
       "map_y": 1052.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-102-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -53064,7 +53064,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1301.18,
       "map_y": 477.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-023-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -53154,7 +53154,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1329.22,
       "map_y": 499.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-025-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -53244,7 +53244,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1124.6,
       "map_y": 580.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-069-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -53334,7 +53334,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 775.36,
       "map_y": 1066.92,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-261-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -53424,7 +53424,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1358.63,
       "map_y": 1195.62,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-233-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -53514,7 +53514,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1376.52,
       "map_y": 852.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-045-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -53604,7 +53604,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 619.36,
       "map_y": 776.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-206-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -53694,7 +53694,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 460.13,
       "map_y": 685.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-044-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -53784,7 +53784,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1163.9,
       "map_y": 758.65,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-033-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -53874,7 +53874,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1006.28,
       "map_y": 575.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-050-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -53964,7 +53964,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 435.26,
       "map_y": 666.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-046-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -54054,7 +54054,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1172.79,
       "map_y": 836.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-055-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -54144,7 +54144,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1069.4,
       "map_y": 1188.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-373-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -54234,7 +54234,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 776.49,
       "map_y": 663.35,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-096-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -54324,7 +54324,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 581.4,
       "map_y": 1015.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-307-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -54414,7 +54414,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 708.33,
       "map_y": 723.89,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-178-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -54504,7 +54504,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1137.61,
       "map_y": 1075.89,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-260-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -54594,7 +54594,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 722.36,
       "map_y": 732.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-177-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -54684,7 +54684,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 798.52,
       "map_y": 826.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-158-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -54774,7 +54774,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 974.73,
       "map_y": 968.12,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-103-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -54864,7 +54864,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1089.87,
       "map_y": 1174.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-163-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -54954,7 +54954,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1102.75,
       "map_y": 1285.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-175-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -55044,7 +55044,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 994.95,
       "map_y": 823.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-077-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -55134,7 +55134,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1050.93,
       "map_y": 1162.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-156-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -55224,7 +55224,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1006.03,
       "map_y": 656.28,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-070-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -55314,7 +55314,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1190.92,
       "map_y": 554.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-066-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -55404,7 +55404,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 695.51,
       "map_y": 845.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-153-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -55494,7 +55494,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1098.5,
       "map_y": 1061.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-155-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -55584,7 +55584,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1443.43,
       "map_y": 1154.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-278-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -55674,7 +55674,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 809.06,
       "map_y": 991.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-181-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -55764,7 +55764,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 390.59,
       "map_y": 611.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-005-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -55854,7 +55854,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1033.29,
       "map_y": 798.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-027-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -55944,7 +55944,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1342.08,
       "map_y": 1196.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-232-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -56034,7 +56034,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 898.25,
       "map_y": 943.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-175-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -56124,7 +56124,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 682.06,
       "map_y": 814.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-203-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -56214,7 +56214,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1328.1,
       "map_y": 1004.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-016-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -56304,7 +56304,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1507.78,
       "map_y": 1067.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-104-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -56394,7 +56394,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 840.29,
       "map_y": 774.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-147-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -56484,7 +56484,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1056.84,
       "map_y": 1102.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-122-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -56574,7 +56574,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 282.13,
       "map_y": 718.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-108-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -56664,7 +56664,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 424.01,
       "map_y": 710.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-057-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -56754,7 +56754,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 877.92,
       "map_y": 624.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-095-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -56844,7 +56844,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1017.98,
       "map_y": 717.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-056-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -56934,7 +56934,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 916.42,
       "map_y": 614.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-093-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -57024,7 +57024,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1197.35,
       "map_y": 969.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-089-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -57114,7 +57114,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1497.2,
       "map_y": 892.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-045-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -57204,7 +57204,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1102.12,
       "map_y": 799.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-069-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -57294,7 +57294,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 621.73,
       "map_y": 1050.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-304-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -57384,7 +57384,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 271.86,
       "map_y": 799.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-130-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -57474,7 +57474,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 735.59,
       "map_y": 877.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-222-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -57564,7 +57564,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1300.78,
       "map_y": 1009.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-190-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -57654,7 +57654,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1383.22,
       "map_y": 913.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-040-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -57744,7 +57744,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1021.77,
       "map_y": 518.21,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-047-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -57834,7 +57834,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 739.88,
       "map_y": 853.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-224-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -57924,7 +57924,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 900.97,
       "map_y": 1004.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-331-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -58014,7 +58014,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 464.44,
       "map_y": 790.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-091-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -58104,7 +58104,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1193.93,
       "map_y": 1156.18,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-187-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -58194,7 +58194,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1467.34,
       "map_y": 830.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-085-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 2",
@@ -58284,7 +58284,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 960.97,
       "map_y": 857.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-094-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -58374,7 +58374,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 247.88,
       "map_y": 721.85,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-110-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -58464,7 +58464,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 688.47,
       "map_y": 982.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-275-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -58554,7 +58554,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1176.8,
       "map_y": 877.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-052-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -58644,7 +58644,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 792.8,
       "map_y": 865.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-156-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -58734,7 +58734,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 354.76,
       "map_y": 733.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-084-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -58824,7 +58824,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 971.91,
       "map_y": 982.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-104-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -58914,7 +58914,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 648.86,
       "map_y": 746.92,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-186-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -59004,7 +59004,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 961.93,
       "map_y": 1137.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-323-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -59094,7 +59094,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 894.7,
       "map_y": 1226.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-281-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -59184,7 +59184,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 902.24,
       "map_y": 541.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-123-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -59274,7 +59274,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1464.24,
       "map_y": 919.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-012-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -59364,7 +59364,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 877.75,
       "map_y": 655.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-078-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -59454,7 +59454,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1511.5,
       "map_y": 1054.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-103-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -59544,7 +59544,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1338.64,
       "map_y": 938.87,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-030-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -59634,7 +59634,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 793.58,
       "map_y": 989.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-182-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -59724,7 +59724,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 893.49,
       "map_y": 1110.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-338-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -59814,7 +59814,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1227.77,
       "map_y": 1195.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-199-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -59904,7 +59904,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1181.63,
       "map_y": 807.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-064-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -59994,7 +59994,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1033.23,
       "map_y": 1271.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-291-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -60084,7 +60084,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1432.19,
       "map_y": 1164.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-277-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -60174,7 +60174,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 930.37,
       "map_y": 827.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-153-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -60264,7 +60264,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 656.81,
       "map_y": 840.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-241-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -60354,7 +60354,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1403.05,
       "map_y": 1052.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-163-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -60444,7 +60444,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1142.75,
       "map_y": 1058.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-158-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -60534,7 +60534,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 950.33,
       "map_y": 1144.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-324-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -60624,7 +60624,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 781.59,
       "map_y": 1149.85,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-273-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -60714,7 +60714,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 351.74,
       "map_y": 649.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-050-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -60804,7 +60804,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 298.8,
       "map_y": 810.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-128-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -60894,7 +60894,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1467.63,
       "map_y": 934.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-038-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -60984,7 +60984,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1124.64,
       "map_y": 1099.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-252-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -61074,7 +61074,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 897.73,
       "map_y": 618.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-094-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -61164,7 +61164,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1513.77,
       "map_y": 896.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-044-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -61254,7 +61254,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 949.33,
       "map_y": 764.76,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-051-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -61344,7 +61344,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1025.54,
       "map_y": 701.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-057-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -61434,7 +61434,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1150.13,
       "map_y": 803.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-066-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -61524,7 +61524,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 864.13,
       "map_y": 1198.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-279-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -61614,7 +61614,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 814.68,
       "map_y": 971.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-228-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -61704,7 +61704,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 720.89,
       "map_y": 992.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-253-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -61794,7 +61794,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 266.74,
       "map_y": 739.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-112-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -61884,7 +61884,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 967.23,
       "map_y": 876.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-160-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -61974,7 +61974,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 654.66,
       "map_y": 687.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-182-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -62064,7 +62064,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1287.05,
       "map_y": 1126.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-125-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -62154,7 +62154,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 843.67,
       "map_y": 641.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-097-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -62244,7 +62244,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 981.18,
       "map_y": 676.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-170-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -62334,7 +62334,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 893.14,
       "map_y": 798.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-150-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -62424,7 +62424,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 913.84,
       "map_y": 1135.21,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-334-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -62514,7 +62514,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1130.72,
       "map_y": 493.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-042-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -62604,7 +62604,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 657.01,
       "map_y": 569.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-133-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -62694,7 +62694,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 721.86,
       "map_y": 1004.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-254-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -62784,7 +62784,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 585.77,
       "map_y": 751.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-244-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Access Road",
@@ -62874,7 +62874,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 743.5,
       "map_y": 889.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-154-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -62964,7 +62964,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1541.66,
       "map_y": 986.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-026-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -63054,7 +63054,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 826.76,
       "map_y": 840.65,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-195-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -63144,7 +63144,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1037.87,
       "map_y": 1280.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-172-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -63234,7 +63234,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1130.03,
       "map_y": 1033.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-112-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -63324,7 +63324,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1358.5,
       "map_y": 1156.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-120-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -63414,7 +63414,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1513.56,
       "map_y": 918.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-092-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -63504,7 +63504,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 912.27,
       "map_y": 1161.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-327-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -63594,7 +63594,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 680.53,
       "map_y": 722.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-075-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -63684,7 +63684,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 765.16,
       "map_y": 904.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-201-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -63774,7 +63774,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 682.66,
       "map_y": 868.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-213-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -63864,7 +63864,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 835.25,
       "map_y": 740.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-163-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -63954,7 +63954,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 905.43,
       "map_y": 1103.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-337-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -64044,7 +64044,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1109.25,
       "map_y": 770.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-018-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -64134,7 +64134,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1312.5,
       "map_y": 1058.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-169-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -64224,7 +64224,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1118.92,
       "map_y": 1074.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-259-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -64314,7 +64314,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 806.86,
       "map_y": 781.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-171-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -64404,7 +64404,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 731.52,
       "map_y": 1117.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-320-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -64494,7 +64494,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 856.24,
       "map_y": 552.21,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-125-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -64584,7 +64584,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1513.25,
       "map_y": 1159.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-111-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -64674,7 +64674,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 780.14,
       "map_y": 560.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-128-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -64764,7 +64764,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1472.52,
       "map_y": 1125.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-144-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -64854,7 +64854,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 945.63,
       "map_y": 916.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-004-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -64944,7 +64944,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1117.41,
       "map_y": 1149.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-127-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -65034,7 +65034,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 823.8,
       "map_y": 984.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-180-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -65124,7 +65124,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1168.63,
       "map_y": 800.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-017-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -65214,7 +65214,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 655.35,
       "map_y": 785.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-149-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -65304,7 +65304,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1584.69,
       "map_y": 916.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-040-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Eco Cornich Linear Park",
@@ -65394,7 +65394,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 377.77,
       "map_y": 803.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-098-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -65484,7 +65484,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 880.48,
       "map_y": 1010.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-330-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -65574,7 +65574,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 678.39,
       "map_y": 687.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-077-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -65664,7 +65664,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1156.01,
       "map_y": 743.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-034-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -65754,7 +65754,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1531.41,
       "map_y": 1219.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-199-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -65844,7 +65844,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1041.54,
       "map_y": 785.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-028-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -65934,7 +65934,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 870.15,
       "map_y": 1124.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-340-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -66024,7 +66024,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 719.66,
       "map_y": 968.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-251-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -66114,7 +66114,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1134.19,
       "map_y": 803.19,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-067-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -66204,7 +66204,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 972.0,
       "map_y": 1104.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-364-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -66294,7 +66294,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 954.99,
       "map_y": 1207.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-314-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -66384,7 +66384,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1435.86,
       "map_y": 1234.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-228-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -66474,7 +66474,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 787.04,
       "map_y": 826.37,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-193-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -66564,7 +66564,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 455.28,
       "map_y": 802.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-092-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -66654,7 +66654,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1398.2,
       "map_y": 825.19,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-081-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 2",
@@ -66744,7 +66744,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 650.73,
       "map_y": 1141.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-317-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -66834,7 +66834,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 926.8,
       "map_y": 541.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-122-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -66924,7 +66924,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1264.52,
       "map_y": 1048.99,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-131-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -67014,7 +67014,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1172.56,
       "map_y": 1197.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-190-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -67104,7 +67104,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1339.66,
       "map_y": 516.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-026-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -67194,7 +67194,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1118.14,
       "map_y": 800.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-068-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -67284,7 +67284,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 971.72,
       "map_y": 907.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-098-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -67374,7 +67374,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 757.2,
       "map_y": 564.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-129-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -67464,7 +67464,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 761.9,
       "map_y": 958.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-185-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -67554,7 +67554,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 912.97,
       "map_y": 639.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-080-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -67644,7 +67644,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 851.48,
       "map_y": 1110.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-347-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -67734,7 +67734,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 408.41,
       "map_y": 611.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-006-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -67824,7 +67824,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 269.21,
       "map_y": 710.85,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-109-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -67914,7 +67914,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 304.16,
       "map_y": 689.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-079-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -68004,7 +68004,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 721.04,
       "map_y": 917.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-234-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -68094,7 +68094,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1077.56,
       "map_y": 864.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-011-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -68184,7 +68184,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1217.73,
       "map_y": 972.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-090-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -68274,7 +68274,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 733.7,
       "map_y": 567.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-130-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -68364,7 +68364,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 842.76,
       "map_y": 849.65,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-196-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -68454,7 +68454,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 928.19,
       "map_y": 910.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-003-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -68544,7 +68544,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 353.25,
       "map_y": 689.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-076-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -68634,7 +68634,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1498.25,
       "map_y": 1042.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-006-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -68724,7 +68724,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1178.65,
       "map_y": 1088.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-262-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -68814,7 +68814,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 878.27,
       "map_y": 1154.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-331-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -68904,7 +68904,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 972.13,
       "map_y": 919.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-099-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -68994,7 +68994,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1329.72,
       "map_y": 902.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-064-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -69084,7 +69084,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1404.97,
       "map_y": 865.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-050-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -69174,7 +69174,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1350.22,
       "map_y": 916.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-038-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -69264,7 +69264,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1045.09,
       "map_y": 516.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-046-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -69354,7 +69354,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 543.06,
       "map_y": 865.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-252-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -69444,7 +69444,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 630.06,
       "map_y": 1038.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-305-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -69534,7 +69534,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 845.71,
       "map_y": 1136.12,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-342-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -69624,7 +69624,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 762.32,
       "map_y": 801.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-191-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -69714,7 +69714,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 549.27,
       "map_y": 629.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-015-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -69804,7 +69804,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 778.34,
       "map_y": 898.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-202-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -69894,7 +69894,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 567.02,
       "map_y": 952.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-285-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -69984,7 +69984,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 756.28,
       "map_y": 991.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-265-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -70074,7 +70074,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 788.29,
       "map_y": 931.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-220-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -70164,7 +70164,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 792.0,
       "map_y": 660.71,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-117-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -70254,7 +70254,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 792.58,
       "map_y": 896.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-203-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -70344,7 +70344,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 955.64,
       "map_y": 612.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-119-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -70434,7 +70434,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1326.16,
       "map_y": 1253.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-219-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -70524,7 +70524,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1213.86,
       "map_y": 1096.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-264-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -70614,7 +70614,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 907.41,
       "map_y": 632.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-117-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -70704,7 +70704,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1254.42,
       "map_y": 868.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-071-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -70794,7 +70794,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1342.24,
       "map_y": 979.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-017-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -70884,7 +70884,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1309.84,
       "map_y": 878.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-051-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -70974,7 +70974,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1381.16,
       "map_y": 923.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-058-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -71064,7 +71064,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1062.15,
       "map_y": 966.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-015-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -71154,7 +71154,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1174.23,
       "map_y": 850.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-054-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -71244,7 +71244,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1502.8,
       "map_y": 896.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-090-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -71334,7 +71334,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 957.6,
       "map_y": 681.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-169-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -71424,7 +71424,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 828.13,
       "map_y": 786.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-230-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -71514,7 +71514,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1187.62,
       "map_y": 1168.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-188-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -71604,7 +71604,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1115.28,
       "map_y": 892.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-046-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -71694,7 +71694,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1042.26,
       "map_y": 1001.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-107-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -71784,7 +71784,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 662.92,
       "map_y": 884.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-238-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -71874,7 +71874,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1281.2,
       "map_y": 817.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-074-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -71964,7 +71964,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1211.84,
       "map_y": 902.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-079-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -72054,7 +72054,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1013.7,
       "map_y": 951.39,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-019-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -72144,7 +72144,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 289.3,
       "map_y": 663.12,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-145-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -72234,7 +72234,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 969.54,
       "map_y": 895.62,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-097-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -72324,7 +72324,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1152.79,
       "map_y": 620.21,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-006-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -72414,7 +72414,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1137.09,
       "map_y": 837.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-057-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -72504,7 +72504,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 765.91,
       "map_y": 860.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-200-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -72594,7 +72594,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 431.8,
       "map_y": 654.89,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-047-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -72684,7 +72684,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 311.62,
       "map_y": 742.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-105-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -72774,7 +72774,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1421.76,
       "map_y": 1237.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-227-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -72864,7 +72864,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1412.37,
       "map_y": 1113.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-281-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -72954,7 +72954,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1003.3,
       "map_y": 1283.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-289-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -73044,7 +73044,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1308.57,
       "map_y": 957.62,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-093-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -73134,7 +73134,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 907.44,
       "map_y": 569.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-105-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -73224,7 +73224,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1147.72,
       "map_y": 991.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-001-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -73314,7 +73314,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1378.25,
       "map_y": 1253.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-234-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -73404,7 +73404,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1161.39,
       "map_y": 1189.95,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-138-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -73494,7 +73494,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1220.05,
       "map_y": 463.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-038-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -73584,7 +73584,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 554.8,
       "map_y": 796.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-247-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -73674,7 +73674,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 609.94,
       "map_y": 720.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-185-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Access Road",
@@ -73764,7 +73764,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1064.45,
       "map_y": 690.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-059-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -73854,7 +73854,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1155.13,
       "map_y": 482.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-041-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -73944,7 +73944,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1457.77,
       "map_y": 881.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-047-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -74034,7 +74034,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 753.84,
       "map_y": 657.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-097-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -74124,7 +74124,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1113.52,
       "map_y": 1061.71,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-156-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -74214,7 +74214,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1020.8,
       "map_y": 869.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-085-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -74304,7 +74304,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 674.45,
       "map_y": 835.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-240-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -74394,7 +74394,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1084.63,
       "map_y": 795.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-020-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -74484,7 +74484,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1474.88,
       "map_y": 981.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-034-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -74574,7 +74574,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1056.82,
       "map_y": 778.35,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-029-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -74664,7 +74664,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1052.63,
       "map_y": 1166.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-371-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -74754,7 +74754,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1250.55,
       "map_y": 1136.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-245-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -74844,7 +74844,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 831.97,
       "map_y": 1177.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-127-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -74934,7 +74934,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 711.83,
       "map_y": 698.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-138-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -75024,7 +75024,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1038.03,
       "map_y": 643.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-068-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -75114,7 +75114,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1448.5,
       "map_y": 1027.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-179-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -75204,7 +75204,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1501.81,
       "map_y": 995.19,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-098-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -75294,7 +75294,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1122.12,
       "map_y": 1110.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-130-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -75384,7 +75384,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 724.94,
       "map_y": 956.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-250-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -75474,7 +75474,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1325.75,
       "map_y": 1194.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-231-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -75564,7 +75564,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 951.58,
       "map_y": 671.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-073-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -75654,7 +75654,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1347.52,
       "map_y": 1103.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-141-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -75744,7 +75744,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 594.27,
       "map_y": 656.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-141-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -75834,7 +75834,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1357.92,
       "map_y": 987.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-018-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -75924,7 +75924,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1137.72,
       "map_y": 1108.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-131-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -76014,7 +76014,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 637.97,
       "map_y": 695.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-183-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Access Road",
@@ -76104,7 +76104,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 309.1,
       "map_y": 772.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-116-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -76194,7 +76194,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1417.3,
       "map_y": 824.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-082-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 2",
@@ -76284,7 +76284,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1314.68,
       "map_y": 1129.18,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-270-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -76374,7 +76374,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1452.02,
       "map_y": 1048.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-160-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -76464,7 +76464,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1277.95,
       "map_y": 1092.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-128-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -76554,7 +76554,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 500.13,
       "map_y": 635.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-021-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -76644,7 +76644,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1533.74,
       "map_y": 1001.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-025-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -76734,7 +76734,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 623.14,
       "map_y": 620.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-082-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -76824,7 +76824,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1446.17,
       "map_y": 1157.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-115-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -76914,7 +76914,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 756.82,
       "map_y": 723.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-141-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -77004,7 +77004,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 816.08,
       "map_y": 606.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-110-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -77094,7 +77094,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 726.53,
       "map_y": 891.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-216-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -77184,7 +77184,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1479.31,
       "map_y": 923.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-039-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -77274,7 +77274,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1079.77,
       "map_y": 584.99,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-071-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -77364,7 +77364,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 855.78,
       "map_y": 1040.28,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-328-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -77454,7 +77454,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1230.4,
       "map_y": 812.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-071-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -77544,7 +77544,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 247.11,
       "map_y": 768.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-133-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -77634,7 +77634,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1381.19,
       "map_y": 863.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-044-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -77724,7 +77724,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 976.71,
       "map_y": 1084.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-119-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -77814,7 +77814,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1450.3,
       "map_y": 958.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-036-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -77904,7 +77904,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1140.25,
       "map_y": 1288.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-177-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -77994,7 +77994,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 923.94,
       "map_y": 560.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-104-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -78084,7 +78084,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1016.31,
       "map_y": 1274.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-290-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -78174,7 +78174,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 495.95,
       "map_y": 666.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-028-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -78264,7 +78264,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1098.38,
       "map_y": 649.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-060-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -78354,7 +78354,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 761.66,
       "map_y": 1097.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-322-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -78444,7 +78444,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 946.27,
       "map_y": 1090.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-362-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -78534,7 +78534,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 557.27,
       "map_y": 1059.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-310-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -78624,7 +78624,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 851.82,
       "map_y": 834.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-213-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -78714,7 +78714,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1418.44,
       "map_y": 1029.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-011-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -78804,7 +78804,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1404.12,
       "map_y": 1230.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-236-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -78894,7 +78894,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1425.75,
       "map_y": 1081.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-153-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -78984,7 +78984,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 400.1,
       "map_y": 692.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-055-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -79074,7 +79074,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1347.25,
       "map_y": 1213.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-216-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -79164,7 +79164,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1519.75,
       "map_y": 931.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-093-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -79254,7 +79254,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 558.85,
       "map_y": 924.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-283-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -79344,7 +79344,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1094.06,
       "map_y": 1032.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-113-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -79434,7 +79434,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 891.82,
       "map_y": 1219.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-131-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -79524,7 +79524,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 777.43,
       "map_y": 616.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-102-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -79614,7 +79614,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1479.14,
       "map_y": 1158.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-113-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -79704,7 +79704,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1428.57,
       "map_y": 996.83,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-183-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -79794,7 +79794,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 865.5,
       "map_y": 921.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-338-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -79884,7 +79884,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 482.54,
       "map_y": 783.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-066-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -79974,7 +79974,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1389.08,
       "map_y": 885.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-042-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -80064,7 +80064,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1305.93,
       "map_y": 939.85,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-061-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -80154,7 +80154,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1272.15,
       "map_y": 1036.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-132-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -80244,7 +80244,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1370.94,
       "map_y": 1309.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-232-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -80334,7 +80334,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1107.75,
       "map_y": 944.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-025-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -80424,7 +80424,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 785.94,
       "map_y": 920.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-197-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -80514,7 +80514,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 946.15,
       "map_y": 1182.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-318-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -80604,7 +80604,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 749.96,
       "map_y": 843.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-225-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -80694,7 +80694,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1136.75,
       "map_y": 860.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-059-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -80784,7 +80784,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 795.38,
       "map_y": 1021.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-258-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -80874,7 +80874,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1273.58,
       "map_y": 1072.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-129-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -80964,7 +80964,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1126.22,
       "map_y": 959.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-011-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -81054,7 +81054,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 949.47,
       "map_y": 1207.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-137-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -81144,7 +81144,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 667.75,
       "map_y": 938.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-259-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -81234,7 +81234,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1415.48,
       "map_y": 1000.18,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-021-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -81324,7 +81324,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 210.61,
       "map_y": 735.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-137-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -81414,7 +81414,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1147.93,
       "map_y": 537.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-057-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -81504,7 +81504,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1288.14,
       "map_y": 911.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-072-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -81594,7 +81594,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 968.78,
       "map_y": 1169.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-320-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -81684,7 +81684,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1344.11,
       "map_y": 1161.89,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-240-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -81774,7 +81774,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 803.31,
       "map_y": 696.19,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-134-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -81864,7 +81864,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 825.84,
       "map_y": 1059.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-326-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -81954,7 +81954,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1036.46,
       "map_y": 1185.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-154-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -82044,7 +82044,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1058.09,
       "map_y": 1000.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-108-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -82134,7 +82134,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 713.82,
       "map_y": 1131.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-319-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -82224,7 +82224,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1057.63,
       "map_y": 1284.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-173-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -82314,7 +82314,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 710.79,
       "map_y": 885.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-215-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -82404,7 +82404,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 964.11,
       "map_y": 757.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-052-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -82494,7 +82494,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 657.55,
       "map_y": 804.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-150-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -82584,7 +82584,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1281.18,
       "map_y": 1116.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-268-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -82674,7 +82674,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1139.77,
       "map_y": 717.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-036-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -82764,7 +82764,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1196.61,
       "map_y": 523.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-059-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -82854,7 +82854,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1348.75,
       "map_y": 1244.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-222-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -82944,7 +82944,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 309.63,
       "map_y": 639.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-147-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -83034,7 +83034,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 911.19,
       "map_y": 1232.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-282-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -83124,7 +83124,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 980.17,
       "map_y": 543.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-101-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -83214,7 +83214,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 659.94,
       "map_y": 766.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-148-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -83304,7 +83304,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 771.25,
       "map_y": 946.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-231-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -83394,7 +83394,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 658.54,
       "map_y": 678.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-078-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -83484,7 +83484,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1395.75,
       "map_y": 1109.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-282-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -83574,7 +83574,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1315.55,
       "map_y": 544.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-027-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -83664,7 +83664,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 940.44,
       "map_y": 1263.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-285-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -83754,7 +83754,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1030.21,
       "map_y": 746.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-044-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -83844,7 +83844,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1044.54,
       "map_y": 1238.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-168-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -83934,7 +83934,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1082.92,
       "map_y": 1125.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-124-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -84024,7 +84024,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 683.26,
       "map_y": 667.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-180-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -84114,7 +84114,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1183.28,
       "map_y": 1122.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-135-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -84204,7 +84204,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1360.11,
       "map_y": 457.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-022-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -84294,7 +84294,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1278.81,
       "map_y": 846.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-055-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -84384,7 +84384,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 951.27,
       "map_y": 847.95,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-093-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -84474,7 +84474,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1385.53,
       "map_y": 566.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-015-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -84564,7 +84564,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 439.74,
       "map_y": 729.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-059-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -84654,7 +84654,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 554.62,
       "map_y": 705.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-034-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -84744,7 +84744,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 996.44,
       "map_y": 1249.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-301-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -84834,7 +84834,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 701.31,
       "map_y": 883.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-244-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -84924,7 +84924,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1321.84,
       "map_y": 913.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-063-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -85014,7 +85014,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1320.48,
       "map_y": 918.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-036-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -85104,7 +85104,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 493.41,
       "map_y": 722.76,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-040-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -85194,7 +85194,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 296.61,
       "map_y": 650.42,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-146-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -85284,7 +85284,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1008.75,
       "map_y": 821.42,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-025-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -85374,7 +85374,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1156.32,
       "map_y": 1205.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-191-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -85464,7 +85464,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1223.36,
       "map_y": 522.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-061-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -85554,7 +85554,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1314.3,
       "map_y": 816.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-076-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -85644,7 +85644,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1000.61,
       "map_y": 790.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-075-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -85734,7 +85734,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1302.0,
       "map_y": 1235.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-217-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -85824,7 +85824,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1324.06,
       "map_y": 940.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-031-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -85914,7 +85914,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1289.52,
       "map_y": 1215.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-219-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -86004,7 +86004,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1406.66,
       "map_y": 1278.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-208-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -86094,7 +86094,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1516.72,
       "map_y": 1031.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-007-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -86184,7 +86184,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1372.04,
       "map_y": 938.01,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-028-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -86274,7 +86274,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1141.82,
       "map_y": 959.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-084-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -86364,7 +86364,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1284.95,
       "map_y": 1008.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-191-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -86454,7 +86454,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 591.82,
       "map_y": 838.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-243-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -86544,7 +86544,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 818.44,
       "map_y": 1085.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-354-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -86634,7 +86634,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1079.3,
       "map_y": 1034.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-114-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -86724,7 +86724,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1289.59,
       "map_y": 980.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-095-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -86814,7 +86814,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1424.2,
       "map_y": 922.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-052-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -86904,7 +86904,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 923.55,
       "map_y": 736.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-126-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -86994,7 +86994,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 804.38,
       "map_y": 939.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-221-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -87084,7 +87084,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1509.55,
       "map_y": 1199.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-197-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -87174,7 +87174,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 537.44,
       "map_y": 881.19,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-253-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -87264,7 +87264,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1429.87,
       "map_y": 1010.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-022-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -87354,7 +87354,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 919.26,
       "map_y": 896.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-002-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -87444,7 +87444,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 902.29,
       "map_y": 811.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-151-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -87534,7 +87534,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 872.36,
       "map_y": 1025.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-329-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -87624,7 +87624,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 962.81,
       "map_y": 622.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-083-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -87714,7 +87714,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 899.6,
       "map_y": 893.76,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-001-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -87804,7 +87804,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 432.76,
       "map_y": 720.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-058-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -87894,7 +87894,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 940.36,
       "map_y": 859.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-162-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -87984,7 +87984,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1394.33,
       "map_y": 999.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-185-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -88074,7 +88074,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 741.77,
       "map_y": 797.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-190-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -88164,7 +88164,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1234.2,
       "map_y": 1130.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-246-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -88254,7 +88254,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 795.21,
       "map_y": 643.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-104-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -88344,7 +88344,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 986.62,
       "map_y": 1184.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-311-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -88434,7 +88434,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1453.04,
       "map_y": 1041.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-009-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -88524,7 +88524,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 814.38,
       "map_y": 1168.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-275-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -88614,7 +88614,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 680.02,
       "map_y": 566.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-132-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -88704,7 +88704,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1285.15,
       "map_y": 1262.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-209-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -88794,7 +88794,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1007.98,
       "map_y": 901.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-039-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -88884,7 +88884,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1391.63,
       "map_y": 1149.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-274-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -88974,7 +88974,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1241.33,
       "map_y": 1230.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-206-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -89064,7 +89064,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1306.03,
       "map_y": 921.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-035-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -89154,7 +89154,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1125.94,
       "map_y": 706.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-037-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -89244,7 +89244,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 328.45,
       "map_y": 789.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-118-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -89334,7 +89334,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 540.8,
       "map_y": 807.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-248-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -89424,7 +89424,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1493.0,
       "map_y": 1198.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-196-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -89514,7 +89514,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1278.58,
       "map_y": 436.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-035-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -89604,7 +89604,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1210.45,
       "map_y": 508.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-060-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -89694,7 +89694,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1065.54,
       "map_y": 795.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-071-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -89784,7 +89784,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1104.25,
       "map_y": 838.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-062-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -89874,7 +89874,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 792.81,
       "map_y": 773.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-172-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -89964,7 +89964,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1015.3,
       "map_y": 1209.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-307-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -90054,7 +90054,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1436.46,
       "map_y": 1268.89,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-206-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -90144,7 +90144,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 868.1,
       "map_y": 1157.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-126-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -90234,7 +90234,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1422.98,
       "map_y": 871.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-049-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -90324,7 +90324,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1128.87,
       "map_y": 1156.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-128-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -90414,7 +90414,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1153.22,
       "map_y": 1024.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-168-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -90504,7 +90504,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 856.86,
       "map_y": 845.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-212-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -90594,7 +90594,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 983.38,
       "map_y": 993.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-105-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -90684,7 +90684,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1213.92,
       "map_y": 1056.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-163-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -90774,7 +90774,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 987.19,
       "map_y": 1289.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-288-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -90864,7 +90864,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1365.02,
       "map_y": 1003.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-187-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -90954,7 +90954,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 946.15,
       "map_y": 976.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-334-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -91044,7 +91044,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1354.5,
       "map_y": 1035.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-173-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -91134,7 +91134,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1465.98,
       "map_y": 1025.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-180-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -91224,7 +91224,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1355.75,
       "map_y": 1112.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-142-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -91314,7 +91314,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 865.62,
       "map_y": 1161.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-330-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -91404,7 +91404,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 783.22,
       "map_y": 1031.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-269-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -91494,7 +91494,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 771.59,
       "map_y": 923.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-198-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -91584,7 +91584,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 945.56,
       "map_y": 1273.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-286-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -91674,7 +91674,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1398.05,
       "map_y": 900.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-060-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -91764,7 +91764,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1423.52,
       "map_y": 856.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-018-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 2",
@@ -91854,7 +91854,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 929.32,
       "map_y": 985.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-333-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -91944,7 +91944,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 764.44,
       "map_y": 1023.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-256-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -92034,7 +92034,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 357.63,
       "map_y": 787.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-100-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -92124,7 +92124,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 267.41,
       "map_y": 788.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-131-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -92214,7 +92214,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1168.71,
       "map_y": 937.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-082-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -92304,7 +92304,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 678.11,
       "map_y": 891.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-237-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -92394,7 +92394,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 800.42,
       "map_y": 918.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-196-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -92484,7 +92484,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1315.13,
       "map_y": 1204.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-213-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -92574,7 +92574,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 820.66,
       "map_y": 681.65,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-119-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -92664,7 +92664,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1076.34,
       "map_y": 1183.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-164-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -92754,7 +92754,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 815.86,
       "map_y": 705.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-133-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -92844,7 +92844,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1518.72,
       "map_y": 1114.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-108-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -92934,7 +92934,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 737.53,
       "map_y": 924.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-233-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -93024,7 +93024,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 702.08,
       "map_y": 750.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-073-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -93114,7 +93114,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 779.13,
       "map_y": 990.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-183-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -93204,7 +93204,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1109.09,
       "map_y": 1028.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-112-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -93294,7 +93294,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 726.56,
       "map_y": 1052.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-266-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -93384,7 +93384,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1553.25,
       "map_y": 945.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-029-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -93474,7 +93474,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 951.02,
       "map_y": 834.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-092-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -93564,7 +93564,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 885.22,
       "map_y": 916.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-177-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -93654,7 +93654,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 369.13,
       "map_y": 793.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-099-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -93744,7 +93744,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 719.9,
       "map_y": 693.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-089-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -93834,7 +93834,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 922.91,
       "map_y": 1173.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-140-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -93924,7 +93924,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 854.22,
       "map_y": 1202.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-129-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -94014,7 +94014,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 556.42,
       "map_y": 694.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-033-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -94104,7 +94104,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 428.75,
       "map_y": 758.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-068-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -94194,7 +94194,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1128.0,
       "map_y": 1059.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-157-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -94284,7 +94284,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1032.85,
       "map_y": 792.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-073-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -94374,7 +94374,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1398.69,
       "map_y": 491.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-019-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -94464,7 +94464,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1515.87,
       "map_y": 1248.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-201-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -94554,7 +94554,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1106.85,
       "map_y": 550.85,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-055-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -94644,7 +94644,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1278.55,
       "map_y": 1305.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-227-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -94734,7 +94734,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1228.38,
       "map_y": 841.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-070-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -94824,7 +94824,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 764.34,
       "map_y": 602.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-101-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -94914,7 +94914,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 779.13,
       "map_y": 869.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-199-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -95004,7 +95004,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 703.04,
       "map_y": 896.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-245-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -95094,7 +95094,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1374.69,
       "map_y": 993.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-019-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -95184,7 +95184,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1178.28,
       "map_y": 991.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-003-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -95274,7 +95274,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 542.53,
       "map_y": 595.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-138-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -95364,7 +95364,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1228.01,
       "map_y": 947.71,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-076-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -95454,7 +95454,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1565.5,
       "map_y": 911.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-041-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -95544,7 +95544,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1005.3,
       "map_y": 851.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-087-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -95634,7 +95634,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1316.95,
       "map_y": 890.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-050-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -95724,7 +95724,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1041.81,
       "map_y": 1260.19,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-292-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -95814,7 +95814,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 711.65,
       "map_y": 1074.42,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-298-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -95904,7 +95904,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1173.25,
       "map_y": 1055.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-160-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -95994,7 +95994,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 740.87,
       "map_y": 983.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-264-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -96084,7 +96084,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 858.53,
       "map_y": 730.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-130-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -96174,7 +96174,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1468.81,
       "map_y": 1045.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-159-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -96264,7 +96264,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 912.37,
       "map_y": 684.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-077-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -96354,7 +96354,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1028.88,
       "map_y": 833.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-024-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -96444,7 +96444,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1410.02,
       "map_y": 966.76,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-006-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -96534,7 +96534,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 930.25,
       "map_y": 690.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-076-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -96624,7 +96624,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1387.06,
       "map_y": 937.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-027-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -96714,7 +96714,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1388.01,
       "map_y": 1079.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-152-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -96804,7 +96804,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1443.89,
       "map_y": 997.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-182-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -96894,7 +96894,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1549.25,
       "map_y": 902.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-042-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -96984,7 +96984,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1377.17,
       "map_y": 484.83,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-020-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -97074,7 +97074,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1470.45,
       "map_y": 1093.83,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-156-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -97164,7 +97164,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1450.55,
       "map_y": 1082.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-003-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -97254,7 +97254,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1442.99,
       "map_y": 1124.47,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-146-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -97344,7 +97344,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1268.27,
       "map_y": 1139.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-244-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -97434,7 +97434,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1308.25,
       "map_y": 1155.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-123-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -97524,7 +97524,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1392.56,
       "map_y": 957.19,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-055-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -97614,7 +97614,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 763.62,
       "map_y": 1038.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-259-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -97704,7 +97704,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 705.82,
       "map_y": 908.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-235-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -97794,7 +97794,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 849.59,
       "map_y": 591.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-108-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -97884,7 +97884,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 960.58,
       "map_y": 705.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-074-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -97974,7 +97974,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1429.88,
       "map_y": 909.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-051-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -98064,7 +98064,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 615.66,
       "map_y": 822.87,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-208-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -98154,7 +98154,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 692.63,
       "map_y": 1039.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-294-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -98244,7 +98244,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 404.93,
       "map_y": 833.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-096-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -98334,7 +98334,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 894.36,
       "map_y": 936.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-336-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -98424,7 +98424,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 380.24,
       "map_y": 759.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-087-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -98514,7 +98514,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 795.4,
       "map_y": 877.18,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-198-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -98604,7 +98604,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 274.94,
       "map_y": 670.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-144-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -98694,7 +98694,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1133.28,
       "map_y": 910.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-030-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -98784,7 +98784,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1392.48,
       "map_y": 996.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-020-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -98874,7 +98874,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1291.82,
       "map_y": 965.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-094-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -98964,7 +98964,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 709.73,
       "map_y": 664.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-087-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -99054,7 +99054,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 661.85,
       "map_y": 660.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-079-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -99144,7 +99144,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 218.92,
       "map_y": 700.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-140-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -99234,7 +99234,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1285.5,
       "map_y": 1103.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-127-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -99324,7 +99324,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 519.94,
       "map_y": 653.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-019-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -99414,7 +99414,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1253.75,
       "map_y": 1025.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-097-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -99504,7 +99504,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1018.0,
       "map_y": 1277.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-171-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -99594,7 +99594,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1140.32,
       "map_y": 566.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-068-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -99684,7 +99684,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1432.95,
       "map_y": 829.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-083-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 2",
@@ -99774,7 +99774,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 870.27,
       "map_y": 1093.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-349-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -99864,7 +99864,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1365.2,
       "map_y": 823.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-079-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -99954,7 +99954,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1449.2,
       "map_y": 830.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-084-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 2",
@@ -100044,7 +100044,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 477.11,
       "map_y": 647.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-026-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -100134,7 +100134,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 861.56,
       "map_y": 619.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-111-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -100224,7 +100224,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 995.48,
       "map_y": 610.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-085-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -100314,7 +100314,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1378.7,
       "map_y": 1248.71,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-224-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -100404,7 +100404,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1043.11,
       "map_y": 1093.39,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-121-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -100494,7 +100494,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 712.09,
       "map_y": 921.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-247-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -100584,7 +100584,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1086.54,
       "map_y": 635.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-003-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -100674,7 +100674,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1096.7,
       "map_y": 828.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-063-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -100764,7 +100764,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1475.59,
       "map_y": 885.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-046-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -100854,7 +100854,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 333.41,
       "map_y": 800.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-119-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -100944,7 +100944,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1293.22,
       "map_y": 973.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-002-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -101034,7 +101034,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 678.65,
       "map_y": 704.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-076-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -101124,7 +101124,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 413.81,
       "map_y": 823.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-095-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -101214,7 +101214,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 869.53,
       "map_y": 818.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-167-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -101304,7 +101304,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 981.38,
       "map_y": 1114.85,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-365-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -101394,7 +101394,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1198.18,
       "map_y": 958.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-005-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -101484,7 +101484,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 863.75,
       "map_y": 633.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-096-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -101574,7 +101574,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 814.52,
       "map_y": 653.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-105-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -101664,7 +101664,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1018.88,
       "map_y": 1053.95,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-116-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -101754,7 +101754,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1288.55,
       "map_y": 1078.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-105-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -101844,7 +101844,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1512.88,
       "map_y": 954.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-095-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -101934,7 +101934,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 959.73,
       "map_y": 546.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-102-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -102024,7 +102024,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1151.63,
       "map_y": 945.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-083-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -102114,7 +102114,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1379.78,
       "map_y": 1002.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-186-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -102204,7 +102204,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1303.95,
       "map_y": 1247.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-216-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -102294,7 +102294,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 321.41,
       "map_y": 838.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-125-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -102384,7 +102384,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1465.16,
       "map_y": 947.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-037-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -102474,7 +102474,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 830.69,
       "map_y": 712.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-132-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -102564,7 +102564,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1362.84,
       "map_y": 1014.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-014-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -102654,7 +102654,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1322.06,
       "map_y": 1115.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-135-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -102744,7 +102744,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1234.78,
       "map_y": 1021.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-283-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -102834,7 +102834,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 911.14,
       "map_y": 844.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-164-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -102924,7 +102924,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1004.35,
       "map_y": 867.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-086-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -103014,7 +103014,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 647.84,
       "map_y": 1012.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-291-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -103104,7 +103104,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 955.69,
       "map_y": 1101.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-363-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -103194,7 +103194,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1085.1,
       "map_y": 913.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-033-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -103284,7 +103284,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 652.58,
       "map_y": 932.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-258-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -103374,7 +103374,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1081.97,
       "map_y": 893.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-044-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -103464,7 +103464,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 675.55,
       "map_y": 835.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-152-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -103554,7 +103554,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 885.63,
       "map_y": 1173.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-329-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -103644,7 +103644,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1380.5,
       "map_y": 968.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-004-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -103734,7 +103734,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1506.98,
       "map_y": 1092.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-106-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -103824,7 +103824,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1040.62,
       "map_y": 1220.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-297-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -103914,7 +103914,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1204.55,
       "map_y": 1046.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-164-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -104004,7 +104004,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1068.54,
       "map_y": 612.85,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-063-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -104094,7 +104094,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1394.72,
       "map_y": 964.72,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-005-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -104184,7 +104184,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1501.16,
       "map_y": 1057.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-005-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -104274,7 +104274,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 987.63,
       "map_y": 658.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-071-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -104364,7 +104364,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1413.63,
       "map_y": 535.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-017-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -104454,7 +104454,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 793.88,
       "map_y": 836.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-228-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -104544,7 +104544,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1324.82,
       "map_y": 1104.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-136-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -104634,7 +104634,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1381.34,
       "map_y": 464.28,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-021-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -104724,7 +104724,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 422.08,
       "map_y": 647.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-048-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -104814,7 +104814,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1129.75,
       "map_y": 889.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-047-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -104904,7 +104904,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 642.82,
       "map_y": 840.21,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-210-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -104994,7 +104994,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1284.55,
       "map_y": 1140.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-124-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -105084,7 +105084,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 749.28,
       "map_y": 735.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-091-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -105174,7 +105174,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 853.37,
       "map_y": 727.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-164-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -105264,7 +105264,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1358.68,
       "map_y": 861.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-047-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -105354,7 +105354,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 880.34,
       "map_y": 892.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-208-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -105444,7 +105444,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 596.61,
       "map_y": 893.21,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-254-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -105534,7 +105534,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 912.34,
       "map_y": 943.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-335-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -105624,7 +105624,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1298.27,
       "map_y": 510.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-029-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -105714,7 +105714,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1010.45,
       "map_y": 919.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-038-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -105804,7 +105804,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 958.95,
       "map_y": 843.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-155-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -105894,7 +105894,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 936.53,
       "map_y": 822.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-091-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -105984,7 +105984,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1012.32,
       "map_y": 603.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-086-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -106074,7 +106074,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1295.77,
       "map_y": 600.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-011-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -106164,7 +106164,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 881.78,
       "map_y": 1086.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-350-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -106254,7 +106254,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 921.97,
       "map_y": 1242.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-283-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -106344,7 +106344,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1226.25,
       "map_y": 1141.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-143-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -106434,7 +106434,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 907.09,
       "map_y": 1069.35,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-360-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -106524,7 +106524,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 841.84,
       "map_y": 609.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-112-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -106614,7 +106614,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 956.95,
       "map_y": 1175.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-319-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -106704,7 +106704,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1320.29,
       "map_y": 486.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-024-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -106794,7 +106794,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 966.76,
       "map_y": 1237.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-303-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -106884,7 +106884,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 982.57,
       "map_y": 788.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-076-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -106974,7 +106974,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 997.02,
       "map_y": 535.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-100-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -107064,7 +107064,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 725.09,
       "map_y": 972.18,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-263-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -107154,7 +107154,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 308.07,
       "map_y": 832.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-126-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -107244,7 +107244,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 754.93,
       "map_y": 932.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-232-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -107334,7 +107334,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1061.85,
       "map_y": 815.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-022-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -107424,7 +107424,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 807.75,
       "map_y": 895.35,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-204-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -107514,7 +107514,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 985.43,
       "map_y": 883.21,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-159-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -107604,7 +107604,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": null,
       "map_y": null,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-231-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [],
       "aldar_data": {
         "aldar_unit_name": "Lagoons-Ethir-SL2-V-231",
@@ -107668,7 +107668,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 803.9,
       "map_y": 826.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-229-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -107758,7 +107758,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1309.45,
       "map_y": 1038.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-170-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -107848,7 +107848,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1145.63,
       "map_y": 1172.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-184-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -107938,7 +107938,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1146.14,
       "map_y": 804.92,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-016-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -108028,7 +108028,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1420.54,
       "map_y": 1271.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-207-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -108118,7 +108118,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 398.91,
       "map_y": 775.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-089-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -108208,7 +108208,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1309.25,
       "map_y": 1197.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-230-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -108298,7 +108298,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 546.13,
       "map_y": 742.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-037-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -108388,7 +108388,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 721.13,
       "map_y": 820.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-237-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -108478,7 +108478,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1239.03,
       "map_y": 881.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-077-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -108568,7 +108568,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 851.75,
       "map_y": 936.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-192-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -108658,7 +108658,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1062.66,
       "map_y": 1148.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-157-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -108748,7 +108748,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1341.87,
       "map_y": 1156.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-121-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -108838,7 +108838,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 893.46,
       "map_y": 704.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-166-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -108928,7 +108928,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1070.02,
       "map_y": 649.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-002-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -109018,7 +109018,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1276.38,
       "map_y": 1179.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-202-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -109108,7 +109108,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 680.58,
       "map_y": 949.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-260-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -109198,7 +109198,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 897.9,
       "map_y": 834.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-165-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -109288,7 +109288,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 464.24,
       "map_y": 642.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-025-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -109378,7 +109378,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1049.38,
       "map_y": 888.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-009-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -109468,7 +109468,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 544.94,
       "map_y": 911.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-282-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -109558,7 +109558,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1438.35,
       "map_y": 910.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-023-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -109648,7 +109648,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 847.46,
       "map_y": 1195.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-278-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -109738,7 +109738,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 988.82,
       "map_y": 772.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-047-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -109828,7 +109828,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 779.9,
       "map_y": 1081.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-262-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -109918,7 +109918,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 940.7,
       "map_y": 694.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-168-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -110008,7 +110008,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1427.5,
       "map_y": 1195.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-192-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -110098,7 +110098,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1319.69,
       "map_y": 927.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-062-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -110188,7 +110188,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1040.04,
       "map_y": 563.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-067-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -110278,7 +110278,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1004.14,
       "map_y": 917.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-006-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -110368,7 +110368,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1246.2,
       "map_y": 903.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-065-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -110458,7 +110458,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1249.55,
       "map_y": 951.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-061-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -110548,7 +110548,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 756.46,
       "map_y": 674.37,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-137-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -110638,7 +110638,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 791.59,
       "map_y": 953.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-187-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -110728,7 +110728,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1524.84,
       "map_y": 1208.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-198-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -110818,7 +110818,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 326.36,
       "map_y": 849.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-124-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -110908,7 +110908,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 318.45,
       "map_y": 695.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-080-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -110998,7 +110998,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1378.32,
       "map_y": 1174.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-238-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -111088,7 +111088,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 389.44,
       "map_y": 726.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-072-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -111178,7 +111178,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1240.86,
       "map_y": 1295.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-225-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -111268,7 +111268,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1393.7,
       "map_y": 1244.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-225-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -111358,7 +111358,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1530.42,
       "map_y": 902.12,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-043-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -111448,7 +111448,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1408.32,
       "map_y": 930.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-053-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -111538,7 +111538,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 978.51,
       "map_y": 1194.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-312-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -111628,7 +111628,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1103.01,
       "map_y": 1214.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-376-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -111718,7 +111718,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 921.64,
       "map_y": 814.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-152-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -111808,7 +111808,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 634.64,
       "map_y": 868.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-240-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -111898,7 +111898,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1510.28,
       "map_y": 1028.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-101-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -111988,7 +111988,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1315.25,
       "map_y": 867.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-052-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -112078,7 +112078,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 640.4,
       "map_y": 1127.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-316-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -112168,7 +112168,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 806.41,
       "map_y": 860.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-217-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -112258,7 +112258,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 701.35,
       "map_y": 731.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-074-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -112348,7 +112348,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 716.26,
       "map_y": 908.07,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-246-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -112438,7 +112438,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 778.92,
       "map_y": 869.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-219-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -112528,7 +112528,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1342.2,
       "map_y": 1235.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-221-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -112618,7 +112618,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1391.75,
       "map_y": 1195.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-235-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -112708,7 +112708,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1023.0,
       "map_y": 898.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-040-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -112798,7 +112798,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1406.6,
       "map_y": 1239.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-226-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -112888,7 +112888,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 749.94,
       "map_y": 755.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-092-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -112978,7 +112978,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1333.3,
       "map_y": 818.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-077-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -113068,7 +113068,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 414.21,
       "map_y": 754.05,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-069-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -113158,7 +113158,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 829.0,
       "map_y": 980.12,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-227-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -113248,7 +113248,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1383.72,
       "map_y": 1031.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-175-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -113338,7 +113338,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 641.84,
       "map_y": 751.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-147-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -113428,7 +113428,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 229.12,
       "map_y": 751.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-135-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -113518,7 +113518,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1215.11,
       "map_y": 1297.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-224-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -113608,7 +113608,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 933.63,
       "map_y": 610.65,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-092-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -113698,7 +113698,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 332.54,
       "map_y": 760.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-103-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -113788,7 +113788,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 922.37,
       "map_y": 1076.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-361-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -113878,7 +113878,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 998.23,
       "map_y": 727.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-055-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -113968,7 +113968,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1186.42,
       "map_y": 887.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-051-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -114058,7 +114058,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 873.5,
       "map_y": 1210.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-130-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -114148,7 +114148,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 803.37,
       "map_y": 1089.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-353-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -114238,7 +114238,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1084.66,
       "map_y": 759.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-031-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -114328,7 +114328,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1082.33,
       "map_y": 1062.42,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-257-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -114418,7 +114418,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 847.78,
       "map_y": 962.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-224-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -114508,7 +114508,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 554.05,
       "map_y": 754.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-038-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -114598,7 +114598,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 748.74,
       "map_y": 1110.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-321-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -114688,7 +114688,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1335.78,
       "map_y": 921.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-037-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -114778,7 +114778,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1344.16,
       "map_y": 854.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-067-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -114868,7 +114868,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 433.02,
       "map_y": 772.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-067-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -114958,7 +114958,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 770.03,
       "map_y": 883.28,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-155-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -115048,7 +115048,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1223.8,
       "map_y": 1165.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-142-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -115138,7 +115138,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 443.25,
       "map_y": 603.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-008-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -115228,7 +115228,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 351.13,
       "map_y": 776.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-101-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -115318,7 +115318,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 688.79,
       "map_y": 830.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-239-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -115408,7 +115408,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1487.64,
       "map_y": 835.95,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-086-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -115498,7 +115498,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1131.52,
       "map_y": 1080.26,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-151-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -115588,7 +115588,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 501.91,
       "map_y": 677.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-029-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -115678,7 +115678,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 960.76,
       "map_y": 1095.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-120-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -115768,7 +115768,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1068.93,
       "map_y": 801.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-021-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -115858,7 +115858,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 956.28,
       "map_y": 1161.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-142-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -115948,7 +115948,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1257.47,
       "map_y": 442.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-036-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -116038,7 +116038,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 722.61,
       "map_y": 999.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-273-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -116128,7 +116128,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 515.77,
       "map_y": 684.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-030-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -116218,7 +116218,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 848.03,
       "map_y": 987.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-226-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -116308,7 +116308,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 978.86,
       "map_y": 616.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-084-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -116398,7 +116398,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1159.49,
       "map_y": 1146.24,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-186-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -116488,7 +116488,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 558.94,
       "map_y": 778.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-246-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Access Road",
@@ -116578,7 +116578,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1157.96,
       "map_y": 1221.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-192-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -116668,7 +116668,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1288.44,
       "map_y": 879.19,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-058-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -116758,7 +116758,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 771.77,
       "map_y": 816.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-192-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -116848,7 +116848,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 889.66,
       "map_y": 979.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-172-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -116938,7 +116938,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1183.25,
       "map_y": 1022.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-166-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -117028,7 +117028,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 890.34,
       "map_y": 1016.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-169-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -117118,7 +117118,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 535.48,
       "map_y": 836.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-250-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 3",
@@ -117208,7 +117208,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 793.76,
       "map_y": 867.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-218-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -117298,7 +117298,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 546.1,
       "map_y": 823.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-249-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -117388,7 +117388,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 886.61,
       "map_y": 746.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-128-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -117478,7 +117478,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1064.03,
       "map_y": 505.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-045-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -117568,7 +117568,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1103.55,
       "map_y": 997.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-111-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -117658,7 +117658,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 726.25,
       "map_y": 981.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-252-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -117748,7 +117748,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 686.78,
       "map_y": 874.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-243-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -117838,7 +117838,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1431.31,
       "map_y": 1116.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-280-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -117928,7 +117928,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1123.78,
       "map_y": 943.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-026-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -118018,7 +118018,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1022.34,
       "map_y": 1209.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-152-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -118108,7 +118108,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 724.8,
       "map_y": 645.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-115-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -118198,7 +118198,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1200.41,
       "map_y": 1251.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-195-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -118288,7 +118288,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 451.43,
       "map_y": 735.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-060-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -118378,7 +118378,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1058.06,
       "map_y": 1220.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-167-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -118468,7 +118468,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1028.19,
       "map_y": 586.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-051-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -118558,7 +118558,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1343.13,
       "map_y": 1055.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-167-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -118648,7 +118648,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 789.32,
       "map_y": 951.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-230-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -118738,7 +118738,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 774.61,
       "map_y": 680.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-136-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -118828,7 +118828,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 322.69,
       "map_y": 753.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-104-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -118918,7 +118918,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1032.29,
       "map_y": 1230.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-298-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -119008,7 +119008,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1111.08,
       "map_y": 680.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-039-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -119098,7 +119098,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 665.83,
       "map_y": 754.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-187-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -119188,7 +119188,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 327.61,
       "map_y": 672.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-078-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -119278,7 +119278,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 571.98,
       "map_y": 646.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-140-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -119368,7 +119368,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 695.82,
       "map_y": 955.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-261-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -119458,7 +119458,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 878.34,
       "map_y": 1206.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-280-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -119548,7 +119548,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 693.43,
       "map_y": 637.01,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-085-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -119638,7 +119638,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1435.77,
       "map_y": 1033.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-010-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -119728,7 +119728,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1024.35,
       "map_y": 1061.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-118-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -119818,7 +119818,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 998.27,
       "map_y": 582.37,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-088-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -119908,7 +119908,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 566.78,
       "map_y": 1030.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-308-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -119998,7 +119998,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1149.13,
       "map_y": 1157.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-185-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -120088,7 +120088,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 396.56,
       "map_y": 737.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-071-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -120178,7 +120178,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1272.54,
       "map_y": 917.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-073-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -120268,7 +120268,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1470.25,
       "map_y": 930.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-011-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -120358,7 +120358,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1195.06,
       "map_y": 465.82,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-039-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -120448,7 +120448,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 659.77,
       "map_y": 845.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-211-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -120538,7 +120538,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 882.58,
       "map_y": 904.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-207-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -120628,7 +120628,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1105.97,
       "map_y": 843.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-013-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -120718,7 +120718,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1462.75,
       "map_y": 1155.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-114-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -120808,7 +120808,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1033.51,
       "map_y": 1044.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-115-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -120898,7 +120898,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1021.2,
       "map_y": 1049.01,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-117-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -120988,7 +120988,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1184.09,
       "map_y": 1113.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-249-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -121078,7 +121078,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1034.83,
       "map_y": 1199.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-153-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -121168,7 +121168,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1418.73,
       "map_y": 1192.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-275-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -121258,7 +121258,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1402.25,
       "map_y": 932.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-026-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -121348,7 +121348,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1377.5,
       "map_y": 1156.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-119-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -121438,7 +121438,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1142.56,
       "map_y": 1164.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-129-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -121528,7 +121528,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1348.8,
       "map_y": 852.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-046-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -121618,7 +121618,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 931.97,
       "map_y": 1252.78,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-284-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -121708,7 +121708,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1430.59,
       "map_y": 1179.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-276-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -121798,7 +121798,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1351.03,
       "map_y": 1081.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-139-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -121888,7 +121888,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 696.8,
       "map_y": 1139.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-318-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -121978,7 +121978,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1374.32,
       "map_y": 1142.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-273-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -122068,7 +122068,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1338.53,
       "map_y": 1226.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-217-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -122158,7 +122158,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1338.47,
       "map_y": 1133.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-271-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -122248,7 +122248,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 824.77,
       "map_y": 942.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-222-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -122338,7 +122338,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 570.21,
       "map_y": 1046.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-309-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -122428,7 +122428,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1078.73,
       "map_y": 1064.1,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-154-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -122518,7 +122518,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1442.55,
       "map_y": 1078.95,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-154-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -122608,7 +122608,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 756.9,
       "map_y": 1128.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-271-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -122698,7 +122698,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1175.96,
       "map_y": 1134.04,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-136-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -122788,7 +122788,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1299.93,
       "map_y": 1230.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-211-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -122878,7 +122878,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 933.8,
       "map_y": 1200.59,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-138-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -122968,7 +122968,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 956.41,
       "map_y": 593.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-120-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -123058,7 +123058,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1427.25,
       "map_y": 1122.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-147-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -123148,7 +123148,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 833.73,
       "map_y": 556.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-126-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -123238,7 +123238,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 925.57,
       "map_y": 1156.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-326-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -123328,7 +123328,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1360.97,
       "map_y": 1166.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-239-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -123418,7 +123418,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 800.6,
       "map_y": 844.76,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-157-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -123508,7 +123508,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1083.78,
       "map_y": 623.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-062-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -123598,7 +123598,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 887.2,
       "map_y": 1044.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-358-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -123688,7 +123688,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1392.75,
       "map_y": 872.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-043-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -123778,7 +123778,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 834.05,
       "map_y": 954.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-223-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -123868,7 +123868,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1194.42,
       "map_y": 936.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-007-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -123958,7 +123958,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 823.71,
       "map_y": 790.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-170-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -124048,7 +124048,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 806.79,
       "map_y": 832.88,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-194-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -124138,7 +124138,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 766.09,
       "map_y": 806.12,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-234-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -124228,7 +124228,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1036.5,
       "map_y": 1082.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-120-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -124318,7 +124318,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1038.59,
       "map_y": 902.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-008-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -124408,7 +124408,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1005.09,
       "map_y": 865.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-158-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -124498,7 +124498,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1073.3,
       "map_y": 1001.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-109-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -124588,7 +124588,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 854.09,
       "map_y": 974.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-178-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -124678,7 +124678,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1436.84,
       "map_y": 899.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-022-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -124768,7 +124768,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 796.88,
       "map_y": 794.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-232-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -124858,7 +124858,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1413.5,
       "map_y": 998.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-184-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -124948,7 +124948,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 485.6,
       "map_y": 657.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-027-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -125038,7 +125038,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1164.73,
       "map_y": 1112.18,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-250-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -125128,7 +125128,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 554.25,
       "map_y": 717.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-035-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -125218,7 +125218,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 568.91,
       "map_y": 649.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-017-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -125308,7 +125308,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1133.69,
       "map_y": 1248.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-194-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -125398,7 +125398,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1364.79,
       "map_y": 574.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-014-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -125488,7 +125488,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 896.53,
       "map_y": 1133.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-124-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -125578,7 +125578,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 750.35,
       "map_y": 809.65,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-235-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -125668,7 +125668,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 514.35,
       "map_y": 772.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-064-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -125758,7 +125758,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1242.95,
       "map_y": 879.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-067-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -125848,7 +125848,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1010.95,
       "map_y": 824.99,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-078-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -125938,7 +125938,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1062.13,
       "map_y": 1207.09,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-166-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -126028,7 +126028,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 776.75,
       "map_y": 955.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-186-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -126118,7 +126118,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1414.96,
       "map_y": 1075.83,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-001-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -126208,7 +126208,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1372.22,
       "map_y": 1051.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-165-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -126298,7 +126298,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1324.98,
       "map_y": 1035.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-171-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -126388,7 +126388,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 342.29,
       "map_y": 853.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-123-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -126478,7 +126478,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 840.02,
       "map_y": 1192.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-128-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -126568,7 +126568,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 811.93,
       "map_y": 789.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-231-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -126658,7 +126658,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 890.11,
       "map_y": 1148.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-332-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -126748,7 +126748,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 820.76,
       "map_y": 945.91,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-189-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -126838,7 +126838,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 785.32,
       "map_y": 739.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-143-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -126928,7 +126928,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 797.76,
       "map_y": 625.9,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-103-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -127018,7 +127018,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1522.16,
       "map_y": 944.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-094-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -127108,7 +127108,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 525.2,
       "map_y": 614.51,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-013-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -127198,7 +127198,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1056.3,
       "map_y": 873.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-010-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -127288,7 +127288,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 589.8,
       "map_y": 676.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-142-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -127378,7 +127378,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 731.01,
       "map_y": 704.87,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-139-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -127468,7 +127468,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1016.17,
       "map_y": 970.83,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-018-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -127558,7 +127558,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 944.13,
       "map_y": 697.77,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-075-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -127648,7 +127648,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1052.5,
       "map_y": 896.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-042-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -127738,7 +127738,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 461.77,
       "map_y": 743.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-061-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -127828,7 +127828,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1459.69,
       "map_y": 899.44,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-014-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -127918,7 +127918,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 388.7,
       "map_y": 682.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-054-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -128008,7 +128008,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 661.31,
       "map_y": 964.56,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-277-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -128098,7 +128098,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1221.25,
       "map_y": 888.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-078-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -128188,7 +128188,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 846.5,
       "map_y": 961.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-190-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -128278,7 +128278,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1227.91,
       "map_y": 1106.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-265-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -128368,7 +128368,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 628.31,
       "map_y": 719.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-145-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -128458,7 +128458,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1027.45,
       "map_y": 826.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-079-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -128548,7 +128548,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 808.99,
       "map_y": 1069.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-325-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -128638,7 +128638,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1133.23,
       "map_y": 1185.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-183-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -128728,7 +128728,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1310.0,
       "map_y": 1259.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-215-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -128818,7 +128818,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1243.08,
       "map_y": 533.7,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-062-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -128908,7 +128908,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 843.64,
       "map_y": 722.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-131-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -128998,7 +128998,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1440.56,
       "map_y": 876.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-048-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -129088,7 +129088,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 755.9,
       "map_y": 926.8,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-199-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -129178,7 +129178,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1020.04,
       "map_y": 533.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-099-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -129268,7 +129268,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1065.69,
       "map_y": 766.19,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-030-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -129358,7 +129358,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 979.77,
       "map_y": 1229.55,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-304-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -129448,7 +129448,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1184.8,
       "map_y": 926.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-008-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -129538,7 +129538,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1076.2,
       "map_y": 1122.42,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-159-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -129628,7 +129628,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1241.21,
       "map_y": 866.93,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-068-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -129718,7 +129718,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 293.63,
       "map_y": 724.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-107-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -129808,7 +129808,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1189.92,
       "map_y": 911.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-049-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -129898,7 +129898,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 709.83,
       "map_y": 565.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-131-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -129988,7 +129988,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 673.7,
       "map_y": 628.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-084-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -130078,7 +130078,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 904.7,
       "map_y": 752.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-127-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -130168,7 +130168,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1346.52,
       "map_y": 423.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-032-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -130258,7 +130258,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1194.88,
       "map_y": 1295.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-223-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -130348,7 +130348,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1277.26,
       "map_y": 485.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-031-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -130438,7 +130438,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1237.68,
       "map_y": 1064.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-108-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -130528,7 +130528,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1272.11,
       "map_y": 1073.39,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-106-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -130618,7 +130618,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1208.89,
       "map_y": 1175.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-141-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -130708,7 +130708,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1295.37,
       "map_y": 530.23,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-028-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 2",
@@ -130798,7 +130798,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 977.04,
       "map_y": 624.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-064-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -130888,7 +130888,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1301.0,
       "map_y": 1225.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-218-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -130978,7 +130978,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1399.48,
       "map_y": 1215.08,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-237-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -131068,7 +131068,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1381.19,
       "map_y": 1017.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-013-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -131158,7 +131158,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 552.27,
       "map_y": 939.65,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-284-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -131248,7 +131248,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1352.55,
       "map_y": 1257.61,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-223-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -131338,7 +131338,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 340.49,
       "map_y": 610.62,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-002-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -131428,7 +131428,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1059.28,
       "map_y": 949.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-022-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -131518,7 +131518,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 611.77,
       "map_y": 937.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-280-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -131608,7 +131608,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1400.18,
       "map_y": 1112.43,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-149-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -131698,7 +131698,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1514.91,
       "map_y": 933.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-030-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -131788,7 +131788,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1043.66,
       "map_y": 826.65,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-080-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -131878,7 +131878,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1023.05,
       "map_y": 911.14,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-007-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -131968,7 +131968,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 247.06,
       "map_y": 687.31,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-142-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -132058,7 +132058,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1077.28,
       "map_y": 966.53,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-014-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -132148,7 +132148,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1472.41,
       "map_y": 908.03,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-013-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -132238,7 +132238,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1199.68,
       "map_y": 1121.32,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-248-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -132328,7 +132328,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1310.75,
       "map_y": 1269.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-214-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -132418,7 +132418,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 622.03,
       "map_y": 858.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-241-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -132508,7 +132508,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1145.5,
       "map_y": 888.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-048-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -132598,7 +132598,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1063.46,
       "map_y": 558.18,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-053-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -132688,7 +132688,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 646.31,
       "map_y": 1083.94,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-302-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -132778,7 +132778,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 960.45,
       "map_y": 869.67,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-095-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -132868,7 +132868,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1457.33,
       "map_y": 1146.36,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-279-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -132958,7 +132958,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 625.51,
       "map_y": 836.48,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-209-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -133048,7 +133048,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 912.13,
       "map_y": 652.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-118-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -133138,7 +133138,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 880.53,
       "map_y": 928.84,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-337-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -133228,7 +133228,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 977.33,
       "map_y": 1273.96,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-169-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -133318,7 +133318,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 473.86,
       "map_y": 707.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-042-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -133408,7 +133408,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1361.25,
       "map_y": 1204.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-215-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -133498,7 +133498,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 827.91,
       "map_y": 910.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-194-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -133588,7 +133588,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1037.5,
       "map_y": 897.0,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-041-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -133678,7 +133678,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1271.05,
       "map_y": 1192.68,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-203-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -133768,7 +133768,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 777.73,
       "map_y": 617.45,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-112-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -133858,7 +133858,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 871.47,
       "map_y": 739.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-129-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -133948,7 +133948,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1073.69,
       "map_y": 1083.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-255-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -134038,7 +134038,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1223.19,
       "map_y": 1257.69,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-208-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -134128,7 +134128,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 965.25,
       "map_y": 1221.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-136-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -134218,7 +134218,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1357.86,
       "map_y": 1054.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-166-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -134308,7 +134308,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1042.74,
       "map_y": 1030.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-114-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -134398,7 +134398,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1103.5,
       "map_y": 911.75,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-032-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -134488,7 +134488,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 803.84,
       "map_y": 794.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-160-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -134578,7 +134578,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1278.5,
       "map_y": 976.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-001-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -134668,7 +134668,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 567.14,
       "map_y": 587.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-137-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -134758,7 +134758,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 381.93,
       "map_y": 672.41,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-053-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -134848,7 +134848,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 945.79,
       "map_y": 834.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-154-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -134938,7 +134938,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 868.25,
       "map_y": 972.46,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-225-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -135028,7 +135028,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 769.13,
       "map_y": 733.86,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-142-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -135118,7 +135118,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 772.31,
       "map_y": 1137.06,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-272-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -135208,7 +135208,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1167.59,
       "map_y": 1108.57,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-133-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -135298,7 +135298,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 789.55,
       "map_y": 1100.02,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-352-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -135388,7 +135388,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 796.7,
       "map_y": 1159.13,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-274-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -135478,7 +135478,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 735.27,
       "map_y": 1009.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-272-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -135568,7 +135568,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 618.46,
       "map_y": 740.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-146-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -135658,7 +135658,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1109.11,
       "map_y": 861.73,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-060-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -135748,7 +135748,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1141.38,
       "map_y": 733.63,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-035-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -135838,7 +135838,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 233.07,
       "map_y": 763.6,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-134-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -135928,7 +135928,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 796.36,
       "map_y": 610.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-111-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -136018,7 +136018,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1018.04,
       "map_y": 1037.37,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-116-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -136108,7 +136108,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1145.59,
       "map_y": 1231.16,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-193-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Facilities 1",
@@ -136198,7 +136198,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1145.72,
       "map_y": 1075.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-150-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -136288,7 +136288,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 892.83,
       "map_y": 967.33,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-173-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -136378,7 +136378,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1387.8,
       "map_y": 1055.17,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-164-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -136468,7 +136468,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1217.66,
       "map_y": 1080.49,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-161-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -136558,7 +136558,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1466.63,
       "map_y": 1016.79,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-024-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -136648,7 +136648,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1034.72,
       "map_y": 863.22,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-084-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -136738,7 +136738,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 508.53,
       "map_y": 730.28,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-039-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -136828,7 +136828,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 858.08,
       "map_y": 637.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/Ethir-110-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.535200,54.437000",
+      "google_maps_url": "https://www.google.com/maps?q=24.538000,54.450000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 2",
@@ -136918,7 +136918,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 361.67,
       "map_y": 657.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-051-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -137008,7 +137008,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1443.85,
       "map_y": 1197.01,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-193-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -137098,7 +137098,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1442.82,
       "map_y": 933.01,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-025-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -137188,7 +137188,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1399.75,
       "map_y": 1031.5,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-176-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -137278,7 +137278,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 965.35,
       "map_y": 598.66,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-090-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -137368,7 +137368,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1392.23,
       "map_y": 1102.3,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-150-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -137458,7 +137458,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1094.41,
       "map_y": 1132.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-125-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -137548,7 +137548,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1506.44,
       "map_y": 945.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-031-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -137638,7 +137638,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 530.9,
       "map_y": 768.74,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-063-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -137728,7 +137728,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1043.98,
       "map_y": 946.98,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-021-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -137818,7 +137818,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 621.26,
       "map_y": 1022.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-306-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -137908,7 +137908,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 551.96,
       "map_y": 896.62,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-281-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 2",
@@ -137998,7 +137998,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1177.17,
       "map_y": 1185.83,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-139-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 1",
@@ -138088,7 +138088,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1497.97,
       "map_y": 1253.4,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-202-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -138178,7 +138178,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1026.91,
       "map_y": 1202.2,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-308-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -138268,7 +138268,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1513.02,
       "map_y": 1015.92,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-008-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -138358,7 +138358,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1335.46,
       "map_y": 1293.85,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-212-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -138448,7 +138448,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1458.12,
       "map_y": 994.34,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-181-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -138538,7 +138538,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 750.09,
       "map_y": 873.76,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-221-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -138628,7 +138628,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 651.54,
       "map_y": 790.52,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-204-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Mosque 2",
@@ -138718,7 +138718,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1302.37,
       "map_y": 857.54,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-069-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -138808,7 +138808,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 925.59,
       "map_y": 1127.97,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-335-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -138898,7 +138898,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 286.11,
       "map_y": 804.58,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-129-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -138988,7 +138988,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1141.52,
       "map_y": 961.76,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-010-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -139078,7 +139078,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1124.96,
       "map_y": 691.29,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-038-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -139168,7 +139168,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1111.31,
       "map_y": 964.81,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-012-03/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",
@@ -139258,7 +139258,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1502.54,
       "map_y": 1018.62,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlGhaf-100-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.527500,54.441000",
+      "google_maps_url": "https://www.google.com/maps?q=24.534000,54.452500",
       "nearest_amenities": [
         {
           "name": "Linear Park 2",
@@ -139348,7 +139348,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 914.39,
       "map_y": 1189.11,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-139-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Town Center 1",
@@ -139438,7 +139438,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1311.7,
       "map_y": 1219.64,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-212-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Cultural Spine 2",
@@ -139528,7 +139528,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1085.93,
       "map_y": 638.25,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-061-01/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Community Park 1",
@@ -139618,7 +139618,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 1557.38,
       "map_y": 960.38,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-028-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Neighborhood 1",
@@ -139708,7 +139708,7 @@ export const LAGOONS_DATASET: LagoonsDataset = {
       "map_x": 929.71,
       "map_y": 1118.27,
       "detail_url": "https://world.aldar.com/uae/abudhabi/lagoons/property/AlSidr-122-02/0?unitstate=floorplan&scheme=S1&furnished=true",
-      "google_maps_url": "https://www.google.com/maps?q=24.530000,54.435500",
+      "google_maps_url": "https://www.google.com/maps?q=24.536500,54.451000",
       "nearest_amenities": [
         {
           "name": "Linear Park 1",

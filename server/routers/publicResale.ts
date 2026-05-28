@@ -194,7 +194,7 @@ function statusGroup(s: string | null) {
 // ---------------------------------------------------------------------------
 export type PublicListing = {
   id: string;
-  source: "aldar-resale" | "primary-live" | "nas-luxury";
+  source: "aldar-resale" | "primary-live" | "nas-luxury" | "others-resale";
   area: "saadiyat" | "yas-island" | "al-ghadeer" | "other";
   area_label: string;
   project_name: string;
@@ -488,10 +488,12 @@ export const publicResaleRouter = router({
     let aldarResale = 0;
     let primaryLive = 0;
     let nasLuxury = 0;
+    let othersResale = 0;
     for (const it of all) {
       byArea[it.area] = (byArea[it.area] ?? 0) + 1;
       if (it.source === "aldar-resale") aldarResale += 1;
       else if (it.source === "nas-luxury") nasLuxury += 1;
+      else if (it.source === "others-resale") othersResale += 1;
       else primaryLive += 1;
     }
     return {
@@ -499,6 +501,7 @@ export const publicResaleRouter = router({
       aldar_resale: aldarResale,
       primary_live: primaryLive,
       nas_luxury: nasLuxury,
+      others_resale: othersResale,
       by_area: byArea,
     };
   }),
@@ -513,7 +516,7 @@ export const publicResaleRouter = router({
         .object({
           query: z.string().max(128).optional(),
           source: z
-            .enum(["all", "aldar-resale", "primary-live", "nas-luxury"])
+            .enum(["all", "aldar-resale", "primary-live", "nas-luxury", "others-resale"])
             .optional()
             .default("all"),
           area: z

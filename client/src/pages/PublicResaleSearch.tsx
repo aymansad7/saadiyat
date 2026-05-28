@@ -31,7 +31,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
 
-type SourceKey = "all" | "nas-luxury" | "aldar-resale" | "primary-live";
+type SourceKey = "all" | "nas-luxury" | "aldar-resale" | "primary-live" | "others-resale";
 type AreaKey = "all" | "saadiyat" | "yas-island" | "al-ghadeer" | "other";
 type BedroomsKey = "all" | "studio" | "1" | "2" | "3" | "4" | "5+";
 type SortKey = "price-asc" | "price-desc" | "area";
@@ -60,9 +60,10 @@ const AREA_OPTIONS: { key: AreaKey; label: string }[] = [
 ];
 
 const SOURCE_OPTIONS: { key: SourceKey; label: string; sub: string }[] = [
-  { key: "all", label: "Any availability", sub: "NAS Luxury + Resale + Live" },
-  { key: "nas-luxury", label: "Available with NAS Luxury", sub: "Curated Saadiyat Lagoons collection" },
-  { key: "aldar-resale", label: "Resale with Aldar", sub: "Owner asking prices" },
+  { key: "all", label: "Any availability", sub: "NAS Luxury + Aldar + Others + Live" },
+  { key: "nas-luxury", label: "NAS Luxury Resale", sub: "Confirmed — 9 Saadiyat Lagoons villas" },
+  { key: "aldar-resale", label: "Aldar Resale", sub: "Owner asking prices via Aldar" },
+  { key: "others-resale", label: "Others Resale", sub: "Broker workbook — subject to availability" },
   { key: "primary-live", label: "Live primary", sub: "Aldar inventory available now" },
 ];
 
@@ -435,7 +436,7 @@ function Stat({
 
 type Listing = {
   id: string;
-  source: "aldar-resale" | "primary-live" | "nas-luxury";
+  source: "aldar-resale" | "primary-live" | "nas-luxury" | "others-resale";
   area: string;
   area_label: string;
   project_name: string;

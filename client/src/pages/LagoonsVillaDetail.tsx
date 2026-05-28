@@ -8,11 +8,12 @@
  * all detail fields.
  */
 import { Redirect, useParams, Link } from "wouter";
-import { ArrowLeft, ExternalLink, MapPin, Tag, Sparkles } from "lucide-react";
+import { ArrowLeft, ExternalLink, MapPin, Tag, Sparkles, BadgeCheck } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { getLagoonsVilla } from "@/data/lagoons";
 import { ResaleCard } from "@/components/ResaleCard";
+import { getAvailability, SOURCE_META } from "@/data/lagoonsAvailability";
 
 function fmtAed(n: number): string {
   return new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(n);
@@ -89,6 +90,114 @@ export default function LagoonsVillaDetail() {
         </div>
       </section>
 
+
+      {/* Resale availability badges + NAS Luxury exclusive listing */}
+      {(() => {
+        const avail = getAvailability(villa.unit_name);
+        if (avail.sources.length === 0) return null;
+        return (
+          <section className="border-b border-border bg-card/40">
+            <div className="container py-6 sm:py-8">
+              <div className="flex items-center gap-2 mb-3 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
+                <BadgeCheck className="h-3.5 w-3.5" />
+                Availability
+              </div>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {avail.sources.map(src => (
+                  <span
+                    key={src}
+                    className={[
+                      "text-[0.62rem] uppercase tracking-[0.18em] font-mono px-2 py-1 rounded-sm border leading-none",
+                      SOURCE_META[src].cls,
+                    ].join(" ")}
+                  >
+                    {SOURCE_META[src].label}
+                  </span>
+                ))}
+              </div>
+              {avail.nasLuxury && (
+                <div className="border border-emerald-500/40 bg-emerald-50/50 dark:bg-emerald-950/20 rounded-md p-4 sm:p-5">
+                  <div className="flex items-baseline justify-between gap-3 mb-3 flex-wrap">
+                    <div className="font-display text-lg text-foreground">
+                      Available with NAS Luxury — Option {avail.nasLuxury.option}
+                    </div>
+                    {avail.nasLuxury.selling_price_aed != null && (
+                      <div className="font-display num-display text-2xl text-emerald-700 dark:text-emerald-300">
+                        AED {fmtAed(avail.nasLuxury.selling_price_aed)}
+                      </div>
+                    )}
+                  </div>
+                  <dl className="grid grid-cols-2 md:grid-cols-3 gap-3 text-[0.78rem] text-muted-foreground">
+                    {avail.nasLuxury.original_price_aed != null && (
+                      <div>
+                        <div className="text-[0.6rem] uppercase tracking-[0.16em] font-mono">Aldar original</div>
+                        <div className="text-foreground tabular">AED {fmtAed(avail.nasLuxury.original_price_aed)}</div>
+                      </div>
+                    )}
+                    {avail.nasLuxury.payment_plan && (
+                      <div>
+                        <div className="text-[0.6rem] uppercase tracking-[0.16em] font-mono">Payment plan</div>
+                        <div className="text-foreground">{avail.nasLuxury.payment_plan}</div>
+                      </div>
+                    )}
+                    {avail.nasLuxury.paid_percent != null && (
+                      <div>
+                        <div className="text-[0.6rem] uppercase tracking-[0.16em] font-mono">Paid</div>
+                        <div className="text-foreground">{avail.nasLuxury.paid_percent}%</div>
+                      </div>
+                    )}
+                    {avail.nasLuxury.position && (
+                      <div>
+                        <div className="text-[0.6rem] uppercase tracking-[0.16em] font-mono">Position</div>
+                        <div className="text-foreground">{avail.nasLuxury.position}</div>
+                      </div>
+                    )}
+                    {avail.nasLuxury.finishing && (
+                      <div>
+                        <div className="text-[0.6rem] uppercase tracking-[0.16em] font-mono">Finishing</div>
+                        <div className="text-foreground">{avail.nasLuxury.finishing}</div>
+                      </div>
+                    )}
+                    {avail.nasLuxury.specification && (
+                      <div>
+                        <div className="text-[0.6rem] uppercase tracking-[0.16em] font-mono">Spec</div>
+                        <div className="text-foreground">{avail.nasLuxury.specification}</div>
+                      </div>
+                    )}
+                  </dl>
+                  {avail.nasLuxury.highlights && (
+                    <div className="mt-3 text-sm text-foreground/90 italic">
+                      {avail.nasLuxury.highlights}
+                    </div>
+                  )}
+                  <div className="mt-4 text-[0.7rem] font-mono text-muted-foreground">
+                    Contact NAS Luxury · Ayman Sadieh · +971 56 666 6888 · ayman@nasluxury.com
+                  </div>
+                </div>
+              )}
+              {avail.others.length > 0 && (
+                <div className="mt-4 border border-foreground/20 bg-muted/30 rounded-md p-4 sm:p-5">
+                  <div className="font-display text-base text-foreground mb-2">
+                    Might be available with other brokers
+                  </div>
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Listed in an earlier broker workbook covering a block range that
+                    includes this villa. Source uncertain — confirm with the broker.
+                  </p>
+                  <ul className="space-y-1 text-[0.78rem] font-mono">
+                    {avail.others.slice(0, 6).map(o => (
+                      <li key={o.code} className="flex items-baseline justify-between gap-3">
+                        <span className="text-muted-foreground">{o.code} · {o.bedrooms} BR · {o.specification} · {o.paymentPlan}</span>
+                        <span className="text-foreground tabular">AED {fmtAed(o.sellingAed)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </section>
+        );
+      })()}
 
       {/* Live resale listings (from Aldar Resale ALL workbook) */}
       <section className="border-b border-border">

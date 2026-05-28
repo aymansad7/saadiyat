@@ -19,6 +19,7 @@ import {
   getLagoonsVillasByCluster,
   type LagoonsVilla,
 } from "@/data/lagoons";
+import { getAvailability, type ResaleSource } from "@/data/lagoonsAvailability";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,6 +39,7 @@ const CLUSTER_LABELS: Record<string, string> = {
 
 type PositionFilter = "all" | "corner" | "edge" | "interior";
 type BedroomFilter = "all" | "4" | "5" | "6";
+type AvailabilityFilter = "all" | "any" | ResaleSource;
 
 export default function LagoonsCluster() {
   const params = useParams<{ cluster: string }>();
@@ -51,7 +53,21 @@ export default function LagoonsCluster() {
   const [query, setQuery] = useState("");
   const [bedFilter, setBedFilter] = useState<BedroomFilter>("all");
   const [posFilter, setPosFilter] = useState<PositionFilter>("all");
+  const [availFilter, setAvailFilter] = useState<AvailabilityFilter>("all");
   const [pageSize, setPageSize] = useState<number>(48);
+
+  // Per-cluster availability counts
+  const availabilityCounts = useMemo(() => {
+    const counts = { any: 0, "nas-luxury": 0, aldar: 0, others: 0 };
+    for (const v of all) {
+      const a = getAvailability(v.unit_name);
+      if (a.sources.length > 0) counts.any += 1;
+      if (a.sources.includes("nas-luxury")) counts["nas-luxury"] += 1;
+      if (a.sources.includes("aldar")) counts.aldar += 1;
+      if (a.sources.includes("others")) counts.others += 1;
+    }
+    return counts;
+  }, [all]);
 
 
   const filtered: LagoonsVilla[] = useMemo(() => {
@@ -60,6 +76,14 @@ export default function LagoonsCluster() {
       .filter((v) => {
         if (bedFilter !== "all" && String(v.bedrooms) !== bedFilter) return false;
         if (posFilter !== "all" && v.position_type !== posFilter) return false;
+        if (availFilter !== "all") {
+          const a = getAvailability(v.unit_name);
+          if (availFilter === "any") {
+            if (a.sources.length === 0) return false;
+          } else if (!a.sources.includes(availFilter as ResaleSource)) {
+            return false;
+          }
+        }
         if (q) {
           return (
             v.short_name.toLowerCase().includes(q) ||
@@ -69,10 +93,14 @@ export default function LagoonsCluster() {
         }
         return true;
       })
-      .sort((a, b) =>
-        a.short_name.localeCompare(b.short_name, undefined, { numeric: true }),
-      );
-  }, [all, query, bedFilter, posFilter]);
+      .sort((a, b) => {
+        // Bring NAS Luxury villas to the top, then by short_name
+        const ap = getAvailability(a.unit_name).sources.includes("nas-luxury") ? 0 : 1;
+        const bp = getAvailability(b.unit_name).sources.includes("nas-luxury") ? 0 : 1;
+        if (ap !== bp) return ap - bp;
+        return a.short_name.localeCompare(b.short_name, undefined, { numeric: true });
+      });
+  }, [all, query, bedFilter, posFilter, availFilter]);
 
   const visible = filtered.slice(0, pageSize);
 
@@ -80,6 +108,7 @@ export default function LagoonsCluster() {
     setQuery("");
     setBedFilter("all");
     setPosFilter("all");
+    setAvailFilter("all");
     setPageSize(48);
   }
 
@@ -161,6 +190,27 @@ export default function LagoonsCluster() {
                 { value: "corner", label: "Corner" },
                 { value: "edge", label: "Single-row" },
                 { value: "interior", label: "Interior" },
+              ]}
+            />
+            <FilterSelect
+              label="Availability"
+              value={availFilter}
+              onChange={(v) => setAvailFilter(v as AvailabilityFilter)}
+              options={[
+                { value: "all", label: "All villas" },
+                { value: "any", label: `Any available (${availabilityCounts.any})` },
+                {
+                  value: "nas-luxury",
+                  label: `NAS Luxury (${availabilityCounts["nas-luxury"]})`,
+                },
+                {
+                  value: "aldar",
+                  label: `Aldar Resale (${availabilityCounts.aldar})`,
+                },
+                {
+                  value: "others",
+                  label: `Other brokers (${availabilityCounts.others})`,
+                },
               ]}
             />
             <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
