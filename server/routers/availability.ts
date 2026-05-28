@@ -143,7 +143,7 @@ export const availabilityRouter = router({
         bedrooms: input.bedrooms ?? null,
         notes: input.notes ?? null,
         contactLabel: input.contactLabel ?? null,
-        addedBy: ctx.user!.id,
+        addedBy: String(ctx.user!.id),
         addedByName: ctx.user!.name ?? null,
       });
       return row;
