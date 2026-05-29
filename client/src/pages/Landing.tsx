@@ -1,8 +1,9 @@
 /**
- * Coastal Atelier — Landing
+ * Saadiyat Resale Hub — Landing
  * Editorial hero with the Saadiyat aerial photograph; below, a single
- * "Communities" rail. Currently only St. Regis Villas is published; placeholders
- * for future communities use the toast-coming-soon pattern.
+ * "Projects" rail listing every published Saadiyat project (St. Regis Villas,
+ * Saadiyat Lagoons, Saadiyat Beach Villas, Jawaher…). Future projects use the
+ * toast-coming-soon pattern.
  *
  * Design rules (binding):
  *   - Asymmetric hero (no centered text block)
@@ -80,31 +81,32 @@ export default function Landing() {
           <div className="col-span-12 lg:col-span-5 flex flex-col justify-center">
             <div className="flex items-center gap-2 mb-5 text-xs uppercase tracking-[0.22em] font-mono text-primary">
               <span className="h-px w-8 bg-primary/60" />
-              An editorial property atlas
+              Saadiyat Resale Hub
             </div>
             <h1 className="font-display text-[2.5rem] leading-[1.05] sm:text-[3.4rem] lg:text-[4rem] font-medium text-foreground">
-              Saadiyat,
+              Every Saadiyat project,
               <br />
               <span className="italic text-primary">villa by villa.</span>
             </h1>
             <p className="mt-6 text-[1.02rem] text-muted-foreground max-w-md leading-relaxed">
-              A curated explorer of the master-planned villa communities of
-              Saadiyat Island. For each plot: the official DMT plot regulation
-              report, a precise Google Maps pin, and a Google Earth flight-in.
+              A curated resale atlas of every master-planned project on
+              Saadiyat Island — St. Regis Villas, Saadiyat Lagoons, Saadiyat
+              Beach Villas, Jawaher and more. For each plot: the official DMT
+              DCR sheet, a precise Google Maps pin, and live availability.
             </p>
             <div className="mt-8 flex items-center gap-3">
               <Button asChild size="lg" className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md shadow-sm">
-                <Link href="/st-regis">
-                  Explore St. Regis Villas
+                <a href="#communities">
+                  Browse projects
                   <ArrowUpRight className="h-4 w-4" />
-                </Link>
+                </a>
               </Button>
-              <a
-                href="#communities"
+              <Link
+                href="/st-regis"
                 className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-4 decoration-dotted decoration-muted-foreground/60"
               >
-                See all communities
-              </a>
+                Jump to St. Regis Villas
+              </Link>
             </div>
 
             <dl className="mt-10 grid grid-cols-3 gap-6 max-w-md border-t border-border pt-6">
@@ -113,7 +115,7 @@ export default function Landing() {
                 <dd className="font-display text-3xl text-foreground tabular num-display mt-1">{villas.length + jawaher.totalPlots + sbv.totalPlots + LAGOONS_DATASET.total_villas}</dd>
               </div>
               <div>
-                <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Communities</dt>
+                <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Projects</dt>
                 <dd className="font-display text-2xl text-foreground mt-1">4</dd>
               </div>
               <div>
@@ -157,13 +159,13 @@ export default function Landing() {
           <div>
             <div className="flex items-center gap-2 mb-3 text-xs uppercase tracking-[0.22em] font-mono text-primary">
               <Compass className="h-3.5 w-3.5" />
-              Communities
+              Projects
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl text-foreground">Choose a community</h2>
+            <h2 className="font-display text-3xl sm:text-4xl text-foreground">Choose a project</h2>
           </div>
           <p className="hidden sm:block text-sm text-muted-foreground max-w-sm">
-            We are progressively cataloguing every gated cluster on the island.
-            Today: four communities, {villas.length + jawaher.totalPlots + sbv.totalPlots + LAGOONS_DATASET.total_villas} plots.
+            We are progressively cataloguing every gated project on the island.
+            Today: four projects, {villas.length + jawaher.totalPlots + sbv.totalPlots + LAGOONS_DATASET.total_villas} plots.
           </p>
         </div>
 

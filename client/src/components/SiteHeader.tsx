@@ -41,12 +41,16 @@ export default function SiteHeader({ subTitle, back }: Props) {
             <MapPin className="h-3.5 w-3.5" />
           </span>
           <div className="leading-tight">
-            <div className="font-display text-[1.35rem] sm:text-[1.55rem] font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors">
-              Saadiyat
+            <div className="font-display text-[1.15rem] sm:text-[1.35rem] font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors">
+              Saadiyat<span className="text-primary">.</span>Resale<span className="text-muted-foreground/70">Hub</span>
             </div>
-            {subTitle && (
+            {subTitle ? (
               <div className="text-[0.72rem] uppercase tracking-[0.18em] text-muted-foreground font-mono">
                 {subTitle}
+              </div>
+            ) : (
+              <div className="text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground/70 font-mono hidden sm:block">
+                Saadiyat Island · Abu Dhabi
               </div>
             )}
           </div>
@@ -60,7 +64,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="bg-card border-primary/30 text-primary hover:bg-primary/10 hover:text-primary gap-1.5">
-                Communities <ChevronDown className="h-3.5 w-3.5" />
+                Projects <ChevronDown className="h-3.5 w-3.5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
