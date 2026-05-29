@@ -14,6 +14,7 @@ import { useMemo, useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
+import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, RotateCcw, ChevronUp, ChevronDown, ExternalLink } from "lucide-react";
@@ -25,6 +26,9 @@ export default function Jawaher() {
   const [query, setQuery] = useState("");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [pageSize, setPageSize] = useState<number>(48);
+
+  // Bulk-fetch every Jawaher DCR PDF in one request → pdf URL map keyed by villaKey.
+  const { index: pdfIndex, isLoading: pdfLoading } = useDcrPdfIndex("jawaher/");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -65,8 +69,8 @@ export default function Jawaher() {
               <span className="text-muted-foreground italic"> — {COMMUNITY.totalPlots} plots.</span>
             </h1>
             <p className="text-sm text-muted-foreground mt-3 max-w-2xl">
-              Click any plot to open its official DMT GeoSmart DCR sheet. For the
-              precise location, open the MyLand portal and filter by community.
+              Click any plot to open its official DCR sheet. For the precise
+              location, open the MyLand portal and filter by community.
             </p>
           </div>
           <div className="col-span-12 sm:col-span-5 lg:col-span-4 flex flex-wrap gap-3 sm:justify-end">
@@ -140,6 +144,8 @@ export default function Jawaher() {
                   plot={p}
                   communityLabel={`Jawaher · SDN1`}
                   bigNumber={p.label.replace(/^Plot\s+/, "")}
+                  pdfUrl={pdfIndex.get(p.villaKey) ?? null}
+                  pdfLoading={pdfLoading}
                 />
               ))}
             </div>
@@ -157,7 +163,7 @@ export default function Jawaher() {
       <footer className="mt-auto border-t border-border bg-card/60">
         <div className="container py-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-xs text-muted-foreground">
           <div className="font-mono uppercase tracking-[0.18em]">Saadiyat · Jawaher</div>
-          <div>Source: DMT GeoSmart · Plot data via direct DCR links</div>
+          <div>Source: DMT GeoSmart · DCR sheets hosted on Saadiyat archive</div>
         </div>
       </footer>
     </div>

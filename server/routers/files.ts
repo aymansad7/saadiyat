@@ -4,6 +4,7 @@ import {
   deleteFileById,
   getFileById,
   insertVillaFile,
+  listFilesByVillaKeyPrefix,
   listFilesForVilla,
   listGlobalFiles,
 } from "../db";
@@ -25,7 +26,9 @@ const ALLOWED_MIME = [
   "text/csv",
 ];
 
-const villaKeyRegex = /^[a-z0-9][a-z0-9-_/]{0,127}$/;
+// Allow [A-Za-z0-9] + dash/underscore/slash. Seeded DCR keys use mixed case
+// (e.g. "jawaher/Plot-100", "saadiyat-beach-villas/Gate2-Plot-1").
+const villaKeyRegex = /^[A-Za-z0-9][A-Za-z0-9\-_/]{0,127}$/;
 
 const uploadInput = z.object({
   scope: z.enum(["villa", "global"]),
@@ -43,6 +46,20 @@ export const filesRouter = router({
   listByVilla: publicProcedure
     .input(z.object({ villaKey: z.string().regex(villaKeyRegex) }))
     .query(({ input }) => listFilesForVilla(input.villaKey)),
+
+  /**
+   * Public: bulk-list per-villa files by villaKey prefix.
+   * Lets the client fetch every DCR PDF for a community/gate in one round-trip
+   * (e.g. prefix="jawaher/" or "saadiyat-beach-villas/Gate2-") instead of N
+   * separate `listByVilla` queries.
+   */
+  listByPrefix: publicProcedure
+    .input(
+      z.object({
+        prefix: z.string().min(1).max(128).regex(villaKeyRegex),
+      }),
+    )
+    .query(({ input }) => listFilesByVillaKeyPrefix(input.prefix)),
 
   /** Public: list global Documents library */
   listGlobal: publicProcedure.query(() => listGlobalFiles()),

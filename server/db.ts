@@ -1,4 +1,4 @@
-import { and, desc, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, isNull, like } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, InsertVillaFile, users, villaFiles } from "../drizzle/schema";
 import { ENV } from './_core/env';
@@ -110,6 +110,33 @@ export async function listFilesForVilla(villaKey: string) {
     .from(villaFiles)
     .where(and(eq(villaFiles.scope, "villa"), eq(villaFiles.villaKey, villaKey)))
     .orderBy(desc(villaFiles.createdAt));
+}
+
+/**
+ * List all per-villa files whose villaKey starts with the given prefix.
+ * Used to bulk-fetch every DCR PDF for a community in a single round-trip
+ * (e.g. prefix="jawaher/" or "saadiyat-beach-villas/Gate2-").
+ */
+export async function listFilesByVillaKeyPrefix(prefix: string) {
+  const db = await getDb();
+  if (!db) return [];
+  // Escape SQL LIKE wildcards in user input
+  const safe = prefix.replace(/[\\%_]/g, (m) => "\\" + m);
+  return db
+    .select({
+      villaKey: villaFiles.villaKey,
+      filename: villaFiles.filename,
+      mimeType: villaFiles.mimeType,
+      storageKey: villaFiles.storageKey,
+      category: villaFiles.category,
+    })
+    .from(villaFiles)
+    .where(
+      and(
+        eq(villaFiles.scope, "villa"),
+        like(villaFiles.villaKey, `${safe}%`),
+      ),
+    );
 }
 
 export async function listGlobalFiles() {

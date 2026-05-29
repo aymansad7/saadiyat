@@ -1,18 +1,46 @@
 /**
- * SimplePlotCard — used by Jawaher and Saadiyat Beach Villas (Path A: URLs only).
- * Same visual language as the rich VillaCard but without the spec dl row.
+ * SimplePlotCard — used by Jawaher and Saadiyat Beach Villas.
+ *
+ * The "Open DCR" button resolves the PDF URL from our own DB/S3 storage
+ * (via `useDcrPdfUrl(villaKey)`). External DMT GeoSmart URLs are no longer used.
+ * If the PDF isn't in DB (rare 404 plots), we show a disabled "Not available"
+ * pill instead of leaking the external URL.
  */
-import { FileText, MapPin } from "lucide-react";
+import { FileText, MapPin, Loader2 } from "lucide-react";
 import type { SimplePlot } from "@/data/communities";
 import { MYLAND_URL } from "@/data/communities";
+import { useDcrPdfUrl } from "@/hooks/useDcrPdfUrl";
 
 interface Props {
   plot: SimplePlot;
   communityLabel: string; // shown above the title
   bigNumber?: string;     // override for the large numeral (defaults to plot.id)
+  /**
+   * Optional: a pre-resolved DCR PDF URL (or null if not in DB) when the parent
+   * page bulk-fetches the entire community via `useDcrPdfIndex`. Keeps Jawaher
+   * /SBV from issuing N separate per-card queries.
+   */
+  pdfUrl?: string | null;
+  /** Whether the parent's bulk fetch is still loading. */
+  pdfLoading?: boolean;
 }
 
-export default function SimplePlotCard({ plot, communityLabel, bigNumber }: Props) {
+export default function SimplePlotCard({
+  plot,
+  communityLabel,
+  bigNumber,
+  pdfUrl: pdfUrlProp,
+  pdfLoading: pdfLoadingProp,
+}: Props) {
+  // If parent provided a bulk-resolved URL, use it. Otherwise fall back to the
+  // single-villa hook (cheap on detail pages, expensive on listing pages).
+  const useOwnQuery = pdfUrlProp === undefined;
+  const own = useDcrPdfUrl(useOwnQuery ? plot.villaKey : undefined);
+  const url = useOwnQuery ? own.url : pdfUrlProp;
+  const isLoading = useOwnQuery ? own.isLoading : Boolean(pdfLoadingProp);
+  const isFetched = useOwnQuery ? own.isFetched : !pdfLoadingProp;
+  const hasPdf = Boolean(url);
+
   return (
     <div className="villa-card bg-card border border-border rounded-md overflow-hidden flex flex-col rise-in">
       <div className="p-4 sm:p-5 flex items-start gap-4">
@@ -40,15 +68,33 @@ export default function SimplePlotCard({ plot, communityLabel, bigNumber }: Prop
       <div className="px-4 sm:px-5 pb-4 sm:pb-5 mt-auto">
         <div className="divider-rule mb-3" />
         <div className="flex items-center gap-2 flex-wrap">
-          <a
-            href={plot.pdfUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-sm border bg-primary text-primary-foreground border-primary hover:bg-primary/90"
-          >
-            <FileText className="h-3.5 w-3.5" />
-            Open DCR
-          </a>
+          {isLoading && !isFetched ? (
+            <span
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-sm border bg-muted text-muted-foreground border-border"
+              aria-busy="true"
+            >
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              Loading DCR
+            </span>
+          ) : hasPdf ? (
+            <a
+              href={url!}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-sm border bg-primary text-primary-foreground border-primary hover:bg-primary/90"
+            >
+              <FileText className="h-3.5 w-3.5" />
+              Open DCR
+            </a>
+          ) : (
+            <span
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-sm border bg-muted text-muted-foreground border-border opacity-70"
+              title="DCR not available for this plot"
+            >
+              <FileText className="h-3.5 w-3.5" />
+              DCR not available
+            </span>
+          )}
           <a
             href={MYLAND_URL}
             target="_blank"

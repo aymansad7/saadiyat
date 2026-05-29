@@ -23,7 +23,8 @@ export interface SimplePlot {
   id: number;            // Sequential within the gate (1, 2, 3...)
   label: string;         // What we show as the headline (e.g. "Plot 49", "Plot 6-1/2")
   pdfFilename: string;   // The PDF basename (e.g. "SDN1_49.pdf")
-  pdfUrl: string;        // Full URL to the DCR PDF
+  pdfUrl: string;        // Legacy DMT URL — kept for fallback only
+  villaKey: string;      // DB villaKey to look up DCR PDF in our own storage (`<community>/<plotKey>`)
   mylandUrl: string;     // Always points to MyLand portal (filter manually)
 }
 
@@ -43,12 +44,13 @@ export interface Community {
   totalPlots: number;
 }
 
-function buildPlot(filename: string, label: string, id: number): SimplePlot {
+function buildPlot(filename: string, label: string, id: number, villaKey: string): SimplePlot {
   return {
     id,
     label,
     pdfFilename: filename,
     pdfUrl: `${DCR_BASE}/${filename}`,
+    villaKey,
     mylandUrl: MYLAND_URL,
   };
 }
@@ -61,37 +63,37 @@ function range(start: number, end: number): number[] {
 
 // ───────────────────────── Jawaher Saadiyat ─────────────────────────
 const jawaherPlots: SimplePlot[] = range(49, 131).map((n, i) =>
-  buildPlot(`SDN1_${n}.pdf`, `Plot ${n}`, i + 1)
+  buildPlot(`SDN1_${n}.pdf`, `Plot ${n}`, i + 1, `jawaher/Plot-${n}`)
 );
 
 // ───────────────────────── Saadiyat Beach Villas — Gates ─────────────────────────
 
 // Gate 1: special first file SDN2_6-1_2.pdf, then SDN2_6_3 ... SDN2_6_26
 const gate1Plots: SimplePlot[] = [
-  buildPlot("SDN2_6-1_2.pdf", "Plots 1 & 2", 1),
+  buildPlot("SDN2_6-1_2.pdf", "Plots 1 & 2", 1, `saadiyat-beach-villas/Gate1-SDN2_6-1_2`),
   ...range(3, 26).map((n, i) =>
-    buildPlot(`SDN2_6_${n}.pdf`, `Plot ${n}`, i + 2)
+    buildPlot(`SDN2_6_${n}.pdf`, `Plot ${n}`, i + 2, `saadiyat-beach-villas/Gate1-Plot-${n}`)
   ),
 ];
 
 const gate2Plots: SimplePlot[] = range(1, 156).map((n) =>
-  buildPlot(`SDN2_${n}.pdf`, `Plot ${n}`, n)
+  buildPlot(`SDN2_${n}.pdf`, `Plot ${n}`, n, `saadiyat-beach-villas/Gate2-Plot-${n}`)
 );
 
 const gate3Plots: SimplePlot[] = range(1, 65).map((n) =>
-  buildPlot(`SDN2_2_${n}.pdf`, `Plot ${n}`, n)
+  buildPlot(`SDN2_2_${n}.pdf`, `Plot ${n}`, n, `saadiyat-beach-villas/Gate3-Plot-${n}`)
 );
 
 const gate4Plots: SimplePlot[] = range(1, 59).map((n) =>
-  buildPlot(`SDN2_3_${n}.pdf`, `Plot ${n}`, n)
+  buildPlot(`SDN2_3_${n}.pdf`, `Plot ${n}`, n, `saadiyat-beach-villas/Gate4-Plot-${n}`)
 );
 
 const premiumPlots: SimplePlot[] = range(1, 15).map((n) =>
-  buildPlot(`SDN2_4_${n}.pdf`, `Plot ${n}`, n)
+  buildPlot(`SDN2_4_${n}.pdf`, `Plot ${n}`, n, `saadiyat-beach-villas/Premium-SDN2_4_${n}`)
 );
 
 const gate7Plots: SimplePlot[] = range(1, 126).map((n) =>
-  buildPlot(`SDN4_1_${n}.pdf`, `Plot ${n}`, n)
+  buildPlot(`SDN4_1_${n}.pdf`, `Plot ${n}`, n, `saadiyat-beach-villas/Gate7-Plot-${n}`)
 );
 
 const sbvGates: Gate[] = [

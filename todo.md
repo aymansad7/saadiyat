@@ -1,137 +1,99 @@
 # Saadiyat Multi-Community Build — Todo
 
-## Phase 1 — Website restructure (URLs only, no downloads needed)
-- [ ] Generate plot manifest (529 villas) with direct DMT URLs
-- [ ] Build new `/jawaher` page (83 plots, simple list/grid)
-- [ ] Build new `/saadiyat-beach-villas` page with gate tabs
-- [ ] Update Landing page (3 live communities)
-- [ ] Update SiteHeader nav
+## ✅ Completed (historical)
 
-## Phase 2 — Test & checkpoint
-- [ ] Verify all routes load
-- [ ] Verify PDF and MyLand links work for each gate
-- [ ] Save checkpoint and deliver
+### Phase 1 — Website restructure (Apr 2026)
+- [x] Generate plot manifest (529 villas) with direct DMT URLs
+- [x] Build `/jawaher` page (83 plots)
+- [x] Build `/saadiyat-beach-villas` page with gate tabs
+- [x] Update Landing page (live communities)
+- [x] Update SiteHeader nav
+- [x] Verify routes load + PDF/MyLand links
 
-## Phase 3 — Background PDF download (529 files via Wayback)
-- [ ] Jawaher 83 (SDN1_49 → 131)
-- [ ] Gate 1 — 25 (SDN2_6-1_2 + SDN2_6_3 → 26, also try SDN2_6_1, SDN2_6_2)
-- [ ] Gate 2 — 156 (SDN2_1 → 156)
-- [ ] Gate 3 — 65 (SDN2_2_1 → 65)
-- [ ] Gate 4 — 59 (SDN2_3_1 → 59)
-- [ ] Premium Villas — 15 (SDN2_4_1 → 15)
-- [ ] Gate 7 — 126 (SDN4_1_1 → 126)
+### Phase 3 — DMT PDF coverage (Apr 2026)
+- [x] Jawaher 83 (SDN1_49 → 131)
+- [x] Gate 1 — 25
+- [x] Gate 2 — 156
+- [x] Gate 3 — 65
+- [x] Gate 4 — 59
+- [x] Premium Villas — 15
+- [x] Gate 7 — 126
 
-## Phase 4 — Deliver
-- [ ] Bundle all PDFs into one ZIP
-- [ ] Send final ZIP attachment + final checkpoint
+### Password Gate (Apr 21, 2026)
+- [x] Create PasswordGate component
+- [x] Persist auth in sessionStorage
+- [x] Wrap App routes with the gate
+- [x] Use password value `062026`
+- [x] Style the gate to match design
 
-
-## Password Gate (added 2026-04-21)
-- [ ] Create PasswordGate component that shows lock screen when not authenticated
-- [ ] Persist successful auth in sessionStorage so it sticks per browser session
-- [ ] Wrap App routes with the gate so every page is protected
-- [ ] Use password value `062026`
-- [ ] Style the gate to match Coastal Atelier design
-- [ ] Test and save checkpoint
-
-## Pending (deferred)
-- [ ] Confirm if "St. Regis Villas" should be renamed to "Saadiyat Lagoons" OR add Lagoons as a new community
-- [ ] Finish File Storage UI testing (FilesPanel + Documents page already wired)
-
-## Backup ZIPs (added 2026-05-08)
-- [ ] Inventory all DCR PDF URLs across 3 communities (33 + 83 + 446 = 562 files)
-- [ ] Background-download all 562 PDFs via Wayback Machine
-- [ ] Parse each PDF to extract bedroom count + plot ID for naming
-- [ ] Build `StRegis_Backup.zip` with `StRegis_Plot##_NBR.pdf`
-- [ ] Build `Jawaher_Backup.zip` with `Jawaher_Plot##_NBR.pdf`
-- [ ] Build `SBV_Backup.zip` with `SBV_Gate#_Plot##_NBR.pdf`
-- [ ] Deliver all backup ZIPs to user
-
-## Aldar Lagoons enrichment (added 2026-05-20)
+### Aldar Lagoons enrichment (May 20, 2026)
 - [x] Inspect Aldar_lagoons.xlsx columns
 - [x] Define matching key between Aldar rows and Lagoons villas
 - [x] Update Lagoons data file with new fields
 - [x] Show new fields on Lagoons cards/detail
-- [x] Save checkpoint
 
-## Lagoons villa detail — Key Facts hero (added 2026-05-20)
-- [x] Add "Key facts" hero block at top of LagoonsVillaDetail showing Villa number, Original price (without add-ons), Plot area, Total built-up area, Premium finishing (Yes/No), Finishing tone (Warm/Cool/Light)
-- [x] Rename "Selling price" label to "Original price (without add-ons)" everywhere it appears
-- [x] Remove duplicates from the secondary Aldar inventory grid (since they now appear in the hero)
-- [x] Save checkpoint
+### Lagoons villa detail — Key Facts hero (May 20, 2026)
+- [x] Add Key facts hero block
+- [x] Rename "Selling price" → "Original price (without add-ons)"
+- [x] Remove duplicates from secondary Aldar inventory grid
 
-## Aldar All Saadiyat projects browser (added 2026-05-21)
-- [ ] Profile all 19 Aldar_*.xlsx workbooks for columns + building groupings
-- [ ] Build TS dataset: ProjectGroup → Project → Building → Unit
-- [ ] Map sub-buildings (Mamsha Gardens=7, Art House=3, Louvre=3, Barakat=2, Grove=Hard One/Two, Source I/II/Terraces, Faya I/II, Manarat I/II)
-- [ ] Index page /aldar-saadiyat: project grid + filter "Available only" + cross-project unit search
-- [ ] Project page: lists its buildings (with available/total counts)
-- [ ] Building page: list of units, each card highlights Original price (without add-ons) + Status badge + last update date
-- [ ] Unit detail page: hero (price, status+date, beds, plot, BUA) → details table → payment plans
-- [ ] Vitest coverage for status badge logic + cross-project "available only" filter
-- [ ] Save checkpoint
+### Aldar All Saadiyat projects browser (May 21, 2026)
+- [x] Profile Aldar_*.xlsx workbooks
+- [x] Build dataset: ProjectGroup → Project → Building → Unit
+- [x] Map sub-buildings (Mamsha Gardens, Art House, Louvre, Barakat, Grove, Source, Faya, Manarat)
+- [x] Index page /aldar-saadiyat with filters
+- [x] Project / Building / Unit pages
+- [x] Vitest coverage
 
-
-## Public Resale Filter (May 27, 2026)
-- [x] Add public `/resale-search` page accessible without passcode
-- [x] Add `publicResale` tRPC router (summary + filtered list)
-- [x] Aggregate Aldar Resale workbook + live primary inventory across all areas
+### Public Resale Filter → Admin-only (May 27, 2026)
+- [x] Add `/resale-search` page
+- [x] `publicResale` → `adminProcedure` (admin-only)
 - [x] Source / area / bedrooms / price / search / sort filters
-- [x] Entry point card on the passcode screen ("No passcode? Browse anyway")
-- [x] Vitest coverage for public router + App.tsx bypass invariant
-- [x] Save checkpoint
+- [x] Admin guard on PublicResaleSearch page
+- [x] Vitest coverage
+
+### NAS Luxury Lagoons listings (May 27–28, 2026)
+- [x] Extract 9 villa numbers + asking price + extras from PDF
+- [x] Persist as `nas_luxury_lagoons.json`
+- [x] Add `nas-luxury` source to public resale router
+- [x] Show "Available with NAS Luxury" filter pill
+- [x] Vitest coverage
+
+### Status filter + Google Maps fix (May 28, 2026)
+- [x] Revert Lagoons coordinates to original values
+- [x] Status filter on Lagoons cluster pages
+- [x] Status filter on Lagoons community landing
+- [x] Status filter on Landing (all communities)
+
+### Community-agnostic availability system (May 28, 2026)
+- [x] DB schema: `availability_listings` table
+- [x] Push schema with `pnpm db:push`
+- [x] Seed Lagoons NAS Luxury (9 villas)
+- [x] tRPC admin procedures (list/create/update/delete)
+- [x] tRPC summary procedure (per community per status)
+- [x] Admin page `/admin/availability`
+- [x] Status filter on Landing reads from DB
+- [x] Display "Last updated: {date}" on listings
+- [x] Vitest coverage (admin guard + summary)
+
+---
+
+## 🔜 Backlog (deferred — not requested for current session)
+
+- [ ] Wayback DCR PDF backups: bundle 562 PDFs into `StRegis_Backup.zip` + `Jawaher_Backup.zip` + `SBV_Backup.zip` (Phase 4 from May 8, 2026)
+- [ ] Finish File Storage UI testing (FilesPanel + Documents page)
+- [ ] Confirm naming: "St. Regis Villas" vs "Saadiyat Lagoons" (cosmetic decision)
 
 
-## Restrict Resale Filter to admins only (May 27, 2026)
-- [x] Move /resale-search route inside the PasswordGate (no public bypass)
-- [x] Convert publicResale router → adminResale (adminProcedure on summary + list)
-- [x] Add client-side admin guard on PublicResaleSearch page (redirect / show "admin only")
-- [x] Remove "No passcode? Browse anyway" CTA from PasswordGate
-- [x] Update vitest: passwordGate test + resale router test for admin-only invariants
-- [x] Save checkpoint
-
-
-## Nas Leggieri Lagoons listings (May 27, 2026)
-- [ ] Extract villa numbers + asking price + extras from Seyit Amiri PDF
-- [ ] Persist as `nas_leggieri_lagoons.json` server dataset
-- [ ] Add `nas-leggieri` source to public resale router with extras (sqft, plot, notes)
-- [ ] Show "Available with Nas Leggieri" as a filter option in /resale-search
-- [ ] Strip prior generic green "Available" markers on Lagoons villas not in this list
-- [ ] Vitest coverage for nas-leggieri data + filter
-- [ ] Save checkpoint
-
-
-## Purge old broker codes + NAS Luxury filter + Google Maps fix (May 28, 2026)
-- [ ] Remove all UI usage of LAGOONS_RESALE (27 broker codes) from SaadiyatLagoons landing
-- [ ] Delete client/src/data/lagoonsResale.ts and ResaleCard if any consumers remain
-- [ ] Verify no other page imports lagoonsResale data
-- [ ] Add "Available with NAS Luxury" filter pill on SaadiyatLagoons landing and on cluster pages, scoped to the 9 villas
-- [ ] Show NAS Luxury badge on the 9 NAS Luxury villa cards inside Lagoons
-- [ ] Investigate the Google Maps URL regression on Lagoons villas
-- [ ] Restore correct Google Maps URLs (per-villa lat/lng or precise cluster pin)
-- [ ] Update vitest assertions
-- [ ] Save checkpoint
-
-
-## Status filter + restore maps (May 28, 2026)
-- [ ] Revert Lagoons Google Maps coordinates to previous (pre-2026-05-28) values
-- [ ] Verify reverted coords against Google Maps actual location
-- [ ] Add unified Status filter (NAS Luxury / All Available / Not Available) to Lagoons cluster pages
-- [ ] Add Status filter to Lagoons community landing
-- [ ] Add Status filter to top-level communities list
-- [ ] Tests + checkpoint
-
-
-## Community-agnostic availability system (May 28, 2026)
-- [ ] DB schema: availability_listings table (community, unit_key, source, status, asking_price, notes, addedBy, addedAt, updatedAt)
-- [ ] Push schema with `pnpm db:push`
-- [ ] Seed Lagoons NAS Luxury (9 villas) into DB on startup if empty
-- [ ] tRPC admin procedures: list/create/update/delete availability listings
-- [ ] tRPC summary procedure: counts per community per status
-- [ ] Admin page /admin/availability — table + add/edit/delete form
-- [ ] Status filter on Landing (all communities)
-- [ ] Status filter on each community page (Lagoons, Jawaher, Saadiyat Beach Villas)
-- [ ] Cluster pages read DB-backed availability
-- [ ] Display "Last updated: {date}" on availability badges
-- [ ] Vitest coverage for availability router + admin guard
+## DCR PDFs migration to DB-hosted (May 28–29, 2026)
+- [x] Inventory all DCR PDF URLs for Jawaher + SBV (St. Regis already on S3 via `client/src/data/villas.ts.pdfLocalUrl`)
+- [x] Download 524/529 PDFs directly from DMT (5 plots return 404 on DMT — acceptable)
+- [x] Reuse existing `villa_files` DB table instead of building a new `documents` table
+- [x] `scripts/upload_pdfs_to_storage.mjs` uploads via Forge presigned PUTs and inserts into `villa_files` (524 rows, category=`dcr`)
+- [x] Add `files.listByVilla` and `files.listByPrefix` tRPC procedures (publicProcedure)
+- [x] Add `useDcrPdfUrl` and `useDcrPdfIndex` client hooks (single + bulk)
+- [x] Wire SBV Gate tabs and Jawaher landing to bulk-fetch DCR PDFs from DB
+- [x] `SimplePlotCard` opens PDF from DB (`/manus-storage/...`); shows “DCR not available” when missing
+- [x] Relax villaKey regex on `files.*` procedures to accept mixed case keys (e.g. `Plot-100`, `Gate2-Plot-1`)
+- [x] Vitest coverage — 6 new tests in `server/files.test.ts`, total 88/88 passing
 - [ ] Save checkpoint

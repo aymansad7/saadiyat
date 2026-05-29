@@ -11,6 +11,7 @@ import { useMemo, useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
+import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, RotateCcw, ChevronUp, ChevronDown, ExternalLink } from "lucide-react";
@@ -33,6 +34,17 @@ export default function SaadiyatBeachVillas() {
   const [pageSize, setPageSize] = useState<number>(48);
 
   const activeGate = COMMUNITY.gates.find((g) => g.slug === gateSlug)!;
+
+  // Compute villaKey prefix for the active gate so we can bulk-fetch DCR PDFs.
+  // The first plot's villaKey looks like `saadiyat-beach-villas/Gate2-Plot-1`,
+  // so we strip the trailing identifier to get the gate prefix.
+  const pdfPrefix = useMemo(() => {
+    const sample = activeGate.plots[0]?.villaKey ?? "";
+    // e.g. "saadiyat-beach-villas/Gate2-Plot-1" -> "saadiyat-beach-villas/Gate2-"
+    const match = sample.match(/^(saadiyat-beach-villas\/(?:Gate\d|Premium)-)/);
+    return match?.[1] ?? null;
+  }, [activeGate]);
+  const { index: pdfIndex, isLoading: pdfLoading } = useDcrPdfIndex(pdfPrefix);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -81,7 +93,7 @@ export default function SaadiyatBeachVillas() {
             </h1>
             <p className="text-sm text-muted-foreground mt-3 max-w-2xl">
               Choose a gate below to browse all plots in that cluster. Each card
-              opens the official DMT GeoSmart DCR sheet directly.
+              opens the official DCR sheet from our archive.
             </p>
           </div>
           <div className="col-span-12 sm:col-span-5 lg:col-span-4 flex flex-wrap gap-3 sm:justify-end">
@@ -187,6 +199,8 @@ export default function SaadiyatBeachVillas() {
                   plot={p}
                   communityLabel={`SBV · ${activeGate.name}`}
                   bigNumber={p.label.replace(/^Plots?\s+/, "")}
+                  pdfUrl={pdfIndex.get(p.villaKey) ?? null}
+                  pdfLoading={pdfLoading}
                 />
               ))}
             </div>
@@ -204,7 +218,7 @@ export default function SaadiyatBeachVillas() {
       <footer className="mt-auto border-t border-border bg-card/60">
         <div className="container py-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-xs text-muted-foreground">
           <div className="font-mono uppercase tracking-[0.18em]">Saadiyat · Saadiyat Beach Villas</div>
-          <div>Source: DMT GeoSmart · Plot data via direct DCR links</div>
+          <div>Source: DMT GeoSmart · DCR sheets hosted on Saadiyat archive</div>
         </div>
       </footer>
     </div>
