@@ -16,6 +16,8 @@ import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
+import { DownloadDcrBackupButton } from "@/components/DownloadDcrBackupButton";
+import { DCR_BACKUPS } from "@/data/dcrBackups";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, RotateCcw, ChevronUp, ChevronDown, ExternalLink } from "lucide-react";
@@ -80,12 +82,15 @@ export default function Jawaher() {
               <Stat label="Plots" value={String(COMMUNITY.totalPlots)} />
               <Stat label="Showing" value={String(filtered.length)} accent />
             </div>
-            <DownloadDcrPackButton
-              prefix="jawaher/"
-              filename="Jawaher-DCRs.zip"
-              count={pdfCount}
-              loading={pdfLoading}
-            />
+            <div className="flex flex-wrap gap-2 sm:justify-end">
+              <DownloadDcrPackButton
+                prefix="jawaher/"
+                filename="Jawaher-DCRs.zip"
+                count={pdfCount}
+                loading={pdfLoading}
+              />
+              <DownloadDcrBackupButton backup={DCR_BACKUPS.jawaher} />
+            </div>
             <Stat label="Source" value="DMT" />
           </div>
         </div>

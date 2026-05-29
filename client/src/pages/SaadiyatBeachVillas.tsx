@@ -13,6 +13,8 @@ import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
+import { DownloadDcrBackupButton } from "@/components/DownloadDcrBackupButton";
+import { DCR_BACKUPS } from "@/data/dcrBackups";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, RotateCcw, ChevronUp, ChevronDown, ExternalLink } from "lucide-react";
@@ -183,6 +185,10 @@ export default function SaadiyatBeachVillas() {
                   className="h-9 hidden md:inline-flex"
                 />
               )}
+              <DownloadDcrBackupButton
+                backup={DCR_BACKUPS.sbv}
+                className="h-9 hidden lg:inline-flex"
+              />
               <Button asChild variant="outline" size="sm" className="h-9 bg-card gap-1.5 hidden md:inline-flex">
                 <a href="https://myland.dmt.gov.ae/" target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="h-3.5 w-3.5" />

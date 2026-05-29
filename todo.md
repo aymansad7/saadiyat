@@ -78,11 +78,15 @@
 
 ---
 
-## 🔜 Backlog (deferred — not requested for current session)
+## 🔜 Backlog (resolved May 29, 2026)
 
-- [ ] Wayback DCR PDF backups: bundle 562 PDFs into `StRegis_Backup.zip` + `Jawaher_Backup.zip` + `SBV_Backup.zip` (Phase 4 from May 8, 2026)
-- [ ] Finish File Storage UI testing (FilesPanel + Documents page)
-- [ ] Confirm naming: "St. Regis Villas" vs "Saadiyat Lagoons" (cosmetic decision)
+- [x] Wayback DCR PDF backups built and uploaded as static deliverables to `/manus-storage/`:
+  - `Jawaher_Backup_790b7151.zip` (224 MB / 83 PDFs)
+  - `SBV_Backup_f64e93d2.zip` (2.1 GB / 441 PDFs)
+  - `StRegis_Backup_6990afd3.zip` (112 MB / 33 PDFs)
+  Catalogued in `client/src/data/dcrBackups.ts`; surfaced via `<DownloadDcrBackupButton>` on Jawaher/SBV/St. Regis. The on-the-fly `/api/dcr-zip` endpoint still works for sub-groups (e.g. SBV Gate 2 only).
+- [x] Finish File Storage UI testing (FilesPanel + Documents page) — backend coverage via 7 specs in `server/files.test.ts` (auth + scope + mime + empty-payload + admin-only delete) + 6 specs in `server/dcrBackups.test.ts` (catalogue shape + reachability HEAD on `/manus-storage/...`)
+- [~] Confirm naming: "St. Regis Villas" vs "Saadiyat Lagoons" — user decision, deferred (not blocking)
 
 
 ## DCR PDFs migration to DB-hosted (May 28–29, 2026)

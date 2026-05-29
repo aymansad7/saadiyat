@@ -24,6 +24,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Search, ChevronDown, ChevronUp, RotateCcw, FileText, MapPin, Globe2 } from "lucide-react";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
+import { DownloadDcrBackupButton } from "@/components/DownloadDcrBackupButton";
+import { DCR_BACKUPS } from "@/data/dcrBackups";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 
 const PLOT_MIN = Math.floor(Math.min(...ALL_VILLAS.map((v) => v.plotAreaSqm ?? 0)));
@@ -169,6 +171,10 @@ export default function StRegis() {
               count={pdfCount}
               loading={pdfLoading}
               className="h-9 hidden md:inline-flex"
+            />
+            <DownloadDcrBackupButton
+              backup={DCR_BACKUPS.stRegis}
+              className="h-9 hidden lg:inline-flex"
             />
           </div>
         </div>
