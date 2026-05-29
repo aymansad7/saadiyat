@@ -96,4 +96,19 @@
 - [x] `SimplePlotCard` opens PDF from DB (`/manus-storage/...`); shows “DCR not available” when missing
 - [x] Relax villaKey regex on `files.*` procedures to accept mixed case keys (e.g. `Plot-100`, `Gate2-Plot-1`)
 - [x] Vitest coverage — 6 new tests in `server/files.test.ts`, total 88/88 passing
-- [ ] Save checkpoint
+- [x] Save checkpoint (29d423da)
+
+
+## DCR ZIP downloads (May 29, 2026)
+- [x] Inspect existing FilesPanel / Documents UI and storage routes
+- [x] Build `/api/dcr-zip` express endpoint streaming a ZIP by `villaKey` prefix (archiver v8 ZipArchive, fed from S3 presigned GETs)
+- [x] Add "Download DCR pack (ZIP)" button on Jawaher (83 PDFs)
+- [x] Add per-gate "Download DCR pack (ZIP)" button on SBV (Gate1–7 + Premium)
+- [x] Register St. Regis 33 PDFs in `villa_files` (prefix `st-regis/`) and add ZIP button on St. Regis page
+- [x] Reusable `<DownloadDcrPackButton/>` component (uses bulk index for count, opens `/api/dcr-zip` URL in new tab)
+
+## Files / Documents admin UI polish (May 29, 2026)
+- [x] Audit `FilesPanel` (upload/list/delete + base64 upload via tRPC) + `Documents` page — already production-grade
+- [x] Confirm role-gated delete (only `admin`/`master` see the trash button)
+- [x] Vitest coverage for `files.upload` (auth + scope/villaKey + mime + empty-payload guards) and `files.delete` (admin-only + NOT_FOUND)
+- [x] All 96 vitest specs passing

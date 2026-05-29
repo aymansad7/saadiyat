@@ -1,0 +1,109 @@
+{
+  "query": "SELECT storageKey FROM villa_files WHERE storageKey LIKE 'SDN1_C6_%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user fp2o6mumF24Gt2y.6742ed1df113 --database cdNSYhri6jzahGcw5xtfw3 --execute SELECT storageKey FROM villa_files WHERE storageKey LIKE 'SDN1_C6_%';",
+  "rows": [
+    {
+      "storageKey": "SDN1_C6_1_83406cd2.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_10_ddb2aa00.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_11_313a1314.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_12_ebb99a43.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_13_e752644e.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_14_059ef930.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_15_b0cf283b.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_16_a0d539c9.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_17_9ce4b13a.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_18_5e9634a3.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_19_89714237.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_2_46e003b2.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_20_b9d36818.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_21_e7a541dd.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_22_77982c98.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_23_c8020f80.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_24_939770ba.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_25_39aa764b.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_26_d08e1796.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_27_40b81b6d.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_28_84f1d673.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_29_ad2b453d.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_3_8dff99c5.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_30_454c209f.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_31_61874de8.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_32_451dcc4b.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_33_932bd95c.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_4_b7f4e4d6.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_5_0e772c1b.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_6_546254b7.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_7_4cbd9342.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_8_a8363646.pdf"
+    },
+    {
+      "storageKey": "SDN1_C6_9_f66920d4.pdf"
+    }
+  ],
+  "messages": [],
+  "stdout": "storageKey\nSDN1_C6_1_83406cd2.pdf\nSDN1_C6_10_ddb2aa00.pdf\nSDN1_C6_11_313a1314.pdf\nSDN1_C6_12_ebb99a43.pdf\nSDN1_C6_13_e752644e.pdf\nSDN1_C6_14_059ef930.pdf\nSDN1_C6_15_b0cf283b.pdf\nSDN1_C6_16_a0d539c9.pdf\nSDN1_C6_17_9ce4b13a.pdf\nSDN1_C6_18_5e9634a3.pdf\nSDN1_C6_19_89714237.pdf\nSDN1_C6_2_46e003b2.pdf\nSDN1_C6_20_b9d36818.pdf\nSDN1_C6_21_e7a541dd.pdf\nSDN1_C6_22_77982c98.pdf\nSDN1_C6_23_c8020f80.pdf\nSDN1_C6_24_939770ba.pdf\nSDN1_C6_25_39aa764b.pdf\nSDN1_C6_26_d08e1796.pdf\nSDN1_C6_27_40b81b6d.pdf\nSDN1_C6_28_84f1d673.pdf\nSDN1_C6_29_ad2b453d.pdf\nSDN1_C6_3_8dff99c5.pdf\nSDN1_C6_30_454c209f.pdf\nSDN1_C6_31_61874de8.pdf\nSDN1_C6_32_451dcc4b.pdf\nSDN1_C6_33_932bd95c.pdf\nSDN1_C6_4_b7f4e4d6.pdf\nSDN1_C6_5_0e772c1b.pdf\nSDN1_C6_6_546254b7.pdf\nSDN1_C6_7_4cbd9342.pdf\nSDN1_C6_8_a8363646.pdf\nSDN1_C6_9_f66920d4.pdf\n",
+  "stderr": "",
+  "execution_time_ms": 1789
+}

@@ -23,6 +23,8 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Search, ChevronDown, ChevronUp, RotateCcw, FileText, MapPin, Globe2 } from "lucide-react";
+import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
+import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 
 const PLOT_MIN = Math.floor(Math.min(...ALL_VILLAS.map((v) => v.plotAreaSqm ?? 0)));
 const PLOT_MAX = Math.ceil(Math.max(...ALL_VILLAS.map((v) => v.plotAreaSqm ?? 0)));
@@ -61,6 +63,9 @@ export default function StRegis() {
 
   const filteredIds = useMemo(() => new Set(filtered.map((v) => v.id)), [filtered]);
   const focusId = hoverId ?? activeId;
+  // Bulk DCR PDF index for the whole community (33 plots).
+  const { index: pdfIndex, isLoading: pdfLoading } = useDcrPdfIndex("st-regis/");
+  const pdfCount = pdfIndex.size;
 
   function reset() {
     setQuery("");
@@ -158,6 +163,13 @@ export default function StRegis() {
               <RotateCcw className="h-3.5 w-3.5" />
               Reset
             </Button>
+            <DownloadDcrPackButton
+              prefix="st-regis/"
+              filename="StRegis-DCRs.zip"
+              count={pdfCount}
+              loading={pdfLoading}
+              className="h-9 hidden md:inline-flex"
+            />
           </div>
         </div>
       </section>

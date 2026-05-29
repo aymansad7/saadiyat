@@ -12,6 +12,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
+import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, RotateCcw, ChevronUp, ChevronDown, ExternalLink } from "lucide-react";
@@ -45,6 +46,7 @@ export default function SaadiyatBeachVillas() {
     return match?.[1] ?? null;
   }, [activeGate]);
   const { index: pdfIndex, isLoading: pdfLoading } = useDcrPdfIndex(pdfPrefix);
+  const pdfCount = pdfIndex.size;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -172,6 +174,15 @@ export default function SaadiyatBeachVillas() {
                 <RotateCcw className="h-3.5 w-3.5" />
                 Reset
               </Button>
+              {pdfPrefix && (
+                <DownloadDcrPackButton
+                  prefix={pdfPrefix}
+                  filename={`SBV-${activeGate.name.replace(/\s+/g, "")}-DCRs.zip`}
+                  count={pdfCount}
+                  loading={pdfLoading}
+                  className="h-9 hidden md:inline-flex"
+                />
+              )}
               <Button asChild variant="outline" size="sm" className="h-9 bg-card gap-1.5 hidden md:inline-flex">
                 <a href="https://myland.dmt.gov.ae/" target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="h-3.5 w-3.5" />

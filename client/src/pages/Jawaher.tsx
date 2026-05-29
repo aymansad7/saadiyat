@@ -15,6 +15,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
+import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, RotateCcw, ChevronUp, ChevronDown, ExternalLink } from "lucide-react";
@@ -29,6 +30,7 @@ export default function Jawaher() {
 
   // Bulk-fetch every Jawaher DCR PDF in one request → pdf URL map keyed by villaKey.
   const { index: pdfIndex, isLoading: pdfLoading } = useDcrPdfIndex("jawaher/");
+  const pdfCount = pdfIndex.size;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -73,9 +75,17 @@ export default function Jawaher() {
               location, open the MyLand portal and filter by community.
             </p>
           </div>
-          <div className="col-span-12 sm:col-span-5 lg:col-span-4 flex flex-wrap gap-3 sm:justify-end">
-            <Stat label="Plots" value={String(COMMUNITY.totalPlots)} />
-            <Stat label="Showing" value={String(filtered.length)} accent />
+          <div className="col-span-12 sm:col-span-5 lg:col-span-4 flex flex-col gap-3 sm:items-end">
+            <div className="flex flex-wrap gap-3 sm:justify-end">
+              <Stat label="Plots" value={String(COMMUNITY.totalPlots)} />
+              <Stat label="Showing" value={String(filtered.length)} accent />
+            </div>
+            <DownloadDcrPackButton
+              prefix="jawaher/"
+              filename="Jawaher-DCRs.zip"
+              count={pdfCount}
+              loading={pdfLoading}
+            />
             <Stat label="Source" value="DMT" />
           </div>
         </div>
