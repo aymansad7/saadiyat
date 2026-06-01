@@ -72,6 +72,17 @@ export default function AdminListings() {
   const [community, setCommunity] = useState<string>("all");
   const [status, setStatus] = useState<string>("all");
   const [q, setQ] = useState("");
+  const [priceMinStr, setPriceMinStr] = useState("");
+  const [priceMaxStr, setPriceMaxStr] = useState("");
+
+  const priceMin = useMemo(() => {
+    const n = parseInt(priceMinStr.replace(/[^0-9]/g, ""), 10);
+    return Number.isFinite(n) && n >= 0 ? n : undefined;
+  }, [priceMinStr]);
+  const priceMax = useMemo(() => {
+    const n = parseInt(priceMaxStr.replace(/[^0-9]/g, ""), 10);
+    return Number.isFinite(n) && n >= 0 ? n : undefined;
+  }, [priceMaxStr]);
 
   const stats = trpc.villaListings.stats.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -81,6 +92,8 @@ export default function AdminListings() {
       community: community === "all" ? undefined : community,
       status: status === "all" ? (undefined as any) : (status as any),
       q: q.trim() || undefined,
+      priceMin,
+      priceMax,
       limit: 500,
     },
     { enabled: isAuthenticated },
@@ -173,10 +186,27 @@ export default function AdminListings() {
               <div className="relative">
                 <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
                 <Input
-                  placeholder="Search by villa key…"
-                  className="h-9 w-56 pl-8"
+                  placeholder="Search villa key, owner, internal notes…"
+                  className="h-9 w-72 pl-8"
                   value={q}
                   onChange={e => setQ(e.target.value)}
+                />
+              </div>
+              <div className="flex items-center gap-1">
+                <Input
+                  placeholder="Min AED"
+                  className="h-9 w-28"
+                  inputMode="numeric"
+                  value={priceMinStr}
+                  onChange={e => setPriceMinStr(e.target.value)}
+                />
+                <span className="text-xs text-muted-foreground">–</span>
+                <Input
+                  placeholder="Max AED"
+                  className="h-9 w-28"
+                  inputMode="numeric"
+                  value={priceMaxStr}
+                  onChange={e => setPriceMaxStr(e.target.value)}
                 />
               </div>
               <Select value={community} onValueChange={setCommunity}>

@@ -196,3 +196,106 @@ describe("villaListings — Aldar villaKey shapes", () => {
     expect(rows.length).toBeGreaterThan(0);
   });
 });
+
+describe("villaListings.adminList — price range + multi-field search", () => {
+  const STAMP = Date.now();
+  const PRICE_COMMUNITY = "test-vl-price";
+  const Q_COMMUNITY = "test-vl-q";
+  const NEEDLE = `RareNeedle${STAMP}`;
+  const PRICE_KEY_LOW = `tests/admin-list-${STAMP}-low`;
+  const PRICE_KEY_MID = `tests/admin-list-${STAMP}-mid`;
+  const PRICE_KEY_HIGH = `tests/admin-list-${STAMP}-high`;
+  const Q_KEY_A = `tests/q-key-${STAMP}-a`;
+  const Q_KEY_B = `tests/q-key-${STAMP}-b`;
+  const Q_KEY_C = `tests/q-key-${STAMP}-c-${NEEDLE.toLowerCase()}`;
+
+  afterAll(async () => {
+    const db = await getDb();
+    if (!db) return;
+    for (const k of [
+      PRICE_KEY_LOW,
+      PRICE_KEY_MID,
+      PRICE_KEY_HIGH,
+      Q_KEY_A,
+      Q_KEY_B,
+      Q_KEY_C,
+    ]) {
+      await db.delete(villaListingAudit).where(eq(villaListingAudit.villaKey, k));
+      await db.delete(villaListings).where(eq(villaListings.villaKey, k));
+    }
+  });
+
+  it("filters by priceMin/priceMax inclusive bounds", { timeout: 30_000 }, async () => {
+    const admin = appRouter.createCaller(adminCtx);
+    await admin.villaListings.upsert({
+      villaKey: PRICE_KEY_LOW,
+      community: PRICE_COMMUNITY,
+      askingPriceAed: 5_000_000,
+      status: "available",
+    });
+    await admin.villaListings.upsert({
+      villaKey: PRICE_KEY_MID,
+      community: PRICE_COMMUNITY,
+      askingPriceAed: 12_000_000,
+      status: "available",
+    });
+    await admin.villaListings.upsert({
+      villaKey: PRICE_KEY_HIGH,
+      community: PRICE_COMMUNITY,
+      askingPriceAed: 25_000_000,
+      status: "available",
+    });
+
+    const inRange = await admin.villaListings.adminList({
+      community: PRICE_COMMUNITY,
+      priceMin: 10_000_000,
+      priceMax: 20_000_000,
+      limit: 100,
+    });
+    const inKeys = inRange.map(r => r.villaKey).sort();
+    expect(inKeys).toEqual([PRICE_KEY_MID]);
+
+    const onlyMin = await admin.villaListings.adminList({
+      community: PRICE_COMMUNITY,
+      priceMin: 10_000_000,
+      limit: 100,
+    });
+    const minKeys = onlyMin.map(r => r.villaKey).sort();
+    expect(minKeys).toEqual([PRICE_KEY_HIGH, PRICE_KEY_MID].sort());
+
+    const onlyMax = await admin.villaListings.adminList({
+      community: PRICE_COMMUNITY,
+      priceMax: 10_000_000,
+      limit: 100,
+    });
+    const maxKeys = onlyMax.map(r => r.villaKey).sort();
+    expect(maxKeys).toEqual([PRICE_KEY_LOW]);
+  });
+
+  it("free-text q matches across villaKey, ownerName, and internalNotes", { timeout: 30_000 }, async () => {
+    const admin = appRouter.createCaller(adminCtx);
+
+    await admin.villaListings.upsert({
+      villaKey: Q_KEY_A,
+      community: Q_COMMUNITY,
+      ownerName: `Owner ${NEEDLE}`,
+    });
+    await admin.villaListings.upsert({
+      villaKey: Q_KEY_B,
+      community: Q_COMMUNITY,
+      internalNotes: `Internal note mentioning ${NEEDLE} on file`,
+    });
+    await admin.villaListings.upsert({
+      villaKey: Q_KEY_C,
+      community: Q_COMMUNITY,
+    });
+
+    const hits = await admin.villaListings.adminList({
+      community: Q_COMMUNITY,
+      q: NEEDLE,
+      limit: 50,
+    });
+    const hitKeys = hits.map(r => r.villaKey).sort();
+    expect(hitKeys).toEqual([Q_KEY_A, Q_KEY_B, Q_KEY_C].sort());
+  });
+});

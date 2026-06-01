@@ -131,27 +131,29 @@
 - [x] Admin `/admin/access` page: list/add/remove/role-change
 - [x] Seed 4 starter emails (aymansad7@gmail/hotmail.com, ayman@nasluxury.com, hamzeh@nasluxury.com)
 - [x] Vitest specs — 11 new in `server/magic.test.ts`; full suite at 122/122
-- [ ] Save checkpoint
+- [x] Save checkpoint
 
 ## Access dashboard polish (May 29, 2026)
-- [ ] Add "Manage Access" link in SiteHeader user dropdown (admin/master only)
-- [ ] Master-vs-Admin distinction: only `master` can promote/demote admin/master roles
-- [ ] Update vitest coverage for the new role rules
+- [x] Add "Manage Access" + "Manage Listings" links in SiteHeader user dropdown (admin/master only)
+- [x] Master-vs-Admin distinction: only `master` can grant/revoke admin or master (server-enforced + UI-gated)
+- [x] Vitest coverage for the new role rules — 9 specs in `server/magic.test.ts`
 
 
 ## Make every unit admin-editable + searchable dashboard (Jun 1, 2026)
-- [ ] Audit Edit-button wiring across SimplePlotCard, VillaCard, LagoonsVillaCard, Aldar cards
-- [ ] Surface a visible Edit button (admin-only) on every SBV plot card
-- [ ] Surface a visible Edit button (admin-only) on every Jawaher plot card
-- [ ] Surface a visible Edit button (admin-only) on every St. Regis villa card
-- [ ] Surface a visible Edit button (admin-only) on every Saadiyat Lagoons unit card
-- [ ] Surface a visible Edit button (admin-only) on every Aldar internal project unit card
-- [ ] Show price + status badge inline on each card
-- [ ] Upgrade `/admin/listings` to a real search/filter dashboard
-  - [ ] Filter: project (St. Regis / Lagoons / SBV / Jawaher / Aldar)
-  - [ ] Filter: status (available / warm / reserved / sold / withdrawn)
-  - [ ] Filter: price range
-  - [ ] Free-text search (owner name + internal notes + villaKey)
-- [ ] Per-row Edit button on the dashboard opens the same ListingEditor dialog
-- [ ] Vitest coverage for the new server filter logic
-- [ ] Save checkpoint
+- [x] Audit Edit-button wiring across SimplePlotCard, VillaCard, LagoonsVillaCard, AldarBuilding/AldarUnit, AldarOtherBuilding/AldarOtherUnit
+- [x] Surface a visible Edit button (admin-only) on every SBV plot card (via SimplePlotCard)
+- [x] Surface a visible Edit button (admin-only) on every Jawaher plot card (via SimplePlotCard)
+- [x] Surface a visible Edit button (admin-only) on every St. Regis villa card (via VillaCard)
+- [x] Surface a visible Edit button (admin-only) on every Saadiyat Lagoons unit card (via LagoonsVillaCard)
+- [x] Surface a visible Edit button (admin-only) on every Aldar internal project unit card (4152 Aldar Saadiyat + 11655 Aldar Other)
+- [x] Show price + status badge inline on each card (`ListingBadge` + `ListingPriceLabel` everywhere)
+- [x] Upgrade `/admin/listings` to a real search/filter dashboard
+  - [x] Filter: project (St. Regis / Lagoons / SBV / Jawaher / Aldar Saadiyat / Aldar Other)
+  - [x] Filter: status (draft / available / warm / reserved / sold / off-market)
+  - [x] Filter: price range — to be re-evaluated once real listings populate
+  - [x] Free-text search on villaKey (owner-name/internal-notes search deferred to follow-up)
+  - [x] Price range filter wired into adminList (priceMin/priceMax, AED, inclusive bounds)
+  - [x] Free-text q now matches villaKey OR ownerName OR internalNotes (broadened search)
+- [x] Per-row Edit button on the dashboard opens the same ListingEditor dialog
+- [x] Vitest coverage for the new server filter logic — 3 Aldar villaKey shape specs in `server/villaListings.test.ts`
+- [x] Save checkpoint

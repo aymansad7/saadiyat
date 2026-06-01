@@ -13,7 +13,7 @@
  * `ownerPhone`, `ownerEmail`, `internalNotes`, `updatedBy`.
  */
 import { TRPCError } from "@trpc/server";
-import { and, asc, desc, eq, like, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, lte, like, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import {
   villaListingAudit,
@@ -163,13 +163,20 @@ export const villaListingsRouter = router({
       return isAdmin(ctx.user) ? rows : rows.map(toPublic);
     }),
 
-  /** Admin index. Filters: community/status/q (substring on villaKey or notes). */
+  /** Admin index. Filters:
+   *  - community: exact community slug
+   *  - status: enum filter
+   *  - priceMin/priceMax (AED): inclusive bounds, applied only to non-null askingPriceAed
+   *  - q: case-insensitive substring matched across `villaKey`, `ownerName`, and `internalNotes`
+   */
   adminList: adminProcedure
     .input(
       z
         .object({
           community: communitySchema.optional(),
           status: z.enum(STATUS_VALUES).optional(),
+          priceMin: z.number().int().nonnegative().max(10_000_000_000).optional(),
+          priceMax: z.number().int().nonnegative().max(10_000_000_000).optional(),
           q: z.string().max(128).optional(),
           limit: z.number().int().min(1).max(500).default(200),
         })
@@ -181,8 +188,21 @@ export const villaListingsRouter = router({
       const where = [] as any[];
       if (input.community) where.push(eq(villaListings.community, input.community));
       if (input.status) where.push(eq(villaListings.status, input.status));
+      if (input.priceMin !== undefined) {
+        where.push(gte(villaListings.askingPriceAed, input.priceMin));
+      }
+      if (input.priceMax !== undefined) {
+        where.push(lte(villaListings.askingPriceAed, input.priceMax));
+      }
       if (input.q && input.q.trim()) {
-        where.push(like(villaListings.villaKey, `%${input.q.trim()}%`));
+        const term = `%${input.q.trim()}%`;
+        where.push(
+          or(
+            like(villaListings.villaKey, term),
+            like(villaListings.ownerName, term),
+            like(villaListings.internalNotes, term),
+          ),
+        );
       }
       return db
         .select()
