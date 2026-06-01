@@ -143,3 +143,56 @@ describe("villaListings router — admin upsert + masking", () => {
     expect((rows[0] as any).ownerName).toBeUndefined();
   });
 });
+
+
+describe("villaListings — Aldar villaKey shapes", () => {
+  const ALDAR_KEYS = [
+    {
+      villaKey: "aldar-saadiyat/faya-al-saadiyat/fayaalsaadiyat-sb45/FayaAlSaadiyat-SB45-V-01-01",
+      community: "aldar-saadiyat",
+    },
+    {
+      villaKey: "aldar-other/al-deem-townhomes/aldeemtownhomes-aldeem/AlDeemTownhomes-AlDeem-TH-021",
+      community: "aldar-other",
+    },
+  ];
+
+  afterAll(async () => {
+    const db = await getDb();
+    if (!db) return;
+    for (const k of ALDAR_KEYS) {
+      await db.delete(villaListingAudit).where(eq(villaListingAudit.villaKey, k.villaKey));
+      await db.delete(villaListings).where(eq(villaListings.villaKey, k.villaKey));
+    }
+  });
+
+  it("accepts aldar-saadiyat and aldar-other villaKeys via admin upsert", async () => {
+    const caller = appRouter.createCaller(adminCtx);
+    for (const k of ALDAR_KEYS) {
+      const row = await caller.villaListings.upsert({
+        villaKey: k.villaKey,
+        community: k.community,
+        askingPriceAed: 1_500_000,
+        status: "available",
+      });
+      expect(row.villaKey).toBe(k.villaKey);
+      expect(row.community).toBe(k.community);
+      expect(row.askingPriceAed).toBe(1_500_000);
+    }
+  });
+
+  it("listByCommunity returns aldar rows when filtered by community", async () => {
+    const caller = appRouter.createCaller(anonCtx);
+    const rows = await caller.villaListings.listByCommunity({ community: "aldar-saadiyat" });
+    expect(rows.some(r => r.villaKey.startsWith("aldar-saadiyat/"))).toBe(true);
+  });
+
+  it("listByCommunity prefix filter narrows to a single project/building", async () => {
+    const caller = appRouter.createCaller(anonCtx);
+    const rows = await caller.villaListings.listByCommunity({
+      prefix: "aldar-saadiyat/faya-al-saadiyat/",
+    });
+    expect(rows.every(r => r.villaKey.startsWith("aldar-saadiyat/faya-al-saadiyat/"))).toBe(true);
+    expect(rows.length).toBeGreaterThan(0);
+  });
+});

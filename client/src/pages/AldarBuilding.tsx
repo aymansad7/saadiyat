@@ -20,6 +20,12 @@ import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
+import { useListingIndex } from "@/hooks/useListingIndex";
+import {
+  EditListingButton,
+  ListingBadge,
+  ListingPriceLabel,
+} from "@/components/ListingControls";
 
 export default function AldarBuilding() {
   const { project: projectSlug, building: buildingSlug } = useParams<{
@@ -90,6 +96,13 @@ export default function AldarBuilding() {
     }
     return list;
   }, [allUnits, availableOnly, bedroomFilter, sort]);
+
+  // Bulk-fetch all listings for units in this building (before any early
+  // returns — hook order must be stable).
+  const listingPrefix = ctx
+    ? `aldar-saadiyat/${ctx.project.slug}/${ctx.building.slug}/`
+    : undefined;
+  const { index: listingIndex } = useListingIndex({ prefix: listingPrefix });
 
   if (!ctx) return <Redirect to="/aldar-saadiyat" />;
   const { project, building } = ctx;
@@ -177,18 +190,24 @@ export default function AldarBuilding() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-            {units.map(u => (
-              <Link
-                key={u.unit_name}
-                href={`/aldar-saadiyat/${project.slug}/${building.slug}/${encodeURIComponent(u.unit_name ?? "")}`}
-                className="group block rounded-md border border-border bg-card overflow-hidden hover:border-primary/60 transition-colors"
-              >
+            {units.map(u => {
+              const villaKey = `aldar-saadiyat/${project.slug}/${building.slug}/${u.unit_name ?? ""}`;
+              const listing = listingIndex.get(villaKey) ?? null;
+              return (
+              <div key={u.unit_name} className="group rounded-md border border-border bg-card overflow-hidden hover:border-primary/60 transition-colors flex flex-col">
+                <Link
+                  href={`/aldar-saadiyat/${project.slug}/${building.slug}/${encodeURIComponent(u.unit_name ?? "")}`}
+                  className="block flex-1"
+                >
                 <div className="p-4 flex flex-col gap-2">
                   <div className="flex items-center justify-between gap-2">
                     <div className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
                       Unit
                     </div>
-                    <AldarStatusBadge status={u.status} />
+                    <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                      <ListingBadge status={listing?.status ?? null} />
+                      <AldarStatusBadge status={u.status} />
+                    </div>
                   </div>
                   <div className="font-display text-2xl text-foreground leading-none">
                     {shortUnitNumber(u.unit_name)}
@@ -217,9 +236,30 @@ export default function AldarBuilding() {
                       </div>
                     </div>
                   </div>
+                  {listing?.askingPriceAed ? (
+                    <div className="mt-1 -mb-1 flex items-center gap-1">
+                      <span className="text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">Resale ask</span>
+                      <ListingPriceLabel askingPriceAed={listing.askingPriceAed} className="text-emerald-600 dark:text-emerald-400" />
+                    </div>
+                  ) : null}
+                  {listing?.listingPartners ? (
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground truncate">
+                      with {listing.listingPartners}
+                    </div>
+                  ) : null}
                 </div>
-              </Link>
-            ))}
+                </Link>
+                <div className="px-4 pb-3">
+                  <EditListingButton
+                    villaKey={villaKey}
+                    community="aldar-saadiyat"
+                    villaLabel={`${project.name} · ${dn.primary} · ${u.unit_name}`}
+                    className="w-full justify-center"
+                  />
+                </div>
+              </div>
+              );
+            })}
           </div>
         )}
       </section>

@@ -38,11 +38,13 @@ import {
 } from "@/components/ListingControls";
 
 const COMMUNITIES = [
-  { slug: "all", name: "All communities" },
+  { slug: "all", name: "All projects" },
   { slug: "st-regis", name: "St. Regis" },
   { slug: "jawaher", name: "Jawaher" },
   { slug: "saadiyat-beach-villas", name: "Saadiyat Beach Villas" },
   { slug: "saadiyat-lagoons", name: "Saadiyat Lagoons" },
+  { slug: "aldar-saadiyat", name: "Aldar — Saadiyat" },
+  { slug: "aldar-other", name: "Aldar — Other" },
 ];
 
 const STATUSES = [

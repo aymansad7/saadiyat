@@ -137,3 +137,21 @@
 - [ ] Add "Manage Access" link in SiteHeader user dropdown (admin/master only)
 - [ ] Master-vs-Admin distinction: only `master` can promote/demote admin/master roles
 - [ ] Update vitest coverage for the new role rules
+
+
+## Make every unit admin-editable + searchable dashboard (Jun 1, 2026)
+- [ ] Audit Edit-button wiring across SimplePlotCard, VillaCard, LagoonsVillaCard, Aldar cards
+- [ ] Surface a visible Edit button (admin-only) on every SBV plot card
+- [ ] Surface a visible Edit button (admin-only) on every Jawaher plot card
+- [ ] Surface a visible Edit button (admin-only) on every St. Regis villa card
+- [ ] Surface a visible Edit button (admin-only) on every Saadiyat Lagoons unit card
+- [ ] Surface a visible Edit button (admin-only) on every Aldar internal project unit card
+- [ ] Show price + status badge inline on each card
+- [ ] Upgrade `/admin/listings` to a real search/filter dashboard
+  - [ ] Filter: project (St. Regis / Lagoons / SBV / Jawaher / Aldar)
+  - [ ] Filter: status (available / warm / reserved / sold / withdrawn)
+  - [ ] Filter: price range
+  - [ ] Free-text search (owner name + internal notes + villaKey)
+- [ ] Per-row Edit button on the dashboard opens the same ListingEditor dialog
+- [ ] Vitest coverage for the new server filter logic
+- [ ] Save checkpoint

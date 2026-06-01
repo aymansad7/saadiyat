@@ -14,6 +14,12 @@ import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
 import { parsePaymentPlans } from "./AldarUnit";
 import { ResaleCard } from "@/components/ResaleCard";
+import { useAuth } from "@/_core/hooks/useAuth";
+import {
+  EditListingButton,
+  ListingBadge,
+  ListingPriceLabel,
+} from "@/components/ListingControls";
 
 function Inner() {
   const params = useParams<{ project: string; building: string; unit: string }>();
@@ -27,6 +33,37 @@ function Inner() {
     },
     { enabled: !!params.project && !!params.building && !!unitName },
   );
+
+  const villaKey =
+    params.project && params.building && unitName
+      ? `aldar-other/${params.project}/${params.building}/${unitName}`
+      : "";
+  const listingQuery = trpc.villaListings.byKey.useQuery(
+    { villaKey },
+    { enabled: Boolean(villaKey), staleTime: 60_000 },
+  );
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin" || user?.role === "master";
+  const listing = listingQuery.data as
+    | {
+        askingPriceAed: number | null;
+        status:
+          | "draft"
+          | "available"
+          | "warm"
+          | "reserved"
+          | "sold"
+          | "off-market"
+          | null;
+        listingPartners: string | null;
+        publicNotes: string | null;
+        ownerName?: string | null;
+        ownerPhone?: string | null;
+        ownerEmail?: string | null;
+        internalNotes?: string | null;
+      }
+    | null
+    | undefined;
 
   if (ctxq.isLoading) {
     return (
@@ -143,6 +180,63 @@ function Inner() {
                 </div>
               </a>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Resale listing card (admin manages, public sees price/status) */}
+      <section className="border-b border-border bg-background">
+        <div className="container py-6 sm:py-8">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div>
+              <div className="text-[0.65rem] uppercase tracking-[0.22em] font-mono text-muted-foreground mb-2">
+                Resale listing
+              </div>
+              {listing ? (
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <ListingBadge status={listing.status ?? null} />
+                    {listing.askingPriceAed ? (
+                      <ListingPriceLabel
+                        askingPriceAed={listing.askingPriceAed}
+                        className="text-emerald-600 dark:text-emerald-400 text-base"
+                      />
+                    ) : (
+                      <span className="text-sm text-muted-foreground">No asking price set</span>
+                    )}
+                  </div>
+                  {listing.listingPartners && (
+                    <div className="text-xs uppercase tracking-wider text-muted-foreground">
+                      Listed with {listing.listingPartners}
+                    </div>
+                  )}
+                  {listing.publicNotes && (
+                    <div className="text-sm text-foreground/80 max-w-2xl">{listing.publicNotes}</div>
+                  )}
+                  {isAdmin && (listing.ownerName || listing.ownerPhone || listing.ownerEmail) && (
+                    <div className="mt-2 rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs space-y-0.5">
+                      <div className="font-mono uppercase tracking-wider text-amber-700 dark:text-amber-300">Owner (internal — admin only)</div>
+                      {listing.ownerName && <div>Name: <span className="font-medium">{listing.ownerName}</span></div>}
+                      {listing.ownerPhone && <div>Phone: <span className="font-medium">{listing.ownerPhone}</span></div>}
+                      {listing.ownerEmail && <div>Email: <span className="font-medium">{listing.ownerEmail}</span></div>}
+                    </div>
+                  )}
+                  {isAdmin && listing.internalNotes && (
+                    <div className="mt-1 rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs">
+                      <div className="font-mono uppercase tracking-wider text-amber-700 dark:text-amber-300 mb-1">Internal notes</div>
+                      <div className="whitespace-pre-wrap">{listing.internalNotes}</div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="text-sm text-muted-foreground">No resale listing yet.</div>
+              )}
+            </div>
+            <EditListingButton
+              villaKey={villaKey}
+              community="aldar-other"
+              villaLabel={`${project.name} · ${building.name} · ${unit.unit_name}`}
+            />
           </div>
         </div>
       </section>
