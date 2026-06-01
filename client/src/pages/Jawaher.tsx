@@ -15,6 +15,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
+import { useListingIndex } from "@/hooks/useListingIndex";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
 import { DownloadDcrBackupButton } from "@/components/DownloadDcrBackupButton";
 import { DCR_BACKUPS } from "@/data/dcrBackups";
@@ -33,6 +34,9 @@ export default function Jawaher() {
   // Bulk-fetch every Jawaher DCR PDF in one request → pdf URL map keyed by villaKey.
   const { index: pdfIndex, isLoading: pdfLoading } = useDcrPdfIndex("jawaher/");
   const pdfCount = pdfIndex.size;
+
+  // Bulk-fetch every Jawaher listing row in a single request.
+  const { index: listingIndex } = useListingIndex({ community: "jawaher" });
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -161,6 +165,8 @@ export default function Jawaher() {
                   bigNumber={p.label.replace(/^Plot\s+/, "")}
                   pdfUrl={pdfIndex.get(p.villaKey) ?? null}
                   pdfLoading={pdfLoading}
+                  listing={listingIndex.get(p.villaKey) ?? null}
+                  community="jawaher"
                 />
               ))}
             </div>

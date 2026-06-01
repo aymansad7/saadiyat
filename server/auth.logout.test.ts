@@ -49,9 +49,11 @@ describe("auth.logout", () => {
     const result = await caller.auth.logout();
 
     expect(result).toEqual({ success: true });
-    expect(clearedCookies).toHaveLength(1);
-    expect(clearedCookies[0]?.name).toBe(COOKIE_NAME);
-    expect(clearedCookies[0]?.options).toMatchObject({
+    // Logout now clears both the Manus session cookie and the magic-link session cookie.
+    expect(clearedCookies.length).toBeGreaterThanOrEqual(1);
+    const manus = clearedCookies.find((c) => c.name === COOKIE_NAME);
+    expect(manus, `expected ${COOKIE_NAME} to be cleared`).toBeTruthy();
+    expect(manus?.options).toMatchObject({
       maxAge: -1,
       secure: true,
       sameSite: "none",

@@ -1,0 +1,30 @@
+{
+  "query": "INSERT INTO allowed_emails (email, role, addedBy, note) VALUES\n  ('aymansad7@gmail.com', 'admin', 'system_seed', 'Founder seed'),\n  ('aymansad7@hotmail.com', 'admin', 'system_seed', 'Founder seed'),\n  ('ayman@nasluxury.com', 'admin', 'system_seed', 'Founder seed'),\n  ('hamzeh@nasluxury.com', 'admin', 'system_seed', 'Founder seed');\nSELECT email, role, addedBy FROM allowed_emails;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user fp2o6mumF24Gt2y.6742ed1df113 --database cdNSYhri6jzahGcw5xtfw3 --execute INSERT INTO allowed_emails (email, role, addedBy, note) VALUES\n  ('aymansad7@gmail.com', 'admin', 'system_seed', 'Founder seed'),\n  ('aymansad7@hotmail.com', 'admin', 'system_seed', 'Founder seed'),\n  ('ayman@nasluxury.com', 'admin', 'system_seed', 'Founder seed'),\n  ('hamzeh@nasluxury.com', 'admin', 'system_seed', 'Founder seed');\nSELECT email, role, addedBy FROM allowed_emails;",
+  "rows": [
+    {
+      "email": "aymansad7@gmail.com",
+      "role": "admin",
+      "addedBy": "system_seed"
+    },
+    {
+      "email": "aymansad7@hotmail.com",
+      "role": "admin",
+      "addedBy": "system_seed"
+    },
+    {
+      "email": "ayman@nasluxury.com",
+      "role": "admin",
+      "addedBy": "system_seed"
+    },
+    {
+      "email": "hamzeh@nasluxury.com",
+      "role": "admin",
+      "addedBy": "system_seed"
+    }
+  ],
+  "messages": [],
+  "stdout": "email\trole\taddedBy\naymansad7@gmail.com\tadmin\tsystem_seed\naymansad7@hotmail.com\tadmin\tsystem_seed\nayman@nasluxury.com\tadmin\tsystem_seed\nhamzeh@nasluxury.com\tadmin\tsystem_seed\n",
+  "stderr": "",
+  "execution_time_ms": 2112
+}

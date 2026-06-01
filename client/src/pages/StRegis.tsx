@@ -27,6 +27,7 @@ import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
 import { DownloadDcrBackupButton } from "@/components/DownloadDcrBackupButton";
 import { DCR_BACKUPS } from "@/data/dcrBackups";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
+import { useListingIndex } from "@/hooks/useListingIndex";
 
 const PLOT_MIN = Math.floor(Math.min(...ALL_VILLAS.map((v) => v.plotAreaSqm ?? 0)));
 const PLOT_MAX = Math.ceil(Math.max(...ALL_VILLAS.map((v) => v.plotAreaSqm ?? 0)));
@@ -42,6 +43,8 @@ export default function StRegis() {
   const [hoverId, setHoverId] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [mapOpenMobile, setMapOpenMobile] = useState(true);
+
+  const { index: listingIndex } = useListingIndex({ community: "st-regis" });
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -285,6 +288,7 @@ export default function StRegis() {
                   isActive={focusId === v.id}
                   onHover={setHoverId}
                   onSelect={(id) => setActiveId((cur) => (cur === id ? null : id))}
+                  listing={listingIndex.get(`st-regis/Plot-${v.id}`) ?? null}
                 />
               ))}
             </div>

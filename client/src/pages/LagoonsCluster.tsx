@@ -13,7 +13,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Redirect, useParams, useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
-import LagoonsVillaCard from "@/components/LagoonsVillaCard";
+import LagoonsVillaCard, { lagoonsVillaKey } from "@/components/LagoonsVillaCard";
+import { useListingIndex } from "@/hooks/useListingIndex";
 import {
   LAGOONS_DATASET,
   getLagoonsVillasByCluster,
@@ -49,6 +50,10 @@ export default function LagoonsCluster() {
   const label = CLUSTER_LABELS[cluster];
   const all = useMemo(() => getLagoonsVillasByCluster(cluster), [cluster]);
   const summary = LAGOONS_DATASET.summary[cluster];
+  // Bulk-fetch listings for this cluster only (e.g. saadiyat-lagoons/ethir-…)
+  const { index: listingIndex } = useListingIndex({
+    prefix: `saadiyat-lagoons/${cluster}-`,
+  });
 
   const search = useSearch();
   const initialAvail = useMemo<AvailabilityFilter>(() => {
@@ -302,7 +307,11 @@ export default function LagoonsCluster() {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {visible.map((v) => (
-                <LagoonsVillaCard key={v.unit_name} villa={v} />
+                <LagoonsVillaCard
+                  key={v.unit_name}
+                  villa={v}
+                  listing={listingIndex.get(lagoonsVillaKey(v)) ?? null}
+                />
               ))}
             </div>
             {filtered.length > visible.length && (

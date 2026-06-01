@@ -17,9 +17,20 @@ import {
   SOURCE_META,
   type ResaleSource,
 } from "@/data/lagoonsAvailability";
+import type { ListingIndexEntry } from "@/hooks/useListingIndex";
+import {
+  EditListingButton,
+  ListingBadge,
+  ListingPriceLabel,
+} from "@/components/ListingControls";
+
+export function lagoonsVillaKey(v: LagoonsVilla) {
+  return `saadiyat-lagoons/${v.cluster}-${v.unit_name}`;
+}
 
 interface Props {
   villa: LagoonsVilla;
+  listing?: ListingIndexEntry | null;
 }
 
 function positionBadge(villa: LagoonsVilla): { label: string; cls: string } | null {
@@ -38,7 +49,7 @@ function positionBadge(villa: LagoonsVilla): { label: string; cls: string } | nu
   return null;
 }
 
-export default function LagoonsVillaCard({ villa }: Props) {
+export default function LagoonsVillaCard({ villa, listing }: Props) {
   const badge = positionBadge(villa);
   const detailHref = `/saadiyat-lagoons/${villa.cluster}/${encodeURIComponent(villa.unit_name)}`;
   const availability = getAvailability(villa.unit_name);
@@ -60,6 +71,7 @@ export default function LagoonsVillaCard({ villa }: Props) {
               <span className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground">
                 {villa.cluster_label}
               </span>
+              <ListingBadge status={listing?.status ?? null} />
               {badge && (
                 <span
                   className={[
@@ -112,6 +124,16 @@ export default function LagoonsVillaCard({ villa }: Props) {
           </div>
         </dl>
 
+        {listing?.askingPriceAed ? (
+          <div className="mt-3">
+            <ListingPriceLabel askingPriceAed={listing.askingPriceAed} />
+            {listing.listingPartners && (
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5 truncate">
+                with {listing.listingPartners}
+              </div>
+            )}
+          </div>
+        ) : null}
         {availability.sources.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1.5">
             {availability.sources.map((src: ResaleSource) => (
@@ -152,6 +174,13 @@ export default function LagoonsVillaCard({ villa }: Props) {
             <MapPin className="h-3.5 w-3.5" />
             Google Maps
           </a>
+          <div className="ml-auto" onClick={(e) => e.stopPropagation()}>
+            <EditListingButton
+              villaKey={lagoonsVillaKey(villa)}
+              community="saadiyat-lagoons"
+              villaLabel={`${villa.cluster_label} · ${villa.short_name}`}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -10,6 +10,12 @@ import { FileText, MapPin, Loader2 } from "lucide-react";
 import type { SimplePlot } from "@/data/communities";
 import { MYLAND_URL } from "@/data/communities";
 import { useDcrPdfUrl } from "@/hooks/useDcrPdfUrl";
+import type { ListingIndexEntry } from "@/hooks/useListingIndex";
+import {
+  EditListingButton,
+  ListingBadge,
+  ListingPriceLabel,
+} from "@/components/ListingControls";
 
 interface Props {
   plot: SimplePlot;
@@ -23,6 +29,10 @@ interface Props {
   pdfUrl?: string | null;
   /** Whether the parent's bulk fetch is still loading. */
   pdfLoading?: boolean;
+  /** Optional pre-resolved listing row. When omitted, the card hides listing chrome. */
+  listing?: ListingIndexEntry | null;
+  /** Community slug for the Edit dialog (required when admins should be able to start a new listing). */
+  community?: string;
 }
 
 export default function SimplePlotCard({
@@ -31,6 +41,8 @@ export default function SimplePlotCard({
   bigNumber,
   pdfUrl: pdfUrlProp,
   pdfLoading: pdfLoadingProp,
+  listing,
+  community,
 }: Props) {
   // If parent provided a bulk-resolved URL, use it. Otherwise fall back to the
   // single-villa hook (cheap on detail pages, expensive on listing pages).
@@ -53,15 +65,27 @@ export default function SimplePlotCard({
           </div>
         </div>
         <div className="flex-1 min-w-0">
-          <div className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground truncate">
-            {communityLabel}
+          <div className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground truncate flex items-center gap-2">
+            <span className="truncate">{communityLabel}</span>
+            <ListingBadge status={listing?.status ?? null} />
           </div>
           <h3 className="font-display text-lg text-foreground mt-1 leading-snug truncate">
             {plot.label}
           </h3>
-          <div className="font-mono text-xs text-muted-foreground mt-1 truncate" title={plot.pdfFilename}>
-            {plot.pdfFilename}
-          </div>
+          {listing?.askingPriceAed ? (
+            <div className="mt-1.5">
+              <ListingPriceLabel askingPriceAed={listing.askingPriceAed} />
+            </div>
+          ) : (
+            <div className="font-mono text-xs text-muted-foreground mt-1 truncate" title={plot.pdfFilename}>
+              {plot.pdfFilename}
+            </div>
+          )}
+          {listing?.listingPartners ? (
+            <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1 truncate">
+              with {listing.listingPartners}
+            </div>
+          ) : null}
         </div>
       </div>
 
@@ -104,6 +128,14 @@ export default function SimplePlotCard({
             <MapPin className="h-3.5 w-3.5" />
             MyLand portal
           </a>
+          {community && (
+            <EditListingButton
+              villaKey={plot.villaKey}
+              community={community}
+              villaLabel={plot.label}
+              className="ml-auto"
+            />
+          )}
         </div>
       </div>
     </div>

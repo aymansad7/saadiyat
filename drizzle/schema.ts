@@ -247,3 +247,175 @@ export const availabilityListings = mysqlTable(
 export type AvailabilityListing = typeof availabilityListings.$inferSelect;
 export type InsertAvailabilityListing =
   typeof availabilityListings.$inferInsert;
+
+
+/**
+ * Email allowlist — only these addresses can request a magic link.
+ *
+ * - `role` mirrors `users.role` so admins can be flagged at allowlist time
+ *   (the user table is created on first sign-in and inherits this role).
+ * - `addedBy` stores the email of the admin who added the entry; this avoids a
+ *   chicken-and-egg lookup against `users.id` during the bootstrap seed.
+ */
+export const allowedEmails = mysqlTable(
+  "allowed_emails",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    email: varchar("email", { length: 320 }).notNull().unique(),
+    role: mysqlEnum("role", ["user", "admin", "master"]).default("user").notNull(),
+    addedBy: varchar("addedBy", { length: 320 }),
+    note: varchar("note", { length: 255 }),
+    /** Last successful magic-link verification — used for the admin "last seen" column. */
+    lastSeenAt: timestamp("lastSeenAt"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  (t) => ({
+    emailIdx: index("allowed_emails_email_idx").on(t.email),
+  }),
+);
+export type AllowedEmail = typeof allowedEmails.$inferSelect;
+export type InsertAllowedEmail = typeof allowedEmails.$inferInsert;
+
+/**
+ * Outstanding magic-link codes. One row per request; the row is marked
+ * `consumedAt` on success or simply expires.
+ *
+ * We store a SHA-256 hash of the 6-digit code (never the raw code) so a DB
+ * leak doesn't immediately compromise pending logins. We rely on TLS to
+ * deliver the email, plus a 10-minute expiry.
+ */
+export const magicLinks = mysqlTable(
+  "magic_links",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    email: varchar("email", { length: 320 }).notNull(),
+    /** SHA-256 of the 6-digit code. */
+    codeHash: varchar("codeHash", { length: 64 }).notNull(),
+    /** Number of failed verification attempts on this code. After 5 we hard-expire it. */
+    failedAttempts: int("failedAttempts").default(0).notNull(),
+    expiresAt: timestamp("expiresAt").notNull(),
+    consumedAt: timestamp("consumedAt"),
+    requestIp: varchar("requestIp", { length: 64 }),
+    requestUserAgent: text("requestUserAgent"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  (t) => ({
+    emailIdx: index("magic_links_email_idx").on(t.email),
+    expiresIdx: index("magic_links_expires_idx").on(t.expiresAt),
+  }),
+);
+export type MagicLink = typeof magicLinks.$inferSelect;
+export type InsertMagicLink = typeof magicLinks.$inferInsert;
+
+/**
+ * Long-lived bearer cookie sessions issued after a successful magic-link
+ * verification. The token is opaque (32 random bytes, hex-encoded) and stored
+ * as-is — we just need a fast O(1) lookup; if the DB is compromised the
+ * attacker can already impersonate every session anyway.
+ */
+export const authSessions = mysqlTable(
+  "auth_sessions",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    token: varchar("token", { length: 128 }).notNull().unique(),
+    email: varchar("email", { length: 320 }).notNull(),
+    expiresAt: timestamp("expiresAt").notNull(),
+    revokedAt: timestamp("revokedAt"),
+    lastUsedAt: timestamp("lastUsedAt").defaultNow().notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    ip: varchar("ip", { length: 64 }),
+    userAgent: text("userAgent"),
+  },
+  (t) => ({
+    emailIdx: index("auth_sessions_email_idx").on(t.email),
+    expiresIdx: index("auth_sessions_expires_idx").on(t.expiresAt),
+  }),
+);
+export type AuthSession = typeof authSessions.$inferSelect;
+export type InsertAuthSession = typeof authSessions.$inferInsert;
+
+
+/**
+ * Per-villa "property profile" — one row per real-world villa or plot, holding
+ * the latest editable state (price, status, listing partners, owner contact,
+ * internal notes). Public fields appear on detail/card views; the
+ * `owner*` and `internalNotes` fields are restricted to admin/master.
+ *
+ * `villaKey` is the same compound key used everywhere else
+ * (e.g. "st-regis/villa-12", "saadiyat-beach-villas/Gate2-Plot-1",
+ *  "jawaher/Plot-100", "lagoons/<cluster>-<plot>").
+ */
+export const villaListings = mysqlTable(
+  "villa_listings",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** Compound key (community-slug/villa-slug). One row per real-world villa. */
+    villaKey: varchar("villaKey", { length: 128 }).notNull().unique(),
+    /** Community slug for filtering ('st-regis' | 'jawaher' | 'saadiyat-beach-villas' | 'lagoons'). */
+    community: varchar("community", { length: 64 }).notNull(),
+
+    /* ------------ public fields ------------ */
+    /** Asking / listed price in AED. NULL when not yet listed. */
+    askingPriceAed: bigint("askingPriceAed", { mode: "number" }),
+    /** Listing status. */
+    status: mysqlEnum("status", [
+      "draft",
+      "available",
+      "warm",
+      "reserved",
+      "sold",
+      "off-market",
+    ])
+      .default("draft")
+      .notNull(),
+    /** Public listing-partner labels — comma-separated names of brokerages. */
+    listingPartners: text("listingPartners"),
+    /** Public-facing remarks (finishing, view, payment plan, signature features). */
+    publicNotes: text("publicNotes"),
+
+    /* ------------ admin-only fields ------------ */
+    ownerName: varchar("ownerName", { length: 255 }),
+    ownerPhone: varchar("ownerPhone", { length: 64 }),
+    ownerEmail: varchar("ownerEmail", { length: 320 }),
+    /** Free-form internal notes (deal history, motivation, prior offers). */
+    internalNotes: text("internalNotes"),
+
+    /* ------------ audit-light fields ------------ */
+    /** Email of last user who edited this listing. */
+    updatedBy: varchar("updatedBy", { length: 320 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    villaListingsCommunityIdx: index("villa_listings_community_idx").on(t.community),
+    villaListingsStatusIdx: index("villa_listings_status_idx").on(t.status),
+  }),
+);
+export type VillaListing = typeof villaListings.$inferSelect;
+export type InsertVillaListing = typeof villaListings.$inferInsert;
+
+/**
+ * Append-only audit log for `villa_listings` edits. We snapshot the changed
+ * fields as JSON-encoded text to keep the schema simple and queries trivial.
+ */
+export const villaListingAudit = mysqlTable(
+  "villa_listing_audit",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    villaKey: varchar("villaKey", { length: 128 }).notNull(),
+    /** Email of the actor (from magic-link session or OAuth user). */
+    actorEmail: varchar("actorEmail", { length: 320 }).notNull(),
+    actorName: varchar("actorName", { length: 255 }),
+    /** Free-form summary, e.g. "set askingPriceAed=5,200,000; status=available". */
+    summary: text("summary").notNull(),
+    /** JSON-encoded {field: {from, to}} payload (trimmed to 8 KB). */
+    changesJson: text("changesJson"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  (t) => ({
+    auditVillaIdx: index("villa_listing_audit_villaKey_idx").on(t.villaKey),
+    auditActorIdx: index("villa_listing_audit_actor_idx").on(t.actorEmail),
+  }),
+);
+export type VillaListingAuditRow = typeof villaListingAudit.$inferSelect;
+export type InsertVillaListingAudit = typeof villaListingAudit.$inferInsert;

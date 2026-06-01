@@ -12,6 +12,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
+import { useListingIndex } from "@/hooks/useListingIndex";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
 import { DownloadDcrBackupButton } from "@/components/DownloadDcrBackupButton";
 import { DCR_BACKUPS } from "@/data/dcrBackups";
@@ -49,6 +50,7 @@ export default function SaadiyatBeachVillas() {
   }, [activeGate]);
   const { index: pdfIndex, isLoading: pdfLoading } = useDcrPdfIndex(pdfPrefix);
   const pdfCount = pdfIndex.size;
+  const { index: listingIndex } = useListingIndex({ prefix: pdfPrefix ?? undefined });
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -218,6 +220,8 @@ export default function SaadiyatBeachVillas() {
                   bigNumber={p.label.replace(/^Plots?\s+/, "")}
                   pdfUrl={pdfIndex.get(p.villaKey) ?? null}
                   pdfLoading={pdfLoading}
+                  listing={listingIndex.get(p.villaKey) ?? null}
+                  community="saadiyat-beach-villas"
                 />
               ))}
             </div>
