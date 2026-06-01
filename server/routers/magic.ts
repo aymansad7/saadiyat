@@ -166,6 +166,16 @@ export const magicRouter = router({
   /* ---------------- admin allowlist CRUD ---------------- */
 
   access: router({
+    /**
+     * Returns whether the current caller is a `master`. Used by the admin UI
+     * to decide which role-change controls to enable.
+     */
+    whoami: adminProcedure.query(({ ctx }) => ({
+      role: ctx.user.role,
+      email: ctx.user.email,
+      isMaster: ctx.user.role === "master",
+    })),
+
     list: adminProcedure.query(async () => {
       const db = await getDb();
       if (!db) return [];
@@ -189,8 +199,37 @@ export const magicRouter = router({
         if (!isValidEmail(email)) {
           throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid email address." });
         }
+        // Only `master` callers may grant elevated roles.
+        if (
+          (input.role === "admin" || input.role === "master") &&
+          ctx.user.role !== "master"
+        ) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "Only master users can grant admin or master roles.",
+          });
+        }
         const db = await getDb();
         if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        // If the address already exists with an elevated role, only a master
+        // is allowed to overwrite it (so a regular admin cannot demote a
+        // master via the upsert path).
+        const existingRows = await db
+          .select()
+          .from(allowedEmails)
+          .where(eq(allowedEmails.email, email))
+          .limit(1);
+        const existing = existingRows[0];
+        if (
+          existing &&
+          (existing.role === "admin" || existing.role === "master") &&
+          ctx.user.role !== "master"
+        ) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "Only master users can modify admin or master accounts.",
+          });
+        }
         await db
           .insert(allowedEmails)
           .values({
@@ -212,7 +251,7 @@ export const magicRouter = router({
 
     remove: adminProcedure
       .input(z.object({ id: z.number().int().positive() }))
-      .mutation(async ({ input }) => {
+      .mutation(async ({ input, ctx }) => {
         const db = await getDb();
         if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
         const rows = await db
@@ -220,8 +259,19 @@ export const magicRouter = router({
           .from(allowedEmails)
           .where(eq(allowedEmails.id, input.id))
           .limit(1);
-        if (!rows[0]) {
+        const target = rows[0];
+        if (!target) {
           throw new TRPCError({ code: "NOT_FOUND" });
+        }
+        // Admins cannot remove other admins or masters; that's a master's job.
+        if (
+          (target.role === "admin" || target.role === "master") &&
+          ctx.user.role !== "master"
+        ) {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "Only master users can remove admin or master accounts.",
+          });
         }
         await db.delete(allowedEmails).where(eq(allowedEmails.id, input.id));
         return { ok: true as const };
@@ -234,9 +284,28 @@ export const magicRouter = router({
           role: z.enum(["user", "admin", "master"]),
         }),
       )
-      .mutation(async ({ input }) => {
+      .mutation(async ({ input, ctx }) => {
         const db = await getDb();
         if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        const rows = await db
+          .select()
+          .from(allowedEmails)
+          .where(eq(allowedEmails.id, input.id))
+          .limit(1);
+        const target = rows[0];
+        if (!target) throw new TRPCError({ code: "NOT_FOUND" });
+        // Promotions/demotions to or from admin/master are master-only.
+        const touchesElevated =
+          target.role === "admin" ||
+          target.role === "master" ||
+          input.role === "admin" ||
+          input.role === "master";
+        if (touchesElevated && ctx.user.role !== "master") {
+          throw new TRPCError({
+            code: "FORBIDDEN",
+            message: "Only master users can change admin or master roles.",
+          });
+        }
         await db
           .update(allowedEmails)
           .set({ role: input.role })

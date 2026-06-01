@@ -3,7 +3,7 @@
  * Editorial wordmark "Saadiyat" with breadcrumb-style sub-label.
  */
 import { Link, useLocation } from "wouter";
-import { ArrowLeft, MapPin, ChevronDown, FolderOpen, LogOut, User as UserIcon } from "lucide-react";
+import { ArrowLeft, MapPin, ChevronDown, FolderOpen, LogOut, User as UserIcon, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -163,6 +163,18 @@ export default function SiteHeader({ subTitle, back }: Props) {
                       <Link href="/admin" className="gap-2">
                         <span className="text-[0.6rem] font-mono uppercase tracking-wider text-primary border border-primary/40 px-1 rounded-sm">Admin</span>
                         <span>Admin console</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/admin/access" className="gap-2">
+                        <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+                        <span>Manage access</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/admin/listings" className="gap-2">
+                        <FolderOpen className="h-3.5 w-3.5 text-primary" />
+                        <span>Manage listings</span>
                       </Link>
                     </DropdownMenuItem>
                   </>

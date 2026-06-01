@@ -1,8 +1,9 @@
 /**
  * Coastal Atelier — App shell
  *
- * Every route, including /resale-search, sits behind the PasswordGate.
- * Visitors must enter the passcode before seeing any inventory.
+ * Every route, including /resale-search, sits behind the EmailGate.
+ * Visitors must sign in with a magic-link code (or fall back to the
+ * passcode) before seeing any inventory.
  */
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,7 +11,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import PasswordGate from "./components/PasswordGate";
+import EmailGate from "./components/EmailGate";
 import Landing from "./pages/Landing";
 import StRegis from "./pages/StRegis";
 import VillaDetail from "./pages/VillaDetail";
@@ -31,6 +32,7 @@ import AldarOtherUnit from "./pages/AldarOtherUnit";
 import AdminPage from "./pages/Admin";
 import AdminAvailability from "./pages/AdminAvailability";
 import AdminListings from "./pages/AdminListings";
+import AdminAccess from "./pages/AdminAccess";
 import Resale from "./pages/Resale";
 import PublicResaleSearch from "./pages/PublicResaleSearch";
 
@@ -60,6 +62,7 @@ function Router() {
       <Route path="/admin" component={AdminPage} />
       <Route path="/admin/availability" component={AdminAvailability} />
       <Route path="/admin/listings" component={AdminListings} />
+      <Route path="/admin/access" component={AdminAccess} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -72,9 +75,9 @@ function App() {
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <PasswordGate>
+          <EmailGate>
             <Router />
-          </PasswordGate>
+          </EmailGate>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

@@ -119,16 +119,21 @@
 
 
 ## Email magic-link auth (replaces shared passcode) — May 29, 2026
-- [ ] Add `allowed_emails` table (email PK, role enum, addedBy, addedAt, lastSeenAt)
-- [ ] Add `magic_links` table (id, email, codeHash, expiresAt, consumedAt, ipHash, userAgent)
-- [ ] Add `auth_sessions` table (token, email, expiresAt, lastUsedAt) — long-lived bearer cookie
-- [ ] DB helpers: requestCode / verifyCode / consumeCode / sessionLookup / sessionRevoke
-- [ ] tRPC: `auth.requestMagicLink`, `auth.verifyMagicLink`, `auth.me`, `auth.logout`
-- [ ] tRPC admin: `access.list`, `access.add`, `access.remove`, `access.updateRole`
-- [ ] Email delivery via Manus notification API (or BUILT_IN_FORGE if mail endpoint exists) — fallback: print code in dev console
-- [ ] Replace `PasswordGate` UI with email step → code step
-- [ ] Keep passcode fallback toggle (env var `LEGACY_PASSCODE_ENABLED`) — default `true` until magic link verified live
-- [ ] Admin `/admin/access` page: list emails, add/remove, see last seen
-- [ ] Seed 4 starter emails: aymansad7@gmail.com, aymansad7@hotmail.com, ayman@nasluxury.com, hamzeh@nasluxury.com (all role=admin)
-- [ ] Vitest specs (request, verify, expired/used code, allowlist gate, admin-only mutations)
+- [x] Add `allowed_emails` table (email, role enum, addedBy, note, lastSeenAt)
+- [x] Add `magic_links` table (codeHash, expiresAt, consumedAt, failedAttempts, requestIp/UA)
+- [x] Add `auth_sessions` table (token, email, expiresAt, lastUsedAt, revokedAt) — 90-day bearer cookie
+- [x] DB helpers in `server/magicAuth.ts`: createMagicLink / verifyMagicCode / findUserBySessionToken / revokeSessionToken
+- [x] tRPC: `magic.request`, `magic.verify`, `magic.logout` + integration into auth context (cookie fallback)
+- [x] tRPC admin: `magic.access.list/add/remove/updateRole`
+- [x] Email delivery via Gmail SMTP (`server/_core/sendEmail.ts` + nodemailer) — fallback: print code in server log
+- [x] Replace `PasswordGate` with `EmailGate` (email tab + passcode fallback tab)
+- [x] Keep passcode fallback inside `EmailGate` (separate tab, same `gate.verify` mutation)
+- [x] Admin `/admin/access` page: list/add/remove/role-change
+- [x] Seed 4 starter emails (aymansad7@gmail/hotmail.com, ayman@nasluxury.com, hamzeh@nasluxury.com)
+- [x] Vitest specs — 11 new in `server/magic.test.ts`; full suite at 122/122
 - [ ] Save checkpoint
+
+## Access dashboard polish (May 29, 2026)
+- [ ] Add "Manage Access" link in SiteHeader user dropdown (admin/master only)
+- [ ] Master-vs-Admin distinction: only `master` can promote/demote admin/master roles
+- [ ] Update vitest coverage for the new role rules
