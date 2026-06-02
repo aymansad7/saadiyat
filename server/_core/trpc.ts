@@ -1,4 +1,5 @@
 import { NOT_ADMIN_ERR_MSG, UNAUTHED_ERR_MSG } from '@shared/const';
+import { canAccessOtherProjects } from '@shared/otherAccess';
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import type { TrpcContext } from "./context";
@@ -45,15 +46,15 @@ export const adminProcedure = t.procedure.use(
 );
 
 /**
- * Master procedure — strict tier above admin. Only users with role="master"
- * can access Other Aldar projects (outside Saadiyat). Even regular admins
- * are blocked.
+ * Master procedure — gates the Other Aldar projects (outside Saadiyat).
+ * Allowed: any role="master" user, PLUS specific admins on the allowlist
+ * (currently Hamzeh). Every other admin and all non-admins are blocked.
  */
 export const masterProcedure = t.procedure.use(
   t.middleware(async opts => {
     const { ctx, next } = opts;
 
-    if (!ctx.user || ctx.user.role !== 'master') {
+    if (!ctx.user || !canAccessOtherProjects(ctx.user.role, ctx.user.email)) {
       throw new TRPCError({ code: "FORBIDDEN", message: "Master access required" });
     }
 

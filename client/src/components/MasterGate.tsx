@@ -7,6 +7,7 @@
 import { ReactNode } from "react";
 import { ShieldAlert, Lock } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { canAccessOtherProjects } from "@shared/otherAccess";
 import { Button } from "@/components/ui/button";
 import { getLoginUrl } from "@/const";
 import SiteHeader from "@/components/SiteHeader";
@@ -45,7 +46,7 @@ export default function MasterGate({ children }: { children: ReactNode }) {
     );
   }
 
-  if (user?.role !== "master") {
+  if (!canAccessOtherProjects(user?.role, user?.email)) {
     return (
       <div className="min-h-screen flex flex-col">
         <SiteHeader />
@@ -56,7 +57,7 @@ export default function MasterGate({ children }: { children: ReactNode }) {
             <p className="text-sm text-muted-foreground">
               You are signed in as{" "}
               <span className="font-mono">{user?.name ?? user?.email}</span>,
-              but this section is reserved for master users.
+              but this section is reserved for NAS Luxury master users (and authorised admins).
             </p>
           </div>
         </main>

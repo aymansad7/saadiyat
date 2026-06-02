@@ -171,3 +171,27 @@
 - [x] Baseline seeded (15,807 units) + idempotency verified (2nd run = 0 changes)
 - [x] Vitest coverage for computeDiff / summarize / isSoldStatus (148/148 passing)
 - [ ] Deploy, then schedule weekly Mon 06:00 Gulf (02:00 UTC) via manus-heartbeat create
+
+
+### Phase — Other Projects: group by Area + filters + tracking parity (Jun 2026)
+- [x] Audit Other dataset: list distinct areas + confirm status/price fields present
+- [x] Master access = NAS Luxury (owner) + Hamzeh (hamzeh@nasluxury.com); keep Other Master-only
+- [x] Server: derive Area for each Other project (Yas Island, Al Shamkha, Al Ghadeer, Saadiyat-marina for Nouran) — server/aldarAreas.ts
+- [x] Server: grouped/filterable projects API listByArea (area, available-only, price range, name search)
+- [x] UI /aldar-other: group projects by Area with area headers + counts
+- [x] UI: show status + origin price range on project cards (parity with Saadiyat)
+- [x] UI: filters — available-only, price range (min/max AED), name + unit-number search
+- [x] Confirm history/timeline before-after tracking applies to all Other units (same engine: loadSnapshotUnits reads both datasets)
+- [x] Tests (aldarAreas.test.ts) + full suite 153/153
+- [ ] Browser verification (master) + save checkpoint
+- [ ] Schedule weekly Mon 06:00 sync (site published) + report
+
+
+### Phase — Other Projects access control: masters + Hamzeh only (Jun 2026)
+- [x] Set the 3 owner emails (ayman@nasluxury.com, aymansad7@gmail.com, aymansad7@hotmail.com) to role=master in allowed_emails + users (allowed_emails authoritative; users.role assigned from allowlist on each login)
+- [x] Fixed stale users row: hamzeh@nasluxury.com now role=admin in users table (verified)
+- [x] Keep hamzeh@nasluxury.com as admin, but grant explicit Other-projects access (shared/otherAccess.ts allowlist)
+- [x] Backend: masterProcedure -> allow role=master OR explicitly-allowed admin (Hamzeh); resale.ts uses same policy; all other admins blocked
+- [x] Frontend: useCanAccessOther hook applied to SiteHeader, Landing rail, MasterGate, Resale
+- [x] Vitest: otherAccess.test.ts (master allowed, Hamzeh allowed, other admin blocked, user blocked) + full suite 159/159
+- [ ] Browser verify (needs master login post-publish) + checkpoint

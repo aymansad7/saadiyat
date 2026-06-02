@@ -14,6 +14,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
 import { adminProcedure, masterProcedure, router } from "../_core/trpc";
+import { canAccessOtherProjects } from "@shared/otherAccess";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -127,8 +128,7 @@ export const resaleRouter = router({
     )
     .query(({ ctx, input }) => {
       const idx = getIndex();
-      const role = ctx.user.role;
-      const isMaster = role === "master";
+      const isMaster = canAccessOtherProjects(ctx.user.role, ctx.user.email);
       const out: ResaleItem[] = [];
       for (const name of input.unitNames) {
         const hits = idx.get(name) ?? [];
@@ -164,8 +164,7 @@ export const resaleRouter = router({
     )
     .query(({ ctx, input }) => {
       const data = loadDataset();
-      const role = ctx.user.role;
-      const isMaster = role === "master";
+      const isMaster = canAccessOtherProjects(ctx.user.role, ctx.user.email);
       const q = (input.query ?? "").trim().toLowerCase();
 
       let items = data.items.slice();
@@ -220,7 +219,7 @@ export const resaleRouter = router({
   /** Aggregate counts. Useful for the dashboard rail. */
   summary: adminProcedure.query(({ ctx }) => {
     const data = loadDataset();
-    const isMaster = ctx.user.role === "master";
+    const isMaster = canAccessOtherProjects(ctx.user.role, ctx.user.email);
     const visible = isMaster
       ? data.items
       : data.items.filter(it => !isOtherArea(it));

@@ -13,6 +13,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
 import { masterProcedure, router } from "../_core/trpc";
+import { areaForProject, orderedAreas, type AreaKey } from "../aldarAreas";
 
 // ---------------------------------------------------------------------------
 // Types (mirror the JSON shape produced by consolidate_other.py)
@@ -162,6 +163,117 @@ export function isLive(s: string | null) {
 // Router
 // ---------------------------------------------------------------------------
 export const aldarOtherRouter = router({
+  /**
+   * Projects grouped by Area, with optional filters applied to the per-project
+   * aggregates. Each project carries a price range (min/max over live units),
+   * status breakdown, and live/available counts so the UI can render rich cards
+   * and filter without fetching unit-level detail.
+   *
+   * Filters:
+   *  - availableOnly: keep only projects that have >=1 available unit
+   *  - priceMin/priceMax (AED): keep projects whose live price range overlaps
+   *  - q: case-insensitive match on project name
+   */
+  listByArea: masterProcedure
+    .input(
+      z
+        .object({
+          availableOnly: z.boolean().optional().default(false),
+          priceMin: z.number().int().min(0).optional(),
+          priceMax: z.number().int().min(0).optional(),
+          q: z.string().max(128).optional(),
+        })
+        .optional()
+        .default(() => ({ availableOnly: false })),
+    )
+    .query(({ input }) => {
+      const data = getDataset();
+      const q = (input.q || "").trim().toLowerCase();
+
+      type ProjectCard = {
+        slug: string;
+        name: string;
+        area: AreaKey;
+        unit_count: number;
+        building_count: number;
+        breakdown: ReturnType<typeof breakdown>;
+        live_count: number;
+        available_count: number;
+        price_min: number | null;
+        price_max: number | null;
+      };
+
+      const cards: ProjectCard[] = [];
+      for (const p of data.projects) {
+        const allUnits = p.buildings.flatMap(b => b.units);
+        const liveUnits = allUnits.filter(u => isLive(u.status));
+        const livePrices = liveUnits
+          .map(u => u.price_aed)
+          .filter((n): n is number => typeof n === "number" && n > 0);
+        const priceMin = livePrices.length ? Math.min(...livePrices) : null;
+        const priceMax = livePrices.length ? Math.max(...livePrices) : null;
+        const availableCount = allUnits.filter(u => statusGroup(u.status) === "available").length;
+
+        // Apply filters at the project level.
+        if (input.availableOnly && availableCount === 0) continue;
+        if (q && !p.name.toLowerCase().includes(q)) continue;
+        if (input.priceMin != null || input.priceMax != null) {
+          // Need a price range to compare; drop projects without live prices.
+          if (priceMin == null || priceMax == null) continue;
+          if (input.priceMin != null && priceMax < input.priceMin) continue;
+          if (input.priceMax != null && priceMin > input.priceMax) continue;
+        }
+
+        cards.push({
+          slug: p.slug,
+          name: p.name,
+          area: areaForProject(p.slug),
+          unit_count: p.unit_count,
+          building_count: p.building_count,
+          breakdown: breakdown(allUnits),
+          live_count: liveUnits.length,
+          available_count: availableCount,
+          price_min: priceMin,
+          price_max: priceMax,
+        });
+      }
+
+      // Group into ordered areas; drop empty areas.
+      const areas = orderedAreas()
+        .map(meta => {
+          const projects = cards
+            .filter(c => c.area === meta.key)
+            .sort(
+              (a, b) =>
+                b.available_count - a.available_count ||
+                b.live_count - a.live_count ||
+                a.name.localeCompare(b.name),
+            );
+          const areaAvailable = projects.reduce((s, c) => s + c.available_count, 0);
+          const areaLive = projects.reduce((s, c) => s + c.live_count, 0);
+          const areaUnits = projects.reduce((s, c) => s + c.unit_count, 0);
+          return {
+            key: meta.key,
+            name: meta.name,
+            nameAr: meta.nameAr,
+            project_count: projects.length,
+            unit_count: areaUnits,
+            live_count: areaLive,
+            available_count: areaAvailable,
+            projects,
+          };
+        })
+        .filter(a => a.project_count > 0);
+
+      return {
+        exported_at: data.exported_at,
+        total_units: data.total_units,
+        total_available: data.total_available,
+        matched_projects: cards.length,
+        areas,
+      };
+    }),
+
   /** Lightweight summary across all projects (no per-unit detail). */
   listProjects: masterProcedure.query(() => {
     const data = getDataset();

@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useCanAccessOther } from "@/hooks/useCanAccessOther";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 
@@ -52,8 +53,8 @@ export default function Resale() {
     return () => clearTimeout(t);
   }, [query]);
 
-  const isMaster = user?.role === "master";
-  const isAdmin = user?.role === "admin" || isMaster;
+  const isMaster = useCanAccessOther();
+  const isAdmin = user?.role === "admin" || user?.role === "master";
 
   const summaryQ = trpc.resale.summary.useQuery(undefined, { enabled: isAdmin });
   const listQ = trpc.resale.list.useQuery(

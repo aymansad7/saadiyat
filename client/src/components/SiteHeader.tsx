@@ -14,6 +14,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useCanAccessOther } from "@/hooks/useCanAccessOther";
 import { getLoginUrl } from "@/const";
 
 interface Props {
@@ -25,6 +26,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
   const [location] = useLocation();
   const showHomeLink = location !== "/";
   const { user, isAuthenticated, logout } = useAuth();
+  const canAccessOther = useCanAccessOther();
   return (
     <header className="border-b border-border/70 bg-background/80 backdrop-blur-md sticky top-0 z-40">
       <div className="container py-3 sm:py-4 flex items-center gap-4">
@@ -106,7 +108,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
                   <span className="text-[0.65rem] font-mono text-primary border border-primary/40 px-1 rounded-sm">18</span>
                 </Link>
               </DropdownMenuItem>
-              {user?.role === "master" && (
+              {canAccessOther && (
                 <DropdownMenuItem asChild>
                   <Link href="/aldar-other" className="flex items-center justify-between w-full">
                     <span className="font-display text-sm">Other Aldar projects</span>
@@ -185,7 +187,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
                     </DropdownMenuItem>
                   </>
                 )}
-                {user?.role === "master" && (
+                {canAccessOther && (
                   <DropdownMenuItem asChild>
                     <Link href="/aldar-other" className="gap-2">
                       <span className="text-[0.6rem] font-mono uppercase tracking-wider text-rose-600 dark:text-rose-300 border border-rose-500/40 px-1 rounded-sm">Master</span>

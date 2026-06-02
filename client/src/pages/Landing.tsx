@@ -22,6 +22,7 @@ import { ALDAR, breakdownForProject, actionableCount } from "@/data/aldar";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { AvailabilityFilter } from "@/components/AvailabilityFilter";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useCanAccessOther } from "@/hooks/useCanAccessOther";
 import { trpc } from "@/lib/trpc";
 
 const jawaher = COMMUNITIES.find((c) => c.slug === "jawaher")!;
@@ -336,13 +337,12 @@ Data sourced from DMT GeoSmart and Aldar (world.aldar.com).
  * never see any of these projects in their network traffic.
  */
 function AldarOtherRail() {
-  const { user } = useAuth();
-  const isMaster = user?.role === "master";
+  const canAccessOther = useCanAccessOther();
   const list = trpc.aldarOther.listProjects.useQuery(undefined, {
-    enabled: isMaster,
+    enabled: canAccessOther,
   });
 
-  if (!isMaster) return null;
+  if (!canAccessOther) return null;
   const projects = list.data?.projects ?? [];
   const totalLive = projects.reduce((s, p) => s + p.live_count, 0);
 
