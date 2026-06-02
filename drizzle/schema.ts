@@ -419,3 +419,137 @@ export const villaListingAudit = mysqlTable(
 );
 export type VillaListingAuditRow = typeof villaListingAudit.$inferSelect;
 export type InsertVillaListingAudit = typeof villaListingAudit.$inferInsert;
+
+
+/* =====================================================================
+ * Aldar inventory history / timeline
+ *
+ * Three tables power the per-unit timeline + change-summary feature:
+ *
+ *   inventory_sync_runs   — one row per sync (weekly Mon 06:00 or manual import).
+ *                           Holds aggregate counts of what changed.
+ *   inventory_unit_state  — the LATEST known state of every Aldar unit, keyed by
+ *                           unitName. Used as the "previous" side of each diff so
+ *                           we never have to re-scan a full historical snapshot.
+ *   inventory_unit_events — append-only timeline. One row per detected change
+ *                           (first_seen / status_change / price_change / removed)
+ *                           for a single unit, tied to the run that detected it.
+ *
+ * dataset distinguishes the two source files:
+ *   "saadiyat" → server/data/aldar_saadiyat.json  (18 projects)
+ *   "other"    → server/data/aldar_other.json      (24 projects, master-only)
+ * ===================================================================== */
+
+export const inventorySyncRuns = mysqlTable(
+  "inventory_sync_runs",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** How the run was triggered. */
+    trigger: mysqlEnum("trigger", ["scheduled", "manual", "seed"]).notNull(),
+    /** Status of the run. */
+    status: mysqlEnum("status", ["running", "success", "error"]).default("running").notNull(),
+    /** Email/label of who triggered a manual run; "cron" for scheduled; "system" for seed. */
+    triggeredBy: varchar("triggeredBy", { length: 320 }),
+
+    /* aggregate diff counts (across both datasets) */
+    unitsScanned: int("unitsScanned").default(0).notNull(),
+    newUnits: int("newUnits").default(0).notNull(),
+    soldUnits: int("soldUnits").default(0).notNull(),
+    statusChanges: int("statusChanges").default(0).notNull(),
+    priceChanges: int("priceChanges").default(0).notNull(),
+    removedUnits: int("removedUnits").default(0).notNull(),
+
+    /** Optional error message when status="error". */
+    errorMessage: text("errorMessage"),
+    /** JSON-encoded per-project rollup of the most notable changes (trimmed). */
+    summaryJson: text("summaryJson"),
+
+    startedAt: timestamp("startedAt").defaultNow().notNull(),
+    finishedAt: timestamp("finishedAt"),
+  },
+  t => ({
+    runStatusIdx: index("inventory_sync_runs_status_idx").on(t.status),
+    runStartedIdx: index("inventory_sync_runs_startedAt_idx").on(t.startedAt),
+  }),
+);
+export type InventorySyncRun = typeof inventorySyncRuns.$inferSelect;
+export type InsertInventorySyncRun = typeof inventorySyncRuns.$inferInsert;
+
+export const inventoryUnitState = mysqlTable(
+  "inventory_unit_state",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** Canonical Aldar unit identifier, e.g. "FayaAlSaadiyat-SB45-V-01-01". */
+    unitName: varchar("unitName", { length: 191 }).notNull().unique(),
+    /** Which source file this unit belongs to. */
+    dataset: mysqlEnum("dataset", ["saadiyat", "other"]).notNull(),
+    /** Project slug (e.g. "fayaalsaadiyat"). */
+    projectSlug: varchar("projectSlug", { length: 128 }).notNull(),
+    /** Project display name. */
+    projectName: varchar("projectName", { length: 255 }),
+    /** Building slug + name for grouping. */
+    buildingSlug: varchar("buildingSlug", { length: 128 }),
+    buildingName: varchar("buildingName", { length: 255 }),
+    /** Deep link back to Aldar. */
+    aldarLink: text("aldarLink"),
+    /** Latest status as reported by Aldar (Available/Sold/Booked/Reserved/Blocked/New/...). */
+    status: varchar("status", { length: 64 }),
+    /** Latest price in AED. NULL when unknown. */
+    priceAed: bigint("priceAed", { mode: "number" }),
+    bedrooms: varchar("bedrooms", { length: 32 }),
+    unitType: varchar("unitType", { length: 64 }),
+    /** True once a unit disappears from the source (treated as removed). */
+    isPresent: boolean("isPresent").default(true).notNull(),
+    /** Run that first inserted this unit. */
+    firstSeenRunId: int("firstSeenRunId"),
+    firstSeenAt: timestamp("firstSeenAt").defaultNow().notNull(),
+    /** Run that last touched this unit. */
+    lastSeenRunId: int("lastSeenRunId"),
+    lastSeenAt: timestamp("lastSeenAt").defaultNow().onUpdateNow().notNull(),
+  },
+  t => ({
+    stateDatasetIdx: index("inventory_unit_state_dataset_idx").on(t.dataset),
+    stateProjectIdx: index("inventory_unit_state_project_idx").on(t.projectSlug),
+    stateStatusIdx: index("inventory_unit_state_status_idx").on(t.status),
+  }),
+);
+export type InventoryUnitState = typeof inventoryUnitState.$inferSelect;
+export type InsertInventoryUnitState = typeof inventoryUnitState.$inferInsert;
+
+export const inventoryUnitEvents = mysqlTable(
+  "inventory_unit_events",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** Canonical Aldar unit identifier. */
+    unitName: varchar("unitName", { length: 191 }).notNull(),
+    dataset: mysqlEnum("dataset", ["saadiyat", "other"]).notNull(),
+    projectSlug: varchar("projectSlug", { length: 128 }).notNull(),
+    projectName: varchar("projectName", { length: 255 }),
+    /** Event kind. */
+    eventType: mysqlEnum("eventType", [
+      "first_seen",
+      "status_change",
+      "price_change",
+      "removed",
+      "reappeared",
+    ]).notNull(),
+    /** Status before/after (for status_change & first_seen.toStatus). */
+    fromStatus: varchar("fromStatus", { length: 64 }),
+    toStatus: varchar("toStatus", { length: 64 }),
+    /** Price before/after in AED (for price_change & first_seen.toPrice). */
+    fromPriceAed: bigint("fromPriceAed", { mode: "number" }),
+    toPriceAed: bigint("toPriceAed", { mode: "number" }),
+    /** The sync run that detected this event. */
+    runId: int("runId").notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  t => ({
+    eventsUnitIdx: index("inventory_unit_events_unit_idx").on(t.unitName),
+    eventsProjectIdx: index("inventory_unit_events_project_idx").on(t.projectSlug),
+    eventsTypeIdx: index("inventory_unit_events_type_idx").on(t.eventType),
+    eventsRunIdx: index("inventory_unit_events_run_idx").on(t.runId),
+    eventsCreatedIdx: index("inventory_unit_events_createdAt_idx").on(t.createdAt),
+  }),
+);
+export type InventoryUnitEvent = typeof inventoryUnitEvents.$inferSelect;
+export type InsertInventoryUnitEvent = typeof inventoryUnitEvents.$inferInsert;

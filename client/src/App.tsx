@@ -33,6 +33,7 @@ import AdminPage from "./pages/Admin";
 import AdminAvailability from "./pages/AdminAvailability";
 import AdminListings from "./pages/AdminListings";
 import AdminAccess from "./pages/AdminAccess";
+import AdminInventoryHistory from "./pages/AdminInventoryHistory";
 import Resale from "./pages/Resale";
 import PublicResaleSearch from "./pages/PublicResaleSearch";
 
@@ -63,6 +64,7 @@ function Router() {
       <Route path="/admin/availability" component={AdminAvailability} />
       <Route path="/admin/listings" component={AdminListings} />
       <Route path="/admin/access" component={AdminAccess} />
+      <Route path="/admin/inventory-history" component={AdminInventoryHistory} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

@@ -6,6 +6,7 @@ import { aldarOtherRouter } from "./routers/aldarOther";
 import { availabilityRouter } from "./routers/availability";
 import { filesRouter } from "./routers/files";
 import { gateRouter } from "./routers/gate";
+import { inventoryHistoryRouter } from "./routers/inventoryHistory";
 import { magicRouter } from "./routers/magic";
 import { publicResaleRouter } from "./routers/publicResale";
 import { resaleRouter } from "./routers/resale";
@@ -43,6 +44,7 @@ export const appRouter = router({
   resale: resaleRouter,
   publicResale: publicResaleRouter,
   availability: availabilityRouter,
+  inventoryHistory: inventoryHistoryRouter,
 });
 
 export type AppRouter = typeof appRouter;

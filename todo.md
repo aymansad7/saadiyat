@@ -157,3 +157,17 @@
 - [x] Per-row Edit button on the dashboard opens the same ListingEditor dialog
 - [x] Vitest coverage for the new server filter logic — 3 Aldar villaKey shape specs in `server/villaListings.test.ts`
 - [x] Save checkpoint
+
+
+### Phase — Aldar inventory history / timeline (Jun 2026)
+- [x] DB schema: inventory_sync_runs, inventory_unit_state, inventory_unit_events (pushed)
+- [x] Snapshot/diff engine (server/inventorySync.ts) — first_seen / status_change / price_change / removed / reappeared
+- [x] Price rounded to nearest dirham at source (no phantom price-change diffs)
+- [x] tRPC router inventoryHistory: timeline, latestRun, runs, runDetail, syncNow, importDataset
+- [x] Scheduled HTTP handler POST /api/scheduled/inventorySync (mounted before fallthrough)
+- [x] UnitTimeline component on Saadiyat + Other Aldar unit pages
+- [x] Admin page /admin/inventory-history (latest run stats, per-project rollup, run history, Run-now, Import JSON)
+- [x] SiteHeader admin nav link to inventory history
+- [x] Baseline seeded (15,807 units) + idempotency verified (2nd run = 0 changes)
+- [x] Vitest coverage for computeDiff / summarize / isSoldStatus (148/148 passing)
+- [ ] Deploy, then schedule weekly Mon 06:00 Gulf (02:00 UTC) via manus-heartbeat create

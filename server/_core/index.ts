@@ -6,6 +6,7 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
 import { registerDcrZipRoute } from "./dcrZip";
+import { inventorySyncScheduledHandler } from "../scheduledSync";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
@@ -38,6 +39,9 @@ async function startServer() {
   registerStorageProxy(app);
   registerDcrZipRoute(app);
   registerOAuthRoutes(app);
+  // Scheduled (Heartbeat) inventory sync — must be registered before the
+  // Vite/static fallthrough. /api/scheduled/* is not auto-registered.
+  app.post("/api/scheduled/inventorySync", inventorySyncScheduledHandler);
   // tRPC API
   app.use(
     "/api/trpc",

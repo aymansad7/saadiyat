@@ -57,6 +57,13 @@
       "when": 1780299596294,
       "tag": "0007_serious_gorilla_man",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1780407031533,
+      "tag": "0008_serious_salo",
+      "breakpoints": true
     }
   ]
 }

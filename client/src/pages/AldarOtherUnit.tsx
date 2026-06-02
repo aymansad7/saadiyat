@@ -14,6 +14,7 @@ import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
 import { parsePaymentPlans } from "./AldarUnit";
 import { ResaleCard } from "@/components/ResaleCard";
+import { UnitTimeline } from "@/components/UnitTimeline";
 import { useAuth } from "@/_core/hooks/useAuth";
 import {
   EditListingButton,
@@ -246,6 +247,15 @@ function Inner() {
         <section className="border-b border-border">
           <div className="container py-6 sm:py-8">
             <ResaleCard unitNames={[unit.unit_name]} />
+          </div>
+        </section>
+      )}
+
+      {/* Availability history / timeline */}
+      {unit.unit_name && (
+        <section className="border-b border-border bg-card/20">
+          <div className="container py-6 sm:py-8">
+            <UnitTimeline unitName={unit.unit_name} />
           </div>
         </section>
       )}
