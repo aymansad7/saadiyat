@@ -170,7 +170,7 @@
 - [x] SiteHeader admin nav link to inventory history
 - [x] Baseline seeded (15,807 units) + idempotency verified (2nd run = 0 changes)
 - [x] Vitest coverage for computeDiff / summarize / isSoldStatus (148/148 passing)
-- [ ] Deploy, then schedule weekly Mon 06:00 Gulf (02:00 UTC) via manus-heartbeat create
+- [x] Deploy, then schedule weekly Mon 06:00 Gulf (02:00 UTC) via manus-heartbeat create — job `weekly-inventory-sync` task_uid g9NVEjr3E2mneqMf9Xq3nF, cron `0 0 2 * * 1`, next 2026-06-08T02:00Z; prod handler verified (403 cron-only)
 
 
 ### Phase — Other Projects: group by Area + filters + tracking parity (Jun 2026)
@@ -183,8 +183,8 @@
 - [x] UI: filters — available-only, price range (min/max AED), name + unit-number search
 - [x] Confirm history/timeline before-after tracking applies to all Other units (same engine: loadSnapshotUnits reads both datasets)
 - [x] Tests (aldarAreas.test.ts) + full suite 153/153
-- [ ] Browser verification (master) + save checkpoint
-- [ ] Schedule weekly Mon 06:00 sync (site published) + report
+- [x] Browser verification (master) + save checkpoint (checkpoint 40c057e9; prod published)
+- [x] Schedule weekly Mon 06:00 sync (site published) + report
 
 
 ### Phase — Other Projects access control: masters + Hamzeh only (Jun 2026)
@@ -194,4 +194,14 @@
 - [x] Backend: masterProcedure -> allow role=master OR explicitly-allowed admin (Hamzeh); resale.ts uses same policy; all other admins blocked
 - [x] Frontend: useCanAccessOther hook applied to SiteHeader, Landing rail, MasterGate, Resale
 - [x] Vitest: otherAccess.test.ts (master allowed, Hamzeh allowed, other admin blocked, user blocked) + full suite 159/159
-- [ ] Browser verify (needs master login post-publish) + checkpoint
+- [x] Browser verify (needs master login post-publish) + checkpoint (40c057e9 saved + published)
+
+
+### Yas Park Place addition (Jun 4, 2026)
+- [x] Confirm Yas Park Place missing from dataset (780 units, 6 buildings B1-B6)
+- [x] Normalize Aldar_yasparkplace.xlsx to aldar_other.json schema (project + 6 buildings + units; Other now 25 projects / 12,435 units)
+- [x] Add Yas Park Place to area mapping (server/aldarAreas.ts) under Yas Island
+- [x] Re-seed inventory baseline (manual sync run 30001): 780 first_seen, 0 other changes; 16,587 units scanned
+- [x] Update/verify tests (aldarAreas.test.ts anchor added); all 159 tests pass with dev server running
+- [x] Run full test suite + typecheck; save checkpoint
+- [x] Report Yas Park Place sales breakdown (450 sold of 780) to user

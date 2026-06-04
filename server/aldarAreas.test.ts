@@ -40,6 +40,7 @@ describe("aldar area classification", () => {
   it("classifies known anchors correctly", () => {
     expect(areaForProject("yas-park-views")).toBe<AreaKey>("yas-island");
     expect(areaForProject("yas-park-gate")).toBe<AreaKey>("yas-island");
+    expect(areaForProject("yas-park-place")).toBe<AreaKey>("yas-island");
     expect(areaForProject("rise-by-athlon-1")).toBe<AreaKey>("al-shamkha");
     expect(areaForProject("al-ghadeer-gardens")).toBe<AreaKey>("al-ghadeer");
     // Nouran Living is physically Saadiyat even though it ships in aldar_other
