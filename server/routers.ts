@@ -10,6 +10,7 @@ import { inventoryHistoryRouter } from "./routers/inventoryHistory";
 import { magicRouter } from "./routers/magic";
 import { publicResaleRouter } from "./routers/publicResale";
 import { resaleRouter } from "./routers/resale";
+import { unitSearchRouter } from "./routers/unitSearch";
 import { villaListingsRouter } from "./routers/villaListings";
 import { MAGIC_SESSION_COOKIE, revokeSessionToken } from "./magicAuth";
 
@@ -45,6 +46,7 @@ export const appRouter = router({
   publicResale: publicResaleRouter,
   availability: availabilityRouter,
   inventoryHistory: inventoryHistoryRouter,
+  unitSearch: unitSearchRouter,
 });
 
 export type AppRouter = typeof appRouter;

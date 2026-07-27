@@ -8,8 +8,10 @@
  *   /saadiyat-lagoons/al-ghaf
  */
 import { Link } from "wouter";
-import { ArrowUpRight, Compass, Trees, Waves, Building2, Tag } from "lucide-react";
+import { useState, useMemo } from "react";
+import { ArrowUpRight, Compass, Trees, Waves, Building2, Tag, Search } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
+import { Input } from "@/components/ui/input";
 import { LAGOONS_DATASET } from "@/data/lagoons";
 import { getAvailability } from "@/data/lagoonsAvailability";
 
@@ -44,6 +46,20 @@ type AvailFilter = "all" | "any" | "nas-luxury" | "aldar" | "others" | "none";
 
 export default function SaadiyatLagoons() {
   const totals = LAGOONS_DATASET.summary;
+  const [unitQuery, setUnitQuery] = useState("");
+  const uq = unitQuery.trim().toLowerCase();
+  const unitSearchHits = useMemo(() => {
+    if (uq.length < 2) return [];
+    const out: Array<{ id: string; unit_name: string; cluster: string; cluster_label: string; status: string | null }> = [];
+    for (const v of LAGOONS_DATASET.villas) {
+      if (!v.unit_name) continue;
+      if (v.unit_name.toLowerCase().includes(uq) || v.id.toLowerCase().includes(uq) || v.short_name.toLowerCase().includes(uq)) {
+        out.push({ id: v.id, unit_name: v.unit_name, cluster: v.cluster, cluster_label: v.cluster_label, status: v.status });
+      }
+      if (out.length >= 30) break;
+    }
+    return out;
+  }, [uq]);
 
   // Per-cluster availability counters
   const counters: Record<
@@ -123,8 +139,56 @@ export default function SaadiyatLagoons() {
             <Stat label="Villages" value="3" />
             <Stat label="Available" value={String(totalAny)} accent />
           </div>
+          {/* Unit search */}
+          <div className="col-span-12 mt-4">
+            <div className="flex items-center gap-2 max-w-md">
+              <Search className="h-4 w-4 text-muted-foreground" />
+              <Input
+                value={unitQuery}
+                onChange={e => setUnitQuery(e.target.value)}
+                placeholder="Search villa by unit number…"
+                className="w-72"
+              />
+            </div>
+          </div>
         </div>
       </section>
+      {/* Unit search results */}
+      {unitSearchHits.length > 0 && (
+        <section className="border-b border-border bg-card/30">
+          <div className="container py-6">
+            <div className="text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary mb-3">
+              {unitSearchHits.length} matching villa{unitSearchHits.length === 1 ? "" : "s"}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {unitSearchHits.map(hit => (
+                <Link
+                  key={hit.id}
+                  href={`/saadiyat-lagoons/${hit.cluster}/${hit.id}`}
+                  className="block rounded-md border border-border bg-card p-3 hover:border-primary/60 transition-colors"
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
+                      {hit.cluster_label}
+                    </span>
+                    <span className={`text-[0.65rem] font-mono uppercase ${
+                      hit.status === "Sold" ? "text-muted-foreground" : "text-emerald-600 dark:text-emerald-400"
+                    }`}>
+                      {hit.status || "—"}
+                    </span>
+                  </div>
+                  <div className="font-display text-lg text-foreground">
+                    {hit.id}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {hit.unit_name}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Availability rail (unified status filter) */}
       <section className="border-b border-border bg-background">

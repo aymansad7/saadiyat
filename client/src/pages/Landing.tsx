@@ -24,6 +24,7 @@ import { AvailabilityFilter } from "@/components/AvailabilityFilter";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useCanAccessOther } from "@/hooks/useCanAccessOther";
 import { trpc } from "@/lib/trpc";
+import GlobalUnitSearch from "@/components/GlobalUnitSearch";
 
 const jawaher = COMMUNITIES.find((c) => c.slug === "jawaher")!;
 const sbv = COMMUNITIES.find((c) => c.slug === "saadiyat-beach-villas")!;
@@ -108,6 +109,11 @@ export default function Landing() {
               >
                 Jump to St. Regis Villas
               </Link>
+            </div>
+
+            {/* Global unit search */}
+            <div className="mt-6">
+              <GlobalUnitSearch />
             </div>
 
             <dl className="mt-10 grid grid-cols-3 gap-6 max-w-md border-t border-border pt-6">

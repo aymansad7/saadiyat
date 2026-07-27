@@ -205,3 +205,10 @@
 - [x] Update/verify tests (aldarAreas.test.ts anchor added); all 159 tests pass with dev server running
 - [x] Run full test suite + typecheck; save checkpoint
 - [x] Report Yas Park Place sales breakdown (450 sold of 780) to user
+
+### Global Unit Search (Jun 4, 2026)
+- [x] Backend: tRPC endpoint `unitSearch.search` querying Saadiyat + Other + Lagoons by unit name
+- [x] Frontend: Global search field on Landing page hero with dropdown results + navigation to unit detail
+- [x] Frontend: Per-project search on SaadiyatLagoons page (AldarSaadiyat and AldarOther already had it)
+- [x] TypeScript clean + tests pass (153/153)
+- [x] Save checkpoint (160/160 tests pass)
