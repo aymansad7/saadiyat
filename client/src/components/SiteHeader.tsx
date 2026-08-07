@@ -98,6 +98,18 @@ export default function SiteHeader({ subTitle, back }: Props) {
                   <span className="text-[0.65rem] font-mono text-primary border border-primary/40 px-1 rounded-sm">1549</span>
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/community/saadiyat-golf-views" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">Golf Views</span>
+                  <span className="text-[0.65rem] font-mono text-foreground/70 border border-border px-1 rounded-sm">26</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/community/private-villas-four-seasons" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">Private Villas (Four Seasons)</span>
+                  <span className="text-[0.65rem] font-mono text-foreground/70 border border-border px-1 rounded-sm">7</span>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
                 Aldar inventory

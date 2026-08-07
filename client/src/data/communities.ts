@@ -107,6 +107,50 @@ const sbvGates: Gate[] = [
 
 const sbvTotal = sbvGates.reduce((s, g) => s + g.plots.length, 0);
 
+
+// ───────────────────────── Saadiyat Beach Golf Views ─────────────────────────
+// 26 plots — DCR reference only. PDFs uploaded to /manus-storage/.
+const golfViewsPlots: SimplePlot[] = [
+  buildPlot("SDN2_6-1_2.pdf", "Plot 6-1/2", 1, "golf-views/SDN2_6-1_2"),
+  buildPlot("SDN2_6_3.pdf", "Plot 6/3", 2, "golf-views/SDN2_6_3"),
+  buildPlot("SDN2_6_4.pdf", "Plot 6/4", 3, "golf-views/SDN2_6_4"),
+  buildPlot("SDN2_6_5.pdf", "Plot 6/5", 4, "golf-views/SDN2_6_5"),
+  buildPlot("SDN2_6_6.pdf", "Plot 6/6", 5, "golf-views/SDN2_6_6"),
+  buildPlot("SDN2_6_7-6_8.pdf", "Plot 6/7–6/8", 6, "golf-views/SDN2_6_7-6_8"),
+  buildPlot("SDN2_6_9.pdf", "Plot 6/9", 7, "golf-views/SDN2_6_9"),
+  buildPlot("SDN2_6_10.pdf", "Plot 6/10", 8, "golf-views/SDN2_6_10"),
+  buildPlot("SDN2_6_11.pdf", "Plot 6/11", 9, "golf-views/SDN2_6_11"),
+  buildPlot("SDN2_6_12.pdf", "Plot 6/12", 10, "golf-views/SDN2_6_12"),
+  buildPlot("SDN2_6_13.pdf", "Plot 6/13", 11, "golf-views/SDN2_6_13"),
+  buildPlot("SDN2_6_14.pdf", "Plot 6/14", 12, "golf-views/SDN2_6_14"),
+  buildPlot("SDN2_6_15.pdf", "Plot 6/15", 13, "golf-views/SDN2_6_15"),
+  buildPlot("SDN2_6_16.pdf", "Plot 6/16", 14, "golf-views/SDN2_6_16"),
+  buildPlot("SDN2_6_17.pdf", "Plot 6/17", 15, "golf-views/SDN2_6_17"),
+  buildPlot("SDN2_6_18.pdf", "Plot 6/18", 16, "golf-views/SDN2_6_18"),
+  buildPlot("SDN2_6_19.pdf", "Plot 6/19", 17, "golf-views/SDN2_6_19"),
+  buildPlot("SDN2_6_20.pdf", "Plot 6/20", 18, "golf-views/SDN2_6_20"),
+  buildPlot("SDN2_6_21.pdf", "Plot 6/21", 19, "golf-views/SDN2_6_21"),
+  buildPlot("SDN2_6_22.pdf", "Plot 6/22", 20, "golf-views/SDN2_6_22"),
+  buildPlot("SDN2_6_23-6_24.pdf", "Plot 6/23–6/24", 21, "golf-views/SDN2_6_23-6_24"),
+  buildPlot("SDN2_6_25.pdf", "Plot 6/25", 22, "golf-views/SDN2_6_25"),
+  buildPlot("SDN2_6_26.pdf", "Plot 6/26", 23, "golf-views/SDN2_6_26"),
+  buildPlot("SDN2_6_27.pdf", "Plot 6/27", 24, "golf-views/SDN2_6_27"),
+  buildPlot("SDN2_p38.pdf", "Plot p38", 25, "golf-views/SDN2_p38"),
+  buildPlot("SDN3_14.pdf", "Plot SDN3-14 (Four Seasons)", 26, "golf-views/SDN3_14"),
+];
+
+// ───────────────────────── Private Villas Close to Four Seasons ─────────────────────────
+// 7 plots — DCR reference only. PDFs uploaded to /manus-storage/.
+const privateVillasPlots: SimplePlot[] = [
+  buildPlot("SDN2_157.pdf", "Plot 157", 1, "private-villas/SDN2_157"),
+  buildPlot("SDN2_158.pdf", "Plot 158", 2, "private-villas/SDN2_158"),
+  buildPlot("SDN2_159.pdf", "Plot 159", 3, "private-villas/SDN2_159"),
+  buildPlot("SDN2_160.pdf", "Plot 160", 4, "private-villas/SDN2_160"),
+  buildPlot("SDN2_161.pdf", "Plot 161", 5, "private-villas/SDN2_161"),
+  buildPlot("SDN2_163A.pdf", "Plot 163A", 6, "private-villas/SDN2_163A"),
+  buildPlot("SDN2_163B.pdf", "Plot 163B", 7, "private-villas/SDN2_163B"),
+];
+
 export const COMMUNITIES: Community[] = [
   {
     slug: "jawaher",
@@ -122,6 +166,22 @@ export const COMMUNITIES: Community[] = [
     cluster: "Saadiyat Beach District · SDN2 / SDN4",
     gates: sbvGates,
     totalPlots: sbvTotal,
+  },
+  {
+    slug: "saadiyat-golf-views",
+    name: "Saadiyat Beach Golf Views",
+    cluster: "Saadiyat Beach District · SDN2 / SDN3",
+    gates: [],
+    flatPlots: golfViewsPlots,
+    totalPlots: golfViewsPlots.length,
+  },
+  {
+    slug: "private-villas-four-seasons",
+    name: "Private Villas Close to Four Seasons",
+    cluster: "Saadiyat Beach District · SDN2",
+    gates: [],
+    flatPlots: privateVillasPlots,
+    totalPlots: privateVillasPlots.length,
   },
 ];
 

@@ -28,6 +28,8 @@ import GlobalUnitSearch from "@/components/GlobalUnitSearch";
 
 const jawaher = COMMUNITIES.find((c) => c.slug === "jawaher")!;
 const sbv = COMMUNITIES.find((c) => c.slug === "saadiyat-beach-villas")!;
+const golfViews = COMMUNITIES.find((c) => c.slug === "saadiyat-golf-views")!;
+const privateVillas = COMMUNITIES.find((c) => c.slug === "private-villas-four-seasons")!;
 
 const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030641160/cdNSYhri6jzahGcw5xtfw3/saadiyat-hero-fXHXGvSP5PsLtB8b7Rpzwu.webp";
 const COMPASS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030641160/cdNSYhri6jzahGcw5xtfw3/compass-rose-deQv7pJ8D2hyEVdwDAWyyr.webp";
@@ -68,6 +70,24 @@ const communities = [
     href: "/saadiyat-lagoons",
     available: true,
     rich: true,
+  },
+  {
+    slug: "saadiyat-golf-views",
+    name: golfViews.name,
+    cluster: golfViews.cluster,
+    plots: golfViews.totalPlots,
+    href: "/community/saadiyat-golf-views",
+    available: true,
+    rich: false,
+  },
+  {
+    slug: "private-villas-four-seasons",
+    name: privateVillas.name,
+    cluster: privateVillas.cluster,
+    plots: privateVillas.totalPlots,
+    href: "/community/private-villas-four-seasons",
+    available: true,
+    rich: false,
   },
   { slug: "hidd", name: "Hidd Al Saadiyat", cluster: "Saadiyat Reserve", plots: 0, href: "#", available: false, rich: false },
 ];

@@ -36,6 +36,7 @@ import AdminAccess from "./pages/AdminAccess";
 import AdminInventoryHistory from "./pages/AdminInventoryHistory";
 import Resale from "./pages/Resale";
 import PublicResaleSearch from "./pages/PublicResaleSearch";
+import CommunityPage from "./pages/CommunityPage";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -45,6 +46,7 @@ function Router() {
       <Route path="/st-regis" component={StRegis} />
       <Route path="/st-regis/villa/:id" component={VillaDetail} />
       <Route path="/jawaher" component={Jawaher} />
+      <Route path="/community/:slug" component={CommunityPage} />
       <Route path="/saadiyat-beach-villas" component={SaadiyatBeachVillas} />
       <Route path="/saadiyat-lagoons" component={SaadiyatLagoons} />
       <Route path="/saadiyat-lagoons/:cluster/:unit" component={LagoonsVillaDetail} />

@@ -212,3 +212,13 @@
 - [x] Frontend: Per-project search on SaadiyatLagoons page (AldarSaadiyat and AldarOther already had it)
 - [x] TypeScript clean + tests pass (153/153)
 - [x] Save checkpoint (160/160 tests pass)
+
+### New communities: Golf Views + Private Villas (Aug 7, 2026)
+- [x] Upload 26 Golf Views DCR PDFs to storage (all 26 success)
+- [x] Upload 7 Private Villas Close to Four Seasons DCR PDFs to storage (all 7 success)
+- [x] Build data file for Saadiyat Beach Golf Views (26 plots) in communities.ts
+- [x] Build data file for Private Villas Close to Four Seasons (7 plots) in communities.ts
+- [x] Create generic CommunityPage component at /community/:slug with plot cards + DCR links
+- [x] Add both to Landing page communities rail + SiteHeader navigation dropdown
+- [x] TypeScript clean + 160/160 tests pass
+- [ ] Save checkpoint
