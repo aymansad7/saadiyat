@@ -221,4 +221,10 @@
 - [x] Create generic CommunityPage component at /community/:slug with plot cards + DCR links
 - [x] Add both to Landing page communities rail + SiteHeader navigation dropdown
 - [x] TypeScript clean + 160/160 tests pass
-- [ ] Save checkpoint
+- [x] Save checkpoint (ddc05444)
+
+### Disable passcode auto-rotation + notifications (Aug 7, 2026)
+- [x] Disable auto-rotation in gate.ts (keep logging but don't change passcode)
+- [x] Disable notifyOwner calls for auto-rotation events (manual rotation still notifies)
+- [x] Update tests to match new behavior (13/13 pass)
+- [x] All 160 tests pass; save checkpoint

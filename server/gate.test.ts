@@ -278,13 +278,16 @@ describe("gate.verify", () => {
     expect(dbState.attempts[0]).toMatchObject({ success: false, submittedValue: "wrong-1" });
   });
 
-  it("auto-rotates to 062020 after a failed-attempt burst and notifies owner", async () => {
+  it("logs auto-rotate event after a failed-attempt burst but does NOT change passcode or notify", async () => {
     const caller = gateRouter.createCaller(makeCtx({ visitorId: "vid-burst-3", ip: "9.9.9.9" }));
     for (let i = 0; i < _internals.ABUSE_FAILED_ATTEMPTS_PER_15MIN; i++) {
       await caller.verify({ passcode: "wrong" });
     }
-    expect(dbState.passcode).toBe(_internals.COMPROMISE_PASSCODE);
-    expect(notifyOwner).toHaveBeenCalled();
+    // Passcode stays unchanged (auto-rotation disabled)
+    expect(dbState.passcode).toBe(_internals.DEFAULT_PASSCODE);
+    // No notification for auto-rotation
+    expect(notifyOwner).not.toHaveBeenCalled();
+    // But the event is still logged
     expect(dbState.events.some(e => e.eventType === "auto_rotate")).toBe(true);
   });
 });
@@ -344,7 +347,7 @@ describe("gate.rotatePasscode (manual)", () => {
 
 
 describe("bot/agent detection", () => {
-  it("flags a Manus-agent UA, fails verify, auto-rotates and notifies owner", async () => {
+  it("flags a Manus-agent UA, fails verify, logs event but does NOT change passcode or notify", async () => {
     const caller = gateRouter.createCaller(
       makeCtx({
         visitorId: "vid-bot-manus",
@@ -354,8 +357,10 @@ describe("bot/agent detection", () => {
     );
     const res = await caller.verify({ passcode: "062026" });
     expect(res.success).toBe(false);
-    expect(dbState.passcode).toBe(_internals.COMPROMISE_PASSCODE);
-    expect(notifyOwner).toHaveBeenCalled();
+    // Passcode stays unchanged (auto-rotation disabled)
+    expect(dbState.passcode).toBe(_internals.DEFAULT_PASSCODE);
+    // No notification for auto-rotation
+    expect(notifyOwner).not.toHaveBeenCalled();
     expect(dbState.attempts[0].flagReason).toMatch(/^bot_ua:/);
   });
 
@@ -385,7 +390,7 @@ describe("bot/agent detection", () => {
     }
   });
 
-  it("blocks a heartbeat from a bot UA and triggers auto-rotate", async () => {
+  it("blocks a heartbeat from a bot UA, logs event but does NOT change passcode or notify", async () => {
     const caller = gateRouter.createCaller(
       makeCtx({
         visitorId: "vid-bot-hb",
@@ -395,8 +400,10 @@ describe("bot/agent detection", () => {
     );
     const res = await caller.heartbeat({ path: "/aldar-saadiyat" });
     expect(res.ok).toBe(false);
-    expect(dbState.passcode).toBe(_internals.COMPROMISE_PASSCODE);
-    expect(notifyOwner).toHaveBeenCalled();
+    // Passcode stays unchanged (auto-rotation disabled)
+    expect(dbState.passcode).toBe(_internals.DEFAULT_PASSCODE);
+    // No notification for auto-rotation
+    expect(notifyOwner).not.toHaveBeenCalled();
   });
 });
 

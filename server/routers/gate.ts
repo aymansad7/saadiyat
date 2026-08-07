@@ -158,8 +158,13 @@ async function rotatePasscode(reason: string, ctx: {
   ua: string;
   trigger: "auto" | "manual";
 }) {
-  const newPasscode = ctx.trigger === "auto" ? COMPROMISE_PASSCODE : generateManualPasscode();
-  await setPasscode(newPasscode);
+  // Auto-rotation DISABLED — passcode stays fixed. Only manual rotation changes it.
+  const newPasscode = ctx.trigger === "auto"
+    ? (await getPasscode()) // keep current passcode unchanged
+    : generateManualPasscode();
+  if (ctx.trigger === "manual") {
+    await setPasscode(newPasscode);
+  }
   await logSecurityEvent({
     eventType: ctx.trigger === "auto" ? "auto_rotate" : "manual_rotate",
     severity: ctx.trigger === "auto" ? "critical" : "info",
@@ -168,26 +173,26 @@ async function rotatePasscode(reason: string, ctx: {
     userAgent: ctx.ua,
     summary:
       ctx.trigger === "auto"
-        ? `Passcode auto-rotated to ${newPasscode} \u2014 ${reason}`
+        ? `[BLOCKED] Auto-rotation attempted \u2014 ${reason} (passcode unchanged)`
         : `Passcode rotated to ${newPasscode} by owner`,
     details: reason,
   });
-  // Manus owner notification
-  try {
-    await notifyOwner({
-      title:
-        ctx.trigger === "auto"
-          ? "Saadiyat \u2014 passcode auto-rotated"
-          : "Saadiyat \u2014 passcode rotated",
-      content:
-        `New passcode: ${newPasscode}\n` +
-        `Reason: ${reason}\n` +
-        (ctx.ip ? `IP: ${ctx.ip}\n` : "") +
-        (ctx.ua ? `User-Agent: ${ctx.ua}\n` : "") +
-        `Trigger: ${ctx.trigger}`,
-    });
-  } catch {
-    /* notification is best-effort */
+  // Owner notification DISABLED for auto-rotation to stop spam.
+  // Only manual rotations notify.
+  if (ctx.trigger === "manual") {
+    try {
+      await notifyOwner({
+        title: "Saadiyat \u2014 passcode rotated",
+        content:
+          `New passcode: ${newPasscode}\n` +
+          `Reason: ${reason}\n` +
+          (ctx.ip ? `IP: ${ctx.ip}\n` : "") +
+          (ctx.ua ? `User-Agent: ${ctx.ua}\n` : "") +
+          `Trigger: ${ctx.trigger}`,
+      });
+    } catch {
+      /* notification is best-effort */
+    }
   }
   return newPasscode;
 }
