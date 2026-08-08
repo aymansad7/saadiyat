@@ -89,7 +89,7 @@ const communities = [
     available: true,
     rich: false,
   },
-  { slug: "hidd", name: "Hidd Al Saadiyat", cluster: "Saadiyat Reserve", plots: 0, href: "#", available: false, rich: false },
+  { slug: "hidd", name: "Hidd Al Saadiyat", cluster: "Saadiyat Island", plots: 469, href: "/hidd-al-saadiyat", available: true, rich: false },
 ];
 
 export default function Landing() {

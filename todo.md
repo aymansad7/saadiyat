@@ -228,3 +228,10 @@
 - [x] Disable notifyOwner calls for auto-rotation events (manual rotation still notifies)
 - [x] Update tests to match new behavior (13/13 pass)
 - [x] All 160 tests pass; save checkpoint
+
+### Hidd Al Saadiyat Community (Aug 8, 2026)
+- [x] Parse 469 villas from Excel into JSON (villa#, street#, zone, ADM plot#, areas, owner, tenant, dates)
+- [x] Build Hidd Al Saadiyat page with villa detail cards (search by villa#, street#, ADM plot#, zone, owner/tenant name)
+- [x] Owner/tenant info visible to admin/master only
+- [x] Add to navigation + Landing page (route /hidd-al-saadiyat)
+- [x] Tests 160/160 pass, TypeScript clean; save checkpoint

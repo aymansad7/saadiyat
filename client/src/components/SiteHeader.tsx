@@ -109,6 +109,9 @@ export default function SiteHeader({ subTitle, back }: Props) {
                   <span className="font-display text-sm">Private Villas (Four Seasons)</span>
                   <span className="text-[0.65rem] font-mono text-foreground/70 border border-border px-1 rounded-sm">7</span>
                 </Link>
+                <Link href="/hidd-al-saadiyat" className="flex items-center justify-between w-full">
+                  Hidd Al Saadiyat <span className="text-xs text-muted-foreground">469</span>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
