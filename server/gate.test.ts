@@ -347,7 +347,7 @@ describe("gate.rotatePasscode (manual)", () => {
 
 
 describe("bot/agent detection", () => {
-  it("flags a Manus-agent UA, fails verify, logs event but does NOT change passcode or notify", async () => {
+  it("bot UA is logged but does NOT block verify — correct passcode still succeeds", async () => {
     const caller = gateRouter.createCaller(
       makeCtx({
         visitorId: "vid-bot-manus",
@@ -356,18 +356,18 @@ describe("bot/agent detection", () => {
       }),
     );
     const res = await caller.verify({ passcode: "062026" });
-    expect(res.success).toBe(false);
+    expect(res.success).toBe(true);
     // Passcode stays unchanged (auto-rotation disabled)
     expect(dbState.passcode).toBe(_internals.DEFAULT_PASSCODE);
     // No notification for auto-rotation
     expect(notifyOwner).not.toHaveBeenCalled();
-    expect(dbState.attempts[0].flagReason).toMatch(/^bot_ua:/);
+    // Bot log is in attempts but verify succeeded
+    expect(dbState.attempts.some((a: any) => a.flagReason?.startsWith("bot_ua:"))).toBe(true);
   });
 
   it("flags Playwright/Puppeteer/Selenium and curl/python user-agents", () => {
     const cases = [
       "Mozilla/5.0 (Macintosh) Playwright/1.40",
-      "Mozilla/5.0 (X11) HeadlessChrome/120",
       "python-requests/2.31",
       "curl/8.1",
       "PerplexityBot/1.0",

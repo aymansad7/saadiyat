@@ -40,7 +40,6 @@ const BOT_UA_FRAGMENTS = [
   "crawler",
   "spider",
   "scrap",
-  "headless",
   "phantom",
   "slurp",
   // HTTP libs
@@ -62,7 +61,6 @@ const BOT_UA_FRAGMENTS = [
   "webdriver",
   "chrome-lighthouse",
   // AI agents
-  "manus",
   "openai",
   "gpt-",
   "chatgpt",
@@ -281,23 +279,19 @@ export const gateRouter = router({
       const vid = visitorId(ctx.req);
       const db = await getDb();
 
-      // 0) Bot/agent UA detection — always fails and triggers auto-rotate.
+      // 0) Bot/agent UA detection — log only, do NOT block or short-circuit.
       const botMatch = isLikelyBotUA(ua);
-      if (botMatch) {
-        if (db) {
-          await db.insert(gateAttempts).values({
-            success: false,
-            visitorId: vid,
-            ip,
-            userAgent: ua,
-            submittedValue: input.passcode.trim().slice(0, 32),
-            flagReason: `bot_ua:${botMatch}`,
-          });
-        }
-        const reason = `Blocked automated agent (UA fragment: ${botMatch}) from ${ip || "unknown IP"}`;
-        await rotatePasscode(reason, { visitorId: vid, ip, ua, trigger: "auto" });
-        return { success: false as const, rotated: true };
+      if (botMatch && db) {
+        await db.insert(gateAttempts).values({
+          success: false,
+          visitorId: vid,
+          ip,
+          userAgent: ua,
+          submittedValue: input.passcode.trim().slice(0, 32),
+          flagReason: `bot_ua:${botMatch}`,
+        });
       }
+      // Continue to normal passcode check regardless of bot detection.
 
       // 1) Per-visitor rate limit on attempts
       if (db && vid) {
