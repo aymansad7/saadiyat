@@ -104,13 +104,16 @@ export default function SiteHeader({ subTitle, back }: Props) {
                   <span className="text-[0.65rem] font-mono text-foreground/70 border border-border px-1 rounded-sm">26</span>
                 </Link>
               </DropdownMenuItem>
+             <DropdownMenuItem asChild>
+               <Link href="/community/private-villas-four-seasons" className="flex items-center justify-between w-full">
+                 <span className="font-display text-sm">Private Villas (Four Seasons)</span>
+                 <span className="text-[0.65rem] font-mono text-foreground/70 border border-border px-1 rounded-sm">7</span>
+               </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/community/private-villas-four-seasons" className="flex items-center justify-between w-full">
-                  <span className="font-display text-sm">Private Villas (Four Seasons)</span>
-                  <span className="text-[0.65rem] font-mono text-foreground/70 border border-border px-1 rounded-sm">7</span>
-                </Link>
                 <Link href="/hidd-al-saadiyat" className="flex items-center justify-between w-full">
-                  Hidd Al Saadiyat <span className="text-xs text-muted-foreground">469</span>
+                  <span className="font-display text-sm">Hidd Al Saadiyat</span>
+                  <span className="text-[0.65rem] font-mono text-foreground/70 border border-border px-1 rounded-sm">469</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
