@@ -15,6 +15,7 @@ export type AreaKey =
   | "al-ghadeer"
   | "saadiyat"
   | "ras-al-khaimah"
+  | "dubai"
   | "other";
 
 export type AreaMeta = {
@@ -33,6 +34,7 @@ export const AREAS: Record<AreaKey, AreaMeta> = {
   "al-ghadeer": { key: "al-ghadeer", name: "Al Ghadeer", nameAr: "الغدير", order: 3 },
   "saadiyat": { key: "saadiyat", name: "Saadiyat Island", nameAr: "جزيرة السعديات", order: 4 },
   "ras-al-khaimah": { key: "ras-al-khaimah", name: "Ras Al Khaimah", nameAr: "رأس الخيمة", order: 5 },
+  "dubai": { key: "dubai", name: "Dubai", nameAr: "دبي", order: 6 },
   "other": { key: "other", name: "Other Areas", nameAr: "مناطق أخرى", order: 99 },
 };
 
@@ -76,6 +78,13 @@ const PROJECT_AREA: Record<string, AreaKey> = {
 
   // --- Ras Al Khaimah ---
   "almarjan": "ras-al-khaimah",
+  "rosso-bay-residences": "ras-al-khaimah",
+
+  // --- Dubai ---
+  "haven": "dubai",
+  "verdes": "dubai",
+  "wilds": "dubai",
+  "athlon": "dubai",
 };
 
 /** Resolve the area for a given project slug (falls back to "other"). */
