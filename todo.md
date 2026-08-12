@@ -235,3 +235,11 @@
 - [x] Owner/tenant info visible to admin/master only
 - [x] Add to navigation + Landing page (route /hidd-al-saadiyat)
 - [x] Tests 160/160 pass, TypeScript clean; save checkpoint
+
+### Add new Aldar projects + sync history (Aug 12, 2026)
+- [x] Parse Fahid Beach Terraces (482), The Beach House Fahid (843), Al Marjan Island (1998) + 4 more from Excel
+- [x] Merge 7 Saadiyat/Fahid projects into aldar_saadiyat.json (now 25 projects / 7,094 units)
+- [x] Add Al Marjan Island as new area in aldar_other.json under Ras Al Khaimah (now 26 projects / 14,433 units)
+- [x] Update area mapping: added ras-al-khaimah area + almarjan slug
+- [x] Run inventory sync: 21,527 units scanned, 13 status changes detected (history logged), all new units registered
+- [x] 160/160 tests pass, TypeScript clean; save checkpoint
