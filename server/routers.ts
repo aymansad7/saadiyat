@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { aldarOtherRouter } from "./routers/aldarOther";
 import { aldarSaadiyatRouter } from "./routers/aldarSaadiyat";
+import { lagoonsRouter } from "./routers/lagoons";
 import { availabilityRouter } from "./routers/availability";
 import { filesRouter } from "./routers/files";
 import { gateRouter } from "./routers/gate";
@@ -44,6 +45,7 @@ export const appRouter = router({
   gate: gateRouter,
   aldarOther: aldarOtherRouter,
   aldarSaadiyat: aldarSaadiyatRouter,
+  lagoons: lagoonsRouter,
   resale: resaleRouter,
   publicResale: publicResaleRouter,
   availability: availabilityRouter,

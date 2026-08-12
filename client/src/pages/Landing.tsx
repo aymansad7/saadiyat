@@ -17,7 +17,7 @@ import SiteHeader from "@/components/SiteHeader";
 import { toast } from "sonner";
 import { villas } from "@/data/villas";
 import { COMMUNITIES } from "@/data/communities";
-import { LAGOONS_DATASET } from "@/data/lagoons";
+
 import { actionableCount } from "@/data/aldar";
 import type { StatusBreakdown } from "@/data/aldar";
 import { trpc } from "@/lib/trpc";
@@ -67,7 +67,7 @@ const communities = [
     slug: "saadiyat-lagoons",
     name: "Saadiyat Lagoons",
     cluster: "Aldar · SDE1 / SDE2 / SDE3",
-    plots: LAGOONS_DATASET.total_villas,
+    plots: 1549,
     href: "/saadiyat-lagoons",
     available: true,
     rich: true,
@@ -141,7 +141,7 @@ export default function Landing() {
             <dl className="mt-10 grid grid-cols-3 gap-6 max-w-md border-t border-border pt-6">
               <div>
                 <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Plots</dt>
-                <dd className="font-display text-3xl text-foreground tabular num-display mt-1">{villas.length + jawaher.totalPlots + sbv.totalPlots + LAGOONS_DATASET.total_villas}</dd>
+                <dd className="font-display text-3xl text-foreground tabular num-display mt-1">{villas.length + jawaher.totalPlots + sbv.totalPlots + 1549}</dd>
               </div>
               <div>
                 <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Projects</dt>
@@ -194,7 +194,7 @@ export default function Landing() {
           </div>
           <p className="hidden sm:block text-sm text-muted-foreground max-w-sm">
             We are progressively cataloguing every gated project on the island.
-            Today: four projects, {villas.length + jawaher.totalPlots + sbv.totalPlots + LAGOONS_DATASET.total_villas} plots.
+            Today: four projects, {villas.length + jawaher.totalPlots + sbv.totalPlots + 1549} plots.
           </p>
         </div>
 

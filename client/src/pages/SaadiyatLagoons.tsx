@@ -12,7 +12,7 @@ import { useState, useMemo } from "react";
 import { ArrowUpRight, Compass, Trees, Waves, Building2, Tag, Search } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Input } from "@/components/ui/input";
-import { LAGOONS_DATASET } from "@/data/lagoons";
+import { trpc } from "@/lib/trpc";
 import { getAvailability } from "@/data/lagoonsAvailability";
 
 const CLUSTERS = [
@@ -45,13 +45,17 @@ const CLUSTERS = [
 type AvailFilter = "all" | "any" | "nas-luxury" | "aldar" | "others" | "none";
 
 export default function SaadiyatLagoons() {
-  const totals = LAGOONS_DATASET.summary;
+  const { data: lagoonsSummary } = trpc.lagoons.summary.useQuery();
+  const { data: lagoonsAllData } = trpc.lagoons.allVillas.useQuery({ limit: 2000 });
+  const lagoonsVillas = lagoonsAllData?.villas ?? [];
+
+  const totals = lagoonsSummary?.summary ?? {};
   const [unitQuery, setUnitQuery] = useState("");
   const uq = unitQuery.trim().toLowerCase();
   const unitSearchHits = useMemo(() => {
     if (uq.length < 2) return [];
     const out: Array<{ id: string; unit_name: string; cluster: string; cluster_label: string; status: string | null }> = [];
-    for (const v of LAGOONS_DATASET.villas) {
+    for (const v of lagoonsVillas ?? []) {
       if (!v.unit_name) continue;
       if (v.unit_name.toLowerCase().includes(uq) || v.id.toLowerCase().includes(uq) || v.short_name.toLowerCase().includes(uq)) {
         out.push({ id: v.id, unit_name: v.unit_name, cluster: v.cluster, cluster_label: v.cluster_label, status: v.status });
@@ -74,7 +78,7 @@ export default function SaadiyatLagoons() {
   let totalNas = 0;
   let totalAldar = 0;
   let totalOthers = 0;
-  for (const v of LAGOONS_DATASET.villas) {
+  for (const v of lagoonsVillas ?? []) {
     const a = getAvailability(v.unit_name);
     const c = counters[v.cluster];
     if (!c) continue;
@@ -97,7 +101,7 @@ export default function SaadiyatLagoons() {
       totalOthers += 1;
     }
   }
-  const totalNone = LAGOONS_DATASET.total_villas - totalAny;
+  const totalNone = lagoonsSummary?.total_villas ?? 1549 - totalAny;
 
   // Build hrefs that pre-apply the status filter on the cluster page
   const filterHref = (slug: string, filter: AvailFilter) =>
@@ -124,7 +128,7 @@ export default function SaadiyatLagoons() {
               Saadiyat Lagoons
               <span className="text-muted-foreground italic">
                 {" "}
-                — {LAGOONS_DATASET.total_villas} villas across three villages.
+                — {lagoonsSummary?.total_villas ?? 1549} villas across three villages.
               </span>
             </h1>
             <p className="text-sm text-muted-foreground mt-3 max-w-2xl">
@@ -135,7 +139,7 @@ export default function SaadiyatLagoons() {
             </p>
           </div>
           <div className="col-span-12 md:col-span-4 flex flex-wrap gap-3 md:justify-end">
-            <Stat label="Villas" value={String(LAGOONS_DATASET.total_villas)} />
+            <Stat label="Villas" value={String(lagoonsSummary?.total_villas ?? 1549)} />
             <Stat label="Villages" value="3" />
             <Stat label="Available" value={String(totalAny)} accent />
           </div>
@@ -201,7 +205,7 @@ export default function SaadiyatLagoons() {
             <StatusCard
               label="Any available"
               count={totalAny}
-              total={LAGOONS_DATASET.total_villas}
+              total={lagoonsSummary?.total_villas ?? 1549}
               tone="emerald"
               variant="any"
               perCluster={counters}
@@ -210,7 +214,7 @@ export default function SaadiyatLagoons() {
             <StatusCard
               label="Available with NAS Luxury"
               count={totalNas}
-              total={LAGOONS_DATASET.total_villas}
+              total={lagoonsSummary?.total_villas ?? 1549}
               tone="emerald-strong"
               variant="nas-luxury"
               perCluster={counters}
@@ -219,7 +223,7 @@ export default function SaadiyatLagoons() {
             <StatusCard
               label="Aldar Resale"
               count={totalAldar}
-              total={LAGOONS_DATASET.total_villas}
+              total={lagoonsSummary?.total_villas ?? 1549}
               tone="amber"
               variant="aldar"
               perCluster={counters}
@@ -228,7 +232,7 @@ export default function SaadiyatLagoons() {
             <StatusCard
               label="Other brokers"
               count={totalOthers}
-              total={LAGOONS_DATASET.total_villas}
+              total={lagoonsSummary?.total_villas ?? 1549}
               tone="slate"
               variant="others"
               perCluster={counters}
@@ -237,7 +241,7 @@ export default function SaadiyatLagoons() {
             <StatusCard
               label="Not available"
               count={totalNone}
-              total={LAGOONS_DATASET.total_villas}
+              total={lagoonsSummary?.total_villas ?? 1549}
               tone="muted"
               variant="none"
               perCluster={counters}

@@ -11,7 +11,8 @@ import { Redirect, useParams, Link } from "wouter";
 import { ArrowLeft, ExternalLink, MapPin, Tag, Sparkles, BadgeCheck } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
-import { getLagoonsVilla } from "@/data/lagoons";
+import { trpc } from "@/lib/trpc";
+import type { LagoonsVilla } from "@/data/lagoons";
 import { ResaleCard } from "@/components/ResaleCard";
 import { getAvailability, SOURCE_META } from "@/data/lagoonsAvailability";
 
@@ -22,7 +23,8 @@ function fmtAed(n: number): string {
 export default function LagoonsVillaDetail() {
   const params = useParams<{ cluster: string; unit: string }>();
   const unit = params.unit ? decodeURIComponent(params.unit) : "";
-  const villa = unit ? getLagoonsVilla(unit) : undefined;
+  const { data: villaRaw } = trpc.lagoons.villa.useQuery({ unitName: unit ?? "" }, { enabled: !!unit });
+  const villa = villaRaw as LagoonsVilla | null | undefined;
   if (!villa) return <Redirect to={`/saadiyat-lagoons/${params.cluster ?? ""}`} />;
 
   return (

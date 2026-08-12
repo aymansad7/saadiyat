@@ -15,11 +15,8 @@ import { Redirect, useParams, useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import LagoonsVillaCard, { lagoonsVillaKey } from "@/components/LagoonsVillaCard";
 import { useListingIndex } from "@/hooks/useListingIndex";
-import {
-  LAGOONS_DATASET,
-  getLagoonsVillasByCluster,
-  type LagoonsVilla,
-} from "@/data/lagoons";
+import { trpc } from "@/lib/trpc";
+import type { LagoonsVilla } from "@/data/lagoons";
 import { getAvailability, type ResaleSource } from "@/data/lagoonsAvailability";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -48,8 +45,10 @@ export default function LagoonsCluster() {
   if (!(cluster in CLUSTER_LABELS)) return <Redirect to="/saadiyat-lagoons" />;
 
   const label = CLUSTER_LABELS[cluster];
-  const all = useMemo(() => getLagoonsVillasByCluster(cluster), [cluster]);
-  const summary = LAGOONS_DATASET.summary[cluster];
+  const { data: allRaw } = trpc.lagoons.villasByCluster.useQuery({ cluster });
+  const all = (allRaw ?? []) as LagoonsVilla[];
+  const { data: summaryData } = trpc.lagoons.summary.useQuery();
+  const summary = summaryData?.summary?.[cluster];
   // Bulk-fetch listings for this cluster only (e.g. saadiyat-lagoons/ethir-…)
   const { index: listingIndex } = useListingIndex({
     prefix: `saadiyat-lagoons/${cluster}-`,
@@ -121,7 +120,7 @@ export default function LagoonsCluster() {
         }
         return true;
       })
-      .sort((a, b) => {
+      .sort((a: any, b: any) => {
         // Bring NAS Luxury villas to the top, then by short_name
         const ap = getAvailability(a.unit_name).sources.includes("nas-luxury") ? 0 : 1;
         const bp = getAvailability(b.unit_name).sources.includes("nas-luxury") ? 0 : 1;
