@@ -5,6 +5,10 @@ import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 interface LagoonsVilla {
   unit_name: string;
