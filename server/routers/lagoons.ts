@@ -21,8 +21,23 @@ interface LagoonsDataset {
 let _cache: LagoonsDataset | null = null;
 function loadLagoons(): LagoonsDataset {
   if (_cache) return _cache;
-  const p = path.resolve(import.meta.dirname, "../data/lagoons.json");
-  _cache = JSON.parse(fs.readFileSync(p, "utf-8")) as LagoonsDataset;
+  const { resolve } = path;
+  const candidates = [
+    resolve(__dirname, "..", "data", "lagoons.json"),
+    resolve(__dirname, "data", "lagoons.json"),
+    resolve(process.cwd(), "server", "data", "lagoons.json"),
+    resolve(process.cwd(), "dist", "data", "lagoons.json"),
+    resolve(process.cwd(), "data", "lagoons.json"),
+  ];
+  let raw: string | undefined;
+  for (const p of candidates) {
+    try {
+      raw = fs.readFileSync(p, "utf-8");
+      break;
+    } catch { /* try next */ }
+  }
+  if (!raw) throw new Error(`lagoons.json not found in any of: ${candidates.join(", ")}`);
+  _cache = JSON.parse(raw) as LagoonsDataset;
   return _cache;
 }
 
