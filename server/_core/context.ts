@@ -1,6 +1,6 @@
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
 import type { User } from "../../drizzle/schema";
-import { findUserBySessionToken, MAGIC_SESSION_COOKIE } from "../magicAuth";
+import { findUserBySessionToken, findAllowed, MAGIC_SESSION_COOKIE } from "../magicAuth";
 import { getDb } from "../db";
 import { eq } from "drizzle-orm";
 import { users } from "../../drizzle/schema";
@@ -43,7 +43,10 @@ export async function createContext(
             .from(users)
             .where(eq(users.openId, magicUser.openId))
             .limit(1);
-          if (rows[0]) user = rows[0];
+          if (rows[0]) {
+            // Override role from the authoritative allowed_emails table
+            user = { ...rows[0], role: magicUser.role };
+          }
         }
       }
     } catch (err) {
@@ -54,6 +57,13 @@ export async function createContext(
   if (!user) {
     try {
       user = await sdk.authenticateRequest(opts.req);
+      // For OAuth sessions, also check allowed_emails for the authoritative role
+      if (user?.email) {
+        const allowed = await findAllowed(user.email);
+        if (allowed) {
+          user = { ...user, role: allowed.role };
+        }
+      }
     } catch {
       // Authentication is optional for public procedures.
       user = null;
