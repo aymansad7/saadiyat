@@ -3,6 +3,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { aldarOtherRouter } from "./routers/aldarOther";
+import { aldarSaadiyatRouter } from "./routers/aldarSaadiyat";
 import { availabilityRouter } from "./routers/availability";
 import { filesRouter } from "./routers/files";
 import { gateRouter } from "./routers/gate";
@@ -42,6 +43,7 @@ export const appRouter = router({
   files: filesRouter,
   gate: gateRouter,
   aldarOther: aldarOtherRouter,
+  aldarSaadiyat: aldarSaadiyatRouter,
   resale: resaleRouter,
   publicResale: publicResaleRouter,
   availability: availabilityRouter,

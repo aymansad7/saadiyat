@@ -1,6 +1,8 @@
-// Aldar Saadiyat dataset loader.
-// Source: consolidated from 18 Aldar inventory workbooks.
-import raw from "./aldar_saadiyat.json";
+/**
+ * Aldar Saadiyat types and utility functions.
+ * Data is now served via tRPC (trpc.aldarSaadiyat.*) instead of bundled JSON.
+ * This file only exports types and pure utility functions.
+ */
 
 export type AldarUnit = {
   unit_name: string | null;
@@ -61,37 +63,6 @@ export type AldarDataset = {
   projects: AldarProject[];
 };
 
-export const ALDAR: AldarDataset = raw as AldarDataset;
-
-export function getAldarProject(slug: string): AldarProject | undefined {
-  return ALDAR.projects.find(p => p.slug === slug);
-}
-
-export function getAldarBuilding(
-  projectSlug: string,
-  buildingSlug: string,
-): { project: AldarProject; building: AldarBuilding } | undefined {
-  const project = getAldarProject(projectSlug);
-  if (!project) return undefined;
-  const building = project.buildings.find(b => b.slug === buildingSlug);
-  if (!building) return undefined;
-  return { project, building };
-}
-
-export function getAldarUnit(
-  projectSlug: string,
-  buildingSlug: string,
-  unitName: string,
-):
-  | { project: AldarProject; building: AldarBuilding; unit: AldarUnit }
-  | undefined {
-  const ctx = getAldarBuilding(projectSlug, buildingSlug);
-  if (!ctx) return undefined;
-  const unit = ctx.building.units.find(u => u.unit_name === unitName);
-  if (!unit) return undefined;
-  return { ...ctx, unit };
-}
-
 export function isAvailable(status: string | null | undefined): boolean {
   return (status ?? "").toLowerCase() === "available";
 }
@@ -131,19 +102,10 @@ export function statusBucket(
 }
 
 export function emptyBreakdown(): StatusBreakdown {
-  return {
-    available: 0,
-    booked: 0,
-    blocked: 0,
-    reserved: 0,
-    new: 0,
-    sold: 0,
-    other: 0,
-    total: 0,
-  };
+  return { available: 0, booked: 0, blocked: 0, reserved: 0, new: 0, sold: 0, other: 0, total: 0 };
 }
 
-export function breakdownForUnits(units: AldarUnit[]): StatusBreakdown {
+export function breakdownForUnits(units: { status: string | null }[]): StatusBreakdown {
   const out = emptyBreakdown();
   for (const u of units) {
     out[statusBucket(u.status)] += 1;
@@ -172,25 +134,6 @@ export function breakdownForProject(p: AldarProject): StatusBreakdown {
   return out;
 }
 
-/** Statuses that we treat as "actionable" (something a broker could potentially move on). */
 export function actionableCount(b: StatusBreakdown): number {
   return b.available + b.new + b.booked + b.blocked + b.reserved;
-}
-
-export function allAvailableUnits(): Array<{
-  project: AldarProject;
-  building: AldarBuilding;
-  unit: AldarUnit;
-}> {
-  const out: Array<{ project: AldarProject; building: AldarBuilding; unit: AldarUnit }> = [];
-  for (const project of ALDAR.projects) {
-    for (const building of project.buildings) {
-      for (const unit of building.units) {
-        if (isAvailable(unit.status)) {
-          out.push({ project, building, unit });
-        }
-      }
-    }
-  }
-  return out;
 }

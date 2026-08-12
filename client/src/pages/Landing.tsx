@@ -18,12 +18,13 @@ import { toast } from "sonner";
 import { villas } from "@/data/villas";
 import { COMMUNITIES } from "@/data/communities";
 import { LAGOONS_DATASET } from "@/data/lagoons";
-import { ALDAR, breakdownForProject, actionableCount } from "@/data/aldar";
+import { actionableCount } from "@/data/aldar";
+import type { StatusBreakdown } from "@/data/aldar";
+import { trpc } from "@/lib/trpc";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { AvailabilityFilter } from "@/components/AvailabilityFilter";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useCanAccessOther } from "@/hooks/useCanAccessOther";
-import { trpc } from "@/lib/trpc";
 import GlobalUnitSearch from "@/components/GlobalUnitSearch";
 
 const jawaher = COMMUNITIES.find((c) => c.slug === "jawaher")!;
@@ -93,6 +94,7 @@ const communities = [
 ];
 
 export default function Landing() {
+  const { data: aldarData } = trpc.aldarSaadiyat.listProjects.useQuery();
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader subTitle="Saadiyat Island · Abu Dhabi" />
@@ -277,7 +279,7 @@ export default function Landing() {
               </h2>
               <p className="mt-2 text-sm text-muted-foreground max-w-2xl">
                 Live status breakdown for every Aldar inventory file we have ingested.
-                Apartments and townhouses across {ALDAR.project_count} projects · {ALDAR.total_units.toLocaleString()} units.
+                Apartments and townhouses across {aldarData?.project_count ?? 0} projects · {(aldarData?.total_units ?? 0).toLocaleString()} units.
               </p>
             </div>
             <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex bg-card border-primary/30 text-primary hover:bg-primary/10 hover:text-primary">
@@ -289,16 +291,16 @@ export default function Landing() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-            {ALDAR.projects
+            {(aldarData?.projects ?? [])
               .slice()
-              .sort((a, b) => {
-                const ba = actionableCount(breakdownForProject(a));
-                const bb = actionableCount(breakdownForProject(b));
+              .sort((a: any, b: any) => {
+                const ba = actionableCount(a.breakdown);
+                const bb = actionableCount(b.breakdown);
                 if (ba !== bb) return bb - ba;
                 return b.unit_count - a.unit_count;
               })
-              .map(p => {
-                const bd = breakdownForProject(p);
+              .map((p: any) => {
+                const bd = p.breakdown as StatusBreakdown;
                 const live = actionableCount(bd);
                 return (
                   <Link

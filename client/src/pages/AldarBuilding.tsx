@@ -15,7 +15,9 @@ import SiteHeader from "@/components/SiteHeader";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
-import { getAldarBuilding, breakdownForBuilding, actionableCount, statusBucket } from "@/data/aldar";
+import { actionableCount, statusBucket } from "@/data/aldar";
+import type { StatusBreakdown } from "@/data/aldar";
+import { trpc } from "@/lib/trpc";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
@@ -32,12 +34,17 @@ export default function AldarBuilding() {
     project: string;
     building: string;
   }>();
-  const ctx = projectSlug && buildingSlug ? getAldarBuilding(projectSlug, buildingSlug) : undefined;
+  const { data: bldgData, isLoading } = trpc.aldarSaadiyat.getBuilding.useQuery(
+    { projectSlug: projectSlug ?? "", buildingSlug: buildingSlug ?? "" },
+    { enabled: !!projectSlug && !!buildingSlug },
+  );
+  const ctx = bldgData ? { project: bldgData.project, building: { ...bldgData, units: bldgData.units } } : undefined;
   const [availableOnly, setAvailableOnly] = useState(false);
   const [bedroomFilter, setBedroomFilter] = useState<string>("all");
   const [sort, setSort] = useState<"price_asc" | "price_desc" | "unit">("unit");
   const [query, setQuery] = useState("");
 
+  if (isLoading) return <div className="min-h-screen flex items-center justify-center"><div className="text-muted-foreground font-mono text-sm">Loading...</div></div>;
   const allUnits = ctx?.building.units ?? [];
 
   const bedroomOptions = useMemo(() => {
@@ -52,13 +59,13 @@ export default function AldarBuilding() {
     let list = allUnits.slice();
     const q = query.trim().toLowerCase();
     if (q.length > 0)
-      list = list.filter(u => (u.unit_name ?? "").toLowerCase().includes(q));
+      list = list.filter((u: any) => (u.unit_name ?? "").toLowerCase().includes(q));
     if (availableOnly)
-      list = list.filter(u => {
+      list = list.filter((u: any) => {
         const b = statusBucket(u.status);
         return b !== "sold" && b !== "other";
       });
-    if (bedroomFilter !== "all") list = list.filter(u => String(u.bedrooms) === bedroomFilter);
+    if (bedroomFilter !== "all") list = list.filter((u: any) => String(u.bedrooms) === bedroomFilter);
 
     // Status priority — live inventory first, sold last (lower number = earlier)
     const statusOrder: Record<string, number> = {
@@ -74,19 +81,19 @@ export default function AldarBuilding() {
       statusOrder[statusBucket(u.status)] ?? 9;
 
     if (sort === "price_asc") {
-      list.sort((a, b) => {
+      list.sort((a: any, b: any) => {
         const sd = statusRank(a) - statusRank(b);
         if (sd !== 0) return sd;
         return (a.price_aed ?? Infinity) - (b.price_aed ?? Infinity);
       });
     } else if (sort === "price_desc") {
-      list.sort((a, b) => {
+      list.sort((a: any, b: any) => {
         const sd = statusRank(a) - statusRank(b);
         if (sd !== 0) return sd;
         return (b.price_aed ?? -Infinity) - (a.price_aed ?? -Infinity);
       });
     } else {
-      list.sort((a, b) => {
+      list.sort((a: any, b: any) => {
         const sd = statusRank(a) - statusRank(b);
         if (sd !== 0) return sd;
         return String(a.unit_name).localeCompare(String(b.unit_name), undefined, {
@@ -135,7 +142,7 @@ export default function AldarBuilding() {
             </span>
           </div>
           <div className="mt-4">
-            <AldarStatusPills breakdown={breakdownForBuilding(building)} size="sm" />
+            <AldarStatusPills breakdown={bldgData!.breakdown as StatusBreakdown} size="sm" />
           </div>
           <div className="mt-5 flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
@@ -150,7 +157,7 @@ export default function AldarBuilding() {
             <label className="inline-flex items-center gap-2 text-sm">
               <Switch checked={availableOnly} onCheckedChange={setAvailableOnly} />
               <span className="text-muted-foreground">
-                Live inventory only ({actionableCount(breakdownForBuilding(building))})
+                Live inventory only ({actionableCount(bldgData!.breakdown as StatusBreakdown)})
               </span>
             </label>
             {bedroomOptions.length > 1 && (
@@ -190,7 +197,7 @@ export default function AldarBuilding() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-            {units.map(u => {
+            {units.map((u: any) => {
               const villaKey = `aldar-saadiyat/${project.slug}/${building.slug}/${u.unit_name ?? ""}`;
               const listing = listingIndex.get(villaKey) ?? null;
               return (

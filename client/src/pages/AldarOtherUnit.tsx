@@ -273,19 +273,19 @@ function Inner() {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
               {plans.map((plan, idx) => {
-                const eff = (unit.price_aed ?? 0) * (1 - plan.discountPct / 100);
+                const eff = (unit.price_aed ?? 0) * (1 - (plan.discountPct ?? 0) / 100);
                 return (
                   <div key={idx} className="rounded-md border border-border bg-card overflow-hidden">
                     <div className="px-4 py-3 border-b border-border bg-primary/5">
                       <div className="flex items-baseline justify-between gap-2">
                         <div className="font-display text-lg text-foreground">{plan.name}</div>
-                        {plan.discountPct > 0 && (
+                        {(plan.discountPct ?? 0) > 0 && (
                           <div className="text-[0.65rem] uppercase tracking-[0.18em] font-mono text-primary">
-                            {plan.discountPct}% discount
+                            {plan.discountPct ?? 0}% discount
                           </div>
                         )}
                       </div>
-                      {plan.discountPct > 0 && (
+                      {(plan.discountPct ?? 0) > 0 && (
                         <div className="mt-1 text-[0.7rem] font-mono text-muted-foreground">
                           Effective price: AED {fmtAed(eff)}
                         </div>

@@ -8,13 +8,12 @@
 import { Redirect, useParams, Link } from "wouter";
 import { ExternalLink, Sparkles, Tag } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
-import { getAldarUnit } from "@/data/aldar";
+import { trpc } from "@/lib/trpc";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
 import { ResaleCard } from "@/components/ResaleCard";
 import { UnitTimeline } from "@/components/UnitTimeline";
-import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import {
   EditListingButton,
@@ -91,9 +90,10 @@ export function parsePaymentPlans(raw: string): ParsedPlan[] {
 export default function AldarUnit() {
   const params = useParams<{ project: string; building: string; unit: string }>();
   const unitName = params.unit ? decodeURIComponent(params.unit) : "";
-  const ctx = unitName
-    ? getAldarUnit(params.project ?? "", params.building ?? "", unitName)
-    : undefined;
+  const { data: ctx, isLoading: ctxLoading } = trpc.aldarSaadiyat.getUnit.useQuery(
+    { projectSlug: params.project ?? "", buildingSlug: params.building ?? "", unitName },
+    { enabled: !!unitName && !!params.project && !!params.building },
+  );
   // Hooks must run unconditionally — keep them above the early return.
   const villaKey = ctx
     ? `aldar-saadiyat/${ctx.project.slug}/${ctx.building.slug}/${ctx.unit.unit_name ?? ""}`
@@ -105,6 +105,7 @@ export default function AldarUnit() {
   const { user } = useAuth();
   const isAdmin = user?.role === "admin" || user?.role === "master";
 
+  if (ctxLoading) return <div className="min-h-screen flex items-center justify-center"><div className="text-muted-foreground font-mono text-sm">Loading...</div></div>;
   if (!ctx) return <Redirect to={`/aldar-saadiyat/${params.project ?? ""}`} />;
   const { project, building, unit } = ctx;
   const dn = buildingDisplayName(building.name);
@@ -392,7 +393,7 @@ export default function AldarUnit() {
           </dl>
         </div>
         <div className="mt-3 text-[0.62rem] font-mono uppercase tracking-[0.18em] text-muted-foreground">
-          Source: Aldar inventory export · Project {project.name} ({project.source_file})
+          Source: Aldar inventory export · Project {project.name}
         </div>
       </section>
     </div>
