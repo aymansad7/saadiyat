@@ -3,7 +3,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import hiddData from "../../../server/data/hidd_al_saadiyat.json";
+import hiddDataRaw from "../../../server/data/hidd_al_saadiyat.json";
 
 interface HiddVilla {
   villaNumber?: string;
@@ -48,7 +48,8 @@ interface HiddVilla {
   tenantVehicleType?: string;
 }
 
-const villas: HiddVilla[] = hiddData as HiddVilla[];
+// Normalize: in production builds, JSON ESM interop may wrap as {default: [...]}
+const villas: HiddVilla[] = (Array.isArray(hiddDataRaw) ? hiddDataRaw : (hiddDataRaw as any).default ?? []) as HiddVilla[];
 
 function DetailRow({ label, value }: { label: string; value?: string }) {
   if (!value) return null;

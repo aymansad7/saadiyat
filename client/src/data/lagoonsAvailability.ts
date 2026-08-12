@@ -16,8 +16,12 @@
  */
 
 import { LAGOONS_RESALE, type ResaleListing } from "./lagoonsResale";
-import NAS_LUXURY_RAW from "../../../server/data/nas_luxury_lagoons.json";
-import ALDAR_RESALE_RAW from "../../../server/data/aldar_resale.json";
+import NAS_LUXURY_RAW_IMPORT from "../../../server/data/nas_luxury_lagoons.json";
+import ALDAR_RESALE_RAW_IMPORT from "../../../server/data/aldar_resale.json";
+
+// Normalize: in production builds, JSON ESM interop may wrap as {default: {...}}
+const NAS_LUXURY_RAW: any = (NAS_LUXURY_RAW_IMPORT as any).default ?? NAS_LUXURY_RAW_IMPORT;
+const ALDAR_RESALE_RAW: any = (ALDAR_RESALE_RAW_IMPORT as any).default ?? ALDAR_RESALE_RAW_IMPORT;
 
 export type ResaleSource = "nas-luxury" | "aldar" | "others";
 
