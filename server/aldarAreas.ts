@@ -16,6 +16,7 @@ export type AreaKey =
   | "saadiyat"
   | "ras-al-khaimah"
   | "dubai"
+  | "fahid-island"
   | "other";
 
 export type AreaMeta = {
@@ -35,6 +36,7 @@ export const AREAS: Record<AreaKey, AreaMeta> = {
   "saadiyat": { key: "saadiyat", name: "Saadiyat Island", nameAr: "جزيرة السعديات", order: 4 },
   "ras-al-khaimah": { key: "ras-al-khaimah", name: "Ras Al Khaimah", nameAr: "رأس الخيمة", order: 5 },
   "dubai": { key: "dubai", name: "Dubai", nameAr: "دبي", order: 6 },
+  "fahid-island": { key: "fahid-island", name: "Fahid Island", nameAr: "جزيرة الفاهد", order: 7 },
   "other": { key: "other", name: "Other Areas", nameAr: "مناطق أخرى", order: 99 },
 };
 
@@ -66,10 +68,10 @@ const PROJECT_AREA: Record<string, AreaKey> = {
   "fay-alreeman": "al-shamkha",
   "fay-al-reeman-ii": "al-shamkha",
   "reeman-living": "al-shamkha",
-  "rise-by-athlon-1": "al-shamkha",
-  "rise-by-athlon-2": "al-shamkha",
-  "rise-by-athlon-3": "al-shamkha",
-  "rise-by-athlon-4": "al-shamkha",
+  "rise-by-athlon-1": "dubai",
+  "rise-by-athlon-2": "dubai",
+  "rise-by-athlon-3": "dubai",
+  "rise-by-athlon-4": "dubai",
 
   // --- Al Ghadeer ---
   "al-ghadeer-gardens": "al-ghadeer",
@@ -82,6 +84,10 @@ const PROJECT_AREA: Record<string, AreaKey> = {
   "rosso-bay-residences": "ras-al-khaimah",
 
   // --- Dubai ---
+  // --- Fahid Island ---
+  "fahidbeachterraces": "fahid-island",
+  "thebeachhouse": "fahid-island",
+  "fahidbeachresidences": "fahid-island",
   "haven": "dubai",
   "verdes": "dubai",
   "wilds": "dubai",
