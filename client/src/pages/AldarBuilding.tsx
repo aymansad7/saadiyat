@@ -44,7 +44,6 @@ export default function AldarBuilding() {
   const [sort, setSort] = useState<"price_asc" | "price_desc" | "unit">("unit");
   const [query, setQuery] = useState("");
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center"><div className="text-muted-foreground font-mono text-sm">Loading...</div></div>;
   const allUnits = ctx?.building.units ?? [];
 
   const bedroomOptions = useMemo(() => {
@@ -111,7 +110,7 @@ export default function AldarBuilding() {
     : undefined;
   const { index: listingIndex } = useListingIndex({ prefix: listingPrefix });
 
-  if (!ctx) return <Redirect to="/aldar-saadiyat" />;
+  if (isLoading || !ctx) return <div className="min-h-screen flex items-center justify-center"><div className="text-muted-foreground font-mono text-sm">Loading...</div></div>;
   const { project, building } = ctx;
   const dn = buildingDisplayName(building.name);
 
