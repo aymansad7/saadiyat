@@ -8,7 +8,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
-import { protectedProcedure, router } from "../_core/trpc";
+import { publicProcedure, router } from "../_core/trpc";
 
 // Reuse types from the Other router (same JSON shape)
 export type SaadiyatUnit = {
@@ -134,7 +134,7 @@ function isLive(s: string | null) { return LIVE_STATUSES.has(statusGroup(s)); }
 // ---------------------------------------------------------------------------
 export const aldarSaadiyatRouter = router({
   /** List all projects with breakdowns (no unit-level detail). */
-  listProjects: protectedProcedure.query(() => {
+  listProjects: publicProcedure.query(() => {
     const data = getSaadiyatDataset();
     const projects = data.projects.map(p => {
       const allUnits = p.buildings.flatMap(b => b.units);
@@ -158,7 +158,7 @@ export const aldarSaadiyatRouter = router({
   }),
 
   /** Project details: buildings with breakdowns. */
-  getProject: protectedProcedure
+  getProject: publicProcedure
     .input(z.object({ slug: z.string().min(1).max(128) }))
     .query(({ input }) => {
       const data = getSaadiyatDataset();
@@ -181,7 +181,7 @@ export const aldarSaadiyatRouter = router({
     }),
 
   /** Building details: full unit list. */
-  getBuilding: protectedProcedure
+  getBuilding: publicProcedure
     .input(z.object({
       projectSlug: z.string().min(1).max(128),
       buildingSlug: z.string().min(1).max(128),
@@ -203,7 +203,7 @@ export const aldarSaadiyatRouter = router({
     }),
 
   /** Single unit detail. */
-  getUnit: protectedProcedure
+  getUnit: publicProcedure
     .input(z.object({
       projectSlug: z.string().min(1).max(128),
       buildingSlug: z.string().min(1).max(128),
@@ -225,7 +225,7 @@ export const aldarSaadiyatRouter = router({
     }),
 
   /** Search units by name. */
-  searchUnits: protectedProcedure
+  searchUnits: publicProcedure
     .input(z.object({
       query: z.string().min(1).max(128),
       liveOnly: z.boolean().optional().default(false),
