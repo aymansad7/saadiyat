@@ -9,7 +9,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
-import { protectedProcedure, router } from "../_core/trpc";
+import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -210,6 +210,48 @@ export const unitSearchRouter = router({
         }
       }
 
+      return { results, total: results.length };
+    }),
+
+  /**
+   * Global filter: find units across ALL projects by status, bedrooms, price range.
+   * Public so it can be used without login (behind passcode gate anyway).
+   * Use case: "show me all available 1BR units across all projects"
+   */
+  filter: publicProcedure
+    .input(
+      z.object({
+        availableOnly: z.boolean().optional().default(true),
+        bedrooms: z.string().optional(), // "1", "2", "3", "4", "5", "Studio"
+        dataset: z.enum(["saadiyat", "other", "lagoons", "all"]).optional().default("all"),
+        priceMin: z.number().optional(),
+        priceMax: z.number().optional(),
+        limit: z.number().int().min(1).max(1000).optional().default(500),
+      }),
+    )
+    .query(({ input }) => {
+      const all = loadAllUnits();
+      const results: SearchableUnit[] = [];
+      for (const u of all) {
+        if (results.length >= input.limit) break;
+        if (input.dataset !== "all" && u.dataset !== input.dataset) continue;
+        if (input.availableOnly) {
+          const s = (u.status ?? "").toLowerCase();
+          if (s !== "available" && s !== "new") continue;
+        }
+        if (input.bedrooms) {
+          const bed = (u.bedrooms ?? "").toLowerCase();
+          const target = input.bedrooms.toLowerCase();
+          if (target === "studio") {
+            if (bed !== "studio" && bed !== "0") continue;
+          } else {
+            if (bed !== target) continue;
+          }
+        }
+        if (input.priceMin != null && (u.priceAed == null || u.priceAed < input.priceMin)) continue;
+        if (input.priceMax != null && (u.priceAed == null || u.priceAed > input.priceMax)) continue;
+        results.push(u);
+      }
       return { results, total: results.length };
     }),
 });

@@ -243,3 +243,10 @@
 - [x] Update area mapping: added ras-al-khaimah area + almarjan slug
 - [x] Run inventory sync: 21,527 units scanned, 13 status changes detected (history logged), all new units registered
 - [x] 160/160 tests pass, TypeScript clean; save checkpoint
+
+### The Canopies update + Global Filter (Aug 13, 2026)
+- [x] Update The Canopies with 13 Aug 2026 data (592 units, B1-B6 building names, status/price changes logged)
+- [x] Add global filter procedure to unitSearch router (filter by available, bedrooms, price, dataset)
+- [x] Build /available-units page with bedroom buttons, price range, dataset selector, grouped results
+- [x] Update SiteHeader counts: 19 Saadiyat, 35 Other (reflects Fahid move)
+- [x] Add "Available Units Filter" link in SiteHeader dropdown menu

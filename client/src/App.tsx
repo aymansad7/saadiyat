@@ -39,12 +39,14 @@ import Resale from "./pages/Resale";
 import PublicResaleSearch from "./pages/PublicResaleSearch";
 import CommunityPage from "./pages/CommunityPage";
 import HiddAlSaadiyat from "./pages/HiddAlSaadiyat";
+import AvailableUnits from "./pages/AvailableUnits";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path="/" component={Landing} />
+      <Route path="/available-units" component={AvailableUnits} />
       <Route path="/st-regis" component={StRegis} />
       <Route path="/st-regis/villa/:id" component={VillaDetail} />
       <Route path="/jawaher" component={Jawaher} />
