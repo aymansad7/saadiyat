@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, RotateCcw, ChevronUp, ChevronDown, TrendingUp, TrendingDown } from "lucide-react";
 import { golfViewsRecords } from "@/data/sdn2Transactions";
+import { golfViewsPlotData } from "@/data/golfViewsPlotData";
 
 export default function CommunityPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -138,8 +139,10 @@ export default function CommunityPage() {
               pdfUrl={pdfIndex.get(plot.villaKey) ?? null}
               pdfLoading={pdfLoading}
               listing={listingIndex.get(plot.villaKey) ?? null}
-              community={community.slug}
-            />
+            community={community.slug}
+            transactions={slug === "saadiyat-golf-views" ? golfViewsPlotData[plot.villaKey]?.transactions : undefined}
+            landSqft={slug === "saadiyat-golf-views" ? golfViewsPlotData[plot.villaKey]?.landSqft : undefined}
+          />
           ))}
         </div>
       {filtered.length === 0 && (
