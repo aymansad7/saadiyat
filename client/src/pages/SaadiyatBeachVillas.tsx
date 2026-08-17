@@ -11,8 +11,7 @@ import { useMemo, useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
-import { allSDN2Transactions, SDN2_TX_SUMMARY, fayaPlotHistories, sbdPlotsPlotHistories, sbvPlotsPlotHistories } from "@/data/sdn2Transactions";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { sbvGateRecords, SDN2_SUMMARY } from "@/data/sdn2Transactions";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
@@ -238,7 +237,7 @@ export default function SaadiyatBeachVillas() {
         )}
       </main>
 
-      {/* ADREC Transaction History */}
+      {/* ADREC Transaction History for SBV gates */}
       <section className="container py-10 sm:py-14 border-t border-border">
         <div className="mb-6">
           <div className="text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary mb-2">ADREC Records · SDN2</div>
@@ -246,73 +245,64 @@ export default function SaadiyatBeachVillas() {
             Transaction History
           </h2>
           <p className="text-sm text-muted-foreground mt-2 max-w-2xl">
-            {SDN2_TX_SUMMARY.totalTransactions} official Abu Dhabi real estate transactions for SDN2 villas.
-            Source: ad-transactions.com (updated 16 Aug 2026). Grouped by project name.
+            {sbvGateRecords.reduce((sum, r) => sum + r.transactions.length, 0)} official transactions for SBV gate villas (land 3,000–8,000 sqft).
+            Each row represents a unique plot identified by its land area. Source: ad-transactions.com (updated 16 Aug 2026).
           </p>
-          <div className="mt-3 flex gap-4 flex-wrap">
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <span className="h-2.5 w-2.5 rounded-full bg-primary/80" />
-              Faya Al Saadiyat ({SDN2_TX_SUMMARY.fayaCount} primary)
-            </div>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
-              Saadiyat Beach District ({SDN2_TX_SUMMARY.sbdCount} resales)
-            </div>
-            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-              Saadiyat Beach Villas ({SDN2_TX_SUMMARY.sbvCount} resales)
-            </div>
-          </div>
         </div>
-
-        {/* Transaction table */}
         <div className="border border-border rounded-md overflow-hidden bg-card">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-accent/30">
+                  <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Land (sqft)</th>
                   <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Date</th>
-                  <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Project</th>
                   <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Type</th>
                   <th className="text-right px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Price (AED)</th>
                   <th className="text-right px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Rate/sqft</th>
-                  <th className="text-right px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Land (sqft)</th>
-                  <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Beds</th>
-                  <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">P/S</th>
+                  <th className="text-center px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Sales</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {allSDN2Transactions
-                  .sort((a, b) => b.date.localeCompare(a.date))
-                  .slice(0, 50)
-                  .map((tx, i) => (
-                  <tr key={`${tx.date}-${tx.landSqft}-${i}`} className="hover:bg-accent/20">
-                    <td className="px-3 py-2 font-mono text-xs text-muted-foreground whitespace-nowrap">{tx.date}</td>
-                    <td className="px-3 py-2 text-xs text-foreground">{tx.project}</td>
-                    <td className="px-3 py-2 text-xs text-muted-foreground">{tx.propertyType}</td>
-                    <td className="px-3 py-2 text-right font-mono text-xs text-foreground">{tx.priceAed.toLocaleString()}</td>
-                    <td className="px-3 py-2 text-right font-mono text-xs text-muted-foreground">{tx.ratePerSqft?.toLocaleString() ?? "—"}</td>
-                    <td className="px-3 py-2 text-right font-mono text-xs text-muted-foreground">{tx.landSqft.toLocaleString()}</td>
-                    <td className="px-3 py-2 text-xs text-muted-foreground">{tx.bedrooms ? `${tx.bedrooms}${tx.bedrooms >= 6 ? "+" : ""} BR` : "—"}</td>
-                    <td className="px-3 py-2">
-                      <span className={`text-[0.6rem] font-mono uppercase px-1.5 py-0.5 rounded-sm border ${
-                        tx.saleType === "primary"
-                          ? "text-primary border-primary/30 bg-primary/5"
-                          : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
-                      }`}>
-                        {tx.saleType === "primary" ? "P" : "S"}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                {sbvGateRecords
+                  .sort((a, b) => b.transactions[b.transactions.length - 1].date.localeCompare(a.transactions[a.transactions.length - 1].date))
+                  .map((record) => {
+                    const lastTx = record.transactions[record.transactions.length - 1];
+                    const firstTx = record.transactions[0];
+                    let appreciation: number | null = null;
+                    if (record.transactions.length > 1) {
+                      appreciation = ((lastTx.priceAed - firstTx.priceAed) / firstTx.priceAed) * 100;
+                    }
+                    return (
+                      <tr key={record.landSqft} className="hover:bg-accent/20">
+                        <td className="px-3 py-2 font-mono text-xs text-foreground">{record.landSqft.toLocaleString()}</td>
+                        <td className="px-3 py-2 font-mono text-xs text-muted-foreground whitespace-nowrap">{lastTx.date}</td>
+                        <td className="px-3 py-2">
+                          <span className={`text-[0.6rem] font-mono uppercase px-1.5 py-0.5 rounded-sm border ${
+                            lastTx.saleType === "primary"
+                              ? "text-primary border-primary/30 bg-primary/5"
+                              : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
+                          }`}>
+                            {lastTx.saleType === "primary" ? "Primary" : "Resale"}
+                          </span>
+                        </td>
+                        <td className="px-3 py-2 text-right font-mono text-xs text-foreground">{lastTx.priceAed.toLocaleString()}</td>
+                        <td className="px-3 py-2 text-right font-mono text-xs text-muted-foreground">{lastTx.ratePerSqft?.toLocaleString() ?? "—"}</td>
+                        <td className="px-3 py-2 text-center">
+                          <span className="font-mono text-xs text-muted-foreground">{record.transactions.length}</span>
+                          {appreciation !== null && (
+                            <span className={`ml-1.5 text-[0.6rem] font-mono ${
+                              appreciation >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
+                            }`}>
+                              {appreciation >= 0 ? "+" : ""}{appreciation.toFixed(0)}%
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
-          {allSDN2Transactions.length > 50 && (
-            <div className="px-3 py-2 text-xs text-muted-foreground text-center border-t border-border">
-              Showing 50 of {allSDN2Transactions.length} transactions (newest first)
-            </div>
-          )}
         </div>
       </section>
 

@@ -13,7 +13,8 @@ import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, RotateCcw, ChevronUp, ChevronDown } from "lucide-react";
+import { Search, RotateCcw, ChevronUp, ChevronDown, TrendingUp, TrendingDown } from "lucide-react";
+import { golfViewsRecords } from "@/data/sdn2Transactions";
 
 export default function CommunityPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -141,15 +142,87 @@ export default function CommunityPage() {
             />
           ))}
         </div>
-        {filtered.length === 0 && (
-          <div className="text-center py-12 text-muted-foreground">
-            <p>No plots match your search.</p>
-            <Button variant="outline" className="mt-4" onClick={reset}>
-              Clear filter
-            </Button>
+      {filtered.length === 0 && (
+        <div className="text-center py-12 text-muted-foreground">
+          <p>No plots match your search.</p>
+          <Button variant="outline" className="mt-4" onClick={reset}>
+            Clear filter
+          </Button>
+        </div>
+      )}
+    </section>
+
+      {/* Transaction History for Golf Views */}
+      {slug === "saadiyat-golf-views" && golfViewsRecords.length > 0 && (
+        <section className="container py-10 sm:py-14 border-t border-border">
+          <div className="mb-6">
+            <div className="text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary mb-2">ADREC Records · SDN2</div>
+            <h2 className="font-display text-2xl sm:text-3xl text-foreground">
+              Transaction History
+            </h2>
+            <p className="text-sm text-muted-foreground mt-2 max-w-2xl">
+              {golfViewsRecords.reduce((sum, r) => sum + r.transactions.length, 0)} official transactions for SDN2 premium/golf plots (land &gt; 8,000 sqft).
+              Each row represents a unique plot identified by its land area. Source: ad-transactions.com (updated 16 Aug 2026).
+            </p>
           </div>
-        )}
-      </section>
-    </div>
+
+          <div className="border border-border rounded-md overflow-hidden bg-card">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border bg-accent/30">
+                    <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Land (sqft)</th>
+                    <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Date</th>
+                    <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Type</th>
+                    <th className="text-right px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Price (AED)</th>
+                    <th className="text-right px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Rate/sqft</th>
+                    <th className="text-center px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Sales</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {golfViewsRecords
+                    .sort((a, b) => b.transactions[b.transactions.length - 1].date.localeCompare(a.transactions[a.transactions.length - 1].date))
+                    .map((record) => {
+                      const lastTx = record.transactions[record.transactions.length - 1];
+                      const firstTx = record.transactions[0];
+                      let appreciation: number | null = null;
+                      if (record.transactions.length > 1) {
+                        appreciation = ((lastTx.priceAed - firstTx.priceAed) / firstTx.priceAed) * 100;
+                      }
+                      return (
+                        <tr key={record.landSqft} className="hover:bg-accent/20">
+                          <td className="px-3 py-2 font-mono text-xs text-foreground">{record.landSqft.toLocaleString()}</td>
+                          <td className="px-3 py-2 font-mono text-xs text-muted-foreground whitespace-nowrap">{lastTx.date}</td>
+                          <td className="px-3 py-2">
+                            <span className={`text-[0.6rem] font-mono uppercase px-1.5 py-0.5 rounded-sm border ${
+                              lastTx.saleType === "primary"
+                                ? "text-primary border-primary/30 bg-primary/5"
+                                : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
+                            }`}>
+                              {lastTx.saleType === "primary" ? "Primary" : "Resale"}
+                            </span>
+                          </td>
+                          <td className="px-3 py-2 text-right font-mono text-xs text-foreground">{lastTx.priceAed.toLocaleString()}</td>
+                          <td className="px-3 py-2 text-right font-mono text-xs text-muted-foreground">{lastTx.ratePerSqft?.toLocaleString() ?? "—"}</td>
+                          <td className="px-3 py-2 text-center">
+                            <span className="font-mono text-xs text-muted-foreground">{record.transactions.length}</span>
+                            {appreciation !== null && (
+                              <span className={`ml-1.5 text-[0.6rem] font-mono ${
+                                appreciation >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
+                              }`}>
+                                {appreciation >= 0 ? "+" : ""}{appreciation.toFixed(0)}%
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      )}
+  </div>
   );
 }
