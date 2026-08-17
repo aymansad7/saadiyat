@@ -265,3 +265,9 @@
 - [x] Add transaction display to SimplePlotCard (last price, date, type, appreciation %)
 - [x] Wire Jawaher page to pass transactions to each plot card
 - [x] 160/160 tests pass, TypeScript clean
+
+### SDN2 Transaction History (Aug 17, 2026)
+- [x] Parse ADREC PDF: 171 transactions (Faya 20 primary, SBD 121 secondary, SBV 30 secondary)
+- [x] Create sdn2Transactions.ts data file grouped by project and land area
+- [x] Add transaction history table to SaadiyatBeachVillas page (newest 50, sorted by date)
+- [x] 160/160 tests pass, TypeScript clean
