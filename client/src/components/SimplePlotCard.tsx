@@ -6,11 +6,18 @@
  * If the PDF isn't in DB (rare 404 plots), we show a disabled "Not available"
  * pill instead of leaking the external URL.
  */
-import { FileText, MapPin, Loader2 } from "lucide-react";
+import { FileText, MapPin, Loader2, TrendingUp, TrendingDown } from "lucide-react";
 import type { SimplePlot } from "@/data/communities";
 import { MYLAND_URL } from "@/data/communities";
 import { useDcrPdfUrl } from "@/hooks/useDcrPdfUrl";
 import type { ListingIndexEntry } from "@/hooks/useListingIndex";
+
+export interface PlotTransaction {
+  date: string;
+  priceAed: number;
+  saleType: "primary" | "secondary";
+  ratePerSqft: number | null;
+}
 import {
   EditListingButton,
   ListingBadge,
@@ -33,6 +40,8 @@ interface Props {
   listing?: ListingIndexEntry | null;
   /** Community slug for the Edit dialog (required when admins should be able to start a new listing). */
   community?: string;
+  /** Optional transaction history for this plot */
+  transactions?: PlotTransaction[];
 }
 
 export default function SimplePlotCard({
@@ -43,6 +52,7 @@ export default function SimplePlotCard({
   pdfLoading: pdfLoadingProp,
   listing,
   community,
+  transactions,
 }: Props) {
   // If parent provided a bulk-resolved URL, use it. Otherwise fall back to the
   // single-villa hook (cheap on detail pages, expensive on listing pages).
@@ -72,6 +82,45 @@ export default function SimplePlotCard({
           <h3 className="font-display text-lg text-foreground mt-1 leading-snug truncate">
             {plot.label}
           </h3>
+          {transactions && transactions.length > 0 && (() => {
+            const last = transactions[transactions.length - 1];
+            const fmtPrice = new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(last.priceAed);
+            const isPrimary = last.saleType === "primary";
+            const firstPrimary = transactions.find(t => t.saleType === "primary");
+            const lastSecondary = [...transactions].reverse().find(t => t.saleType === "secondary");
+            let appreciation: number | null = null;
+            if (firstPrimary && lastSecondary && lastSecondary.date > firstPrimary.date) {
+              appreciation = ((lastSecondary.priceAed - firstPrimary.priceAed) / firstPrimary.priceAed) * 100;
+            }
+            return (
+              <div className="mt-2 p-2 rounded-md border border-border bg-accent/30">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className={`text-[0.6rem] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded-sm border ${
+                    isPrimary
+                      ? "text-primary border-primary/30 bg-primary/5"
+                      : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
+                  }`}>
+                    {isPrimary ? "Primary" : "Resale"}
+                  </span>
+                  <span className="text-[0.6rem] font-mono text-muted-foreground">{last.date}</span>
+                  {appreciation !== null && (
+                    <span className={`ml-auto text-[0.65rem] font-mono flex items-center gap-0.5 ${
+                      appreciation >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
+                    }`}>
+                      {appreciation >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                      {appreciation >= 0 ? "+" : ""}{appreciation.toFixed(0)}%
+                    </span>
+                  )}
+                </div>
+                <div className="font-display text-base text-foreground">
+                  AED {fmtPrice}
+                </div>
+                <div className="text-[0.6rem] font-mono text-muted-foreground mt-0.5">
+                  {last.ratePerSqft ? `${last.ratePerSqft.toLocaleString()} AED/sqft · ` : ""}{transactions.length} sale{transactions.length > 1 ? "s" : ""}
+                </div>
+              </div>
+            );
+          })()}
           {listing?.askingPriceAed ? (
             <div className="mt-1.5">
               <ListingPriceLabel askingPriceAed={listing.askingPriceAed} />

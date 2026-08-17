@@ -258,3 +258,10 @@
 - [x] Add Transaction History section to VillaDetail page (timeline with primary/secondary badges, price change %)
 - [x] Add transaction indicators on VillaCard (year + P/S badges)
 - [x] 160/160 tests pass, TypeScript clean
+
+### Jawaher Transaction History (Aug 17, 2026)
+- [x] Parse ADREC PDFs: 83 primary + 47 secondary = 130 transactions (Dec 2019 – Jul 2026)
+- [x] Create jawaherTransactions.ts data file (grouped by land area per plot)
+- [x] Add transaction display to SimplePlotCard (last price, date, type, appreciation %)
+- [x] Wire Jawaher page to pass transactions to each plot card
+- [x] 160/160 tests pass, TypeScript clean

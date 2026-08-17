@@ -14,6 +14,7 @@ import { useMemo, useState } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
+import { jawaherPlotHistories, JAWAHER_TX_SUMMARY } from "@/data/jawaherTransactions";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
@@ -25,6 +26,15 @@ import { Search, RotateCcw, ChevronUp, ChevronDown, ExternalLink } from "lucide-
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const COMMUNITY = COMMUNITIES.find((c) => c.slug === "jawaher")!;
+
+// Build a map from plot land area index to transactions for quick lookup
+// Since we can't match by plot number directly, we'll assign transactions
+// to plots by their position in the sorted land area list (same order as ADREC)
+// This creates a map: plotIndex (0-82) -> transactions
+const txByIndex = new Map<number, typeof jawaherPlotHistories[0]["transactions"]>();
+jawaherPlotHistories.forEach((ph, i) => {
+  txByIndex.set(i, ph.transactions);
+});
 
 export default function Jawaher() {
   const [query, setQuery] = useState("");
@@ -167,6 +177,7 @@ export default function Jawaher() {
                   pdfLoading={pdfLoading}
                   listing={listingIndex.get(p.villaKey) ?? null}
                   community="jawaher"
+                  transactions={txByIndex.get(p.id - 1)}
                 />
               ))}
             </div>
