@@ -6,7 +6,8 @@
  * If the PDF isn't in DB (rare 404 plots), we show a disabled "Not available"
  * pill instead of leaking the external URL.
  */
-import { FileText, MapPin, Loader2, TrendingUp, TrendingDown } from "lucide-react";
+import { FileText, MapPin, Loader2, TrendingUp, TrendingDown, ArrowUpRight } from "lucide-react";
+import { Link } from "wouter";
 import type { SimplePlot } from "@/data/communities";
 import { MYLAND_URL } from "@/data/communities";
 import { useDcrPdfUrl } from "@/hooks/useDcrPdfUrl";
@@ -42,6 +43,10 @@ interface Props {
   community?: string;
   /** Optional transaction history for this plot */
   transactions?: PlotTransaction[];
+  /** Optional land area in sqft (from transaction data) */
+  landSqft?: number;
+  /** Optional link to detail page */
+  detailHref?: string;
 }
 
 export default function SimplePlotCard({
@@ -53,6 +58,8 @@ export default function SimplePlotCard({
   listing,
   community,
   transactions,
+  landSqft,
+  detailHref,
 }: Props) {
   // If parent provided a bulk-resolved URL, use it. Otherwise fall back to the
   // single-villa hook (cheap on detail pages, expensive on listing pages).
@@ -82,6 +89,11 @@ export default function SimplePlotCard({
           <h3 className="font-display text-lg text-foreground mt-1 leading-snug truncate">
             {plot.label}
           </h3>
+          {landSqft && (
+            <div className="font-mono text-xs text-muted-foreground mt-1">
+              {landSqft.toLocaleString()} sqft · {(landSqft * 0.092903).toFixed(0)} m²
+            </div>
+          )}
           {transactions && transactions.length > 0 && (() => {
             const last = transactions[transactions.length - 1];
             const fmtPrice = new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(last.priceAed);
@@ -177,7 +189,16 @@ export default function SimplePlotCard({
             <MapPin className="h-3.5 w-3.5" />
             MyLand portal
           </a>
-          {community && (
+          {detailHref && (
+            <Link
+              href={detailHref}
+              className="inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-primary ml-auto"
+            >
+              Details
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+          )}
+          {community && !detailHref && (
             <EditListingButton
               villaKey={plot.villaKey}
               community={community}

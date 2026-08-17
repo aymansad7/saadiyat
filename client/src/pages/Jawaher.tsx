@@ -178,6 +178,8 @@ export default function Jawaher() {
                   listing={listingIndex.get(p.villaKey) ?? null}
                   community="jawaher"
                   transactions={txByIndex.get(p.id - 1)}
+                  landSqft={jawaherPlotHistories[p.id - 1]?.landSqft}
+                  detailHref={`/jawaher/plot/${p.id}`}
                 />
               ))}
             </div>
