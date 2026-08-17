@@ -5,7 +5,9 @@
  */
 import { Link } from "wouter";
 import { FileText, MapPin, Globe2, ArrowUpRight } from "lucide-react";
+import { History } from "lucide-react";
 import type { Villa } from "@/data/villas";
+import { getVillaTransactions } from "@/data/stregisTransactions";
 import type { ListingIndexEntry } from "@/hooks/useListingIndex";
 import {
   EditListingButton,
@@ -23,6 +25,7 @@ interface Props {
 
 export default function VillaCard({ villa: v, isActive, onHover, onSelect, listing }: Props) {
   const villaKey = `st-regis/Plot-${v.id}`;
+  const transactions = getVillaTransactions(v.id);
   return (
     <div
       onMouseEnter={() => onHover(v.id)}
@@ -65,6 +68,23 @@ export default function VillaCard({ villa: v, isActive, onHover, onSelect, listi
           <h3 className="font-display text-lg text-foreground mt-1 leading-snug">
             {v.buildingTypology || "St. Regis Villa"}
           </h3>
+          {transactions.length > 0 && (
+            <div className="mt-2 flex items-center gap-1.5 flex-wrap">
+              <History className="h-3 w-3 text-muted-foreground shrink-0" />
+              {transactions.map((tx, i) => (
+                <span
+                  key={`${tx.date}-${i}`}
+                  className={`text-[0.6rem] font-mono px-1.5 py-0.5 rounded-sm border ${
+                    tx.saleType === "primary"
+                      ? "text-primary border-primary/30 bg-primary/5"
+                      : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
+                  }`}
+                >
+                  {tx.date.slice(0, 4)} {tx.saleType === "primary" ? "P" : "S"}
+                </span>
+              ))}
+            </div>
+          )}
           <dl className="mt-3 grid grid-cols-3 gap-3 text-[0.78rem]">
             <div>
               <dt className="text-[0.62rem] uppercase tracking-[0.14em] font-mono text-muted-foreground">Plot</dt>

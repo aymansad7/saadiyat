@@ -250,3 +250,11 @@
 - [x] Build /available-units page with bedroom buttons, price range, dataset selector, grouped results
 - [x] Update SiteHeader counts: 19 Saadiyat, 35 Other (reflects Fahid move)
 - [x] Add "Available Units Filter" link in SiteHeader dropdown menu
+
+### St. Regis Transaction History (Aug 17, 2026)
+- [x] Parse ADREC PDF (17 transactions: 9 primary, 8 secondary)
+- [x] Match transactions to specific villas by land area (sqft) — all 17 matched within <50 sqft tolerance
+- [x] Create stregisTransactions.ts data file with full transaction records
+- [x] Add Transaction History section to VillaDetail page (timeline with primary/secondary badges, price change %)
+- [x] Add transaction indicators on VillaCard (year + P/S badges)
+- [x] 160/160 tests pass, TypeScript clean

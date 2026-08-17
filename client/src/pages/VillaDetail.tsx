@@ -6,10 +6,11 @@
 import { useParams, Link } from "wouter";
 import { useEffect, useMemo, useState } from "react";
 import { villas as ALL_VILLAS } from "@/data/villas";
+import { getVillaTransactions, hasTransactions, type StRegisTransaction } from "@/data/stregisTransactions";
 import SiteHeader from "@/components/SiteHeader";
 import PlotMap from "@/components/PlotMap";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, FileText, MapPin, Globe2, Copy, ExternalLink, Download } from "lucide-react";
+import { ArrowLeft, ArrowRight, FileText, MapPin, Globe2, Copy, ExternalLink, Download, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { toast } from "sonner";
 import { FilesPanel } from "@/components/FilesPanel";
 
@@ -41,6 +42,8 @@ export default function VillaDetail() {
   const prevId = villa.id === 1 ? ALL_VILLAS.length : villa.id - 1;
   const nextId = villa.id === ALL_VILLAS.length ? 1 : villa.id + 1;
   const filteredIds = useMemo(() => new Set([villa.id]), [villa.id]);
+  const transactions = useMemo(() => getVillaTransactions(villa.id), [villa.id]);
+  const villaHasTransactions = transactions.length > 0;
 
   const copy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
@@ -207,6 +210,44 @@ export default function VillaDetail() {
         </div>
       </section>
 
+      {/* Transaction History */}
+      {villaHasTransactions && (
+        <section className="container pb-14">
+          <div className="grid grid-cols-12 gap-6">
+            <div className="col-span-12 lg:col-span-4">
+              <div className="text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary mb-2">ADREC Records</div>
+              <h2 className="font-display text-2xl sm:text-3xl text-foreground">
+                Transaction History
+              </h2>
+              <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
+                Official Abu Dhabi real estate transaction records matched to this villa by land area.
+                Source: ad-transactions.com (ADREC public sales records, updated 16 Aug 2026).
+              </p>
+              <div className="mt-4 flex gap-3">
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <span className="h-2.5 w-2.5 rounded-full bg-primary/80" />
+                  Primary (developer)
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
+                  Secondary (resale)
+                </div>
+              </div>
+            </div>
+
+            <div className="col-span-12 lg:col-span-8">
+              <div className="border border-border rounded-md overflow-hidden bg-card">
+                <div className="divide-y divide-border">
+                  {transactions.map((tx, i) => (
+                    <TransactionRow key={`${tx.date}-${i}`} tx={tx} transactions={transactions} index={i} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* File attachments */}
       <section className="container pb-14">
         <FilesPanel
@@ -226,6 +267,66 @@ export default function VillaDetail() {
           </div>
         </div>
       </footer>
+    </div>
+  );
+}
+
+function TransactionRow({ tx, transactions, index }: { tx: StRegisTransaction; transactions: StRegisTransaction[]; index: number }) {
+  const fmtPrice = new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(tx.priceAed);
+  const fmtRate = new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(tx.ratePerSqft);
+  const isPrimary = tx.saleType === "primary";
+
+  // Calculate price change from previous transaction (if any)
+  let changePercent: number | null = null;
+  if (index > 0) {
+    const prev = transactions[index - 1];
+    changePercent = ((tx.priceAed - prev.priceAed) / prev.priceAed) * 100;
+  }
+
+  return (
+    <div className="px-4 py-4 flex items-start gap-4">
+      {/* Timeline dot */}
+      <div className="flex flex-col items-center pt-1">
+        <div className={`h-3 w-3 rounded-full ${isPrimary ? "bg-primary/80" : "bg-amber-500"}`} />
+        {index < transactions.length - 1 && <div className="w-px h-full bg-border mt-1" />}
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="font-mono text-xs text-muted-foreground">{tx.date}</span>
+          <span className={`text-[0.6rem] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded-sm border ${
+            isPrimary
+              ? "text-primary border-primary/40 bg-primary/5"
+              : "text-amber-600 dark:text-amber-400 border-amber-500/40 bg-amber-500/5"
+          }`}>
+            {isPrimary ? "Primary" : "Secondary"}
+          </span>
+          {changePercent !== null && (
+            <span className={`text-xs font-mono flex items-center gap-0.5 ${
+              changePercent > 0 ? "text-emerald-600 dark:text-emerald-400" :
+              changePercent < 0 ? "text-rose-600 dark:text-rose-400" :
+              "text-muted-foreground"
+            }`}>
+              {changePercent > 0 ? <TrendingUp className="h-3 w-3" /> :
+               changePercent < 0 ? <TrendingDown className="h-3 w-3" /> :
+               <Minus className="h-3 w-3" />}
+              {changePercent > 0 ? "+" : ""}{changePercent.toFixed(1)}%
+            </span>
+          )}
+        </div>
+        <div className="mt-1.5 flex items-baseline gap-3 flex-wrap">
+          <span className="font-display text-lg sm:text-xl text-foreground">
+            AED {fmtPrice}
+          </span>
+          <span className="text-xs text-muted-foreground font-mono">
+            {fmtRate} AED/sqft
+          </span>
+        </div>
+        <div className="mt-1 text-xs text-muted-foreground">
+          {tx.propertyType} · {tx.bedrooms} bed{tx.bedrooms !== 1 ? "s" : ""} · {tx.areaSqft.toLocaleString()} sqft BUA
+        </div>
+      </div>
     </div>
   );
 }
