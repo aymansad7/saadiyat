@@ -4,8 +4,7 @@
  * three external CTAs (PDF, Maps, Earth) and a "view detail" link.
  */
 import { Link } from "wouter";
-import { FileText, MapPin, Globe2, ArrowUpRight } from "lucide-react";
-import { History } from "lucide-react";
+import { FileText, MapPin, Globe2, ArrowUpRight, TrendingUp } from "lucide-react";
 import type { Villa } from "@/data/villas";
 import { getVillaTransactions } from "@/data/stregisTransactions";
 import type { ListingIndexEntry } from "@/hooks/useListingIndex";
@@ -68,23 +67,44 @@ export default function VillaCard({ villa: v, isActive, onHover, onSelect, listi
           <h3 className="font-display text-lg text-foreground mt-1 leading-snug">
             {v.buildingTypology || "St. Regis Villa"}
           </h3>
-          {transactions.length > 0 && (
-            <div className="mt-2 flex items-center gap-1.5 flex-wrap">
-              <History className="h-3 w-3 text-muted-foreground shrink-0" />
-              {transactions.map((tx, i) => (
-                <span
-                  key={`${tx.date}-${i}`}
-                  className={`text-[0.6rem] font-mono px-1.5 py-0.5 rounded-sm border ${
-                    tx.saleType === "primary"
+          {transactions.length > 0 && (() => {
+            const last = transactions[transactions.length - 1];
+            const fmtPrice = new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(last.priceAed);
+            const isPrimary = last.saleType === "primary";
+            // Calculate appreciation if there's a primary and a later secondary
+            const primary = transactions.find(t => t.saleType === "primary");
+            const lastSecondary = [...transactions].reverse().find(t => t.saleType === "secondary");
+            let appreciation: number | null = null;
+            if (primary && lastSecondary && lastSecondary.date > primary.date) {
+              appreciation = ((lastSecondary.priceAed - primary.priceAed) / primary.priceAed) * 100;
+            }
+            return (
+              <div className="mt-2 p-2.5 rounded-md border border-border bg-accent/30">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className={`text-[0.6rem] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded-sm border ${
+                    isPrimary
                       ? "text-primary border-primary/30 bg-primary/5"
                       : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
-                  }`}
-                >
-                  {tx.date.slice(0, 4)} {tx.saleType === "primary" ? "P" : "S"}
-                </span>
-              ))}
-            </div>
-          )}
+                  }`}>
+                    {isPrimary ? "Primary" : "Resale"}
+                  </span>
+                  <span className="text-[0.6rem] font-mono text-muted-foreground">{last.date}</span>
+                  {appreciation !== null && (
+                    <span className="ml-auto text-[0.65rem] font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
+                      <TrendingUp className="h-3 w-3" />
+                      +{appreciation.toFixed(0)}%
+                    </span>
+                  )}
+                </div>
+                <div className="font-display text-base text-foreground">
+                  AED {fmtPrice}
+                </div>
+                <div className="text-[0.6rem] font-mono text-muted-foreground mt-0.5">
+                  {last.ratePerSqft.toLocaleString()} AED/sqft · {transactions.length} recorded sale{transactions.length > 1 ? "s" : ""}
+                </div>
+              </div>
+            );
+          })()}
           <dl className="mt-3 grid grid-cols-3 gap-3 text-[0.78rem]">
             <div>
               <dt className="text-[0.62rem] uppercase tracking-[0.14em] font-mono text-muted-foreground">Plot</dt>
