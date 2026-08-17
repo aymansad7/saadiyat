@@ -12,6 +12,8 @@ import SiteHeader from "@/components/SiteHeader";
 import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
 import { sbvGateRecords, SDN2_SUMMARY } from "@/data/sdn2Transactions";
+import { getPlotLandArea } from "@/data/plotLandAreas";
+import { findSDN2Transactions } from "@/data/sdn2Transactions";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
@@ -223,6 +225,12 @@ export default function SaadiyatBeachVillas() {
                   pdfLoading={pdfLoading}
                   listing={listingIndex.get(p.villaKey) ?? null}
                   community="saadiyat-beach-villas"
+                  landSqft={getPlotLandArea(p.villaKey)?.sqft}
+                  transactions={(() => {
+                    const area = getPlotLandArea(p.villaKey);
+                    if (!area) return undefined;
+                    return findSDN2Transactions(area.sqft);
+                  })()}
                 />
               ))}
             </div>

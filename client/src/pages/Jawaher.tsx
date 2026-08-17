@@ -15,6 +15,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SimplePlotCard from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
 import { jawaherPlotHistories, JAWAHER_TX_SUMMARY } from "@/data/jawaherTransactions";
+import { getPlotLandArea } from "@/data/plotLandAreas";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
@@ -178,7 +179,7 @@ export default function Jawaher() {
                   listing={listingIndex.get(p.villaKey) ?? null}
                   community="jawaher"
                   transactions={txByIndex.get(p.id - 1)}
-                  landSqft={jawaherPlotHistories[p.id - 1]?.landSqft}
+                  landSqft={getPlotLandArea(p.villaKey)?.sqft ?? jawaherPlotHistories[p.id - 1]?.landSqft}
                   detailHref={`/jawaher/plot/${p.id}`}
                 />
               ))}
