@@ -6,12 +6,13 @@
  * If the PDF isn't in DB (rare 404 plots), we show a disabled "Not available"
  * pill instead of leaking the external URL.
  */
-import { FileText, MapPin, Loader2, TrendingUp, TrendingDown, ArrowUpRight } from "lucide-react";
+import { FileText, MapPin, Loader2, TrendingUp, TrendingDown, ArrowUpRight, Map } from "lucide-react";
 import { Link } from "wouter";
 import type { SimplePlot } from "@/data/communities";
 import { MYLAND_URL } from "@/data/communities";
 import { useDcrPdfUrl } from "@/hooks/useDcrPdfUrl";
 import type { ListingIndexEntry } from "@/hooks/useListingIndex";
+import type { PFListing } from "@/data/propertyFinderListings";
 
 export interface PlotTransaction {
   date: string;
@@ -47,6 +48,8 @@ interface Props {
   landSqft?: number;
   /** Optional link to detail page */
   detailHref?: string;
+  /** Optional PropertyFinder active listing (matched by land area) */
+  pfListing?: PFListing;
 }
 
 export default function SimplePlotCard({
@@ -60,6 +63,7 @@ export default function SimplePlotCard({
   transactions,
   landSqft,
   detailHref,
+  pfListing,
 }: Props) {
   // If parent provided a bulk-resolved URL, use it. Otherwise fall back to the
   // single-villa hook (cheap on detail pages, expensive on listing pages).
@@ -140,6 +144,38 @@ export default function SimplePlotCard({
           ) : (
             <div className="font-mono text-xs text-muted-foreground mt-1 truncate" title={plot.pdfFilename}>
               {plot.pdfFilename}
+            </div>
+          )}
+          {pfListing && (
+            <div className="mt-2 p-2.5 rounded-md border border-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 dark:border-emerald-700">
+              <div className="flex items-center gap-1.5 mb-1">
+                <span className="text-[0.6rem] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded-sm border text-emerald-700 dark:text-emerald-300 border-emerald-500/40 bg-emerald-500/10">
+                  Listed for Sale
+                </span>
+                <span className="text-[0.6rem] font-mono text-muted-foreground ml-auto">{pfListing.listedAgo} ago</span>
+              </div>
+              <div className="font-display text-base text-emerald-800 dark:text-emerald-200">
+                AED {new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(pfListing.priceAed)}
+              </div>
+              <div className="text-[0.6rem] font-mono text-muted-foreground mt-0.5">
+                {pfListing.agent} · {pfListing.agency}
+              </div>
+              <div className="flex items-center gap-2 mt-2">
+                <Link
+                  href={`/map?plot=${encodeURIComponent(plot.villaKey)}`}
+                  className="inline-flex items-center gap-1 text-[0.65rem] font-medium text-emerald-700 dark:text-emerald-300 hover:underline"
+                >
+                  <Map className="h-3 w-3" /> View on Map
+                </Link>
+                <a
+                  href={pfListing.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[0.65rem] font-medium text-emerald-700 dark:text-emerald-300 hover:underline"
+                >
+                  <ArrowUpRight className="h-3 w-3" /> PropertyFinder
+                </a>
+              </div>
             </div>
           )}
           {listing?.listingPartners ? (

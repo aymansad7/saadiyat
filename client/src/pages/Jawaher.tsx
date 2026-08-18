@@ -18,6 +18,7 @@ import { jawaherPlotHistories, JAWAHER_TX_SUMMARY } from "@/data/jawaherTransact
 import { getPlotLandArea } from "@/data/plotLandAreas";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
+import { findListingByVillaKey } from "@/data/propertyFinderListings";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
 import { DownloadDcrBackupButton } from "@/components/DownloadDcrBackupButton";
 import { DCR_BACKUPS } from "@/data/dcrBackups";
@@ -181,6 +182,7 @@ export default function Jawaher() {
                   transactions={txByIndex.get(p.id - 1)}
                   landSqft={getPlotLandArea(p.villaKey)?.sqft ?? jawaherPlotHistories[p.id - 1]?.landSqft}
                   detailHref={`/jawaher/plot/${p.id}`}
+                  pfListing={findListingByVillaKey(p.villaKey) ?? undefined}
                 />
               ))}
             </div>

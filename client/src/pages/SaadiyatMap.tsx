@@ -4,8 +4,9 @@
  * Click a dot → info window with full details.
  * Toggle button to show/hide owner info (ready for future data).
  */
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { MapView } from "@/components/Map";
+import { useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Layers } from "lucide-react";
@@ -44,6 +45,8 @@ interface MapMarkerData {
   owner?: string;
   phone?: string;
   listing?: PFListing;
+  villaKey?: string;
+  detailHref?: string;
 }
 
 function buildMarkers(): MapMarkerData[] {
@@ -66,6 +69,8 @@ function buildMarkers(): MapMarkerData[] {
       lastDate: lastTx?.date,
       saleType: lastTx?.saleType,
       salesCount: txs.length || undefined,
+      villaKey: `st-regis/Plot-${v.id}`,
+      detailHref: `/st-regis/${v.id}`,
     });
   }
 
@@ -93,6 +98,8 @@ function buildMarkers(): MapMarkerData[] {
       saleType: lastTx?.saleType,
       salesCount: txData?.transactions?.length || undefined,
       listing,
+      villaKey: p.villaKey,
+      detailHref: `/jawaher/plot/${p.id}`,
     });
   }
 
@@ -164,6 +171,9 @@ export default function SaadiyatMap() {
   const [showOwners, setShowOwners] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [markerData] = useState<MapMarkerData[]>(() => buildMarkers());
+  const [isSatellite, setIsSatellite] = useState(false);
+  const searchString = useSearch();
+  const plotParam = new URLSearchParams(searchString).get("plot");
 
   const getColor = (community: string) => {
     return COMMUNITY_CENTERS[community as keyof typeof COMMUNITY_CENTERS]?.color ?? "#6B7280";
@@ -218,6 +228,11 @@ export default function SaadiyatMap() {
       html += `<div style="margin-top:6px;font-size:11px;color:#999;font-style:italic">Owner info not yet added</div>`;
     }
 
+    // Full Details link
+    if (m.detailHref) {
+      html += `<a href="${m.detailHref}" style="display:inline-block;margin-top:8px;font-size:12px;font-weight:600;color:#C75B12;text-decoration:none;border:1px solid rgba(199,91,18,0.3);padding:4px 10px;border-radius:4px;">Full Details →</a>`;
+    }
+
     html += `</div>`;
     return html;
   }, [showOwners]);
@@ -259,6 +274,29 @@ export default function SaadiyatMap() {
       markersRef.current.push(marker);
     }
   }, [markerData, createInfoContent]);
+
+  // Deep-link: when ?plot=jawaher/Plot-78 is in URL, zoom to that marker and open info
+  useEffect(() => {
+    if (!plotParam || !mapRef.current || markersRef.current.length === 0) return;
+    const idx = markerData.findIndex(m => m.villaKey === plotParam);
+    if (idx === -1) return;
+    const m = markerData[idx];
+    const marker = markersRef.current[idx];
+    if (!marker) return;
+    mapRef.current.setCenter({ lat: m.lat, lng: m.lng });
+    mapRef.current.setZoom(18);
+    setTimeout(() => {
+      infoWindowRef.current!.setContent(createInfoContent(m));
+      infoWindowRef.current!.open(mapRef.current!, marker);
+    }, 300);
+  }, [plotParam, markerData, createInfoContent]);
+
+  const toggleSatellite = () => {
+    if (!mapRef.current) return;
+    const newMode = !isSatellite;
+    setIsSatellite(newMode);
+    mapRef.current.setMapTypeId(newMode ? "satellite" : "roadmap");
+  };
 
   const filterByCommunity = (community: string | null) => {
     setActiveFilter(community);
@@ -310,7 +348,15 @@ export default function SaadiyatMap() {
               </Button>
             ))}
           </div>
-          <div className="pointer-events-auto ml-auto">
+          <div className="pointer-events-auto ml-auto flex gap-1.5">
+            <Button
+              variant={isSatellite ? "default" : "outline"}
+              size="sm"
+              onClick={toggleSatellite}
+              className="text-xs h-7 bg-background/90 backdrop-blur-sm shadow-md"
+            >
+              {isSatellite ? "Map" : "Satellite"}
+            </Button>
             <Button
               variant={showOwners ? "default" : "outline"}
               size="sm"
