@@ -6,7 +6,7 @@
  */
 import { useMemo, useState } from "react";
 import { useParams, Link } from "wouter";
-import { Building2, Sparkles, ArrowUpDown, Lock, Search } from "lucide-react";
+import { Building2, Sparkles, ArrowUpDown, Lock, Search, Eye, EyeOff, User } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
@@ -41,6 +41,7 @@ function Inner() {
   const [bedroomFilter, setBedroomFilter] = useState<string>("all");
   const [sort, setSort] = useState<"price_asc" | "price_desc" | "unit">("unit");
   const [query, setQuery] = useState("");
+  const [showOwners, setShowOwners] = useState(false);
 
   const building = trpc.aldarOther.getBuilding.useQuery(
     {
@@ -199,7 +200,14 @@ function Inner() {
                     <SelectItem value="price_asc">Sort: Price ↑</SelectItem>
                     <SelectItem value="price_desc">Sort: Price ↓</SelectItem>
                   </SelectContent>
-                </Select>
+              </Select>
+                <label className="inline-flex items-center gap-2 text-sm">
+                  <Switch checked={showOwners} onCheckedChange={setShowOwners} />
+                  <span className="text-muted-foreground flex items-center gap-1">
+                    {showOwners ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                    {showOwners ? "Hide Owners" : "Show Owners"}
+                  </span>
+                </label>
               </div>
             </>
           )}
@@ -280,6 +288,20 @@ function Inner() {
                       with {listing.listingPartners}
                     </div>
                   ) : null}
+                  {showOwners && (u as any).owner_name && (
+                    <div className="mt-2 p-2 rounded-md border border-blue-200 bg-blue-50 dark:bg-blue-950/30 dark:border-blue-800">
+                      <div className="flex items-center gap-1 mb-0.5">
+                        <User className="h-3 w-3 text-blue-600" />
+                        <span className="text-[0.6rem] font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400">Owner</span>
+                      </div>
+                      <div className="text-sm font-medium text-foreground">{(u as any).owner_name}</div>
+                      {(u as any).owner_mobile && (
+                        <a href={`tel:${(u as any).owner_mobile}`} className="text-xs text-blue-600 dark:text-blue-400 hover:underline">
+                          {(u as any).owner_mobile}
+                        </a>
+                      )}
+                    </div>
+                  )}
                 </div>
                 </Link>
                 <div className="px-4 pb-3">

@@ -3,8 +3,9 @@
  */
 import { useMemo, useState } from "react";
 import { useParams, Link } from "wouter";
-import { Building2, ArrowRight, Sparkles, Lock } from "lucide-react";
+import { Building2, ArrowRight, Sparkles, Lock, FileText } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
+import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
 import MasterGate from "@/components/MasterGate";
@@ -84,8 +85,18 @@ function Inner() {
                 <span className="num-display">{project.data.unit_count} units</span>
               </div>
               <div className="mt-4">
-                <AldarStatusPills breakdown={projectBreakdown} size="sm" />
+              <AldarStatusPills breakdown={projectBreakdown} size="sm" />
               </div>
+              {slug === "the-sustainable-city-yas-island" && (
+                <div className="mt-4">
+                  <Button asChild variant="outline" size="sm" className="gap-1.5 border-primary/30 text-primary hover:bg-primary/10">
+                    <a href="/manus-storage/The_Sustainable_City_Yas_Island_91d99404.pdf" target="_blank" rel="noopener noreferrer">
+                      <FileText className="h-3.5 w-3.5" />
+                      Open Brochure
+                    </a>
+                  </Button>
+                </div>
+              )}
               <div className="mt-5">
                 <label className="inline-flex items-center gap-2 text-sm">
                   <Switch checked={liveOnly} onCheckedChange={setLiveOnly} />
