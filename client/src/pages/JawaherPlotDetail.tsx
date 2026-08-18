@@ -7,6 +7,7 @@ import { useMemo } from "react";
 import SiteHeader from "@/components/SiteHeader";
 import { COMMUNITIES } from "@/data/communities";
 import { jawaherPlotHistories } from "@/data/jawaherTransactions";
+import { getPlotLandArea } from "@/data/plotLandAreas";
 import { useDcrPdfUrl } from "@/hooks/useDcrPdfUrl";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, FileText, TrendingUp, TrendingDown, Minus } from "lucide-react";
@@ -18,11 +19,22 @@ export default function JawaherPlotDetail() {
   const plotIndex = Number(params.plotId); // 1-based index
   const plot = useMemo(() => COMMUNITY.flatPlots?.[plotIndex - 1], [plotIndex]);
   const transactions = useMemo(() => {
-    const ph = jawaherPlotHistories[plotIndex - 1];
-    return ph?.transactions ?? [];
-  }, [plotIndex]);
+    // Match by DCR land area instead of index
+    const villaKey = plot?.villaKey;
+    if (!villaKey) return [];
+    const dcrArea = getPlotLandArea(villaKey);
+    if (!dcrArea) return [];
+    let best: typeof jawaherPlotHistories[0] | null = null;
+    let bestDiff = Infinity;
+    for (const ph of jawaherPlotHistories) {
+      const diff = Math.abs(ph.landSqft - dcrArea.sqft);
+      if (diff < bestDiff) { bestDiff = diff; best = ph; }
+    }
+    return best && bestDiff <= 100 ? best.transactions : [];
+  }, [plot]);
 
-  const landSqft = transactions[0]?.landSqft ?? null;
+  const dcrLand = plot ? getPlotLandArea(plot.villaKey) : null;
+  const landSqft = dcrLand?.sqft ?? transactions[0]?.landSqft ?? null;
   const landSqm = landSqft ? (landSqft * 0.092903).toFixed(0) : null;
 
   const { url: pdfUrl } = useDcrPdfUrl(plot?.villaKey);

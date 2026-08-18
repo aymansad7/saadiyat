@@ -13,6 +13,19 @@ import { Eye, EyeOff, Layers } from "lucide-react";
 import { villas } from "@/data/villas";
 import { COMMUNITIES } from "@/data/communities";
 import { getPlotLandArea } from "@/data/plotLandAreas";
+
+/** Match a plot's DCR land area to a Jawaher transaction history (±100 sqft) */
+function findJawaherTx(villaKey: string) {
+  const dcrArea = getPlotLandArea(villaKey);
+  if (!dcrArea) return undefined;
+  let best: typeof jawaherPlotHistories[0] | undefined;
+  let bestDiff = Infinity;
+  for (const ph of jawaherPlotHistories) {
+    const diff = Math.abs(ph.landSqft - dcrArea.sqft);
+    if (diff < bestDiff) { bestDiff = diff; best = ph; }
+  }
+  return best && bestDiff <= 100 ? best : undefined;
+}
 import { getVillaTransactions } from "@/data/stregisTransactions";
 import { jawaherPlotHistories } from "@/data/jawaherTransactions";
 import { golfViewsPlotData } from "@/data/golfViewsPlotData";
@@ -82,7 +95,7 @@ function buildMarkers(): MapMarkerData[] {
     const coord = plotCoordinates[p.villaKey];
     if (!coord) continue;
     const area = getPlotLandArea(p.villaKey);
-    const txData = jawaherPlotHistories[i];
+    const txData = findJawaherTx(p.villaKey);
     const lastTx = txData?.transactions?.[txData.transactions.length - 1];
     const landSqft = area?.sqft ?? txData?.landSqft;
     const listing = findListingByVillaKey(p.villaKey);

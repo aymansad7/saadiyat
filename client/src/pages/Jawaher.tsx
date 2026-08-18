@@ -29,14 +29,31 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const COMMUNITY = COMMUNITIES.find((c) => c.slug === "jawaher")!;
 
-// Build a map from plot land area index to transactions for quick lookup
-// Since we can't match by plot number directly, we'll assign transactions
-// to plots by their position in the sorted land area list (same order as ADREC)
-// This creates a map: plotIndex (0-82) -> transactions
-const txByIndex = new Map<number, typeof jawaherPlotHistories[0]["transactions"]>();
-jawaherPlotHistories.forEach((ph, i) => {
-  txByIndex.set(i, ph.transactions);
-});
+// Match transactions to plots by DCR land area (±100 sqft tolerance)
+// Each jawaherPlotHistory has a unique landSqft from ADREC; we match it to the
+// plot's DCR-measured land area to correctly assign transaction history.
+const txByVillaKey = new Map<string, typeof jawaherPlotHistories[0]["transactions"]>();
+{
+  const plots = COMMUNITY.flatPlots ?? [];
+  for (const p of plots) {
+    const dcrArea = getPlotLandArea(p.villaKey);
+    if (!dcrArea) continue;
+    // Find the transaction history whose landSqft is closest to this plot's DCR area
+    let bestMatch: typeof jawaherPlotHistories[0] | null = null;
+    let bestDiff = Infinity;
+    for (const ph of jawaherPlotHistories) {
+      const diff = Math.abs(ph.landSqft - dcrArea.sqft);
+      if (diff < bestDiff) {
+        bestDiff = diff;
+        bestMatch = ph;
+      }
+    }
+    // Only accept matches within 100 sqft tolerance
+    if (bestMatch && bestDiff <= 100) {
+      txByVillaKey.set(p.villaKey, bestMatch.transactions);
+    }
+  }
+}
 
 export default function Jawaher() {
   const [query, setQuery] = useState("");
@@ -179,8 +196,8 @@ export default function Jawaher() {
                   pdfLoading={pdfLoading}
                   listing={listingIndex.get(p.villaKey) ?? null}
                   community="jawaher"
-                  transactions={txByIndex.get(p.id - 1)}
-                  landSqft={getPlotLandArea(p.villaKey)?.sqft ?? jawaherPlotHistories[p.id - 1]?.landSqft}
+                  transactions={txByVillaKey.get(p.villaKey)}
+                  landSqft={getPlotLandArea(p.villaKey)?.sqft}
                   detailHref={`/jawaher/plot/${p.id}`}
                   pfListing={findListingByVillaKey(p.villaKey) ?? undefined}
                 />
