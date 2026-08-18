@@ -15,6 +15,7 @@ import { getPlotLandArea } from "@/data/plotLandAreas";
 import { getVillaTransactions } from "@/data/stregisTransactions";
 import { jawaherPlotHistories } from "@/data/jawaherTransactions";
 import { golfViewsPlotData } from "@/data/golfViewsPlotData";
+import { plotCoordinates } from "@/data/plotCoordinates";
 
 // Known community centers on Saadiyat Island
 const COMMUNITY_CENTERS = {
@@ -49,10 +50,11 @@ function buildMarkers(): MapMarkerData[] {
   for (const v of villas) {
     const txs = getVillaTransactions(v.id);
     const lastTx = txs.length > 0 ? txs[txs.length - 1] : null;
+    const dcrCoord = plotCoordinates[`st-regis/Plot-${v.id}`];
     markers.push({
       id: `st-regis-${v.id}`,
-      lat: v.latitude,
-      lng: v.longitude,
+      lat: dcrCoord?.lat ?? v.latitude,
+      lng: dcrCoord?.lng ?? v.longitude,
       community: "st-regis",
       label: `Plot ${v.id}`,
       landSqft: v.plotAreaSqm ? Math.round(v.plotAreaSqm * 10.7639) : undefined,
@@ -64,22 +66,19 @@ function buildMarkers(): MapMarkerData[] {
     });
   }
 
-  // Jawaher — distribute plots in a grid around the community center
+  // Jawaher — real coordinates from DCR
   const jawaherComm = COMMUNITIES.find(c => c.slug === "jawaher");
   const jawaherPlots = jawaherComm?.flatPlots ?? [];
-  const jCenter = COMMUNITY_CENTERS.jawaher;
   for (let i = 0; i < jawaherPlots.length; i++) {
     const p = jawaherPlots[i];
-    const row = Math.floor(i / 10);
-    const col = i % 10;
-    const lat = jCenter.lat + (row - 4) * 0.0004;
-    const lng = jCenter.lng + (col - 5) * 0.0004;
+    const coord = plotCoordinates[p.villaKey];
+    if (!coord) continue;
     const area = getPlotLandArea(p.villaKey);
     const txData = jawaherPlotHistories[i];
     const lastTx = txData?.transactions?.[txData.transactions.length - 1];
     markers.push({
       id: `jawaher-${p.id}`,
-      lat, lng,
+      lat: coord.lat, lng: coord.lng,
       community: "jawaher",
       label: p.label,
       landSqft: area?.sqft ?? txData?.landSqft,
@@ -91,21 +90,18 @@ function buildMarkers(): MapMarkerData[] {
     });
   }
 
-  // Golf Views — distribute around center
+  // Golf Views — real coordinates from DCR
   const gvComm = COMMUNITIES.find(c => c.slug === "saadiyat-golf-views");
   const gvPlots = gvComm?.flatPlots ?? [];
-  const gvCenter = COMMUNITY_CENTERS["saadiyat-golf-views"];
   for (let i = 0; i < gvPlots.length; i++) {
     const p = gvPlots[i];
-    const row = Math.floor(i / 6);
-    const col = i % 6;
-    const lat = gvCenter.lat + (row - 2) * 0.0005;
-    const lng = gvCenter.lng + (col - 3) * 0.0005;
+    const coord = plotCoordinates[p.villaKey];
+    if (!coord) continue;
     const plotData = golfViewsPlotData[p.villaKey];
     const lastTx = plotData?.transactions?.[plotData.transactions.length - 1];
     markers.push({
       id: `gv-${p.id}`,
-      lat, lng,
+      lat: coord.lat, lng: coord.lng,
       community: "saadiyat-golf-views",
       label: p.label,
       landSqft: plotData?.landSqft,
@@ -117,43 +113,36 @@ function buildMarkers(): MapMarkerData[] {
     });
   }
 
-  // SBV — distribute across gates
+  // SBV — real coordinates from DCR
   const sbvComm = COMMUNITIES.find(c => c.slug === "saadiyat-beach-villas");
-  const sbvCenter = COMMUNITY_CENTERS["saadiyat-beach-villas"];
   if (sbvComm?.gates) {
-    let idx = 0;
     for (const gate of sbvComm.gates) {
-      for (let j = 0; j < gate.plots.length; j++) {
-        const p = gate.plots[j];
-        const row = Math.floor(idx / 20);
-        const col = idx % 20;
-        const lat = sbvCenter.lat + (row - 10) * 0.00025;
-        const lng = sbvCenter.lng + (col - 10) * 0.00025;
+      for (const p of gate.plots) {
+        const coord = plotCoordinates[p.villaKey];
+        if (!coord) continue;
         const area = getPlotLandArea(p.villaKey);
         markers.push({
           id: `sbv-${p.villaKey}`,
-          lat, lng,
+          lat: coord.lat, lng: coord.lng,
           community: "saadiyat-beach-villas",
           label: p.label,
           landSqft: area?.sqft,
           landSqm: area?.sqm,
         });
-        idx++;
       }
     }
   }
 
-  // Private Villas — 7 plots
+  // Private Villas — real coordinates from DCR
   const pvComm = COMMUNITIES.find(c => c.slug === "private-villas");
   const pvPlots = pvComm?.flatPlots ?? [];
-  const pvCenter = COMMUNITY_CENTERS["private-villas"];
   for (let i = 0; i < pvPlots.length; i++) {
     const p = pvPlots[i];
-    const lat = pvCenter.lat + (i - 3) * 0.0003;
-    const lng = pvCenter.lng + (i % 2 === 0 ? 0.0002 : -0.0002);
+    const coord = plotCoordinates[p.villaKey];
+    if (!coord) continue;
     markers.push({
       id: `pv-${p.id}`,
-      lat, lng,
+      lat: coord.lat, lng: coord.lng,
       community: "private-villas",
       label: p.label,
     });
