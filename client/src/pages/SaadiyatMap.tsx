@@ -16,6 +16,8 @@ import { getVillaTransactions } from "@/data/stregisTransactions";
 import { jawaherPlotHistories } from "@/data/jawaherTransactions";
 import { golfViewsPlotData } from "@/data/golfViewsPlotData";
 import { plotCoordinates } from "@/data/plotCoordinates";
+import { pfListings, findListingByArea, PF_SUMMARY } from "@/data/propertyFinderListings";
+import type { PFListing } from "@/data/propertyFinderListings";
 
 // Known community centers on Saadiyat Island
 const COMMUNITY_CENTERS = {
@@ -41,6 +43,7 @@ interface MapMarkerData {
   salesCount?: number;
   owner?: string;
   phone?: string;
+  listing?: PFListing;
 }
 
 function buildMarkers(): MapMarkerData[] {
@@ -51,6 +54,8 @@ function buildMarkers(): MapMarkerData[] {
     const txs = getVillaTransactions(v.id);
     const lastTx = txs.length > 0 ? txs[txs.length - 1] : null;
     const dcrCoord = plotCoordinates[`st-regis/Plot-${v.id}`];
+    const area = getPlotLandArea(`st-regis/Plot-${v.id}`);
+    const listing = area ? findListingByArea("st-regis", area.sqft) : undefined;
     markers.push({
       id: `st-regis-${v.id}`,
       lat: dcrCoord?.lat ?? v.latitude,
@@ -63,6 +68,7 @@ function buildMarkers(): MapMarkerData[] {
       lastDate: lastTx?.date,
       saleType: lastTx?.saleType,
       salesCount: txs.length || undefined,
+      listing,
     });
   }
 
@@ -76,17 +82,20 @@ function buildMarkers(): MapMarkerData[] {
     const area = getPlotLandArea(p.villaKey);
     const txData = jawaherPlotHistories[i];
     const lastTx = txData?.transactions?.[txData.transactions.length - 1];
+    const landSqft = area?.sqft ?? txData?.landSqft;
+    const listing = landSqft ? findListingByArea("jawaher", landSqft) : undefined;
     markers.push({
       id: `jawaher-${p.id}`,
       lat: coord.lat, lng: coord.lng,
       community: "jawaher",
       label: p.label,
-      landSqft: area?.sqft ?? txData?.landSqft,
+      landSqft,
       landSqm: area?.sqm,
       lastPrice: lastTx?.priceAed,
       lastDate: lastTx?.date,
       saleType: lastTx?.saleType,
       salesCount: txData?.transactions?.length || undefined,
+      listing,
     });
   }
 
@@ -190,6 +199,18 @@ export default function SaadiyatMap() {
       html += `</div>`;
     }
 
+    if (m.listing) {
+      const l = m.listing;
+      html += `<div style="margin-top:6px;padding:6px;background:#ecfdf5;border-radius:4px;border:1px solid #6ee7b7">`;
+      html += `<div style="font-size:10px;color:#065F46;font-weight:600;text-transform:uppercase">🟢 Listed on PropertyFinder</div>`;
+      html += `<div style="font-size:15px;font-weight:700;margin-top:2px;color:#065F46">AED ${fmt(l.priceAed)}</div>`;
+      html += `<div style="font-size:11px;color:#555;margin-top:2px">${l.bedrooms}BR ${l.type} · ${fmt(l.areaSqft)} sqft</div>`;
+      html += `<div style="font-size:11px;color:#555;margin-top:2px">Agent: ${l.agent} (${l.agency})</div>`;
+      html += `<div style="font-size:10px;color:#888;margin-top:2px">Listed ${l.listedAgo} ago</div>`;
+      html += `<a href="${l.url}" target="_blank" style="display:inline-block;margin-top:4px;font-size:11px;color:#065F46;text-decoration:underline">View on PropertyFinder →</a>`;
+      html += `</div>`;
+    }
+
     if (showOwners && (m.owner || m.phone)) {
       html += `<div style="margin-top:6px;padding:6px;background:#f0f4f9;border-radius:4px;border:1px solid #d0dae8">`;
       html += `<div style="font-size:10px;color:#2563EB;font-weight:600;text-transform:uppercase">Owner Info</div>`;
@@ -210,15 +231,20 @@ export default function SaadiyatMap() {
 
     // Create markers for all plots
     for (const m of markerData) {
-      const color = getColor(m.community);
+      const isListed = !!m.listing;
+      const color = isListed ? "#10B981" : getColor(m.community);
       const pin = document.createElement("div");
-      pin.style.width = "12px";
-      pin.style.height = "12px";
+      pin.style.width = isListed ? "16px" : "12px";
+      pin.style.height = isListed ? "16px" : "12px";
       pin.style.borderRadius = "50%";
       pin.style.backgroundColor = color;
-      pin.style.border = "2px solid white";
-      pin.style.boxShadow = "0 1px 3px rgba(0,0,0,0.3)";
+      pin.style.border = isListed ? "3px solid #065F46" : "2px solid white";
+      pin.style.boxShadow = isListed ? "0 0 8px rgba(16,185,129,0.6)" : "0 1px 3px rgba(0,0,0,0.3)";
       pin.style.cursor = "pointer";
+      if (isListed) {
+        pin.style.animation = "pulse 2s infinite";
+        pin.style.zIndex = "10";
+      }
       pin.dataset.community = m.community;
 
       const marker = new google.maps.marker.AdvancedMarkerElement({
@@ -270,6 +296,7 @@ export default function SaadiyatMap() {
           </h1>
           <p className="text-sm text-muted-foreground mt-2">
             {markerData.length} plots across {Object.keys(COMMUNITY_CENTERS).length} communities. Click any dot for details.
+            {" "}<span className="text-emerald-600 font-medium">{markerData.filter(m => m.listing).length} currently listed for sale</span> (green dots).
           </p>
         </div>
 
@@ -320,6 +347,10 @@ export default function SaadiyatMap() {
 
         {/* Legend */}
         <div className="mt-4 flex flex-wrap gap-4 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5">
+            <span className="inline-block w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-emerald-800 shadow-[0_0_6px_rgba(16,185,129,0.6)]" />
+            <span className="font-medium text-emerald-700">Listed for Sale ({markerData.filter(m => m.listing).length})</span>
+          </div>
           {Object.entries(COMMUNITY_CENTERS).map(([key, val]) => {
             const count = markerData.filter(m => m.community === key).length;
             return (
