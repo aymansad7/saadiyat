@@ -282,82 +282,71 @@ export default function SaadiyatMap() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="h-screen flex flex-col bg-background overflow-hidden">
       <SiteHeader />
-
-      <div className="container py-6">
-        <div className="mb-6">
-          <div className="text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary mb-2">Interactive Map</div>
-          <h1 className="font-display text-3xl sm:text-4xl text-foreground">
-            Saadiyat Island
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2">
-            {markerData.length} plots across {Object.keys(COMMUNITY_CENTERS).length} communities. Click any dot for details.
-            {" "}<span className="text-emerald-600 font-medium">{markerData.filter(m => m.listing).length} currently listed for sale</span> (green dots).
-          </p>
-        </div>
-
-        {/* Controls */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          <Button
-            variant={activeFilter === null ? "default" : "outline"}
-            size="sm"
-            onClick={() => filterByCommunity(null)}
-            className="text-xs"
-          >
-            <Layers className="h-3 w-3 mr-1" /> All
-          </Button>
-          {Object.entries(COMMUNITY_CENTERS).map(([key, val]) => (
+      {/* Full screen map container */}
+      <div className="flex-1 relative">
+        {/* Controls overlay */}
+        <div className="absolute top-3 left-3 right-3 z-10 flex flex-wrap gap-2 pointer-events-none">
+          <div className="pointer-events-auto flex flex-wrap gap-1.5 bg-background/90 backdrop-blur-sm rounded-lg px-2.5 py-2 shadow-md border border-border/50">
             <Button
-              key={key}
-              variant={activeFilter === key ? "default" : "outline"}
+              variant={activeFilter === null ? "default" : "outline"}
               size="sm"
-              onClick={() => filterByCommunity(key)}
-              className="text-xs"
+              onClick={() => filterByCommunity(null)}
+              className="text-xs h-7"
             >
-              <span className="inline-block w-2.5 h-2.5 rounded-full mr-1.5" style={{ backgroundColor: val.color }} />
-              {val.label}
+              <Layers className="h-3 w-3 mr-1" /> All
             </Button>
-          ))}
-          <div className="ml-auto">
+            {Object.entries(COMMUNITY_CENTERS).map(([key, val]) => (
+              <Button
+                key={key}
+                variant={activeFilter === key ? "default" : "outline"}
+                size="sm"
+                onClick={() => filterByCommunity(key)}
+                className="text-xs h-7"
+              >
+                <span className="inline-block w-2.5 h-2.5 rounded-full mr-1.5" style={{ backgroundColor: val.color }} />
+                <span className="hidden sm:inline">{val.label}</span>
+              </Button>
+            ))}
+          </div>
+          <div className="pointer-events-auto ml-auto">
             <Button
               variant={showOwners ? "default" : "outline"}
               size="sm"
               onClick={() => setShowOwners(!showOwners)}
-              className="text-xs"
+              className="text-xs h-7 bg-background/90 backdrop-blur-sm shadow-md"
             >
               {showOwners ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}
-              {showOwners ? "Hide Owners" : "Show Owners"}
+              {showOwners ? "Hide" : "Owners"}
             </Button>
           </div>
         </div>
-
-        {/* Map */}
-        <div className="rounded-lg overflow-hidden border border-border shadow-sm">
-          <MapView
-            className="h-[calc(100vh-280px)] min-h-[500px]"
-            initialCenter={{ lat: 24.5460, lng: 54.4300 }}
-            initialZoom={14}
-            onMapReady={handleMapReady}
-          />
-        </div>
-
-        {/* Legend */}
-        <div className="mt-4 flex flex-wrap gap-4 text-xs text-muted-foreground">
-          <div className="flex items-center gap-1.5">
-            <span className="inline-block w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-emerald-800 shadow-[0_0_6px_rgba(16,185,129,0.6)]" />
-            <span className="font-medium text-emerald-700">Listed for Sale ({markerData.filter(m => m.listing).length})</span>
+        {/* Legend overlay bottom */}
+        <div className="absolute bottom-3 left-3 z-10 pointer-events-none">
+          <div className="pointer-events-auto flex flex-wrap gap-3 bg-background/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-border/50 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1.5">
+              <span className="inline-block w-3 h-3 rounded-full bg-emerald-500 border-2 border-emerald-800 shadow-[0_0_4px_rgba(16,185,129,0.6)]" />
+              <span className="font-medium text-emerald-700">Listed ({markerData.filter(m => m.listing).length})</span>
+            </div>
+            {Object.entries(COMMUNITY_CENTERS).map(([key, val]) => {
+              const count = markerData.filter(m => m.community === key).length;
+              return (
+                <div key={key} className="flex items-center gap-1.5 hidden sm:flex">
+                  <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: val.color }} />
+                  <span>{val.label} ({count})</span>
+                </div>
+              );
+            })}
           </div>
-          {Object.entries(COMMUNITY_CENTERS).map(([key, val]) => {
-            const count = markerData.filter(m => m.community === key).length;
-            return (
-              <div key={key} className="flex items-center gap-1.5">
-                <span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: val.color }} />
-                <span>{val.label} ({count})</span>
-              </div>
-            );
-          })}
         </div>
+        {/* Map fills remaining space */}
+        <MapView
+          className="h-full w-full"
+          initialCenter={{ lat: 24.5460, lng: 54.4300 }}
+          initialZoom={14}
+          onMapReady={handleMapReady}
+        />
       </div>
     </div>
   );

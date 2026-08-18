@@ -3,7 +3,7 @@
  * Editorial wordmark "Saadiyat" with breadcrumb-style sub-label.
  */
 import { Link, useLocation } from "wouter";
-import { ArrowLeft, MapPin, ChevronDown, FolderOpen, LogOut, User as UserIcon, ShieldCheck, History } from "lucide-react";
+import { ArrowLeft, MapPin, ChevronDown, FolderOpen, LogOut, User as UserIcon, ShieldCheck, History, Map } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -144,12 +144,6 @@ export default function SiteHeader({ subTitle, back }: Props) {
               )}
              <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/map" className="flex items-center justify-between w-full">
-                  <span className="font-display text-sm">Interactive Map</span>
-                  <span className="text-[0.65rem] font-mono text-emerald-600 border border-emerald-500/40 px-1 rounded-sm">NEW</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
                 <Link href="/available-units" className="flex items-center justify-between w-full">
                   <span className="font-display text-sm">Available Units Filter</span>
                   <span className="text-[0.65rem] font-mono text-emerald-600 border border-emerald-500/40 px-1 rounded-sm">NEW</span>
@@ -163,6 +157,12 @@ export default function SiteHeader({ subTitle, back }: Props) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button asChild variant="outline" size="sm" className="bg-card border-emerald-500/40 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 gap-1.5">
+            <Link href="/map">
+              <Map className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Map</span>
+            </Link>
+          </Button>
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
