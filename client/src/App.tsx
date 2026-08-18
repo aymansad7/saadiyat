@@ -41,6 +41,7 @@ import PublicResaleSearch from "./pages/PublicResaleSearch";
 import CommunityPage from "./pages/CommunityPage";
 import HiddAlSaadiyat from "./pages/HiddAlSaadiyat";
 import AvailableUnits from "./pages/AvailableUnits";
+import SaadiyatMap from "./pages/SaadiyatMap";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -48,6 +49,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/available-units" component={AvailableUnits} />
+      <Route path="/map" component={SaadiyatMap} />
       <Route path="/st-regis" component={StRegis} />
       <Route path="/st-regis/villa/:id" component={VillaDetail} />
       <Route path="/jawaher" component={Jawaher} />

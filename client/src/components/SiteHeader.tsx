@@ -144,6 +144,12 @@ export default function SiteHeader({ subTitle, back }: Props) {
               )}
              <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
+                <Link href="/map" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">Interactive Map</span>
+                  <span className="text-[0.65rem] font-mono text-emerald-600 border border-emerald-500/40 px-1 rounded-sm">NEW</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/available-units" className="flex items-center justify-between w-full">
                   <span className="font-display text-sm">Available Units Filter</span>
                   <span className="text-[0.65rem] font-mono text-emerald-600 border border-emerald-500/40 px-1 rounded-sm">NEW</span>
