@@ -16,15 +16,17 @@ export interface PFListing {
   agency: string;
   listedAgo: string;
   url: string;
+  /** Only set when we can uniquely identify the plot (Jawaher = matched by land area from DCR) */
+  matchedVillaKey?: string;
 }
 
 export const pfListings: PFListing[] = [
-  // === JAWAHER (5 listings) ===
-  { community: "jawaher", type: "villa", bedrooms: 5, bathrooms: "6", areaSqft: 13504, priceAed: 35000000, title: "Luxury Family Home. Pool and Landscaping", agent: "Andrew Covill", agency: "Henry Wiltshire", listedAgo: "1 month", url: "https://www.propertyfinder.ae/en/plp/buy/villa-for-sale-abu-dhabi-saadiyat-island-jawaher-saadiyat-117248676.html" },
-  { community: "jawaher", type: "villa", bedrooms: 4, bathrooms: "7", areaSqft: 10514, priceAed: 25000000, title: "Modified Villa | Near Saadiyat Beach | Private Pool", agent: "Samah Jamal", agency: "PSI", listedAgo: "22 hours", url: "https://www.propertyfinder.ae/en/plp/buy/villa-for-sale-abu-dhabi-saadiyat-island-jawaher-saadiyat-128813306.html" },
-  { community: "jawaher", type: "townhouse", bedrooms: 4, bathrooms: "5", areaSqft: 6748, priceAed: 15000000, title: "Corner | Upgraded Townhouse | Prime Location!", agent: "Samah Jamal", agency: "PSI", listedAgo: "22 hours", url: "https://www.propertyfinder.ae/en/plp/buy/townhouse-for-sale-abu-dhabi-saadiyat-island-jawaher-saadiyat.html" },
-  { community: "jawaher", type: "villa", bedrooms: 5, bathrooms: "7+", areaSqft: 14694, priceAed: 32000000, title: "Large Backyard | Luxury Lifestyle | Inquire Today", agent: "Ruba Jaffal", agency: "PSI", listedAgo: "11 days", url: "https://www.propertyfinder.ae/en/plp/buy/villa-for-sale-abu-dhabi-saadiyat-island-jawaher-saadiyat.html" },
-  { community: "jawaher", type: "villa", bedrooms: 5, bathrooms: "7", areaSqft: 15182, priceAed: 50000000, title: "Golf View | Luxurious 5BR | Pool | Ideal Community", agent: "Saer Samir Latouf", agency: "Amlak One", listedAgo: "6+ months", url: "https://www.propertyfinder.ae/en/plp/buy/villa-for-sale-abu-dhabi-saadiyat-island-jawaher-saadiyat.html" },
+  // === JAWAHER (5 listings) — PF shows LAND AREA, matched to specific plots via DCR ===
+  { community: "jawaher", type: "villa", bedrooms: 5, bathrooms: "6", areaSqft: 13504, priceAed: 35000000, title: "Luxury Family Home. Pool and Landscaping", agent: "Andrew Covill", agency: "Henry Wiltshire", listedAgo: "1 month", url: "https://www.propertyfinder.ae/en/plp/buy/villa-for-sale-abu-dhabi-saadiyat-island-jawaher-saadiyat-117248676.html", matchedVillaKey: "jawaher/Plot-78" },
+  { community: "jawaher", type: "villa", bedrooms: 4, bathrooms: "7", areaSqft: 10514, priceAed: 25000000, title: "Modified Villa | Near Saadiyat Beach | Private Pool", agent: "Samah Jamal", agency: "PSI", listedAgo: "22 hours", url: "https://www.propertyfinder.ae/en/plp/buy/villa-for-sale-abu-dhabi-saadiyat-island-jawaher-saadiyat-128813306.html", matchedVillaKey: "jawaher/Plot-111" },
+  { community: "jawaher", type: "townhouse", bedrooms: 4, bathrooms: "5", areaSqft: 6748, priceAed: 15000000, title: "Corner | Upgraded Townhouse | Prime Location!", agent: "Samah Jamal", agency: "PSI", listedAgo: "22 hours", url: "https://www.propertyfinder.ae/en/plp/buy/townhouse-for-sale-abu-dhabi-saadiyat-island-jawaher-saadiyat.html", matchedVillaKey: "jawaher/Plot-131" },
+  { community: "jawaher", type: "villa", bedrooms: 5, bathrooms: "7+", areaSqft: 14694, priceAed: 32000000, title: "Large Backyard | Luxury Lifestyle | Inquire Today", agent: "Ruba Jaffal", agency: "PSI", listedAgo: "11 days", url: "https://www.propertyfinder.ae/en/plp/buy/villa-for-sale-abu-dhabi-saadiyat-island-jawaher-saadiyat.html", matchedVillaKey: "jawaher/Plot-64" },
+  { community: "jawaher", type: "villa", bedrooms: 5, bathrooms: "7", areaSqft: 15182, priceAed: 50000000, title: "Golf View | Luxurious 5BR | Pool | Ideal Community", agent: "Saer Samir Latouf", agency: "Amlak One", listedAgo: "6+ months", url: "https://www.propertyfinder.ae/en/plp/buy/villa-for-sale-abu-dhabi-saadiyat-island-jawaher-saadiyat.html", matchedVillaKey: "jawaher/Plot-56" },
 
   // === ST. REGIS (6 listings) ===
   { community: "st-regis", type: "villa", bedrooms: 5, bathrooms: "6", areaSqft: 8261, priceAed: 50000000, title: "Vacant | Luxury Beachfront Villa | Stunning View", agent: "Tarek Elzeny", agency: "Rose Island Real Estate", listedAgo: "16 days", url: "https://www.propertyfinder.ae/en/plp/buy/villa-for-sale-abu-dhabi-saadiyat-island-saadiyat-beach-st-regis-124291727.html" },
@@ -57,9 +59,9 @@ export function getListingsForCommunity(community: PFListing["community"]): PFLi
   return pfListings.filter(l => l.community === community);
 }
 
-/** Check if a plot area matches any listing (±200 sqft tolerance) */
-export function findListingByArea(community: PFListing["community"], areaSqft: number): PFListing | undefined {
-  return pfListings.find(l => l.community === community && Math.abs(l.areaSqft - areaSqft) <= 200);
+/** Find listing by matched villaKey (only Jawaher has exact matches via land area) */
+export function findListingByVillaKey(villaKey: string): PFListing | undefined {
+  return pfListings.find(l => l.matchedVillaKey === villaKey);
 }
 
 export const PF_SUMMARY = {

@@ -16,7 +16,7 @@ import { getVillaTransactions } from "@/data/stregisTransactions";
 import { jawaherPlotHistories } from "@/data/jawaherTransactions";
 import { golfViewsPlotData } from "@/data/golfViewsPlotData";
 import { plotCoordinates } from "@/data/plotCoordinates";
-import { pfListings, findListingByArea, PF_SUMMARY } from "@/data/propertyFinderListings";
+import { pfListings, findListingByVillaKey, PF_SUMMARY } from "@/data/propertyFinderListings";
 import type { PFListing } from "@/data/propertyFinderListings";
 
 // Known community centers on Saadiyat Island
@@ -54,8 +54,6 @@ function buildMarkers(): MapMarkerData[] {
     const txs = getVillaTransactions(v.id);
     const lastTx = txs.length > 0 ? txs[txs.length - 1] : null;
     const dcrCoord = plotCoordinates[`st-regis/Plot-${v.id}`];
-    const area = getPlotLandArea(`st-regis/Plot-${v.id}`);
-    const listing = area ? findListingByArea("st-regis", area.sqft) : undefined;
     markers.push({
       id: `st-regis-${v.id}`,
       lat: dcrCoord?.lat ?? v.latitude,
@@ -68,7 +66,6 @@ function buildMarkers(): MapMarkerData[] {
       lastDate: lastTx?.date,
       saleType: lastTx?.saleType,
       salesCount: txs.length || undefined,
-      listing,
     });
   }
 
@@ -83,7 +80,7 @@ function buildMarkers(): MapMarkerData[] {
     const txData = jawaherPlotHistories[i];
     const lastTx = txData?.transactions?.[txData.transactions.length - 1];
     const landSqft = area?.sqft ?? txData?.landSqft;
-    const listing = landSqft ? findListingByArea("jawaher", landSqft) : undefined;
+    const listing = findListingByVillaKey(p.villaKey);
     markers.push({
       id: `jawaher-${p.id}`,
       lat: coord.lat, lng: coord.lng,
