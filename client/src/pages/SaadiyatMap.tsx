@@ -32,6 +32,7 @@ import { golfViewsPlotData } from "@/data/golfViewsPlotData";
 import { plotCoordinates } from "@/data/plotCoordinates";
 import { pfListings, findListingByVillaKey, PF_SUMMARY } from "@/data/propertyFinderListings";
 import type { PFListing } from "@/data/propertyFinderListings";
+import { hiddVillaCoords } from "@/data/hiddCoordinates";
 
 // Known community centers on Saadiyat Island
 const COMMUNITY_CENTERS = {
@@ -171,6 +172,18 @@ function buildMarkers(): MapMarkerData[] {
       lat: coord.lat, lng: coord.lng,
       community: "private-villas",
       label: p.label,
+    });
+  }
+
+  // Hidd Al Saadiyat — coordinates from Google Maps geocoding + interpolation
+  for (const hv of hiddVillaCoords) {
+    markers.push({
+      id: `hidd-${hv.villaNumber}-${hv.street}`,
+      lat: hv.lat,
+      lng: hv.lng,
+      community: "hidd",
+      label: `Villa ${hv.villaNumber}`,
+      villaKey: `hidd/${hv.villaNumber}/${hv.street}`,
     });
   }
 
