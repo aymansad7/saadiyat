@@ -3,7 +3,7 @@
  * Editorial wordmark "Saadiyat" with breadcrumb-style sub-label.
  */
 import { Link, useLocation } from "wouter";
-import { ArrowLeft, MapPin, ChevronDown, FolderOpen, LogOut, User as UserIcon, ShieldCheck, History, Map } from "lucide-react";
+import { ArrowLeft, MapPin, ChevronDown, FolderOpen, LogOut, User as UserIcon, ShieldCheck, History, Map, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,6 +16,60 @@ import {
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useCanAccessOther } from "@/hooks/useCanAccessOther";
 import { getLoginUrl } from "@/const";
+import { useState, useRef, useEffect } from "react";
+
+/** All navigable projects for quick search */
+const ALL_PROJECTS = [
+  { name: "St. Regis Villas", href: "/st-regis" },
+  { name: "Saadiyat Beach Villas", href: "/saadiyat-beach-villas" },
+  { name: "Jawaher Saadiyat", href: "/jawaher" },
+  { name: "Saadiyat Lagoons", href: "/saadiyat-lagoons" },
+  { name: "Golf Views", href: "/community/saadiyat-golf-views" },
+  { name: "Private Villas (Four Seasons)", href: "/community/private-villas-four-seasons" },
+  { name: "Hidd Al Saadiyat", href: "/hidd-al-saadiyat" },
+  { name: "Nouran Living", href: "/aldar-other/nouran-living" },
+  { name: "Faya Al Saadiyat", href: "/aldar-saadiyat/faya-al-saadiyat" },
+  { name: "Faya Al Saadiyat II", href: "/aldar-saadiyat/faya-al-saadiyat-ii" },
+  { name: "Louvre Residences", href: "/aldar-saadiyat/louvreresidences" },
+  { name: "Mamsha Gardens", href: "/aldar-saadiyat/mamsha-gardens" },
+  { name: "Mamsha Palm", href: "/aldar-saadiyat/mamsha-palm" },
+  { name: "Manarat Living", href: "/aldar-saadiyat/manarat-living" },
+  { name: "Manarat Living II", href: "/aldar-saadiyat/manarat-living-ii" },
+  { name: "Manarat Residences 3", href: "/aldar-saadiyat/manaratresidences3" },
+  { name: "Nobu Residences", href: "/aldar-saadiyat/nobu-residences" },
+  { name: "One Saadiyat", href: "/aldar-saadiyat/onesaadiyat" },
+  { name: "Saadiyat Reserve The Dunes", href: "/aldar-saadiyat/saadiyat-reserve-the-dunes" },
+  { name: "Sama Yas", href: "/aldar-saadiyat/sama-yas" },
+  { name: "The Row Saadiyat", href: "/aldar-saadiyat/the-row-saadiyat" },
+  { name: "The Source", href: "/aldar-saadiyat/the-source" },
+  { name: "The Source II", href: "/aldar-saadiyat/the-source-ii" },
+  { name: "The Source Terraces", href: "/aldar-saadiyat/the-source-terraces" },
+  { name: "The Arthouse", href: "/aldar-saadiyat/thearthouse" },
+  { name: "Fountain View Residences", href: "/aldar-saadiyat/fountainviewresidences" },
+  { name: "Grove", href: "/aldar-saadiyat/grove" },
+  { name: "Noya", href: "/aldar-other/noya" },
+  { name: "Noya Viva", href: "/aldar-other/noya-viva" },
+  { name: "Noya Luma", href: "/aldar-other/noya-luma" },
+  { name: "Yas Park Gate", href: "/aldar-other/yas-park-gate" },
+  { name: "Yas Park Views", href: "/aldar-other/yas-park-views" },
+  { name: "Yas Golf Collection", href: "/aldar-other/yas-golf-collection" },
+  { name: "The Sustainable City", href: "/aldar-other/the-sustainable-city-yas-island" },
+  { name: "Al Ghadeer Gardens", href: "/aldar-other/al-ghadeer-gardens" },
+  { name: "The Canopies", href: "/aldar-other/the-canopies" },
+  { name: "Haven", href: "/aldar-other/haven" },
+  { name: "Verdes", href: "/aldar-other/verdes" },
+  { name: "The Wilds", href: "/aldar-other/the-wilds" },
+  { name: "Rise by Athlon 1", href: "/aldar-other/rise-by-athlon-1" },
+  { name: "Rise by Athlon 2", href: "/aldar-other/rise-by-athlon-2" },
+  { name: "Rise by Athlon 3", href: "/aldar-other/rise-by-athlon-3" },
+  { name: "Rise by Athlon 4", href: "/aldar-other/rise-by-athlon-4" },
+  { name: "Al Marjan Island", href: "/aldar-other/almarjan" },
+  { name: "Rosso Bay Residences", href: "/aldar-other/rosso-bay-residences" },
+  { name: "Fahid Beach Terraces", href: "/aldar-other/fahid-beach-terraces" },
+  { name: "The Beach House Fahid", href: "/aldar-other/the-beach-house-fahid" },
+  { name: "Fahid Beach Residences", href: "/aldar-other/fahid-beach-residences" },
+  { name: "Athlon", href: "/aldar-other/athlon" },
+];
 
 interface Props {
   subTitle?: string;
@@ -27,6 +81,29 @@ export default function SiteHeader({ subTitle, back }: Props) {
   const showHomeLink = location !== "/";
   const { user, isAuthenticated, logout } = useAuth();
   const canAccessOther = useCanAccessOther();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const filteredProjects = searchQuery.trim()
+    ? ALL_PROJECTS.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : ALL_PROJECTS;
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setSearchOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (searchOpen && inputRef.current) inputRef.current.focus();
+  }, [searchOpen]);
+
   return (
     <header className="border-b border-border/70 bg-background/80 backdrop-blur-md sticky top-0 z-40">
       <div className="container py-3 sm:py-4 flex items-center gap-4">
@@ -58,6 +135,48 @@ export default function SiteHeader({ subTitle, back }: Props) {
           </div>
         </Link>
         <div className="ml-auto flex items-center gap-2">
+          {/* Project Search */}
+          <div ref={searchRef} className="relative">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-1.5 text-muted-foreground hover:text-foreground"
+              onClick={() => setSearchOpen(!searchOpen)}
+            >
+              <Search className="h-4 w-4" />
+              <span className="hidden sm:inline text-xs">Search</span>
+            </Button>
+            {searchOpen && (
+              <div className="absolute right-0 top-full mt-1 w-72 sm:w-80 bg-card border border-border rounded-lg shadow-xl z-50 overflow-hidden">
+                <div className="p-2 border-b border-border">
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    placeholder="Search project name..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-3 py-2 text-sm bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  />
+                </div>
+                <div className="max-h-64 overflow-y-auto">
+                  {filteredProjects.length === 0 ? (
+                    <div className="p-3 text-sm text-muted-foreground text-center">No projects found</div>
+                  ) : (
+                    filteredProjects.map((p) => (
+                      <Link
+                        key={p.href}
+                        href={p.href}
+                        className="block px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+                        onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
+                      >
+                        {p.name}
+                      </Link>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
           {showHomeLink && (
             <Button asChild variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground hidden sm:inline-flex">
               <Link href="/">Home</Link>
