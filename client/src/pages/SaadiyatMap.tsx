@@ -43,7 +43,7 @@ const COMMUNITY_CENTERS = {
   "saadiyat-golf-views": { lat: 24.5440, lng: 54.4400, label: "Golf Views", color: "#7C3AED" },
   "hidd": { lat: 24.5580, lng: 54.4150, label: "Hidd Al Saadiyat", color: "#DC2626" },
   "private-villas": { lat: 24.5395, lng: 54.4200, label: "Private Villas (Four Seasons)", color: "#CA8A04" },
-  "lagoons": { lat: 24.536, lng: 54.451, label: "Saadiyat Lagoons", color: "#0891B2" },
+  "lagoons": { lat: 24.5397, lng: 54.4525, label: "Saadiyat Lagoons", color: "#0891B2" },
 };
 
 interface MapMarkerData {
