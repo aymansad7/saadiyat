@@ -33,6 +33,7 @@ import { plotCoordinates } from "@/data/plotCoordinates";
 import { pfListings, findListingByVillaKey, PF_SUMMARY } from "@/data/propertyFinderListings";
 import type { PFListing } from "@/data/propertyFinderListings";
 import { hiddVillaCoords } from "@/data/hiddCoordinates";
+import { lagoonsVillaCoords } from "@/data/lagoonsCoordinates";
 
 // Known community centers on Saadiyat Island
 const COMMUNITY_CENTERS = {
@@ -42,6 +43,7 @@ const COMMUNITY_CENTERS = {
   "saadiyat-golf-views": { lat: 24.5440, lng: 54.4400, label: "Golf Views", color: "#7C3AED" },
   "hidd": { lat: 24.5580, lng: 54.4150, label: "Hidd Al Saadiyat", color: "#DC2626" },
   "private-villas": { lat: 24.5395, lng: 54.4200, label: "Private Villas (Four Seasons)", color: "#CA8A04" },
+  "lagoons": { lat: 24.536, lng: 54.451, label: "Saadiyat Lagoons", color: "#0891B2" },
 };
 
 interface MapMarkerData {
@@ -184,6 +186,25 @@ function buildMarkers(): MapMarkerData[] {
       community: "hidd",
       label: `Villa ${hv.villaNumber}`,
       villaKey: `hidd/${hv.villaNumber}/${hv.street}`,
+    });
+  }
+
+  // Lagoons — coordinates derived from masterplan map_x/map_y
+  for (const lv of lagoonsVillaCoords) {
+    const shortName = lv.unit_name.replace(/^(AlGhaf|AlSidr|Ethir)-/, '');
+    const clusterLabel = lv.cluster === 'al-ghaf' ? 'Al Ghaf' : lv.cluster === 'al-sidr' ? 'Al Sidr' : 'Ethir';
+    markers.push({
+      id: `lagoons-${lv.unit_name}`,
+      lat: lv.lat,
+      lng: lv.lng,
+      community: "lagoons",
+      label: shortName,
+      landSqft: lv.plot_area_sqm ? Math.round(lv.plot_area_sqm * 10.7639) : undefined,
+      landSqm: lv.plot_area_sqm || undefined,
+      lastPrice: lv.price || undefined,
+      saleType: lv.status || undefined,
+      owner: clusterLabel,
+      detailHref: `/saadiyat-lagoons/${lv.cluster}`,
     });
   }
 
