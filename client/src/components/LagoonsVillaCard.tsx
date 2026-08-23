@@ -23,6 +23,7 @@ import {
   ListingBadge,
   ListingPriceLabel,
 } from "@/components/ListingControls";
+import { formatArea, type AreaUnit } from "@/lib/areaSearch";
 
 export function lagoonsVillaKey(v: LagoonsVilla) {
   return `saadiyat-lagoons/${v.cluster}-${v.unit_name}`;
@@ -31,6 +32,7 @@ export function lagoonsVillaKey(v: LagoonsVilla) {
 interface Props {
   villa: LagoonsVilla;
   listing?: ListingIndexEntry | null;
+  areaUnit?: AreaUnit;
 }
 
 function positionBadge(villa: LagoonsVilla): { label: string; cls: string } | null {
@@ -49,7 +51,7 @@ function positionBadge(villa: LagoonsVilla): { label: string; cls: string } | nu
   return null;
 }
 
-export default function LagoonsVillaCard({ villa, listing }: Props) {
+export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: Props) {
   const badge = positionBadge(villa);
   const detailHref = `/saadiyat-lagoons/${villa.cluster}/${encodeURIComponent(villa.unit_name)}`;
   const availability = getAvailability(villa.unit_name);
@@ -99,15 +101,13 @@ export default function LagoonsVillaCard({ villa, listing }: Props) {
           <div>
             <div className="text-[0.6rem] uppercase tracking-[0.16em]">Plot</div>
             <div className="tabular text-foreground text-sm">
-              {villa.plot_area_sqm ? `${Math.round(villa.plot_area_sqm)} m²` : "—"}
+              {formatArea({ sqm: villa.plot_area_sqm }, areaUnit)}
             </div>
           </div>
           <div>
             <div className="text-[0.6rem] uppercase tracking-[0.16em]">Saleable</div>
             <div className="tabular text-foreground text-sm">
-              {villa.saleable_area_sqm
-                ? `${Math.round(villa.saleable_area_sqm)} m²`
-                : "—"}
+              {formatArea({ sqm: villa.saleable_area_sqm }, areaUnit)}
             </div>
           </div>
           <div>

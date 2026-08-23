@@ -22,6 +22,8 @@ import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
 import { fmtAed } from "@/data/aldar/format";
+import AreaFilterControls from "@/components/AreaFilterControls";
+import { sqftToSqm, type AreaUnit } from "@/lib/areaSearch";
 
 const BEDROOM_OPTIONS = [
   { label: "Studio", value: "Studio" },
@@ -54,6 +56,9 @@ export default function AvailableUnits() {
   const [priceMinStr, setPriceMinStr] = useState("");
   const [priceMaxStr, setPriceMaxStr] = useState("");
   const [dataset, setDataset] = useState<"all" | "saadiyat" | "other" | "lagoons">("all");
+  const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
+  const [areaMinStr, setAreaMinStr] = useState("");
+  const [areaMaxStr, setAreaMaxStr] = useState("");
 
   const priceMin = useMemo(() => {
     const n = parseInt(priceMinStr.replace(/[^\d]/g, ""), 10);
@@ -63,6 +68,16 @@ export default function AvailableUnits() {
     const n = parseInt(priceMaxStr.replace(/[^\d]/g, ""), 10);
     return Number.isFinite(n) && n > 0 ? n : undefined;
   }, [priceMaxStr]);
+  const areaMinSqm = useMemo(() => {
+    const value = Number(areaMinStr.replace(/,/g, ""));
+    if (!Number.isFinite(value) || value < 0 || !areaMinStr) return undefined;
+    return areaUnit === "sqm" ? value : sqftToSqm(value);
+  }, [areaMinStr, areaUnit]);
+  const areaMaxSqm = useMemo(() => {
+    const value = Number(areaMaxStr.replace(/,/g, ""));
+    if (!Number.isFinite(value) || value < 0 || !areaMaxStr) return undefined;
+    return areaUnit === "sqm" ? value : sqftToSqm(value);
+  }, [areaMaxStr, areaUnit]);
 
   const { data, isLoading } = trpc.unitSearch.filter.useQuery({
     availableOnly,
@@ -70,6 +85,8 @@ export default function AvailableUnits() {
     dataset,
     priceMin,
     priceMax,
+    areaMinSqm,
+    areaMaxSqm,
     limit: 500,
   });
 
@@ -88,7 +105,7 @@ export default function AvailableUnits() {
     return Array.from(map.values()).sort((a, b) => b.units.length - a.units.length);
   }, [results]);
 
-  const hasFilters = bedrooms || priceMinStr || priceMaxStr || dataset !== "all" || !availableOnly;
+  const hasFilters = bedrooms || priceMinStr || priceMaxStr || areaMinStr || areaMaxStr || dataset !== "all" || !availableOnly;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -152,6 +169,18 @@ export default function AvailableUnits() {
                 className="w-36 h-9 text-sm"
               />
             </div>
+            <div className="space-y-1">
+              <label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Land / Unit Area</label>
+              <AreaFilterControls
+                unit={areaUnit}
+                onUnitChange={setAreaUnit}
+                min={areaMinStr}
+                max={areaMaxStr}
+                onMinChange={setAreaMinStr}
+                onMaxChange={setAreaMaxStr}
+                compact
+              />
+            </div>
             <div className="flex items-center gap-2">
               <Switch checked={availableOnly} onCheckedChange={setAvailableOnly} id="avail-only" />
               <label htmlFor="avail-only" className="text-xs text-muted-foreground cursor-pointer">Available only</label>
@@ -177,6 +206,8 @@ export default function AvailableUnits() {
                   setBedrooms(undefined);
                   setPriceMinStr("");
                   setPriceMaxStr("");
+                  setAreaMinStr("");
+                  setAreaMaxStr("");
                   setDataset("all");
                   setAvailableOnly(true);
                 }}
@@ -226,6 +257,7 @@ export default function AvailableUnits() {
                           {u.buildingName ? `${u.buildingName} · ` : ""}
                           {u.bedrooms ? `${u.bedrooms} BR` : u.unitType || "—"}
                           {u.priceAed ? ` · AED ${fmtAed(u.priceAed)}` : ""}
+                          {u.areaSqm != null ? ` · ${areaUnit === "sqm" ? `${u.areaSqm.toLocaleString(undefined, { maximumFractionDigits: 1 })} m²` : `${u.areaSqft?.toLocaleString(undefined, { maximumFractionDigits: 0 })} sqft`}` : ""}
                         </span>
                       </div>
                       <span className={`text-xs font-mono shrink-0 ${statusColor(u.status)}`}>

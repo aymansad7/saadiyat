@@ -10,17 +10,18 @@
  */
 import { useMemo, useState } from "react";
 import { Redirect, useParams, Link } from "wouter";
-import { Building2, Sparkles, ArrowUpDown, Search } from "lucide-react";
+import { Building2, Sparkles, ArrowUpDown, Search, LayoutGrid, Table2 } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
 import { actionableCount, statusBucket } from "@/data/aldar";
 import type { StatusBreakdown } from "@/data/aldar";
 import { trpc } from "@/lib/trpc";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
-import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
+import { fmtAed, shortUnitNumber } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import {
@@ -28,6 +29,8 @@ import {
   ListingBadge,
   ListingPriceLabel,
 } from "@/components/ListingControls";
+import AreaFilterControls from "@/components/AreaFilterControls";
+import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 
 export default function AldarBuilding() {
   const { project: projectSlug, building: buildingSlug } = useParams<{
@@ -41,8 +44,12 @@ export default function AldarBuilding() {
   const ctx = bldgData ? { project: bldgData.project, building: { ...bldgData, units: bldgData.units } } : undefined;
   const [availableOnly, setAvailableOnly] = useState(false);
   const [bedroomFilter, setBedroomFilter] = useState<string>("all");
-  const [sort, setSort] = useState<"price_asc" | "price_desc" | "unit">("unit");
+  const [sort, setSort] = useState<"price_asc" | "price_desc" | "area_asc" | "area_desc" | "unit">("unit");
   const [query, setQuery] = useState("");
+  const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
+  const [areaMin, setAreaMin] = useState("");
+  const [areaMax, setAreaMax] = useState("");
+  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
 
   const allUnits = ctx?.building.units ?? [];
 
@@ -57,8 +64,16 @@ export default function AldarBuilding() {
   const units = useMemo(() => {
     let list = allUnits.slice();
     const q = query.trim().toLowerCase();
-    if (q.length > 0)
-      list = list.filter((u: any) => (u.unit_name ?? "").toLowerCase().includes(q));
+    list = list.filter((u: any) => {
+      const plotArea = { sqm: u.plot_area_sqm };
+      const builtArea = { sqm: u.total_area_sqm ?? u.saleable_area_sqm };
+      const preferredArea = u.plot_area_sqm != null ? plotArea : builtArea;
+      if (!isWithinAreaRange(preferredArea, areaUnit, areaMin, areaMax)) return false;
+      if (!q) return true;
+      return (u.unit_name ?? "").toLowerCase().includes(q)
+        || matchesAreaQuery(q, plotArea)
+        || matchesAreaQuery(q, builtArea);
+    });
     if (availableOnly)
       list = list.filter((u: any) => {
         const b = statusBucket(u.status);
@@ -91,6 +106,12 @@ export default function AldarBuilding() {
         if (sd !== 0) return sd;
         return (b.price_aed ?? -Infinity) - (a.price_aed ?? -Infinity);
       });
+    } else if (sort === "area_asc" || sort === "area_desc") {
+      list.sort((a: any, b: any) => {
+        const areaA = a.plot_area_sqm ?? a.total_area_sqm ?? a.saleable_area_sqm ?? Infinity;
+        const areaB = b.plot_area_sqm ?? b.total_area_sqm ?? b.saleable_area_sqm ?? Infinity;
+        return sort === "area_asc" ? areaA - areaB : areaB - areaA;
+      });
     } else {
       list.sort((a: any, b: any) => {
         const sd = statusRank(a) - statusRank(b);
@@ -101,7 +122,7 @@ export default function AldarBuilding() {
       });
     }
     return list;
-  }, [allUnits, availableOnly, bedroomFilter, sort]);
+  }, [allUnits, availableOnly, bedroomFilter, sort, query, areaUnit, areaMin, areaMax]);
 
   // Bulk-fetch all listings for units in this building (before any early
   // returns — hook order must be stable).
@@ -149,10 +170,19 @@ export default function AldarBuilding() {
               <Input
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                placeholder="Search unit number…"
+                placeholder="Search unit or area…"
                 className="w-56"
               />
             </div>
+            <AreaFilterControls
+              unit={areaUnit}
+              onUnitChange={setAreaUnit}
+              min={areaMin}
+              max={areaMax}
+              onMinChange={setAreaMin}
+              onMaxChange={setAreaMax}
+              compact
+            />
             <label className="inline-flex items-center gap-2 text-sm">
               <Switch checked={availableOnly} onCheckedChange={setAvailableOnly} />
               <span className="text-muted-foreground">
@@ -183,8 +213,14 @@ export default function AldarBuilding() {
                 <SelectItem value="unit">Sort: Unit number</SelectItem>
                 <SelectItem value="price_asc">Sort: Price ↑</SelectItem>
                 <SelectItem value="price_desc">Sort: Price ↓</SelectItem>
+                <SelectItem value="area_asc">Sort: Area ↑</SelectItem>
+                <SelectItem value="area_desc">Sort: Area ↓</SelectItem>
               </SelectContent>
             </Select>
+            <div className="inline-flex rounded-md border border-border overflow-hidden">
+              <Button type="button" variant={viewMode === "cards" ? "default" : "ghost"} size="sm" onClick={() => setViewMode("cards")} className="rounded-none h-9 gap-1"><LayoutGrid className="h-3.5 w-3.5" /> Cards</Button>
+              <Button type="button" variant={viewMode === "table" ? "default" : "ghost"} size="sm" onClick={() => setViewMode("table")} className="rounded-none h-9 gap-1"><Table2 className="h-3.5 w-3.5" /> Table</Button>
+            </div>
           </div>
         </div>
       </section>
@@ -193,6 +229,26 @@ export default function AldarBuilding() {
         {units.length === 0 ? (
           <div className="text-center text-muted-foreground py-10">
             No units match your filter.
+          </div>
+        ) : viewMode === "table" ? (
+          <div className="rounded-lg border border-border bg-card overflow-x-auto">
+            <table className="w-full min-w-[860px] text-sm">
+              <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
+                <tr><th className="px-4 py-3">Unit</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Status</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">BUA / Saleable</th><th className="px-4 py-3">Price</th></tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {units.map((u: any) => (
+                  <tr key={u.unit_name} className="hover:bg-accent/30">
+                    <td className="px-4 py-3"><Link href={`/aldar-saadiyat/${project.slug}/${building.slug}/${encodeURIComponent(u.unit_name ?? "")}`} className="font-semibold hover:text-primary">{shortUnitNumber(u.unit_name)}</Link></td>
+                    <td className="px-4 py-3">{u.bedrooms ? `${u.bedrooms} BR` : "—"}</td>
+                    <td className="px-4 py-3"><AldarStatusBadge status={u.status} /></td>
+                    <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.plot_area_sqm }, areaUnit)}</td>
+                    <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.total_area_sqm ?? u.saleable_area_sqm }, areaUnit)}</td>
+                    <td className="px-4 py-3 font-semibold">AED {fmtAed(u.price_aed)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
@@ -233,12 +289,12 @@ export default function AldarBuilding() {
                   <div className="grid grid-cols-2 gap-2 text-[0.7rem] font-mono text-muted-foreground">
                     <div>
                       <div className="text-[0.6rem] uppercase tracking-[0.18em]">Plot</div>
-                      <div className="text-foreground/80">{fmtArea(u.plot_area_sqm)}</div>
+                      <div className="text-foreground/80">{formatArea({ sqm: u.plot_area_sqm }, areaUnit)}</div>
                     </div>
                     <div>
                       <div className="text-[0.6rem] uppercase tracking-[0.18em]">BUA / Saleable</div>
                       <div className="text-foreground/80">
-                        {fmtArea(u.total_area_sqm ?? u.saleable_area_sqm)}
+                        {formatArea({ sqm: u.total_area_sqm ?? u.saleable_area_sqm }, areaUnit)}
                       </div>
                     </div>
                   </div>

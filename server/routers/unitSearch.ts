@@ -27,6 +27,8 @@ type SearchableUnit = {
   priceAed: number | null;
   bedrooms: string | null;
   unitType: string | null;
+  areaSqm: number | null;
+  areaSqft: number | null;
   /** Frontend route to the unit detail page */
   href: string;
 };
@@ -35,6 +37,32 @@ type SearchableUnit = {
 // Data loading (cached in-process)
 // ---------------------------------------------------------------------------
 let UNITS: SearchableUnit[] | null = null;
+const SQFT_PER_SQM = 10.764;
+
+function getAreaSqm(unit: {
+  plot_area_sqm?: number | null;
+  total_area_sqm?: number | null;
+  saleable_area_sqm?: number | null;
+}): number | null {
+  return unit.plot_area_sqm ?? unit.total_area_sqm ?? unit.saleable_area_sqm ?? null;
+}
+
+function matchesAreaSearch(query: string, unit: SearchableUnit): boolean {
+  const normalized = query.toLowerCase().replace(/,/g, "").replace(/²/g, "2");
+  const match = normalized.match(/\d+(?:\.\d+)?/);
+  if (!match || unit.areaSqm == null || unit.areaSqft == null) return false;
+  const target = Number(match[0]);
+  if (!Number.isFinite(target)) return false;
+  const explicitSqft = /\b(sq\s*ft|sqft|ft2|feet|foot)\b/.test(normalized);
+  const explicitSqm = /\b(sq\s*m|sqm|m2|meter|metre)\b/.test(normalized);
+  const numericOnly = /^[\s\d.]+$/.test(normalized);
+  if (!explicitSqft && !explicitSqm && !numericOnly) return false;
+  const close = (actual: number, minimumTolerance: number) =>
+    Math.abs(actual - target) <= Math.max(minimumTolerance, target * 0.001);
+  if (explicitSqft) return close(unit.areaSqft, 10);
+  if (explicitSqm) return close(unit.areaSqm, 1);
+  return close(unit.areaSqm, 1) || close(unit.areaSqft, 10);
+}
 
 function loadAllUnits(): SearchableUnit[] {
   if (UNITS) return UNITS;
@@ -69,7 +97,7 @@ function loadAllUnits(): SearchableUnit[] {
         buildings: {
           slug: string;
           name: string;
-          units: { unit_name: string | null; status: string | null; price_aed: number | null; bedrooms: string | null; unit_type: string | null }[];
+          units: { unit_name: string | null; status: string | null; price_aed: number | null; bedrooms: string | null; unit_type: string | null; plot_area_sqm?: number | null; total_area_sqm?: number | null; saleable_area_sqm?: number | null }[];
         }[];
       }[];
     };
@@ -77,6 +105,7 @@ function loadAllUnits(): SearchableUnit[] {
       for (const b of p.buildings) {
         for (const u of b.units) {
           if (!u.unit_name) continue;
+          const areaSqm = getAreaSqm(u);
           units.push({
             unitName: u.unit_name,
             projectName: p.name,
@@ -88,6 +117,8 @@ function loadAllUnits(): SearchableUnit[] {
             priceAed: u.price_aed,
             bedrooms: u.bedrooms,
             unitType: u.unit_type,
+            areaSqm,
+            areaSqft: areaSqm != null ? Math.round(areaSqm * SQFT_PER_SQM * 100) / 100 : null,
             href: `/aldar-saadiyat/${p.slug}/${b.slug}/${encodeURIComponent(u.unit_name)}`,
           });
         }
@@ -106,7 +137,7 @@ function loadAllUnits(): SearchableUnit[] {
         buildings: {
           slug: string;
           name: string;
-          units: { unit_name: string | null; status: string | null; price_aed: number | null; bedrooms: string | null; unit_type: string | null }[];
+          units: { unit_name: string | null; status: string | null; price_aed: number | null; bedrooms: string | null; unit_type: string | null; plot_area_sqm?: number | null; total_area_sqm?: number | null; saleable_area_sqm?: number | null }[];
         }[];
       }[];
     };
@@ -114,6 +145,7 @@ function loadAllUnits(): SearchableUnit[] {
       for (const b of p.buildings) {
         for (const u of b.units) {
           if (!u.unit_name) continue;
+          const areaSqm = getAreaSqm(u);
           units.push({
             unitName: u.unit_name,
             projectName: p.name,
@@ -125,6 +157,8 @@ function loadAllUnits(): SearchableUnit[] {
             priceAed: u.price_aed,
             bedrooms: u.bedrooms,
             unitType: u.unit_type,
+            areaSqm,
+            areaSqft: areaSqm != null ? Math.round(areaSqm * SQFT_PER_SQM * 100) / 100 : null,
             href: `/aldar-other/${p.slug}/${b.slug}/${encodeURIComponent(u.unit_name)}`,
           });
         }
@@ -146,10 +180,14 @@ function loadAllUnits(): SearchableUnit[] {
         price_aed?: number | null;
         bedrooms?: number | null;
         type?: string | null;
+        plot_area_sqm?: number | null;
+        total_area_sqm?: number | null;
+        saleable_area_sqm?: number | null;
       }[];
     };
     for (const v of lagoons.villas) {
       if (!v.unit_name) continue;
+      const areaSqm = getAreaSqm(v);
       units.push({
         unitName: v.unit_name,
         projectName: "Saadiyat Lagoons",
@@ -161,6 +199,8 @@ function loadAllUnits(): SearchableUnit[] {
         priceAed: v.price_aed ?? null,
         bedrooms: v.bedrooms != null ? String(v.bedrooms) : null,
         unitType: v.type ?? "Villa",
+        areaSqm,
+        areaSqft: areaSqm != null ? Math.round(areaSqm * SQFT_PER_SQM * 100) / 100 : null,
         href: `/saadiyat-lagoons/${v.cluster}/${v.villa_key}`,
       });
     }
@@ -205,7 +245,8 @@ export const unitSearchRouter = router({
         if (results.length >= input.limit) break;
         if (input.dataset && u.dataset !== input.dataset) continue;
         if (input.projectSlug && u.projectSlug !== input.projectSlug) continue;
-        if (u.unitName.toLowerCase().includes(q)) {
+        const textMatch = `${u.unitName} ${u.projectName} ${u.buildingName ?? ""}`.toLowerCase().includes(q);
+        if (textMatch || matchesAreaSearch(input.q, u)) {
           results.push(u);
         }
       }
@@ -226,6 +267,8 @@ export const unitSearchRouter = router({
         dataset: z.enum(["saadiyat", "other", "lagoons", "all"]).optional().default("all"),
         priceMin: z.number().optional(),
         priceMax: z.number().optional(),
+        areaMinSqm: z.number().nonnegative().optional(),
+        areaMaxSqm: z.number().nonnegative().optional(),
         limit: z.number().int().min(1).max(1000).optional().default(500),
       }),
     )
@@ -250,6 +293,8 @@ export const unitSearchRouter = router({
         }
         if (input.priceMin != null && (u.priceAed == null || u.priceAed < input.priceMin)) continue;
         if (input.priceMax != null && (u.priceAed == null || u.priceAed > input.priceMax)) continue;
+        if (input.areaMinSqm != null && (u.areaSqm == null || u.areaSqm < input.areaMinSqm)) continue;
+        if (input.areaMaxSqm != null && (u.areaSqm == null || u.areaSqm > input.areaMaxSqm)) continue;
         results.push(u);
       }
       return { results, total: results.length };

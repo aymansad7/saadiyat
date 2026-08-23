@@ -7,18 +7,32 @@
 import { useMemo, useState } from "react";
 import { useParams } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
-import SimplePlotCard from "@/components/SimplePlotCard";
+import SimplePlotCard, { type PlotTransaction } from "@/components/SimplePlotCard";
 import { COMMUNITIES } from "@/data/communities";
+import type { SimplePlot } from "@/data/communities";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, RotateCcw, ChevronUp, ChevronDown, TrendingUp, TrendingDown } from "lucide-react";
+import { Search, RotateCcw, ChevronUp, ChevronDown } from "lucide-react";
+import { golfViewsPlotData } from "@/data/golfViewsPlotData";
+import { getPlotLandArea } from "@/data/plotLandAreas";
+import AreaFilterControls, { type AreaViewMode } from "@/components/AreaFilterControls";
 import {
-  GOLF_VIEWS_TRANSACTION_SUMMARY,
-  golfViewsPlotData,
-  golfViewsTransactionRecords,
-} from "@/data/golfViewsPlotData";
+  areaValue,
+  formatArea,
+  isWithinAreaRange,
+  matchesAreaQuery,
+  type AreaUnit,
+  type AreaValues,
+} from "@/lib/areaSearch";
+
+type TableSortKey = "plot" | "area" | "date" | "price";
+interface CommunityTableRow {
+  plot: SimplePlot;
+  area: AreaValues;
+  transaction?: PlotTransaction;
+}
 
 export default function CommunityPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -26,6 +40,12 @@ export default function CommunityPage() {
 
   const [query, setQuery] = useState("");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+  const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
+  const [areaMin, setAreaMin] = useState("");
+  const [areaMax, setAreaMax] = useState("");
+  const [viewMode, setViewMode] = useState<AreaViewMode>("cards");
+  const [tableSortKey, setTableSortKey] = useState<TableSortKey>("date");
+  const [tableSortDir, setTableSortDir] = useState<"asc" | "desc">("desc");
 
   // Derive the villaKey prefix from the first plot (e.g. "golf-views/" not the URL slug)
   const villaKeyPrefix = useMemo(() => {
@@ -41,8 +61,15 @@ export default function CommunityPage() {
     if (!community?.flatPlots) return [];
     const q = query.trim().toLowerCase();
     const list = community.flatPlots.filter((p) => {
+      const dcrArea = getPlotLandArea(p.villaKey);
+      const golfArea = golfViewsPlotData[p.villaKey];
+      const area = {
+        sqm: golfArea?.landSqm ?? dcrArea?.sqm,
+        sqft: golfArea?.landSqft ?? dcrArea?.sqft,
+      };
+      if (!isWithinAreaRange(area, areaUnit, areaMin, areaMax)) return false;
       if (!q) return true;
-      return (
+      return matchesAreaQuery(q, area) || (
         p.label.toLowerCase().includes(q) ||
         p.pdfFilename.toLowerCase().includes(q) ||
         String(p.id).includes(q)
@@ -50,7 +77,28 @@ export default function CommunityPage() {
     });
     list.sort((a, b) => (a.id - b.id) * (sortDir === "asc" ? 1 : -1));
     return list;
-  }, [community, query, sortDir]);
+  }, [community, query, sortDir, areaUnit, areaMin, areaMax]);
+
+  const tableRows = useMemo(() => {
+    const rows = filtered.flatMap<CommunityTableRow>((plot) => {
+      const dcrArea = getPlotLandArea(plot.villaKey);
+      const golfArea = golfViewsPlotData[plot.villaKey];
+      const area = {
+        sqm: golfArea?.landSqm ?? dcrArea?.sqm,
+        sqft: golfArea?.landSqft ?? dcrArea?.sqft,
+      };
+      const transactions = slug === "saadiyat-golf-views" ? golfArea?.transactions ?? [] : [];
+      if (transactions.length === 0) return [{ plot, area }];
+      return transactions.map((transaction) => ({ plot, area, transaction }));
+    });
+    const direction = tableSortDir === "asc" ? 1 : -1;
+    return rows.sort((a, b) => {
+      if (tableSortKey === "plot") return (a.plot.id - b.plot.id) * direction;
+      if (tableSortKey === "area") return ((areaValue(a.area, areaUnit) ?? 0) - (areaValue(b.area, areaUnit) ?? 0)) * direction;
+      if (tableSortKey === "price") return ((a.transaction?.priceAed ?? 0) - (b.transaction?.priceAed ?? 0)) * direction;
+      return (a.transaction?.date ?? "").localeCompare(b.transaction?.date ?? "") * direction;
+    });
+  }, [filtered, slug, tableSortDir, tableSortKey, areaUnit]);
 
   if (!community) {
     return (
@@ -66,6 +114,16 @@ export default function CommunityPage() {
   function reset() {
     setQuery("");
     setSortDir("asc");
+    setAreaMin("");
+    setAreaMax("");
+  }
+
+  function changeTableSort(key: TableSortKey) {
+    if (tableSortKey === key) setTableSortDir((current) => current === "asc" ? "desc" : "asc");
+    else {
+      setTableSortKey(key);
+      setTableSortDir(key === "date" ? "desc" : "asc");
+    }
   }
 
   return (
@@ -103,8 +161,8 @@ export default function CommunityPage() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search plot number…"
-              className="w-56"
+              placeholder="Search plot or area (e.g. 2500 m²)…"
+              className="w-64"
             />
           </div>
           <Button
@@ -120,7 +178,18 @@ export default function CommunityPage() {
             )}
             Plot #
           </Button>
-          {query && (
+          <AreaFilterControls
+            unit={areaUnit}
+            onUnitChange={setAreaUnit}
+            min={areaMin}
+            max={areaMax}
+            onMinChange={setAreaMin}
+            onMaxChange={setAreaMax}
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            compact
+          />
+          {(query || areaMin || areaMax) && (
             <Button variant="ghost" size="sm" onClick={reset} className="gap-1 text-muted-foreground">
               <RotateCcw className="h-3.5 w-3.5" /> Reset
             </Button>
@@ -131,9 +200,10 @@ export default function CommunityPage() {
         </div>
       </section>
 
-      {/* Plot grid */}
+      {/* Plot cards / table */}
       <section className="container py-6 sm:py-8">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+        {viewMode === "cards" ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
           {filtered.map((plot) => (
             <SimplePlotCard
               key={plot.id}
@@ -144,11 +214,46 @@ export default function CommunityPage() {
               listing={listingIndex.get(plot.villaKey) ?? null}
               community={community.slug}
               transactions={slug === "saadiyat-golf-views" ? golfViewsPlotData[plot.villaKey]?.transactions : undefined}
+              showTransactionStatus={slug === "saadiyat-golf-views"}
               landSqft={slug === "saadiyat-golf-views" ? golfViewsPlotData[plot.villaKey]?.landSqft : undefined}
+              areaUnit={areaUnit}
               mapHref={slug === "saadiyat-golf-views" ? `/map?plot=${encodeURIComponent(plot.villaKey)}` : undefined}
             />
           ))}
         </div>
+        ) : (
+          <div className="overflow-x-auto rounded-md border border-border bg-card">
+            <table className="w-full text-sm">
+              <thead className="bg-accent/30 border-b border-border">
+                <tr>
+                  <th className="px-3 py-2 text-left"><button onClick={() => changeTableSort("date")} className="font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground hover:text-primary">Date</button></th>
+                  <th className="px-3 py-2 text-left"><button onClick={() => changeTableSort("plot")} className="font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground hover:text-primary">Plot</button></th>
+                  <th className="px-3 py-2 text-left font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground">Project</th>
+                  <th className="px-3 py-2 text-right"><button onClick={() => changeTableSort("area")} className="font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground hover:text-primary">Land ({areaUnit === "sqm" ? "m²" : "sqft"})</button></th>
+                  <th className="px-3 py-2 text-right"><button onClick={() => changeTableSort("price")} className="font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground hover:text-primary">Price (AED)</button></th>
+                  <th className="px-3 py-2 text-left font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground">Primary / Secondary</th>
+                  <th className="px-3 py-2 text-right font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {tableRows.map(({ plot, area, transaction }, index) => (
+                  <tr key={`${plot.villaKey}-${transaction?.date ?? "none"}-${transaction?.priceAed ?? 0}-${index}`} className="hover:bg-accent/20">
+                    <td className="px-3 py-2 font-mono text-xs text-muted-foreground whitespace-nowrap">{transaction?.date ?? "—"}</td>
+                    <td className="px-3 py-2 font-medium text-foreground whitespace-nowrap">{plot.label}</td>
+                    <td className="px-3 py-2 text-xs text-muted-foreground whitespace-nowrap">{community.name}</td>
+                    <td className="px-3 py-2 text-right font-mono text-xs whitespace-nowrap">{formatArea(area, areaUnit)}</td>
+                    <td className="px-3 py-2 text-right font-mono text-xs whitespace-nowrap">{transaction ? transaction.priceAed.toLocaleString() : "No confirmed transaction"}</td>
+                    <td className="px-3 py-2 text-xs whitespace-nowrap">{transaction ? (transaction.saleType === "primary" ? "Primary" : "Secondary") : "—"}</td>
+                    <td className="px-3 py-2 text-right whitespace-nowrap">
+                      {slug === "saadiyat-golf-views" && <a href={`/map?plot=${encodeURIComponent(plot.villaKey)}`} className="text-xs text-primary hover:underline">Map</a>}
+                      {pdfIndex.get(plot.villaKey) && <a href={pdfIndex.get(plot.villaKey)!} target="_blank" rel="noopener noreferrer" className="ml-3 text-xs text-primary hover:underline">DCR</a>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       {filtered.length === 0 && (
         <div className="text-center py-12 text-muted-foreground">
           <p>No plots match your search.</p>
@@ -159,83 +264,6 @@ export default function CommunityPage() {
       )}
     </section>
 
-      {/* Transaction History for Golf Views */}
-      {slug === "saadiyat-golf-views" && golfViewsTransactionRecords.length > 0 && (
-        <section className="container py-10 sm:py-14 border-t border-border">
-          <div className="mb-6">
-            <div className="text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary mb-2">ADREC Records · SDN2</div>
-            <h2 className="font-display text-2xl sm:text-3xl text-foreground">
-              Transaction History
-            </h2>
-            <p className="text-sm text-muted-foreground mt-2 max-w-2xl">
-              {GOLF_VIEWS_TRANSACTION_SUMMARY.totalTransactions} confirmed ADREC transactions matched to {GOLF_VIEWS_TRANSACTION_SUMMARY.matchedPlots} Golf Views plots using their unique DCR land areas.
-              Source CSV updated 23 Aug 2026. Uncertain or unmatched SDN2 rows are excluded rather than assigned to the wrong plot.
-            </p>
-          </div>
-
-          <div className="border border-border rounded-md overflow-hidden bg-card">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-border bg-accent/30">
-                    <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Plot</th>
-                    <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Land (sqft)</th>
-                    <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Date</th>
-                    <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Type</th>
-                    <th className="text-right px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Price (AED)</th>
-                    <th className="text-right px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Rate/sqft</th>
-                    <th className="text-center px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Sales</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {[...golfViewsTransactionRecords]
-                    .sort((a, b) => b.transactions[b.transactions.length - 1].date.localeCompare(a.transactions[a.transactions.length - 1].date))
-                    .map((record) => {
-                      const lastTx = record.transactions[record.transactions.length - 1];
-                      const firstTx = record.transactions[0];
-                      let appreciation: number | null = null;
-                      if (record.transactions.length > 1) {
-                        appreciation = ((lastTx.priceAed - firstTx.priceAed) / firstTx.priceAed) * 100;
-                      }
-                      return (
-                        <tr key={record.villaKey} className="hover:bg-accent/20">
-                          <td className="px-3 py-2 font-mono text-xs text-foreground whitespace-nowrap">
-                            <a href={`#plot-${community.flatPlots?.find((plot) => plot.villaKey === record.villaKey)?.id ?? ""}`} className="hover:text-primary hover:underline">
-                              {community.flatPlots?.find((plot) => plot.villaKey === record.villaKey)?.label ?? record.villaKey.split("/").pop()}
-                            </a>
-                          </td>
-                          <td className="px-3 py-2 font-mono text-xs text-foreground">{record.landSqft.toLocaleString()}</td>
-                          <td className="px-3 py-2 font-mono text-xs text-muted-foreground whitespace-nowrap">{lastTx.date}</td>
-                          <td className="px-3 py-2">
-                            <span className={`text-[0.6rem] font-mono uppercase px-1.5 py-0.5 rounded-sm border ${
-                              lastTx.saleType === "primary"
-                                ? "text-primary border-primary/30 bg-primary/5"
-                                : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
-                            }`}>
-                              {lastTx.saleType === "primary" ? "Primary" : "Resale"}
-                            </span>
-                          </td>
-                          <td className="px-3 py-2 text-right font-mono text-xs text-foreground">{lastTx.priceAed.toLocaleString()}</td>
-                          <td className="px-3 py-2 text-right font-mono text-xs text-muted-foreground">{lastTx.ratePerSqft?.toLocaleString() ?? "—"}</td>
-                          <td className="px-3 py-2 text-center">
-                            <span className="font-mono text-xs text-muted-foreground">{record.transactions.length}</span>
-                            {appreciation !== null && (
-                              <span className={`ml-1.5 text-[0.6rem] font-mono ${
-                                appreciation >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
-                              }`}>
-                                {appreciation >= 0 ? "+" : ""}{appreciation.toFixed(0)}%
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-      )}
   </div>
   );
 }

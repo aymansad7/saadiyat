@@ -12,17 +12,17 @@ describe("Golf Views transaction import", () => {
     expect(GOLF_VIEWS_TRANSACTION_SUMMARY.plotsWithDcrArea).toBe(25);
   });
 
-  it("imports only the confirmed CSV matches", () => {
+  it("imports the exact and user-approved CSV matches", () => {
     const transactions = Object.values(golfViewsPlotData).flatMap(
       (plot) => plot.transactions,
     );
 
-    expect(golfViewsTransactionRecords).toHaveLength(19);
-    expect(transactions).toHaveLength(28);
-    expect(transactions.filter((tx) => tx.saleType === "primary")).toHaveLength(20);
-    expect(transactions.filter((tx) => tx.saleType === "secondary")).toHaveLength(8);
-    expect(GOLF_VIEWS_TRANSACTION_SUMMARY.excludedAmbiguousRows).toBe(1);
-    expect(GOLF_VIEWS_TRANSACTION_SUMMARY.excludedUnmatchedRows).toBe(92);
+    expect(golfViewsTransactionRecords).toHaveLength(18);
+    expect(transactions).toHaveLength(23);
+    expect(transactions.filter((tx) => tx.saleType === "primary")).toHaveLength(18);
+    expect(transactions.filter((tx) => tx.saleType === "secondary")).toHaveLength(5);
+    expect(transactions.filter((tx) => tx.confidence === "possible")).toHaveLength(1);
+    expect(GOLF_VIEWS_TRANSACTION_SUMMARY.excludedUnmatchedRows).toBe(14);
   });
 
   it("stores each plot history chronologically without duplicate events", () => {
@@ -54,5 +54,17 @@ describe("Golf Views transaction import", () => {
     expect(golfViewsPlotData["golf-views/SDN2_6-1_2"].transactions).toHaveLength(1);
     expect(golfViewsPlotData["golf-views/SDN2_6_7-6_8"].transactions).toHaveLength(1);
     expect(golfViewsPlotData["golf-views/SDN2_6_23-6_24"].transactions).toHaveLength(1);
+  });
+
+  it("assigns the user-confirmed AED 55M resales to Plot 6/6 only", () => {
+    const plotSixSales = golfViewsPlotData["golf-views/SDN2_6_6"].transactions;
+    const plotElevenSales = golfViewsPlotData["golf-views/SDN2_6_11"].transactions;
+
+    expect(plotSixSales.map((transaction) => transaction.date)).toEqual([
+      "2024-03-18",
+      "2024-05-30",
+    ]);
+    expect(plotSixSales.every((transaction) => transaction.priceAed === 55_000_000)).toBe(true);
+    expect(plotElevenSales.some((transaction) => transaction.priceAed === 55_000_000)).toBe(false);
   });
 });

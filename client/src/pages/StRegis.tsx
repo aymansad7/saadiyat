@@ -18,31 +18,32 @@ import PlotMap from "@/components/PlotMap";
 import VillaCard from "@/components/VillaCard";
 import { villas as ALL_VILLAS } from "@/data/villas";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Search, ChevronDown, ChevronUp, RotateCcw, FileText, MapPin, Globe2 } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, RotateCcw, FileText, MapPin, Globe2, LayoutGrid, Table2 } from "lucide-react";
 import { DownloadDcrPackButton } from "@/components/DownloadDcrPackButton";
 import { DownloadDcrBackupButton } from "@/components/DownloadDcrBackupButton";
 import { DCR_BACKUPS } from "@/data/dcrBackups";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
-
-const PLOT_MIN = Math.floor(Math.min(...ALL_VILLAS.map((v) => v.plotAreaSqm ?? 0)));
-const PLOT_MAX = Math.ceil(Math.max(...ALL_VILLAS.map((v) => v.plotAreaSqm ?? 0)));
+import AreaFilterControls from "@/components/AreaFilterControls";
+import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 
 type SortKey = "id" | "plot" | "gfa";
 
 export default function StRegis() {
   const [query, setQuery] = useState("");
   const [bedrooms, setBedrooms] = useState<string>("all");
-  const [plotRange, setPlotRange] = useState<[number, number]>([PLOT_MIN, PLOT_MAX]);
+  const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
+  const [areaMin, setAreaMin] = useState("");
+  const [areaMax, setAreaMax] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("id");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [hoverId, setHoverId] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [mapOpenMobile, setMapOpenMobile] = useState(true);
+  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
 
   const { index: listingIndex } = useListingIndex({ community: "st-regis" });
 
@@ -51,11 +52,10 @@ export default function StRegis() {
     return ALL_VILLAS.filter((v) => {
       if (q) {
         const hay = `${v.id} ${v.admPlotId} ${v.aldarPlotId}`.toLowerCase();
-        if (!hay.includes(q)) return false;
+        if (!hay.includes(q) && !matchesAreaQuery(q, { sqm: v.plotAreaSqm })) return false;
       }
       if (bedrooms !== "all" && v.bedrooms !== Number(bedrooms)) return false;
-      const pa = v.plotAreaSqm ?? 0;
-      if (pa < plotRange[0] || pa > plotRange[1]) return false;
+      if (!isWithinAreaRange({ sqm: v.plotAreaSqm }, areaUnit, areaMin, areaMax)) return false;
       return true;
     }).sort((a, b) => {
       const dir = sortDir === "asc" ? 1 : -1;
@@ -64,7 +64,7 @@ export default function StRegis() {
       if (sortKey === "gfa") return ((a.maxGfaSqm ?? 0) - (b.maxGfaSqm ?? 0)) * dir;
       return 0;
     });
-  }, [query, bedrooms, plotRange, sortKey, sortDir]);
+  }, [query, bedrooms, areaUnit, areaMin, areaMax, sortKey, sortDir]);
 
   const filteredIds = useMemo(() => new Set(filtered.map((v) => v.id)), [filtered]);
   const focusId = hoverId ?? activeId;
@@ -75,7 +75,8 @@ export default function StRegis() {
   function reset() {
     setQuery("");
     setBedrooms("all");
-    setPlotRange([PLOT_MIN, PLOT_MAX]);
+    setAreaMin("");
+    setAreaMax("");
     setSortKey("id");
     setSortDir("asc");
     setActiveId(null);
@@ -114,7 +115,7 @@ export default function StRegis() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by villa #, ADM or ALDAR ID…"
+              placeholder="Search villa, ID, or land area…"
               className="pl-9 bg-card border-border"
             />
           </div>
@@ -128,21 +129,14 @@ export default function StRegis() {
             </ToggleGroup>
           </div>
 
-          <div className="flex items-center gap-3 flex-1 max-w-md">
-            <span className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground whitespace-nowrap hidden sm:block">Plot area</span>
-            <Slider
-              value={plotRange}
-              onValueChange={(v) => setPlotRange([v[0], v[1]])}
-              min={PLOT_MIN}
-              max={PLOT_MAX}
-              step={10}
-              minStepsBetweenThumbs={1}
-              className="flex-1"
-            />
-            <span className="text-xs font-mono tabular text-foreground whitespace-nowrap">
-              {plotRange[0]}–{plotRange[1]} m²
-            </span>
-          </div>
+          <AreaFilterControls
+            unit={areaUnit}
+            onUnitChange={setAreaUnit}
+            min={areaMin}
+            max={areaMax}
+            onMinChange={setAreaMin}
+            onMaxChange={setAreaMax}
+          />
 
           <div className="flex items-center gap-2">
             <Select value={sortKey} onValueChange={(v) => setSortKey(v as SortKey)}>
@@ -168,6 +162,10 @@ export default function StRegis() {
               <RotateCcw className="h-3.5 w-3.5" />
               Reset
             </Button>
+            <div className="inline-flex rounded-md border border-border overflow-hidden">
+              <Button type="button" variant={viewMode === "cards" ? "default" : "ghost"} size="sm" onClick={() => setViewMode("cards")} className="rounded-none h-9 gap-1"><LayoutGrid className="h-3.5 w-3.5" /> Cards</Button>
+              <Button type="button" variant={viewMode === "table" ? "default" : "ghost"} size="sm" onClick={() => setViewMode("table")} className="rounded-none h-9 gap-1"><Table2 className="h-3.5 w-3.5" /> Table</Button>
+            </div>
             <DownloadDcrPackButton
               prefix="st-regis/"
               filename="StRegis-DCRs.zip"
@@ -197,7 +195,7 @@ export default function StRegis() {
       {/* Main split view */}
       <div className="flex-1 container py-5 sm:py-7 grid grid-cols-12 gap-5 lg:gap-7">
         {/* Map pane */}
-        <aside
+        {viewMode === "cards" && <aside
           className={[
             "col-span-12 lg:col-span-5 xl:col-span-5",
             mapOpenMobile ? "" : "hidden lg:block",
@@ -269,26 +267,40 @@ export default function StRegis() {
               );
             })()}
           </div>
-        </aside>
+        </aside>}
 
         {/* Cards grid */}
-        <main className="col-span-12 lg:col-span-7 xl:col-span-7">
+        <main className={viewMode === "table" ? "col-span-12" : "col-span-12 lg:col-span-7 xl:col-span-7"}>
           {filtered.length === 0 ? (
             <div className="text-center py-24 border border-dashed border-border rounded-md">
               <div className="font-display text-2xl text-foreground">No villas match these filters</div>
               <p className="text-sm text-muted-foreground mt-2">Try widening the plot-area range or clearing the search.</p>
               <Button onClick={reset} variant="outline" className="mt-4 bg-card">Reset filters</Button>
             </div>
+          ) : viewMode === "table" ? (
+            <div className="rounded-lg border border-border bg-card overflow-x-auto">
+              <table className="w-full min-w-[900px] text-sm">
+                <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
+                  <tr><th className="px-4 py-3">Villa</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Typology</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">Max GFA</th><th className="px-4 py-3">ADM Plot</th><th className="px-4 py-3">Details</th></tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {filtered.map((villa) => (
+                    <tr key={villa.id} className="hover:bg-accent/30"><td className="px-4 py-3 font-semibold">Villa {villa.id}</td><td className="px-4 py-3">{villa.bedrooms ? `${villa.bedrooms} BR` : "—"}</td><td className="px-4 py-3">{villa.buildingTypology ?? "—"}</td><td className="px-4 py-3 font-mono">{formatArea({ sqm: villa.plotAreaSqm }, areaUnit)}</td><td className="px-4 py-3 font-mono">{formatArea({ sqm: villa.maxGfaSqm }, areaUnit)}</td><td className="px-4 py-3 font-mono">{villa.admPlotId}</td><td className="px-4 py-3"><a href={`/st-regis/villa/${villa.id}`} className="text-primary hover:underline">Open</a></td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
               {filtered.map((v) => (
-                <VillaCard
+                  <VillaCard
                   key={v.id}
                   villa={v}
                   isActive={focusId === v.id}
                   onHover={setHoverId}
                   onSelect={(id) => setActiveId((cur) => (cur === id ? null : id))}
-                  listing={listingIndex.get(`st-regis/Plot-${v.id}`) ?? null}
+                    listing={listingIndex.get(`st-regis/Plot-${v.id}`) ?? null}
+                    areaUnit={areaUnit}
                 />
               ))}
             </div>

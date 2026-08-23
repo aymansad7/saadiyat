@@ -4,12 +4,13 @@
  * Click a dot → info window with full details.
  * Toggle button to show/hide owner info (ready for future data).
  */
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { MapView } from "@/components/Map";
 import { useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Layers } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Eye, EyeOff, Layers, Search } from "lucide-react";
 import { villas } from "@/data/villas";
 import { COMMUNITIES } from "@/data/communities";
 import { getPlotLandArea } from "@/data/plotLandAreas";
@@ -35,6 +36,13 @@ import { pfListings, findListingByVillaKey, PF_SUMMARY } from "@/data/propertyFi
 import type { PFListing } from "@/data/propertyFinderListings";
 import { hiddVillaCoords } from "@/data/hiddCoordinates";
 import { lagoonsVillaCoords } from "@/data/lagoonsCoordinates";
+import AreaFilterControls from "@/components/AreaFilterControls";
+import {
+  formatArea,
+  isWithinAreaRange,
+  matchesAreaQuery,
+  type AreaUnit,
+} from "@/lib/areaSearch";
 
 // Known community centers on Saadiyat Island
 const COMMUNITY_CENTERS = {
@@ -224,6 +232,10 @@ export default function SaadiyatMap() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [markerData] = useState<MapMarkerData[]>(() => buildMarkers());
   const [isSatellite, setIsSatellite] = useState(false);
+  const [mapQuery, setMapQuery] = useState("");
+  const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
+  const [areaMin, setAreaMin] = useState("");
+  const [areaMax, setAreaMax] = useState("");
   const searchString = useSearch();
   const plotParam = new URLSearchParams(searchString).get("plot");
 
@@ -239,11 +251,11 @@ export default function SaadiyatMap() {
     html += `<div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:4px">${communityLabel}</div>`;
     html += `<div style="font-size:16px;font-weight:600;margin-bottom:8px">${m.label}</div>`;
     
-    if (m.landSqft) {
-      html += `<div style="font-size:12px;color:#555;margin-bottom:4px">🏗️ Land: ${fmt(m.landSqft)} sqft (${m.landSqm ? m.landSqm.toFixed(0) : Math.round(m.landSqft * 0.092903)} m²)</div>`;
+    if (m.landSqft || m.landSqm) {
+      html += `<div style="font-size:12px;color:#555;margin-bottom:4px">Land: ${formatArea({ sqft: m.landSqft, sqm: m.landSqm }, areaUnit)}</div>`;
     }
     
-    if (m.lastPrice) {
+    if (m.lastPrice && (!m.transactions || m.transactions.length === 0)) {
       const typeLabel = m.saleType === "primary" ? "Primary" : "Resale";
       const typeColor = m.saleType === "primary" ? "#C75B12" : "#D97706";
       html += `<div style="margin-top:6px;padding:6px;background:#f9f5f0;border-radius:4px;border:1px solid #e5e0d8">`;
@@ -262,7 +274,7 @@ export default function SaadiyatMap() {
       html += `<div style="margin-top:7px;border:1px solid #e5e0d8;border-radius:4px;overflow:hidden">`;
       html += `<div style="padding:5px 7px;background:#f7f3ee;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#7c5b42">Transaction History · ${m.transactions.length}</div>`;
       html += `<div style="max-height:150px;overflow:auto;padding:3px 7px">`;
-      for (const transaction of [...m.transactions].reverse()) {
+      for (const transaction of m.transactions) {
         const badgeColor = transaction.saleType === "primary" ? "#C75B12" : "#D97706";
         const badge = transaction.saleType === "primary" ? "P" : "S";
         html += `<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-top:1px solid #eee6dd;font-size:11px">`;
@@ -270,6 +282,9 @@ export default function SaadiyatMap() {
         html += `<span style="color:#777">${transaction.date}</span>`;
         html += `<span style="margin-left:auto;font-weight:700">AED ${fmt(transaction.priceAed)}</span>`;
         html += `</div>`;
+        if (transaction.confidence === "possible") {
+          html += `<div style="margin:-2px 0 5px 20px;color:#92400e;font-size:9px">Possible match · area difference ${transaction.areaDifferenceSqm?.toFixed(2) ?? "—"} m²</div>`;
+        }
       }
       html += `</div></div>`;
     }
@@ -303,7 +318,7 @@ export default function SaadiyatMap() {
 
     html += `</div>`;
     return html;
-  }, [showOwners]);
+  }, [showOwners, areaUnit]);
 
   const handleMapReady = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
@@ -368,11 +383,6 @@ export default function SaadiyatMap() {
 
   const filterByCommunity = (community: string | null) => {
     setActiveFilter(community);
-    markersRef.current.forEach((marker, i) => {
-      const data = markerData[i];
-      const visible = !community || data.community === community;
-      marker.map = visible ? mapRef.current : null;
-    });
 
     // Zoom to filtered community
     if (community && mapRef.current) {
@@ -386,6 +396,25 @@ export default function SaadiyatMap() {
       mapRef.current.setZoom(14);
     }
   };
+
+  const markerMatchesFilters = useCallback((data: MapMarkerData) => {
+    if (activeFilter && data.community !== activeFilter) return false;
+    if (!isWithinAreaRange({ sqm: data.landSqm, sqft: data.landSqft }, areaUnit, areaMin, areaMax)) return false;
+    const q = mapQuery.trim().toLowerCase();
+    if (!q) return true;
+    const textMatch = `${data.label} ${data.villaKey ?? ""} ${COMMUNITY_CENTERS[data.community as keyof typeof COMMUNITY_CENTERS]?.label ?? ""}`
+      .toLowerCase()
+      .includes(q);
+    return textMatch || matchesAreaQuery(q, { sqm: data.landSqm, sqft: data.landSqft });
+  }, [activeFilter, areaUnit, areaMin, areaMax, mapQuery]);
+
+  useEffect(() => {
+    markersRef.current.forEach((marker, index) => {
+      marker.map = markerMatchesFilters(markerData[index]) ? mapRef.current : null;
+    });
+  }, [markerData, markerMatchesFilters]);
+
+  const visibleMarkerCount = markerData.filter(markerMatchesFilters).length;
 
   return (
     <div className="h-screen flex flex-col bg-background overflow-hidden">
@@ -415,6 +444,27 @@ export default function SaadiyatMap() {
                 <span className="hidden sm:inline">{val.label}</span>
               </Button>
             ))}
+          </div>
+          <div className="pointer-events-auto flex flex-wrap items-center gap-2 bg-background/90 backdrop-blur-sm rounded-lg px-2.5 py-2 shadow-md border border-border/50">
+            <div className="relative">
+              <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+              <Input
+                value={mapQuery}
+                onChange={(event) => setMapQuery(event.target.value)}
+                placeholder="Plot or area…"
+                className="h-8 w-40 pl-7 text-xs bg-card"
+              />
+            </div>
+            <AreaFilterControls
+              unit={areaUnit}
+              onUnitChange={setAreaUnit}
+              min={areaMin}
+              max={areaMax}
+              onMinChange={setAreaMin}
+              onMaxChange={setAreaMax}
+              compact
+            />
+            <span className="font-mono text-[0.65rem] text-muted-foreground whitespace-nowrap">{visibleMarkerCount} shown</span>
           </div>
           <div className="pointer-events-auto ml-auto flex gap-1.5">
             <Button

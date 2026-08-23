@@ -9,6 +9,7 @@ import type { Villa } from "@/data/villas";
 import { getVillaTransactions } from "@/data/stregisTransactions";
 import { getPlotLandArea } from "@/data/plotLandAreas";
 import type { ListingIndexEntry } from "@/hooks/useListingIndex";
+import { formatArea, type AreaUnit } from "@/lib/areaSearch";
 import {
   EditListingButton,
   ListingBadge,
@@ -21,9 +22,10 @@ interface Props {
   onHover: (id: number | null) => void;
   onSelect: (id: number) => void;
   listing?: ListingIndexEntry | null;
+  areaUnit?: AreaUnit;
 }
 
-export default function VillaCard({ villa: v, isActive, onHover, onSelect, listing }: Props) {
+export default function VillaCard({ villa: v, isActive, onHover, onSelect, listing, areaUnit = "sqm" }: Props) {
   const villaKey = `st-regis/Plot-${v.id}`;
   const transactions = getVillaTransactions(v.id);
   return (
@@ -111,8 +113,8 @@ export default function VillaCard({ villa: v, isActive, onHover, onSelect, listi
               <dt className="text-[0.62rem] uppercase tracking-[0.14em] font-mono text-muted-foreground">Plot</dt>
               <dd className="tabular text-foreground mt-0.5">{(() => {
                 const dcr = getPlotLandArea(`st-regis/Plot-${v.id}`);
-                if (dcr) return `${dcr.sqft.toLocaleString()} sqft`;
-                return v.plotAreaSqm ? `${v.plotAreaSqm.toFixed(0)} m²` : "—";
+                if (dcr) return formatArea(dcr, areaUnit);
+                return v.plotAreaSqm ? formatArea({ sqm: v.plotAreaSqm }, areaUnit) : "—";
               })()}</dd>
             </div>
             <div>

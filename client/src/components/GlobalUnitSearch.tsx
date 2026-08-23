@@ -70,7 +70,7 @@ export default function GlobalUnitSearch() {
         <Input
           ref={inputRef}
           type="text"
-          placeholder="Search by unit number (e.g. B1-APT-101, AlGhaf-203-02)…"
+          placeholder="Search unit, project, or area (e.g. 250 m² / 2,691 sqft)…"
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -128,6 +128,12 @@ export default function GlobalUnitSearch() {
                           {datasetLabel(r.dataset)}
                         </span>
                       </div>
+                      {r.areaSqm != null && (
+                        <div className="text-[0.65rem] font-mono text-muted-foreground mt-0.5">
+                          {r.areaSqm.toLocaleString(undefined, { maximumFractionDigits: 1 })} m²
+                          {r.areaSqft != null ? ` · ${r.areaSqft.toLocaleString(undefined, { maximumFractionDigits: 0 })} sqft` : ""}
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <span className={`text-xs font-mono ${statusColor(r.status)}`}>

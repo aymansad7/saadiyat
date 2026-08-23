@@ -72,3 +72,18 @@ describe("unitSearch.search", () => {
     await expect(caller.unitSearch.search({ q: "test" })).rejects.toThrow(TRPCError);
   });
 });
+
+describe("unitSearch.filter", () => {
+  it("filters units by the normalized square-metre area range", async () => {
+    const caller = appRouter.createCaller(anonCtx);
+    const res = await caller.unitSearch.filter({
+      availableOnly: false,
+      areaMinSqm: 100,
+      areaMaxSqm: 150,
+      limit: 100,
+    });
+
+    expect(res.results.length).toBeGreaterThan(0);
+    expect(res.results.every((unit) => unit.areaSqm != null && unit.areaSqm >= 100 && unit.areaSqm <= 150)).toBe(true);
+  });
+});

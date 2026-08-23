@@ -3,8 +3,12 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { LayoutGrid, Table2 } from "lucide-react";
 import hiddDataRaw from "../../../server/data/hidd_al_saadiyat.json";
 import { hiddPlotRecords, HIDD_SUMMARY } from "@/data/hiddTransactions";
+import AreaFilterControls from "@/components/AreaFilterControls";
+import { formatArea, isWithinAreaRange, matchesAreaQuery, sqftToSqm, type AreaUnit } from "@/lib/areaSearch";
 
 interface HiddVilla {
   villaNumber?: string;
@@ -62,8 +66,24 @@ function DetailRow({ label, value }: { label: string; value?: string }) {
   );
 }
 
-function VillaCard({ villa, isAdmin }: { villa: HiddVilla; isAdmin: boolean }) {
+function numericArea(value?: string): number | undefined {
+  if (!value) return undefined;
+  const parsed = Number(value.replace(/,/g, "").match(/\d+(?:\.\d+)?/)?.[0]);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function villaAreas(villa: HiddVilla) {
+  const plotSqft = numericArea(villa.plotAreaSqFt);
+  const buaSqm = numericArea(villa.buaAreaSqM);
+  return {
+    plot: { sqft: plotSqft, sqm: plotSqft != null ? sqftToSqm(plotSqft) : undefined },
+    bua: { sqm: buaSqm },
+  };
+}
+
+function VillaCard({ villa, isAdmin, areaUnit }: { villa: HiddVilla; isAdmin: boolean; areaUnit: AreaUnit }) {
   const [expanded, setExpanded] = useState(false);
+  const areas = villaAreas(villa);
 
   return (
     <Card className="hover:shadow-md transition-shadow">
@@ -81,6 +101,9 @@ function VillaCard({ villa, isAdmin }: { villa: HiddVilla; isAdmin: boolean }) {
           {villa.street && <span>Street {villa.street}</span>}
           {villa.admPlotNumber && <span>ADM: {villa.admPlotNumber}</span>}
           {villa.villaType && <span>Type {villa.villaType}</span>}
+        </div>
+        <div className="mt-2 text-xs font-mono text-foreground/80">
+          Plot {formatArea(areas.plot, areaUnit)} · BUA {formatArea(areas.bua, areaUnit)}
         </div>
       </CardHeader>
       {expanded && (
@@ -160,6 +183,10 @@ export default function HiddAlSaadiyat() {
   const isAdmin = user?.role === "admin" || user?.role === "master";
   const [search, setSearch] = useState("");
   const [zoneFilter, setZoneFilter] = useState("");
+  const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
+  const [areaMin, setAreaMin] = useState("");
+  const [areaMax, setAreaMax] = useState("");
+  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
 
   const zones = useMemo(() => {
     const s = new Set<string>();
@@ -172,21 +199,29 @@ export default function HiddAlSaadiyat() {
     if (zoneFilter) {
       list = list.filter((v) => v.zone === zoneFilter);
     }
+    list = list.filter((villa) => {
+      const areas = villaAreas(villa);
+      const preferred = areas.plot.sqm != null ? areas.plot : areas.bua;
+      return isWithinAreaRange(preferred, areaUnit, areaMin, areaMax);
+    });
     if (search.trim()) {
       const q = search.trim().toLowerCase();
       list = list.filter(
-        (v) =>
+        (v) => {
+          const areas = villaAreas(v);
+          return matchesAreaQuery(q, areas.plot) || matchesAreaQuery(q, areas.bua) ||
           v.villaNumber?.toLowerCase().includes(q) ||
           v.street?.toLowerCase().includes(q) ||
           v.admPlotNumber?.toLowerCase().includes(q) ||
           v.plotNumberAlJaber?.toLowerCase().includes(q) ||
           v.zone?.toLowerCase().includes(q) ||
           (isAdmin && v.owner1Name?.toLowerCase().includes(q)) ||
-          (isAdmin && v.tenantName?.toLowerCase().includes(q))
+          (isAdmin && v.tenantName?.toLowerCase().includes(q));
+        }
       );
     }
     return list;
-  }, [search, zoneFilter, isAdmin]);
+  }, [search, zoneFilter, isAdmin, areaUnit, areaMin, areaMax]);
 
   return (
     <div className="container py-8 max-w-6xl">
@@ -198,9 +233,9 @@ export default function HiddAlSaadiyat() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-6">
         <Input
-          placeholder="Search by villa #, street, ADM plot #, zone..."
+          placeholder="Search villa, street, plot, or area..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="sm:max-w-xs"
@@ -217,6 +252,11 @@ export default function HiddAlSaadiyat() {
             </option>
           ))}
         </select>
+        <AreaFilterControls unit={areaUnit} onUnitChange={setAreaUnit} min={areaMin} max={areaMax} onMinChange={setAreaMin} onMaxChange={setAreaMax} compact />
+        <div className="inline-flex rounded-md border border-border overflow-hidden">
+          <Button type="button" variant={viewMode === "cards" ? "default" : "ghost"} size="sm" onClick={() => setViewMode("cards")} className="rounded-none gap-1"><LayoutGrid className="h-3.5 w-3.5" /> Cards</Button>
+          <Button type="button" variant={viewMode === "table" ? "default" : "ghost"} size="sm" onClick={() => setViewMode("table")} className="rounded-none gap-1"><Table2 className="h-3.5 w-3.5" /> Table</Button>
+        </div>
       </div>
 
       {/* Results count */}
@@ -225,12 +265,28 @@ export default function HiddAlSaadiyat() {
         {!isAdmin && " (owner/tenant details visible to admin only)"}
       </p>
 
-      {/* Villa Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((villa, i) => (
-          <VillaCard key={`${villa.zone}-${villa.villaNumber}-${i}`} villa={villa} isAdmin={isAdmin} />
-        ))}
-      </div>
+      {/* Villa Results */}
+      {viewMode === "table" ? (
+        <div className="rounded-lg border border-border bg-card overflow-x-auto">
+          <table className="w-full min-w-[900px] text-sm">
+            <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
+              <tr><th className="px-4 py-3">Villa</th><th className="px-4 py-3">Street</th><th className="px-4 py-3">Zone</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">BUA</th>{isAdmin && <th className="px-4 py-3">Owner</th>}</tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {filtered.map((villa, i) => {
+                const areas = villaAreas(villa);
+                return <tr key={`${villa.zone}-${villa.villaNumber}-${i}`} className="hover:bg-accent/30"><td className="px-4 py-3 font-semibold">{villa.villaNumber ?? "—"}</td><td className="px-4 py-3">{villa.street ?? "—"}</td><td className="px-4 py-3">{villa.zone ?? "—"}</td><td className="px-4 py-3">{villa.bedrooms ?? "—"}</td><td className="px-4 py-3 font-mono">{formatArea(areas.plot, areaUnit)}</td><td className="px-4 py-3 font-mono">{formatArea(areas.bua, areaUnit)}</td>{isAdmin && <td className="px-4 py-3">{villa.owner1Name ?? "—"}</td>}</tr>;
+              })}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filtered.map((villa, i) => (
+            <VillaCard key={`${villa.zone}-${villa.villaNumber}-${i}`} villa={villa} isAdmin={isAdmin} areaUnit={areaUnit} />
+          ))}
+        </div>
+      )}
 
       {filtered.length === 0 && (
         <div className="text-center py-12 text-muted-foreground">
@@ -256,7 +312,7 @@ export default function HiddAlSaadiyat() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-accent/30">
-                  <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Land (sqft)</th>
+                  <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Land ({areaUnit === "sqm" ? "m²" : "sqft"})</th>
                   <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Project</th>
                   <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Date</th>
                   <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Layout</th>
@@ -278,7 +334,7 @@ export default function HiddAlSaadiyat() {
                     }
                     return (
                       <tr key={record.landSqft} className="hover:bg-accent/20">
-                        <td className="px-3 py-2 font-mono text-xs text-foreground">{record.landSqft.toLocaleString()}</td>
+                        <td className="px-3 py-2 font-mono text-xs text-foreground">{formatArea({ sqft: record.landSqft }, areaUnit)}</td>
                         <td className="px-3 py-2 text-xs text-muted-foreground truncate max-w-[120px]">{lastTx.project.replace("Hidd Al Saadiyat - ", "")}</td>
                         <td className="px-3 py-2 font-mono text-xs text-muted-foreground whitespace-nowrap">{lastTx.date}</td>
                         <td className="px-3 py-2 text-xs text-muted-foreground">{lastTx.layout}</td>

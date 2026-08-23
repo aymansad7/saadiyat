@@ -6,19 +6,22 @@
  * If the PDF isn't in DB (rare 404 plots), we show a disabled "Not available"
  * pill instead of leaking the external URL.
  */
-import { FileText, MapPin, Loader2, TrendingUp, TrendingDown, ArrowUpRight, Map } from "lucide-react";
+import { FileText, MapPin, Loader2, ArrowUpRight, Map } from "lucide-react";
 import { Link } from "wouter";
 import type { SimplePlot } from "@/data/communities";
 import { MYLAND_URL } from "@/data/communities";
 import { useDcrPdfUrl } from "@/hooks/useDcrPdfUrl";
 import type { ListingIndexEntry } from "@/hooks/useListingIndex";
 import type { PFListing } from "@/data/propertyFinderListings";
+import { formatArea, type AreaUnit } from "@/lib/areaSearch";
 
 export interface PlotTransaction {
   date: string;
   priceAed: number;
   saleType: "primary" | "secondary";
   ratePerSqft: number | null;
+  confidence?: "exact" | "approved" | "possible" | "user-confirmed";
+  areaDifferenceSqm?: number;
 }
 import {
   EditListingButton,
@@ -44,8 +47,12 @@ interface Props {
   community?: string;
   /** Optional transaction history for this plot */
   transactions?: PlotTransaction[];
+  /** Show a clear empty transaction state when no confirmed history exists. */
+  showTransactionStatus?: boolean;
   /** Optional land area in sqft (from transaction data) */
   landSqft?: number;
+  /** Preferred land-area display unit. Defaults to square metres. */
+  areaUnit?: AreaUnit;
   /** Optional link to detail page */
   detailHref?: string;
   /** Optional deep link to this plot on the interactive map */
@@ -63,7 +70,9 @@ export default function SimplePlotCard({
   listing,
   community,
   transactions,
+  showTransactionStatus,
   landSqft,
+  areaUnit = "sqm",
   detailHref,
   mapHref,
   pfListing,
@@ -98,74 +107,45 @@ export default function SimplePlotCard({
           </h3>
           {landSqft && (
             <div className="font-mono text-xs text-muted-foreground mt-1">
-              {landSqft.toLocaleString()} sqft · {(landSqft * 0.092903).toFixed(0)} m²
+              {formatArea({ sqft: landSqft }, areaUnit)}
             </div>
           )}
-          {transactions && transactions.length > 0 && (() => {
-            const last = transactions[transactions.length - 1];
-            const fmtPrice = new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(last.priceAed);
-            const isPrimary = last.saleType === "primary";
-            const firstPrimary = transactions.find(t => t.saleType === "primary");
-            const lastSecondary = [...transactions].reverse().find(t => t.saleType === "secondary");
-            let appreciation: number | null = null;
-            if (firstPrimary && lastSecondary && lastSecondary.date > firstPrimary.date) {
-              appreciation = ((lastSecondary.priceAed - firstPrimary.priceAed) / firstPrimary.priceAed) * 100;
-            }
-            return (
-              <div className="mt-2 p-2 rounded-md border border-border bg-accent/30">
-                <div className="flex items-center gap-1.5 mb-1">
-                  <span className={`text-[0.6rem] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded-sm border ${
-                    isPrimary
-                      ? "text-primary border-primary/30 bg-primary/5"
-                      : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
-                  }`}>
-                    {isPrimary ? "Primary" : "Resale"}
-                  </span>
-                  <span className="text-[0.6rem] font-mono text-muted-foreground">{last.date}</span>
-                  {appreciation !== null && (
-                    <span className={`ml-auto text-[0.65rem] font-mono flex items-center gap-0.5 ${
-                      appreciation >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
-                    }`}>
-                      {appreciation >= 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
-                      {appreciation >= 0 ? "+" : ""}{appreciation.toFixed(0)}%
-                    </span>
-                  )}
-                </div>
-                <div className="font-display text-base text-foreground">
-                  AED {fmtPrice}
-                </div>
-                <div className="text-[0.6rem] font-mono text-muted-foreground mt-0.5">
-                  {last.ratePerSqft ? `${last.ratePerSqft.toLocaleString()} AED/sqft · ` : ""}{transactions.length} sale{transactions.length > 1 ? "s" : ""}
-                </div>
+          {transactions && transactions.length > 0 && (
+            <div className="mt-2 rounded-md border border-border bg-accent/20 overflow-hidden">
+              <div className="px-2.5 py-1.5 border-b border-border bg-accent/30 text-[0.62rem] font-mono uppercase tracking-wider text-primary">
+                Transaction history · {transactions.length} sale{transactions.length > 1 ? "s" : ""}
               </div>
-            );
-          })()}
-          {transactions && transactions.length > 1 && (
-            <details className="mt-2 rounded-md border border-border bg-background/70 px-2.5 py-2">
-              <summary className="cursor-pointer text-[0.65rem] font-mono uppercase tracking-wider text-primary select-none">
-                Full history · {transactions.length} sales
-              </summary>
-              <div className="mt-2 space-y-1.5">
-                {[...transactions].reverse().map((transaction, index) => (
+              <div className="px-2.5 py-1">
+                {transactions.map((transaction, index) => (
                   <div
-                    key={`${transaction.date}-${transaction.priceAed}-${index}`}
-                    className="flex items-center gap-2 border-t border-border/70 pt-1.5 first:border-t-0 first:pt-0"
+                    key={`${transaction.date}-${transaction.priceAed}-${transaction.saleType}-${index}`}
+                    className="flex items-center gap-1.5 border-t border-border/70 py-1.5 first:border-t-0"
                   >
-                    <span className={`text-[0.55rem] font-mono uppercase px-1 py-0.5 rounded-sm border ${
+                    <span className={`text-[0.52rem] font-mono uppercase px-1 py-0.5 rounded-sm border ${
                       transaction.saleType === "primary"
                         ? "text-primary border-primary/30 bg-primary/5"
                         : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
                     }`}>
-                      {transaction.saleType === "primary" ? "P" : "S"}
+                      {transaction.saleType === "primary" ? "Primary" : "Resale"}
                     </span>
-                    <span className="text-[0.62rem] font-mono text-muted-foreground">{transaction.date}</span>
-                    <span className="ml-auto text-[0.65rem] font-mono text-foreground">
+                    <span className="text-[0.58rem] font-mono text-muted-foreground whitespace-nowrap">{transaction.date}</span>
+                    <span className="ml-auto text-[0.62rem] font-mono font-semibold text-foreground whitespace-nowrap">
                       AED {new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(transaction.priceAed)}
                     </span>
                   </div>
                 ))}
               </div>
-            </details>
+              {transactions.some((transaction) => transaction.confidence === "possible") && (
+                <div className="border-t border-amber-300/60 bg-amber-50/80 px-2.5 py-2 text-[0.58rem] font-mono text-amber-800 dark:border-amber-700 dark:bg-amber-950/30 dark:text-amber-300">
+                  Possible transaction match — the recorded land area differs from this DCR plot area.
+                </div>
+              )}
+            </div>
+          )}
+          {showTransactionStatus && (!transactions || transactions.length === 0) && (
+            <div className="mt-2 rounded-md border border-dashed border-border bg-muted/30 px-2.5 py-2 text-[0.6rem] font-mono text-muted-foreground">
+              No confirmed transaction matched to this DCR land area.
+            </div>
           )}
           {listing?.askingPriceAed ? (
             <div className="mt-1.5">

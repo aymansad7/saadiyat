@@ -27,7 +27,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, RotateCcw, ExternalLink } from "lucide-react";
+import { Search, RotateCcw, ExternalLink, LayoutGrid, Table2 } from "lucide-react";
+import AreaFilterControls from "@/components/AreaFilterControls";
+import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 
 const CLUSTER_LABELS: Record<string, string> = {
   ethir: "Ethir",
@@ -47,8 +49,6 @@ export default function LagoonsCluster() {
   const label = CLUSTER_LABELS[cluster];
   const { data: allRaw } = trpc.lagoons.villasByCluster.useQuery({ cluster });
   const all = (allRaw ?? []) as LagoonsVilla[];
-  const { data: summaryData } = trpc.lagoons.summary.useQuery();
-  const summary = summaryData?.summary?.[cluster];
   // Bulk-fetch listings for this cluster only (e.g. saadiyat-lagoons/ethir-…)
   const { index: listingIndex } = useListingIndex({
     prefix: `saadiyat-lagoons/${cluster}-`,
@@ -75,6 +75,10 @@ export default function LagoonsCluster() {
   const [posFilter, setPosFilter] = useState<PositionFilter>("all");
   const [availFilter, setAvailFilter] = useState<AvailabilityFilter>(initialAvail);
   const [pageSize, setPageSize] = useState<number>(48);
+  const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
+  const [areaMin, setAreaMin] = useState("");
+  const [areaMax, setAreaMax] = useState("");
+  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
 
   // Keep filter in sync if the user navigates to a different ?avail= URL
   useEffect(() => {
@@ -94,11 +98,23 @@ export default function LagoonsCluster() {
     return counts;
   }, [all]);
 
+  const bedroomCounts = useMemo(() => {
+    const counts: Record<string, number> = { "4": 0, "5": 0, "6": 0 };
+    for (const villa of all) {
+      const key = String(villa.bedrooms ?? "");
+      if (key in counts) counts[key] += 1;
+    }
+    return counts;
+  }, [all]);
+
 
   const filtered: LagoonsVilla[] = useMemo(() => {
     const q = query.trim().toLowerCase();
     return all
       .filter((v) => {
+        const plotArea = { sqm: v.plot_area_sqm };
+        const saleableArea = { sqm: v.saleable_area_sqm };
+        if (!isWithinAreaRange(plotArea, areaUnit, areaMin, areaMax)) return false;
         if (bedFilter !== "all" && String(v.bedrooms) !== bedFilter) return false;
         if (posFilter !== "all" && v.position_type !== posFilter) return false;
         if (availFilter !== "all") {
@@ -112,7 +128,7 @@ export default function LagoonsCluster() {
           }
         }
         if (q) {
-          return (
+          return matchesAreaQuery(q, plotArea) || matchesAreaQuery(q, saleableArea) || (
             v.short_name.toLowerCase().includes(q) ||
             v.unit_name.toLowerCase().includes(q) ||
             (v.variant ?? "").toLowerCase().includes(q)
@@ -127,7 +143,7 @@ export default function LagoonsCluster() {
         if (ap !== bp) return ap - bp;
         return a.short_name.localeCompare(b.short_name, undefined, { numeric: true });
       });
-  }, [all, query, bedFilter, posFilter, availFilter]);
+  }, [all, query, bedFilter, posFilter, availFilter, areaUnit, areaMin, areaMax]);
 
   const visible = filtered.slice(0, pageSize);
 
@@ -137,6 +153,8 @@ export default function LagoonsCluster() {
     setPosFilter("all");
     setAvailFilter("all");
     setPageSize(48);
+    setAreaMin("");
+    setAreaMax("");
   }
 
   return (
@@ -158,7 +176,7 @@ export default function LagoonsCluster() {
               {label}
               <span className="text-muted-foreground italic">
                 {" "}
-                — {summary?.total ?? all.length} villas
+                — {all.length} villas
               </span>
             </h1>
             <p className="text-sm text-muted-foreground mt-3 max-w-2xl">
@@ -170,15 +188,15 @@ export default function LagoonsCluster() {
           <div className="col-span-12 md:col-span-4 flex flex-wrap gap-3 md:justify-end">
             <Stat
               label="4 BR"
-              value={String(summary?.by_model?.["4BHK"] ?? 0)}
+              value={String(bedroomCounts["4"])}
             />
             <Stat
               label="5 BR"
-              value={String(summary?.by_model?.["5BHK"] ?? 0)}
+              value={String(bedroomCounts["5"])}
             />
             <Stat
               label="6 BR"
-              value={String(summary?.by_model?.["6BHK"] ?? 0)}
+              value={String(bedroomCounts["6"])}
             />
           </div>
         </div>
@@ -192,10 +210,19 @@ export default function LagoonsCluster() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search villa (e.g. 001-01, A0, MIRROR)…"
+              placeholder="Search villa or area…"
               className="pl-9 bg-card border-border h-9"
             />
           </div>
+          <AreaFilterControls
+            unit={areaUnit}
+            onUnitChange={setAreaUnit}
+            min={areaMin}
+            max={areaMax}
+            onMinChange={setAreaMin}
+            onMaxChange={setAreaMax}
+            compact
+          />
           <div className="flex items-center gap-2 flex-wrap">
             <FilterSelect
               label="Bedrooms"
@@ -255,6 +282,10 @@ export default function LagoonsCluster() {
                 <SelectItem value="9999">Show all</SelectItem>
               </SelectContent>
             </Select>
+            <div className="inline-flex rounded-md border border-border overflow-hidden">
+              <Button type="button" variant={viewMode === "cards" ? "default" : "ghost"} size="sm" onClick={() => setViewMode("cards")} className="rounded-none h-9 gap-1"><LayoutGrid className="h-3.5 w-3.5" /> Cards</Button>
+              <Button type="button" variant={viewMode === "table" ? "default" : "ghost"} size="sm" onClick={() => setViewMode("table")} className="rounded-none h-9 gap-1"><Table2 className="h-3.5 w-3.5" /> Table</Button>
+            </div>
             <Button
               variant="ghost"
               size="sm"
@@ -302,6 +333,26 @@ export default function LagoonsCluster() {
               Reset
             </Button>
           </div>
+        ) : viewMode === "table" ? (
+          <div className="rounded-lg border border-border bg-card overflow-x-auto">
+            <table className="w-full min-w-[850px] text-sm">
+              <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
+                <tr><th className="px-4 py-3">Villa</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Position</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">Saleable</th><th className="px-4 py-3">Status</th></tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {visible.map((v) => (
+                  <tr key={v.unit_name} className="hover:bg-accent/30">
+                    <td className="px-4 py-3 font-semibold">{v.short_name}</td>
+                    <td className="px-4 py-3">{v.bedrooms ? `${v.bedrooms} BR` : "—"}</td>
+                    <td className="px-4 py-3 capitalize">{v.position_type ?? "—"}</td>
+                    <td className="px-4 py-3 font-mono">{formatArea({ sqm: v.plot_area_sqm }, areaUnit)}</td>
+                    <td className="px-4 py-3 font-mono">{formatArea({ sqm: v.saleable_area_sqm }, areaUnit)}</td>
+                    <td className="px-4 py-3">{v.status ?? "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -310,6 +361,7 @@ export default function LagoonsCluster() {
                   key={v.unit_name}
                   villa={v}
                   listing={listingIndex.get(lagoonsVillaKey(v)) ?? null}
+                  areaUnit={areaUnit}
                 />
               ))}
             </div>

@@ -10,7 +10,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SOURCE_PATH = PROJECT_ROOT / "client/src/data/golfViewsPlotData.ts"
-AUDIT_PATH = PROJECT_ROOT / "tmp/golf-views-csv-analysis.json"
+AUDIT_PATH = PROJECT_ROOT / "tmp/golf-views-authoritative-audit.json"
 OUTPUT_PATH = SOURCE_PATH
 
 
@@ -43,15 +43,64 @@ def main() -> None:
     source = SOURCE_PATH.read_text(encoding="utf-8")
     plots = parse_dcr_plots(source)
     audit = json.loads(AUDIT_PATH.read_text(encoding="utf-8"))
-    histories = audit["histories"]
+    plot_lookup = {plot["villaKey"]: plot for plot in plots}
+    histories: dict[str, list[dict]] = {}
+    seen: set[tuple] = set()
+    accepted_rows = [
+        row
+        for row in audit["allRows"]
+        if row["status"] in {"exact", "user-confirmed", "needs-approval"}
+    ]
+    for row in accepted_rows:
+        villa_key = row.get("assignedVillaKey") or row["nearestVillaKey"]
+        identity = (
+            villa_key,
+            row["date"],
+            row["priceAed"],
+            row["saleType"],
+            row["landSqm"],
+        )
+        if identity in seen:
+            continue
+        seen.add(identity)
+        plot = plot_lookup[villa_key]
+        is_possible = (
+            row["status"] == "needs-approval"
+            and row["priceAed"] == 10_173_628
+            and abs(row["landSqm"] - 2845.15) <= 0.01
+        )
+        confidence = (
+            "possible"
+            if is_possible
+            else "approved"
+            if row["status"] == "needs-approval"
+            else row["status"]
+        )
+        histories.setdefault(villa_key, []).append(
+            {
+                "date": row["date"],
+                "priceAed": row["priceAed"],
+                "saleType": row["saleType"],
+                "ratePerSqft": round(row["priceAed"] / plot["landSqft"]),
+                "confidence": confidence,
+                "areaDifferenceSqm": row["differenceSqm"],
+            }
+        )
+
+    for transactions in histories.values():
+        transactions.sort(key=lambda transaction: (transaction["date"], transaction["priceAed"]))
+
+    final_matched_plot_count = sum(bool(transactions) for transactions in histories.values())
 
     lines = [
         "/**",
         " * Golf Views Plot Land Areas & Transaction History",
         " * DCR land areas are the authoritative plot identifiers.",
         " * Transactions source: ADREC SDN2 CSV supplied 23 Aug 2026.",
-        " * Matching policy: only near-exact or clearly unique land-area matches are included.",
-        f" * Imported: {audit['matchedRowCountAfterDedupe']} transactions across {audit['matchedPlotCount']} plots; ambiguous/unmatched rows are excluded.",
+        " * Matching policy: exact matches plus user-approved candidates within 10 m² are included.",
+        f" * Imported: {len(seen)} transactions across {final_matched_plot_count} plots; rows over 10 m² are excluded.",
+        " * User-confirmed correction: AED 55M resales dated 2024-03-18 and 2024-05-30 belong to Plot 6/6, not Plot 6/11.",
+        " * Plot 6/15 transaction dated 2020-06-28 is marked Possible because two DCR plots are close in area.",
         " */",
         'import type { PlotTransaction } from "@/components/SimplePlotCard";',
         "",
@@ -91,7 +140,9 @@ def main() -> None:
                 f'date: "{transaction["date"]}", '
                 f'priceAed: {transaction["priceAed"]}, '
                 f'saleType: "{sale_type}", '
-                f'ratePerSqft: {format_number(transaction["ratePerSqft"])} '
+                f'ratePerSqft: {format_number(transaction["ratePerSqft"])}, '
+                f'confidence: "{transaction["confidence"]}", '
+                f'areaDifferenceSqm: {format_number(transaction["areaDifferenceSqm"])} '
                 "},"
             )
         lines.extend(["    ],", "  },"])
@@ -110,14 +161,14 @@ def main() -> None:
             "  .filter((plot) => plot.transactions.length > 0);",
             "",
             "export const GOLF_VIEWS_TRANSACTION_SUMMARY = {",
-            f"  totalTransactions: {audit['matchedRowCountAfterDedupe']},",
-            f"  matchedPlots: {audit['matchedPlotCount']},",
+            f"  totalTransactions: {len(seen)},",
+            f"  matchedPlots: {final_matched_plot_count},",
             f"  plotsWithDcrArea: {len(plots)},",
             f"  primaryTransactions: {total_primary},",
             f"  secondaryTransactions: {total_secondary},",
             f'  dateRange: {{ from: "{min(dates)}", to: "{max(dates)}" }},',
-            f"  excludedAmbiguousRows: {audit['statusCounts'].get('ambiguous', 0)},",
-            f"  excludedUnmatchedRows: {audit['statusCounts'].get('unmatched', 0)},",
+            "  possibleTransactions: 1,",
+            f"  excludedUnmatchedRows: {audit['statusCounts'].get('not-matched', 0)},",
             '} as const;',
             "",
         ]
@@ -128,8 +179,8 @@ def main() -> None:
         json.dumps(
             {
                 "plotsWithDcrArea": len(plots),
-                "matchedPlots": audit["matchedPlotCount"],
-                "totalTransactions": audit["matchedRowCountAfterDedupe"],
+                "matchedPlots": final_matched_plot_count,
+                "totalTransactions": len(seen),
                 "primaryTransactions": total_primary,
                 "secondaryTransactions": total_secondary,
                 "dateRange": {"from": min(dates), "to": max(dates)},

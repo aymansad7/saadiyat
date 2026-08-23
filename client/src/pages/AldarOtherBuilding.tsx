@@ -6,10 +6,11 @@
  */
 import { useMemo, useState } from "react";
 import { useParams, Link } from "wouter";
-import { Building2, Sparkles, ArrowUpDown, Lock, Search, Eye, EyeOff, User } from "lucide-react";
+import { Building2, Sparkles, ArrowUpDown, Lock, Search, Eye, EyeOff, User, LayoutGrid, Table2 } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select,
@@ -22,7 +23,7 @@ import MasterGate from "@/components/MasterGate";
 import { trpc } from "@/lib/trpc";
 import { statusBucket } from "@/data/aldar";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
-import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
+import { fmtAed, shortUnitNumber } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import {
@@ -30,6 +31,8 @@ import {
   ListingBadge,
   ListingPriceLabel,
 } from "@/components/ListingControls";
+import AreaFilterControls from "@/components/AreaFilterControls";
+import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 
 function Inner() {
   const { project: projectSlug, building: buildingSlug } = useParams<{
@@ -39,9 +42,13 @@ function Inner() {
 
   const [liveOnly, setLiveOnly] = useState(false);
   const [bedroomFilter, setBedroomFilter] = useState<string>("all");
-  const [sort, setSort] = useState<"price_asc" | "price_desc" | "unit">("unit");
+  const [sort, setSort] = useState<"price_asc" | "price_desc" | "area_asc" | "area_desc" | "unit">("unit");
   const [query, setQuery] = useState("");
   const [showOwners, setShowOwners] = useState(false);
+  const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
+  const [areaMin, setAreaMin] = useState("");
+  const [areaMax, setAreaMax] = useState("");
+  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
 
   const building = trpc.aldarOther.getBuilding.useQuery(
     {
@@ -67,8 +74,16 @@ function Inner() {
   const units = useMemo(() => {
     let list = allUnits.slice();
     const q = query.trim().toLowerCase();
-    if (q.length > 0)
-      list = list.filter(u => (u.unit_name ?? "").toLowerCase().includes(q));
+    list = list.filter(u => {
+      const plotArea = { sqm: u.plot_area_sqm };
+      const builtArea = { sqm: u.total_area_sqm ?? u.saleable_area_sqm };
+      const preferredArea = u.plot_area_sqm != null ? plotArea : builtArea;
+      if (!isWithinAreaRange(preferredArea, areaUnit, areaMin, areaMax)) return false;
+      if (!q) return true;
+      return (u.unit_name ?? "").toLowerCase().includes(q)
+        || matchesAreaQuery(q, plotArea)
+        || matchesAreaQuery(q, builtArea);
+    });
     if (liveOnly)
       list = list.filter(u => {
         const b = statusBucket(u.status);
@@ -101,6 +116,12 @@ function Inner() {
         if (sd !== 0) return sd;
         return (b.price_aed ?? -Infinity) - (a.price_aed ?? -Infinity);
       });
+    } else if (sort === "area_asc" || sort === "area_desc") {
+      list.sort((a, b) => {
+        const areaA = a.plot_area_sqm ?? a.total_area_sqm ?? a.saleable_area_sqm ?? Infinity;
+        const areaB = b.plot_area_sqm ?? b.total_area_sqm ?? b.saleable_area_sqm ?? Infinity;
+        return sort === "area_asc" ? areaA - areaB : areaB - areaA;
+      });
     } else {
       list.sort((a, b) => {
         const sd = statusRank(a) - statusRank(b);
@@ -111,7 +132,7 @@ function Inner() {
       });
     }
     return list;
-  }, [allUnits, liveOnly, bedroomFilter, sort, query]);
+  }, [allUnits, liveOnly, bedroomFilter, sort, query, areaUnit, areaMin, areaMax]);
 
   const totalLive = useMemo(
     () =>
@@ -165,10 +186,19 @@ function Inner() {
                   <Input
                     value={query}
                     onChange={e => setQuery(e.target.value)}
-                    placeholder="Search unit number…"
+                    placeholder="Search unit or area…"
                     className="w-56"
                   />
                 </div>
+                <AreaFilterControls
+                  unit={areaUnit}
+                  onUnitChange={setAreaUnit}
+                  min={areaMin}
+                  max={areaMax}
+                  onMinChange={setAreaMin}
+                  onMaxChange={setAreaMax}
+                  compact
+                />
                 <label className="inline-flex items-center gap-2 text-sm">
                   <Switch checked={liveOnly} onCheckedChange={setLiveOnly} />
                   <span className="text-muted-foreground">
@@ -199,8 +229,14 @@ function Inner() {
                     <SelectItem value="unit">Sort: Unit number</SelectItem>
                     <SelectItem value="price_asc">Sort: Price ↑</SelectItem>
                     <SelectItem value="price_desc">Sort: Price ↓</SelectItem>
+                    <SelectItem value="area_asc">Sort: Area ↑</SelectItem>
+                    <SelectItem value="area_desc">Sort: Area ↓</SelectItem>
                   </SelectContent>
               </Select>
+                <div className="inline-flex rounded-md border border-border overflow-hidden">
+                  <Button type="button" variant={viewMode === "cards" ? "default" : "ghost"} size="sm" onClick={() => setViewMode("cards")} className="rounded-none h-9 gap-1"><LayoutGrid className="h-3.5 w-3.5" /> Cards</Button>
+                  <Button type="button" variant={viewMode === "table" ? "default" : "ghost"} size="sm" onClick={() => setViewMode("table")} className="rounded-none h-9 gap-1"><Table2 className="h-3.5 w-3.5" /> Table</Button>
+                </div>
                 <label className="inline-flex items-center gap-2 text-sm">
                   <Switch checked={showOwners} onCheckedChange={setShowOwners} />
                   <span className="text-muted-foreground flex items-center gap-1">
@@ -224,6 +260,39 @@ function Inner() {
         ) : units.length === 0 ? (
           <div className="text-center text-muted-foreground py-10">
             No units match your filter.
+          </div>
+        ) : viewMode === "table" ? (
+          <div className="rounded-lg border border-border bg-card overflow-x-auto">
+            <table className="w-full min-w-[980px] text-sm">
+              <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
+                <tr>
+                  <th className="px-4 py-3">Unit</th>
+                  <th className="px-4 py-3">Bedrooms</th>
+                  <th className="px-4 py-3">Status</th>
+                  <th className="px-4 py-3">Plot</th>
+                  <th className="px-4 py-3">BUA / Saleable</th>
+                  <th className="px-4 py-3">Price</th>
+                  {showOwners && <th className="px-4 py-3">Owner</th>}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {units.map(u => (
+                  <tr key={u.unit_name} className="hover:bg-accent/30">
+                    <td className="px-4 py-3">
+                      <Link href={`/aldar-other/${projectSlug}/${buildingSlug}/${encodeURIComponent(u.unit_name ?? "")}`} className="font-semibold hover:text-primary">
+                        {shortUnitNumber(u.unit_name)}
+                      </Link>
+                    </td>
+                    <td className="px-4 py-3">{u.bedrooms ? `${u.bedrooms} BR` : "—"}</td>
+                    <td className="px-4 py-3"><AldarStatusBadge status={u.status} /></td>
+                    <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.plot_area_sqm }, areaUnit)}</td>
+                    <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.total_area_sqm ?? u.saleable_area_sqm }, areaUnit)}</td>
+                    <td className="px-4 py-3 font-semibold">AED {fmtAed(u.price_aed)}</td>
+                    {showOwners && <td className="px-4 py-3">{(u as any).owner_name ?? "—"}</td>}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
@@ -266,14 +335,14 @@ function Inner() {
                       <div className="text-[0.6rem] uppercase tracking-[0.18em]">
                         Plot
                       </div>
-                      <div className="text-foreground/80">{fmtArea(u.plot_area_sqm)}</div>
+                      <div className="text-foreground/80">{formatArea({ sqm: u.plot_area_sqm }, areaUnit)}</div>
                     </div>
                     <div>
                       <div className="text-[0.6rem] uppercase tracking-[0.18em]">
                         BUA / Saleable
                       </div>
                       <div className="text-foreground/80">
-                        {fmtArea(u.total_area_sqm ?? u.saleable_area_sqm)}
+                        {formatArea({ sqm: u.total_area_sqm ?? u.saleable_area_sqm }, areaUnit)}
                       </div>
                     </div>
                   </div>

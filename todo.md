@@ -280,3 +280,29 @@
 - [x] Show updated history on Golf Views cards, plot details, and map info windows
 - [x] Add transaction-rich map cards for matched Golf Views plots with latest price, date, sale count, and full-details link
 - [x] Verify matching coverage, TypeScript, and all tests before checkpoint
+
+### Golf Views Transaction Timeline + Area Search (Aug 23, 2026)
+- [x] Treat the new ADREC CSV filtered to land areas ≥1,993 m² as the authoritative Golf Views source
+- [x] Auto-accept exact DCR area matches only; report every ±3 to ±10 m² candidate for user approval before assignment
+- [x] Apply the user's approval to all reported ≤10 m² candidates; mark the 2,845.15 m² transaction on Plot 6/15 as a possible match
+- [x] Re-audit plots without transaction histories and keep only confirmed DCR-area matches
+- [x] Correct the AED 55M Golf Views transaction assignment to Plot 6/6 and remove any duplicate assignment from another plot
+- [x] Replace duplicate latest-sale/full-history/table displays with one dated transaction timeline on each Golf Views card
+- [x] Show an explicit no-confirmed-transaction state on Golf Views plots without a matched record
+- [x] Add reusable area-query parsing for sqft and m² using the 10.764 conversion factor
+- [x] Add min/max land-area filters with a sqft/m² unit selector on land pages and the Interactive Map
+- [x] Use m² as the default display/filter unit and convert filter bounds automatically when switching to sqft
+- [x] Add a Cards/Table view toggle with sortable plot, area, transaction date, and price columns
+- [x] Add area search to Golf Views/Jawaher/SBV/St. Regis community pages
+- [x] Add plot/area search to the Interactive Map and global unit search
+- [x] Add min/max area filtering with m² default and sqft toggle to Available Units
+- [ ] Add tests, verify visually, and publish a checkpoint
+
+### Global Area Filters for All Villa & Building Projects (Aug 23, 2026)
+- [x] Inventory every reusable villa/building/unit page and map its available area fields
+- [x] Add m²-default / sqft-toggle search and min/max filtering to Aldar Saadiyat building unit lists
+- [x] Add m²-default / sqft-toggle search and min/max filtering to Aldar Other building unit lists
+- [x] Add Cards/Table view switching to generic building unit lists with sortable area columns
+- [x] Apply the same area controls to Lagoons, Hidd, and any remaining villa/community pages with area data
+- [x] Keep pages without area data usable and label missing area instead of excluding them unless an area filter is active
+- [x] Verify TypeScript, unit tests, and representative pages before checkpoint
