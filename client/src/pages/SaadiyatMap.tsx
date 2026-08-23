@@ -30,6 +30,7 @@ function findJawaherTx(villaKey: string) {
 import { getVillaTransactions } from "@/data/stregisTransactions";
 import { jawaherPlotHistories } from "@/data/jawaherTransactions";
 import { golfViewsPlotData } from "@/data/golfViewsPlotData";
+import { findSDN2Transactions } from "@/data/sdn2Transactions";
 import type { PlotTransaction } from "@/components/SimplePlotCard";
 import { plotCoordinates } from "@/data/plotCoordinates";
 import { pfListings, findListingByVillaKey, PF_SUMMARY } from "@/data/propertyFinderListings";
@@ -73,9 +74,10 @@ interface MapMarkerData {
   listing?: PFListing;
   villaKey?: string;
   detailHref?: string;
+  detailLines?: string[];
 }
 
-function buildMarkers(): MapMarkerData[] {
+export function buildMarkers(): MapMarkerData[] {
   const markers: MapMarkerData[] = [];
 
   // St. Regis — exact coordinates from villas.ts
@@ -95,8 +97,10 @@ function buildMarkers(): MapMarkerData[] {
       lastDate: lastTx?.date,
       saleType: lastTx?.saleType,
       salesCount: txs.length || undefined,
+      transactions: txs,
       villaKey: `st-regis/Plot-${v.id}`,
-      detailHref: `/st-regis/${v.id}`,
+      detailHref: `/st-regis/villa/${v.id}`,
+      detailLines: [v.bedrooms ? `${v.bedrooms} bedrooms` : "", v.buildingTypology ?? ""].filter(Boolean),
     });
   }
 
@@ -123,6 +127,7 @@ function buildMarkers(): MapMarkerData[] {
       lastDate: lastTx?.date,
       saleType: lastTx?.saleType,
       salesCount: txData?.transactions?.length || undefined,
+      transactions: txData?.transactions,
       listing,
       villaKey: p.villaKey,
       detailHref: `/jawaher/plot/${p.id}`,
@@ -159,10 +164,16 @@ function buildMarkers(): MapMarkerData[] {
   const sbvComm = COMMUNITIES.find(c => c.slug === "saadiyat-beach-villas");
   if (sbvComm?.gates) {
     for (const gate of sbvComm.gates) {
+      // Gate 1 contains the same SDN2_6 plots that are modelled separately as
+      // Saadiyat Beach Golf Views. Do not draw a second green SBV marker over
+      // the authoritative purple Golf Views marker and hide its transactions.
+      if (gate.slug === "gate-1") continue;
       for (const p of gate.plots) {
         const coord = plotCoordinates[p.villaKey];
         if (!coord) continue;
         const area = getPlotLandArea(p.villaKey);
+        const transactions = area?.sqft ? findSDN2Transactions(area.sqft) : undefined;
+        const lastTx = transactions?.[transactions.length - 1];
         markers.push({
           id: `sbv-${p.villaKey}`,
           lat: coord.lat, lng: coord.lng,
@@ -170,23 +181,36 @@ function buildMarkers(): MapMarkerData[] {
           label: p.label,
           landSqft: area?.sqft,
           landSqm: area?.sqm,
+          lastPrice: lastTx?.priceAed,
+          lastDate: lastTx?.date,
+          saleType: lastTx?.saleType,
+          salesCount: transactions?.length || undefined,
+          transactions,
+          villaKey: p.villaKey,
+          detailHref: `/saadiyat-beach-villas#plot-${p.id}`,
+          detailLines: [gate.name],
         });
       }
     }
   }
 
   // Private Villas — real coordinates from DCR
-  const pvComm = COMMUNITIES.find(c => c.slug === "private-villas");
+  const pvComm = COMMUNITIES.find(c => c.slug === "private-villas-four-seasons");
   const pvPlots = pvComm?.flatPlots ?? [];
   for (let i = 0; i < pvPlots.length; i++) {
     const p = pvPlots[i];
     const coord = plotCoordinates[p.villaKey];
     if (!coord) continue;
+    const area = getPlotLandArea(p.villaKey);
     markers.push({
       id: `pv-${p.id}`,
       lat: coord.lat, lng: coord.lng,
       community: "private-villas",
       label: p.label,
+      landSqft: area?.sqft,
+      landSqm: area?.sqm,
+      villaKey: p.villaKey,
+      detailHref: `/community/private-villas-four-seasons#plot-${p.id}`,
     });
   }
 
@@ -199,6 +223,8 @@ function buildMarkers(): MapMarkerData[] {
       community: "hidd",
       label: `Villa ${hv.villaNumber}`,
       villaKey: `hidd/${hv.villaNumber}/${hv.street}`,
+      detailHref: `/hidd-al-saadiyat`,
+      detailLines: [`Street ${hv.street}`],
     });
   }
 
@@ -216,8 +242,9 @@ function buildMarkers(): MapMarkerData[] {
       landSqm: lv.plot_area_sqm || undefined,
       lastPrice: lv.price || undefined,
       saleType: lv.status || undefined,
-      owner: clusterLabel,
-      detailHref: `/saadiyat-lagoons/${lv.cluster}`,
+      villaKey: `lagoons/${lv.unit_name}`,
+      detailHref: `/saadiyat-lagoons/${lv.cluster}/${encodeURIComponent(lv.unit_name)}`,
+      detailLines: [clusterLabel, lv.status ? `Status: ${lv.status}` : ""].filter(Boolean),
     });
   }
 
@@ -247,9 +274,17 @@ export default function SaadiyatMap() {
     const fmt = (n: number) => new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(n);
     const communityLabel = COMMUNITY_CENTERS[m.community as keyof typeof COMMUNITY_CENTERS]?.label ?? m.community;
     
-    let html = `<div style="font-family:system-ui;max-width:280px;padding:4px">`;
+    let html = `<div style="font-family:system-ui;width:min(290px,calc(100vw - 90px));max-width:290px;max-height:min(430px,60vh);overflow:auto;padding:6px 4px 8px">`;
     html += `<div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:4px">${communityLabel}</div>`;
     html += `<div style="font-size:16px;font-weight:600;margin-bottom:8px">${m.label}</div>`;
+
+    if (m.detailLines?.length) {
+      html += `<div style="display:flex;flex-wrap:wrap;gap:4px;margin:-2px 0 7px">`;
+      for (const line of m.detailLines) {
+        html += `<span style="font-size:10px;color:#6b625b;background:#f4f0eb;border-radius:999px;padding:2px 7px">${line}</span>`;
+      }
+      html += `</div>`;
+    }
     
     if (m.landSqft || m.landSqm) {
       html += `<div style="font-size:12px;color:#555;margin-bottom:4px">Land: ${formatArea({ sqft: m.landSqft, sqm: m.landSqm }, areaUnit)}</div>`;
@@ -313,7 +348,7 @@ export default function SaadiyatMap() {
 
     // Full Details link
     if (m.detailHref) {
-      html += `<a href="${m.detailHref}" style="display:inline-block;margin-top:8px;font-size:12px;font-weight:600;color:#C75B12;text-decoration:none;border:1px solid rgba(199,91,18,0.3);padding:4px 10px;border-radius:4px;">Full Details →</a>`;
+      html += `<a href="${m.detailHref}" style="display:block;margin-top:9px;font-size:12px;font-weight:700;color:#fff;background:#C75B12;text-align:center;text-decoration:none;padding:7px 10px;border-radius:6px;">Open Full Details →</a>`;
     }
 
     html += `</div>`;

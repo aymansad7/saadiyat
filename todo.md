@@ -306,3 +306,9 @@
 - [x] Apply the same area controls to Lagoons, Hidd, and any remaining villa/community pages with area data
 - [x] Keep pages without area data usable and label missing area instead of excluding them unless an area filter is active
 - [x] Verify TypeScript, unit tests, and representative pages before checkpoint
+
+### Interactive Map Card Completion (Aug 23, 2026)
+- [x] Audit every map marker type for missing transaction, detail-link, owner, and area fields
+- [x] Show full mobile-friendly map cards with project, unit/plot, area, transactions, and Full Details
+- [x] Ensure SBV, Jawaher, St. Regis, Golf Views, Hidd, Private Villas, and Lagoons link to the correct detail page
+- [x] Verify mobile popups visually, run TypeScript/tests, and publish a checkpoint
