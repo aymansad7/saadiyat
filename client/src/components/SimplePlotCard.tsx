@@ -53,6 +53,8 @@ interface Props {
   showTransactionStatus?: boolean;
   /** Optional land area in sqft (from transaction data) */
   landSqft?: number;
+  /** Optional authoritative land area in square metres (from DCR data). */
+  landSqm?: number;
   /** Preferred land-area display unit. Defaults to square metres. */
   areaUnit?: AreaUnit;
   /** Optional link to detail page */
@@ -74,6 +76,7 @@ export default function SimplePlotCard({
   transactions,
   showTransactionStatus,
   landSqft,
+  landSqm,
   areaUnit = "sqm",
   detailHref,
   mapHref,
@@ -107,9 +110,9 @@ export default function SimplePlotCard({
           <h3 className="font-display text-lg text-foreground mt-1 leading-snug truncate">
             {plot.label}
           </h3>
-          {landSqft && (
+          {(landSqft || landSqm) && (
             <div className="font-mono text-xs text-muted-foreground mt-1">
-              {formatArea({ sqft: landSqft }, areaUnit)}
+              {formatArea({ sqm: landSqm, sqft: landSqft }, areaUnit)}
             </div>
           )}
           {transactions && transactions.length > 0 && (

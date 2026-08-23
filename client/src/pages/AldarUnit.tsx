@@ -20,6 +20,8 @@ import {
   ListingBadge,
   ListingPriceLabel,
 } from "@/components/ListingControls";
+import FayaTransactionTimeline from "@/components/FayaTransactionTimeline";
+import { getFayaTransactions } from "@/data/fayaTransactions";
 
 type ParsedPlan = {
   name: string;
@@ -110,6 +112,7 @@ export default function AldarUnit() {
   const { project, building, unit } = ctx;
   const dn = buildingDisplayName(building.name);
   const plans = unit.payment_plans ? parsePaymentPlans(unit.payment_plans) : [];
+  const fayaTransactions = getFayaTransactions(unit.unit_name);
   const listing = listingQuery.data as
     | {
         askingPriceAed: number | null;
@@ -273,6 +276,15 @@ export default function AldarUnit() {
         <section className="border-b border-border">
           <div className="container py-6 sm:py-8">
             <ResaleCard unitNames={[unit.unit_name]} />
+          </div>
+        </section>
+      )}
+
+      {/* Availability history / timeline */}
+      {fayaTransactions.length > 0 && (
+        <section className="border-b border-border bg-primary/[0.03]">
+          <div className="container py-6 sm:py-8">
+            <FayaTransactionTimeline transactions={fayaTransactions} />
           </div>
         </section>
       )}

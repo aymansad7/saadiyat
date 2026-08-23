@@ -38,6 +38,7 @@ import { pfListings, findListingByVillaKey, PF_SUMMARY } from "@/data/propertyFi
 import type { PFListing } from "@/data/propertyFinderListings";
 import { hiddVillaCoords } from "@/data/hiddCoordinates";
 import { lagoonsVillaCoords } from "@/data/lagoonsCoordinates";
+import { FOUR_SEASONS_VILLAS } from "@/data/fourSeasons";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import {
   formatArea,
@@ -55,6 +56,8 @@ const COMMUNITY_CENTERS = {
   "hidd": { lat: 24.5580, lng: 54.4150, label: "Hidd Al Saadiyat", color: "#DC2626" },
   "private-villas": { lat: 24.5395, lng: 54.4200, label: "Private Villas (Four Seasons)", color: "#CA8A04" },
   "lagoons": { lat: 24.5309, lng: 54.4378, label: "Saadiyat Lagoons", color: "#0891B2" },
+  "four-seasons": { lat: 24.5508, lng: 54.4421, label: "Four Seasons Private Residences", color: "#334155" },
+  "huge-plot": { lat: 24.55285144, lng: 54.44457573, label: "Huge Plot Between Four Seasons and Omniyat", color: "#0F766E" },
 };
 
 interface MapMarkerData {
@@ -77,6 +80,9 @@ interface MapMarkerData {
   detailHref?: string;
   tableHref?: string;
   detailLines?: string[];
+  availabilityStatus?: "available";
+  availabilityDate?: string;
+  askingPrice?: number;
 }
 
 export function buildMarkers(): MapMarkerData[] {
@@ -221,6 +227,45 @@ export function buildMarkers(): MapMarkerData[] {
     });
   }
 
+  // Four Seasons — master-plan positions calibrated to official DCR controls.
+  for (const villa of FOUR_SEASONS_VILLAS) {
+    markers.push({
+      id: `four-seasons-${villa.villaNumber}`,
+      lat: villa.latitude,
+      lng: villa.longitude,
+      community: "four-seasons",
+      label: villa.label,
+      landSqft: villa.plotAreaSqft ?? undefined,
+      landSqm: villa.plotAreaSqm ?? undefined,
+      villaKey: villa.villaKey,
+      detailHref: `/four-seasons#villa-${villa.villaNumber}`,
+      tableHref: `/four-seasons?view=table#villa-${villa.villaNumber}`,
+      detailLines: [`${villa.bedrooms} BR`, villa.villaType, villa.view ?? ""].filter(Boolean),
+      availabilityStatus: villa.status === "available" ? "available" : undefined,
+      availabilityDate: villa.availabilityUpdatedAt ?? undefined,
+      askingPrice: villa.askingPriceAed ?? undefined,
+    });
+  }
+
+  // SDN3_10 — official DCR centroid and land area.
+  const hugePlotCoord = plotCoordinates["huge-plot-four-seasons-omniyat/SDN3_10"];
+  const hugePlotArea = getPlotLandArea("huge-plot-four-seasons-omniyat/SDN3_10");
+  if (hugePlotCoord && hugePlotArea) {
+    markers.push({
+      id: "huge-plot-four-seasons-omniyat",
+      lat: hugePlotCoord.lat,
+      lng: hugePlotCoord.lng,
+      community: "huge-plot",
+      label: "A Huge Plot Between Four Seasons and Omniyat",
+      landSqft: hugePlotArea.sqft,
+      landSqm: hugePlotArea.sqm,
+      villaKey: "huge-plot-four-seasons-omniyat/SDN3_10",
+      detailHref: "/community/huge-plot-four-seasons-omniyat#plot-1",
+      tableHref: "/community/huge-plot-four-seasons-omniyat?view=table#plot-1",
+      detailLines: ["SDN3_10", "Official DCR"],
+    });
+  }
+
   // Hidd Al Saadiyat — coordinates from Google Maps geocoding + interpolation
   for (const hv of hiddVillaCoords) {
     markers.push({
@@ -341,6 +386,13 @@ export default function SaadiyatMap() {
       html += `</div></div>`;
     }
 
+    if (m.availabilityStatus === "available" && m.askingPrice) {
+      html += `<div style="margin-top:6px;padding:7px;background:#ecfdf5;border-radius:6px;border:1px solid #6ee7b7">`;
+      html += `<div style="font-size:10px;color:#047857;font-weight:700;text-transform:uppercase">Available · ${m.availabilityDate ?? "current list"}</div>`;
+      html += `<div style="font-size:15px;font-weight:800;color:#065f46;margin-top:2px;white-space:nowrap">AED ${fmt(m.askingPrice)}</div>`;
+      html += `</div>`;
+    }
+
     if (m.listing) {
       const l = m.listing;
       html += `<div style="margin-top:6px;padding:6px;background:#ecfdf5;border-radius:4px;border:1px solid #6ee7b7">`;
@@ -382,16 +434,17 @@ export default function SaadiyatMap() {
     // Create markers for all plots
     for (const m of markerData) {
       const isListed = !!m.listing;
-      const color = isListed ? "#10B981" : getColor(m.community);
+      const isAvailable = m.availabilityStatus === "available";
+      const color = isListed || isAvailable ? "#10B981" : getColor(m.community);
       const pin = document.createElement("div");
-      pin.style.width = isListed ? "16px" : "12px";
-      pin.style.height = isListed ? "16px" : "12px";
+      pin.style.width = isListed || isAvailable ? "16px" : "12px";
+      pin.style.height = isListed || isAvailable ? "16px" : "12px";
       pin.style.borderRadius = "50%";
       pin.style.backgroundColor = color;
-      pin.style.border = isListed ? "3px solid #065F46" : "2px solid white";
-      pin.style.boxShadow = isListed ? "0 0 8px rgba(16,185,129,0.6)" : "0 1px 3px rgba(0,0,0,0.3)";
+      pin.style.border = isListed || isAvailable ? "3px solid #065F46" : "2px solid white";
+      pin.style.boxShadow = isListed || isAvailable ? "0 0 8px rgba(16,185,129,0.6)" : "0 1px 3px rgba(0,0,0,0.3)";
       pin.style.cursor = "pointer";
-      if (isListed) {
+      if (isListed || isAvailable) {
         pin.style.animation = "pulse 2s infinite";
         pin.style.zIndex = "10";
       }

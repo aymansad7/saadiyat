@@ -82,5 +82,5 @@ export function convertAreaInput(value: string, from: AreaUnit, to: AreaUnit): s
 export function formatArea(values: AreaValues, unit: AreaUnit): string {
   const value = areaValue(values, unit);
   if (value == null) return "—";
-  return `${new Intl.NumberFormat("en-AE", { maximumFractionDigits: unit === "sqm" ? 0 : 0 }).format(value)} ${unit === "sqm" ? "m²" : "sqft"}`;
+  return `${new Intl.NumberFormat("en-AE", { maximumFractionDigits: 2 }).format(value)} ${unit === "sqm" ? "m²" : "sqft"}`;
 }

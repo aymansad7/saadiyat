@@ -20,6 +20,8 @@ import { useState, useRef, useEffect } from "react";
 
 /** All navigable projects for quick search */
 const ALL_PROJECTS = [
+  { name: "Four Seasons Private Residences", href: "/four-seasons" },
+  { name: "A Huge Plot Between Four Seasons and Omniyat", href: "/community/huge-plot-four-seasons-omniyat" },
   { name: "St. Regis Villas", href: "/st-regis" },
   { name: "Saadiyat Beach Villas", href: "/saadiyat-beach-villas" },
   { name: "Jawaher Saadiyat", href: "/jawaher" },
@@ -197,6 +199,12 @@ export default function SiteHeader({ subTitle, back }: Props) {
                 <Link href="/st-regis" className="flex items-center justify-between w-full">
                   <span className="font-display text-sm">St. Regis Villas</span>
                   <span className="text-[0.65rem] font-mono text-primary border border-primary/40 px-1 rounded-sm">FULL</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/four-seasons" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">Four Seasons Private Residences</span>
+                  <span className="text-[0.65rem] font-mono text-emerald-700 border border-emerald-400 px-1 rounded-sm">11 AVAIL</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>

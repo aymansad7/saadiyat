@@ -31,6 +31,7 @@ const jawaher = COMMUNITIES.find((c) => c.slug === "jawaher")!;
 const sbv = COMMUNITIES.find((c) => c.slug === "saadiyat-beach-villas")!;
 const golfViews = COMMUNITIES.find((c) => c.slug === "saadiyat-golf-views")!;
 const privateVillas = COMMUNITIES.find((c) => c.slug === "private-villas-four-seasons")!;
+const hugePlot = COMMUNITIES.find((c) => c.slug === "huge-plot-four-seasons-omniyat")!;
 
 const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030641160/cdNSYhri6jzahGcw5xtfw3/saadiyat-hero-fXHXGvSP5PsLtB8b7Rpzwu.webp";
 const COMPASS_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663030641160/cdNSYhri6jzahGcw5xtfw3/compass-rose-deQv7pJ8D2hyEVdwDAWyyr.webp";
@@ -90,8 +91,28 @@ const communities = [
     available: true,
     rich: false,
   },
+  {
+    slug: "four-seasons",
+    name: "Four Seasons Private Residences",
+    cluster: "Saadiyat Beach District · Official Master Plan",
+    plots: 56,
+    href: "/four-seasons",
+    available: true,
+    rich: true,
+  },
+  {
+    slug: "huge-plot-four-seasons-omniyat",
+    name: hugePlot.name,
+    cluster: hugePlot.cluster,
+    plots: hugePlot.totalPlots,
+    href: "/community/huge-plot-four-seasons-omniyat",
+    available: true,
+    rich: false,
+  },
   { slug: "hidd", name: "Hidd Al Saadiyat", cluster: "Saadiyat Island", plots: 469, href: "/hidd-al-saadiyat", available: true, rich: false },
 ];
+
+const landingPlotCount = communities.reduce((total, community) => total + community.plots, 0);
 
 export default function Landing() {
   const { data: aldarData } = trpc.aldarSaadiyat.listProjects.useQuery();
@@ -141,11 +162,11 @@ export default function Landing() {
             <dl className="mt-10 grid grid-cols-3 gap-6 max-w-md border-t border-border pt-6">
               <div>
                 <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Plots</dt>
-                <dd className="font-display text-3xl text-foreground tabular num-display mt-1">{villas.length + jawaher.totalPlots + sbv.totalPlots + 1549}</dd>
+                <dd className="font-display text-3xl text-foreground tabular num-display mt-1">{landingPlotCount}</dd>
               </div>
               <div>
                 <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Projects</dt>
-                <dd className="font-display text-2xl text-foreground mt-1">4</dd>
+                <dd className="font-display text-2xl text-foreground mt-1">{communities.length}</dd>
               </div>
               <div>
                 <dt className="text-[0.7rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">Source</dt>
@@ -194,7 +215,7 @@ export default function Landing() {
           </div>
           <p className="hidden sm:block text-sm text-muted-foreground max-w-sm">
             We are progressively cataloguing every gated project on the island.
-            Today: four projects, {villas.length + jawaher.totalPlots + sbv.totalPlots + 1549} plots.
+            Today: {communities.length} projects, {landingPlotCount} plots and villas.
           </p>
         </div>
 

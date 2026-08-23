@@ -144,7 +144,7 @@ export default function CommunityPage() {
           <h1 className="font-display text-3xl sm:text-4xl lg:text-[2.6rem] leading-tight text-foreground">
             {community.name}
             <span className="text-muted-foreground italic">
-              {" "}— {community.totalPlots} plots.
+              {" "}— {community.totalPlots} {community.totalPlots === 1 ? "plot" : "plots"}.
             </span>
           </h1>
           <p className="text-sm text-muted-foreground mt-3 max-w-2xl">
@@ -205,22 +205,27 @@ export default function CommunityPage() {
       <section className="container py-6 sm:py-8">
         {viewMode === "cards" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-          {filtered.map((plot) => (
-            <SimplePlotCard
-              key={plot.id}
-              plot={plot}
-              communityLabel={community.name}
-              pdfUrl={pdfIndex.get(plot.villaKey) ?? null}
-              pdfLoading={pdfLoading}
-              listing={listingIndex.get(plot.villaKey) ?? null}
-              community={community.slug}
-              transactions={slug === "saadiyat-golf-views" ? golfViewsPlotData[plot.villaKey]?.transactions : undefined}
-              showTransactionStatus={slug === "saadiyat-golf-views"}
-              landSqft={slug === "saadiyat-golf-views" ? golfViewsPlotData[plot.villaKey]?.landSqft : undefined}
-              areaUnit={areaUnit}
-              mapHref={slug === "saadiyat-golf-views" ? `/map?plot=${encodeURIComponent(plot.villaKey)}` : undefined}
-            />
-          ))}
+          {filtered.map((plot) => {
+            const golfArea = golfViewsPlotData[plot.villaKey];
+            const dcrArea = getPlotLandArea(plot.villaKey);
+            return (
+              <SimplePlotCard
+                key={plot.id}
+                plot={plot}
+                communityLabel={community.name}
+                pdfUrl={pdfIndex.get(plot.villaKey) ?? null}
+                pdfLoading={pdfLoading}
+                listing={listingIndex.get(plot.villaKey) ?? null}
+                community={community.slug}
+                transactions={slug === "saadiyat-golf-views" ? golfArea?.transactions : undefined}
+                showTransactionStatus={slug === "saadiyat-golf-views"}
+                landSqft={golfArea?.landSqft ?? dcrArea?.sqft}
+                landSqm={golfArea?.landSqm ?? dcrArea?.sqm}
+                areaUnit={areaUnit}
+                mapHref={`/map?plot=${encodeURIComponent(plot.villaKey)}`}
+              />
+            );
+          })}
         </div>
         ) : (
           <div className="overflow-x-auto rounded-md border border-border bg-card">
@@ -248,7 +253,7 @@ export default function CommunityPage() {
                     <td className="px-3 py-2 text-right font-mono text-xs whitespace-nowrap">{formatArea(area, areaUnit)}</td>
                     <td className="px-3 py-2 text-right font-mono text-xs whitespace-nowrap">{transaction?.builtUpAreaSqm ? formatArea({ sqm: transaction.builtUpAreaSqm, sqft: transaction.builtUpAreaSqft ?? undefined }, areaUnit) : "—"}</td>
                     <td className="px-3 py-2 text-right whitespace-nowrap">
-                      {slug === "saadiyat-golf-views" && <a href={`/map?plot=${encodeURIComponent(plot.villaKey)}`} className="text-xs text-primary hover:underline">Map</a>}
+                      <a href={`/map?plot=${encodeURIComponent(plot.villaKey)}`} className="text-xs text-primary hover:underline">Map</a>
                       {pdfIndex.get(plot.villaKey) && <a href={pdfIndex.get(plot.villaKey)!} target="_blank" rel="noopener noreferrer" className="ml-3 text-xs text-primary hover:underline">DCR</a>}
                     </td>
                   </tr>

@@ -598,6 +598,7 @@ export const plotCoordinates: Record<string, PlotCoord> = {
   "st-regis/Plot-7": { lat: 24.5369673, lng: 54.4237609 },
   "st-regis/Plot-8": { lat: 24.5370156, lng: 54.4234351 },
   "st-regis/Plot-9": { lat: 24.5369998, lng: 54.4231883 },
+  "huge-plot-four-seasons-omniyat/SDN3_10": { lat: 24.55285144, lng: 54.44457573 },
 };
 
 /** Get coordinates for a plot by villaKey */

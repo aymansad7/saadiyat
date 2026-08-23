@@ -31,6 +31,8 @@ import {
 } from "@/components/ListingControls";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
+import FayaTransactionTimeline from "@/components/FayaTransactionTimeline";
+import { getFayaTransactions } from "@/data/fayaTransactions";
 
 export default function AldarBuilding() {
   const { project: projectSlug, building: buildingSlug } = useParams<{
@@ -234,7 +236,7 @@ export default function AldarBuilding() {
           <div className="rounded-lg border border-border bg-card overflow-x-auto">
             <table className="w-full min-w-[860px] text-sm">
               <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
-                <tr><th className="px-4 py-3">Unit</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Status</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">BUA / Saleable</th><th className="px-4 py-3">Price</th></tr>
+                <tr><th className="px-4 py-3">Unit</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Status</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">BUA / Saleable</th><th className="px-4 py-3">Original Price</th><th className="px-4 py-3">ADREC Transaction</th></tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {units.map((u: any) => (
@@ -245,6 +247,14 @@ export default function AldarBuilding() {
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.plot_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.total_area_sqm ?? u.saleable_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-semibold">AED {fmtAed(u.price_aed)}</td>
+                    <td className="px-4 py-3">
+                      {getFayaTransactions(u.unit_name)[0] ? (
+                        <div>
+                          <div className="font-semibold">AED {fmtAed(getFayaTransactions(u.unit_name)[0].priceAed)}</div>
+                          <div className="text-xs text-muted-foreground">{getFayaTransactions(u.unit_name)[0].date} · combined 2-unit sale</div>
+                        </div>
+                      ) : "—"}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -255,6 +265,7 @@ export default function AldarBuilding() {
             {units.map((u: any) => {
               const villaKey = `aldar-saadiyat/${project.slug}/${building.slug}/${u.unit_name ?? ""}`;
               const listing = listingIndex.get(villaKey) ?? null;
+              const fayaTransactions = getFayaTransactions(u.unit_name);
               return (
               <div key={u.unit_name} className="group rounded-md border border-border bg-card overflow-hidden hover:border-primary/60 transition-colors flex flex-col">
                 <Link
@@ -298,6 +309,9 @@ export default function AldarBuilding() {
                       </div>
                     </div>
                   </div>
+                  {fayaTransactions.length > 0 && (
+                    <FayaTransactionTimeline transactions={fayaTransactions} compact />
+                  )}
                   {listing?.askingPriceAed ? (
                     <div className="mt-1 -mb-1 flex items-center gap-1">
                       <span className="text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">Resale ask</span>

@@ -323,3 +323,31 @@
 - [x] Preserve the selected plot/unit when returning from the map to the project table
 - [x] Reduce initial marker rendering cost and optimize dense Lagoons/Hidd layers
 - [x] Verify mobile cards and map load time, run tests, and publish a checkpoint
+
+### Faya Al Saadiyat Largest-Plot Transactions (Aug 23, 2026)
+- [x] Parse the ADREC CSV and preserve date, price, combined land area, combined BUA, and sale type
+- [x] Identify Faya's two largest units and confirm the AED 403.8M original-price unit
+- [x] Link the single combined AED 190M transaction to both largest units without splitting or double-counting it
+- [x] Show the shared transaction on Faya cards, table, and unit details with Land/BUA; do not fabricate map points without coordinates
+- [x] Verify TypeScript/tests and publish a checkpoint
+
+### Huge Plot Between Four Seasons and Omniyat + Four Seasons Prep (Aug 23, 2026)
+- [x] Extract SDN3_10 DCR land area, coordinate table, and centroid without guessing
+- [x] Upload SDN3_10.pdf to permanent webdev storage and register the DCR record
+- [x] Add “A Huge Plot Between Four Seasons and Omniyat” to Saadiyat cards, table, search, and map
+- [x] Parse and preserve the Four Seasons municipal transaction CSV as an unmatched/pending source registry
+- [x] Store each pending transaction with date, price, Land, BUA, sale type, and original source row for later area matching
+- [x] Add a Four Seasons data schema and project page ready for later villa, owner, area, and transaction imports
+- [x] Keep the Four Seasons project free of mock villas or fabricated transaction data
+- [x] Parse every unit in FourSeasonsPrivateResidences-Saadiy.pdf and preserve unit, bedrooms, price, Land, BUA, and source page
+- [x] Add all current-sheet Four Seasons units as Available with last-updated date 2026-08-23
+- [x] Treat 5Bed.pdf and 6Bed.pdf as historical references for villa numbers, areas, and specifications only
+- [x] Never import availability status or asking prices from the historical 5BR/6BR files
+- [x] Enrich missing 5BR/6BR areas and fixed specifications while preserving current availability values
+- [x] Show Four Seasons units in Cards/Table with m² default, sqft toggle, search, and area filters
+- [x] Upload MASTERPLAN2_FSPR_(2).pdf to permanent storage and preserve it as the official Four Seasons master plan
+- [x] Extract every visible villa number and its master-plan position without inventing missing units
+- [x] Build a clickable Four Seasons master plan linked bidirectionally with villa cards/details
+- [x] Add Four Seasons to the Interactive Map; show Available villas in green and other known villas in a neutral color
+- [x] Label all master-plan-derived map coordinates as calibrated approximations, not individual official DCR coordinates
+- [x] Verify Faya plus the new plot, run TypeScript/tests, and publish a checkpoint

@@ -151,6 +151,16 @@ const privateVillasPlots: SimplePlot[] = [
   buildPlot("SDN2_163B.pdf", "Plot 163B", 7, "private-villas/SDN2_163B"),
 ];
 
+// ───────────────────────── Huge Plot Between Four Seasons and Omniyat ─────────────────────────
+const hugePlotFourSeasonsOmniyat: SimplePlot[] = [
+  buildPlot(
+    "SDN3_10.pdf",
+    "A Huge Plot Between Four Seasons and Omniyat",
+    1,
+    "huge-plot-four-seasons-omniyat/SDN3_10",
+  ),
+];
+
 export const COMMUNITIES: Community[] = [
   {
     slug: "jawaher",
@@ -182,6 +192,14 @@ export const COMMUNITIES: Community[] = [
     gates: [],
     flatPlots: privateVillasPlots,
     totalPlots: privateVillasPlots.length,
+  },
+  {
+    slug: "huge-plot-four-seasons-omniyat",
+    name: "A Huge Plot Between Four Seasons and Omniyat",
+    cluster: "Saadiyat Beach District · SDN3",
+    gates: [],
+    flatPlots: hugePlotFourSeasonsOmniyat,
+    totalPlots: 1,
   },
 ];
 

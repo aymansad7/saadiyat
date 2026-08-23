@@ -11,6 +11,7 @@ export interface PlotLandArea {
 
 /** All plot land areas indexed by villaKey */
 export const plotLandAreas: Record<string, PlotLandArea> = {
+  "huge-plot-four-seasons-omniyat/SDN3_10": { sqm: 31766.65, sqft: 341933.37 },
   "jawaher/Plot-100": { sqm: 800.8, sqft: 8619.73 },
   "jawaher/Plot-101": { sqm: 994.11, sqft: 10700.5 },
   "jawaher/Plot-102": { sqm: 1050.35, sqft: 11305.86 },
