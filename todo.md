@@ -296,7 +296,7 @@
 - [x] Add area search to Golf Views/Jawaher/SBV/St. Regis community pages
 - [x] Add plot/area search to the Interactive Map and global unit search
 - [x] Add min/max area filtering with m² default and sqft toggle to Available Units
-- [ ] Add tests, verify visually, and publish a checkpoint
+- [x] Add tests, verify visually, and publish a checkpoint
 
 ### Global Area Filters for All Villa & Building Projects (Aug 23, 2026)
 - [x] Inventory every reusable villa/building/unit page and map its available area fields
