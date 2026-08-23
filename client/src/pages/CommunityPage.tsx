@@ -14,8 +14,11 @@ import { useListingIndex } from "@/hooks/useListingIndex";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, RotateCcw, ChevronUp, ChevronDown, TrendingUp, TrendingDown } from "lucide-react";
-import { golfViewsRecords } from "@/data/sdn2Transactions";
-import { golfViewsPlotData } from "@/data/golfViewsPlotData";
+import {
+  GOLF_VIEWS_TRANSACTION_SUMMARY,
+  golfViewsPlotData,
+  golfViewsTransactionRecords,
+} from "@/data/golfViewsPlotData";
 
 export default function CommunityPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -139,10 +142,11 @@ export default function CommunityPage() {
               pdfUrl={pdfIndex.get(plot.villaKey) ?? null}
               pdfLoading={pdfLoading}
               listing={listingIndex.get(plot.villaKey) ?? null}
-            community={community.slug}
-            transactions={slug === "saadiyat-golf-views" ? golfViewsPlotData[plot.villaKey]?.transactions : undefined}
-            landSqft={slug === "saadiyat-golf-views" ? golfViewsPlotData[plot.villaKey]?.landSqft : undefined}
-          />
+              community={community.slug}
+              transactions={slug === "saadiyat-golf-views" ? golfViewsPlotData[plot.villaKey]?.transactions : undefined}
+              landSqft={slug === "saadiyat-golf-views" ? golfViewsPlotData[plot.villaKey]?.landSqft : undefined}
+              mapHref={slug === "saadiyat-golf-views" ? `/map?plot=${encodeURIComponent(plot.villaKey)}` : undefined}
+            />
           ))}
         </div>
       {filtered.length === 0 && (
@@ -156,7 +160,7 @@ export default function CommunityPage() {
     </section>
 
       {/* Transaction History for Golf Views */}
-      {slug === "saadiyat-golf-views" && golfViewsRecords.length > 0 && (
+      {slug === "saadiyat-golf-views" && golfViewsTransactionRecords.length > 0 && (
         <section className="container py-10 sm:py-14 border-t border-border">
           <div className="mb-6">
             <div className="text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary mb-2">ADREC Records · SDN2</div>
@@ -164,8 +168,8 @@ export default function CommunityPage() {
               Transaction History
             </h2>
             <p className="text-sm text-muted-foreground mt-2 max-w-2xl">
-              {golfViewsRecords.reduce((sum, r) => sum + r.transactions.length, 0)} official transactions for SDN2 premium/golf plots (land &gt; 8,000 sqft).
-              Each row represents a unique plot identified by its land area. Source: ad-transactions.com (updated 16 Aug 2026).
+              {GOLF_VIEWS_TRANSACTION_SUMMARY.totalTransactions} confirmed ADREC transactions matched to {GOLF_VIEWS_TRANSACTION_SUMMARY.matchedPlots} Golf Views plots using their unique DCR land areas.
+              Source CSV updated 23 Aug 2026. Uncertain or unmatched SDN2 rows are excluded rather than assigned to the wrong plot.
             </p>
           </div>
 
@@ -174,6 +178,7 @@ export default function CommunityPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-border bg-accent/30">
+                    <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Plot</th>
                     <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Land (sqft)</th>
                     <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Date</th>
                     <th className="text-left px-3 py-2 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">Type</th>
@@ -183,7 +188,7 @@ export default function CommunityPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
-                  {golfViewsRecords
+                  {[...golfViewsTransactionRecords]
                     .sort((a, b) => b.transactions[b.transactions.length - 1].date.localeCompare(a.transactions[a.transactions.length - 1].date))
                     .map((record) => {
                       const lastTx = record.transactions[record.transactions.length - 1];
@@ -193,7 +198,12 @@ export default function CommunityPage() {
                         appreciation = ((lastTx.priceAed - firstTx.priceAed) / firstTx.priceAed) * 100;
                       }
                       return (
-                        <tr key={record.landSqft} className="hover:bg-accent/20">
+                        <tr key={record.villaKey} className="hover:bg-accent/20">
+                          <td className="px-3 py-2 font-mono text-xs text-foreground whitespace-nowrap">
+                            <a href={`#plot-${community.flatPlots?.find((plot) => plot.villaKey === record.villaKey)?.id ?? ""}`} className="hover:text-primary hover:underline">
+                              {community.flatPlots?.find((plot) => plot.villaKey === record.villaKey)?.label ?? record.villaKey.split("/").pop()}
+                            </a>
+                          </td>
                           <td className="px-3 py-2 font-mono text-xs text-foreground">{record.landSqft.toLocaleString()}</td>
                           <td className="px-3 py-2 font-mono text-xs text-muted-foreground whitespace-nowrap">{lastTx.date}</td>
                           <td className="px-3 py-2">

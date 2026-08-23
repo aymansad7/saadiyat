@@ -48,6 +48,8 @@ interface Props {
   landSqft?: number;
   /** Optional link to detail page */
   detailHref?: string;
+  /** Optional deep link to this plot on the interactive map */
+  mapHref?: string;
   /** Optional PropertyFinder active listing (matched by land area) */
   pfListing?: PFListing;
 }
@@ -63,6 +65,7 @@ export default function SimplePlotCard({
   transactions,
   landSqft,
   detailHref,
+  mapHref,
   pfListing,
 }: Props) {
   // If parent provided a bulk-resolved URL, use it. Otherwise fall back to the
@@ -75,7 +78,7 @@ export default function SimplePlotCard({
   const hasPdf = Boolean(url);
 
   return (
-    <div className="villa-card bg-card border border-border rounded-md overflow-hidden flex flex-col rise-in">
+    <div id={`plot-${plot.id}`} className="villa-card bg-card border border-border rounded-md overflow-hidden flex flex-col rise-in scroll-mt-28">
       <div className="p-4 sm:p-5 flex items-start gap-4">
         <div className="shrink-0 flex flex-col items-center">
           <div className="font-display num-display text-[3.2rem] leading-none text-foreground">
@@ -137,6 +140,33 @@ export default function SimplePlotCard({
               </div>
             );
           })()}
+          {transactions && transactions.length > 1 && (
+            <details className="mt-2 rounded-md border border-border bg-background/70 px-2.5 py-2">
+              <summary className="cursor-pointer text-[0.65rem] font-mono uppercase tracking-wider text-primary select-none">
+                Full history · {transactions.length} sales
+              </summary>
+              <div className="mt-2 space-y-1.5">
+                {[...transactions].reverse().map((transaction, index) => (
+                  <div
+                    key={`${transaction.date}-${transaction.priceAed}-${index}`}
+                    className="flex items-center gap-2 border-t border-border/70 pt-1.5 first:border-t-0 first:pt-0"
+                  >
+                    <span className={`text-[0.55rem] font-mono uppercase px-1 py-0.5 rounded-sm border ${
+                      transaction.saleType === "primary"
+                        ? "text-primary border-primary/30 bg-primary/5"
+                        : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
+                    }`}>
+                      {transaction.saleType === "primary" ? "P" : "S"}
+                    </span>
+                    <span className="text-[0.62rem] font-mono text-muted-foreground">{transaction.date}</span>
+                    <span className="ml-auto text-[0.65rem] font-mono text-foreground">
+                      AED {new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(transaction.priceAed)}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </details>
+          )}
           {listing?.askingPriceAed ? (
             <div className="mt-1.5">
               <ListingPriceLabel askingPriceAed={listing.askingPriceAed} />
@@ -225,6 +255,15 @@ export default function SimplePlotCard({
             <MapPin className="h-3.5 w-3.5" />
             MyLand portal
           </a>
+          {mapHref && (
+            <Link
+              href={mapHref}
+              className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-sm border bg-card text-foreground border-border hover:bg-secondary hover:border-primary/30"
+            >
+              <Map className="h-3.5 w-3.5" />
+              View on Map
+            </Link>
+          )}
           {detailHref && (
             <Link
               href={detailHref}

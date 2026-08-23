@@ -4,7 +4,7 @@
  * Click a dot → info window with full details.
  * Toggle button to show/hide owner info (ready for future data).
  */
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback } from "react";
 import { MapView } from "@/components/Map";
 import { useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
@@ -29,6 +29,7 @@ function findJawaherTx(villaKey: string) {
 import { getVillaTransactions } from "@/data/stregisTransactions";
 import { jawaherPlotHistories } from "@/data/jawaherTransactions";
 import { golfViewsPlotData } from "@/data/golfViewsPlotData";
+import type { PlotTransaction } from "@/components/SimplePlotCard";
 import { plotCoordinates } from "@/data/plotCoordinates";
 import { pfListings, findListingByVillaKey, PF_SUMMARY } from "@/data/propertyFinderListings";
 import type { PFListing } from "@/data/propertyFinderListings";
@@ -58,6 +59,7 @@ interface MapMarkerData {
   lastDate?: string;
   saleType?: string;
   salesCount?: number;
+  transactions?: PlotTransaction[];
   owner?: string;
   phone?: string;
   listing?: PFListing;
@@ -139,6 +141,9 @@ function buildMarkers(): MapMarkerData[] {
       lastDate: lastTx?.date,
       saleType: lastTx?.saleType,
       salesCount: plotData?.transactions?.length || undefined,
+      transactions: plotData?.transactions,
+      villaKey: p.villaKey,
+      detailHref: `/community/saadiyat-golf-views#plot-${p.id}`,
     });
   }
 
@@ -253,6 +258,22 @@ export default function SaadiyatMap() {
       html += `</div>`;
     }
 
+    if (m.transactions && m.transactions.length > 0) {
+      html += `<div style="margin-top:7px;border:1px solid #e5e0d8;border-radius:4px;overflow:hidden">`;
+      html += `<div style="padding:5px 7px;background:#f7f3ee;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#7c5b42">Transaction History · ${m.transactions.length}</div>`;
+      html += `<div style="max-height:150px;overflow:auto;padding:3px 7px">`;
+      for (const transaction of [...m.transactions].reverse()) {
+        const badgeColor = transaction.saleType === "primary" ? "#C75B12" : "#D97706";
+        const badge = transaction.saleType === "primary" ? "P" : "S";
+        html += `<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-top:1px solid #eee6dd;font-size:11px">`;
+        html += `<span style="color:${badgeColor};font-weight:700">${badge}</span>`;
+        html += `<span style="color:#777">${transaction.date}</span>`;
+        html += `<span style="margin-left:auto;font-weight:700">AED ${fmt(transaction.priceAed)}</span>`;
+        html += `</div>`;
+      }
+      html += `</div></div>`;
+    }
+
     if (m.listing) {
       const l = m.listing;
       html += `<div style="margin-top:6px;padding:6px;background:#ecfdf5;border-radius:4px;border:1px solid #6ee7b7">`;
@@ -320,23 +341,23 @@ export default function SaadiyatMap() {
 
       markersRef.current.push(marker);
     }
-  }, [markerData, createInfoContent]);
 
-  // Deep-link: when ?plot=jawaher/Plot-78 is in URL, zoom to that marker and open info
-  useEffect(() => {
-    if (!plotParam || !mapRef.current || markersRef.current.length === 0) return;
-    const idx = markerData.findIndex(m => m.villaKey === plotParam);
-    if (idx === -1) return;
-    const m = markerData[idx];
-    const marker = markersRef.current[idx];
-    if (!marker) return;
-    mapRef.current.setCenter({ lat: m.lat, lng: m.lng });
-    mapRef.current.setZoom(18);
-    setTimeout(() => {
-      infoWindowRef.current!.setContent(createInfoContent(m));
-      infoWindowRef.current!.open(mapRef.current!, marker);
-    }, 300);
-  }, [plotParam, markerData, createInfoContent]);
+    // Deep-link only after every marker exists. The earlier effect-based version
+    // could run before handleMapReady and never retry because refs do not rerender.
+    if (plotParam) {
+      const requestedIndex = markerData.findIndex((marker) => marker.villaKey === plotParam);
+      const requestedData = markerData[requestedIndex];
+      const requestedMarker = markersRef.current[requestedIndex];
+      if (requestedData && requestedMarker) {
+        map.setCenter({ lat: requestedData.lat, lng: requestedData.lng });
+        map.setZoom(18);
+        window.setTimeout(() => {
+          infoWindowRef.current?.setContent(createInfoContent(requestedData));
+          infoWindowRef.current?.open(map, requestedMarker);
+        }, 300);
+      }
+    }
+  }, [markerData, createInfoContent, plotParam]);
 
   const toggleSatellite = () => {
     if (!mapRef.current) return;

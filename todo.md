@@ -271,3 +271,12 @@
 - [x] Create sdn2Transactions.ts data file grouped by project and land area
 - [x] Add transaction history table to SaadiyatBeachVillas page (newest 50, sorted by date)
 - [x] 160/160 tests pass, TypeScript clean
+
+### Saadiyat Beach Golf Views Transactions Refresh (Aug 23, 2026)
+- [x] Parse the new ADREC SDN2 CSV and validate all transaction fields
+- [x] Match transactions only to Golf Views plots with unique DCR land-area matches
+- [x] Treat merged plots (6/1–6/2, 6/7–6/8, 6/23–6/24) by their combined post-merge DCR land area only
+- [x] Build full per-plot transaction histories without duplicate or uncertain assignments
+- [x] Show updated history on Golf Views cards, plot details, and map info windows
+- [x] Add transaction-rich map cards for matched Golf Views plots with latest price, date, sale count, and full-details link
+- [x] Verify matching coverage, TypeScript, and all tests before checkpoint
