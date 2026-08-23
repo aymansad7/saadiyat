@@ -18,6 +18,7 @@ import { Search, RotateCcw, ChevronUp, ChevronDown } from "lucide-react";
 import { golfViewsPlotData } from "@/data/golfViewsPlotData";
 import { getPlotLandArea } from "@/data/plotLandAreas";
 import AreaFilterControls, { type AreaViewMode } from "@/components/AreaFilterControls";
+import { getInitialProjectViewMode } from "@/lib/viewMode";
 import {
   areaValue,
   formatArea,
@@ -43,7 +44,7 @@ export default function CommunityPage() {
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
   const [areaMin, setAreaMin] = useState("");
   const [areaMax, setAreaMax] = useState("");
-  const [viewMode, setViewMode] = useState<AreaViewMode>("cards");
+  const [viewMode, setViewMode] = useState<AreaViewMode>(getInitialProjectViewMode);
   const [tableSortKey, setTableSortKey] = useState<TableSortKey>("date");
   const [tableSortDir, setTableSortDir] = useState<"asc" | "desc">("desc");
 
@@ -229,9 +230,10 @@ export default function CommunityPage() {
                   <th className="px-3 py-2 text-left"><button onClick={() => changeTableSort("date")} className="font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground hover:text-primary">Date</button></th>
                   <th className="px-3 py-2 text-left"><button onClick={() => changeTableSort("plot")} className="font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground hover:text-primary">Plot</button></th>
                   <th className="px-3 py-2 text-left font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground">Project</th>
-                  <th className="px-3 py-2 text-right"><button onClick={() => changeTableSort("area")} className="font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground hover:text-primary">Land ({areaUnit === "sqm" ? "m²" : "sqft"})</button></th>
                   <th className="px-3 py-2 text-right"><button onClick={() => changeTableSort("price")} className="font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground hover:text-primary">Price (AED)</button></th>
                   <th className="px-3 py-2 text-left font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground">Primary / Secondary</th>
+                  <th className="px-3 py-2 text-right"><button onClick={() => changeTableSort("area")} className="font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground hover:text-primary">Land ({areaUnit === "sqm" ? "m²" : "sqft"})</button></th>
+                  <th className="px-3 py-2 text-right font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground">BUA ({areaUnit === "sqm" ? "m²" : "sqft"})</th>
                   <th className="px-3 py-2 text-right font-mono text-[0.62rem] uppercase tracking-wider text-muted-foreground">Actions</th>
                 </tr>
               </thead>
@@ -241,9 +243,10 @@ export default function CommunityPage() {
                     <td className="px-3 py-2 font-mono text-xs text-muted-foreground whitespace-nowrap">{transaction?.date ?? "—"}</td>
                     <td className="px-3 py-2 font-medium text-foreground whitespace-nowrap">{plot.label}</td>
                     <td className="px-3 py-2 text-xs text-muted-foreground whitespace-nowrap">{community.name}</td>
-                    <td className="px-3 py-2 text-right font-mono text-xs whitespace-nowrap">{formatArea(area, areaUnit)}</td>
                     <td className="px-3 py-2 text-right font-mono text-xs whitespace-nowrap">{transaction ? transaction.priceAed.toLocaleString() : "No confirmed transaction"}</td>
                     <td className="px-3 py-2 text-xs whitespace-nowrap">{transaction ? (transaction.saleType === "primary" ? "Primary" : "Secondary") : "—"}</td>
+                    <td className="px-3 py-2 text-right font-mono text-xs whitespace-nowrap">{formatArea(area, areaUnit)}</td>
+                    <td className="px-3 py-2 text-right font-mono text-xs whitespace-nowrap">{transaction?.builtUpAreaSqm ? formatArea({ sqm: transaction.builtUpAreaSqm, sqft: transaction.builtUpAreaSqft ?? undefined }, areaUnit) : "—"}</td>
                     <td className="px-3 py-2 text-right whitespace-nowrap">
                       {slug === "saadiyat-golf-views" && <a href={`/map?plot=${encodeURIComponent(plot.villaKey)}`} className="text-xs text-primary hover:underline">Map</a>}
                       {pdfIndex.get(plot.villaKey) && <a href={pdfIndex.get(plot.villaKey)!} target="_blank" rel="noopener noreferrer" className="ml-3 text-xs text-primary hover:underline">DCR</a>}

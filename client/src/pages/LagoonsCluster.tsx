@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import { Search, RotateCcw, ExternalLink, LayoutGrid, Table2 } from "lucide-react";
 import AreaFilterControls from "@/components/AreaFilterControls";
+import { getInitialProjectViewMode } from "@/lib/viewMode";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 
 const CLUSTER_LABELS: Record<string, string> = {
@@ -78,7 +79,7 @@ export default function LagoonsCluster() {
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
   const [areaMin, setAreaMin] = useState("");
   const [areaMax, setAreaMax] = useState("");
-  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
+  const [viewMode, setViewMode] = useState<"cards" | "table">(getInitialProjectViewMode);
 
   // Keep filter in sync if the user navigates to a different ?avail= URL
   useEffect(() => {

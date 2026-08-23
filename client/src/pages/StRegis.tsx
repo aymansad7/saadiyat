@@ -28,6 +28,7 @@ import { DCR_BACKUPS } from "@/data/dcrBackups";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import AreaFilterControls from "@/components/AreaFilterControls";
+import { getInitialProjectViewMode } from "@/lib/viewMode";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 
 type SortKey = "id" | "plot" | "gfa";
@@ -43,7 +44,7 @@ export default function StRegis() {
   const [hoverId, setHoverId] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [mapOpenMobile, setMapOpenMobile] = useState(true);
-  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
+  const [viewMode, setViewMode] = useState<"cards" | "table">(getInitialProjectViewMode);
 
   const { index: listingIndex } = useListingIndex({ community: "st-regis" });
 

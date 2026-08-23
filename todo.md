@@ -312,3 +312,14 @@
 - [x] Show full mobile-friendly map cards with project, unit/plot, area, transactions, and Full Details
 - [x] Ensure SBV, Jawaher, St. Regis, Golf Views, Hidd, Private Villas, and Lagoons link to the correct detail page
 - [x] Verify mobile popups visually, run TypeScript/tests, and publish a checkpoint
+
+### Interactive Map Mobile Price + Performance (Aug 23, 2026)
+- [x] Assign the AED 76.5M transaction to Plot 6/14 using the user-approved unique-nearest-area rule
+- [x] Verify and assign the AED 26M transaction dated 2025-11-14 to Plot 6/26 using the unique-nearest-area rule
+- [x] Preserve and display BUA in m²/sqft for every matched transaction where the CSV provides it
+- [x] Show the DCR-vs-transaction land-area difference on approximate matches
+- [x] Render every transaction price on its own non-clipped mobile line
+- [x] Add a one-click Project Table button for every community map card
+- [x] Preserve the selected plot/unit when returning from the map to the project table
+- [x] Reduce initial marker rendering cost and optimize dense Lagoons/Hidd layers
+- [x] Verify mobile cards and map load time, run tests, and publish a checkpoint

@@ -2,8 +2,8 @@
 """Audit the authoritative ADREC Golf Views CSV against DCR land areas.
 
 Only near-exact rows (<= 0.75 m²) are automatically accepted. Rows with a
-difference up to 10 m² are held for explicit user approval. The two AED 55M
-rows are a documented user-confirmed exception assigned to Plot 6/6.
+difference up to 10 m² are held for explicit user approval. User-confirmed
+unique-nearest exceptions are assigned explicitly and retain their area delta.
 """
 
 from __future__ import annotations
@@ -30,6 +30,10 @@ SQFT_PER_SQM = 10.764
 EXACT_TOLERANCE_SQM = 0.75
 REVIEW_TOLERANCE_SQM = 10.0
 CONFIRMED_55M_PLOT = "golf-views/SDN2_6_6"
+CONFIRMED_UNIQUE_NEAREST = {
+    ("2025-11-28", 76_500_000): "golf-views/SDN2_6_14",
+    ("2025-11-14", 26_000_000): "golf-views/SDN2_6_26",
+}
 
 
 def optional_float(value: str | None) -> float | None:
@@ -58,6 +62,7 @@ def dcr_plots() -> list[dict]:
 
 def classify(raw: dict[str, str], row_number: int, plots: list[dict]) -> dict:
     land_sqm = optional_float(raw.get("Land Plot Ground Area (SQM)"))
+    built_up_sqm = optional_float(raw.get("Property Sold Area (SQM)"))
     price = optional_float(raw.get("Property Sale Price (AED)"))
     sale_sequence = (raw.get("Sale Sequence") or "").strip().lower()
     base = {
@@ -69,6 +74,8 @@ def classify(raw: dict[str, str], row_number: int, plots: list[dict]) -> dict:
         "priceAed": int(round(price)) if price is not None else None,
         "landSqm": land_sqm,
         "landSqft": round(land_sqm * SQFT_PER_SQM, 2) if land_sqm else None,
+        "builtUpAreaSqm": built_up_sqm,
+        "builtUpAreaSqft": round(built_up_sqm * SQFT_PER_SQM, 2) if built_up_sqm else None,
         "saleType": "primary" if sale_sequence == "primary" else "secondary",
         "applicationType": (raw.get("Sale Application Type") or "").strip().lower(),
     }
@@ -90,6 +97,21 @@ def classify(raw: dict[str, str], row_number: int, plots: list[dict]) -> dict:
 
     if base["priceAed"] == 55_000_000 and abs(land_sqm - 2345.6) <= 0.01:
         assigned = next(plot for plot in plots if plot["villaKey"] == CONFIRMED_55M_PLOT)
+        return {
+            **base,
+            "status": "user-confirmed",
+            "assignedVillaKey": assigned["villaKey"],
+            "assignedDcrLandSqm": assigned["landSqm"],
+            "differenceSqm": round(abs(assigned["landSqm"] - land_sqm), 4),
+            "nearestVillaKey": nearest["villaKey"],
+            "nearestDifferenceSqm": nearest["differenceSqm"],
+            "secondNearestVillaKey": second["villaKey"],
+            "secondNearestDifferenceSqm": second["differenceSqm"],
+        }
+
+    override_key = CONFIRMED_UNIQUE_NEAREST.get((base["date"], base["priceAed"]))
+    if override_key:
+        assigned = next(plot for plot in plots if plot["villaKey"] == override_key)
         return {
             **base,
             "status": "user-confirmed",
@@ -158,6 +180,8 @@ def main() -> None:
                 "csvLandSqm": row["landSqm"],
                 "dcrLandSqm": dcr_plot["landSqm"],
                 "differenceSqm": row["differenceSqm"],
+                "builtUpAreaSqm": row["builtUpAreaSqm"],
+                "builtUpAreaSqft": row["builtUpAreaSqft"],
                 "matchStatus": row["status"],
             }
         )

@@ -8,6 +8,7 @@ import { LayoutGrid, Table2 } from "lucide-react";
 import hiddDataRaw from "../../../server/data/hidd_al_saadiyat.json";
 import { hiddPlotRecords, HIDD_SUMMARY } from "@/data/hiddTransactions";
 import AreaFilterControls from "@/components/AreaFilterControls";
+import { getInitialProjectViewMode } from "@/lib/viewMode";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, sqftToSqm, type AreaUnit } from "@/lib/areaSearch";
 
 interface HiddVilla {
@@ -186,7 +187,7 @@ export default function HiddAlSaadiyat() {
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
   const [areaMin, setAreaMin] = useState("");
   const [areaMax, setAreaMax] = useState("");
-  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
+  const [viewMode, setViewMode] = useState<"cards" | "table">(getInitialProjectViewMode);
 
   const zones = useMemo(() => {
     const s = new Set<string>();

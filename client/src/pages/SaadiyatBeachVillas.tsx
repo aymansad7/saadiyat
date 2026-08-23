@@ -15,6 +15,7 @@ import { sbvGateRecords, SDN2_SUMMARY } from "@/data/sdn2Transactions";
 import { getPlotLandArea } from "@/data/plotLandAreas";
 import { findSDN2Transactions } from "@/data/sdn2Transactions";
 import AreaFilterControls from "@/components/AreaFilterControls";
+import { getInitialProjectViewMode } from "@/lib/viewMode";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
@@ -44,7 +45,7 @@ export default function SaadiyatBeachVillas() {
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
   const [areaMin, setAreaMin] = useState("");
   const [areaMax, setAreaMax] = useState("");
-  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
+  const [viewMode, setViewMode] = useState<"cards" | "table">(getInitialProjectViewMode);
 
   const activeGate = COMMUNITY.gates.find((g) => g.slug === gateSlug)!;
 

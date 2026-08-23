@@ -20,6 +20,8 @@ export interface PlotTransaction {
   priceAed: number;
   saleType: "primary" | "secondary";
   ratePerSqft: number | null;
+  builtUpAreaSqm?: number | null;
+  builtUpAreaSqft?: number | null;
   confidence?: "exact" | "approved" | "possible" | "user-confirmed";
   areaDifferenceSqm?: number;
 }
@@ -119,19 +121,29 @@ export default function SimplePlotCard({
                 {transactions.map((transaction, index) => (
                   <div
                     key={`${transaction.date}-${transaction.priceAed}-${transaction.saleType}-${index}`}
-                    className="flex items-center gap-1.5 border-t border-border/70 py-1.5 first:border-t-0"
+                    className="border-t border-border/70 py-2 first:border-t-0"
                   >
-                    <span className={`text-[0.52rem] font-mono uppercase px-1 py-0.5 rounded-sm border ${
-                      transaction.saleType === "primary"
-                        ? "text-primary border-primary/30 bg-primary/5"
-                        : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
-                    }`}>
-                      {transaction.saleType === "primary" ? "Primary" : "Resale"}
-                    </span>
-                    <span className="text-[0.58rem] font-mono text-muted-foreground whitespace-nowrap">{transaction.date}</span>
-                    <span className="ml-auto text-[0.62rem] font-mono font-semibold text-foreground whitespace-nowrap">
+                    <div className="flex items-center gap-1.5">
+                      <span className={`text-[0.52rem] font-mono uppercase px-1 py-0.5 rounded-sm border ${
+                        transaction.saleType === "primary"
+                          ? "text-primary border-primary/30 bg-primary/5"
+                          : "text-amber-600 dark:text-amber-400 border-amber-500/30 bg-amber-500/5"
+                      }`}>
+                        {transaction.saleType === "primary" ? "Primary" : "Resale"}
+                      </span>
+                      <span className="text-[0.58rem] font-mono text-muted-foreground whitespace-nowrap">{transaction.date}</span>
+                    </div>
+                    <div className="mt-1 text-sm font-mono font-bold text-foreground whitespace-nowrap">
                       AED {new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(transaction.priceAed)}
-                    </span>
+                    </div>
+                    {transaction.builtUpAreaSqm ? (
+                      <div className="mt-0.5 text-[0.58rem] font-mono text-muted-foreground">
+                        BUA {formatArea({ sqm: transaction.builtUpAreaSqm, sqft: transaction.builtUpAreaSqft ?? undefined }, areaUnit)}
+                        {typeof transaction.areaDifferenceSqm === "number" && transaction.areaDifferenceSqm > 0.75
+                          ? ` · Land Δ ${transaction.areaDifferenceSqm.toFixed(2)} m²`
+                          : ""}
+                      </div>
+                    ) : null}
                   </div>
                 ))}
               </div>

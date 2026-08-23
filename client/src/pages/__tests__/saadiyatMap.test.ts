@@ -31,6 +31,7 @@ describe("Saadiyat interactive map cards", () => {
       const communityMarkers = markers.filter((item) => item.community === community);
       expect(communityMarkers.length).toBeGreaterThan(0);
       expect(communityMarkers.every((item) => Boolean(item.detailHref))).toBe(true);
+      expect(communityMarkers.every((item) => item.tableHref?.includes("view=table"))).toBe(true);
     }
   });
 });

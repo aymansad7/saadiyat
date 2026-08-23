@@ -17,12 +17,12 @@ describe("Golf Views transaction import", () => {
       (plot) => plot.transactions,
     );
 
-    expect(golfViewsTransactionRecords).toHaveLength(18);
-    expect(transactions).toHaveLength(23);
+    expect(golfViewsTransactionRecords).toHaveLength(19);
+    expect(transactions).toHaveLength(25);
     expect(transactions.filter((tx) => tx.saleType === "primary")).toHaveLength(18);
-    expect(transactions.filter((tx) => tx.saleType === "secondary")).toHaveLength(5);
+    expect(transactions.filter((tx) => tx.saleType === "secondary")).toHaveLength(7);
     expect(transactions.filter((tx) => tx.confidence === "possible")).toHaveLength(1);
-    expect(GOLF_VIEWS_TRANSACTION_SUMMARY.excludedUnmatchedRows).toBe(14);
+    expect(GOLF_VIEWS_TRANSACTION_SUMMARY.excludedUnmatchedRows).toBe(12);
   });
 
   it("stores each plot history chronologically without duplicate events", () => {
@@ -66,5 +66,26 @@ describe("Golf Views transaction import", () => {
     ]);
     expect(plotSixSales.every((transaction) => transaction.priceAed === 55_000_000)).toBe(true);
     expect(plotElevenSales.some((transaction) => transaction.priceAed === 55_000_000)).toBe(false);
+  });
+
+  it("stores the user-confirmed unique-nearest resales with BUA and land delta", () => {
+    expect(golfViewsPlotData["golf-views/SDN2_6_14"].transactions).toContainEqual(
+      expect.objectContaining({
+        date: "2025-11-28",
+        priceAed: 76_500_000,
+        builtUpAreaSqm: 2116.06,
+        confidence: "user-confirmed",
+        areaDifferenceSqm: 11.16,
+      }),
+    );
+    expect(golfViewsPlotData["golf-views/SDN2_6_26"].transactions).toContainEqual(
+      expect.objectContaining({
+        date: "2025-11-14",
+        priceAed: 26_000_000,
+        builtUpAreaSqm: 1133,
+        confidence: "user-confirmed",
+        areaDifferenceSqm: 60.82,
+      }),
+    );
   });
 });

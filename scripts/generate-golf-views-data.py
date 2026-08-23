@@ -81,7 +81,9 @@ def main() -> None:
                 "date": row["date"],
                 "priceAed": row["priceAed"],
                 "saleType": row["saleType"],
-                "ratePerSqft": round(row["priceAed"] / plot["landSqft"]),
+                "builtUpAreaSqm": row.get("builtUpAreaSqm"),
+                "builtUpAreaSqft": row.get("builtUpAreaSqft"),
+                "ratePerSqft": round(row["priceAed"] / (row.get("builtUpAreaSqft") or plot["landSqft"])),
                 "confidence": confidence,
                 "areaDifferenceSqm": row["differenceSqm"],
             }
@@ -97,10 +99,11 @@ def main() -> None:
         " * Golf Views Plot Land Areas & Transaction History",
         " * DCR land areas are the authoritative plot identifiers.",
         " * Transactions source: ADREC SDN2 CSV supplied 23 Aug 2026.",
-        " * Matching policy: exact matches plus user-approved candidates within 10 m² are included.",
-        f" * Imported: {len(seen)} transactions across {final_matched_plot_count} plots; rows over 10 m² are excluded.",
+        " * Matching policy: exact matches, approved near matches, and documented unique-nearest user confirmations.",
+        f" * Imported: {len(seen)} transactions across {final_matched_plot_count} plots.",
         " * User-confirmed correction: AED 55M resales dated 2024-03-18 and 2024-05-30 belong to Plot 6/6, not Plot 6/11.",
         " * Plot 6/15 transaction dated 2020-06-28 is marked Possible because two DCR plots are close in area.",
+        " * User-confirmed unique-nearest matches: AED 76.5M -> Plot 6/14; AED 26M -> Plot 6/26.",
         " */",
         'import type { PlotTransaction } from "@/components/SimplePlotCard";',
         "",
@@ -141,6 +144,8 @@ def main() -> None:
                 f'priceAed: {transaction["priceAed"]}, '
                 f'saleType: "{sale_type}", '
                 f'ratePerSqft: {format_number(transaction["ratePerSqft"])}, '
+                f'builtUpAreaSqm: {format_number(transaction["builtUpAreaSqm"])}, '
+                f'builtUpAreaSqft: {format_number(transaction["builtUpAreaSqft"])}, '
                 f'confidence: "{transaction["confidence"]}", '
                 f'areaDifferenceSqm: {format_number(transaction["areaDifferenceSqm"])} '
                 "},"

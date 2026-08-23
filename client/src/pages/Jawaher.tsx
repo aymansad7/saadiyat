@@ -17,6 +17,7 @@ import { COMMUNITIES } from "@/data/communities";
 import { jawaherPlotHistories, JAWAHER_TX_SUMMARY } from "@/data/jawaherTransactions";
 import { getPlotLandArea } from "@/data/plotLandAreas";
 import AreaFilterControls from "@/components/AreaFilterControls";
+import { getInitialProjectViewMode } from "@/lib/viewMode";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 import { useDcrPdfIndex } from "@/hooks/useDcrPdfIndex";
 import { useListingIndex } from "@/hooks/useListingIndex";
@@ -64,7 +65,7 @@ export default function Jawaher() {
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
   const [areaMin, setAreaMin] = useState("");
   const [areaMax, setAreaMax] = useState("");
-  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
+  const [viewMode, setViewMode] = useState<"cards" | "table">(getInitialProjectViewMode);
 
   // Bulk-fetch every Jawaher DCR PDF in one request → pdf URL map keyed by villaKey.
   const { index: pdfIndex, isLoading: pdfLoading } = useDcrPdfIndex("jawaher/");

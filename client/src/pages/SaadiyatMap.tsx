@@ -6,6 +6,7 @@
  */
 import { useRef, useState, useCallback, useEffect } from "react";
 import { MapView } from "@/components/Map";
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
@@ -74,6 +75,7 @@ interface MapMarkerData {
   listing?: PFListing;
   villaKey?: string;
   detailHref?: string;
+  tableHref?: string;
   detailLines?: string[];
 }
 
@@ -100,6 +102,7 @@ export function buildMarkers(): MapMarkerData[] {
       transactions: txs,
       villaKey: `st-regis/Plot-${v.id}`,
       detailHref: `/st-regis/villa/${v.id}`,
+      tableHref: `/st-regis?view=table#villa-${v.id}`,
       detailLines: [v.bedrooms ? `${v.bedrooms} bedrooms` : "", v.buildingTypology ?? ""].filter(Boolean),
     });
   }
@@ -131,6 +134,7 @@ export function buildMarkers(): MapMarkerData[] {
       listing,
       villaKey: p.villaKey,
       detailHref: `/jawaher/plot/${p.id}`,
+      tableHref: `/jawaher?view=table#plot-${p.id}`,
     });
   }
 
@@ -157,6 +161,7 @@ export function buildMarkers(): MapMarkerData[] {
       transactions: plotData?.transactions,
       villaKey: p.villaKey,
       detailHref: `/community/saadiyat-golf-views#plot-${p.id}`,
+      tableHref: `/community/saadiyat-golf-views?view=table#plot-${p.id}`,
     });
   }
 
@@ -188,6 +193,7 @@ export function buildMarkers(): MapMarkerData[] {
           transactions,
           villaKey: p.villaKey,
           detailHref: `/saadiyat-beach-villas#plot-${p.id}`,
+          tableHref: `/saadiyat-beach-villas?view=table#${gate.slug}`,
           detailLines: [gate.name],
         });
       }
@@ -211,6 +217,7 @@ export function buildMarkers(): MapMarkerData[] {
       landSqm: area?.sqm,
       villaKey: p.villaKey,
       detailHref: `/community/private-villas-four-seasons#plot-${p.id}`,
+      tableHref: `/community/private-villas-four-seasons?view=table#plot-${p.id}`,
     });
   }
 
@@ -224,6 +231,7 @@ export function buildMarkers(): MapMarkerData[] {
       label: `Villa ${hv.villaNumber}`,
       villaKey: `hidd/${hv.villaNumber}/${hv.street}`,
       detailHref: `/hidd-al-saadiyat`,
+      tableHref: `/hidd-al-saadiyat?view=table#villa-${hv.villaNumber}`,
       detailLines: [`Street ${hv.street}`],
     });
   }
@@ -244,6 +252,7 @@ export function buildMarkers(): MapMarkerData[] {
       saleType: lv.status || undefined,
       villaKey: `lagoons/${lv.unit_name}`,
       detailHref: `/saadiyat-lagoons/${lv.cluster}/${encodeURIComponent(lv.unit_name)}`,
+      tableHref: `/saadiyat-lagoons/${lv.cluster}?view=table#unit-${encodeURIComponent(lv.unit_name)}`,
       detailLines: [clusterLabel, lv.status ? `Status: ${lv.status}` : ""].filter(Boolean),
     });
   }
@@ -254,6 +263,7 @@ export function buildMarkers(): MapMarkerData[] {
 export default function SaadiyatMap() {
   const mapRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
+  const clustererRef = useRef<MarkerClusterer | null>(null);
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
   const [showOwners, setShowOwners] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -312,10 +322,17 @@ export default function SaadiyatMap() {
       for (const transaction of m.transactions) {
         const badgeColor = transaction.saleType === "primary" ? "#C75B12" : "#D97706";
         const badge = transaction.saleType === "primary" ? "P" : "S";
-        html += `<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-top:1px solid #eee6dd;font-size:11px">`;
+        html += `<div style="padding:6px 0;border-top:1px solid #eee6dd">`;
+        html += `<div style="display:flex;align-items:center;gap:6px;font-size:11px">`;
         html += `<span style="color:${badgeColor};font-weight:700">${badge}</span>`;
-        html += `<span style="color:#777">${transaction.date}</span>`;
-        html += `<span style="margin-left:auto;font-weight:700">AED ${fmt(transaction.priceAed)}</span>`;
+        html += `<span style="color:#777">${transaction.date}</span></div>`;
+        html += `<div style="margin:2px 0 0 18px;font-size:13px;font-weight:800;white-space:nowrap;color:#1f2937">AED ${fmt(transaction.priceAed)}</div>`;
+        if (transaction.builtUpAreaSqm) {
+          html += `<div style="margin:2px 0 0 18px;font-size:10px;color:#6b7280">BUA ${formatArea({ sqm: transaction.builtUpAreaSqm, sqft: transaction.builtUpAreaSqft ?? undefined }, areaUnit)}</div>`;
+        }
+        if (typeof transaction.areaDifferenceSqm === "number" && transaction.areaDifferenceSqm > 0.75) {
+          html += `<div style="margin:2px 0 0 18px;font-size:9px;color:#92400e">Land match Δ ${transaction.areaDifferenceSqm.toFixed(2)} m²</div>`;
+        }
         html += `</div>`;
         if (transaction.confidence === "possible") {
           html += `<div style="margin:-2px 0 5px 20px;color:#92400e;font-size:9px">Possible match · area difference ${transaction.areaDifferenceSqm?.toFixed(2) ?? "—"} m²</div>`;
@@ -347,8 +364,11 @@ export default function SaadiyatMap() {
     }
 
     // Full Details link
-    if (m.detailHref) {
-      html += `<a href="${m.detailHref}" style="display:block;margin-top:9px;font-size:12px;font-weight:700;color:#fff;background:#C75B12;text-align:center;text-decoration:none;padding:7px 10px;border-radius:6px;">Open Full Details →</a>`;
+    if (m.detailHref || m.tableHref) {
+      html += `<div style="display:grid;grid-template-columns:${m.detailHref && m.tableHref ? "1fr 1fr" : "1fr"};gap:6px;margin-top:9px">`;
+      if (m.detailHref) html += `<a href="${m.detailHref}" style="display:block;font-size:11px;font-weight:700;color:#fff;background:#C75B12;text-align:center;text-decoration:none;padding:8px 6px;border-radius:6px;">Full Details</a>`;
+      if (m.tableHref) html += `<a href="${m.tableHref}" style="display:block;font-size:11px;font-weight:700;color:#7c3f1f;background:#fff7ed;border:1px solid #fed7aa;text-align:center;text-decoration:none;padding:8px 6px;border-radius:6px;">Project Table</a>`;
+      html += `</div>`;
     }
 
     html += `</div>`;
@@ -378,7 +398,6 @@ export default function SaadiyatMap() {
       pin.dataset.community = m.community;
 
       const marker = new google.maps.marker.AdvancedMarkerElement({
-        map,
         position: { lat: m.lat, lng: m.lng },
         content: pin,
         title: m.label,
@@ -391,6 +410,14 @@ export default function SaadiyatMap() {
 
       markersRef.current.push(marker);
     }
+
+    // Render through the official clusterer instead of mounting 2,500+ DOM
+    // markers at once. Dense Hidd/Lagoons points expand progressively as the
+    // user zooms, which keeps mobile pan/zoom responsive.
+    clustererRef.current = new MarkerClusterer({
+      map,
+      markers: markersRef.current,
+    });
 
     // Deep-link only after every marker exists. The earlier effect-based version
     // could run before handleMapReady and never retry because refs do not rerender.
@@ -444,9 +471,11 @@ export default function SaadiyatMap() {
   }, [activeFilter, areaUnit, areaMin, areaMax, mapQuery]);
 
   useEffect(() => {
-    markersRef.current.forEach((marker, index) => {
-      marker.map = markerMatchesFilters(markerData[index]) ? mapRef.current : null;
-    });
+    const clusterer = clustererRef.current;
+    if (!clusterer) return;
+    const visibleMarkers = markersRef.current.filter((_, index) => markerMatchesFilters(markerData[index]));
+    clusterer.clearMarkers();
+    clusterer.addMarkers(visibleMarkers);
   }, [markerData, markerMatchesFilters]);
 
   const visibleMarkerCount = markerData.filter(markerMatchesFilters).length;
