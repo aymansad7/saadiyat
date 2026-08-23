@@ -39,6 +39,8 @@ import type { PFListing } from "@/data/propertyFinderListings";
 import { hiddVillaCoords } from "@/data/hiddCoordinates";
 import { lagoonsVillaCoords } from "@/data/lagoonsCoordinates";
 import { FOUR_SEASONS_VILLAS } from "@/data/fourSeasons";
+import { FOUR_SEASONS_FLOORPLAN_BY_VILLA } from "@/data/fourSeasonsFloorplans";
+import { getFourSeasonsTransactions } from "@/data/fourSeasonsTransactions";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import {
   formatArea,
@@ -83,6 +85,7 @@ interface MapMarkerData {
   availabilityStatus?: "available";
   availabilityDate?: string;
   askingPrice?: number;
+  floorplanHref?: string;
 }
 
 export function buildMarkers(): MapMarkerData[] {
@@ -229,21 +232,44 @@ export function buildMarkers(): MapMarkerData[] {
 
   // Four Seasons — master-plan positions calibrated to official DCR controls.
   for (const villa of FOUR_SEASONS_VILLAS) {
+    const floorplan = FOUR_SEASONS_FLOORPLAN_BY_VILLA.get(villa.villaNumber);
+    const fourSeasonsTransactions: PlotTransaction[] = getFourSeasonsTransactions(villa.villaNumber).map((transaction) => ({
+      date: transaction.date,
+      priceAed: transaction.priceAed,
+      saleType: transaction.saleSequence === "primary" ? "primary" : "secondary",
+      ratePerSqft: null,
+      builtUpAreaSqm: transaction.builtUpAreaSqm,
+      builtUpAreaSqft: transaction.builtUpAreaSqm * 10.764,
+      confidence: transaction.confidence === "possible"
+        ? "possible"
+        : transaction.matchBasis === "user_confirmed"
+        ? "user-confirmed"
+        : "exact",
+      areaDifferenceSqm: transaction.landDifferenceSqm ?? undefined,
+    }));
+    const latestTransaction = fourSeasonsTransactions[fourSeasonsTransactions.length - 1];
+    const confirmedTransaction = getFourSeasonsTransactions(villa.villaNumber).find((transaction) => transaction.confidence === "confirmed");
     markers.push({
       id: `four-seasons-${villa.villaNumber}`,
       lat: villa.latitude,
       lng: villa.longitude,
       community: "four-seasons",
       label: villa.label,
-      landSqft: villa.plotAreaSqft ?? undefined,
-      landSqm: villa.plotAreaSqm ?? undefined,
+      landSqft: villa.plotAreaSqft ?? floorplan?.plotAreaSqft ?? (confirmedTransaction ? confirmedTransaction.landAreaSqm * 10.764 : undefined),
+      landSqm: villa.plotAreaSqm ?? floorplan?.plotAreaSqmPrinted ?? confirmedTransaction?.landAreaSqm,
+      lastPrice: latestTransaction?.priceAed,
+      lastDate: latestTransaction?.date,
+      saleType: latestTransaction?.saleType,
+      salesCount: fourSeasonsTransactions.length || undefined,
+      transactions: fourSeasonsTransactions,
       villaKey: villa.villaKey,
       detailHref: `/four-seasons#villa-${villa.villaNumber}`,
       tableHref: `/four-seasons?view=table#villa-${villa.villaNumber}`,
-      detailLines: [`${villa.bedrooms} BR`, villa.villaType, villa.view ?? ""].filter(Boolean),
+      detailLines: [`${villa.bedrooms} BR`, floorplan?.villaType ?? villa.villaType, villa.view ?? "", floorplan ? "Developer Floorplan" : ""].filter(Boolean),
       availabilityStatus: villa.status === "available" ? "available" : undefined,
       availabilityDate: villa.availabilityUpdatedAt ?? undefined,
       askingPrice: villa.askingPriceAed ?? undefined,
+      floorplanHref: floorplan?.pdfUrl,
     });
   }
 
@@ -403,6 +429,10 @@ export default function SaadiyatMap() {
       html += `<div style="font-size:10px;color:#888;margin-top:2px">Listed ${l.listedAgo} ago</div>`;
       html += `<a href="${l.url}" target="_blank" style="display:inline-block;margin-top:4px;font-size:11px;color:#065F46;text-decoration:underline">View on PropertyFinder →</a>`;
       html += `</div>`;
+    }
+
+    if (m.floorplanHref) {
+      html += `<a href="${m.floorplanHref}" target="_blank" rel="noopener noreferrer" style="display:block;margin-top:7px;padding:7px;border:1px solid #d6d3d1;border-radius:6px;color:#7c3f1f;font-size:11px;font-weight:700;text-align:center;text-decoration:none">Open developer Floorplan →</a>`;
     }
 
     if (showOwners && (m.owner || m.phone)) {

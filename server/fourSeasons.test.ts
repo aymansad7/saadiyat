@@ -9,6 +9,16 @@ import {
   FOUR_SEASONS_PENDING_SUMMARY,
   FOUR_SEASONS_PENDING_TRANSACTIONS,
 } from "../client/src/data/fourSeasonsPendingTransactions";
+import {
+  FOUR_SEASONS_FLOORPLANS,
+  FOUR_SEASONS_FLOORPLAN_BY_VILLA,
+} from "../client/src/data/fourSeasonsFloorplans";
+import {
+  FOUR_SEASONS_TRANSACTION_MATCHES,
+  FOUR_SEASONS_TRANSACTION_SUMMARY,
+  FOUR_SEASONS_UNMATCHED_TRANSACTIONS,
+  getFourSeasonsTransactions,
+} from "../client/src/data/fourSeasonsTransactions";
 import { COMMUNITIES } from "../client/src/data/communities";
 import { getPlotLandArea } from "../client/src/data/plotLandAreas";
 import { plotCoordinates } from "../client/src/data/plotCoordinates";
@@ -71,6 +81,60 @@ describe("Four Seasons source integrity", () => {
       ),
     ).toBe(true);
     expect(new Set(FOUR_SEASONS_PENDING_TRANSACTIONS.map((tx) => tx.sourceRow)).size).toBe(15);
+  });
+
+  it("registers the 20 developer floorplans without treating them as availability", () => {
+    expect(FOUR_SEASONS_FLOORPLANS).toHaveLength(20);
+    expect(new Set(FOUR_SEASONS_FLOORPLANS.map((floorplan) => floorplan.villaNumber)).size).toBe(20);
+    expect(FOUR_SEASONS_FLOORPLANS.filter((floorplan) => floorplan.bedrooms === 5)).toHaveLength(11);
+    expect(FOUR_SEASONS_FLOORPLANS.filter((floorplan) => floorplan.bedrooms === 6)).toHaveLength(9);
+    expect(FOUR_SEASONS_FLOORPLANS.every((floorplan) => floorplan.sourceKind === "developer_floorplan")).toBe(true);
+    expect(FOUR_SEASONS_FLOORPLANS.every((floorplan) => floorplan.pdfUrl.startsWith("/manus-storage/"))).toBe(true);
+
+    const villa29 = FOUR_SEASONS_VILLAS.find((villa) => villa.villaNumber === 29);
+    expect(villa29?.plotAreaSqft).toBe(18976);
+    expect(villa29?.status).toBe("unknown");
+    expect(villa29?.askingPriceAed).toBeNull();
+    expect(FOUR_SEASONS_FLOORPLAN_BY_VILLA.get(29)?.sellableAreaSqft).toBe(22718);
+  });
+
+  it("keeps explicit confirmed and possible municipal matches unique", () => {
+    expect(FOUR_SEASONS_TRANSACTION_SUMMARY).toEqual({
+      total: 15,
+      confirmed: 3,
+      possible: 2,
+      unmatched: 10,
+    });
+    expect(FOUR_SEASONS_UNMATCHED_TRANSACTIONS).toHaveLength(10);
+    expect(new Set(FOUR_SEASONS_TRANSACTION_MATCHES.map((transaction) => transaction.sourceRow)).size).toBe(
+      FOUR_SEASONS_TRANSACTION_MATCHES.length,
+    );
+
+    const villa9 = getFourSeasonsTransactions(9);
+    expect(villa9).toHaveLength(1);
+    expect(villa9[0]).toMatchObject({
+      sourceRow: 2,
+      priceAed: 350000000,
+      date: "2026-08-20",
+      confidence: "confirmed",
+      matchBasis: "user_confirmed",
+    });
+
+    expect(getFourSeasonsTransactions(38)[0]).toMatchObject({
+      sourceRow: 5,
+      priceAed: 83400000,
+      confidence: "confirmed",
+    });
+    expect(getFourSeasonsTransactions(38)[0].landDifferenceSqm).toBeLessThan(0.01);
+    expect(getFourSeasonsTransactions(40)[0]).toMatchObject({
+      sourceRow: 7,
+      priceAed: 87500000,
+      confidence: "confirmed",
+    });
+    expect(getFourSeasonsTransactions(40)[0].landDifferenceSqm).toBeLessThan(0.05);
+
+    expect(getFourSeasonsTransactions(14)[0]).toMatchObject({ sourceRow: 3, confidence: "possible" });
+    expect(getFourSeasonsTransactions(21)[0]).toMatchObject({ sourceRow: 11, confidence: "possible" });
   });
 });
 

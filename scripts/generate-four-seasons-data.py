@@ -22,6 +22,17 @@ PAGE_WIDTH = 2560.0
 PAGE_HEIGHT = 1600.0
 SQFT_PER_SQM = 10.764
 
+# Plot areas printed in the individual developer Floorplan PDFs supplied on
+# 23 Aug 2026. These sheets are not municipal DCRs and do not imply current
+# availability. They supersede the older combined 5Bed/6Bed lists for static
+# plot specifications when a current availability row is not present.
+FLOORPLAN_PLOT_SQFT = {
+    12: 17236, 13: 16985, 14: 14116, 15: 15044, 16: 14363,
+    20: 13226, 21: 13938, 25: 17818, 27: 17942, 29: 18976,
+    31: 19762, 33: 16840, 37: 13318, 38: 13662, 39: 16222,
+    40: 13709, 43: 13325, 44: 13195, 48: 20508, 50: 18565,
+}
+
 # Official DCR control bounds used to georeference the master-plan positions.
 # SW: SDN3_14; NE: SDN3_10. The source is recorded on every generated villa.
 WEST_LNG = 54.4395887
@@ -208,6 +219,7 @@ def generate(
     for number in range(1, 57):
         availability = available.get(number)
         historical = historical_specs.get(number)
+        floorplan_plot_sqft = FLOORPLAN_PLOT_SQFT.get(number)
         built_up_sqft = (
             availability["builtUpAreaSqft"]
             if availability
@@ -216,6 +228,8 @@ def generate(
         plot_area_sqft = (
             availability["plotAreaSqft"]
             if availability
+            else floorplan_plot_sqft
+            if floorplan_plot_sqft is not None
             else historical["plotAreaSqft"] if historical else None
         )
         record = {

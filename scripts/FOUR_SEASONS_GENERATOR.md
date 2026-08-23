@@ -22,7 +22,7 @@ python3 scripts/generate-four-seasons-data.py \
   --source-dir /home/ubuntu/upload
 ```
 
-The default output is `client/src/data/fourSeasons.ts`. Use `--output` only for verification or diffing.
+The default output is `client/src/data/fourSeasons.ts`. Use `--output` only for verification or diffing. Verified plot areas from the individual 5BR/6BR developer Floorplan PDFs supplied on 23 Aug 2026 are retained as static plot specifications in the generator. Those sheets are **not municipal DCRs** and never change a villa's availability.
 
 ## Data-integrity guarantees
 

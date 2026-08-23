@@ -351,3 +351,15 @@
 - [x] Add Four Seasons to the Interactive Map; show Available villas in green and other known villas in a neutral color
 - [x] Label all master-plan-derived map coordinates as calibrated approximations, not individual official DCR coordinates
 - [x] Verify Faya plus the new plot, run TypeScript/tests, and publish a checkpoint
+
+### Four Seasons 5BR/6BR Municipal Transaction Matching (Aug 23, 2026)
+- [x] Assign the AED 350M municipal sale dated 2026-08-20 to Four Seasons Villa 9 as a user-confirmed match
+- [x] Extract official plot and sellable areas from the developer Floorplan PDFs for Villas 14, 15, 16, 20, 21, 37, 38, 39, 40, 43, and 44
+- [x] Extract official plot and sellable areas from the developer Floorplan PDFs for Villas 12, 13, 25, 27, 29, 31, 33, 48, and 50
+- [x] Register each new 5BR/6BR developer Floorplan PDF under its Four Seasons villa key and expose it from the villa card without labeling it as a municipal DCR
+- [x] Re-audit every historical 5BR/6BR villa land area against the 15 pending municipal transaction rows
+- [x] Match a transaction only when the official land area identifies one unique villa within a documented tolerance
+- [x] Keep repeated land areas and unmatched rows unassigned; label non-exact compatible candidates as Possible only
+- [x] Add confirmed and Possible Four Seasons transaction timelines to villa cards, table rows, master plan, and map detail cards
+- [x] Add regression tests proving historical prices/statuses remain excluded and no transaction is duplicated
+- [x] Verify TypeScript, 188 tests, and desktop/mobile UI before publishing
