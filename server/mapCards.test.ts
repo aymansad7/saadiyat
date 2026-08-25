@@ -36,6 +36,30 @@ describe("Unified map property cards", () => {
     expect(fourSeasons?.floorplanHref).toBeTruthy();
   });
 
+  it("mirrors documented Aldar facts and resale state for standard Lagoons villas", () => {
+    const villa = markers.find((marker) => marker.id === "lagoons-AlGhaf-203-02");
+    expect(villa?.landSqm).toBeGreaterThan(0);
+    expect(villa?.builtUpSqm).toBeGreaterThan(0);
+    expect(villa?.saleableSqm).toBeGreaterThan(0);
+    expect(villa?.bedrooms).toBe("5");
+    expect(villa?.unitType).toBe("Villa");
+    expect(villa?.model).toBe("5BHK");
+    expect(villa?.developer).toBe("Aldar");
+    expect(villa?.originalPrice).toBeGreaterThan(0);
+
+    const directDcr = markers.find((marker) => marker.id === "lagoons-AlGhaf-139-01");
+    expect(directDcr?.dcrHref).toContain("SDE3_2944.pdf");
+  });
+
+  it("exposes a direct DCR action for DCR-backed community plots", () => {
+    const jawaher = markers.find((marker) => marker.id === "jawaher-1");
+    const beachVilla = markers.find((marker) => marker.community === "saadiyat-beach-villas");
+    const privateVilla = markers.find((marker) => marker.community === "private-villas");
+    expect(jawaher?.dcrHref).toContain("SDN1_");
+    expect(beachVilla?.dcrHref).toContain("geosmart.dmt.gov.ae/dcr/");
+    expect(privateVilla?.dcrHref).toContain("geosmart.dmt.gov.ae/dcr/");
+  });
+
   it("reserves green strictly for documented available or listed markers", () => {
     expect(getMapMarkerColor({ community: "saadiyat-beach-villas" })).not.toBe("#10B981");
     expect(getMapMarkerColor({ community: "lagoons-hidden-sl9" })).not.toBe("#10B981");

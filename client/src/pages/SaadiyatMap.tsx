@@ -45,6 +45,7 @@ import { getFourSeasonsTransactions } from "@/data/fourSeasonsTransactions";
 import { SAADIYAT_RESERVE_RECORDS } from "@/data/saadiyatReserve";
 import { LAGOONS_HIDDEN_SL9_PLOTS } from "@/data/lagoonsHiddenSl9";
 import { LAGOONS_SL10_PLOTS, LAGOONS_SL13_PLOTS } from "@/data/lagoonsDcrPhases";
+import { getAvailability } from "@/data/lagoonsAvailability";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import {
   formatArea,
@@ -81,6 +82,13 @@ interface MapMarkerData {
   builtUpSqft?: number;
   builtUpSqm?: number;
   builtUpLabel?: string;
+  saleableSqft?: number;
+  saleableSqm?: number;
+  bedrooms?: string;
+  unitType?: string;
+  model?: string;
+  status?: string;
+  developer?: string;
   originalPrice?: number;
   lastPrice?: number;
   lastDate?: string;
@@ -192,6 +200,7 @@ export function buildMarkers(): MapMarkerData[] {
       villaKey: p.villaKey,
       detailHref: `/jawaher/plot/${p.id}`,
       tableHref: `/jawaher?view=table#plot-${p.id}`,
+      dcrHref: p.pdfUrl,
     });
   }
 
@@ -222,6 +231,7 @@ export function buildMarkers(): MapMarkerData[] {
       villaKey: p.villaKey,
       detailHref: `/community/saadiyat-golf-views#plot-${p.id}`,
       tableHref: `/community/saadiyat-golf-views?view=table#plot-${p.id}`,
+      dcrHref: p.pdfUrl,
     });
   }
 
@@ -258,6 +268,7 @@ export function buildMarkers(): MapMarkerData[] {
           detailHref: `/saadiyat-beach-villas#plot-${p.id}`,
           tableHref: `/saadiyat-beach-villas?view=table#${gate.slug}`,
           detailLines: [gate.name],
+          dcrHref: p.pdfUrl,
         });
       }
     }
@@ -281,6 +292,7 @@ export function buildMarkers(): MapMarkerData[] {
       villaKey: p.villaKey,
       detailHref: `/community/private-villas-four-seasons#plot-${p.id}`,
       tableHref: `/community/private-villas-four-seasons?view=table#plot-${p.id}`,
+      dcrHref: p.pdfUrl,
     });
   }
 
@@ -495,6 +507,11 @@ export function buildMarkers(): MapMarkerData[] {
   for (const lv of lagoonsVillaCoords) {
     const shortName = lv.unit_name.replace(/^(AlGhaf|AlSidr|Ethir)-/, '');
     const clusterLabel = lv.cluster === 'al-ghaf' ? 'Al Ghaf' : lv.cluster === 'al-sidr' ? 'Al Sidr' : 'Ethir';
+    const availability = getAvailability(`Lagoons-${lv.unit_name.replace(/^(AlGhaf|AlSidr|Ethir)-/, "$1-V-")}`);
+    const confirmedAvailable = Boolean(availability.nasLuxury || availability.aldar.length);
+    const resalePrice = availability.nasLuxury?.selling_price_aed
+      ?? availability.aldar[0]?.asking_price_aed
+      ?? undefined;
     const coordinateSource = lv.position_source === "official_user_control"
       ? "Official SDE3 coordinate"
       : lv.position_source === "legacy_position_retained_no_masterplan_coordinate"
@@ -508,12 +525,28 @@ export function buildMarkers(): MapMarkerData[] {
       label: shortName,
       landSqft: lv.plot_area_sqm ? Math.round(lv.plot_area_sqm * 10.7639) : undefined,
       landSqm: lv.plot_area_sqm || undefined,
-      lastPrice: lv.price || undefined,
-      saleType: lv.status || undefined,
+      builtUpSqft: lv.total_area_sqm ? Math.round(lv.total_area_sqm * 10.7639 * 100) / 100 : undefined,
+      builtUpSqm: lv.total_area_sqm || undefined,
+      builtUpLabel: "Built-up area",
+      saleableSqft: lv.saleable_area_sqm ? Math.round(lv.saleable_area_sqm * 10.7639 * 100) / 100 : undefined,
+      saleableSqm: lv.saleable_area_sqm || undefined,
+      bedrooms: lv.bedrooms || undefined,
+      unitType: lv.unit_type || undefined,
+      model: lv.model || undefined,
+      status: lv.status || undefined,
+      developer: "Aldar",
+      originalPrice: lv.original_price_aed || undefined,
+      lastPrice: resalePrice,
+      saleType: resalePrice ? "resale" : undefined,
+      availabilityStatus: confirmedAvailable ? "available" : undefined,
+      askingPrice: resalePrice,
+      availabilityDate: confirmedAvailable ? "current resale source" : undefined,
       villaKey: `lagoons/${lv.unit_name}`,
       detailHref: `/saadiyat-lagoons/${lv.cluster}/${encodeURIComponent(lv.unit_name)}`,
       tableHref: `/saadiyat-lagoons/${lv.cluster}?view=table#unit-${encodeURIComponent(lv.unit_name)}`,
-      detailLines: [clusterLabel, coordinateSource, lv.status ? `Status: ${lv.status}` : ""].filter(Boolean),
+      detailLines: [clusterLabel, coordinateSource].filter(Boolean),
+      dcrHref: lv.dcr_url || undefined,
+      googleMapsHref: `https://www.google.com/maps?q=${lv.lat},${lv.lng}`,
     });
   }
 
@@ -561,6 +594,19 @@ export default function SaadiyatMap() {
     }
     if (m.builtUpSqft || m.builtUpSqm) {
       html += `<div style="font-size:12px;color:#555;margin-bottom:4px">${m.builtUpLabel ?? "BUA"}: ${formatArea({ sqft: m.builtUpSqft, sqm: m.builtUpSqm }, areaUnit)}</div>`;
+    }
+    if (m.saleableSqft || m.saleableSqm) {
+      html += `<div style="font-size:12px;color:#555;margin-bottom:4px">Saleable: ${formatArea({ sqft: m.saleableSqft, sqm: m.saleableSqm }, areaUnit)}</div>`;
+    }
+    if (m.bedrooms || m.unitType || m.model || m.status || m.developer) {
+      const facts = [
+        m.bedrooms ? `${m.bedrooms} BR` : "",
+        m.unitType ?? "",
+        m.model ? `Model ${m.model}` : "",
+        m.status ? `Status: ${m.status}` : "",
+        m.developer ? `Developer: ${m.developer}` : "",
+      ].filter(Boolean);
+      if (facts.length) html += `<div style="font-size:11px;color:#555;margin:5px 0 4px;line-height:1.45">${facts.join(" · ")}</div>`;
     }
     if (m.originalPrice) {
       html += `<div style="margin-top:6px;padding:6px;background:#f6f3ff;border-radius:4px;border:1px solid #ddd6fe"><div style="font-size:10px;color:#6d28d9;font-weight:700;text-transform:uppercase">Original Price</div><div style="font-size:15px;font-weight:700;margin-top:2px">AED ${fmt(m.originalPrice)}</div></div>`;

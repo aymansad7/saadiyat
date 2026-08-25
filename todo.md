@@ -465,3 +465,12 @@
 - [x] Ensure external project cards and map cards navigate to the exact unit card/detail rather than an unrelated or generic destination
 - [x] Reconcile Hidd numbered villa locations against Yandex evidence and use the supplied address controls to correct the full-shape sequence; direct controls remain exact and all remaining points are visibly labeled as derived from the calibrated shape
 - [x] Verify representative SL10 and Lagoons cards and map deep links on desktop and mobile; retain Hidd verification as a separate open item
+
+### Full Interactive Map Property Cards (Aug 25, 2026)
+- [x] Audit every Saadiyat marker family for unit/plot number, developer/project, original price, resale/available price, land area, BUA/internal area, bedrooms, status, transactions, and DCR source coverage
+- [x] Replace summary-only map popups with a reusable full property-card layout that omits only truly unavailable fields
+- [x] Ensure all visible property data on the source card flows into the corresponding map popup without requiring Full Details
+- [x] Add direct DCR links in every popup where a DCR source is registered; retain DMT and Google Maps links where available
+- [x] Preserve Full Details and Project Table only as secondary navigation, not the sole way to see key details
+- [x] Add regression tests for the full-card fields and DCR links across all Saadiyat marker families
+- [x] Verify representative desktop popups, mobile map-shell behavior, TypeScript, and 210 tests before publishing
