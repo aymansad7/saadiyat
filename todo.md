@@ -380,3 +380,24 @@
 - [x] Add Saadiyat Reserve to the homepage, project navigation, and global search without duplicating Dunes
 - [x] Add regression tests for counts, phase separation, Dunes unit mapping, hotspot uniqueness, routes, and map keys
 - [x] Verify TypeScript, 194 tests, and desktop/mobile UI before publishing
+
+### Saadiyat Coordinate Source Audit · Four Seasons First, Lagoons Next (Aug 25, 2026)
+- [x] Preserve all nine user-supplied official Four Seasons controls and their Villa↔SDN3 mapping: V1→P82, V9→P90, V19→P100, V20→P101, V35→P115, V36→P118, V47→P128, V53→P132, and V56→P129
+- [x] Normalize every user coordinate from longitude/latitude input to latitude/longitude storage without rounding away source precision
+- [x] Create a source-of-truth matrix for Private Villas, Four Seasons, Jawaher, Golf Views, Saadiyat Beach Villas, St. Regis, Reserve, Huge Plot, and Lagoons
+- [x] Preserve every plot with an individual official DCR coordinate and prevent calibrated layers from overwriting it
+- [x] Audit currently registered Private Villas / Four Seasons DCR coverage; individual source points remain preserved and direct coordinates have priority
+- [x] Keep Jawaher, Golf Views, Saadiyat Beach Villas, St. Regis, Reserve, and Huge Plot on their currently verified coordinate sources unless an authoritative correction is supplied
+- [x] Receive Four Seasons villa-number control coordinates from the user and validate them against the official master plan
+- [x] Correct Four Seasons numbering and rebuild its calibration from official control points without claiming derived positions as DCR coordinates
+- [x] Verify Four Seasons map deep links, cards, and master-plan hotspots after recalibration
+- [x] Parse CopyofValanciaInventory2026updating(1).xlsx as Saadiyat Reserve inventory and preserve every source row and sheet name
+- [x] Classify Excel rows as built Dunes villas or Phase 1/2 land plots without duplicating the existing 306-record Reserve registry
+- [x] Mark green only the rows explicitly listed as Available for Sale in the Excel; keep all other Reserve and Dunes records in neutral phase colours
+- [x] Match every available Dunes villa and Reserve plot to its exact card and map marker before attaching a selling price
+- [x] Show Available/Selling Price on available Reserve cards and map popups, and show existing Aldar Original Price for Dunes villas
+- [x] Add availability, price, and inventory-type filters to the unified Saadiyat Reserve Cards/Table page
+- [x] Inventory available Saadiyat Lagoons DCR coordinates: none are currently registered, so no calibration is performed from guesswork
+- [ ] Refit the Lagoons master-plan shape to official DCR controls and remove the current offset, overlap, and spacing distortions
+- [ ] Preserve the shape topology and label every derived Lagoons point as calibrated rather than official
+- [x] Run TypeScript, 195 full tests, and desktop/mobile Four Seasons and Reserve verification before the interim checkpoint

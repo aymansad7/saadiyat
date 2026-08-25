@@ -61,7 +61,7 @@ const COMMUNITY_CENTERS = {
   "lagoons": { lat: 24.5309, lng: 54.4378, label: "Saadiyat Lagoons", color: "#0891B2" },
   "four-seasons": { lat: 24.5508, lng: 54.4421, label: "Four Seasons Private Residences", color: "#334155" },
   "huge-plot": { lat: 24.55285144, lng: 54.44457573, label: "Huge Plot Between Four Seasons and Omniyat", color: "#0F766E" },
-  "saadiyat-reserve": { lat: 24.5232, lng: 54.4427, label: "Saadiyat Reserve · Dunes", color: "#7E22CE" },
+  "saadiyat-reserve": { lat: 24.5232, lng: 54.4427, label: "Saadiyat Reserve · Dunes", color: "#B45309" },
 };
 
 interface MapMarkerData {
@@ -233,7 +233,8 @@ export function buildMarkers(): MapMarkerData[] {
     });
   }
 
-  // Four Seasons — master-plan positions calibrated to official DCR controls.
+  // Four Seasons — nine direct SDN3 controls plus master-plan positions
+  // recalibrated by the audited quadratic model for the remaining villas.
   for (const villa of FOUR_SEASONS_VILLAS) {
     const floorplan = FOUR_SEASONS_FLOORPLAN_BY_VILLA.get(villa.villaNumber);
     const fourSeasonsTransactions: PlotTransaction[] = getFourSeasonsTransactions(villa.villaNumber).map((transaction) => ({
@@ -268,7 +269,15 @@ export function buildMarkers(): MapMarkerData[] {
       villaKey: villa.villaKey,
       detailHref: `/four-seasons#villa-${villa.villaNumber}`,
       tableHref: `/four-seasons?view=table#villa-${villa.villaNumber}`,
-      detailLines: [`${villa.bedrooms} BR`, floorplan?.villaType ?? villa.villaType, villa.view ?? "", floorplan ? "Developer Floorplan" : ""].filter(Boolean),
+      detailLines: [
+        `${villa.bedrooms} BR`,
+        floorplan?.villaType ?? villa.villaType,
+        villa.view ?? "",
+        floorplan ? "Developer Floorplan" : "",
+        villa.positionSource === "user_supplied_sdn3_coordinate"
+          ? `Official SDN3 Plot ${villa.sdn3PlotNumber} coordinate`
+          : "Master plan · calibrated to 9 SDN3 controls",
+      ].filter(Boolean),
       availabilityStatus: villa.status === "available" ? "available" : undefined,
       availabilityDate: villa.availabilityUpdatedAt ?? undefined,
       askingPrice: villa.askingPriceAed ?? undefined,
@@ -314,11 +323,26 @@ export function buildMarkers(): MapMarkerData[] {
       tableHref: `/saadiyat-reserve?view=table&plot=${record.plotNumber}#reserve-record-${record.plotNumber}`,
       detailLines: [
         `Phase ${record.phase}`,
-        record.dunes ? `${record.dunes.bedrooms} BR · Built Dunes villa` : "Reserve land plot",
+        record.dunes
+          ? `${record.dunes.bedrooms} BR · Built Dunes villa`
+          : record.inventoryKind === "reserve_built_villa"
+          ? `${record.saleInventory?.bedrooms ?? "—"} BR · Built Reserve villa`
+          : "Reserve land plot",
         `GFA ${record.gfaSqm.toLocaleString()} m²`,
+        record.originalPriceAed ? `Original Price AED ${record.originalPriceAed.toLocaleString()}` : "",
+        record.availability === "sold" ? "Sold in current source inventory" : "",
         isOfficialCoordinate ? "Official SDE3 coordinate" : "Master-plan calibrated position",
-      ],
-      markerColor: record.phase === 1 ? "#0284C7" : record.phase === 2 ? "#A21CAF" : "#047857",
+      ].filter(Boolean),
+      markerColor: record.availability === "available_for_sale"
+        ? "#10B981"
+        : record.phase === 1
+        ? "#0284C7"
+        : record.phase === 2
+        ? "#A21CAF"
+        : "#B45309",
+      availabilityStatus: record.availability === "available_for_sale" ? "available" : undefined,
+      availabilityDate: record.availabilityUpdatedAt ?? undefined,
+      askingPrice: record.askingPriceAed ?? undefined,
     });
   }
 
@@ -668,7 +692,7 @@ export default function SaadiyatMap() {
           <div className="pointer-events-auto flex flex-wrap gap-3 bg-background/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-border/50 text-xs text-muted-foreground">
             <div className="flex items-center gap-1.5">
               <span className="inline-block w-3 h-3 rounded-full bg-emerald-500 border-2 border-emerald-800 shadow-[0_0_4px_rgba(16,185,129,0.6)]" />
-              <span className="font-medium text-emerald-700">Listed ({markerData.filter(m => m.listing).length})</span>
+              <span className="font-medium text-emerald-700">Available ({markerData.filter(m => m.availabilityStatus === "available").length}) · Listed ({markerData.filter(m => m.listing).length})</span>
             </div>
             {Object.entries(COMMUNITY_CENTERS).map(([key, val]) => {
               const count = markerData.filter(m => m.community === key).length;

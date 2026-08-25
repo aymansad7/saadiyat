@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CLASSIFIED_PATH = ROOT / "tmp/saadiyat-reserve/plots-classified.csv"
 DUNES_OFFICIAL_PATH = Path("/home/ubuntu/extract_dunes_official_units.csv")
 ALDAR_PATH = ROOT / "server/data/aldar_saadiyat.json"
+SALE_INVENTORY_PATH = ROOT / "scripts/source-data/saadiyat-reserve-inventory.json"
 OUTPUT_PATH = ROOT / "client/src/data/saadiyatReserve.ts"
 
 MASTERPLAN_PDF_URL = "/manus-storage/SaadiyatReservePlotsMasterplan_4bb2d343.pdf"
@@ -34,6 +35,7 @@ def main() -> None:
     with DUNES_OFFICIAL_PATH.open(newline="", encoding="utf-8") as handle:
         dunes_rows = list(csv.DictReader(handle))
     aldar = json.loads(ALDAR_PATH.read_text(encoding="utf-8"))
+    sale_inventory = json.loads(SALE_INVENTORY_PATH.read_text(encoding="utf-8"))
     dunes_project = next(project for project in aldar["projects"] if project["slug"] == "saadiyat-reserve-the-dunes")
     dunes_building = dunes_project["buildings"][0]
 
@@ -46,6 +48,7 @@ def main() -> None:
         int(unit["unit_name"].rsplit("-", 1)[-1]): unit
         for unit in dunes_building["units"]
     }
+    sale_by_plot = {int(row["unitNumber"]): row for row in sale_inventory}
 
     records = []
     for row in classified:
@@ -54,6 +57,7 @@ def main() -> None:
         is_dunes = phase == 3
         official = official_by_plot.get(plot_number)
         aldar_unit = aldar_by_plot.get(plot_number)
+        sale = sale_by_plot.get(plot_number)
         if is_dunes and (official is None or aldar_unit is None):
             raise RuntimeError(f"Dunes Plot {plot_number} missing official or existing Aldar data")
         if not is_dunes and (official is not None or aldar_unit is not None):
@@ -62,12 +66,26 @@ def main() -> None:
         plot_area_sqm = numeric(row["area_sqm"])
         gfa_sqm = numeric(row["gfa_sqm"])
         unit_name = aldar_unit["unit_name"] if aldar_unit else None
+        is_reserve_built_villa = bool(sale and sale["unitType"] == "Standalone Villa")
+        inventory_kind = (
+            "dunes_built_villa"
+            if is_dunes
+            else "reserve_built_villa"
+            if is_reserve_built_villa
+            else "reserve_land"
+        )
         records.append(
             {
                 "plotNumber": plot_number,
-                "label": f"Villa {plot_number:03d}-01" if is_dunes else f"Plot {plot_number}",
+                "label": (
+                    f"Villa {plot_number:03d}-01"
+                    if is_dunes
+                    else f"Villa {plot_number}"
+                    if is_reserve_built_villa
+                    else f"Plot {plot_number}"
+                ),
                 "phase": phase,
-                "inventoryKind": "dunes_built_villa" if is_dunes else "reserve_land",
+                "inventoryKind": inventory_kind,
                 "villaKey": (
                     f"saadiyat-reserve-the-dunes/villa-{plot_number}"
                     if is_dunes
@@ -83,11 +101,14 @@ def main() -> None:
                 "longitude": round(float(row["longitude"]), 8),
                 "positionSource": row["position_source"],
                 "phaseSource": row["phase_source"],
-                "availability": None,
-                "askingPriceAed": None,
+                "availability": sale["availability"] if sale else None,
+                "availabilityUpdatedAt": sale["sourceReceivedAt"] if sale else None,
+                "askingPriceAed": sale["askingPriceAed"] if sale else None,
+                "originalPriceAed": numeric(str(aldar_unit["price_aed"])) if aldar_unit else None,
                 "ownerName": None,
                 "ownerMobile": None,
                 "transactionHistory": [],
+                "saleInventory": sale,
                 "dunes": (
                     {
                         "unitNumber": official["Unit Number"],
@@ -126,6 +147,14 @@ def main() -> None:
     }
     if bedrooms != {4: 53, 5: 30}:
         raise RuntimeError(f"Unexpected Dunes bedroom counts: {bedrooms}")
+    available_records = [record for record in records if record["availability"] == "available_for_sale"]
+    sold_records = [record for record in records if record["availability"] == "sold"]
+    reserve_built_villas = [record for record in records if record["inventoryKind"] == "reserve_built_villa"]
+    if (len(available_records), len(sold_records), len(reserve_built_villas)) != (7, 2, 3):
+        raise RuntimeError(
+            "Unexpected sale inventory counts: "
+            f"available={len(available_records)}, sold={len(sold_records)}, built={len(reserve_built_villas)}"
+        )
 
     serialized = json.dumps(records, indent=2, ensure_ascii=False)
     content = f'''/**
@@ -140,7 +169,7 @@ export const SAADIYAT_RESERVE_MASTERPLAN_IMAGE_URL = "{MASTERPLAN_IMAGE_URL}";
 export const SAADIYAT_RESERVE_WORLD_ALDAR_URL = "https://world.aldar.com/uae/abudhabi/saadiyatreserve/dunes";
 
 export type SaadiyatReservePhase = 1 | 2 | 3;
-export type SaadiyatReserveInventoryKind = "reserve_land" | "dunes_built_villa";
+export type SaadiyatReserveInventoryKind = "reserve_land" | "reserve_built_villa" | "dunes_built_villa";
 export type SaadiyatReservePositionSource =
   | "user_supplied_sde3_coordinate"
   | "masterplan_quadratic_calibrated_to_sde3_controls";
@@ -161,6 +190,27 @@ export interface SaadiyatReserveDunesDetails {{
   unitCategory: string;
 }}
 
+export interface SaadiyatReserveSaleInventory {{
+  sourceSheet: "Buy";
+  sourceRow: number;
+  sourceReceivedAt: string;
+  project: "Saadiyat Reserve";
+  sourcePhase: string | null;
+  unitType: "Residential Land" | "Standalone Villa";
+  unitNumber: number;
+  landAreaSqm: number;
+  builtUpAreaSqm: number | null;
+  floors: string | null;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  parking: number | null;
+  availability: "available_for_sale" | "sold";
+  askingPriceAed: number | null;
+  negotiable: boolean;
+  referenceNumber: string | null;
+  details: string | null;
+}}
+
 export interface SaadiyatReserveRecord {{
   plotNumber: number;
   label: string;
@@ -177,11 +227,14 @@ export interface SaadiyatReserveRecord {{
   longitude: number;
   positionSource: SaadiyatReservePositionSource;
   phaseSource: "official_2019_masterplan_vector_boundary" | "user_confirmed_phase_control";
-  availability: null;
-  askingPriceAed: null;
+  availability: "available_for_sale" | "sold" | null;
+  availabilityUpdatedAt: string | null;
+  askingPriceAed: number | null;
+  originalPriceAed: number | null;
   ownerName: null;
   ownerMobile: null;
   transactionHistory: [];
+  saleInventory: SaadiyatReserveSaleInventory | null;
   dunes: SaadiyatReserveDunesDetails | null;
 }}
 
@@ -194,6 +247,9 @@ export const SAADIYAT_RESERVE_PHASE_1_PLOTS = SAADIYAT_RESERVE_RECORDS.filter(re
 export const SAADIYAT_RESERVE_PHASE_2_PLOTS = SAADIYAT_RESERVE_RECORDS.filter(record => record.phase === 2);
 export const SAADIYAT_RESERVE_DUNES_VILLAS = SAADIYAT_RESERVE_RECORDS.filter(
   record => record.inventoryKind === "dunes_built_villa",
+);
+export const SAADIYAT_RESERVE_AVAILABLE_RECORDS = SAADIYAT_RESERVE_RECORDS.filter(
+  record => record.availability === "available_for_sale",
 );
 export const SAADIYAT_RESERVE_BY_PLOT_NUMBER = new Map(
   SAADIYAT_RESERVE_RECORDS.map(record => [record.plotNumber, record]),

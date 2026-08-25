@@ -33,16 +33,26 @@ FLOORPLAN_PLOT_SQFT = {
     40: 13709, 43: 13325, 44: 13195, 48: 20508, 50: 18565,
 }
 
-# Official DCR control bounds used to georeference the master-plan positions.
-# SW: SDN3_14; NE: SDN3_10. The source is recorded on every generated villa.
-WEST_LNG = 54.4395887
-EAST_LNG = 54.44457573
-SOUTH_LAT = 24.5488263
-NORTH_LAT = 24.55285144
-PLOT_X_MIN = 386.0
-PLOT_X_MAX = 1914.0
-PLOT_Y_MIN = 591.0
-PLOT_Y_MAX = 1399.0
+# Official SDN3 controls supplied and mapped to master-plan Villa numbers by
+# the user on 25 Aug 2026. Input coordinates were supplied as lng, lat and are
+# stored below as lat, lng. Direct controls always override model predictions.
+SDN3_CONTROLS = {
+    1: {"plot": 82, "lat": 24.5505760, "lng": 54.4406091},
+    9: {"plot": 90, "lat": 24.5526042, "lng": 54.4431438},
+    19: {"plot": 100, "lat": 24.5501867, "lng": 54.4439628},
+    20: {"plot": 101, "lat": 24.5497470, "lng": 54.4434013},
+    35: {"plot": 115, "lat": 24.5477882, "lng": 54.4401724},
+    36: {"plot": 118, "lat": 24.5478203, "lng": 54.4405966},
+    47: {"plot": 128, "lat": 24.5494841, "lng": 54.4421687},
+    53: {"plot": 132, "lat": 24.5508334, "lng": 54.4418692},
+    56: {"plot": 129, "lat": 24.5521132, "lng": 54.4433158},
+}
+
+# Quadratic model selected by scripts/audit-four-seasons-calibration.py using
+# the lowest leave-one-out RMSE (18.87 m versus 21.10 m for affine and
+# 207.75 m RMSE for the previous two-corner envelope).
+LATITUDE_COEFFICIENTS = [24.550907932884, 0.001473791523, -0.004810774057, 0.00151387505, 0.007477322992, -0.003276049735]
+LONGITUDE_COEFFICIENTS = [54.436290640044, 0.005335294149, 0.005401578622, 0.001624938873, 0.000658385702, -0.000894037554]
 
 
 AVAILABLE_LINE = re.compile(
@@ -150,6 +160,15 @@ def bedroom_count(number: int) -> int:
     return 5
 
 
+def calibrated_coordinate(x_percent: float, y_percent: float) -> tuple[float, float]:
+    x = x_percent / 100
+    y = y_percent / 100
+    features = [1.0, x, y, x * x, x * y, y * y]
+    latitude = sum(coefficient * value for coefficient, value in zip(LATITUDE_COEFFICIENTS, features))
+    longitude = sum(coefficient * value for coefficient, value in zip(LONGITUDE_COEFFICIENTS, features))
+    return latitude, longitude
+
+
 def generate(
     available_text: Path,
     historical_5br_text: Path,
@@ -253,11 +272,18 @@ def generate(
             "historicalSpecSource": historical["historicalSpecSource"] if historical else None,
             **positions[number],
         }
-        x_ratio = min(1.0, max(0.0, (record["xPercent"] / 100 * PAGE_WIDTH - PLOT_X_MIN) / (PLOT_X_MAX - PLOT_X_MIN)))
-        y_ratio = min(1.0, max(0.0, (record["yPercent"] / 100 * PAGE_HEIGHT - PLOT_Y_MIN) / (PLOT_Y_MAX - PLOT_Y_MIN)))
-        record["latitude"] = round(NORTH_LAT - y_ratio * (NORTH_LAT - SOUTH_LAT), 8)
-        record["longitude"] = round(WEST_LNG + x_ratio * (EAST_LNG - WEST_LNG), 8)
-        record["positionSource"] = "masterplan_calibrated_to_dcr"
+        control = SDN3_CONTROLS.get(number)
+        if control:
+            record["latitude"] = control["lat"]
+            record["longitude"] = control["lng"]
+            record["sdn3PlotNumber"] = control["plot"]
+            record["positionSource"] = "user_supplied_sdn3_coordinate"
+        else:
+            latitude, longitude = calibrated_coordinate(record["xPercent"], record["yPercent"])
+            record["latitude"] = round(latitude, 8)
+            record["longitude"] = round(longitude, 8)
+            record["sdn3PlotNumber"] = None
+            record["positionSource"] = "masterplan_quadratic_calibrated_to_sdn3_controls"
         villas.append(record)
 
     serialized = json.dumps(villas, indent=2, ensure_ascii=False)
@@ -286,7 +312,8 @@ export type FourSeasonsVilla = {{
   yPercent: number;
   latitude: number;
   longitude: number;
-  positionSource: "masterplan_calibrated_to_dcr";
+  sdn3PlotNumber: number | null;
+  positionSource: "user_supplied_sdn3_coordinate" | "masterplan_quadratic_calibrated_to_sdn3_controls";
 }};
 
 export const FOUR_SEASONS_MASTERPLAN_IMAGE = "/manus-storage/FourSeasons_MasterPlan_aa0ee03b.png";

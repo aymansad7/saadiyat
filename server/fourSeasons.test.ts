@@ -53,18 +53,43 @@ describe("Four Seasons source integrity", () => {
     }
   });
 
-  it("uses the official master-plan assets and labels calibrated map positions honestly", () => {
+  it("uses the official master-plan assets and separates direct SDN3 controls from calibrated positions", () => {
     expect(FOUR_SEASONS_MASTERPLAN_IMAGE).toBe(
       "/manus-storage/FourSeasons_MasterPlan_aa0ee03b.png",
     );
     expect(FOUR_SEASONS_MASTERPLAN_PDF).toBe(
       "/manus-storage/FourSeasons_MasterPlan_f2902c89.pdf",
     );
-    expect(
-      FOUR_SEASONS_VILLAS.every(
-        (villa) => villa.positionSource === "masterplan_calibrated_to_dcr",
-      ),
-    ).toBe(true);
+    const direct = FOUR_SEASONS_VILLAS.filter(
+      (villa) => villa.positionSource === "user_supplied_sdn3_coordinate",
+    );
+    const calibrated = FOUR_SEASONS_VILLAS.filter(
+      (villa) => villa.positionSource === "masterplan_quadratic_calibrated_to_sdn3_controls",
+    );
+    expect(direct).toHaveLength(9);
+    expect(calibrated).toHaveLength(47);
+    expect(direct.map((villa) => [villa.villaNumber, villa.sdn3PlotNumber])).toEqual([
+      [1, 82],
+      [9, 90],
+      [19, 100],
+      [20, 101],
+      [35, 115],
+      [36, 118],
+      [47, 128],
+      [53, 132],
+      [56, 129],
+    ]);
+    expect(calibrated.every((villa) => villa.sdn3PlotNumber === null)).toBe(true);
+    expect(FOUR_SEASONS_VILLAS.some((villa) => villa.positionSource === "masterplan_calibrated_to_dcr" as never)).toBe(false);
+
+    expect(FOUR_SEASONS_VILLAS.find((villa) => villa.villaNumber === 1)).toMatchObject({
+      latitude: 24.550576,
+      longitude: 54.4406091,
+    });
+    expect(FOUR_SEASONS_VILLAS.find((villa) => villa.villaNumber === 56)).toMatchObject({
+      latitude: 24.5521132,
+      longitude: 54.4433158,
+    });
   });
 
   it("keeps all municipal rows pending and source-traceable", () => {

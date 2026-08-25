@@ -75,7 +75,7 @@ export default function FourSeasons() {
       if (status === "available" && villa.status !== "available") return false;
       if (!isWithinAreaRange(landArea, areaUnit, areaMin, areaMax)) return false;
       if (!normalized) return true;
-      return [villa.label, villa.villaType, villa.view ?? "", `${villa.bedrooms} br`]
+      return [villa.label, villa.villaType, villa.view ?? "", `${villa.bedrooms} br`, villa.sdn3PlotNumber ? `sdn3 plot ${villa.sdn3PlotNumber}` : ""]
         .some((value) => value.toLowerCase().includes(normalized))
         || matchesAreaQuery(normalized, landArea)
         || matchesAreaQuery(normalized, totalArea);
@@ -243,7 +243,7 @@ export default function FourSeasons() {
                   const totalArea = getVillaTotalArea(villa);
                   return (
                   <tr id={`villa-${villa.villaNumber}`} key={villa.villaKey} className="border-t border-border scroll-mt-28">
-                    <td className="px-4 py-3 font-semibold">Villa {villa.villaNumber}<div className="text-xs font-normal text-muted-foreground">{villa.bedrooms} BR</div></td>
+                    <td className="px-4 py-3 font-semibold">Villa {villa.villaNumber}<div className="text-xs font-normal text-muted-foreground">{villa.bedrooms} BR{villa.sdn3PlotNumber ? ` · SDN3 Plot ${villa.sdn3PlotNumber}` : ""}</div></td>
                     <td className="px-4 py-3"><StatusBadge available={villa.status === "available"} /></td>
                     <td className="px-4 py-3">{villa.villaType}<div className="text-xs text-muted-foreground">{villa.view ?? "—"}</div></td>
                     <td className="px-4 py-3 text-right font-mono">{formatArea(landArea, areaUnit)}</td>
@@ -312,6 +312,11 @@ function VillaSummary({ villa, areaUnit }: { villa: FourSeasonsVilla; areaUnit: 
       {transactions.length > 0 && <FourSeasonsTransactionTimeline transactions={transactions} areaUnit={areaUnit} />}
       {floorplan && villa.status !== "available" && <p className="mt-3 text-[0.68rem] text-muted-foreground">Plot and Sellable Area from the developer Floorplan. No current availability implied.</p>}
       {!floorplan && villa.historicalSpecSource && villa.status !== "available" && <p className="mt-3 text-[0.68rem] text-muted-foreground">Areas from historical specification reference only. No current availability implied.</p>}
+      <p className="mt-3 text-[0.68rem] text-muted-foreground">
+        {villa.positionSource === "user_supplied_sdn3_coordinate"
+          ? `Official SDN3 Plot ${villa.sdn3PlotNumber} coordinate supplied and mapped to Villa ${villa.villaNumber}.`
+          : "Map position recalibrated from the official master plan to 9 SDN3 controls; not an individual DCR coordinate."}
+      </p>
       <div className="mt-4 flex flex-wrap gap-2">
         <Button asChild size="sm" variant="outline"><Link href={`/map?plot=${encodeURIComponent(villa.villaKey)}`}><Map className="h-3.5 w-3.5 mr-1.5" />Map</Link></Button>
         {floorplan && <Button asChild size="sm" variant="outline"><a href={floorplan.pdfUrl} target="_blank" rel="noreferrer"><FileText className="h-3.5 w-3.5 mr-1.5" />Floorplan</a></Button>}

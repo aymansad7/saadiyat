@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  SAADIYAT_RESERVE_AVAILABLE_RECORDS,
   SAADIYAT_RESERVE_DUNES_VILLAS,
   SAADIYAT_RESERVE_LAND_PLOTS,
   SAADIYAT_RESERVE_MASTERPLAN_IMAGE_URL,
@@ -49,8 +50,9 @@ describe("Saadiyat Reserve authoritative registry", () => {
   it("preserves the official phase split and separates land from built Dunes villas", () => {
     expect(SAADIYAT_RESERVE_PHASE_1_PLOTS).toHaveLength(116);
     expect(SAADIYAT_RESERVE_PHASE_2_PLOTS).toHaveLength(107);
-    expect(SAADIYAT_RESERVE_LAND_PLOTS).toHaveLength(223);
+    expect(SAADIYAT_RESERVE_LAND_PLOTS).toHaveLength(220);
     expect(SAADIYAT_RESERVE_DUNES_VILLAS).toHaveLength(83);
+    expect(SAADIYAT_RESERVE_RECORDS.filter(record => record.inventoryKind === "reserve_built_villa")).toHaveLength(3);
     expect(SAADIYAT_RESERVE_DUNES_VILLAS.every(record => record.phase === 3)).toBe(true);
     expect(SAADIYAT_RESERVE_LAND_PLOTS.every(record => record.phase === 1 || record.phase === 2)).toBe(true);
   });
@@ -63,6 +65,8 @@ describe("Saadiyat Reserve authoritative registry", () => {
       expect(record.dunes?.unitNumber).toBe(`${String(record.plotNumber).padStart(3, "0")}-01`);
       expect(record.dunes?.officialWorldAldarUrl).toContain(`/property/Dunes-${String(record.plotNumber).padStart(3, "0")}-01/`);
       expect(record.dunes?.existingDetailsPath).toContain("/aldar-saadiyat/saadiyat-reserve-the-dunes/saadiyatreserve-dunes/");
+      expect(record.originalPriceAed).toBe(record.dunes?.launchPriceAed);
+      expect(record.originalPriceAed).toBeGreaterThan(0);
     }
   });
 
@@ -77,10 +81,34 @@ describe("Saadiyat Reserve authoritative registry", () => {
     expect(SAADIYAT_RESERVE_RECORDS.filter(record => record.positionSource === "user_supplied_sde3_coordinate")).toHaveLength(17);
   });
 
-  it("does not fabricate current availability, asking prices, owners, or transactions", () => {
+  it("applies only the nine source-traceable Excel rows and keeps all other availability unknown", () => {
+    const expectedAvailable = new Map([
+      [69, 12_500_000],
+      [72, 12_500_000],
+      [75, 12_500_000],
+      [76, 6_500_000],
+      [80, 6_500_000],
+      [81, 9_500_000],
+      [168, 9_500_000],
+    ]);
+    expect(SAADIYAT_RESERVE_AVAILABLE_RECORDS).toHaveLength(7);
+    expect(SAADIYAT_RESERVE_AVAILABLE_RECORDS.map(record => record.plotNumber).sort((a, b) => a - b)).toEqual([...expectedAvailable.keys()]);
+    for (const record of SAADIYAT_RESERVE_AVAILABLE_RECORDS) {
+      expect(record.availability).toBe("available_for_sale");
+      expect(record.askingPriceAed).toBe(expectedAvailable.get(record.plotNumber));
+      expect(record.availabilityUpdatedAt).toBe("2026-08-25");
+      expect(record.saleInventory?.sourceSheet).toBe("Buy");
+      expect(record.saleInventory?.sourceRow).toBeGreaterThan(1);
+    }
+    expect(SAADIYAT_RESERVE_RECORDS.filter(record => record.availability === "sold").map(record => record.plotNumber)).toEqual([61, 193]);
+    expect(SAADIYAT_RESERVE_RECORDS.filter(record => record.availability === null)).toHaveLength(297);
+
+    const plot81 = SAADIYAT_RESERVE_RECORDS.find(record => record.plotNumber === 81);
+    expect(plot81?.plotAreaSqm).toBe(796.11);
+    expect(plot81?.saleInventory?.landAreaSqm).toBe(800);
+
     for (const record of SAADIYAT_RESERVE_RECORDS) {
-      expect(record.availability).toBeNull();
-      expect(record.askingPriceAed).toBeNull();
+      if (record.availability !== "available_for_sale") expect(record.askingPriceAed).toBeNull();
       expect(record.ownerName).toBeNull();
       expect(record.ownerMobile).toBeNull();
       expect(record.transactionHistory).toEqual([]);

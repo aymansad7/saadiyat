@@ -10,7 +10,7 @@ export const SAADIYAT_RESERVE_MASTERPLAN_IMAGE_URL = "/manus-storage/SaadiyatRes
 export const SAADIYAT_RESERVE_WORLD_ALDAR_URL = "https://world.aldar.com/uae/abudhabi/saadiyatreserve/dunes";
 
 export type SaadiyatReservePhase = 1 | 2 | 3;
-export type SaadiyatReserveInventoryKind = "reserve_land" | "dunes_built_villa";
+export type SaadiyatReserveInventoryKind = "reserve_land" | "reserve_built_villa" | "dunes_built_villa";
 export type SaadiyatReservePositionSource =
   | "user_supplied_sde3_coordinate"
   | "masterplan_quadratic_calibrated_to_sde3_controls";
@@ -31,6 +31,27 @@ export interface SaadiyatReserveDunesDetails {
   unitCategory: string;
 }
 
+export interface SaadiyatReserveSaleInventory {
+  sourceSheet: "Buy";
+  sourceRow: number;
+  sourceReceivedAt: string;
+  project: "Saadiyat Reserve";
+  sourcePhase: string | null;
+  unitType: "Residential Land" | "Standalone Villa";
+  unitNumber: number;
+  landAreaSqm: number;
+  builtUpAreaSqm: number | null;
+  floors: string | null;
+  bedrooms: number | null;
+  bathrooms: number | null;
+  parking: number | null;
+  availability: "available_for_sale" | "sold";
+  askingPriceAed: number | null;
+  negotiable: boolean;
+  referenceNumber: string | null;
+  details: string | null;
+}
+
 export interface SaadiyatReserveRecord {
   plotNumber: number;
   label: string;
@@ -47,11 +68,14 @@ export interface SaadiyatReserveRecord {
   longitude: number;
   positionSource: SaadiyatReservePositionSource;
   phaseSource: "official_2019_masterplan_vector_boundary" | "user_confirmed_phase_control";
-  availability: null;
-  askingPriceAed: null;
+  availability: "available_for_sale" | "sold" | null;
+  availabilityUpdatedAt: string | null;
+  askingPriceAed: number | null;
+  originalPriceAed: number | null;
   ownerName: null;
   ownerMobile: null;
   transactionHistory: [];
+  saleInventory: SaadiyatReserveSaleInventory | null;
   dunes: SaadiyatReserveDunesDetails | null;
 }
 
@@ -73,10 +97,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -96,10 +123,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -119,10 +149,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -142,10 +175,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -165,10 +201,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -188,10 +227,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -211,10 +253,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -234,10 +279,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -257,10 +305,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -280,10 +331,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -303,10 +357,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -326,10 +383,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -349,10 +409,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -372,10 +435,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -395,10 +461,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -418,10 +487,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -441,10 +513,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -464,10 +539,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -487,10 +565,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -510,10 +591,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "user_confirmed_phase_control",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -533,10 +617,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -556,10 +643,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -579,10 +669,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -602,10 +695,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -625,10 +721,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -648,10 +747,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -671,10 +773,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -694,10 +799,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -717,10 +825,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -740,10 +851,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -763,10 +877,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -786,10 +903,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -809,10 +929,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -832,10 +955,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -855,10 +981,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -878,10 +1007,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -901,10 +1033,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -924,10 +1059,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -947,10 +1085,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -970,10 +1111,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -993,10 +1137,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1016,10 +1163,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1039,10 +1189,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1062,10 +1215,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1085,10 +1241,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1108,10 +1267,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1131,10 +1293,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1154,10 +1319,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1177,10 +1345,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1200,10 +1371,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1223,10 +1397,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1246,10 +1423,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1269,10 +1449,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1292,10 +1475,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1315,10 +1501,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1338,10 +1527,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1361,10 +1553,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1384,10 +1579,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1407,10 +1605,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1429,11 +1630,33 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "longitude": 54.4387504,
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
-    "availability": null,
+    "availability": "sold",
+    "availabilityUpdatedAt": "2026-08-25",
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": {
+      "sourceSheet": "Buy",
+      "sourceRow": 3,
+      "sourceReceivedAt": "2026-08-25",
+      "project": "Saadiyat Reserve",
+      "sourcePhase": "Phase 1",
+      "unitType": "Residential Land",
+      "unitNumber": 61,
+      "landAreaSqm": 612,
+      "builtUpAreaSqm": null,
+      "floors": "-",
+      "bedrooms": null,
+      "bathrooms": null,
+      "parking": 3,
+      "availability": "sold",
+      "askingPriceAed": null,
+      "negotiable": true,
+      "referenceNumber": "SR-02",
+      "details": "Single Row"
+    },
     "dunes": null
   },
   {
@@ -1453,10 +1676,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1476,10 +1702,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1499,10 +1728,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1522,10 +1754,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1545,10 +1780,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1568,10 +1806,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1591,17 +1832,20 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
     "plotNumber": 69,
-    "label": "Plot 69",
+    "label": "Villa 69",
     "phase": 2,
-    "inventoryKind": "reserve_land",
+    "inventoryKind": "reserve_built_villa",
     "villaKey": "saadiyat-reserve/plot-69",
     "plotAreaSqm": 647.99,
     "plotAreaSqft": 6974.96,
@@ -1613,11 +1857,33 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "longitude": 54.43978934,
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
-    "availability": null,
-    "askingPriceAed": null,
+    "availability": "available_for_sale",
+    "availabilityUpdatedAt": "2026-08-25",
+    "askingPriceAed": 12500000,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": {
+      "sourceSheet": "Buy",
+      "sourceRow": 9,
+      "sourceReceivedAt": "2026-08-25",
+      "project": "Saadiyat Reserve",
+      "sourcePhase": "Phase 2",
+      "unitType": "Standalone Villa",
+      "unitNumber": 69,
+      "landAreaSqm": 647.99,
+      "builtUpAreaSqm": 470,
+      "floors": "G + 1",
+      "bedrooms": 5,
+      "bathrooms": 6,
+      "parking": 3,
+      "availability": "available_for_sale",
+      "askingPriceAed": 12500000,
+      "negotiable": true,
+      "referenceNumber": "SR-VI-02",
+      "details": "Single Row - Elevator - Swimming Pool - Ready in Q4 2025"
+    },
     "dunes": null
   },
   {
@@ -1637,10 +1903,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1660,17 +1929,20 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
     "plotNumber": 72,
-    "label": "Plot 72",
+    "label": "Villa 72",
     "phase": 2,
-    "inventoryKind": "reserve_land",
+    "inventoryKind": "reserve_built_villa",
     "villaKey": "saadiyat-reserve/plot-72",
     "plotAreaSqm": 648,
     "plotAreaSqft": 6975.07,
@@ -1682,11 +1954,33 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "longitude": 54.4401714,
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
-    "availability": null,
-    "askingPriceAed": null,
+    "availability": "available_for_sale",
+    "availabilityUpdatedAt": "2026-08-25",
+    "askingPriceAed": 12500000,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": {
+      "sourceSheet": "Buy",
+      "sourceRow": 8,
+      "sourceReceivedAt": "2026-08-25",
+      "project": "Saadiyat Reserve",
+      "sourcePhase": "Phase 2",
+      "unitType": "Standalone Villa",
+      "unitNumber": 72,
+      "landAreaSqm": 648,
+      "builtUpAreaSqm": 470,
+      "floors": "G + 1",
+      "bedrooms": 5,
+      "bathrooms": 6,
+      "parking": 3,
+      "availability": "available_for_sale",
+      "askingPriceAed": 12500000,
+      "negotiable": true,
+      "referenceNumber": "SR-VI-01",
+      "details": "Single Row - Elevator - Swimming Pool - Ready in June 2025"
+    },
     "dunes": null
   },
   {
@@ -1706,10 +2000,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1729,17 +2026,20 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
     "plotNumber": 75,
-    "label": "Plot 75",
+    "label": "Villa 75",
     "phase": 2,
-    "inventoryKind": "reserve_land",
+    "inventoryKind": "reserve_built_villa",
     "villaKey": "saadiyat-reserve/plot-75",
     "plotAreaSqm": 647.99,
     "plotAreaSqft": 6974.96,
@@ -1751,11 +2051,33 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "longitude": 54.4406514,
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
-    "availability": null,
-    "askingPriceAed": null,
+    "availability": "available_for_sale",
+    "availabilityUpdatedAt": "2026-08-25",
+    "askingPriceAed": 12500000,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": {
+      "sourceSheet": "Buy",
+      "sourceRow": 10,
+      "sourceReceivedAt": "2026-08-25",
+      "project": "Saadiyat Reserve",
+      "sourcePhase": "Phase 2",
+      "unitType": "Standalone Villa",
+      "unitNumber": 75,
+      "landAreaSqm": 647.99,
+      "builtUpAreaSqm": 470,
+      "floors": "G + 1",
+      "bedrooms": 5,
+      "bathrooms": 6,
+      "parking": 3,
+      "availability": "available_for_sale",
+      "askingPriceAed": 12500000,
+      "negotiable": true,
+      "referenceNumber": "SR-VI-03",
+      "details": "Single Row - Elevator - Swimming Pool - Ready in Q4 2025"
+    },
     "dunes": null
   },
   {
@@ -1774,11 +2096,33 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "longitude": 54.44077054,
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
-    "availability": null,
-    "askingPriceAed": null,
+    "availability": "available_for_sale",
+    "availabilityUpdatedAt": "2026-08-25",
+    "askingPriceAed": 6500000,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": {
+      "sourceSheet": "Buy",
+      "sourceRow": 2,
+      "sourceReceivedAt": "2026-08-25",
+      "project": "Saadiyat Reserve",
+      "sourcePhase": "Phase 2",
+      "unitType": "Residential Land",
+      "unitNumber": 76,
+      "landAreaSqm": 647.99,
+      "builtUpAreaSqm": null,
+      "floors": "-",
+      "bedrooms": null,
+      "bathrooms": null,
+      "parking": 3,
+      "availability": "available_for_sale",
+      "askingPriceAed": 6500000,
+      "negotiable": true,
+      "referenceNumber": "SR-01",
+      "details": "Single Row"
+    },
     "dunes": null
   },
   {
@@ -1798,10 +2142,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1821,10 +2168,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1844,10 +2194,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -1866,11 +2219,33 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "longitude": 54.44124979,
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
-    "availability": null,
-    "askingPriceAed": null,
+    "availability": "available_for_sale",
+    "availabilityUpdatedAt": "2026-08-25",
+    "askingPriceAed": 6500000,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": {
+      "sourceSheet": "Buy",
+      "sourceRow": 6,
+      "sourceReceivedAt": "2026-08-25",
+      "project": "Saadiyat Reserve",
+      "sourcePhase": null,
+      "unitType": "Residential Land",
+      "unitNumber": 80,
+      "landAreaSqm": 647.99,
+      "builtUpAreaSqm": null,
+      "floors": "-",
+      "bedrooms": null,
+      "bathrooms": null,
+      "parking": 3,
+      "availability": "available_for_sale",
+      "askingPriceAed": 6500000,
+      "negotiable": false,
+      "referenceNumber": null,
+      "details": null
+    },
     "dunes": null
   },
   {
@@ -1889,11 +2264,33 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "longitude": 54.4413981,
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
-    "availability": null,
-    "askingPriceAed": null,
+    "availability": "available_for_sale",
+    "availabilityUpdatedAt": "2026-08-25",
+    "askingPriceAed": 9500000,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": {
+      "sourceSheet": "Buy",
+      "sourceRow": 7,
+      "sourceReceivedAt": "2026-08-25",
+      "project": "Saadiyat Reserve",
+      "sourcePhase": null,
+      "unitType": "Residential Land",
+      "unitNumber": 81,
+      "landAreaSqm": 800,
+      "builtUpAreaSqm": null,
+      "floors": "-",
+      "bedrooms": null,
+      "bathrooms": null,
+      "parking": 3,
+      "availability": "available_for_sale",
+      "askingPriceAed": 9500000,
+      "negotiable": false,
+      "referenceNumber": null,
+      "details": null
+    },
     "dunes": null
   },
   {
@@ -1913,10 +2310,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 7023267.48,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "082-01",
       "unitName": "SaadiyatReserve-Dunes-V-082",
@@ -1950,10 +2350,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6740917.42,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "083-01",
       "unitName": "SaadiyatReserve-Dunes-V-083",
@@ -1987,10 +2390,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634907.86,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "084-01",
       "unitName": "SaadiyatReserve-Dunes-V-084",
@@ -2024,10 +2430,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634882.72,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "085-01",
       "unitName": "SaadiyatReserve-Dunes-V-085",
@@ -2061,10 +2470,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634867.23,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "086-01",
       "unitName": "SaadiyatReserve-Dunes-V-086",
@@ -2098,10 +2510,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6665162.59,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "087-01",
       "unitName": "SaadiyatReserve-Dunes-V-087",
@@ -2135,10 +2550,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634869.58,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "088-01",
       "unitName": "SaadiyatReserve-Dunes-V-088",
@@ -2172,10 +2590,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634889.76,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "089-01",
       "unitName": "SaadiyatReserve-Dunes-V-089",
@@ -2209,10 +2630,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6915552.9,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "090-01",
       "unitName": "SaadiyatReserve-Dunes-V-090",
@@ -2246,10 +2670,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6915604.02,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "091-01",
       "unitName": "SaadiyatReserve-Dunes-V-091",
@@ -2283,10 +2710,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6657846.36,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "092-01",
       "unitName": "SaadiyatReserve-Dunes-V-092",
@@ -2320,10 +2750,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634883.36,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "093-01",
       "unitName": "SaadiyatReserve-Dunes-V-093",
@@ -2357,10 +2790,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634916.07,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "094-01",
       "unitName": "SaadiyatReserve-Dunes-V-094",
@@ -2394,10 +2830,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6664472.65,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "095-01",
       "unitName": "SaadiyatReserve-Dunes-V-095",
@@ -2431,10 +2870,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634934.04,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "096-01",
       "unitName": "SaadiyatReserve-Dunes-V-096",
@@ -2468,10 +2910,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634934.04,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "097-01",
       "unitName": "SaadiyatReserve-Dunes-V-097",
@@ -2505,10 +2950,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634934.04,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "098-01",
       "unitName": "SaadiyatReserve-Dunes-V-098",
@@ -2542,10 +2990,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6634934.04,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "099-01",
       "unitName": "SaadiyatReserve-Dunes-V-099",
@@ -2579,10 +3030,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8336193.21,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "100-01",
       "unitName": "SaadiyatReserve-Dunes-V-100",
@@ -2616,10 +3070,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6626271.06,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "101-01",
       "unitName": "SaadiyatReserve-Dunes-V-101",
@@ -2653,10 +3110,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6310017.19,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "102-01",
       "unitName": "SaadiyatReserve-Dunes-V-102",
@@ -2690,10 +3150,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6202283.09,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "103-01",
       "unitName": "SaadiyatReserve-Dunes-V-103",
@@ -2727,10 +3190,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6202281.32,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "104-01",
       "unitName": "SaadiyatReserve-Dunes-V-104",
@@ -2764,10 +3230,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6202284,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "105-01",
       "unitName": "SaadiyatReserve-Dunes-V-105",
@@ -2801,10 +3270,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6202283.1,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "106-01",
       "unitName": "SaadiyatReserve-Dunes-V-106",
@@ -2838,10 +3310,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6202286.58,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "107-01",
       "unitName": "SaadiyatReserve-Dunes-V-107",
@@ -2875,10 +3350,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8179811.35,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "108-01",
       "unitName": "SaadiyatReserve-Dunes-V-108",
@@ -2912,10 +3390,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8179819.54,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "109-01",
       "unitName": "SaadiyatReserve-Dunes-V-109",
@@ -2949,10 +3430,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6201991.94,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "110-01",
       "unitName": "SaadiyatReserve-Dunes-V-110",
@@ -2986,10 +3470,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6202090.45,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "111-01",
       "unitName": "SaadiyatReserve-Dunes-V-111",
@@ -3023,10 +3510,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6202283.83,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "112-01",
       "unitName": "SaadiyatReserve-Dunes-V-112",
@@ -3060,10 +3550,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6170107.44,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "113-01",
       "unitName": "SaadiyatReserve-Dunes-V-113",
@@ -3097,10 +3590,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8351886.13,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "114-01",
       "unitName": "SaadiyatReserve-Dunes-V-114",
@@ -3134,10 +3630,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9214944.5,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "115-01",
       "unitName": "SaadiyatReserve-Dunes-V-115",
@@ -3171,10 +3670,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6500205,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "116-01",
       "unitName": "SaadiyatReserve-Dunes-V-116",
@@ -3208,10 +3710,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9438055.38,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "117-01",
       "unitName": "SaadiyatReserve-Dunes-V-117",
@@ -3245,10 +3750,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6500203,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "118-01",
       "unitName": "SaadiyatReserve-Dunes-V-118",
@@ -3282,10 +3790,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6500000,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "119-01",
       "unitName": "SaadiyatReserve-Dunes-V-119",
@@ -3319,10 +3830,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6500200,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "120-01",
       "unitName": "SaadiyatReserve-Dunes-V-120",
@@ -3356,10 +3870,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6500205.36,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "121-01",
       "unitName": "SaadiyatReserve-Dunes-V-121",
@@ -3393,10 +3910,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6500205,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "122-01",
       "unitName": "SaadiyatReserve-Dunes-V-122",
@@ -3430,10 +3950,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6607933.23,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "123-01",
       "unitName": "SaadiyatReserve-Dunes-V-123",
@@ -3467,10 +3990,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8499601,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "124-01",
       "unitName": "SaadiyatReserve-Dunes-V-124",
@@ -3504,10 +4030,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8454976.27,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "125-01",
       "unitName": "SaadiyatReserve-Dunes-V-125",
@@ -3541,10 +4070,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8572637.23,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "126-01",
       "unitName": "SaadiyatReserve-Dunes-V-126",
@@ -3578,10 +4110,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8277657.5,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "127-01",
       "unitName": "SaadiyatReserve-Dunes-V-127",
@@ -3615,10 +4150,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8659623.5,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "128-01",
       "unitName": "SaadiyatReserve-Dunes-V-128",
@@ -3652,10 +4190,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9622472.47,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "129-01",
       "unitName": "SaadiyatReserve-Dunes-V-129",
@@ -3689,10 +4230,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9526837.96,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "130-01",
       "unitName": "SaadiyatReserve-Dunes-V-130",
@@ -3726,10 +4270,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3749,10 +4296,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3772,10 +4322,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3795,10 +4348,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3818,10 +4374,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3841,10 +4400,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3864,10 +4426,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3887,10 +4452,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3910,10 +4478,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3933,10 +4504,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3956,10 +4530,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -3979,10 +4556,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4002,10 +4582,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4025,10 +4608,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4048,10 +4634,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4071,10 +4660,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4094,10 +4686,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4117,10 +4712,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4140,10 +4738,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4163,10 +4764,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4186,10 +4790,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4209,10 +4816,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4232,10 +4842,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4255,10 +4868,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4278,10 +4894,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4301,10 +4920,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4324,10 +4946,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4347,10 +4972,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4370,10 +4998,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4393,10 +5024,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4416,10 +5050,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4439,10 +5076,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4462,10 +5102,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4485,10 +5128,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4508,10 +5154,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4531,10 +5180,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4554,10 +5206,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4576,11 +5231,33 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "longitude": 54.44192655,
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
-    "availability": null,
-    "askingPriceAed": null,
+    "availability": "available_for_sale",
+    "availabilityUpdatedAt": "2026-08-25",
+    "askingPriceAed": 9500000,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": {
+      "sourceSheet": "Buy",
+      "sourceRow": 4,
+      "sourceReceivedAt": "2026-08-25",
+      "project": "Saadiyat Reserve",
+      "sourcePhase": "Phase 2",
+      "unitType": "Residential Land",
+      "unitNumber": 168,
+      "landAreaSqm": 1020,
+      "builtUpAreaSqm": null,
+      "floors": "-",
+      "bedrooms": null,
+      "bathrooms": null,
+      "parking": 3,
+      "availability": "available_for_sale",
+      "askingPriceAed": 9500000,
+      "negotiable": true,
+      "referenceNumber": "SR-03",
+      "details": "Single Row"
+    },
     "dunes": null
   },
   {
@@ -4600,10 +5277,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4623,10 +5303,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4646,10 +5329,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4669,10 +5355,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4692,10 +5381,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4715,10 +5407,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4738,10 +5433,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4761,10 +5459,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4784,10 +5485,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4807,10 +5511,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4830,10 +5537,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4853,10 +5563,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4876,10 +5589,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4899,10 +5615,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4922,10 +5641,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4945,10 +5667,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4968,10 +5693,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -4991,10 +5719,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5014,10 +5745,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5037,10 +5771,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5060,10 +5797,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5083,10 +5823,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5106,10 +5849,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5129,10 +5875,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5151,11 +5900,33 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "longitude": 54.441105,
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
-    "availability": null,
+    "availability": "sold",
+    "availabilityUpdatedAt": "2026-08-25",
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": {
+      "sourceSheet": "Buy",
+      "sourceRow": 5,
+      "sourceReceivedAt": "2026-08-25",
+      "project": "Saadiyat Reserve",
+      "sourcePhase": "Phase 1",
+      "unitType": "Residential Land",
+      "unitNumber": 193,
+      "landAreaSqm": 802.52,
+      "builtUpAreaSqm": null,
+      "floors": "-",
+      "bedrooms": null,
+      "bathrooms": null,
+      "parking": 3,
+      "availability": "sold",
+      "askingPriceAed": null,
+      "negotiable": false,
+      "referenceNumber": "SR-04",
+      "details": "Double Row - Corner"
+    },
     "dunes": null
   },
   {
@@ -5175,10 +5946,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5198,10 +5972,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5221,10 +5998,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5244,10 +6024,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5267,10 +6050,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5290,10 +6076,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5313,10 +6102,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5336,10 +6128,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5359,10 +6154,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5382,10 +6180,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5405,10 +6206,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5428,10 +6232,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5451,10 +6258,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5474,10 +6284,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5497,10 +6310,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5520,10 +6336,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5543,10 +6362,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5566,10 +6388,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5589,10 +6414,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5612,10 +6440,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5635,10 +6466,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5658,10 +6492,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5681,10 +6518,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5704,10 +6544,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5727,10 +6570,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5750,10 +6596,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5773,10 +6622,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5796,10 +6648,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5819,10 +6674,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5842,10 +6700,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5865,10 +6726,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5888,10 +6752,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5911,10 +6778,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5934,10 +6804,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5957,10 +6830,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -5980,10 +6856,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6003,10 +6882,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6026,10 +6908,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6049,10 +6934,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6072,10 +6960,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6095,10 +6986,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6118,10 +7012,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6141,10 +7038,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6164,10 +7064,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6187,10 +7090,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6210,10 +7116,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6233,10 +7142,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6256,10 +7168,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6279,10 +7194,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6302,10 +7220,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6325,10 +7246,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6348,10 +7272,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6371,10 +7298,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6394,10 +7324,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6417,10 +7350,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6440,10 +7376,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6463,10 +7402,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6486,10 +7428,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6509,10 +7454,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6532,10 +7480,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6555,10 +7506,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6578,10 +7532,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6601,10 +7558,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6624,10 +7584,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6647,10 +7610,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6670,10 +7636,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6693,10 +7662,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6716,10 +7688,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6739,10 +7714,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6762,10 +7740,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6785,10 +7766,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6808,10 +7792,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6831,10 +7818,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6854,10 +7844,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6877,10 +7870,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6900,10 +7896,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6923,10 +7922,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6946,10 +7948,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -6969,10 +7974,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9261812.79,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "272-01",
       "unitName": "SaadiyatReserve-Dunes-V-272",
@@ -7006,10 +8014,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -7029,10 +8040,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8031830.5,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "274-01",
       "unitName": "SaadiyatReserve-Dunes-V-274",
@@ -7066,10 +8080,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": null,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": null
   },
   {
@@ -7089,10 +8106,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9308692.98,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "276-01",
       "unitName": "SaadiyatReserve-Dunes-V-276",
@@ -7126,10 +8146,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8726005.71,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "277-01",
       "unitName": "SaadiyatReserve-Dunes-V-277",
@@ -7163,10 +8186,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8711733.51,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "278-01",
       "unitName": "SaadiyatReserve-Dunes-V-278",
@@ -7200,10 +8226,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6689993.74,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "279-01",
       "unitName": "SaadiyatReserve-Dunes-V-279",
@@ -7237,10 +8266,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6660040.28,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "280-01",
       "unitName": "SaadiyatReserve-Dunes-V-280",
@@ -7274,10 +8306,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6702672.48,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "281-01",
       "unitName": "SaadiyatReserve-Dunes-V-281",
@@ -7311,10 +8346,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6656055.76,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "282-01",
       "unitName": "SaadiyatReserve-Dunes-V-282",
@@ -7348,10 +8386,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6720902.59,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "283-01",
       "unitName": "SaadiyatReserve-Dunes-V-283",
@@ -7385,10 +8426,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6652079.9,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "284-01",
       "unitName": "SaadiyatReserve-Dunes-V-284",
@@ -7422,10 +8466,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8659268.25,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "285-01",
       "unitName": "SaadiyatReserve-Dunes-V-285",
@@ -7459,10 +8506,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8704931.92,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "286-01",
       "unitName": "SaadiyatReserve-Dunes-V-286",
@@ -7496,10 +8546,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8660065.42,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "287-01",
       "unitName": "SaadiyatReserve-Dunes-V-287",
@@ -7533,10 +8586,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8693075.29,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "288-01",
       "unitName": "SaadiyatReserve-Dunes-V-288",
@@ -7570,10 +8626,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6723444.69,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "289-01",
       "unitName": "SaadiyatReserve-Dunes-V-289",
@@ -7607,10 +8666,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6739849.7,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "290-01",
       "unitName": "SaadiyatReserve-Dunes-V-290",
@@ -7644,10 +8706,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6715108.38,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "291-01",
       "unitName": "SaadiyatReserve-Dunes-V-291",
@@ -7681,10 +8746,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6735857.02,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "292-01",
       "unitName": "SaadiyatReserve-Dunes-V-292",
@@ -7718,10 +8786,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6706603.13,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "293-01",
       "unitName": "SaadiyatReserve-Dunes-V-293",
@@ -7755,10 +8826,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6731885.37,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "294-01",
       "unitName": "SaadiyatReserve-Dunes-V-294",
@@ -7792,10 +8866,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9392478.52,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "295-01",
       "unitName": "SaadiyatReserve-Dunes-V-295",
@@ -7829,10 +8906,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "user_supplied_sde3_coordinate",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9498019.29,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "296-01",
       "unitName": "SaadiyatReserve-Dunes-V-296",
@@ -7866,10 +8946,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9257100,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "297-01",
       "unitName": "SaadiyatReserve-Dunes-V-297",
@@ -7903,10 +8986,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8000000,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "298-01",
       "unitName": "SaadiyatReserve-Dunes-V-298",
@@ -7940,10 +9026,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 7789051,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "299-01",
       "unitName": "SaadiyatReserve-Dunes-V-299",
@@ -7977,10 +9066,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8541124.11,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "300-01",
       "unitName": "SaadiyatReserve-Dunes-V-300",
@@ -8014,10 +9106,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 7305870.58,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "301-01",
       "unitName": "SaadiyatReserve-Dunes-V-301",
@@ -8051,10 +9146,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 7023037.01,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "302-01",
       "unitName": "SaadiyatReserve-Dunes-V-302",
@@ -8088,10 +9186,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9473393.11,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "303-01",
       "unitName": "SaadiyatReserve-Dunes-V-303",
@@ -8125,10 +9226,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6607730.74,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "304-01",
       "unitName": "SaadiyatReserve-Dunes-V-304",
@@ -8162,10 +9266,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 8618201.3,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "305-01",
       "unitName": "SaadiyatReserve-Dunes-V-305",
@@ -8199,10 +9306,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 6500417.05,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "306-01",
       "unitName": "SaadiyatReserve-Dunes-V-306",
@@ -8236,10 +9346,13 @@ export const SAADIYAT_RESERVE_RECORDS: SaadiyatReserveRecord[] = [
     "positionSource": "masterplan_quadratic_calibrated_to_sde3_controls",
     "phaseSource": "official_2019_masterplan_vector_boundary",
     "availability": null,
+    "availabilityUpdatedAt": null,
     "askingPriceAed": null,
+    "originalPriceAed": 9479706.88,
     "ownerName": null,
     "ownerMobile": null,
     "transactionHistory": [],
+    "saleInventory": null,
     "dunes": {
       "unitNumber": "307-01",
       "unitName": "SaadiyatReserve-Dunes-V-307",
@@ -8265,6 +9378,9 @@ export const SAADIYAT_RESERVE_PHASE_1_PLOTS = SAADIYAT_RESERVE_RECORDS.filter(re
 export const SAADIYAT_RESERVE_PHASE_2_PLOTS = SAADIYAT_RESERVE_RECORDS.filter(record => record.phase === 2);
 export const SAADIYAT_RESERVE_DUNES_VILLAS = SAADIYAT_RESERVE_RECORDS.filter(
   record => record.inventoryKind === "dunes_built_villa",
+);
+export const SAADIYAT_RESERVE_AVAILABLE_RECORDS = SAADIYAT_RESERVE_RECORDS.filter(
+  record => record.availability === "available_for_sale",
 );
 export const SAADIYAT_RESERVE_BY_PLOT_NUMBER = new Map(
   SAADIYAT_RESERVE_RECORDS.map(record => [record.plotNumber, record]),

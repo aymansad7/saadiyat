@@ -22,7 +22,8 @@ export type FourSeasonsVilla = {
   yPercent: number;
   latitude: number;
   longitude: number;
-  positionSource: "masterplan_calibrated_to_dcr";
+  sdn3PlotNumber: number | null;
+  positionSource: "user_supplied_sdn3_coordinate" | "masterplan_quadratic_calibrated_to_sdn3_controls";
 };
 
 export const FOUR_SEASONS_MASTERPLAN_IMAGE = "/manus-storage/FourSeasons_MasterPlan_aa0ee03b.png";
@@ -51,9 +52,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 39.3006,
     "yPercent": 36.9439,
-    "latitude": 24.55285093,
-    "longitude": 54.44161254,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.550576,
+    "longitude": 54.4406091,
+    "positionSource": "user_supplied_sdn3_coordinate",
+    "sdn3PlotNumber": 82
   },
   {
     "villaKey": "four-seasons/villa-2",
@@ -76,9 +78,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 43.0435,
     "yPercent": 36.9439,
-    "latitude": 24.55285093,
-    "longitude": 54.44192527,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55078741,
+    "longitude": 54.44086642,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-3",
@@ -101,9 +104,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 46.8747,
     "yPercent": 36.9439,
-    "latitude": 24.55285093,
-    "longitude": 54.44224538,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55100186,
+    "longitude": 54.44113613,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-4",
@@ -126,9 +130,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 50.5887,
     "yPercent": 36.9439,
-    "latitude": 24.55285093,
-    "longitude": 54.44255569,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55121399,
+    "longitude": 54.44140213,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-5",
@@ -151,9 +156,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 54.3061,
     "yPercent": 36.9439,
-    "latitude": 24.55285093,
-    "longitude": 54.44286629,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5514305,
+    "longitude": 54.44167287,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-6",
@@ -176,9 +182,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 61.1794,
     "yPercent": 36.9439,
-    "latitude": 24.55285093,
-    "longitude": 54.44344057,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55184183,
+    "longitude": 54.44218528,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-7",
@@ -201,9 +208,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 64.7879,
     "yPercent": 36.9439,
-    "latitude": 24.55285093,
-    "longitude": 54.44374207,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55206351,
+    "longitude": 54.44246045,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-8",
@@ -226,9 +234,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 68.4077,
     "yPercent": 36.9439,
-    "latitude": 24.55285093,
-    "longitude": 54.44404451,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55228984,
+    "longitude": 54.44274072,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-9",
@@ -251,9 +260,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 73.4455,
     "yPercent": 37.0653,
-    "latitude": 24.55284125,
-    "longitude": 54.44446543,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5526042,
+    "longitude": 54.4431438,
+    "positionSource": "user_supplied_sdn3_coordinate",
+    "sdn3PlotNumber": 90
   },
   {
     "villaKey": "four-seasons/villa-10",
@@ -276,9 +286,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 74.6852,
     "yPercent": 43.3274,
-    "latitude": 24.55234213,
-    "longitude": 54.44456901,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55257327,
+    "longitude": 54.44356726,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-11",
@@ -301,9 +312,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 74.7732,
     "yPercent": 48.3502,
-    "latitude": 24.55194178,
-    "longitude": 54.44457573,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55246775,
+    "longitude": 54.44382922,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-12",
@@ -326,9 +338,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "6Bed.pdf",
     "xPercent": 74.2106,
     "yPercent": 53.4794,
-    "latitude": 24.55153296,
-    "longitude": 54.44452936,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55229318,
+    "longitude": 54.44403921,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-13",
@@ -351,9 +364,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "6Bed.pdf",
     "xPercent": 73.4213,
     "yPercent": 58.3797,
-    "latitude": 24.55114237,
-    "longitude": 54.44446341,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55208605,
+    "longitude": 54.44421476,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-14",
@@ -376,9 +390,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 72.2183,
     "yPercent": 62.8438,
-    "latitude": 24.55078656,
-    "longitude": 54.4443629,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5518383,
+    "longitude": 54.44433146,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-15",
@@ -401,9 +416,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 70.4753,
     "yPercent": 66.6185,
-    "latitude": 24.55048569,
-    "longitude": 54.44421726,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55155029,
+    "longitude": 54.44436856,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-16",
@@ -426,9 +442,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 68.3521,
     "yPercent": 69.7264,
-    "latitude": 24.55023798,
-    "longitude": 54.44403987,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55123912,
+    "longitude": 54.44434205,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-17",
@@ -451,9 +468,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 65.8776,
     "yPercent": 72.339,
-    "latitude": 24.55002974,
-    "longitude": 54.44383311,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55090476,
+    "longitude": 54.44426396,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-18",
@@ -476,9 +494,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 63.1276,
     "yPercent": 74.2317,
-    "latitude": 24.54987888,
-    "longitude": 54.44360335,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55056918,
+    "longitude": 54.4441318,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-19",
@@ -501,9 +520,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 60.3759,
     "yPercent": 75.5518,
-    "latitude": 24.54977366,
-    "longitude": 54.44337343,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5501867,
+    "longitude": 54.4439628,
+    "positionSource": "user_supplied_sdn3_coordinate",
+    "sdn3PlotNumber": 100
   },
   {
     "villaKey": "four-seasons/villa-20",
@@ -526,9 +546,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 53.1249,
     "yPercent": 74.8479,
-    "latitude": 24.54982976,
-    "longitude": 54.4427676,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.549747,
+    "longitude": 54.4434013,
+    "positionSource": "user_supplied_sdn3_coordinate",
+    "sdn3PlotNumber": 101
   },
   {
     "villaKey": "four-seasons/villa-21",
@@ -551,9 +572,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 50.5356,
     "yPercent": 73.7353,
-    "latitude": 24.54991844,
-    "longitude": 54.44255125,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54949719,
+    "longitude": 54.44314397,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-22",
@@ -576,9 +598,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 47.448,
     "yPercent": 73.408,
-    "latitude": 24.54994453,
-    "longitude": 54.44229328,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54925557,
+    "longitude": 54.44290069,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-23",
@@ -601,9 +624,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 44.6245,
     "yPercent": 74.0494,
-    "latitude": 24.54989341,
-    "longitude": 54.44205737,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54897918,
+    "longitude": 54.44272224,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-24",
@@ -626,9 +650,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 41.7749,
     "yPercent": 75.7228,
-    "latitude": 24.54976003,
-    "longitude": 54.44181928,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54863179,
+    "longitude": 54.44258889,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-25",
@@ -651,9 +676,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "6Bed.pdf",
     "xPercent": 37.9128,
     "yPercent": 80.5679,
-    "latitude": 24.54937385,
-    "longitude": 54.44149659,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54796579,
+    "longitude": 54.44251967,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-26",
@@ -676,9 +702,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 35.1687,
     "yPercent": 83.493,
-    "latitude": 24.5491407,
-    "longitude": 54.44126731,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54750866,
+    "longitude": 54.442448,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-27",
@@ -701,9 +728,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "6Bed.pdf",
     "xPercent": 31.8517,
     "yPercent": 85.9094,
-    "latitude": 24.5489481,
-    "longitude": 54.44099017,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54702624,
+    "longitude": 54.44231566,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-28",
@@ -726,9 +754,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 28.3137,
     "yPercent": 87.2145,
-    "latitude": 24.54884407,
-    "longitude": 54.44069456,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54660543,
+    "longitude": 54.44212503,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-29",
@@ -751,9 +780,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 24.7179,
     "yPercent": 87.4278,
-    "latitude": 24.54882707,
-    "longitude": 54.44039413,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54627055,
+    "longitude": 54.44189008,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-30",
@@ -776,9 +806,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 21.1506,
     "yPercent": 85.9749,
-    "latitude": 24.54894288,
-    "longitude": 54.44009607,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54608945,
+    "longitude": 54.44159466,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-31",
@@ -801,9 +832,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "6Bed.pdf",
     "xPercent": 17.9184,
     "yPercent": 82.5056,
-    "latitude": 24.5492194,
-    "longitude": 54.43982601,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54612682,
+    "longitude": 54.44124416,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-32",
@@ -826,9 +858,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "6Bed.pdf",
     "xPercent": 15.8456,
     "yPercent": 77.0358,
-    "latitude": 24.54965538,
-    "longitude": 54.43965282,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54644202,
+    "longitude": 54.4408878,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-33",
@@ -851,9 +884,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "6Bed.pdf",
     "xPercent": 15.1157,
     "yPercent": 71.445,
-    "latitude": 24.55010099,
-    "longitude": 54.43959184,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54686352,
+    "longitude": 54.44060814,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-34",
@@ -876,9 +910,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 15.1157,
     "yPercent": 66.1126,
-    "latitude": 24.55052602,
-    "longitude": 54.43959184,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54730009,
+    "longitude": 54.44038038,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-35",
@@ -901,9 +936,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 15.1156,
     "yPercent": 60.9705,
-    "latitude": 24.55093587,
-    "longitude": 54.43959183,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5477882,
+    "longitude": 54.4401724,
+    "positionSource": "user_supplied_sdn3_coordinate",
+    "sdn3PlotNumber": 115
   },
   {
     "villaKey": "four-seasons/villa-36",
@@ -926,9 +962,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 20.9737,
     "yPercent": 63.0955,
-    "latitude": 24.5507665,
-    "longitude": 54.44008129,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5478203,
+    "longitude": 54.4405966,
+    "positionSource": "user_supplied_sdn3_coordinate",
+    "sdn3PlotNumber": 118
   },
   {
     "villaKey": "four-seasons/villa-37",
@@ -951,9 +988,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 20.9734,
     "yPercent": 67.1344,
-    "latitude": 24.55044457,
-    "longitude": 54.44008126,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54763026,
+    "longitude": 54.44079719,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-38",
@@ -976,9 +1014,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 21.0035,
     "yPercent": 71.445,
-    "latitude": 24.55010099,
-    "longitude": 54.44008378,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54729703,
+    "longitude": 54.44098453,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-39",
@@ -1001,9 +1040,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 22.2526,
     "yPercent": 75.8002,
-    "latitude": 24.54975386,
-    "longitude": 54.44018814,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54704321,
+    "longitude": 54.44125012,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-40",
@@ -1026,9 +1066,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 25.0587,
     "yPercent": 77.7043,
-    "latitude": 24.54960209,
-    "longitude": 54.4404226,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54711203,
+    "longitude": 54.44151527,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-41",
@@ -1051,9 +1092,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 27.926,
     "yPercent": 77.2875,
-    "latitude": 24.54963531,
-    "longitude": 54.44066217,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54737639,
+    "longitude": 54.4416901,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-42",
@@ -1076,9 +1118,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 30.6932,
     "yPercent": 76.1589,
-    "latitude": 24.54972527,
-    "longitude": 54.44089338,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54768677,
+    "longitude": 54.44183042,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-43",
@@ -1101,9 +1144,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 33.0537,
     "yPercent": 73.996,
-    "latitude": 24.54989766,
-    "longitude": 54.4410906,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54803576,
+    "longitude": 54.44190015,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-44",
@@ -1126,9 +1170,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 35.4013,
     "yPercent": 71.445,
-    "latitude": 24.55010099,
-    "longitude": 54.44128675,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54840132,
+    "longitude": 54.44195238,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-45",
@@ -1151,9 +1196,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 38.2137,
     "yPercent": 68.1825,
-    "latitude": 24.55036103,
-    "longitude": 54.44152173,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54883732,
+    "longitude": 54.44200559,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-46",
@@ -1176,9 +1222,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 40.6416,
     "yPercent": 65.8057,
-    "latitude": 24.55055048,
-    "longitude": 54.44172459,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54917231,
+    "longitude": 54.44207086,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-47",
@@ -1201,9 +1248,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 43.1987,
     "yPercent": 63.761,
-    "latitude": 24.55071345,
-    "longitude": 54.44193824,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5494841,
+    "longitude": 54.4421687,
+    "positionSource": "user_supplied_sdn3_coordinate",
+    "sdn3PlotNumber": 128
   },
   {
     "villaKey": "four-seasons/villa-48",
@@ -1226,9 +1274,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "6Bed.pdf",
     "xPercent": 39.2875,
     "yPercent": 56.6992,
-    "latitude": 24.55127632,
-    "longitude": 54.44161145,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54960539,
+    "longitude": 54.44155945,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-49",
@@ -1251,9 +1300,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 39.2873,
     "yPercent": 51.4187,
-    "latitude": 24.55169721,
-    "longitude": 54.44161143,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.54989132,
+    "longitude": 54.44131159,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-50",
@@ -1276,9 +1326,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "6Bed.pdf",
     "xPercent": 39.2873,
     "yPercent": 46.1382,
-    "latitude": 24.55211809,
-    "longitude": 54.44161143,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.550159,
+    "longitude": 54.44105876,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-51",
@@ -1301,9 +1352,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 44.4811,
     "yPercent": 46.871,
-    "latitude": 24.55205968,
-    "longitude": 54.44204539,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55044738,
+    "longitude": 54.44145797,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-52",
@@ -1326,9 +1378,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": "5Bed.pdf",
     "xPercent": 47.3624,
     "yPercent": 46.871,
-    "latitude": 24.55205968,
-    "longitude": 54.44228613,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.55063089,
+    "longitude": 54.44166359,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-53",
@@ -1351,9 +1404,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 50.2859,
     "yPercent": 46.871,
-    "latitude": 24.55205968,
-    "longitude": 54.44253039,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5508334,
+    "longitude": 54.4418692,
+    "positionSource": "user_supplied_sdn3_coordinate",
+    "sdn3PlotNumber": 132
   },
   {
     "villaKey": "four-seasons/villa-54",
@@ -1376,9 +1430,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 63.4618,
     "yPercent": 46.871,
-    "latitude": 24.55205968,
-    "longitude": 54.44363127,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5517025,
+    "longitude": 54.44286214,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-55",
@@ -1401,9 +1456,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 66.3508,
     "yPercent": 46.871,
-    "latitude": 24.55205968,
-    "longitude": 54.44387265,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5519031,
+    "longitude": 54.44308614,
+    "positionSource": "masterplan_quadratic_calibrated_to_sdn3_controls",
+    "sdn3PlotNumber": null
   },
   {
     "villaKey": "four-seasons/villa-56",
@@ -1426,9 +1482,10 @@ export const FOUR_SEASONS_VILLAS = [
     "historicalSpecSource": null,
     "xPercent": 69.2445,
     "yPercent": 46.871,
-    "latitude": 24.55205968,
-    "longitude": 54.44411443,
-    "positionSource": "masterplan_calibrated_to_dcr"
+    "latitude": 24.5521132,
+    "longitude": 54.4433158,
+    "positionSource": "user_supplied_sdn3_coordinate",
+    "sdn3PlotNumber": 129
   }
 ] as const satisfies readonly FourSeasonsVilla[];
 export const FOUR_SEASONS_AVAILABLE_VILLAS = FOUR_SEASONS_VILLAS.filter(villa => villa.status === "available");
