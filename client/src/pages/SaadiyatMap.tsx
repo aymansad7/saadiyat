@@ -365,6 +365,11 @@ export function buildMarkers(): MapMarkerData[] {
   for (const lv of lagoonsVillaCoords) {
     const shortName = lv.unit_name.replace(/^(AlGhaf|AlSidr|Ethir)-/, '');
     const clusterLabel = lv.cluster === 'al-ghaf' ? 'Al Ghaf' : lv.cluster === 'al-sidr' ? 'Al Sidr' : 'Ethir';
+    const coordinateSource = lv.position_source === "official_user_control"
+      ? "Official SDE3 coordinate"
+      : lv.position_source === "legacy_position_retained_no_masterplan_coordinate"
+        ? "Legacy location retained · master-plan position unavailable"
+        : "Master-plan calibrated to official SDE3 controls";
     markers.push({
       id: `lagoons-${lv.unit_name}`,
       lat: lv.lat,
@@ -378,7 +383,7 @@ export function buildMarkers(): MapMarkerData[] {
       villaKey: `lagoons/${lv.unit_name}`,
       detailHref: `/saadiyat-lagoons/${lv.cluster}/${encodeURIComponent(lv.unit_name)}`,
       tableHref: `/saadiyat-lagoons/${lv.cluster}?view=table#unit-${encodeURIComponent(lv.unit_name)}`,
-      detailLines: [clusterLabel, lv.status ? `Status: ${lv.status}` : ""].filter(Boolean),
+      detailLines: [clusterLabel, coordinateSource, lv.status ? `Status: ${lv.status}` : ""].filter(Boolean),
     });
   }
 

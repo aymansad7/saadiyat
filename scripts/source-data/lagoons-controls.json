@@ -1,0 +1,329 @@
+{
+  "description": "Official Lagoons unit-to-coordinate controls. Populate only from user-supplied or individual DCR sources; longitude/latitude input must be normalized before saving.",
+  "controls": [
+    {
+      "unitName": "AlGhaf-139-01",
+      "cluster": "al-ghaf",
+      "latitude": 24.5286618,
+      "longitude": 54.4361179,
+      "sdn3PlotNumber": 2944,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-138-01",
+      "cluster": "al-ghaf",
+      "latitude": 24.5283273,
+      "longitude": 54.4361803,
+      "sdn3PlotNumber": 2945,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-122-01",
+      "cluster": "al-ghaf",
+      "latitude": 24.5264366,
+      "longitude": 54.4388132,
+      "sdn3PlotNumber": 2961,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-097-01",
+      "cluster": "al-ghaf",
+      "latitude": 24.5269153,
+      "longitude": 54.4391025,
+      "sdn3PlotNumber": 2962,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-063-01",
+      "cluster": "al-ghaf",
+      "latitude": 24.528512,
+      "longitude": 54.4405621,
+      "sdn3PlotNumber": 2972,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-241-03",
+      "cluster": "al-ghaf",
+      "latitude": 24.5277517,
+      "longitude": 54.4424835,
+      "sdn3PlotNumber": 3077,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-230-03",
+      "cluster": "al-ghaf",
+      "latitude": 24.5290745,
+      "longitude": 54.4444792,
+      "sdn3PlotNumber": 3066,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-169-03",
+      "cluster": "al-ghaf",
+      "latitude": 24.525395,
+      "longitude": 54.4462517,
+      "sdn3PlotNumber": 3252,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-377-03",
+      "cluster": "al-ghaf",
+      "latitude": 24.5225126,
+      "longitude": 54.4500263,
+      "sdn3PlotNumber": 3272,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-288-03",
+      "cluster": "al-ghaf",
+      "latitude": 24.5210586,
+      "longitude": 54.4486456,
+      "sdn3PlotNumber": 3116,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-277-03",
+      "cluster": "al-ghaf",
+      "latitude": 24.5210293,
+      "longitude": 54.4482018,
+      "sdn3PlotNumber": 3115,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-230-02",
+      "cluster": "al-ghaf",
+      "latitude": 24.5235082,
+      "longitude": 54.4524312,
+      "sdn3PlotNumber": 2106,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-197-02",
+      "cluster": "al-ghaf",
+      "latitude": 24.5239905,
+      "longitude": 54.4550287,
+      "sdn3PlotNumber": 2095,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-201-02",
+      "cluster": "al-ghaf",
+      "latitude": 24.5231451,
+      "longitude": 54.4553142,
+      "sdn3PlotNumber": 2125,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-213-02",
+      "cluster": "al-ghaf",
+      "latitude": 24.5220413,
+      "longitude": 54.4528283,
+      "sdn3PlotNumber": 2113,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-212-02",
+      "cluster": "al-ghaf",
+      "latitude": 24.5219705,
+      "longitude": 54.4532244,
+      "sdn3PlotNumber": 2114,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-071-02",
+      "cluster": "al-ghaf",
+      "latitude": 24.5297338,
+      "longitude": 54.4498456,
+      "sdn3PlotNumber": 3631,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-086-02",
+      "cluster": "al-ghaf",
+      "latitude": 24.5297338,
+      "longitude": 54.4498456,
+      "sdn3PlotNumber": 3631,
+      "source": "user_supplied_official_coordinate",
+      "duplicateCoordinateOf": "AlGhaf-071-02"
+    },
+    {
+      "unitName": "AlGhaf-124-02",
+      "cluster": "al-ghaf",
+      "latitude": 24.5243605,
+      "longitude": 54.4518544,
+      "sdn3PlotNumber": 3578,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlGhaf-191-02",
+      "cluster": "al-ghaf",
+      "latitude": 24.5265647,
+      "longitude": 54.4513704,
+      "sdn3PlotNumber": 3521,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-099-01",
+      "cluster": "al-sidr",
+      "latitude": 24.5406052,
+      "longitude": 54.4426801,
+      "sdn3PlotNumber": 2583,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-033-01",
+      "cluster": "al-sidr",
+      "latitude": 24.5378494,
+      "longitude": 54.4449512,
+      "sdn3PlotNumber": 2749,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-005-05",
+      "cluster": "al-sidr",
+      "latitude": 24.535146,
+      "longitude": 54.4437418,
+      "sdn3PlotNumber": 2777,
+      "source": "user_supplied_official_coordinate",
+      "calibrationExcluded": true,
+      "note": "Unit suffix -05 is not present in the current Aldar Lagoons record; awaiting an authoritative unit alias."
+    },
+    {
+      "unitName": "AlSidr-334-01",
+      "cluster": "al-sidr",
+      "latitude": 24.534472,
+      "longitude": 54.4433642,
+      "sdn3PlotNumber": 2836,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-317-01",
+      "cluster": "al-sidr",
+      "latitude": 24.534472,
+      "longitude": 54.4433642,
+      "sdn3PlotNumber": 2836,
+      "source": "user_supplied_official_coordinate",
+      "duplicateCoordinateOf": "AlSidr-334-01"
+    },
+    {
+      "unitName": "AlSidr-311-01",
+      "cluster": "al-sidr",
+      "latitude": 24.5321102,
+      "longitude": 54.4397983,
+      "sdn3PlotNumber": 2813,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-244-01",
+      "cluster": "al-sidr",
+      "latitude": 24.5366765,
+      "longitude": 54.4388463,
+      "sdn3PlotNumber": 2791,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-113-02",
+      "cluster": "al-sidr",
+      "latitude": 24.5340806,
+      "longitude": 54.444779,
+      "sdn3PlotNumber": 3958,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-086-02",
+      "cluster": "al-sidr",
+      "latitude": 24.5347578,
+      "longitude": 54.4451918,
+      "sdn3PlotNumber": 4048,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-040-02",
+      "cluster": "al-sidr",
+      "latitude": 24.536672,
+      "longitude": 54.4499573,
+      "sdn3PlotNumber": 4074,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-004-02",
+      "cluster": "al-sidr",
+      "latitude": 24.5343351,
+      "longitude": 54.4494802,
+      "sdn3PlotNumber": 3971,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-232-02",
+      "cluster": "al-sidr",
+      "latitude": 24.5308457,
+      "longitude": 54.4490245,
+      "sdn3PlotNumber": 3915,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "AlSidr-135-02",
+      "cluster": "al-sidr",
+      "latitude": 24.5305491,
+      "longitude": 54.4444149,
+      "sdn3PlotNumber": 3936,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "Ethir-138-01",
+      "cluster": "ethir",
+      "latitude": 24.5410788,
+      "longitude": 54.4434147,
+      "sdn3PlotNumber": 2582,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "Ethir-139-01",
+      "cluster": "ethir",
+      "latitude": 24.5406597,
+      "longitude": 54.4437325,
+      "sdn3PlotNumber": 2514,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "Ethir-154-01",
+      "cluster": "ethir",
+      "latitude": 24.5379676,
+      "longitude": 54.4460805,
+      "sdn3PlotNumber": 2498,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "Ethir-171-01",
+      "cluster": "ethir",
+      "latitude": 24.5410302,
+      "longitude": 54.4477839,
+      "sdn3PlotNumber": 2481,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "Ethir-017-01",
+      "cluster": "ethir",
+      "latitude": 24.543418,
+      "longitude": 54.4511409,
+      "sdn3PlotNumber": 2463,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "Ethir-032-01",
+      "cluster": "ethir",
+      "latitude": 24.544646,
+      "longitude": 54.4502109,
+      "sdn3PlotNumber": 2410,
+      "source": "user_supplied_official_coordinate"
+    },
+    {
+      "unitName": "Ethir-049-01",
+      "cluster": "ethir",
+      "latitude": 24.5426655,
+      "longitude": 54.4471828,
+      "sdn3PlotNumber": 2427,
+      "source": "user_supplied_official_coordinate"
+    }
+  ]
+}

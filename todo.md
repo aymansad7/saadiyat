@@ -398,6 +398,14 @@
 - [x] Show Available/Selling Price on available Reserve cards and map popups, and show existing Aldar Original Price for Dunes villas
 - [x] Add availability, price, and inventory-type filters to the unified Saadiyat Reserve Cards/Table page
 - [x] Inventory available Saadiyat Lagoons DCR coordinates: none are currently registered, so no calibration is performed from guesswork
-- [ ] Refit the Lagoons master-plan shape to official DCR controls and remove the current offset, overlap, and spacing distortions
-- [ ] Preserve the shape topology and label every derived Lagoons point as calibrated rather than official
-- [x] Run TypeScript, 195 full tests, and desktop/mobile Four Seasons and Reserve verification before the interim checkpoint
+- [x] Preserve five user-supplied Al Ghaf DCR controls: 139-01→P2944, 138-01→P2945, 122-01→P2961, 097-01→P2962, and 063-01→P2972; retain P2973 as unlinked until its unit name is confirmed
+- [x] Resolve cluster names and register the six new Al Ghaf controls: 241-03→P3077, 230-03→P3066, 169-03→P3252, 377-03→P3272, 288-03→P3116, and 277-03→P3115
+- [x] Register the confirmed Al Ghaf controls: 230-02→P2106, 197-02→P2095, 201-02→P2125, 213-02→P2113, and 212-02→P2114
+- [x] Register Al Ghaf controls: 071-02→P3631, 086-02→P3631, 124-02→P3578, and 191-02→P3521; deduplicate the shared P3631 coordinate for calibration weighting
+- [x] Register Al Sidr controls: 099-01→P2583, 033-01→P2749, and 334-01→P2836; retain 005-05→P2777 as an unassigned source row until the Aldar unit alias is confirmed
+- [x] Register additional Al Sidr controls: 317-01→P2836, 311-01→P2813, 244-01→P2791, 113-02→P3958, 086-02→P4048, 040-02→P4074, 004-02→P3971, 232-02→P3915, and 135-02→P3936; deduplicate shared P2836 for calibration weighting
+- [x] Register Ethir controls: 138-01→P2582, 139-01→P2514, 154-01→P2498, 171-01→P2481, 017-01→P2463, 032-01→P2410, and 049-01→P2427
+- [x] Collect at least three distributed official controls for Al Sidr and Ethir before fitting any Lagoons transformation
+- [x] Refit the Lagoons master-plan shape to official controls with separate affine models: Al Ghaf 5.6m, Al Sidr 5.0m, and Ethir 5.5m LOO RMSE
+- [x] Preserve topology, retain direct SDE3 controls verbatim, label derived points as master-plan calibrated, and avoid fabricated positions for source rows without map geometry
+- [x] Run TypeScript, 196 full tests, desktop Four Seasons/Reserve/Lagoons deep-link verification, and mobile map-shell verification before publishing
