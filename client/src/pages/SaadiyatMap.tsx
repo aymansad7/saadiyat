@@ -41,6 +41,7 @@ import { lagoonsVillaCoords } from "@/data/lagoonsCoordinates";
 import { FOUR_SEASONS_VILLAS } from "@/data/fourSeasons";
 import { FOUR_SEASONS_FLOORPLAN_BY_VILLA } from "@/data/fourSeasonsFloorplans";
 import { getFourSeasonsTransactions } from "@/data/fourSeasonsTransactions";
+import { SAADIYAT_RESERVE_RECORDS } from "@/data/saadiyatReserve";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import {
   formatArea,
@@ -60,6 +61,7 @@ const COMMUNITY_CENTERS = {
   "lagoons": { lat: 24.5309, lng: 54.4378, label: "Saadiyat Lagoons", color: "#0891B2" },
   "four-seasons": { lat: 24.5508, lng: 54.4421, label: "Four Seasons Private Residences", color: "#334155" },
   "huge-plot": { lat: 24.55285144, lng: 54.44457573, label: "Huge Plot Between Four Seasons and Omniyat", color: "#0F766E" },
+  "saadiyat-reserve": { lat: 24.5232, lng: 54.4427, label: "Saadiyat Reserve · Dunes", color: "#7E22CE" },
 };
 
 interface MapMarkerData {
@@ -86,6 +88,7 @@ interface MapMarkerData {
   availabilityDate?: string;
   askingPrice?: number;
   floorplanHref?: string;
+  markerColor?: string;
 }
 
 export function buildMarkers(): MapMarkerData[] {
@@ -292,6 +295,33 @@ export function buildMarkers(): MapMarkerData[] {
     });
   }
 
+  // Saadiyat Reserve — all 306 official master-plan records. Phase 1 and 2
+  // are land plots; Phase 3 is the renamed Dunes built-villa inventory.
+  for (const record of SAADIYAT_RESERVE_RECORDS) {
+    const isOfficialCoordinate = record.positionSource === "user_supplied_sde3_coordinate";
+    markers.push({
+      id: `saadiyat-reserve-${record.plotNumber}`,
+      lat: record.latitude,
+      lng: record.longitude,
+      community: "saadiyat-reserve",
+      label: record.label,
+      landSqft: record.plotAreaSqft,
+      landSqm: record.plotAreaSqm,
+      villaKey: record.villaKey,
+      detailHref: record.dunes
+        ? record.dunes.existingDetailsPath
+        : `/saadiyat-reserve?plot=${record.plotNumber}#reserve-record-${record.plotNumber}`,
+      tableHref: `/saadiyat-reserve?view=table&plot=${record.plotNumber}#reserve-record-${record.plotNumber}`,
+      detailLines: [
+        `Phase ${record.phase}`,
+        record.dunes ? `${record.dunes.bedrooms} BR · Built Dunes villa` : "Reserve land plot",
+        `GFA ${record.gfaSqm.toLocaleString()} m²`,
+        isOfficialCoordinate ? "Official SDE3 coordinate" : "Master-plan calibrated position",
+      ],
+      markerColor: record.phase === 1 ? "#0284C7" : record.phase === 2 ? "#A21CAF" : "#047857",
+    });
+  }
+
   // Hidd Al Saadiyat — coordinates from Google Maps geocoding + interpolation
   for (const hv of hiddVillaCoords) {
     markers.push({
@@ -465,7 +495,7 @@ export default function SaadiyatMap() {
     for (const m of markerData) {
       const isListed = !!m.listing;
       const isAvailable = m.availabilityStatus === "available";
-      const color = isListed || isAvailable ? "#10B981" : getColor(m.community);
+      const color = isListed || isAvailable ? "#10B981" : m.markerColor ?? getColor(m.community);
       const pin = document.createElement("div");
       pin.style.width = isListed || isAvailable ? "16px" : "12px";
       pin.style.height = isListed || isAvailable ? "16px" : "12px";

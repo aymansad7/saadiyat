@@ -363,3 +363,20 @@
 - [x] Add confirmed and Possible Four Seasons transaction timelines to villa cards, table rows, master plan, and map detail cards
 - [x] Add regression tests proving historical prices/statuses remain excluded and no transaction is duplicated
 - [x] Verify TypeScript, 188 tests, and desktop/mobile UI before publishing
+
+### Saadiyat Reserve Phase 1, Phase 2 & Dunes Interactive Community (Aug 25, 2026)
+- [x] Register all user-supplied SDE3 control coordinates and preserve their official per-plot source labels
+- [x] Extract all 306 numbered records, plot areas, GFA values, and master-plan hotspot positions from Plots 2–307
+- [x] Classify every record from the official vector boundaries as Phase 1, Phase 2, or Phase 3 with no ambiguity
+- [x] Preserve Phase 3 as part of Saadiyat Reserve and identify it as the renamed Dunes built-villa phase
+- [x] Cross-check the 83 Phase 3 plots against the 83 official World of Aldar Dunes villa IDs
+- [x] Extract every Dunes villa's official bedroom count and unit areas without extrapolating between units
+- [x] Reuse the existing Aldar Dunes unit records and detail routes rather than duplicating launch inventory
+- [x] Upload the official Saadiyat Reserve master plan to permanent storage and build a clickable plan
+- [x] Create a unified registry prepared for availability, asking price, owner, and transaction history fields
+- [x] Build a Saadiyat Reserve page with phase filters, m² default, sqft toggle, search, area filters, and Cards/Table views
+- [x] Link each Phase 1/2 plot and Phase 3 Dunes villa bidirectionally between plan, card/table, details, and map
+- [x] Add calibrated map markers for all 306 records while clearly separating official SDE3 controls from derived coordinates
+- [x] Add Saadiyat Reserve to the homepage, project navigation, and global search without duplicating Dunes
+- [x] Add regression tests for counts, phase separation, Dunes unit mapping, hotspot uniqueness, routes, and map keys
+- [x] Verify TypeScript, 194 tests, and desktop/mobile UI before publishing

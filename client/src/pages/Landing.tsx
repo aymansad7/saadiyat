@@ -101,6 +101,15 @@ const communities = [
     rich: true,
   },
   {
+    slug: "saadiyat-reserve",
+    name: "Saadiyat Reserve",
+    cluster: "SDE3 · Phase 1, Phase 2 & Dunes",
+    plots: 306,
+    href: "/saadiyat-reserve",
+    available: true,
+    rich: true,
+  },
+  {
     slug: "huge-plot-four-seasons-omniyat",
     name: hugePlot.name,
     cluster: hugePlot.cluster,
