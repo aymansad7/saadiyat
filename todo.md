@@ -444,3 +444,9 @@
 - [x] Use all matched Hidd points as fixed controls to recalibrate the full master-plan shape and derive remaining villa locations in master-plan order
 - [x] Inspect the user-supplied Yandex map location and use it only for visual location verification, not as a substitute for the control coordinates
 - [x] Verify Hidd direct map links, master-plan alignment, and card/map consistency after the full-shape recalibration
+
+### Hidd Control-Point Reconciliation (Aug 25, 2026)
+- [x] Compare the resent Street 1–4 and Al Dhiba control list against `hidd-controls.json`: all resent coordinates match exactly
+- [x] Preserve 22/1 Street 3 as an unmatched source address until a distinct current villa record is identified
+- [x] Re-run the Hidd calibration only if a supplied coordinate differs from the saved official control value; no difference was found
+- [x] Keep the previously verified direct Hidd map cards; no implementation correction was required
