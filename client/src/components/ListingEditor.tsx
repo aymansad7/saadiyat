@@ -54,6 +54,10 @@ const STATUS_OPTIONS: { value: ListingStatus; label: string }[] = [
 type FormState = {
   askingPriceAed: string;
   status: ListingStatus;
+  landAreaSqm: string;
+  builtUpAreaSqm: string;
+  availableForRent: "unset" | "yes" | "no";
+  rentPriceAed: string;
   listingPartners: string;
   publicNotes: string;
   ownerName: string;
@@ -65,6 +69,10 @@ type FormState = {
 const EMPTY_FORM: FormState = {
   askingPriceAed: "",
   status: "draft",
+  landAreaSqm: "",
+  builtUpAreaSqm: "",
+  availableForRent: "unset",
+  rentPriceAed: "",
   listingPartners: "",
   publicNotes: "",
   ownerName: "",
@@ -106,6 +114,11 @@ export function ListingEditor({
         askingPriceAed:
           row.askingPriceAed != null ? String(row.askingPriceAed) : "",
         status: (row.status ?? "draft") as ListingStatus,
+        landAreaSqm: row.landAreaSqm != null ? String(row.landAreaSqm) : "",
+        builtUpAreaSqm: row.builtUpAreaSqm != null ? String(row.builtUpAreaSqm) : "",
+        availableForRent:
+          row.availableForRent === true ? "yes" : row.availableForRent === false ? "no" : "unset",
+        rentPriceAed: row.rentPriceAed != null ? String(row.rentPriceAed) : "",
         listingPartners: row.listingPartners ?? "",
         publicNotes: row.publicNotes ?? "",
         ownerName: row.ownerName ?? "",
@@ -138,6 +151,14 @@ export function ListingEditor({
           ? null
           : Number(form.askingPriceAed.replace(/[,\s]/g, "")),
       status: form.status,
+      landAreaSqm:
+        form.landAreaSqm.trim() === "" ? null : Number(form.landAreaSqm.replace(/[,\s]/g, "")),
+      builtUpAreaSqm:
+        form.builtUpAreaSqm.trim() === "" ? null : Number(form.builtUpAreaSqm.replace(/[,\s]/g, "")),
+      availableForRent:
+        form.availableForRent === "unset" ? null : form.availableForRent === "yes",
+      rentPriceAed:
+        form.rentPriceAed.trim() === "" ? null : Number(form.rentPriceAed.replace(/[,\s]/g, "")),
       listingPartners: form.listingPartners.trim() || null,
       publicNotes: form.publicNotes.trim() || null,
       ownerName: form.ownerName.trim() || null,
@@ -150,6 +171,14 @@ export function ListingEditor({
       (!Number.isFinite(payload.askingPriceAed) || payload.askingPriceAed < 0)
     ) {
       toast.error("Invalid asking price.");
+      return;
+    }
+    if (
+      (payload.landAreaSqm != null && (!Number.isFinite(payload.landAreaSqm) || payload.landAreaSqm < 0)) ||
+      (payload.builtUpAreaSqm != null && (!Number.isFinite(payload.builtUpAreaSqm) || payload.builtUpAreaSqm < 0)) ||
+      (payload.rentPriceAed != null && (!Number.isFinite(payload.rentPriceAed) || payload.rentPriceAed < 0))
+    ) {
+      toast.error("Enter valid areas and rent price.");
       return;
     }
     try {
@@ -214,6 +243,56 @@ export function ListingEditor({
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-1.5">
+                <Label htmlFor="land-area">Land area (m²)</Label>
+                <Input
+                  id="land-area"
+                  inputMode="decimal"
+                  placeholder="e.g. 792"
+                  value={form.landAreaSqm}
+                  onChange={e => update("landAreaSqm", e.target.value)}
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="built-up-area">Built-up area (m²)</Label>
+                <Input
+                  id="built-up-area"
+                  inputMode="decimal"
+                  placeholder="e.g. 544.64"
+                  value={form.builtUpAreaSqm}
+                  onChange={e => update("builtUpAreaSqm", e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-1.5">
+                <Label>Available for rent</Label>
+                <Select
+                  value={form.availableForRent}
+                  onValueChange={v => update("availableForRent", v as FormState["availableForRent"])}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select rental status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="unset">Not specified</SelectItem>
+                    <SelectItem value="yes">Available for rent</SelectItem>
+                    <SelectItem value="no">Not available for rent</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="rent-price">Rent price (AED)</Label>
+                <Input
+                  id="rent-price"
+                  inputMode="numeric"
+                  placeholder="e.g. 650,000"
+                  value={form.rentPriceAed}
+                  onChange={e => update("rentPriceAed", e.target.value)}
+                />
               </div>
             </div>
             <div className="grid gap-1.5">

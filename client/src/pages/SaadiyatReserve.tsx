@@ -5,6 +5,9 @@ import SiteHeader from "@/components/SiteHeader";
 import AreaFilterControls, { type AreaViewMode } from "@/components/AreaFilterControls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { EditListingButton } from "@/components/ListingControls";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
 import {
   SAADIYAT_RESERVE_DUNES_VILLAS,
   SAADIYAT_RESERVE_LAND_PLOTS,
@@ -79,6 +82,15 @@ function recordBuiltArea(record: SaadiyatReserveRecord) {
 }
 
 export default function SaadiyatReserve() {
+  const { user } = useAuth();
+  const permissions = trpc.propertyAccess.permissions.useQuery(
+    { projects: ["saadiyat-reserve"] },
+    { enabled: Boolean(user) },
+  );
+  const canViewOriginalPrice =
+    user?.role === "admin" ||
+    user?.role === "master" ||
+    permissions.data?.[0]?.permissions.canViewOriginalPrice === true;
   const searchString = useSearch();
   const [query, setQuery] = useState("");
   const [phase, setPhase] = useState<PhaseFilter>("all");
@@ -207,7 +219,7 @@ export default function SaadiyatReserve() {
           </div>
           {selected && (
             <div className="border-t border-border p-4 sm:p-5 bg-muted/30">
-              <RecordSummary record={selected} areaUnit={areaUnit} />
+              <RecordSummary record={selected} areaUnit={areaUnit} canViewOriginalPrice={canViewOriginalPrice} />
             </div>
           )}
         </section>
@@ -251,7 +263,10 @@ export default function SaadiyatReserve() {
           <section className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {filtered.map(record => (
               <article id={`reserve-record-${record.plotNumber}`} key={record.villaKey} className={`rounded-xl border bg-card p-5 scroll-mt-28 ${record.availability === "available_for_sale" ? "border-emerald-500/60 shadow-sm shadow-emerald-100" : "border-border"}`}>
-                <RecordSummary record={record} areaUnit={areaUnit} onShowPlan={() => showOnPlan(record)} />
+                <RecordSummary record={record} areaUnit={areaUnit} canViewOriginalPrice={canViewOriginalPrice} onShowPlan={() => showOnPlan(record)} />
+                <div className="mt-4 border-t border-border pt-3 flex justify-end">
+                  <EditListingButton villaKey={record.villaKey} community="saadiyat-reserve" villaLabel={record.label} />
+                </div>
               </article>
             ))}
           </section>
@@ -282,12 +297,13 @@ export default function SaadiyatReserve() {
                     <td className="px-4 py-3">{record.dunes ? `${record.dunes.bedrooms} BR` : record.saleInventory?.bedrooms ? `${record.saleInventory.bedrooms} BR` : "—"}</td>
                     <td className="px-4 py-3 text-right font-mono">{formatArea(recordArea(record), areaUnit)}</td>
                     <td className="px-4 py-3 text-right font-mono">{formatArea(recordBuiltArea(record), areaUnit)}</td>
-                    <td className="px-4 py-3 text-right"><div className="font-semibold">{record.askingPriceAed ? formatPrice(record.askingPriceAed) : record.originalPriceAed ? formatPrice(record.originalPriceAed) : "—"}</div><div className="text-[0.65rem] text-muted-foreground">{record.askingPriceAed ? "Available" : record.originalPriceAed ? "Original" : ""}</div></td>
+                    <td className="px-4 py-3 text-right"><div className="font-semibold">{record.askingPriceAed ? formatPrice(record.askingPriceAed) : canViewOriginalPrice && record.originalPriceAed ? formatPrice(record.originalPriceAed) : "—"}</div><div className="text-[0.65rem] text-muted-foreground">{record.askingPriceAed ? "Available" : canViewOriginalPrice && record.originalPriceAed ? "Original" : ""}</div></td>
                     <td className="px-4 py-3 text-xs text-muted-foreground">{record.positionSource === "user_supplied_sde3_coordinate" ? "Official SDE3 control" : "Master-plan calibrated"}</td>
                     <td className="px-4 py-3 text-right whitespace-nowrap">
                       <Link className="text-primary hover:underline" href={`/map?plot=${encodeURIComponent(record.villaKey)}`}>Map</Link>
                       <button type="button" className="ml-3 text-primary hover:underline" onClick={() => showOnPlan(record)}>Plan</button>
                       {record.dunes && <Link className="ml-3 text-primary hover:underline" href={record.dunes.existingDetailsPath}>Details</Link>}
+                      <span className="inline-flex ml-3 align-middle"><EditListingButton villaKey={record.villaKey} community="saadiyat-reserve" villaLabel={record.label} /></span>
                     </td>
                   </tr>
                 ))}
@@ -323,7 +339,7 @@ function AvailabilityBadge({ record }: { record: SaadiyatReserveRecord }) {
   return <span className="text-xs text-muted-foreground">Not listed</span>;
 }
 
-function RecordSummary({ record, areaUnit, onShowPlan }: { record: SaadiyatReserveRecord; areaUnit: AreaUnit; onShowPlan?: () => void }) {
+function RecordSummary({ record, areaUnit, canViewOriginalPrice, onShowPlan }: { record: SaadiyatReserveRecord; areaUnit: AreaUnit; canViewOriginalPrice: boolean; onShowPlan?: () => void }) {
   const landArea = recordArea(record);
   const builtArea = recordBuiltArea(record);
   return (
@@ -352,7 +368,7 @@ function RecordSummary({ record, areaUnit, onShowPlan }: { record: SaadiyatReser
         <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50/70 p-3 dark:border-amber-900 dark:bg-amber-950/20">
           <div className="flex items-center gap-2"><Home className="h-4 w-4 text-amber-700" /><span className="font-semibold">{record.dunes.villaType}</span></div>
           <p className="mt-1 text-xs text-muted-foreground">{record.dunes.bedrooms} bedrooms · Interior {record.dunes.interiorAreaSqm.toLocaleString()} m² · Exterior {record.dunes.exteriorAreaSqm.toLocaleString()} m²</p>
-          <p className="mt-2 text-lg font-semibold">Original Price {formatPrice(record.originalPriceAed)}</p>
+          {canViewOriginalPrice && <p className="mt-2 text-lg font-semibold">Original Price {formatPrice(record.originalPriceAed)}</p>}
           <p className="mt-1 text-[0.68rem] text-muted-foreground">Historical Aldar launch status: {record.dunes.launchStatus}. This is not a current resale-availability status.</p>
         </div>
       )}

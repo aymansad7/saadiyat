@@ -477,3 +477,15 @@
 
 ### Ethir Record Correction (Aug 25, 2026)
 - [x] Remove the unsupported Ethir 230-01 and 231-01 pending-location references from the project record; do not create or map either unit. Audit confirmed both are already absent from the Lagoons registry and Interactive Map.
+
+### Unified Property Editing, Access Control & Audit Trail (Aug 25, 2026)
+- [x] Audit the existing editable listing model, property-card components, map popup architecture, and master/admin authorization paths
+- [x] Store per-property overrides in the database for sale availability, sale price, land area, built-up area, owner name, owner mobile, rental availability, and rent price
+- [x] Add validated master/admin update procedures, preserving owner data for expressly authorized viewers only
+- [x] Create granular Master Admin access grants by area/project and visibility controls for original prices, owner names, and owner mobile numbers
+- [x] Record append-only audit events for successful email sign-ins and property/access edits with actor, timestamp, entity, changed fields, and before/after values where applicable
+- [x] Build one reusable property editor accessible from property cards, detail views, tables, and Interactive Map cards
+- [x] Apply database overrides to the Interactive Map and shared card components immediately after successful edits; source records remain unchanged
+- [x] Build Master Admin screens for managing user grants and reviewing the activity/audit log
+- [x] Add unit and integration coverage for persistence, authorization, visibility, validation, audit logging, and map/card propagation
+- [x] Verify build contracts, TypeScript, and 212 automated tests before publishing; screenshot validation reached the email gate because no test session is authenticated

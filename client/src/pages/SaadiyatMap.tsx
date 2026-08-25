@@ -4,7 +4,8 @@
  * Click a dot → info window with full details.
  * Toggle button to show/hide owner info (ready for future data).
  */
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback, useEffect, useMemo } from "react";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { MapView } from "@/components/Map";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { useSearch } from "wouter";
@@ -47,6 +48,8 @@ import { LAGOONS_HIDDEN_SL9_PLOTS } from "@/data/lagoonsHiddenSl9";
 import { LAGOONS_SL10_PLOTS, LAGOONS_SL13_PLOTS } from "@/data/lagoonsDcrPhases";
 import { getAvailability } from "@/data/lagoonsAvailability";
 import AreaFilterControls from "@/components/AreaFilterControls";
+import { ListingEditor } from "@/components/ListingEditor";
+import { trpc } from "@/lib/trpc";
 import {
   formatArea,
   isWithinAreaRange,
@@ -554,13 +557,15 @@ export function buildMarkers(): MapMarkerData[] {
 }
 
 export default function SaadiyatMap() {
+  const { user } = useAuth();
   const mapRef = useRef<google.maps.Map | null>(null);
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
   const clustererRef = useRef<MarkerClusterer | null>(null);
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
   const [showOwners, setShowOwners] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
-  const [markerData] = useState<MapMarkerData[]>(() => buildMarkers());
+  const [baseMarkerData] = useState<MapMarkerData[]>(() => buildMarkers());
+  const [editingMarker, setEditingMarker] = useState<MapMarkerData | null>(null);
   const [isSatellite, setIsSatellite] = useState(false);
   const [mapQuery, setMapQuery] = useState("");
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
@@ -568,12 +573,53 @@ export default function SaadiyatMap() {
   const [areaMax, setAreaMax] = useState("");
   const searchString = useSearch();
   const plotParam = new URLSearchParams(searchString).get("plot");
+  const propertyOverrides = trpc.villaListings.listByCommunity.useQuery({});
+  const projectPermissions = trpc.propertyAccess.permissions.useQuery(
+    { projects: Object.keys(COMMUNITY_CENTERS) },
+    { enabled: Boolean(user) },
+  );
+  const permissionsByProject = useMemo(
+    () => new Map(projectPermissions.data?.map(item => [item.projectKey, item.permissions]) ?? []),
+    [projectPermissions.data],
+  );
+  const markerData = useMemo(() => {
+    const overridesByKey = new Map((propertyOverrides.data ?? []).map(row => [row.villaKey, row]));
+    return baseMarkerData.filter(marker => {
+      if (user?.role === "admin" || user?.role === "master") return true;
+      return permissionsByProject.get(marker.community)?.canAccess === true;
+    }).map(marker => {
+      const override = marker.villaKey ? overridesByKey.get(marker.villaKey) : undefined;
+      if (!override) return marker;
+      const hasManualStatus = override.status && override.status !== "draft";
+      return {
+        ...marker,
+        landSqm: override.landAreaSqm ?? marker.landSqm,
+        landSqft: override.landAreaSqm != null ? Math.round(override.landAreaSqm * 10.7639) : marker.landSqft,
+        builtUpSqm: override.builtUpAreaSqm ?? marker.builtUpSqm,
+        builtUpSqft: override.builtUpAreaSqm != null ? Math.round(override.builtUpAreaSqm * 10.7639) : marker.builtUpSqft,
+        status: hasManualStatus ? override.status : marker.status,
+        askingPrice: override.askingPriceAed ?? marker.askingPrice,
+        availabilityStatus: hasManualStatus
+          ? (override.status === "available" ? "available" : undefined)
+          : marker.availabilityStatus,
+        owner: (override as any).ownerName ?? marker.owner,
+        phone: (override as any).ownerPhone ?? marker.phone,
+      };
+    });
+  }, [baseMarkerData, permissionsByProject, propertyOverrides.data, user?.role]);
 
   const getColor = (community: string) => {
     return COMMUNITY_CENTERS[community as keyof typeof COMMUNITY_CENTERS]?.color ?? "#6B7280";
   };
 
   const createInfoContent = useCallback((m: MapMarkerData) => {
+    const permissions = permissionsByProject.get(m.community);
+    const canViewOwner = user?.role === "admin" || user?.role === "master" ||
+      Boolean(permissions?.canViewOwnerName || permissions?.canViewOwnerPhone);
+    const canViewOriginalPrice = user?.role === "admin" || user?.role === "master" ||
+      Boolean(permissions?.canViewOriginalPrice);
+    const canEdit = user?.role === "admin" || user?.role === "master" ||
+      Boolean(permissions?.canEditProperties);
     const fmt = (n: number) => new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(n);
     const communityLabel = COMMUNITY_CENTERS[m.community as keyof typeof COMMUNITY_CENTERS]?.label ?? m.community;
     
@@ -608,7 +654,7 @@ export default function SaadiyatMap() {
       ].filter(Boolean);
       if (facts.length) html += `<div style="font-size:11px;color:#555;margin:5px 0 4px;line-height:1.45">${facts.join(" · ")}</div>`;
     }
-    if (m.originalPrice) {
+    if (m.originalPrice && canViewOriginalPrice) {
       html += `<div style="margin-top:6px;padding:6px;background:#f6f3ff;border-radius:4px;border:1px solid #ddd6fe"><div style="font-size:10px;color:#6d28d9;font-weight:700;text-transform:uppercase">Original Price</div><div style="font-size:15px;font-weight:700;margin-top:2px">AED ${fmt(m.originalPrice)}</div></div>`;
     }
     
@@ -683,31 +729,46 @@ export default function SaadiyatMap() {
       html += `</div>`;
     }
 
-    if (showOwners && (m.owner || m.phone)) {
+    if (showOwners && canViewOwner && (m.owner || m.phone)) {
       html += `<div style="margin-top:6px;padding:6px;background:#f0f4f9;border-radius:4px;border:1px solid #d0dae8">`;
       html += `<div style="font-size:10px;color:#2563EB;font-weight:600;text-transform:uppercase">Owner Info</div>`;
       if (m.owner) html += `<div style="font-size:13px;font-weight:600;margin-top:2px">${m.owner}</div>`;
       if (m.phone) html += `<div style="font-size:12px;color:#555;margin-top:1px">${m.phone}</div>`;
       html += `</div>`;
-    } else if (showOwners) {
+    } else if (showOwners && canViewOwner) {
       html += `<div style="margin-top:6px;font-size:11px;color:#999;font-style:italic">Owner info not yet added</div>`;
     }
 
-    // Full Details link
+    // Full Details, editing, and table navigation
     if (m.detailHref || m.tableHref) {
-      html += `<div style="display:grid;grid-template-columns:${m.detailHref && m.tableHref ? "1fr 1fr" : "1fr"};gap:6px;margin-top:9px">`;
+      const actions = Number(Boolean(m.detailHref)) + Number(Boolean(m.tableHref)) + Number(Boolean(canEdit && m.villaKey));
+      html += `<div style="display:grid;grid-template-columns:repeat(${actions},minmax(0,1fr));gap:6px;margin-top:9px">`;
       if (m.detailHref) html += `<a href="${m.detailHref}" style="display:block;font-size:11px;font-weight:700;color:#fff;background:#C75B12;text-align:center;text-decoration:none;padding:8px 6px;border-radius:6px;">Full Details</a>`;
       if (m.tableHref) html += `<a href="${m.tableHref}" style="display:block;font-size:11px;font-weight:700;color:#7c3f1f;background:#fff7ed;border:1px solid #fed7aa;text-align:center;text-decoration:none;padding:8px 6px;border-radius:6px;">Project Table</a>`;
+      if (canEdit && m.villaKey) html += `<button type="button" data-map-edit-marker="${m.id}" style="border:1px solid #7c3f1f;background:#fff;color:#7c3f1f;font-size:11px;font-weight:700;padding:8px 6px;border-radius:6px;cursor:pointer;">Edit</button>`;
       html += `</div>`;
+    } else if (canEdit && m.villaKey) {
+      html += `<button type="button" data-map-edit-marker="${m.id}" style="display:block;width:100%;margin-top:9px;border:1px solid #7c3f1f;background:#fff;color:#7c3f1f;font-size:11px;font-weight:700;padding:8px 6px;border-radius:6px;cursor:pointer;">Edit</button>`;
     }
 
     html += `</div>`;
     return html;
-  }, [showOwners, areaUnit]);
+  }, [showOwners, areaUnit, permissionsByProject, user?.role]);
 
   const handleMapReady = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
     infoWindowRef.current = new google.maps.InfoWindow();
+    const openInfoWindow = (data: MapMarkerData, marker: google.maps.marker.AdvancedMarkerElement) => {
+      infoWindowRef.current!.setContent(createInfoContent(data));
+      infoWindowRef.current!.open(map, marker);
+      google.maps.event.addListenerOnce(infoWindowRef.current!, "domready", () => {
+        const editButton = document.querySelector<HTMLButtonElement>(`[data-map-edit-marker="${data.id}"]`);
+        editButton?.addEventListener("click", () => {
+          setEditingMarker(data);
+          infoWindowRef.current?.close();
+        });
+      });
+    };
 
     // Create markers for all plots
     for (const m of markerData) {
@@ -735,8 +796,7 @@ export default function SaadiyatMap() {
       });
 
       marker.addListener("click", () => {
-        infoWindowRef.current!.setContent(createInfoContent(m));
-        infoWindowRef.current!.open(map, marker);
+        openInfoWindow(m, marker);
       });
 
       markersRef.current.push(marker);
@@ -760,8 +820,7 @@ export default function SaadiyatMap() {
         map.setCenter({ lat: requestedData.lat, lng: requestedData.lng });
         map.setZoom(18);
         window.setTimeout(() => {
-          infoWindowRef.current?.setContent(createInfoContent(requestedData));
-          infoWindowRef.current?.open(map, requestedMarker);
+          openInfoWindow(requestedData, requestedMarker);
         }, 300);
       }
     }
@@ -906,6 +965,15 @@ export default function SaadiyatMap() {
           initialZoom={14}
           onMapReady={handleMapReady}
         />
+        {editingMarker?.villaKey && (
+          <ListingEditor
+            open={Boolean(editingMarker)}
+            onOpenChange={open => !open && setEditingMarker(null)}
+            villaKey={editingMarker.villaKey}
+            community={editingMarker.community}
+            villaLabel={editingMarker.label}
+          />
+        )}
       </div>
     </div>
   );

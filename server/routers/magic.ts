@@ -22,6 +22,7 @@ import {
   revokeSessionToken,
   verifyMagicCode,
 } from "../magicAuth";
+import { appendActivityAudit } from "../activityAudit";
 import { allowedEmails, magicLinks, users } from "../../drizzle/schema";
 import { getDb } from "../db";
 import { sendMagicLinkEmail } from "../_core/sendEmail";
@@ -135,6 +136,16 @@ export const magicRouter = router({
         ...cookieOptions,
         maxAge: SESSION_TTL_MS,
       });
+      await appendActivityAudit({
+        eventType: "sign_in",
+        actorEmail: email,
+        targetEmail: email,
+        entityType: "session",
+        entityKey: result.sessionToken.slice(0, 12),
+        summary: `Signed in with ${result.role} access`,
+        ip,
+        userAgent: ua,
+      });
       return {
         ok: true as const,
         email,
@@ -246,7 +257,20 @@ export const magicRouter = router({
           .from(allowedEmails)
           .where(eq(allowedEmails.email, email))
           .limit(1);
-        return rows[0]!;
+        const row = rows[0]!;
+        await appendActivityAudit({
+          eventType: "access_role_update",
+          actorEmail: ctx.user?.email ?? "admin",
+          actorName: ctx.user?.name ?? null,
+          targetEmail: email,
+          entityType: "allowed_email",
+          entityKey: String(row.id),
+          summary: `Added or updated allowed user with ${input.role} role`,
+          changes: { role: input.role, note: input.note ?? null },
+          ip: clientIp(ctx.req),
+          userAgent: clientUserAgent(ctx.req),
+        });
+        return row;
       }),
 
     remove: adminProcedure
@@ -274,6 +298,18 @@ export const magicRouter = router({
           });
         }
         await db.delete(allowedEmails).where(eq(allowedEmails.id, input.id));
+        await appendActivityAudit({
+          eventType: "access_role_update",
+          actorEmail: ctx.user?.email ?? "admin",
+          actorName: ctx.user?.name ?? null,
+          targetEmail: target.email,
+          entityType: "allowed_email",
+          entityKey: String(target.id),
+          summary: "Revoked allowed-user access",
+          changes: target,
+          ip: clientIp(ctx.req),
+          userAgent: clientUserAgent(ctx.req),
+        });
         return { ok: true as const };
       }),
 
@@ -310,6 +346,18 @@ export const magicRouter = router({
           .update(allowedEmails)
           .set({ role: input.role })
           .where(eq(allowedEmails.id, input.id));
+        await appendActivityAudit({
+          eventType: "access_role_update",
+          actorEmail: ctx.user?.email ?? "admin",
+          actorName: ctx.user?.name ?? null,
+          targetEmail: target.email,
+          entityType: "allowed_email",
+          entityKey: String(target.id),
+          summary: `Changed role from ${target.role} to ${input.role}`,
+          changes: { from: target.role, to: input.role },
+          ip: clientIp(ctx.req),
+          userAgent: clientUserAgent(ctx.req),
+        });
         return { ok: true as const };
       }),
   }),

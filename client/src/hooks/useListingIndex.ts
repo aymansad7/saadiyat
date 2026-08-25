@@ -22,6 +22,10 @@ export type ListingIndexEntry = {
     | null;
   listingPartners: string | null;
   publicNotes: string | null;
+  landAreaSqm: number | null;
+  builtUpAreaSqm: number | null;
+  availableForRent: boolean | null;
+  rentPriceAed: number | null;
   ownerName?: string | null; // present only for admin viewers
 };
 

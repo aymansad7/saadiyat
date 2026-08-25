@@ -13,6 +13,7 @@ import { formatArea, type AreaUnit } from "@/lib/areaSearch";
 import {
   EditListingButton,
   ListingBadge,
+  ListingPropertyFacts,
   ListingPriceLabel,
 } from "@/components/ListingControls";
 
@@ -67,6 +68,7 @@ export default function VillaCard({ villa: v, isActive, onHover, onSelect, listi
               )}
             </div>
           ) : null}
+          <ListingPropertyFacts listing={listing} />
           <h3 className="font-display text-lg text-foreground mt-1 leading-snug">
             {v.buildingTypology || "St. Regis Villa"}
           </h3>

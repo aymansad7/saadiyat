@@ -1,6 +1,7 @@
 import {
   bigint,
   boolean,
+  double,
   index,
   int,
   mysqlEnum,
@@ -372,6 +373,14 @@ export const villaListings = mysqlTable(
     listingPartners: text("listingPartners"),
     /** Public-facing remarks (finishing, view, payment plan, signature features). */
     publicNotes: text("publicNotes"),
+    /** Editable land-area override in square metres. Source data remains unchanged. */
+    landAreaSqm: double("landAreaSqm"),
+    /** Editable built-up/internal-area override in square metres. Source data remains unchanged. */
+    builtUpAreaSqm: double("builtUpAreaSqm"),
+    /** Whether this property is currently available for rent. NULL means not specified. */
+    availableForRent: boolean("availableForRent"),
+    /** Current rent asking price in AED. NULL when unknown or not offered for rent. */
+    rentPriceAed: bigint("rentPriceAed", { mode: "number" }),
 
     /* ------------ admin-only fields ------------ */
     ownerName: varchar("ownerName", { length: 255 }),
@@ -419,6 +428,80 @@ export const villaListingAudit = mysqlTable(
 );
 export type VillaListingAuditRow = typeof villaListingAudit.$inferSelect;
 export type InsertVillaListingAudit = typeof villaListingAudit.$inferInsert;
+
+/**
+ * Master-managed, field-aware property visibility grants. A grant applies to
+ * either an area (`areaKey`) or a specific project (`projectKey`). Both must
+ * never be blank; enforcement happens in the application so it can derive a
+ * property's area/project context from its canonical key.
+ */
+export const propertyAccessGrants = mysqlTable(
+  "property_access_grants",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** Recipient email, normalized before persistence. */
+    email: varchar("email", { length: 320 }).notNull(),
+    /** Broad operational area, e.g. `saadiyat`, `yas-island`, or `dubai`. */
+    areaKey: varchar("areaKey", { length: 96 }),
+    /** Optional canonical community/project slug; narrows a grant when supplied. */
+    projectKey: varchar("projectKey", { length: 128 }),
+    /** Field visibility — false by default for sensitive data. */
+    canViewOriginalPrice: boolean("canViewOriginalPrice").default(false).notNull(),
+    canViewOwnerName: boolean("canViewOwnerName").default(false).notNull(),
+    canViewOwnerPhone: boolean("canViewOwnerPhone").default(false).notNull(),
+    /** A delegated editor may update property profile fields within this scope. */
+    canEditProperties: boolean("canEditProperties").default(false).notNull(),
+    createdBy: varchar("createdBy", { length: 320 }).notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    grantEmailIdx: index("property_access_grants_email_idx").on(t.email),
+    grantAreaIdx: index("property_access_grants_area_idx").on(t.areaKey),
+    grantProjectIdx: index("property_access_grants_project_idx").on(t.projectKey),
+  }),
+);
+export type PropertyAccessGrant = typeof propertyAccessGrants.$inferSelect;
+export type InsertPropertyAccessGrant = typeof propertyAccessGrants.$inferInsert;
+
+/**
+ * Append-only record of authenticated sign-ins and privileged changes. It is
+ * intentionally separate from the per-listing audit table so Master Admin can
+ * review activity across properties, user grants, and sessions in one place.
+ */
+export const activityAudit = mysqlTable(
+  "activity_audit",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    eventType: mysqlEnum("eventType", [
+      "sign_in",
+      "property_edit",
+      "access_grant_create",
+      "access_grant_update",
+      "access_grant_delete",
+      "access_role_update",
+    ]).notNull(),
+    actorEmail: varchar("actorEmail", { length: 320 }).notNull(),
+    actorName: varchar("actorName", { length: 255 }),
+    targetEmail: varchar("targetEmail", { length: 320 }),
+    entityType: varchar("entityType", { length: 64 }),
+    entityKey: varchar("entityKey", { length: 191 }),
+    summary: text("summary").notNull(),
+    /** JSON-encoded before/after data; sensitive fields are kept admin-only. */
+    changesJson: text("changesJson"),
+    ip: varchar("ip", { length: 64 }),
+    userAgent: text("userAgent"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  (t) => ({
+    activityCreatedIdx: index("activity_audit_createdAt_idx").on(t.createdAt),
+    activityActorIdx: index("activity_audit_actor_idx").on(t.actorEmail),
+    activityTargetIdx: index("activity_audit_target_idx").on(t.targetEmail),
+    activityEntityIdx: index("activity_audit_entity_idx").on(t.entityType, t.entityKey),
+  }),
+);
+export type ActivityAudit = typeof activityAudit.$inferSelect;
+export type InsertActivityAudit = typeof activityAudit.$inferInsert;
 
 
 /* =====================================================================

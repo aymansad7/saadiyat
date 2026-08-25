@@ -13,6 +13,7 @@ import { Pencil } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { trpc } from "@/lib/trpc";
 import { ListingEditor, type ListingStatus } from "./ListingEditor";
 
 const STATUS_TONE: Record<ListingStatus, string> = {
@@ -67,6 +68,43 @@ export function ListingPriceLabel({
   );
 }
 
+export type ListingPropertyFactsData = {
+  landAreaSqm?: number | null;
+  builtUpAreaSqm?: number | null;
+  availableForRent?: boolean | null;
+  rentPriceAed?: number | null;
+};
+
+/** Compact, shared rendering of database-backed property overrides. */
+export function ListingPropertyFacts({
+  listing,
+  className,
+}: {
+  listing?: ListingPropertyFactsData | null;
+  className?: string;
+}) {
+  if (!listing) return null;
+  const facts: string[] = [];
+  const areaFormat = new Intl.NumberFormat("en-AE", { maximumFractionDigits: 2 });
+  if (listing.landAreaSqm != null) facts.push(`Land ${areaFormat.format(listing.landAreaSqm)} m²`);
+  if (listing.builtUpAreaSqm != null) facts.push(`BUA ${areaFormat.format(listing.builtUpAreaSqm)} m²`);
+  if (listing.availableForRent === true) {
+    facts.push(
+      listing.rentPriceAed
+        ? `Rent AED ${new Intl.NumberFormat("en-AE").format(listing.rentPriceAed)}`
+        : "Available for rent",
+    );
+  } else if (listing.availableForRent === false) {
+    facts.push("Not available for rent");
+  }
+  if (facts.length === 0) return null;
+  return (
+    <div className={`mt-2 text-[0.65rem] font-mono text-muted-foreground ${className ?? ""}`}>
+      {facts.join(" · ")}
+    </div>
+  );
+}
+
 export type EditListingButtonProps = {
   villaKey: string;
   community: string;
@@ -85,8 +123,15 @@ export function EditListingButton({
 }: EditListingButtonProps) {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  const isAdmin = user?.role === "admin" || user?.role === "master";
-  if (!isAdmin) return null;
+  const grants = trpc.propertyAccess.permissions.useQuery(
+    { projects: [community] },
+    { enabled: Boolean(user) },
+  );
+  const canEdit =
+    user?.role === "admin" ||
+    user?.role === "master" ||
+    grants.data?.[0]?.permissions.canEditProperties === true;
+  if (!canEdit) return null;
 
   return (
     <>

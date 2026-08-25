@@ -16,12 +16,15 @@ import { TRPCError } from "@trpc/server";
 import { and, asc, desc, eq, gte, lte, like, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import {
+  propertyAccessGrants,
   villaListingAudit,
   villaListings,
   type VillaListing,
 } from "../../drizzle/schema";
+import { getPropertyScope, resolvePropertyPermissions } from "../../shared/propertyAccess";
+import { appendActivityAudit } from "../activityAudit";
 import { getDb } from "../db";
-import { adminProcedure, publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, protectedProcedure, publicProcedure, router } from "../_core/trpc";
 
 /** Anything that is not a "real" community slug we still allow — the UI is the
  * source of truth for which communities exist. We only validate shape. */
@@ -54,6 +57,10 @@ type PublicVillaListing = Pick<
   | "status"
   | "listingPartners"
   | "publicNotes"
+  | "landAreaSqm"
+  | "builtUpAreaSqm"
+  | "availableForRent"
+  | "rentPriceAed"
   | "updatedAt"
 >;
 
@@ -66,12 +73,49 @@ function toPublic(row: VillaListing): PublicVillaListing {
     status: row.status,
     listingPartners: row.listingPartners,
     publicNotes: row.publicNotes,
+    landAreaSqm: row.landAreaSqm,
+    builtUpAreaSqm: row.builtUpAreaSqm,
+    availableForRent: row.availableForRent,
+    rentPriceAed: row.rentPriceAed,
     updatedAt: row.updatedAt,
   };
 }
 
 function isAdmin(user: { role?: string | null } | null): boolean {
   return user?.role === "admin" || user?.role === "master";
+}
+
+async function resolveCallerPermissions(
+  user: { role?: string | null; email?: string | null } | null | undefined,
+  community: string,
+) {
+  if (!user) return null;
+  const db = await getDb();
+  const grants = !db || !user.email
+    ? []
+    : await db
+      .select()
+      .from(propertyAccessGrants)
+      .where(eq(propertyAccessGrants.email, user.email.toLowerCase()));
+  return resolvePropertyPermissions(user.role, grants, getPropertyScope(community));
+}
+
+function toVisible(
+  row: VillaListing,
+  permissions: Awaited<ReturnType<typeof resolveCallerPermissions>>,
+  includeAdminOnlyFields: boolean,
+) {
+  if (!permissions) return toPublic(row);
+  const base = toPublic(row) as PublicVillaListing & Partial<VillaListing>;
+  if (permissions.canViewOwnerName) base.ownerName = row.ownerName;
+  if (permissions.canViewOwnerPhone) base.ownerPhone = row.ownerPhone;
+  if (includeAdminOnlyFields) {
+    // Admin/master permissions include the private operational fields.
+    base.ownerEmail = row.ownerEmail;
+    base.internalNotes = row.internalNotes;
+    base.updatedBy = row.updatedBy;
+  }
+  return base;
 }
 
 const upsertInput = z.object({
@@ -81,6 +125,10 @@ const upsertInput = z.object({
   status: z.enum(STATUS_VALUES).optional(),
   listingPartners: z.string().max(2_000).nullable().optional(),
   publicNotes: z.string().max(8_000).nullable().optional(),
+  landAreaSqm: z.number().nonnegative().max(10_000_000).nullable().optional(),
+  builtUpAreaSqm: z.number().nonnegative().max(10_000_000).nullable().optional(),
+  availableForRent: z.boolean().nullable().optional(),
+  rentPriceAed: z.number().int().nonnegative().max(10_000_000_000).nullable().optional(),
   ownerName: z.string().max(255).nullable().optional(),
   ownerPhone: z.string().max(64).nullable().optional(),
   ownerEmail: z.string().max(320).nullable().optional(),
@@ -97,6 +145,10 @@ function diffChanges(
     "status",
     "listingPartners",
     "publicNotes",
+    "landAreaSqm",
+    "builtUpAreaSqm",
+    "availableForRent",
+    "rentPriceAed",
     "ownerName",
     "ownerPhone",
     "ownerEmail",
@@ -137,7 +189,8 @@ export const villaListingsRouter = router({
         .limit(1);
       const row = rows[0];
       if (!row) return null;
-      return isAdmin(ctx.user) ? row : toPublic(row);
+      const permissions = await resolveCallerPermissions(ctx.user, row.community);
+      return toVisible(row, permissions, isAdmin(ctx.user));
     }),
 
   /** Returns either an exact-community match or a prefix match (for SBV gates).
@@ -160,7 +213,11 @@ export const villaListingsRouter = router({
         .from(villaListings)
         .where(where.length ? and(...where) : undefined)
         .orderBy(asc(villaListings.villaKey));
-      return isAdmin(ctx.user) ? rows : rows.map(toPublic);
+      if (!ctx.user) return rows.map(toPublic);
+      return Promise.all(rows.map(async row => {
+        const permissions = await resolveCallerPermissions(ctx.user, row.community);
+        return toVisible(row, permissions, isAdmin(ctx.user));
+      }));
     }),
 
   /** Admin index. Filters:
@@ -226,9 +283,24 @@ export const villaListingsRouter = router({
       .groupBy(villaListings.community, villaListings.status);
   }),
 
-  upsert: adminProcedure.input(upsertInput).mutation(async ({ input, ctx }) => {
+  upsert: protectedProcedure.input(upsertInput).mutation(async ({ input, ctx }) => {
     const db = await getDb();
     if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+    const permissions = await resolveCallerPermissions(ctx.user, input.community);
+    if (!permissions?.canEditProperties) {
+      throw new TRPCError({ code: "FORBIDDEN", message: "You do not have edit access to this project." });
+    }
+    const writesOwnerName = "ownerName" in input;
+    const writesOwnerPhone = "ownerPhone" in input;
+    const writesOwnerEmail = "ownerEmail" in input;
+    if (
+      !isAdmin(ctx.user) &&
+      ((writesOwnerName && !permissions.canViewOwnerName) ||
+        (writesOwnerPhone && !permissions.canViewOwnerPhone) ||
+        writesOwnerEmail)
+    ) {
+      throw new TRPCError({ code: "FORBIDDEN", message: "You do not have access to edit this owner contact field." });
+    }
     const before = await db
       .select()
       .from(villaListings)
@@ -242,6 +314,10 @@ export const villaListingsRouter = router({
       "status",
       "listingPartners",
       "publicNotes",
+      "landAreaSqm",
+      "builtUpAreaSqm",
+      "availableForRent",
+      "rentPriceAed",
       "ownerName",
       "ownerPhone",
       "ownerEmail",
@@ -281,6 +357,15 @@ export const villaListingsRouter = router({
         actorName: ctx.user?.name ?? null,
         summary,
         changesJson: truncatedJson,
+      });
+      await appendActivityAudit({
+        eventType: "property_edit",
+        actorEmail: ctx.user?.email ?? "editor",
+        actorName: ctx.user?.name ?? null,
+        entityType: "property",
+        entityKey: input.villaKey,
+        summary: `Updated property ${input.villaKey}: ${summary}`,
+        changes: diff,
       });
     }
 

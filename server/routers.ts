@@ -11,6 +11,7 @@ import { gateRouter } from "./routers/gate";
 import { inventoryHistoryRouter } from "./routers/inventoryHistory";
 import { magicRouter } from "./routers/magic";
 import { publicResaleRouter } from "./routers/publicResale";
+import { propertyAccessRouter } from "./routers/propertyAccess";
 import { resaleRouter } from "./routers/resale";
 import { unitSearchRouter } from "./routers/unitSearch";
 import { villaListingsRouter } from "./routers/villaListings";
@@ -41,6 +42,7 @@ export const appRouter = router({
   }),
   magic: magicRouter,
   villaListings: villaListingsRouter,
+  propertyAccess: propertyAccessRouter,
   files: filesRouter,
   gate: gateRouter,
   aldarOther: aldarOtherRouter,

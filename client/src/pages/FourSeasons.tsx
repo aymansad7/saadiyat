@@ -5,6 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import AreaFilterControls, { type AreaViewMode } from "@/components/AreaFilterControls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { EditListingButton } from "@/components/ListingControls";
 import {
   FOUR_SEASONS_AVAILABILITY_DATE,
   FOUR_SEASONS_MASTERPLAN_IMAGE,
@@ -216,6 +217,9 @@ export default function FourSeasons() {
             {filtered.map((villa) => (
               <article id={`villa-${villa.villaNumber}`} key={villa.villaKey} className={`rounded-xl border bg-card p-5 scroll-mt-28 ${villa.status === "available" ? "border-emerald-500/60 shadow-emerald-100 shadow-sm" : "border-border"}`}>
                 <VillaSummary villa={villa} areaUnit={areaUnit} />
+                <div className="mt-4 border-t border-border pt-3 flex justify-end">
+                  <EditListingButton villaKey={villa.villaKey} community="four-seasons" villaLabel={`Four Seasons · Villa ${villa.villaNumber}`} />
+                </div>
               </article>
             ))}
           </section>
@@ -250,7 +254,7 @@ export default function FourSeasons() {
                     <td className="px-4 py-3 text-right font-mono">{formatArea(totalArea, areaUnit)}</td>
                     <td className="px-4 py-3 text-right">{latest ? <><div className="font-semibold">{formatPrice(latest.priceAed)}</div><div className={`text-[0.65rem] ${latest.confidence === "confirmed" ? "text-violet-700" : "text-amber-700"}`}>{latest.date} · {latest.confidence}</div></> : "—"}</td>
                     <td className="px-4 py-3 text-right font-semibold">{formatPrice(villa.askingPriceAed)}</td>
-                    <td className="px-4 py-3 text-right whitespace-nowrap"><Link className="text-primary hover:underline" href={`/map?plot=${encodeURIComponent(villa.villaKey)}`}>Map</Link>{floorplan && <a className="ml-3 text-primary hover:underline" href={floorplan.pdfUrl} target="_blank" rel="noreferrer">Floorplan</a>}</td>
+                    <td className="px-4 py-3 text-right whitespace-nowrap"><Link className="text-primary hover:underline" href={`/map?plot=${encodeURIComponent(villa.villaKey)}`}>Map</Link>{floorplan && <a className="ml-3 text-primary hover:underline" href={floorplan.pdfUrl} target="_blank" rel="noreferrer">Floorplan</a>}<span className="inline-flex ml-3 align-middle"><EditListingButton villaKey={villa.villaKey} community="four-seasons" villaLabel={`Four Seasons · Villa ${villa.villaNumber}`} /></span></td>
                   </tr>
                   );
                 })}

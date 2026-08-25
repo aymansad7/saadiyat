@@ -11,6 +11,7 @@
  */
 import { Link } from "wouter";
 import { ArrowUpRight, ExternalLink, MapPin } from "lucide-react";
+import { useAuth } from "@/_core/hooks/useAuth";
 import type { LagoonsVilla } from "@/data/lagoons";
 import {
   getAvailability,
@@ -21,9 +22,11 @@ import type { ListingIndexEntry } from "@/hooks/useListingIndex";
 import {
   EditListingButton,
   ListingBadge,
+  ListingPropertyFacts,
   ListingPriceLabel,
 } from "@/components/ListingControls";
 import { formatArea, type AreaUnit } from "@/lib/areaSearch";
+import { trpc } from "@/lib/trpc";
 
 function formatAed(value: number) {
   return new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(value);
@@ -56,6 +59,15 @@ function positionBadge(villa: LagoonsVilla): { label: string; cls: string } | nu
 }
 
 export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: Props) {
+  const { user } = useAuth();
+  const permissions = trpc.propertyAccess.permissions.useQuery(
+    { projects: ["lagoons"] },
+    { enabled: Boolean(user) },
+  );
+  const canViewOriginalPrice =
+    user?.role === "admin" ||
+    user?.role === "master" ||
+    permissions.data?.[0]?.permissions.canViewOriginalPrice === true;
   const badge = positionBadge(villa);
   const detailHref = `/saadiyat-lagoons/${villa.cluster}/${encodeURIComponent(villa.unit_name)}`;
   const availability = getAvailability(villa.unit_name);
@@ -148,7 +160,8 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
             )}
           </div>
         ) : null}
-        {originalPrice != null && (
+        <ListingPropertyFacts listing={listing} />
+        {originalPrice != null && canViewOriginalPrice && (
           <div className="mt-3 border-l-2 border-primary/50 pl-2.5">
             <div className="text-[0.6rem] uppercase tracking-[0.16em] font-mono text-muted-foreground">
               Original price

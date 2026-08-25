@@ -17,6 +17,12 @@ import {
   UserPlus,
   Mail,
   Crown,
+  Eye,
+  FilePenLine,
+  History,
+  MapPin,
+  Phone,
+  Building2,
   User as UserIcon,
 } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
@@ -32,6 +38,7 @@ import {
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { toast } from "sonner";
+import { PROPERTY_AREA_OPTIONS, PROPERTY_PROJECT_OPTIONS } from "@shared/propertyAccess";
 
 type Role = "user" | "admin" | "master";
 
@@ -71,10 +78,31 @@ export default function AdminAccess() {
   const updateRole = trpc.magic.access.updateRole.useMutation({
     onSuccess: () => utils.magic.access.list.invalidate(),
   });
+  const grants = trpc.propertyAccess.grants.list.useQuery(undefined, { enabled: isMaster });
+  const activity = trpc.propertyAccess.activity.useQuery({ limit: 150 }, { enabled: isMaster });
+  const createGrant = trpc.propertyAccess.grants.create.useMutation({
+    onSuccess: () => {
+      utils.propertyAccess.grants.list.invalidate();
+      utils.propertyAccess.activity.invalidate();
+    },
+  });
+  const removeGrant = trpc.propertyAccess.grants.remove.useMutation({
+    onSuccess: () => {
+      utils.propertyAccess.grants.list.invalidate();
+      utils.propertyAccess.activity.invalidate();
+    },
+  });
 
   const [newEmail, setNewEmail] = useState("");
   const [newRole, setNewRole] = useState<Role>("user");
   const [newNote, setNewNote] = useState("");
+  const [grantEmail, setGrantEmail] = useState("");
+  const [scopeType, setScopeType] = useState<"area" | "project">("area");
+  const [scopeKey, setScopeKey] = useState("saadiyat");
+  const [canViewOriginalPrice, setCanViewOriginalPrice] = useState(false);
+  const [canViewOwnerName, setCanViewOwnerName] = useState(false);
+  const [canViewOwnerPhone, setCanViewOwnerPhone] = useState(false);
+  const [canEditProperties, setCanEditProperties] = useState(false);
 
   const onAdd = async (e: FormEvent) => {
     e.preventDefault();
@@ -110,6 +138,40 @@ export default function AdminAccess() {
       toast.success(`Role updated to ${role}`);
     } catch (err: any) {
       toast.error(err?.message || "Could not update role");
+    }
+  };
+
+  const onCreateGrant = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!grantEmail.includes("@") || !scopeKey) return;
+    try {
+      await createGrant.mutateAsync({
+        email: grantEmail.trim(),
+        areaKey: scopeType === "area" ? scopeKey : null,
+        projectKey: scopeType === "project" ? scopeKey : null,
+        canViewOriginalPrice,
+        canViewOwnerName,
+        canViewOwnerPhone,
+        canEditProperties,
+      });
+      toast.success("Property access grant added");
+      setGrantEmail("");
+      setCanViewOriginalPrice(false);
+      setCanViewOwnerName(false);
+      setCanViewOwnerPhone(false);
+      setCanEditProperties(false);
+    } catch (err: any) {
+      toast.error(err?.message || "Could not create property access grant");
+    }
+  };
+
+  const onRemoveGrant = async (id: number) => {
+    if (!confirm("Remove this property access grant?")) return;
+    try {
+      await removeGrant.mutateAsync({ id });
+      toast.success("Property access grant removed");
+    } catch (err: any) {
+      toast.error(err?.message || "Could not remove property access grant");
     }
   };
 
@@ -229,6 +291,143 @@ export default function AdminAccess() {
             </Button>
           </form>
         </section>
+
+        {isMaster && (
+          <>
+            <section className="bg-card border border-primary/30 rounded-md p-5 sm:p-6 mb-8">
+              <div className="flex items-start gap-3 mb-5">
+                <ShieldCheck className="h-5 w-5 text-primary mt-0.5" />
+                <div>
+                  <div className="text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary mb-1">
+                    ─── Master Admin property permissions
+                  </div>
+                  <p className="text-sm text-muted-foreground max-w-3xl">
+                    Grant a person access to an entire area or a single project. Field permissions are separate: original price, owner name, owner mobile, and the right to edit property information.
+                  </p>
+                </div>
+              </div>
+              <form onSubmit={onCreateGrant} className="grid gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <Input
+                    type="email"
+                    value={grantEmail}
+                    onChange={event => setGrantEmail(event.target.value)}
+                    placeholder="person@example.com"
+                    required
+                  />
+                  <Select value={scopeType} onValueChange={value => {
+                    const nextType = value as "area" | "project";
+                    setScopeType(nextType);
+                    setScopeKey(nextType === "area" ? "saadiyat" : "st-regis");
+                  }}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="area">Entire area</SelectItem>
+                      <SelectItem value="project">Single project</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select value={scopeKey} onValueChange={setScopeKey}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {(scopeType === "area" ? PROPERTY_AREA_OPTIONS : PROPERTY_PROJECT_OPTIONS).map(option => (
+                        <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-sm">
+                  {[
+                    [canViewOriginalPrice, setCanViewOriginalPrice, "View original price", Eye],
+                    [canViewOwnerName, setCanViewOwnerName, "View owner name", UserIcon],
+                    [canViewOwnerPhone, setCanViewOwnerPhone, "View owner mobile", Phone],
+                    [canEditProperties, setCanEditProperties, "Edit property data", FilePenLine],
+                  ].map(([checked, setChecked, label, Icon]) => {
+                    const PermissionIcon = Icon as typeof Eye;
+                    return (
+                      <label key={label as string} className="flex items-center gap-2 rounded-md border border-border px-3 py-2.5 cursor-pointer hover:bg-secondary/25">
+                        <input
+                          type="checkbox"
+                          checked={checked as boolean}
+                          onChange={event => (setChecked as (next: boolean) => void)(event.target.checked)}
+                          className="h-4 w-4 accent-primary"
+                        />
+                        <PermissionIcon className="h-3.5 w-3.5 text-muted-foreground" />
+                        <span>{label as string}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+                <div>
+                  <Button type="submit" disabled={createGrant.isPending} className="gap-1.5">
+                    <ShieldCheck className="h-4 w-4" />
+                    {createGrant.isPending ? "Saving…" : "Grant access"}
+                  </Button>
+                </div>
+              </form>
+
+              <div className="mt-6 border rounded-md overflow-hidden">
+                <div className="px-4 py-2.5 bg-secondary/20 text-[0.65rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">
+                  {grants.data?.length ?? 0} active property grant{(grants.data?.length ?? 0) === 1 ? "" : "s"}
+                </div>
+                {grants.isLoading ? (
+                  <div className="p-5 text-sm text-muted-foreground">Loading grants…</div>
+                ) : (grants.data?.length ?? 0) === 0 ? (
+                  <div className="p-5 text-sm text-muted-foreground">No delegated property access grants yet.</div>
+                ) : (
+                  <div className="divide-y divide-border">
+                    {grants.data?.map(grant => (
+                      <div key={grant.id} className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between p-4 text-sm">
+                        <div>
+                          <div className="font-medium break-all">{grant.email}</div>
+                          <div className="mt-1 flex flex-wrap gap-1.5 text-xs text-muted-foreground">
+                            <span className="inline-flex items-center gap-1"><MapPin className="h-3 w-3" /> {grant.areaKey ?? "Project-only"}</span>
+                            {grant.projectKey && <span className="inline-flex items-center gap-1"><Building2 className="h-3 w-3" /> {grant.projectKey}</span>}
+                            {grant.canViewOriginalPrice && <span>Original price</span>}
+                            {grant.canViewOwnerName && <span>Owner name</span>}
+                            {grant.canViewOwnerPhone && <span>Owner mobile</span>}
+                            {grant.canEditProperties && <span>Edit</span>}
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="sm" className="text-destructive self-start" onClick={() => onRemoveGrant(grant.id)}>
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
+
+            <section className="bg-card border border-border rounded-md overflow-hidden mb-8">
+              <div className="px-5 py-4 border-b border-border flex items-center gap-2">
+                <History className="h-4 w-4 text-primary" />
+                <div>
+                  <div className="text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">─── Activity audit</div>
+                  <p className="text-xs text-muted-foreground mt-1">Successful sign-ins and privileged property/access changes, newest first.</p>
+                </div>
+              </div>
+              {activity.isLoading ? (
+                <div className="p-6 text-sm text-muted-foreground">Loading activity…</div>
+              ) : (activity.data?.length ?? 0) === 0 ? (
+                <div className="p-6 text-sm text-muted-foreground">No activity has been recorded yet.</div>
+              ) : (
+                <div className="divide-y divide-border max-h-[520px] overflow-auto">
+                  {activity.data?.map(event => (
+                    <div key={event.id} className="px-5 py-3 text-sm">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className="font-medium">{event.summary}</span>
+                        <time className="text-xs tabular-nums text-muted-foreground">{new Date(event.createdAt).toLocaleString()}</time>
+                      </div>
+                      <div className="mt-1 text-xs text-muted-foreground">
+                        {event.actorEmail}{event.targetEmail && event.targetEmail !== event.actorEmail ? ` → ${event.targetEmail}` : ""} · {event.eventType.replaceAll("_", " ")}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          </>
+        )}
 
         {/* List */}
         <section className="bg-card border border-border rounded-md overflow-hidden">

@@ -8,6 +8,8 @@ import { LayoutGrid, Table2 } from "lucide-react";
 import hiddDataRaw from "../../../server/data/hidd_al_saadiyat.json";
 import { hiddPlotRecords, HIDD_SUMMARY } from "@/data/hiddTransactions";
 import AreaFilterControls from "@/components/AreaFilterControls";
+import { EditListingButton } from "@/components/ListingControls";
+import { trpc } from "@/lib/trpc";
 import { getInitialProjectViewMode } from "@/lib/viewMode";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, sqftToSqm, type AreaUnit } from "@/lib/areaSearch";
 
@@ -82,7 +84,19 @@ function villaAreas(villa: HiddVilla) {
   };
 }
 
-function VillaCard({ villa, isAdmin, areaUnit }: { villa: HiddVilla; isAdmin: boolean; areaUnit: AreaUnit }) {
+function VillaCard({
+  villa,
+  isAdmin,
+  canViewOwnerName,
+  canViewOwnerPhone,
+  areaUnit,
+}: {
+  villa: HiddVilla;
+  isAdmin: boolean;
+  canViewOwnerName: boolean;
+  canViewOwnerPhone: boolean;
+  areaUnit: AreaUnit;
+}) {
   const [expanded, setExpanded] = useState(false);
   const areas = villaAreas(villa);
 
@@ -128,31 +142,31 @@ function VillaCard({ villa, isAdmin, areaUnit }: { villa: HiddVilla; isAdmin: bo
           </div>
 
           {/* Owner Info - Admin Only */}
-          {isAdmin && villa.owner1Name && (
+          {(canViewOwnerName || canViewOwnerPhone) && (villa.owner1Name || villa.owner1Mobile) && (
             <div>
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">Owner</p>
-              <DetailRow label="Owner 1" value={villa.owner1Name} />
-              <DetailRow label="Email" value={villa.owner1Email} />
-              <DetailRow label="Mobile" value={villa.owner1Mobile} />
-              {villa.owner2Name && (
+              {canViewOwnerName && <DetailRow label="Owner 1" value={villa.owner1Name} />}
+              {isAdmin && <DetailRow label="Email" value={villa.owner1Email} />}
+              {canViewOwnerPhone && <DetailRow label="Mobile" value={villa.owner1Mobile} />}
+              {canViewOwnerName && villa.owner2Name && (
                 <>
                   <DetailRow label="Owner 2" value={villa.owner2Name} />
                   <DetailRow label="Relationship" value={villa.owner2Relationship} />
-                  <DetailRow label="Email" value={villa.owner2Email} />
-                  <DetailRow label="Mobile" value={villa.owner2Mobile} />
+                  {isAdmin && <DetailRow label="Email" value={villa.owner2Email} />}
+                  {canViewOwnerPhone && <DetailRow label="Mobile" value={villa.owner2Mobile} />}
                 </>
               )}
-              {villa.ownerRepName && (
+              {canViewOwnerName && villa.ownerRepName && (
                 <>
                   <DetailRow label="Representative" value={villa.ownerRepName} />
-                  <DetailRow label="Rep Email" value={villa.ownerRepEmail} />
-                  <DetailRow label="Rep Mobile" value={villa.ownerRepMobile} />
+                  {isAdmin && <DetailRow label="Rep Email" value={villa.ownerRepEmail} />}
+                  {canViewOwnerPhone && <DetailRow label="Rep Mobile" value={villa.ownerRepMobile} />}
                 </>
               )}
-              <DetailRow label="HIDD Card" value={villa.hiddCard} />
-              <DetailRow label="Plate #" value={villa.plateNumber} />
-              <DetailRow label="Vehicle" value={villa.vehicleType} />
-              <DetailRow label="Access Cards" value={villa.registeredAccessCards} />
+              {isAdmin && <DetailRow label="HIDD Card" value={villa.hiddCard} />}
+              {isAdmin && <DetailRow label="Plate #" value={villa.plateNumber} />}
+              {isAdmin && <DetailRow label="Vehicle" value={villa.vehicleType} />}
+              {isAdmin && <DetailRow label="Access Cards" value={villa.registeredAccessCards} />}
             </div>
           )}
 
@@ -175,6 +189,13 @@ function VillaCard({ villa, isAdmin, areaUnit }: { villa: HiddVilla; isAdmin: bo
           )}
         </CardContent>
       )}
+      <div className="px-6 pb-4">
+        <EditListingButton
+          villaKey={`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`}
+          community="hidd"
+          villaLabel={`Hidd · Villa ${villa.villaNumber ?? "—"}`}
+        />
+      </div>
     </Card>
   );
 }
@@ -182,6 +203,13 @@ function VillaCard({ villa, isAdmin, areaUnit }: { villa: HiddVilla; isAdmin: bo
 export default function HiddAlSaadiyat() {
   const { user } = useAuth();
   const isAdmin = user?.role === "admin" || user?.role === "master";
+  const permissions = trpc.propertyAccess.permissions.useQuery(
+    { projects: ["hidd"] },
+    { enabled: Boolean(user) },
+  );
+  const hiddPermissions = permissions.data?.[0]?.permissions;
+  const canViewOwnerName = isAdmin || hiddPermissions?.canViewOwnerName === true;
+  const canViewOwnerPhone = isAdmin || hiddPermissions?.canViewOwnerPhone === true;
   const [search, setSearch] = useState("");
   const [zoneFilter, setZoneFilter] = useState("");
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
@@ -284,7 +312,7 @@ export default function HiddAlSaadiyat() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((villa, i) => (
-            <VillaCard key={`${villa.zone}-${villa.villaNumber}-${i}`} villa={villa} isAdmin={isAdmin} areaUnit={areaUnit} />
+            <VillaCard key={`${villa.zone}-${villa.villaNumber}-${i}`} villa={villa} isAdmin={isAdmin} canViewOwnerName={canViewOwnerName} canViewOwnerPhone={canViewOwnerPhone} areaUnit={areaUnit} />
           ))}
         </div>
       )}

@@ -13,6 +13,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import EmailGate from "./components/EmailGate";
+import { PropertyProjectGate } from "./components/PropertyProjectGate";
 import Landing from "./pages/Landing";
 import StRegis from "./pages/StRegis";
 import VillaDetail from "./pages/VillaDetail";
@@ -54,30 +55,30 @@ function Router() {
       <Route path="/" component={Landing} />
       <Route path="/available-units" component={AvailableUnits} />
       <Route path="/map" component={SaadiyatMap} />
-      <Route path="/saadiyat-reserve" component={SaadiyatReserve} />
-      <Route path="/four-seasons" component={FourSeasons} />
-      <Route path="/lagoons-hidden-sl9" component={LagoonsHiddenSL9} />
-      <Route path="/lagoons-hidden-sl10">{() => <LagoonsDcrPhase phase="SL10" />}</Route>
-      <Route path="/lagoons-sl13">{() => <LagoonsDcrPhase phase="SL13" />}</Route>
-      <Route path="/st-regis" component={StRegis} />
-      <Route path="/st-regis/villa/:id" component={VillaDetail} />
-      <Route path="/jawaher" component={Jawaher} />
-      <Route path="/jawaher/plot/:plotId" component={JawaherPlotDetail} />
-      <Route path="/community/:slug" component={CommunityPage} />
-      <Route path="/hidd-al-saadiyat" component={HiddAlSaadiyat} />
-      <Route path="/saadiyat-beach-villas" component={SaadiyatBeachVillas} />
-      <Route path="/saadiyat-lagoons" component={SaadiyatLagoons} />
-      <Route path="/saadiyat-lagoons/:cluster/:unit" component={LagoonsVillaDetail} />
-      <Route path="/saadiyat-lagoons/:cluster" component={LagoonsCluster} />
+      <Route path="/saadiyat-reserve">{() => <PropertyProjectGate projectKey="saadiyat-reserve"><SaadiyatReserve /></PropertyProjectGate>}</Route>
+      <Route path="/four-seasons">{() => <PropertyProjectGate projectKey="four-seasons"><FourSeasons /></PropertyProjectGate>}</Route>
+      <Route path="/lagoons-hidden-sl9">{() => <PropertyProjectGate projectKey="lagoons-hidden-sl9"><LagoonsHiddenSL9 /></PropertyProjectGate>}</Route>
+      <Route path="/lagoons-hidden-sl10">{() => <PropertyProjectGate projectKey="lagoons-hidden-sl10"><LagoonsDcrPhase phase="SL10" /></PropertyProjectGate>}</Route>
+      <Route path="/lagoons-sl13">{() => <PropertyProjectGate projectKey="lagoons-sl13"><LagoonsDcrPhase phase="SL13" /></PropertyProjectGate>}</Route>
+      <Route path="/st-regis">{() => <PropertyProjectGate projectKey="st-regis"><StRegis /></PropertyProjectGate>}</Route>
+      <Route path="/st-regis/villa/:id">{() => <PropertyProjectGate projectKey="st-regis"><VillaDetail /></PropertyProjectGate>}</Route>
+      <Route path="/jawaher">{() => <PropertyProjectGate projectKey="jawaher"><Jawaher /></PropertyProjectGate>}</Route>
+      <Route path="/jawaher/plot/:plotId">{() => <PropertyProjectGate projectKey="jawaher"><JawaherPlotDetail /></PropertyProjectGate>}</Route>
+      <Route path="/community/:slug">{({ slug }) => <PropertyProjectGate projectKey={slug}><CommunityPage /></PropertyProjectGate>}</Route>
+      <Route path="/hidd-al-saadiyat">{() => <PropertyProjectGate projectKey="hidd"><HiddAlSaadiyat /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-beach-villas">{() => <PropertyProjectGate projectKey="saadiyat-beach-villas"><SaadiyatBeachVillas /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons">{() => <PropertyProjectGate projectKey="lagoons"><SaadiyatLagoons /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/:cluster/:unit">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsVillaDetail /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/:cluster">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsCluster /></PropertyProjectGate>}</Route>
       <Route path="/documents" component={Documents} />
-      <Route path="/aldar-saadiyat" component={AldarSaadiyat} />
-      <Route path="/aldar-saadiyat/:project/:building/:unit" component={AldarUnit} />
-      <Route path="/aldar-saadiyat/:project/:building" component={AldarBuilding} />
-      <Route path="/aldar-saadiyat/:project" component={AldarProject} />
-      <Route path="/aldar-other" component={AldarOther} />
-      <Route path="/aldar-other/:project/:building/:unit" component={AldarOtherUnit} />
-      <Route path="/aldar-other/:project/:building" component={AldarOtherBuilding} />
-      <Route path="/aldar-other/:project" component={AldarOtherProject} />
+      <Route path="/aldar-saadiyat">{() => <PropertyProjectGate projectKey="aldar-saadiyat"><AldarSaadiyat /></PropertyProjectGate>}</Route>
+      <Route path="/aldar-saadiyat/:project/:building/:unit">{({ project }) => <PropertyProjectGate projectKey={project}><AldarUnit /></PropertyProjectGate>}</Route>
+      <Route path="/aldar-saadiyat/:project/:building">{({ project }) => <PropertyProjectGate projectKey={project}><AldarBuilding /></PropertyProjectGate>}</Route>
+      <Route path="/aldar-saadiyat/:project">{({ project }) => <PropertyProjectGate projectKey={project}><AldarProject /></PropertyProjectGate>}</Route>
+      <Route path="/aldar-other">{() => <PropertyProjectGate projectKey="aldar-other"><AldarOther /></PropertyProjectGate>}</Route>
+      <Route path="/aldar-other/:project/:building/:unit">{({ project }) => <PropertyProjectGate projectKey={project}><AldarOtherUnit /></PropertyProjectGate>}</Route>
+      <Route path="/aldar-other/:project/:building">{({ project }) => <PropertyProjectGate projectKey={project}><AldarOtherBuilding /></PropertyProjectGate>}</Route>
+      <Route path="/aldar-other/:project">{({ project }) => <PropertyProjectGate projectKey={project}><AldarOtherProject /></PropertyProjectGate>}</Route>
       <Route path="/resale" component={Resale} />
       <Route path="/resale-search" component={PublicResaleSearch} />
       <Route path="/admin" component={AdminPage} />

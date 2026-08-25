@@ -15,6 +15,7 @@ import { AldarStatusBadge } from "@/components/AldarStatusBadge";
 import { ResaleCard } from "@/components/ResaleCard";
 import { UnitTimeline } from "@/components/UnitTimeline";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useProjectAccess } from "@/components/PropertyProjectGate";
 import {
   EditListingButton,
   ListingBadge,
@@ -106,6 +107,7 @@ export default function AldarUnit() {
   );
   const { user } = useAuth();
   const isAdmin = user?.role === "admin" || user?.role === "master";
+  const { canViewOriginalPrice } = useProjectAccess();
 
   if (ctxLoading) return <div className="min-h-screen flex items-center justify-center"><div className="text-muted-foreground font-mono text-sm">Loading...</div></div>;
   if (!ctx) return <Redirect to={`/aldar-saadiyat/${params.project ?? ""}`} />;
@@ -162,7 +164,7 @@ export default function AldarUnit() {
               {unit.unit_name}
             </div>
             <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4">
-              <KeyFact label="Original price (without add-ons)" value={`AED ${fmtAed(unit.price_aed)}`} primary />
+              {canViewOriginalPrice && <KeyFact label="Original price (without add-ons)" value={`AED ${fmtAed(unit.price_aed)}`} primary />}
               <KeyFact label="Bedrooms" value={unit.bedrooms ? `${unit.bedrooms}` : "—"} />
               <KeyFact label="Type" value={unit.unit_model ?? unit.unit_category ?? "—"} />
               <KeyFact label="Plot area" value={fmtArea(unit.plot_area_sqm)} />
@@ -299,7 +301,7 @@ export default function AldarUnit() {
       )}
 
       {/* Payment plans */}
-      {plans.length > 0 && unit.price_aed != null && (
+      {canViewOriginalPrice && plans.length > 0 && unit.price_aed != null && (
         <section className="border-b border-border bg-card/30">
           <div className="container py-6 sm:py-8">
             <div className="flex items-center gap-2 mb-4 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
@@ -386,7 +388,7 @@ export default function AldarUnit() {
             <Row label="Status" value={unit.status ?? "—"} />
             <Row label="Property Status" value={unit.property_status ?? "—"} />
             <Row label="Inventory Category" value={unit.inventory_category ?? "—"} />
-            <Row label="Original price (without add-ons)" value={`AED ${fmtAed(unit.price_aed)}`} />
+            {canViewOriginalPrice && <Row label="Original price (without add-ons)" value={`AED ${fmtAed(unit.price_aed)}`} />}
             <Row label="Reservation Amount" value={unit.reservation_amount != null ? `AED ${fmtAed(unit.reservation_amount)}` : "—"} />
             <Row label="Online Reservation Fee" value={unit.online_reservation_fee != null ? `AED ${fmtAed(unit.online_reservation_fee)}` : "—"} />
             <Row label="Plot Area" value={fmtArea(unit.plot_area_sqm)} />
