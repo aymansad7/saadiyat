@@ -74,6 +74,15 @@ const communities = [
     rich: true,
   },
   {
+    slug: "lagoons-hidden-sl9",
+    name: "Lagoons Hidden Phase SL9",
+    cluster: "Saadiyat Lagoons · 257 official DCR plots",
+    plots: 257,
+    href: "/lagoons-hidden-sl9",
+    available: true,
+    rich: true,
+  },
+  {
     slug: "saadiyat-golf-views",
     name: golfViews.name,
     cluster: golfViews.cluster,

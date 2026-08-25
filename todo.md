@@ -409,3 +409,38 @@
 - [x] Refit the Lagoons master-plan shape to official controls with separate affine models: Al Ghaf 5.6m, Al Sidr 5.0m, and Ethir 5.5m LOO RMSE
 - [x] Preserve topology, retain direct SDE3 controls verbatim, label derived points as master-plan calibrated, and avoid fabricated positions for source rows without map geometry
 - [x] Run TypeScript, 196 full tests, desktop Four Seasons/Reserve/Lagoons deep-link verification, and mobile map-shell verification before publishing
+
+### Lagoons Hidden Phase SL9 DCR Import (Aug 25, 2026)
+- [x] Inspect SDE3_2000.pdf as the canonical first DCR in the provided range and preserve its plot number, areas, boundary coordinates, centroid, and document URL
+- [x] Probe every DCR identifier from SDE3_2000 through SDE3_2407 and record available, missing, or inaccessible documents without assuming continuity
+- [x] Download and register each available SL9 DCR in permanent storage and the distinct `lagoons-hidden-sl9/plot-*` data registry
+- [x] Extract every available DCR plot’s plot number, official land area, coordinates, Google Maps link, DMT link, and project/phase evidence
+- [x] Add Lagoons Hidden Phase SL9 as a distinct community with Cards/Table views and DCR links; do not fabricate availability or prices
+- [x] Add SL9 plots as direct official map markers and link map, cards, table, DCR, DMT, and Google Maps bidirectionally
+- [x] Inspect SDE3_1966.pdf independently and identify its Aldar community and SL phase only from source evidence: Saadiyat Lagoons, SL13-VI-016
+- [x] Add focused tests for imported count, unique plot keys, DCR sources, coordinate accuracy, and map links
+- [x] Verify TypeScript, 206 full tests, and desktop/mobile UI before publishing
+
+### Unified Map Property Cards (Aug 25, 2026)
+- [x] Audit every marker family and compare its map card fields with its corresponding property card/detail data
+- [x] Standardize map cards to display property number, land area, BUA/internal area where sourced, bedrooms, original price, selling/available price, and documented status
+- [x] Preserve unknown values as omitted/not available instead of fabricating values on map cards
+- [x] Ensure later edits to a property’s underlying data flow to the same corresponding map card
+- [x] Add map-card regression tests covering Lagoons, Reserve, Four Seasons, St. Regis, Jawaher, SBV, Golf Views, Hidd, Private Villas, and SL9
+- [x] Verify desktop/mobile map cards and publish with SL9
+
+### Map Colour Semantics (Aug 25, 2026)
+- [x] Reserve green exclusively for units or plots with a documented Available/Listed status in every map layer
+- [x] Replace green project-layer colours, including Saadiyat Beach Villas, with distinct non-green project colours
+- [x] Keep map legend, marker colours, and information-card availability language consistent with the green-only availability rule
+- [x] Add regression tests for the colour semantics and verify representative desktop/mobile markers
+
+### Hidd Al Saadiyat Official Street Controls (Aug 25, 2026)
+- [x] Register direct coordinates for Street 2 Villas 1, 2, 14, 20, 22, and 25 from the user-supplied sources
+- [x] Register direct coordinates for Street 1 Villas 1, 2, 12, 22, and 23 from the user-supplied sources
+- [x] Register direct coordinates for Street 3 Villas 1, 2, 19, 22, and 26 from the user-supplied sources; retain 22/1 as an unmatched source address because it is not a distinct current Hidd record
+- [x] Register direct coordinates for Street 4 Villas 1, 2, 23, 24, and 26 from the user-supplied sources
+- [x] Treat Al Dhiba Street as Boulevard while preserving the supplied house numbers 40, 52, 80, 106, 116, 118, and 122
+- [x] Use all matched Hidd points as fixed controls to recalibrate the full master-plan shape and derive remaining villa locations in master-plan order
+- [x] Inspect the user-supplied Yandex map location and use it only for visual location verification, not as a substitute for the control coordinates
+- [x] Verify Hidd direct map links, master-plan alignment, and card/map consistency after the full-shape recalibration

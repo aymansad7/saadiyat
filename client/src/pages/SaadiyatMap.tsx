@@ -37,11 +37,13 @@ import { plotCoordinates } from "@/data/plotCoordinates";
 import { pfListings, findListingByVillaKey, PF_SUMMARY } from "@/data/propertyFinderListings";
 import type { PFListing } from "@/data/propertyFinderListings";
 import { hiddVillaCoords } from "@/data/hiddCoordinates";
+import hiddDataRaw from "../../../server/data/hidd_al_saadiyat.json";
 import { lagoonsVillaCoords } from "@/data/lagoonsCoordinates";
 import { FOUR_SEASONS_VILLAS } from "@/data/fourSeasons";
 import { FOUR_SEASONS_FLOORPLAN_BY_VILLA } from "@/data/fourSeasonsFloorplans";
 import { getFourSeasonsTransactions } from "@/data/fourSeasonsTransactions";
 import { SAADIYAT_RESERVE_RECORDS } from "@/data/saadiyatReserve";
+import { LAGOONS_HIDDEN_SL9_PLOTS } from "@/data/lagoonsHiddenSl9";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import {
   formatArea,
@@ -51,17 +53,18 @@ import {
 } from "@/lib/areaSearch";
 
 // Known community centers on Saadiyat Island
-const COMMUNITY_CENTERS = {
+export const COMMUNITY_CENTERS = {
   "st-regis": { lat: 24.5381, lng: 54.4246, label: "St. Regis Villas", color: "#C75B12" },
   "jawaher": { lat: 24.5465, lng: 54.4340, label: "Jawaher", color: "#2563EB" },
-  "saadiyat-beach-villas": { lat: 24.5520, lng: 54.4280, label: "Saadiyat Beach Villas", color: "#059669" },
+  "saadiyat-beach-villas": { lat: 24.5520, lng: 54.4280, label: "Saadiyat Beach Villas", color: "#0C4A6E" },
   "saadiyat-golf-views": { lat: 24.5440, lng: 54.4400, label: "Golf Views", color: "#7C3AED" },
   "hidd": { lat: 24.5580, lng: 54.4150, label: "Hidd Al Saadiyat", color: "#DC2626" },
   "private-villas": { lat: 24.5395, lng: 54.4200, label: "Private Villas (Four Seasons)", color: "#CA8A04" },
   "lagoons": { lat: 24.5309, lng: 54.4378, label: "Saadiyat Lagoons", color: "#0891B2" },
   "four-seasons": { lat: 24.5508, lng: 54.4421, label: "Four Seasons Private Residences", color: "#334155" },
-  "huge-plot": { lat: 24.55285144, lng: 54.44457573, label: "Huge Plot Between Four Seasons and Omniyat", color: "#0F766E" },
+  "huge-plot": { lat: 24.55285144, lng: 54.44457573, label: "Huge Plot Between Four Seasons and Omniyat", color: "#A16207" },
   "saadiyat-reserve": { lat: 24.5232, lng: 54.4427, label: "Saadiyat Reserve · Dunes", color: "#B45309" },
+  "lagoons-hidden-sl9": { lat: 24.5395, lng: 54.4425, label: "Lagoons · Hidden Phase SL9", color: "#475569" },
 };
 
 interface MapMarkerData {
@@ -72,6 +75,10 @@ interface MapMarkerData {
   label: string;
   landSqft?: number;
   landSqm?: number;
+  builtUpSqft?: number;
+  builtUpSqm?: number;
+  builtUpLabel?: string;
+  originalPrice?: number;
   lastPrice?: number;
   lastDate?: string;
   saleType?: string;
@@ -88,7 +95,36 @@ interface MapMarkerData {
   availabilityDate?: string;
   askingPrice?: number;
   floorplanHref?: string;
+  dcrHref?: string;
+  dmtHref?: string;
+  googleMapsHref?: string;
   markerColor?: string;
+}
+
+export function getMapMarkerColor(marker: Pick<MapMarkerData, "community" | "availabilityStatus" | "listing" | "markerColor">) {
+  if (marker.availabilityStatus === "available" || marker.listing) return "#10B981";
+  return marker.markerColor ?? COMMUNITY_CENTERS[marker.community as keyof typeof COMMUNITY_CENTERS]?.color ?? "#6B7280";
+}
+
+type HiddMapVilla = {
+  villaNumber?: string;
+  street?: string;
+  bedrooms?: string;
+  villaType?: string;
+  buaAreaSqM?: string;
+  buaAreaSqFt?: string;
+  plotAreaSqFt?: string;
+  plotNumberAlJaber?: string;
+  admPlotNumber?: string;
+};
+
+const hiddVillas: HiddMapVilla[] = (Array.isArray(hiddDataRaw)
+  ? hiddDataRaw
+  : (hiddDataRaw as { default?: HiddMapVilla[] }).default ?? []) as HiddMapVilla[];
+
+function parseHiddNumber(value?: string) {
+  const parsed = Number(value?.replace(/,/g, "").match(/\d+(?:\.\d+)?/)?.[0]);
+  return Number.isFinite(parsed) ? parsed : undefined;
 }
 
 export function buildMarkers(): MapMarkerData[] {
@@ -107,6 +143,9 @@ export function buildMarkers(): MapMarkerData[] {
       label: `Plot ${v.id}`,
       landSqft: v.plotAreaSqm ? Math.round(v.plotAreaSqm * 10.7639) : undefined,
       landSqm: v.plotAreaSqm ?? undefined,
+      builtUpSqft: v.maxGfaSqm ? Math.round(v.maxGfaSqm * 10.7639) : undefined,
+      builtUpSqm: v.maxGfaSqm ?? undefined,
+      builtUpLabel: "Max GFA",
       lastPrice: lastTx?.priceAed,
       lastDate: lastTx?.date,
       saleType: lastTx?.saleType,
@@ -116,6 +155,9 @@ export function buildMarkers(): MapMarkerData[] {
       detailHref: `/st-regis/villa/${v.id}`,
       tableHref: `/st-regis?view=table#villa-${v.id}`,
       detailLines: [v.bedrooms ? `${v.bedrooms} bedrooms` : "", v.buildingTypology ?? ""].filter(Boolean),
+      dcrHref: v.pdfLocalUrl,
+      dmtHref: v.dmtPdfUrl,
+      googleMapsHref: v.googleMapsUrl,
     });
   }
 
@@ -166,6 +208,9 @@ export function buildMarkers(): MapMarkerData[] {
       label: p.label,
       landSqft: plotData?.landSqft,
       landSqm: plotData?.landSqm,
+      builtUpSqft: lastTx?.builtUpAreaSqft ?? undefined,
+      builtUpSqm: lastTx?.builtUpAreaSqm ?? undefined,
+      builtUpLabel: "Recorded BUA",
       lastPrice: lastTx?.priceAed,
       lastDate: lastTx?.date,
       saleType: lastTx?.saleType,
@@ -198,6 +243,9 @@ export function buildMarkers(): MapMarkerData[] {
           label: p.label,
           landSqft: area?.sqft,
           landSqm: area?.sqm,
+          builtUpSqft: lastTx?.builtUpAreaSqft ?? undefined,
+          builtUpSqm: lastTx?.builtUpAreaSqm ?? undefined,
+          builtUpLabel: "Recorded BUA",
           lastPrice: lastTx?.priceAed,
           lastDate: lastTx?.date,
           saleType: lastTx?.saleType,
@@ -261,6 +309,9 @@ export function buildMarkers(): MapMarkerData[] {
       label: villa.label,
       landSqft: villa.plotAreaSqft ?? floorplan?.plotAreaSqft ?? (confirmedTransaction ? confirmedTransaction.landAreaSqm * 10.764 : undefined),
       landSqm: villa.plotAreaSqm ?? floorplan?.plotAreaSqmPrinted ?? confirmedTransaction?.landAreaSqm,
+      builtUpSqft: villa.builtUpAreaSqft ?? floorplan?.sellableAreaSqft ?? (confirmedTransaction ? confirmedTransaction.builtUpAreaSqm * 10.764 : undefined),
+      builtUpSqm: villa.builtUpAreaSqm ?? floorplan?.sellableAreaSqmPrinted ?? confirmedTransaction?.builtUpAreaSqm,
+      builtUpLabel: floorplan ? "Sellable area" : "BUA",
       lastPrice: latestTransaction?.priceAed,
       lastDate: latestTransaction?.date,
       saleType: latestTransaction?.saleType,
@@ -282,6 +333,7 @@ export function buildMarkers(): MapMarkerData[] {
       availabilityDate: villa.availabilityUpdatedAt ?? undefined,
       askingPrice: villa.askingPriceAed ?? undefined,
       floorplanHref: floorplan?.pdfUrl,
+      googleMapsHref: `https://www.google.com/maps?q=${villa.latitude},${villa.longitude}`,
     });
   }
 
@@ -316,6 +368,10 @@ export function buildMarkers(): MapMarkerData[] {
       label: record.label,
       landSqft: record.plotAreaSqft,
       landSqm: record.plotAreaSqm,
+      builtUpSqft: Math.round(record.gfaSqm * 10.7639 * 100) / 100,
+      builtUpSqm: record.gfaSqm,
+      builtUpLabel: "GFA",
+      originalPrice: record.originalPriceAed ?? undefined,
       villaKey: record.villaKey,
       detailHref: record.dunes
         ? record.dunes.existingDetailsPath
@@ -346,18 +402,63 @@ export function buildMarkers(): MapMarkerData[] {
     });
   }
 
-  // Hidd Al Saadiyat — coordinates from Google Maps geocoding + interpolation
+  // Hidden Lagoons Phase SL9 — 257 individual official DCR centroids.
+  for (const plot of LAGOONS_HIDDEN_SL9_PLOTS) {
+    const villaNumber = plot.aldarPlotId.match(/VI-(\d+)$/)?.[1] ?? String(plot.plotNumber);
+    markers.push({
+      id: `lagoons-hidden-sl9-${plot.plotNumber}`,
+      lat: plot.latitude,
+      lng: plot.longitude,
+      community: "lagoons-hidden-sl9",
+      label: `Villa ${villaNumber}`,
+      landSqft: plot.landSqft,
+      landSqm: plot.landSqm,
+      builtUpSqft: plot.maxGfaSqft ?? undefined,
+      builtUpSqm: plot.maxGfaSqm ?? undefined,
+      builtUpLabel: "Max GFA",
+      villaKey: plot.villaKey,
+      detailHref: `/lagoons-hidden-sl9?plot=${encodeURIComponent(plot.villaKey)}#sl9-plot-${plot.plotNumber}`,
+      tableHref: `/lagoons-hidden-sl9?view=table&plot=${encodeURIComponent(plot.villaKey)}#sl9-plot-${plot.plotNumber}`,
+      detailLines: [`Plot ${plot.plotNumber}`, plot.aldarPlotId, plot.typology ?? "", "Official DCR centroid"].filter(Boolean),
+      dcrHref: plot.dcrUrl,
+      dmtHref: plot.dmtUrl,
+      googleMapsHref: plot.googleMapsUrl,
+    });
+  }
+
+  // Hidd Al Saadiyat — user controls are exact; all other locations are calibrated from the preserved shape.
   for (const hv of hiddVillaCoords) {
+    const hiddVilla = hiddVillas.find((villa) => String(villa.villaNumber) === hv.villaNumber && villa.street === hv.street);
+    const sourceLabel = hv.positionSource === "user_supplied_coordinate"
+      ? "User-supplied official control"
+      : hv.positionSource === "street_control_calibrated"
+        ? "Street shape calibrated to official controls"
+        : "Community shape calibrated to official controls";
+    const landSqft = parseHiddNumber(hiddVilla?.plotAreaSqFt);
+    const builtUpSqm = parseHiddNumber(hiddVilla?.buaAreaSqM);
     markers.push({
       id: `hidd-${hv.villaNumber}-${hv.street}`,
       lat: hv.lat,
       lng: hv.lng,
       community: "hidd",
       label: `Villa ${hv.villaNumber}`,
+      landSqft,
+      landSqm: landSqft ? landSqft / 10.7639 : undefined,
+      builtUpSqft: parseHiddNumber(hiddVilla?.buaAreaSqFt),
+      builtUpSqm,
+      builtUpLabel: "BUA",
       villaKey: `hidd/${hv.villaNumber}/${hv.street}`,
       detailHref: `/hidd-al-saadiyat`,
       tableHref: `/hidd-al-saadiyat?view=table#villa-${hv.villaNumber}`,
-      detailLines: [`Street ${hv.street}`],
+      detailLines: [
+        `Street ${hv.street === "BOULEVARD" ? "Boulevard / Al Dhiba" : hv.street}`,
+        hiddVilla?.bedrooms ? `${hiddVilla.bedrooms.replace(/\.0$/, "")} bedrooms` : "",
+        hiddVilla?.villaType ? `Type ${hiddVilla.villaType}` : "",
+        hiddVilla?.plotNumberAlJaber ? `Plot ${hiddVilla.plotNumberAlJaber}` : "",
+        hiddVilla?.admPlotNumber ? `ADM ${hiddVilla.admPlotNumber}` : "",
+        sourceLabel,
+      ].filter(Boolean),
+      googleMapsHref: `https://www.google.com/maps?q=${hv.lat},${hv.lng}`,
     });
   }
 
@@ -429,6 +530,12 @@ export default function SaadiyatMap() {
     if (m.landSqft || m.landSqm) {
       html += `<div style="font-size:12px;color:#555;margin-bottom:4px">Land: ${formatArea({ sqft: m.landSqft, sqm: m.landSqm }, areaUnit)}</div>`;
     }
+    if (m.builtUpSqft || m.builtUpSqm) {
+      html += `<div style="font-size:12px;color:#555;margin-bottom:4px">${m.builtUpLabel ?? "BUA"}: ${formatArea({ sqft: m.builtUpSqft, sqm: m.builtUpSqm }, areaUnit)}</div>`;
+    }
+    if (m.originalPrice) {
+      html += `<div style="margin-top:6px;padding:6px;background:#f6f3ff;border-radius:4px;border:1px solid #ddd6fe"><div style="font-size:10px;color:#6d28d9;font-weight:700;text-transform:uppercase">Original Price</div><div style="font-size:15px;font-weight:700;margin-top:2px">AED ${fmt(m.originalPrice)}</div></div>`;
+    }
     
     if (m.lastPrice && (!m.transactions || m.transactions.length === 0)) {
       const typeLabel = m.saleType === "primary" ? "Primary" : "Resale";
@@ -493,6 +600,13 @@ export default function SaadiyatMap() {
     if (m.floorplanHref) {
       html += `<a href="${m.floorplanHref}" target="_blank" rel="noopener noreferrer" style="display:block;margin-top:7px;padding:7px;border:1px solid #d6d3d1;border-radius:6px;color:#7c3f1f;font-size:11px;font-weight:700;text-align:center;text-decoration:none">Open developer Floorplan →</a>`;
     }
+    if (m.dcrHref || m.dmtHref || m.googleMapsHref) {
+      html += `<div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:8px;font-size:11px;font-weight:700">`;
+      if (m.dcrHref) html += `<a href="${m.dcrHref}" target="_blank" rel="noopener noreferrer" style="color:#7c3f1f">Open DCR ↗</a>`;
+      if (m.dmtHref) html += `<a href="${m.dmtHref}" target="_blank" rel="noopener noreferrer" style="color:#7c3f1f">DMT ↗</a>`;
+      if (m.googleMapsHref) html += `<a href="${m.googleMapsHref}" target="_blank" rel="noopener noreferrer" style="color:#7c3f1f">Google Maps ↗</a>`;
+      html += `</div>`;
+    }
 
     if (showOwners && (m.owner || m.phone)) {
       html += `<div style="margin-top:6px;padding:6px;background:#f0f4f9;border-radius:4px;border:1px solid #d0dae8">`;
@@ -524,7 +638,7 @@ export default function SaadiyatMap() {
     for (const m of markerData) {
       const isListed = !!m.listing;
       const isAvailable = m.availabilityStatus === "available";
-      const color = isListed || isAvailable ? "#10B981" : m.markerColor ?? getColor(m.community);
+      const color = getMapMarkerColor(m);
       const pin = document.createElement("div");
       pin.style.width = isListed || isAvailable ? "16px" : "12px";
       pin.style.height = isListed || isAvailable ? "16px" : "12px";

@@ -1,0 +1,73 @@
+import { describe, expect, it } from "vitest";
+import { buildMarkers, COMMUNITY_CENTERS, getMapMarkerColor } from "../client/src/pages/SaadiyatMap";
+
+describe("Unified map property cards", () => {
+  const markers = buildMarkers();
+
+  it("represents every SL9 DCR plot with direct document and mapping links", () => {
+    const sl9 = markers.filter((marker) => marker.community === "lagoons-hidden-sl9");
+    expect(sl9).toHaveLength(257);
+    expect(sl9.every((marker) => marker.label.startsWith("Villa "))).toBe(true);
+    expect(sl9.every((marker) => marker.landSqm && marker.builtUpSqm && marker.dcrHref && marker.dmtHref && marker.googleMapsHref)).toBe(true);
+    expect(sl9.every((marker) => marker.detailLines?.includes("Official DCR centroid"))).toBe(true);
+  });
+
+  it("surfaces documented Hidd villa facts and distinguishes calibrated locations", () => {
+    const villa80 = markers.find((marker) => marker.id === "hidd-80-BOULEVARD");
+    expect(villa80).toBeDefined();
+    expect(villa80?.landSqft).toBeGreaterThan(0);
+    expect(villa80?.builtUpSqm).toBeGreaterThan(0);
+    expect(villa80?.detailLines).toContain("User-supplied official control");
+    expect(villa80?.googleMapsHref).toContain("24.581831,54.471252");
+
+    const nonControl = markers.find((marker) => marker.id === "hidd-100-BOULEVARD");
+    expect(nonControl?.detailLines?.some((line) => line.includes("calibrated to official controls"))).toBe(true);
+  });
+
+  it("carries building-area data for map cards when the originating project provides it", () => {
+    const stRegis = markers.find((marker) => marker.id === "st-regis-1");
+    expect(stRegis?.landSqm).toBeGreaterThan(0);
+    expect(stRegis?.builtUpSqm).toBeGreaterThan(0);
+    expect(stRegis?.detailLines).toContain("4 bedrooms");
+
+    const fourSeasons = markers.find((marker) => marker.id === "four-seasons-29");
+    expect(fourSeasons?.landSqm).toBeGreaterThan(0);
+    expect(fourSeasons?.builtUpSqm).toBeGreaterThan(0);
+    expect(fourSeasons?.floorplanHref).toBeTruthy();
+  });
+
+  it("reserves green strictly for documented available or listed markers", () => {
+    expect(getMapMarkerColor({ community: "saadiyat-beach-villas" })).not.toBe("#10B981");
+    expect(getMapMarkerColor({ community: "lagoons-hidden-sl9" })).not.toBe("#10B981");
+    expect(getMapMarkerColor({ community: "hidd" })).not.toBe("#10B981");
+    expect(getMapMarkerColor({ community: "four-seasons", availabilityStatus: "available" })).toBe("#10B981");
+    expect(getMapMarkerColor({ community: "jawaher", listing: {} as never })).toBe("#10B981");
+    expect(Object.values(COMMUNITY_CENTERS).filter((item) => item.color === "#10B981")).toHaveLength(0);
+  });
+
+  it("keeps every project family connected to a property detail/table card with documented land data where provided", () => {
+    const families = [
+      "st-regis",
+      "jawaher",
+      "saadiyat-beach-villas",
+      "saadiyat-golf-views",
+      "hidd",
+      "private-villas",
+      "lagoons",
+      "four-seasons",
+      "saadiyat-reserve",
+      "lagoons-hidden-sl9",
+    ];
+
+    for (const family of families) {
+      const projectMarkers = markers.filter((marker) => marker.community === family);
+      expect(projectMarkers.length, family).toBeGreaterThan(0);
+      expect(projectMarkers.some((marker) => marker.detailHref && marker.tableHref), family).toBe(true);
+    }
+
+    const familiesWithRegisteredLand = families.filter((family) => family !== "private-villas");
+    for (const family of familiesWithRegisteredLand) {
+      expect(markers.filter((marker) => marker.community === family).some((marker) => marker.landSqm || marker.landSqft), family).toBe(true);
+    }
+  });
+});

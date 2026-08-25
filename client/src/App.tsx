@@ -44,6 +44,7 @@ import AvailableUnits from "./pages/AvailableUnits";
 import SaadiyatMap from "./pages/SaadiyatMap";
 import SaadiyatReserve from "./pages/SaadiyatReserve";
 import FourSeasons from "./pages/FourSeasons";
+import LagoonsHiddenSL9 from "./pages/LagoonsHiddenSL9";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -54,6 +55,7 @@ function Router() {
       <Route path="/map" component={SaadiyatMap} />
       <Route path="/saadiyat-reserve" component={SaadiyatReserve} />
       <Route path="/four-seasons" component={FourSeasons} />
+      <Route path="/lagoons-hidden-sl9" component={LagoonsHiddenSL9} />
       <Route path="/st-regis" component={StRegis} />
       <Route path="/st-regis/villa/:id" component={VillaDetail} />
       <Route path="/jawaher" component={Jawaher} />
