@@ -25,6 +25,10 @@ import {
 } from "@/components/ListingControls";
 import { formatArea, type AreaUnit } from "@/lib/areaSearch";
 
+function formatAed(value: number) {
+  return new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(value);
+}
+
 export function lagoonsVillaKey(v: LagoonsVilla) {
   return `saadiyat-lagoons/${v.cluster}-${v.unit_name}`;
 }
@@ -55,6 +59,8 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
   const badge = positionBadge(villa);
   const detailHref = `/saadiyat-lagoons/${villa.cluster}/${encodeURIComponent(villa.unit_name)}`;
   const availability = getAvailability(villa.unit_name);
+  const originalPrice = villa.aldar_data?.selling_price_aed ?? null;
+  const builtUpSqm = villa.aldar_data?.total_area_sqm ?? null;
 
   const hasNas = availability.sources.includes("nas-luxury");
   const cardRing = hasNas ? SOURCE_META["nas-luxury"].cardCls : "";
@@ -110,6 +116,14 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
               {formatArea({ sqm: villa.saleable_area_sqm }, areaUnit)}
             </div>
           </div>
+          {builtUpSqm != null && (
+            <div>
+              <div className="text-[0.6rem] uppercase tracking-[0.16em]">Built-up</div>
+              <div className="tabular text-foreground text-sm">
+                {formatArea({ sqm: builtUpSqm }, areaUnit)}
+              </div>
+            </div>
+          )}
           <div>
             <div className="text-[0.6rem] uppercase tracking-[0.16em]">Status</div>
             <div className="tabular text-foreground text-sm">
@@ -134,6 +148,16 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
             )}
           </div>
         ) : null}
+        {originalPrice != null && (
+          <div className="mt-3 border-l-2 border-primary/50 pl-2.5">
+            <div className="text-[0.6rem] uppercase tracking-[0.16em] font-mono text-muted-foreground">
+              Original price
+            </div>
+            <div className="font-display num-display text-lg text-foreground tabular">
+              AED {formatAed(originalPrice)}
+            </div>
+          </div>
+        )}
         {availability.sources.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1.5">
             {availability.sources.map((src: ResaleSource) => (
@@ -154,6 +178,13 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
       <div className="px-4 sm:px-5 pb-4 sm:pb-5 mt-auto">
         <div className="divider-rule mb-3" />
         <div className="flex items-center gap-2 flex-wrap">
+          <Link
+            href={detailHref}
+            className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-sm border bg-card text-foreground border-border hover:bg-secondary hover:border-primary/30"
+          >
+            Full details
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
           <a
             href={villa.detail_url}
             target="_blank"

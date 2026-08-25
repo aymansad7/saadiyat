@@ -44,6 +44,7 @@ import { FOUR_SEASONS_FLOORPLAN_BY_VILLA } from "@/data/fourSeasonsFloorplans";
 import { getFourSeasonsTransactions } from "@/data/fourSeasonsTransactions";
 import { SAADIYAT_RESERVE_RECORDS } from "@/data/saadiyatReserve";
 import { LAGOONS_HIDDEN_SL9_PLOTS } from "@/data/lagoonsHiddenSl9";
+import { LAGOONS_SL10_PLOTS, LAGOONS_SL13_PLOTS } from "@/data/lagoonsDcrPhases";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import {
   formatArea,
@@ -65,6 +66,8 @@ export const COMMUNITY_CENTERS = {
   "huge-plot": { lat: 24.55285144, lng: 54.44457573, label: "Huge Plot Between Four Seasons and Omniyat", color: "#A16207" },
   "saadiyat-reserve": { lat: 24.5232, lng: 54.4427, label: "Saadiyat Reserve · Dunes", color: "#B45309" },
   "lagoons-hidden-sl9": { lat: 24.5395, lng: 54.4425, label: "Lagoons · Hidden Phase SL9", color: "#475569" },
+  "lagoons-hidden-sl10": { lat: 24.5402, lng: 54.4454, label: "Lagoons · Hidden Phase SL10", color: "#7C3AED" },
+  "lagoons-sl13": { lat: 24.5401, lng: 54.4422, label: "Lagoons · Phase SL13", color: "#0F766E" },
 };
 
 interface MapMarkerData {
@@ -424,6 +427,32 @@ export function buildMarkers(): MapMarkerData[] {
       dmtHref: plot.dmtUrl,
       googleMapsHref: plot.googleMapsUrl,
     });
+  }
+
+  // SL10 and SL13 — direct official DCR centroids, with the same card and source links as SL9.
+  for (const [phase, slug, plots] of [["SL10", "lagoons-hidden-sl10", LAGOONS_SL10_PLOTS], ["SL13", "lagoons-sl13", LAGOONS_SL13_PLOTS]] as const) {
+    for (const plot of plots) {
+      const villaNumber = plot.aldarPlotId.match(/VI-(\d+)$/)?.[1] ?? String(plot.plotNumber);
+      markers.push({
+        id: `${slug}-${plot.plotNumber}`,
+        lat: plot.latitude,
+        lng: plot.longitude,
+        community: slug,
+        label: `Villa ${villaNumber}`,
+        landSqft: plot.landSqft,
+        landSqm: plot.landSqm,
+        builtUpSqft: plot.maxGfaSqft ?? undefined,
+        builtUpSqm: plot.maxGfaSqm ?? undefined,
+        builtUpLabel: "Max GFA",
+        villaKey: plot.villaKey,
+        detailHref: `/${slug}?plot=${encodeURIComponent(plot.villaKey)}`,
+        tableHref: `/${slug}?view=table&plot=${encodeURIComponent(plot.villaKey)}`,
+        detailLines: [`${phase} · Plot ${plot.plotNumber}`, plot.aldarPlotId, plot.typology ?? "", "Official DCR centroid"].filter(Boolean),
+        dcrHref: plot.dcrUrl,
+        dmtHref: plot.dmtUrl,
+        googleMapsHref: plot.googleMapsUrl,
+      });
+    }
   }
 
   // Hidd Al Saadiyat — user controls are exact; all other locations are calibrated from the preserved shape.

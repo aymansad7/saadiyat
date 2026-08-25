@@ -11,7 +11,7 @@
  *   /saadiyat-lagoons/al-ghaf
  */
 import { useEffect, useMemo, useState } from "react";
-import { Redirect, useParams, useSearch } from "wouter";
+import { Link, Redirect, useParams, useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import LagoonsVillaCard, { lagoonsVillaKey } from "@/components/LagoonsVillaCard";
 import { useListingIndex } from "@/hooks/useListingIndex";
@@ -336,9 +336,9 @@ export default function LagoonsCluster() {
           </div>
         ) : viewMode === "table" ? (
           <div className="rounded-lg border border-border bg-card overflow-x-auto">
-            <table className="w-full min-w-[850px] text-sm">
+            <table className="w-full min-w-[1100px] text-sm">
               <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
-                <tr><th className="px-4 py-3">Villa</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Position</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">Saleable</th><th className="px-4 py-3">Status</th></tr>
+                <tr><th className="px-4 py-3">Villa</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Position</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">Built-up</th><th className="px-4 py-3">Original price</th><th className="px-4 py-3">Status</th><th className="px-4 py-3">Open</th></tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {visible.map((v) => (
@@ -347,8 +347,10 @@ export default function LagoonsCluster() {
                     <td className="px-4 py-3">{v.bedrooms ? `${v.bedrooms} BR` : "—"}</td>
                     <td className="px-4 py-3 capitalize">{v.position_type ?? "—"}</td>
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: v.plot_area_sqm }, areaUnit)}</td>
-                    <td className="px-4 py-3 font-mono">{formatArea({ sqm: v.saleable_area_sqm }, areaUnit)}</td>
+                    <td className="px-4 py-3 font-mono">{formatArea({ sqm: v.aldar_data?.total_area_sqm ?? v.saleable_area_sqm }, areaUnit)}</td>
+                    <td className="px-4 py-3 font-mono tabular">{v.aldar_data?.selling_price_aed != null ? `AED ${new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(v.aldar_data.selling_price_aed)}` : "—"}</td>
                     <td className="px-4 py-3">{v.status ?? "—"}</td>
+                    <td className="px-4 py-3"><Link href={`/saadiyat-lagoons/${v.cluster}/${encodeURIComponent(v.unit_name)}`} className="text-primary hover:underline font-medium">Details</Link></td>
                   </tr>
                 ))}
               </tbody>

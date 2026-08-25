@@ -23,6 +23,8 @@ const ALL_PROJECTS = [
   { name: "Four Seasons Private Residences", href: "/four-seasons" },
   { name: "Saadiyat Reserve · Phase 1, Phase 2 & Dunes", href: "/saadiyat-reserve" },
   { name: "Saadiyat Lagoons · Hidden Phase SL9", href: "/lagoons-hidden-sl9" },
+  { name: "Saadiyat Lagoons · Hidden Phase SL10", href: "/lagoons-hidden-sl10" },
+  { name: "Saadiyat Lagoons · Phase SL13", href: "/lagoons-sl13" },
   { name: "A Huge Plot Between Four Seasons and Omniyat", href: "/community/huge-plot-four-seasons-omniyat" },
   { name: "St. Regis Villas", href: "/st-regis" },
   { name: "Saadiyat Beach Villas", href: "/saadiyat-beach-villas" },

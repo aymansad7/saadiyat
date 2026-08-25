@@ -10,6 +10,7 @@ import json
 import math
 import re
 import subprocess
+import argparse
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -120,6 +121,14 @@ def safe_parse(pdf: Path) -> dict:
 
 
 def main() -> None:
+    global PDF_DIR, TEXT_DIR, OUTPUT
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--label", default="sl9", help="Temporary DCR directory label under tmp/ (for example sl10)")
+    args = parser.parse_args()
+    data_dir = ROOT / "tmp" / f"{args.label}-dcrs"
+    PDF_DIR = data_dir / "pdfs"
+    TEXT_DIR = data_dir / "text"
+    OUTPUT = data_dir / "extracted-records.json"
     TEXT_DIR.mkdir(parents=True, exist_ok=True)
     pdfs = sorted(PDF_DIR.glob("SDE3_*.pdf"))
     with ThreadPoolExecutor(max_workers=8) as executor:

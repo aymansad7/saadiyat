@@ -450,3 +450,18 @@
 - [x] Preserve 22/1 Street 3 as an unmatched source address until a distinct current villa record is identified
 - [x] Re-run the Hidd calibration only if a supplied coordinate differs from the saved official control value; no difference was found
 - [x] Keep the previously verified direct Hidd map cards; no implementation correction was required
+
+### Saadiyat Lagoons SL13 and Adjacent DCR Range (Aug 25, 2026)
+- [x] Import SDE3_1966–1981 as Saadiyat Lagoons SL13 only after each DCR confirms its Aldar phase label; 12 accessible DCRs are published and the unavailable identifiers are not fabricated
+- [x] Probe SDE3_1982–1999 individually and classify each available DCR by its document-stated Aldar phase: all 18 are SL10
+- [x] Save available DCRs and extract plot number, land area, GFA, DMT link, Google Maps link, and direct centroid
+- [x] Build distinct phase communities/cards/tables and add direct DCR markers to the Interactive Map
+- [x] Add routes, search, navigation, homepage entries, and regression tests for every confirmed phase
+- [x] Verify TypeScript, 208 full tests, and desktop/mobile UI before publishing
+
+### SL10, Lagoons Card Visibility, and Hidd Yandex Alignment Fix (Aug 25, 2026)
+- [x] Confirm why SL10 is absent from the published project registry and import the DCR-confirmed SDE3_1982–1999 range as SL10
+- [x] Ensure all Lagoons card variants display documented Original Price, land area, BUA/total area, bedrooms, and direct DCR links where available
+- [x] Ensure external project cards and map cards navigate to the exact unit card/detail rather than an unrelated or generic destination
+- [x] Reconcile Hidd numbered villa locations against Yandex evidence and use the supplied address controls to correct the full-shape sequence; direct controls remain exact and all remaining points are visibly labeled as derived from the calibrated shape
+- [x] Verify representative SL10 and Lagoons cards and map deep links on desktop and mobile; retain Hidd verification as a separate open item
