@@ -474,3 +474,6 @@
 - [x] Preserve Full Details and Project Table only as secondary navigation, not the sole way to see key details
 - [x] Add regression tests for the full-card fields and DCR links across all Saadiyat marker families
 - [x] Verify representative desktop popups, mobile map-shell behavior, TypeScript, and 210 tests before publishing
+
+### Ethir Record Correction (Aug 25, 2026)
+- [x] Remove the unsupported Ethir 230-01 and 231-01 pending-location references from the project record; do not create or map either unit. Audit confirmed both are already absent from the Lagoons registry and Interactive Map.
