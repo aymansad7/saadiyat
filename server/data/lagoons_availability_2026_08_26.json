@@ -1,0 +1,333 @@
+{
+  "source_file": "Saadiyat_Lagoons_Availability.xlsx",
+  "source_date": "2026-08-26",
+  "generated_at": "2026-08-26",
+  "exact_listings": [
+    {
+      "source_id": 11288,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Al Sidr-SL3-V-198",
+      "asking_price_aed": 9500000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 7753.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlSidr-V-198-01"
+      ],
+      "match_status": "exact"
+    },
+    {
+      "source_id": 10938,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Wilds-SL8-V-073",
+      "asking_price_aed": 11750000,
+      "status": "Available",
+      "bedrooms": 5,
+      "area_sqft": 8525.0,
+      "agent": "Faiza Iram",
+      "matched_villa_keys": [
+        "Lagoons-AlGhaf-V-073-03"
+      ],
+      "match_status": "exact"
+    },
+    {
+      "source_id": 10804,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Al Sidr-SL3-V-292",
+      "asking_price_aed": 9500000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 7750.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlSidr-V-292-01"
+      ],
+      "match_status": "exact"
+    },
+    {
+      "source_id": 10796,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Al Sidr-SL5-V-148",
+      "asking_price_aed": 10500000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 7750.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlSidr-V-148-02"
+      ],
+      "match_status": "exact"
+    },
+    {
+      "source_id": 10794,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Al Sidr-SL3-V-313",
+      "asking_price_aed": 9500000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 7750.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlSidr-V-313-01"
+      ],
+      "match_status": "exact"
+    },
+    {
+      "source_id": 9012,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Al Sidr-SL3-V-285",
+      "asking_price_aed": 10500000,
+      "status": "Available",
+      "bedrooms": 5,
+      "area_sqft": 5786.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlSidr-V-285-01"
+      ],
+      "match_status": "exact"
+    },
+    {
+      "source_id": 8356,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Wilds-SL8-V-062",
+      "asking_price_aed": 9500000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 5001.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlGhaf-V-062-03"
+      ],
+      "match_status": "exact"
+    },
+    {
+      "source_id": 8290,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Al Sidr-SL5-V-102",
+      "asking_price_aed": 8400000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 4964.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlSidr-V-102-02"
+      ],
+      "match_status": "exact"
+    },
+    {
+      "source_id": 8228,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Al Sidr-SL3-V-331",
+      "asking_price_aed": 10200000,
+      "status": "Available",
+      "bedrooms": 5,
+      "area_sqft": 5789.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlSidr-V-331-01"
+      ],
+      "match_status": "exact"
+    },
+    {
+      "source_id": 8214,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Al Sidr-SL3-V-174",
+      "asking_price_aed": 10000000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 4964.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlSidr-V-174-01"
+      ],
+      "match_status": "exact"
+    }
+  ],
+  "ambiguous_listings": [
+    {
+      "source_id": 12642,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "SL5-V-024",
+      "asking_price_aed": 9500000,
+      "status": "Available",
+      "bedrooms": 5,
+      "area_sqft": 8535.0,
+      "agent": "Heba Albeshawi",
+      "matched_villa_keys": [
+        "Lagoons-AlGhaf-V-024-01",
+        "Lagoons-AlSidr-V-024-01",
+        "Lagoons-AlSidr-V-024-02"
+      ],
+      "match_status": "ambiguous"
+    },
+    {
+      "source_id": 10944,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Wilds-SL8-V-099",
+      "asking_price_aed": 11000000,
+      "status": "Available",
+      "bedrooms": 5,
+      "area_sqft": 8525.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlGhaf-V-099-02",
+        "Lagoons-AlGhaf-V-099-03"
+      ],
+      "match_status": "ambiguous"
+    },
+    {
+      "source_id": 10780,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "SL5 - V- 102",
+      "asking_price_aed": 8400000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 8719.0,
+      "agent": "Heba Albeshawi",
+      "matched_villa_keys": [
+        "Lagoons-AlGhaf-V-102-01",
+        "Lagoons-AlSidr-V-102-02",
+        "Lagoons-Ethir-V-102-01"
+      ],
+      "match_status": "ambiguous"
+    },
+    {
+      "source_id": 10518,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Wilds-SL7-V-226",
+      "asking_price_aed": 9500000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 5005.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlGhaf-V-226-03",
+        "Lagoons-AlGhaf-V-226-02"
+      ],
+      "match_status": "ambiguous"
+    },
+    {
+      "source_id": 8974,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Wilds-SL7-V-169",
+      "asking_price_aed": 11500000,
+      "status": "Available",
+      "bedrooms": 5,
+      "area_sqft": 5862.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlGhaf-V-169-02",
+        "Lagoons-AlGhaf-V-169-03"
+      ],
+      "match_status": "ambiguous"
+    },
+    {
+      "source_id": 8338,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Al Sidr-SL5-V-065",
+      "asking_price_aed": 9200000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 4964.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlSidr-V-065-01",
+        "Lagoons-AlSidr-V-065-02"
+      ],
+      "match_status": "ambiguous"
+    },
+    {
+      "source_id": 8244,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Al Sidr-SL3-V-272",
+      "asking_price_aed": 10000000,
+      "status": "Available",
+      "bedrooms": 4,
+      "area_sqft": 4964.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlSidr-V-272-02",
+        "Lagoons-AlSidr-V-272-01"
+      ],
+      "match_status": "ambiguous"
+    },
+    {
+      "source_id": 7970,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-Wilds-SL8-V-092",
+      "asking_price_aed": 15000000,
+      "status": "Available",
+      "bedrooms": 5,
+      "area_sqft": 5862.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlGhaf-V-092-01",
+        "Lagoons-AlGhaf-V-092-03"
+      ],
+      "match_status": "ambiguous"
+    },
+    {
+      "source_id": 7248,
+      "source_date": "2026-08-26",
+      "source_label": "Shared availability sheet",
+      "unit_number": "Lagoons-WiIds-SL8-V-092",
+      "asking_price_aed": 13000000,
+      "status": "Available",
+      "bedrooms": 5,
+      "area_sqft": 10978.0,
+      "agent": "Shima Ismail",
+      "matched_villa_keys": [
+        "Lagoons-AlGhaf-V-092-01",
+        "Lagoons-AlGhaf-V-092-03"
+      ],
+      "match_status": "ambiguous"
+    }
+  ],
+  "unmatched_rows": [
+    {
+      "source_id": 12390,
+      "reason": "not_a_villa",
+      "unit_number": "C401"
+    },
+    {
+      "source_id": 11944,
+      "reason": "not_a_villa",
+      "unit_number": "101"
+    },
+    {
+      "source_id": 11516,
+      "reason": "no_dataset_candidate",
+      "unit_number": "Lagoons-AI Sidr-SL5-V-3807"
+    },
+    {
+      "source_id": 4518,
+      "reason": "unparseable_unit",
+      "unit_number": "Lagoons-Wilds-SL8-V-264 ."
+    }
+  ],
+  "summary": {
+    "source_rows": 23,
+    "exact_villas": 10,
+    "ambiguous_villas": 9,
+    "unmatched_rows": 4
+  }
+}

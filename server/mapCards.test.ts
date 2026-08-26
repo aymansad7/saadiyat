@@ -27,6 +27,11 @@ describe("Unified map property cards", () => {
     expect(villa100?.tenancyStart).toBeUndefined();
 
     expect(villa100?.detailLines).toContain("Yandex exact house-address match");
+    expect(villa100?.detailHref).toBe("/hidd-al-saadiyat?view=cards#villa-100-BOULEVARD");
+
+    const street11 = markers.filter((marker) => marker.community === "hidd" && marker.detailLines?.includes("Street 11"));
+    expect(street11.length).toBeGreaterThan(0);
+    expect(street11.every((marker) => marker.detailLines?.includes("Sea View · Street 11"))).toBe(true);
   });
 
   it("adds Nudra only from exact Yandex house-address results without inventing a B/D/S unit crosswalk", () => {

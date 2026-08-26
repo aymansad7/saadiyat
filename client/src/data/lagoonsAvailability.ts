@@ -18,12 +18,14 @@
 import { LAGOONS_RESALE, type ResaleListing } from "./lagoonsResale";
 import NAS_LUXURY_RAW_IMPORT from "../../../server/data/nas_luxury_lagoons.json";
 import ALDAR_RESALE_RAW_IMPORT from "../../../server/data/aldar_resale.json";
+import SHARED_AVAILABILITY_RAW_IMPORT from "../../../server/data/lagoons_availability_2026_08_26.json";
 
 // Normalize: in production builds, JSON ESM interop may wrap as {default: {...}}
 const NAS_LUXURY_RAW: any = (NAS_LUXURY_RAW_IMPORT as any).default ?? NAS_LUXURY_RAW_IMPORT;
 const ALDAR_RESALE_RAW: any = (ALDAR_RESALE_RAW_IMPORT as any).default ?? ALDAR_RESALE_RAW_IMPORT;
+const SHARED_AVAILABILITY_RAW: any = (SHARED_AVAILABILITY_RAW_IMPORT as any).default ?? SHARED_AVAILABILITY_RAW_IMPORT;
 
-export type ResaleSource = "nas-luxury" | "aldar" | "others";
+export type ResaleSource = "nas-luxury" | "aldar" | "others" | "shared-availability";
 
 export interface NasLuxuryListing {
   option: number;
@@ -68,6 +70,20 @@ export interface OthersResaleListing {
   sellingAed: number;
   paymentPlan: string;
   candidateCount: number;
+}
+
+export interface SharedAvailabilityListing {
+  source_id: number;
+  source_date: string;
+  source_label: string;
+  unit_number: string;
+  asking_price_aed: number;
+  status: string;
+  bedrooms: number | null;
+  area_sqft: number | null;
+  agent: string | null;
+  matched_villa_keys: string[];
+  match_status: "exact";
 }
 
 // ----- NAS Luxury -----
@@ -134,23 +150,36 @@ for (const r of LAGOONS_RESALE) {
 }
 export const OTHERS_RESALE_LISTINGS = LAGOONS_RESALE;
 
+// ----- Shared availability sheet (exact villa-key matches only) -----
+const sharedAvailability = (SHARED_AVAILABILITY_RAW as { exact_listings: SharedAvailabilityListing[] }).exact_listings;
+export const SHARED_AVAILABILITY_BY_UNIT: Record<string, SharedAvailabilityListing> = {};
+for (const listing of sharedAvailability) {
+  if (listing.match_status === "exact" && listing.matched_villa_keys.length === 1) {
+    SHARED_AVAILABILITY_BY_UNIT[listing.matched_villa_keys[0]] = listing;
+  }
+}
+export const SHARED_AVAILABILITY_LISTINGS = sharedAvailability;
+
 // ----- combined helper -----
 export interface VillaAvailability {
   sources: ResaleSource[];
   nasLuxury: NasLuxuryListing | null;
   aldar: AldarResaleListing[];
   others: ResaleListing[];
+  sharedAvailability: SharedAvailabilityListing | null;
 }
 
 export function getAvailability(unitNumber: string): VillaAvailability {
   const nas = NAS_LUXURY_BY_UNIT[unitNumber] ?? null;
   const aldar = ALDAR_RESALE_BY_UNIT[unitNumber] ?? [];
   const others = OTHERS_RESALE_BY_UNIT[unitNumber] ?? [];
+  const sharedAvailability = SHARED_AVAILABILITY_BY_UNIT[unitNumber] ?? null;
   const sources: ResaleSource[] = [];
   if (nas) sources.push("nas-luxury");
   if (aldar.length) sources.push("aldar");
   if (others.length) sources.push("others");
-  return { sources, nasLuxury: nas, aldar, others };
+  if (sharedAvailability) sources.push("shared-availability");
+  return { sources, nasLuxury: nas, aldar, others, sharedAvailability };
 }
 
 export const AVAILABILITY_COUNTS = {
@@ -160,6 +189,7 @@ export const AVAILABILITY_COUNTS = {
   uniqueVillasWithNasLuxury: Object.keys(NAS_LUXURY_BY_UNIT).length,
   uniqueVillasWithAldar: Object.keys(ALDAR_RESALE_BY_UNIT).length,
   uniqueVillasWithOthers: Object.keys(OTHERS_RESALE_BY_UNIT).length,
+  sharedAvailabilityExact: Object.keys(SHARED_AVAILABILITY_BY_UNIT).length,
 };
 
 export const SOURCE_META: Record<
@@ -186,5 +216,11 @@ export const SOURCE_META: Record<
     // neutral / subdued — unverified
     cls: "border-foreground/25 text-muted-foreground bg-muted/40",
     cardCls: "",
+  },
+  "shared-availability": {
+    label: "Available · Shared Sheet",
+    shortLabel: "Shared sheet",
+    cls: "border-emerald-500/70 text-emerald-700 bg-emerald-50 dark:text-emerald-300 dark:bg-emerald-950/40",
+    cardCls: "ring-1 ring-emerald-500/50",
   },
 };

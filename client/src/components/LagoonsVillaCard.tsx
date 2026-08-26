@@ -21,6 +21,7 @@ import {
 import type { ListingIndexEntry } from "@/hooks/useListingIndex";
 import {
   EditListingButton,
+  InteractiveMapLink,
   ListingBadge,
   ListingPropertyFacts,
   ListingPriceLabel,
@@ -70,12 +71,16 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
     permissions.data?.[0]?.permissions.canViewOriginalPrice === true;
   const badge = positionBadge(villa);
   const detailHref = `/saadiyat-lagoons/${villa.cluster}/${encodeURIComponent(villa.unit_name)}`;
-  const availability = getAvailability(villa.unit_name);
+  const availability = getAvailability(villa.unit_number);
   const originalPrice = villa.aldar_data?.selling_price_aed ?? null;
   const builtUpSqm = villa.aldar_data?.total_area_sqm ?? null;
 
-  const hasNas = availability.sources.includes("nas-luxury");
-  const cardRing = hasNas ? SOURCE_META["nas-luxury"].cardCls : "";
+  const sharedAskingPrice = availability.sharedAvailability?.asking_price_aed ?? null;
+  const sourcedAskingPrice = availability.nasLuxury?.selling_price_aed
+    ?? availability.aldar[0]?.asking_price_aed
+    ?? sharedAskingPrice;
+  const hasConfirmedAvailability = availability.sources.includes("nas-luxury") || availability.sources.includes("shared-availability");
+  const cardRing = hasConfirmedAvailability ? SOURCE_META["shared-availability"].cardCls : "";
 
   return (
     <div
@@ -150,10 +155,10 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
           </div>
         </dl>
 
-        {listing?.askingPriceAed ? (
+        {(listing?.askingPriceAed ?? sourcedAskingPrice) ? (
           <div className="mt-3">
-            <ListingPriceLabel askingPriceAed={listing.askingPriceAed} />
-            {listing.listingPartners && (
+            <ListingPriceLabel askingPriceAed={listing?.askingPriceAed ?? sourcedAskingPrice} />
+            {listing?.listingPartners && (
               <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5 truncate">
                 with {listing.listingPartners}
               </div>
@@ -198,6 +203,7 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
             Full details
             <ArrowUpRight className="h-3.5 w-3.5" />
           </Link>
+          <InteractiveMapLink villaKey={`lagoons/${villa.unit_name}`} />
           <a
             href={villa.detail_url}
             target="_blank"

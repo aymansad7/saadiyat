@@ -9,12 +9,13 @@
  * cards without disturbing layout.
  */
 import { useState } from "react";
-import { Pencil } from "lucide-react";
+import { MapPin, Pencil } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/lib/trpc";
 import { ListingEditor, type ListingStatus } from "./ListingEditor";
+import { Link } from "wouter";
 
 const STATUS_TONE: Record<ListingStatus, string> = {
   draft: "bg-muted text-muted-foreground border-transparent",
@@ -102,6 +103,27 @@ export function ListingPropertyFacts({
     <div className={`mt-2 text-[0.65rem] font-mono text-muted-foreground ${className ?? ""}`}>
       {facts.join(" · ")}
     </div>
+  );
+}
+
+/** Direct deep-link to the matching Interactive Map marker. */
+export function InteractiveMapLink({
+  villaKey,
+  className,
+  label = "View on Map",
+}: {
+  villaKey: string;
+  className?: string;
+  label?: string;
+}) {
+  return (
+    <Link
+      href={`/map?plot=${encodeURIComponent(villaKey)}`}
+      className={`inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-sm border bg-card text-foreground border-border hover:bg-secondary hover:border-primary/30 ${className ?? ""}`}
+    >
+      <MapPin className="h-3.5 w-3.5" />
+      {label}
+    </Link>
   );
 }
 

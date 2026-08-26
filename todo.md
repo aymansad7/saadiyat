@@ -536,3 +536,17 @@
 - [x] Upgrade 9 confirmed points to a direct Yandex source, retaining 51 other coordinates as explicitly labelled calibrated fallback
 - [x] Re-check the full Hidd map card for Master Admin; data is shown directly whenever it exists in the source or a stored property override, and unknown fields remain omitted
 - [x] Run full regression tests, verify the map shell, and publish
+
+### Card-to-Map Links, Refresh Reliability & Street 11 Verification (Aug 26, 2026)
+- [x] Audit every reusable property-card family for a stable marker key and add a direct `View on Interactive Map` action where coordinates exist
+- [x] Make every `Full Details` action deep-link to the exact originating unit/plot, preserving the selected card context for Lagoons, Hidd, and all other property families
+- [x] Diagnose and fix marker initialization so `/map` waits for AdvancedMarkerElement and recalculates its mobile viewport after a browser refresh
+- [x] Re-open the Street 11 Hidd index records and mark the user-confirmed Street 11 villa row as Sea View without assigning an unverified extra address
+- [x] Add tests for card-to-map deep links, direct Hidd details, matched shared-sheet availability, and verified Street 11 Sea View labels
+- [x] Verify desktop/mobile map shell, TypeScript, 218 full tests, then publish
+
+### Saadiyat Lagoons Availability Import (Aug 26, 2026)
+- [x] Inspect the supplied availability workbook and preserve each row's unit identifier, price, status, and source date
+- [x] Match rows only to exact Lagoons villa keys; retain 9 ambiguous villa rows and 4 unmatched/non-villa rows outside availability publishing
+- [x] Show the 10 exact matched villas as Available for Sale in Lagoons cards, table, filters, and Interactive Map with the documented price
+- [x] Add source/matching regression coverage and verify green availability semantics before publishing

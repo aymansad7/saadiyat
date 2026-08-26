@@ -91,6 +91,7 @@ export default function SimplePlotCard({
   const isLoading = useOwnQuery ? own.isLoading : Boolean(pdfLoadingProp);
   const isFetched = useOwnQuery ? own.isFetched : !pdfLoadingProp;
   const hasPdf = Boolean(url);
+  const resolvedMapHref = mapHref ?? (plot.villaKey ? `/map?plot=${encodeURIComponent(plot.villaKey)}` : undefined);
 
   return (
     <div id={`plot-${plot.id}`} className="villa-card bg-card border border-border rounded-md overflow-hidden flex flex-col rise-in scroll-mt-28">
@@ -252,9 +253,9 @@ export default function SimplePlotCard({
             <MapPin className="h-3.5 w-3.5" />
             MyLand portal
           </a>
-          {mapHref && (
+          {resolvedMapHref && (
             <Link
-              href={mapHref}
+              href={resolvedMapHref}
               className="inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-sm border bg-card text-foreground border-border hover:bg-secondary hover:border-primary/30"
             >
               <Map className="h-3.5 w-3.5" />

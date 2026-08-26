@@ -533,10 +533,11 @@ export function buildMarkers(): MapMarkerData[] {
       tenancyEnd: hiddVilla?.tenancyEnd || undefined,
       tenancyContractReceived: hiddVilla?.tenancyContractReceived || undefined,
       villaKey: `hidd/${hv.villaNumber}/${hv.street}`,
-      detailHref: `/hidd-al-saadiyat`,
+      detailHref: `/hidd-al-saadiyat?view=cards#villa-${hv.villaNumber}-${hv.street}`,
       tableHref: `/hidd-al-saadiyat?view=table#villa-${hv.villaNumber}`,
       detailLines: [
         `Street ${hv.street === "BOULEVARD" ? "Boulevard / Al Dhiba" : hv.street}`,
+        hv.street === "11" ? "Sea View · Street 11" : "",
         hiddVilla?.bedrooms ? `${hiddVilla.bedrooms.replace(/\.0$/, "")} bedrooms` : "",
         hiddVilla?.villaType ? `Type ${hiddVilla.villaType}` : "",
         hiddVilla?.plotNumberAlJaber ? `Plot ${hiddVilla.plotNumberAlJaber}` : "",
@@ -570,9 +571,10 @@ export function buildMarkers(): MapMarkerData[] {
     const shortName = lv.unit_name.replace(/^(AlGhaf|AlSidr|Ethir)-/, '');
     const clusterLabel = lv.cluster === 'al-ghaf' ? 'Al Ghaf' : lv.cluster === 'al-sidr' ? 'Al Sidr' : 'Ethir';
     const availability = getAvailability(`Lagoons-${lv.unit_name.replace(/^(AlGhaf|AlSidr|Ethir)-/, "$1-V-")}`);
-    const confirmedAvailable = Boolean(availability.nasLuxury || availability.aldar.length);
+    const confirmedAvailable = Boolean(availability.nasLuxury || availability.aldar.length || availability.sharedAvailability);
     const resalePrice = availability.nasLuxury?.selling_price_aed
       ?? availability.aldar[0]?.asking_price_aed
+      ?? availability.sharedAvailability?.asking_price_aed
       ?? undefined;
     const coordinateSource = lv.position_source === "official_user_control"
       ? "Official SDE3 coordinate"
@@ -602,7 +604,7 @@ export function buildMarkers(): MapMarkerData[] {
       saleType: resalePrice ? "resale" : undefined,
       availabilityStatus: confirmedAvailable ? "available" : undefined,
       askingPrice: resalePrice,
-      availabilityDate: confirmedAvailable ? "current resale source" : undefined,
+      availabilityDate: availability.sharedAvailability?.source_date ?? (confirmedAvailable ? "current resale source" : undefined),
       villaKey: `lagoons/${lv.unit_name}`,
       detailHref: `/saadiyat-lagoons/${lv.cluster}/${encodeURIComponent(lv.unit_name)}`,
       tableHref: `/saadiyat-lagoons/${lv.cluster}?view=table#unit-${encodeURIComponent(lv.unit_name)}`,

@@ -12,6 +12,7 @@ import type { ListingIndexEntry } from "@/hooks/useListingIndex";
 import { formatArea, type AreaUnit } from "@/lib/areaSearch";
 import {
   EditListingButton,
+  InteractiveMapLink,
   ListingBadge,
   ListingPropertyFacts,
   ListingPriceLabel,
@@ -137,6 +138,7 @@ export default function VillaCard({ villa: v, isActive, onHover, onSelect, listi
           <CTA href={v.pdfLocalUrl} icon={<FileText className="h-3.5 w-3.5" />} label="PDF" tone="primary" />
           <CTA href={v.googleMapsUrl} icon={<MapPin className="h-3.5 w-3.5" />} label="Maps" />
           <CTA href={v.googleEarthUrl} icon={<Globe2 className="h-3.5 w-3.5" />} label="Earth" />
+          <InteractiveMapLink villaKey={villaKey} />
           <div className="ml-auto flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
             <EditListingButton
               villaKey={villaKey}

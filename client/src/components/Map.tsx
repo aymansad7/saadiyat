@@ -92,21 +92,42 @@ const FORGE_BASE_URL =
   "https://forge.butterfly-effect.dev";
 const MAPS_PROXY_URL = `${FORGE_BASE_URL}/v1/maps/proxy`;
 
-function loadMapScript() {
-  return new Promise(resolve => {
+let mapScriptPromise: Promise<void> | null = null;
+
+function loadMapScript(): Promise<void> {
+  if (window.google?.maps?.Map) return Promise.resolve();
+  if (mapScriptPromise) return mapScriptPromise;
+
+  mapScriptPromise = new Promise((resolve, reject) => {
     const script = document.createElement("script");
+    script.id = "manus-google-maps-sdk";
     script.src = `${MAPS_PROXY_URL}/maps/api/js?key=${API_KEY}&v=weekly&libraries=marker,places,geocoding,geometry`;
     script.async = true;
     script.crossOrigin = "anonymous";
-    script.onload = () => {
-      resolve(null);
-      script.remove(); // Clean up immediately
+    script.onload = async () => {
+      try {
+        if (!window.google?.maps?.Map) {
+          throw new Error("Google Maps loaded without the Maps API");
+        }
+        // The direct script's `libraries=marker` parameter can resolve before
+        // AdvancedMarkerElement is ready on a cold mobile page load. Import it
+        // explicitly before letting parent pages create clustered markers.
+        await window.google.maps.importLibrary("marker");
+        resolve();
+      } catch (error) {
+        mapScriptPromise = null;
+        script.remove();
+        reject(error);
+      }
     };
     script.onerror = () => {
-      console.error("Failed to load Google Maps script");
+      mapScriptPromise = null;
+      script.remove();
+      reject(new Error("Failed to load Google Maps script"));
     };
     document.head.appendChild(script);
   });
+  return mapScriptPromise;
 }
 
 interface MapViewProps {
@@ -126,7 +147,12 @@ export function MapView({
   const map = useRef<google.maps.Map | null>(null);
 
   const init = usePersistFn(async () => {
-    await loadMapScript();
+    try {
+      await loadMapScript();
+    } catch (error) {
+      console.error(error);
+      return;
+    }
     if (!mapContainer.current) {
       console.error("Map container not found");
       return;
@@ -143,6 +169,17 @@ export function MapView({
     if (onMapReady) {
       onMapReady(map.current);
     }
+    // A full-screen mobile map can mount before the browser has finalised the
+    // visual viewport beneath the sticky header. Force Maps to recalculate
+    // after the first two paints so tiles and AdvancedMarkers remain visible
+    // on a direct refresh as well as client-side navigation.
+    const reflow = () => {
+      if (!map.current) return;
+      window.google.maps.event.trigger(map.current, "resize");
+      map.current.setCenter(initialCenter);
+    };
+    requestAnimationFrame(() => requestAnimationFrame(reflow));
+    window.setTimeout(reflow, 250);
   });
 
   useEffect(() => {

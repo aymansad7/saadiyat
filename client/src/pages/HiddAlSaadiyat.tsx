@@ -8,7 +8,7 @@ import { LayoutGrid, Table2 } from "lucide-react";
 import hiddDataRaw from "../../../server/data/hidd_al_saadiyat.json";
 import { hiddPlotRecords, HIDD_SUMMARY } from "@/data/hiddTransactions";
 import AreaFilterControls from "@/components/AreaFilterControls";
-import { EditListingButton } from "@/components/ListingControls";
+import { EditListingButton, InteractiveMapLink } from "@/components/ListingControls";
 import { trpc } from "@/lib/trpc";
 import { getInitialProjectViewMode } from "@/lib/viewMode";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, sqftToSqm, type AreaUnit } from "@/lib/areaSearch";
@@ -101,7 +101,7 @@ function VillaCard({
   const areas = villaAreas(villa);
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
+    <Card id={`villa-${villa.villaNumber ?? "unknown"}-${villa.street ?? "unknown"}`} className="hover:shadow-md transition-shadow scroll-mt-28">
       <CardHeader className="pb-2 cursor-pointer" onClick={() => setExpanded(!expanded)}>
         <div className="flex items-center justify-between">
           <CardTitle className="text-base">
@@ -110,6 +110,7 @@ function VillaCard({
           <div className="flex gap-1.5">
             {villa.zone && <Badge variant="outline" className="text-xs">Zone {villa.zone}</Badge>}
             {villa.bedrooms && <Badge variant="secondary" className="text-xs">{villa.bedrooms} BR</Badge>}
+            {villa.street === "11" && <Badge className="text-xs bg-sky-600 hover:bg-sky-600">Sea View</Badge>}
           </div>
         </div>
         <div className="flex gap-3 text-xs text-muted-foreground mt-1">
@@ -190,11 +191,14 @@ function VillaCard({
         </CardContent>
       )}
       <div className="px-6 pb-4">
-        <EditListingButton
-          villaKey={`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`}
-          community="hidd"
-          villaLabel={`Hidd · Villa ${villa.villaNumber ?? "—"}`}
-        />
+        <div className="flex flex-wrap items-center gap-2">
+          <InteractiveMapLink villaKey={`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`} />
+          <EditListingButton
+            villaKey={`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`}
+            community="hidd"
+            villaLabel={`Hidd · Villa ${villa.villaNumber ?? "—"}`}
+          />
+        </div>
       </div>
     </Card>
   );
