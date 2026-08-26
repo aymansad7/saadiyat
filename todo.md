@@ -489,3 +489,8 @@
 - [x] Build Master Admin screens for managing user grants and reviewing the activity/audit log
 - [x] Add unit and integration coverage for persistence, authorization, visibility, validation, audit logging, and map/card propagation
 - [x] Verify build contracts, TypeScript, and 212 automated tests before publishing; screenshot validation reached the email gate because no test session is authenticated
+
+### Mobile Master Admin Header Access Fix (Aug 25, 2026)
+- [x] Diagnose the clipped/non-clickable Master Admin account menu in the mobile header
+- [x] Keep the mobile account trigger and dropdown inside the viewport with an accessible hit target and dashboard access
+- [x] Verify the repaired header at a narrow 390×844 mobile viewport, run TypeScript, then publish

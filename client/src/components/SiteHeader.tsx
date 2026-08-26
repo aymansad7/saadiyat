@@ -112,7 +112,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
 
   return (
     <header className="border-b border-border/70 bg-background/80 backdrop-blur-md sticky top-0 z-40">
-      <div className="container py-3 sm:py-4 flex items-center gap-4">
+      <div className="container py-2.5 sm:py-4 flex items-center gap-2 sm:gap-4 min-w-0">
         {back && (
           <Button asChild variant="ghost" size="sm" className="gap-1.5 -ml-2 text-muted-foreground hover:text-foreground">
             <Link href={back.href}>
@@ -121,11 +121,11 @@ export default function SiteHeader({ subTitle, back }: Props) {
             </Link>
           </Button>
         )}
-        <Link href="/" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5 group max-[480px]:gap-0">
           <span className="inline-flex h-7 w-7 items-center justify-center rounded-sm border border-primary/40 bg-primary/10 text-primary">
             <MapPin className="h-3.5 w-3.5" />
           </span>
-          <div className="leading-tight">
+          <div className="leading-tight max-[480px]:hidden">
             <div className="font-display text-[1.15rem] sm:text-[1.35rem] font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors">
               Saadiyat<span className="text-primary">.</span>Resale<span className="text-muted-foreground/70">Hub</span>
             </div>
@@ -140,13 +140,13 @@ export default function SiteHeader({ subTitle, back }: Props) {
             )}
           </div>
         </Link>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
           {/* Project Search */}
           <div ref={searchRef} className="relative">
             <Button
               variant="ghost"
               size="sm"
-              className="gap-1.5 text-muted-foreground hover:text-foreground"
+              className="h-10 w-10 p-0 sm:h-9 sm:w-auto sm:px-3 gap-1.5 text-muted-foreground hover:text-foreground touch-manipulation"
               onClick={() => setSearchOpen(!searchOpen)}
             >
               <Search className="h-4 w-4" />
@@ -190,7 +190,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
           )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="bg-card border-primary/30 text-primary hover:bg-primary/10 hover:text-primary gap-1.5">
+              <Button variant="outline" size="sm" className="h-10 px-3 sm:h-9 sm:px-3 bg-card border-primary/30 text-primary hover:bg-primary/10 hover:text-primary gap-1.5 touch-manipulation">
                 Projects <ChevronDown className="h-3.5 w-3.5" />
               </Button>
             </DropdownMenuTrigger>
@@ -300,7 +300,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button asChild variant="outline" size="sm" className="bg-card border-emerald-500/40 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 gap-1.5">
+          <Button asChild variant="outline" size="sm" className="h-10 w-10 p-0 sm:h-9 sm:w-auto sm:px-3 bg-card border-emerald-500/40 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 gap-1.5 touch-manipulation">
             <Link href="/map">
               <Map className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Map</span>
@@ -309,7 +309,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1.5">
+                <Button variant="ghost" size="sm" aria-label="Open account and admin menu" className="h-11 min-w-11 px-1.5 sm:h-9 sm:min-w-0 sm:px-3 gap-1 sm:gap-1.5 touch-manipulation">
                   <UserIcon className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline max-w-[10ch] truncate">{user?.name ?? "Account"}</span>
                   {user?.role === "admin" && (
@@ -318,7 +318,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
                   {user?.role === "master" && (
                     <span className="text-[0.6rem] font-mono uppercase tracking-wider text-rose-600 dark:text-rose-300 border border-rose-500/40 px-1 rounded-sm">Master</span>
                   )}
-                  <ChevronDown className="h-3.5 w-3.5" />
+                  <ChevronDown className="h-4 w-4 shrink-0" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
