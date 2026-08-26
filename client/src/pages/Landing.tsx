@@ -137,6 +137,15 @@ const communities = [
     rich: true,
   },
   {
+    slug: "nudra",
+    name: "Nudra by IMKAN",
+    cluster: "SDN1 · 38 villas and private mansion plots",
+    plots: 38,
+    href: "/nudra",
+    available: true,
+    rich: true,
+  },
+  {
     slug: "huge-plot-four-seasons-omniyat",
     name: hugePlot.name,
     cluster: hugePlot.cluster,

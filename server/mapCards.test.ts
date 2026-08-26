@@ -29,6 +29,14 @@ describe("Unified map property cards", () => {
     expect(villa100?.detailLines).toContain("Yandex exact house-address match");
   });
 
+  it("adds Nudra only from exact Yandex house-address results without inventing a B/D/S unit crosswalk", () => {
+    const nudra = markers.filter((marker) => marker.community === "nudra");
+    expect(nudra).toHaveLength(18);
+    expect(nudra.every((marker) => marker.unitType === "Yandex exact house-address match")).toBe(true);
+    expect(nudra.every((marker) => marker.detailHref === "/nudra" && marker.tableHref === "/nudra?view=table")).toBe(true);
+    expect(nudra.every((marker) => marker.detailLines?.includes("Unit code and price shown after source-backed crosswalk"))).toBe(true);
+  });
+
   it("carries building-area data for map cards when the originating project provides it", () => {
     const stRegis = markers.find((marker) => marker.id === "st-regis-1");
     expect(stRegis?.landSqm).toBeGreaterThan(0);
@@ -81,6 +89,7 @@ describe("Unified map property cards", () => {
       "saadiyat-beach-villas",
       "saadiyat-golf-views",
       "hidd",
+      "nudra",
       "private-villas",
       "lagoons",
       "four-seasons",
@@ -94,7 +103,7 @@ describe("Unified map property cards", () => {
       expect(projectMarkers.some((marker) => marker.detailHref && marker.tableHref), family).toBe(true);
     }
 
-    const familiesWithRegisteredLand = families.filter((family) => family !== "private-villas");
+    const familiesWithRegisteredLand = families.filter((family) => !["private-villas", "nudra"].includes(family));
     for (const family of familiesWithRegisteredLand) {
       expect(markers.filter((marker) => marker.community === family).some((marker) => marker.landSqm || marker.landSqft), family).toBe(true);
     }

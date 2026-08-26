@@ -1,0 +1,159 @@
+{
+  "source": "Yandex Maps house-address results",
+  "matchingRule": "Exact house number and 1 Street only. These locations are not associated with B/D/S unit codes until a source-backed crosswalk is available.",
+  "locations": [
+    {
+      "addressNumber": "2",
+      "returnedAddress": "2, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.537859,
+      "longitude": 54.415763,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZlTkMEQFxufXlydnRmbQ==/",
+      "error": ""
+    },
+    {
+      "addressNumber": "3",
+      "returnedAddress": "3, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.537991,
+      "longitude": 54.415484,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZlTU0DQFxufXlydnVqZQ==/",
+      "error": ""
+    },
+    {
+      "addressNumber": "4",
+      "returnedAddress": "4, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.538016,
+      "longitude": 54.41526,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZlS0MHQFxufXlyeXxiYg==/?ll=54.415260%2C24.538016&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "5",
+      "returnedAddress": "5, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.537958,
+      "longitude": 54.415017,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZlSUQAQFxufXlydnVmbA==/?ll=54.415017%2C24.537958&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "6",
+      "returnedAddress": "6, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.537777,
+      "longitude": 54.414846,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZkQUEBQFxufXlydntkYw==/",
+      "error": ""
+    },
+    {
+      "addressNumber": "11",
+      "returnedAddress": "11, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.536766,
+      "longitude": 54.414811,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZkQUQGQFxufXlyd3tlYg==/?ll=54.414810%2C24.536767&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "18",
+      "returnedAddress": "18, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.536906,
+      "longitude": 54.41632,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZmSkcHQFxufXlyd3VjYg==/",
+      "error": ""
+    },
+    {
+      "addressNumber": "20",
+      "returnedAddress": "20, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.537309,
+      "longitude": 54.416302,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZmSkUFQFxufXlydn9jbQ==/?ll=54.416301%2C24.537309&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "21",
+      "returnedAddress": "21, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.537514,
+      "longitude": 54.416284,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZmS00DQFxufXlydnliYA==/",
+      "error": ""
+    },
+    {
+      "addressNumber": "22",
+      "returnedAddress": "22, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.537687,
+      "longitude": 54.416248,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZmS0EPQFxufXlydnprYw==/?ll=54.416248%2C24.537687&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "23",
+      "returnedAddress": "23, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.537868,
+      "longitude": 54.416185,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZmSE0CQFxufXlydnRlbA==/?ll=54.416185%2C24.537868&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "27",
+      "returnedAddress": "27, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.538854,
+      "longitude": 54.416068,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZmSUMPQFxufXlyeXRmYA==/?ll=54.416068%2C24.538854&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "29",
+      "returnedAddress": "29, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.539339,
+      "longitude": 54.416203,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZmS0UEQFxufXlyeH9gbQ==/?ll=54.416203%2C24.539339&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "31",
+      "returnedAddress": "31, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.538509,
+      "longitude": 54.4149,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.uz/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZkQEUHQFxufXlyeXljbQ==/?ll=54.414901%2C24.538509&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "32",
+      "returnedAddress": "32, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.538517,
+      "longitude": 54.415143,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZlSEEEQFxufXlyeXliYw==/?ll=54.415143%2C24.538517&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "34",
+      "returnedAddress": "1 Street, No:34, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.538558,
+      "longitude": 54.415592,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com.tr/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZlTEwFQFxufXlyeXlmbA==/?ll=54.415592%2C24.538558&z=16",
+      "error": ""
+    },
+    {
+      "addressNumber": "37",
+      "returnedAddress": "37, 1 Street, SDN1, Saadiyat Island, Abu Dhabi",
+      "latitude": 24.539339,
+      "longitude": 54.415457,
+      "exactMatch": true,
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgZlTUAAQFxufXlyeH9gbQ==/?ll=54.415458%2C24.539339&z=16",
+      "error": ""
+    }
+  ]
+}

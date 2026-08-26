@@ -22,6 +22,7 @@ import { useState, useRef, useEffect } from "react";
 const ALL_PROJECTS = [
   { name: "Four Seasons Private Residences", href: "/four-seasons" },
   { name: "Saadiyat Reserve · Phase 1, Phase 2 & Dunes", href: "/saadiyat-reserve" },
+  { name: "Nudra by IMKAN", href: "/nudra" },
   { name: "Saadiyat Lagoons · Hidden Phase SL9", href: "/lagoons-hidden-sl9" },
   { name: "Saadiyat Lagoons · Hidden Phase SL10", href: "/lagoons-hidden-sl10" },
   { name: "Saadiyat Lagoons · Phase SL13", href: "/lagoons-sl13" },
@@ -215,6 +216,12 @@ export default function SiteHeader({ subTitle, back }: Props) {
                 <Link href="/saadiyat-reserve" className="flex items-center justify-between w-full">
                   <span className="font-display text-sm">Saadiyat Reserve</span>
                   <span className="text-[0.65rem] font-mono text-fuchsia-700 border border-fuchsia-400 px-1 rounded-sm">306</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/nudra" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">Nudra by IMKAN</span>
+                  <span className="text-[0.65rem] font-mono text-sky-700 border border-sky-400 px-1 rounded-sm">38</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>

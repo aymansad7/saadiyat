@@ -38,6 +38,7 @@ import { plotCoordinates } from "@/data/plotCoordinates";
 import { pfListings, findListingByVillaKey, PF_SUMMARY } from "@/data/propertyFinderListings";
 import type { PFListing } from "@/data/propertyFinderListings";
 import { hiddVillaCoords } from "@/data/hiddCoordinates";
+import { NUDRA_YANDEX_ADDRESS_POINTS } from "@/data/nudra";
 import hiddDataRaw from "../../../server/data/hidd_al_saadiyat.json";
 import { lagoonsVillaCoords } from "@/data/lagoonsCoordinates";
 import { FOUR_SEASONS_VILLAS } from "@/data/fourSeasons";
@@ -64,6 +65,7 @@ export const COMMUNITY_CENTERS = {
   "saadiyat-beach-villas": { lat: 24.5520, lng: 54.4280, label: "Saadiyat Beach Villas", color: "#0C4A6E" },
   "saadiyat-golf-views": { lat: 24.5440, lng: 54.4400, label: "Golf Views", color: "#7C3AED" },
   "hidd": { lat: 24.5580, lng: 54.4150, label: "Hidd Al Saadiyat", color: "#DC2626" },
+  "nudra": { lat: 24.5383, lng: 54.4161, label: "Nudra by IMKAN", color: "#0891B2" },
   "private-villas": { lat: 24.5395, lng: 54.4200, label: "Private Villas (Four Seasons)", color: "#CA8A04" },
   "lagoons": { lat: 24.5309, lng: 54.4378, label: "Saadiyat Lagoons", color: "#0891B2" },
   "four-seasons": { lat: 24.5508, lng: 54.4421, label: "Four Seasons Private Residences", color: "#334155" },
@@ -540,6 +542,24 @@ export function buildMarkers(): MapMarkerData[] {
         sourceLabel,
       ].filter(Boolean),
       googleMapsHref: `https://www.google.com/maps?q=${hv.lat},${hv.lng}`,
+    });
+  }
+
+  // Nudra by IMKAN — Yandex house-address results remain intentionally separate from B/D/S codes.
+  // A source-backed crosswalk is needed before associating a map address with a coded IMKAN unit and its price.
+  for (const address of NUDRA_YANDEX_ADDRESS_POINTS) {
+    markers.push({
+      id: `nudra-address-${address.addressNumber}`,
+      lat: address.latitude,
+      lng: address.longitude,
+      community: "nudra",
+      label: `Nudra · ${address.returnedAddress}`,
+      developer: "Nudra by IMKAN",
+      unitType: "Yandex exact house-address match",
+      detailHref: "/nudra",
+      tableHref: "/nudra?view=table",
+      detailLines: ["SDN1 · Saadiyat Island", "Yandex exact house-address match", "Unit code and price shown after source-backed crosswalk"],
+      googleMapsHref: `https://www.google.com/maps?q=${address.latitude},${address.longitude}`,
     });
   }
 

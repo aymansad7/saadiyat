@@ -506,3 +506,12 @@
 - [x] Show the complete documented Hidd villa card in the map popup: villa/street, location source, areas, sale/rental state and price where recorded
 - [x] Show documented owner and tenant identity/contact fields only for Master Admin or users with the matching explicit field grants
 - [x] Verify the popup has no hidden critical property details for authorized users and does not leak owner/tenant data to other roles
+
+### Nudra by IMKAN Community Import (Aug 26, 2026)
+- [x] Inspect the supplied factsheet, site plan, availability list, municipal export, and secondary source files to establish a source-backed 38-record registry
+- [x] Add Nudra by IMKAN as a distinct community with original price, payment-plan wording, and documented secondary/resale state kept separate
+- [x] Match prices and municipal transactions only to uniquely identified villas/plots by documented unit number and land area; retain six ambiguous rows as unmatched
+- [x] Use the supplied Villa 1 Yandex point and 17 exact Yandex house-address matches; preserve the 20 unresolved addresses and unassigned mansion points without guessing unit codes
+- [x] Add sourced Nudra cards, Cards/Table view, project route, source actions, and Interactive Map address cards that explicitly state when a B/D/S unit crosswalk is unavailable
+- [x] Add tests for registry count, source integrity, price/transaction matching, map markers, and non-fabrication safeguards
+- [x] Verify desktop/mobile views, TypeScript, and 216 full tests, then publish

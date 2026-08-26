@@ -47,6 +47,7 @@ import SaadiyatReserve from "./pages/SaadiyatReserve";
 import FourSeasons from "./pages/FourSeasons";
 import LagoonsHiddenSL9 from "./pages/LagoonsHiddenSL9";
 import LagoonsDcrPhase from "./pages/LagoonsDcrPhase";
+import Nudra from "./pages/Nudra";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -55,6 +56,7 @@ function Router() {
       <Route path="/" component={Landing} />
       <Route path="/available-units" component={AvailableUnits} />
       <Route path="/map" component={SaadiyatMap} />
+      <Route path="/nudra">{() => <PropertyProjectGate projectKey="nudra"><Nudra /></PropertyProjectGate>}</Route>
       <Route path="/saadiyat-reserve">{() => <PropertyProjectGate projectKey="saadiyat-reserve"><SaadiyatReserve /></PropertyProjectGate>}</Route>
       <Route path="/four-seasons">{() => <PropertyProjectGate projectKey="four-seasons"><FourSeasons /></PropertyProjectGate>}</Route>
       <Route path="/lagoons-hidden-sl9">{() => <PropertyProjectGate projectKey="lagoons-hidden-sl9"><LagoonsHiddenSL9 /></PropertyProjectGate>}</Route>
