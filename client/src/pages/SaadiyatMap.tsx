@@ -114,6 +114,7 @@ interface MapMarkerData {
   tenancyContractReceived?: string;
   listing?: PFListing;
   villaKey?: string;
+  slPhase?: string;
   detailHref?: string;
   tableHref?: string;
   detailLines?: string[];
@@ -629,6 +630,7 @@ export function buildMarkers(): MapMarkerData[] {
       bedrooms: lv.bedrooms || undefined,
       unitType: lv.unit_type || undefined,
       model: lv.model || undefined,
+      slPhase: lv.sl_phase || undefined,
       status: lv.status || undefined,
       developer: "Aldar",
       originalPrice: lv.original_price_aed || undefined,
@@ -640,7 +642,7 @@ export function buildMarkers(): MapMarkerData[] {
       villaKey: `lagoons/${lv.unit_name}`,
       detailHref: `/saadiyat-lagoons/${lv.cluster}/${encodeURIComponent(lv.unit_name)}`,
       tableHref: `/saadiyat-lagoons/${lv.cluster}?view=table#unit-${encodeURIComponent(lv.unit_name)}`,
-      detailLines: [clusterLabel, coordinateSource].filter(Boolean),
+      detailLines: [lv.sl_phase || "", clusterLabel, coordinateSource].filter(Boolean),
       dcrHref: lv.dcr_url || undefined,
       googleMapsHref: `https://www.google.com/maps?q=${lv.lat},${lv.lng}`,
     });
@@ -666,6 +668,7 @@ export default function SaadiyatMap() {
   const [areaMax, setAreaMax] = useState("");
   const searchString = useSearch();
   const plotParam = new URLSearchParams(searchString).get("plot");
+  const phaseParam = new URLSearchParams(searchString).get("phase")?.toUpperCase() ?? null;
   const propertyOverrides = trpc.villaListings.listByCommunity.useQuery({});
   const projectPermissions = trpc.propertyAccess.permissions.useQuery(
     { projects: Object.keys(COMMUNITY_CENTERS) },
@@ -966,6 +969,7 @@ export default function SaadiyatMap() {
 
   const markerMatchesFilters = useCallback((data: MapMarkerData) => {
     if (activeFilter && data.community !== activeFilter) return false;
+    if (phaseParam && data.slPhase !== phaseParam) return false;
     if (!isWithinAreaRange({ sqm: data.landSqm, sqft: data.landSqft }, areaUnit, areaMin, areaMax)) return false;
     const q = mapQuery.trim().toLowerCase();
     if (!q) return true;
@@ -973,7 +977,7 @@ export default function SaadiyatMap() {
       .toLowerCase()
       .includes(q);
     return textMatch || matchesAreaQuery(q, { sqm: data.landSqm, sqft: data.landSqft });
-  }, [activeFilter, areaUnit, areaMin, areaMax, mapQuery]);
+  }, [activeFilter, areaUnit, areaMin, areaMax, mapQuery, phaseParam]);
 
   useEffect(() => {
     const clusterer = clustererRef.current;

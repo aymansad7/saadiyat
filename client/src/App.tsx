@@ -49,6 +49,7 @@ import LagoonsHiddenSL9 from "./pages/LagoonsHiddenSL9";
 import LagoonsDcrPhase from "./pages/LagoonsDcrPhase";
 import Nudra from "./pages/Nudra";
 import DcrCommunityPage from "./pages/DcrCommunityPage";
+import LagoonsSlGroup from "./pages/LagoonsSlGroup";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -73,6 +74,12 @@ function Router() {
       <Route path="/hidd-al-saadiyat">{() => <PropertyProjectGate projectKey="hidd"><HiddAlSaadiyat /></PropertyProjectGate>}</Route>
       <Route path="/saadiyat-beach-villas">{() => <PropertyProjectGate projectKey="saadiyat-beach-villas"><SaadiyatBeachVillas /></PropertyProjectGate>}</Route>
       <Route path="/saadiyat-lagoons">{() => <PropertyProjectGate projectKey="lagoons"><SaadiyatLagoons /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl2">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL2" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl3">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL3" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl4">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL4" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl5">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL5" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl7">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL7" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl8">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL8" /></PropertyProjectGate>}</Route>
       <Route path="/saadiyat-lagoons/:cluster/:unit">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsVillaDetail /></PropertyProjectGate>}</Route>
       <Route path="/saadiyat-lagoons/:cluster">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsCluster /></PropertyProjectGate>}</Route>
       <Route path="/documents" component={Documents} />

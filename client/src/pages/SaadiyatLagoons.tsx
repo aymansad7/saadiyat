@@ -42,6 +42,15 @@ const CLUSTERS = [
   },
 ] as const;
 
+const SL_PHASES = [
+  { phase: "SL2", cluster: "Ethir", type: "Ethir villas", count: 173 },
+  { phase: "SL3", cluster: "Al Sidr", type: "Al Sidr villas", count: 336 },
+  { phase: "SL4", cluster: "Al Ghaf", type: "Wilds villas", count: 147 },
+  { phase: "SL5", cluster: "Al Sidr", type: "Al Sidr villas", count: 283 },
+  { phase: "SL7", cluster: "Al Ghaf", type: "Wilds villas", count: 235 },
+  { phase: "SL8", cluster: "Al Ghaf", type: "Wilds villas", count: 375 },
+] as const;
+
 type AvailFilter = "all" | "any" | "nas-luxury" | "aldar" | "others" | "none";
 
 export default function SaadiyatLagoons() {
@@ -193,6 +202,16 @@ export default function SaadiyatLagoons() {
           </div>
         </section>
       )}
+
+      <section className="border-b border-border bg-card/30">
+        <div className="container py-7 sm:py-9">
+          <div className="flex items-center gap-2 mb-4 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary"><Building2 className="h-3.5 w-3.5" />Aldar-coded SL groups</div>
+          <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+            {SL_PHASES.map((group) => <Link key={group.phase} href={`/saadiyat-lagoons/${group.phase.toLowerCase()}`} className="rounded-xl border border-border bg-background p-4 hover:border-primary/60 hover:shadow-sm transition-all"><div className="font-display text-2xl text-foreground">{group.phase}</div><div className="mt-1 text-xs font-semibold text-foreground">{group.type}</div><div className="mt-1 text-[0.67rem] text-muted-foreground">{group.cluster} · {group.count} villas</div></Link>)}
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">Groups are taken from the Aldar unit/building-section code shown in each card, not inferred from map location.</p>
+        </div>
+      </section>
 
       {/* Availability rail (unified status filter) */}
       <section className="border-b border-border bg-background">

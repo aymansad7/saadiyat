@@ -60,6 +60,18 @@ export const lagoonsRouter = router({
       return ds.villas.filter(v => v.cluster === input.cluster);
     }),
 
+  /** Get every villa whose Aldar unit/building-section code explicitly identifies an SL phase. */
+  villasByPhase: publicProcedure
+    .input(z.object({ phase: z.enum(["SL2", "SL3", "SL4", "SL5", "SL7", "SL8"]) }))
+    .query(({ input }) => {
+      const ds = loadLagoons();
+      const expression = new RegExp(`(?:^|[-\\s])${input.phase}(?:[-\\s]|$)`, "i");
+      return ds.villas.filter((villa) => {
+        const aldar = villa.aldar_data ?? {};
+        return expression.test(`${aldar.building_section ?? ""} ${aldar.aldar_unit_name ?? ""}`);
+      });
+    }),
+
   /** Get a single villa by unit_name */
   villa: publicProcedure
     .input(z.object({ unitName: z.string() }))

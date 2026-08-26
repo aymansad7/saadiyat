@@ -564,3 +564,17 @@
 - [x] Match availability and price only to exact units: 10 exact villas are published, while 9 ambiguous villa rows and 4 unmatched/non-villa rows remain excluded
 - [x] Make confirmed availability/price visible in matching cards and map popups; no owner/mobile override was written because the workbook supplies neither field
 - [x] Verify no owner/mobile leakage: no owner/mobile source value exists in this workbook, and the protected owner-field policy remains in effect for future values
+
+### DCR Phase Grouping by SL Type (Aug 26, 2026)
+- [x] Inventory every currently stored DCR record: explicit source evidence exists only for SL9, SL10, and SL13; Private Owners VIP and Building Plots SDW4 contain no SL designation
+- [x] Create source-confirmed Lagoons groups from Aldar card codes: SL2, SL3, SL4, SL5, SL7, and SL8; retain Private Owners VIP and Building Plots SDW4 as their own ungrouped DCR communities
+- [ ] Give each phase group Cards/Table views and direct map/detail/DCR links, displaying its documented type rather than an assumed type
+- [ ] Add navigation/search and regression tests for phase membership, source labels, map markers, and no-invented phase rules
+- [ ] Verify full flows and publish
+
+### Lagoons SL Groups from Unit Card Codes (Aug 26, 2026)
+- [x] Audit Lagoons card codes and fields to identify the source-backed SL phase and villa type for every unit
+- [x] Generate SL2, SL3, SL4, SL5, SL7, and SL8 from those card codes, keeping unparseable codes ungrouped
+- [x] Add group-specific Cards/Table views, type labels, direct unit details, and Interactive Map navigation
+- [x] Add regression tests for phase parsing, counts, group routes, map labels, and no-invented type/phase assignments
+- [x] Verify the grouped UI shell on desktop/mobile, TypeScript, and 231 tests before publishing
