@@ -90,6 +90,11 @@ async function resolveCallerPermissions(
   community: string,
 ) {
   if (!user) return null;
+  // Master/admin permissions are role-derived. Avoid one grants-table query per
+  // listing row when the full Interactive Map loads every property override.
+  if (isAdmin(user)) {
+    return resolvePropertyPermissions(user.role, [], getPropertyScope(community));
+  }
   const db = await getDb();
   const grants = !db || !user.email
     ? []
@@ -214,8 +219,17 @@ export const villaListingsRouter = router({
         .where(where.length ? and(...where) : undefined)
         .orderBy(asc(villaListings.villaKey));
       if (!ctx.user) return rows.map(toPublic);
+      const permissionsByCommunity = new Map<
+        string,
+        ReturnType<typeof resolveCallerPermissions>
+      >();
       return Promise.all(rows.map(async row => {
-        const permissions = await resolveCallerPermissions(ctx.user, row.community);
+        let permissionPromise = permissionsByCommunity.get(row.community);
+        if (!permissionPromise) {
+          permissionPromise = resolveCallerPermissions(ctx.user, row.community);
+          permissionsByCommunity.set(row.community, permissionPromise);
+        }
+        const permissions = await permissionPromise;
         return toVisible(row, permissions, isAdmin(ctx.user));
       }));
     }),

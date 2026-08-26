@@ -884,6 +884,10 @@ export default function SaadiyatMap() {
 
   const handleMapReady = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
+    clustererRef.current?.clearMarkers();
+    clustererRef.current = null;
+    for (const marker of markersRef.current) marker.map = null;
+    markersRef.current = [];
     mapClickListenerRef.current?.remove();
     infoCloseListenerRef.current?.remove();
     infoWindowRef.current?.close();
@@ -967,6 +971,15 @@ export default function SaadiyatMap() {
       }
     }
   }, [markerData, createInfoContent, plotParam]);
+
+  // MapView initialises Google Maps only once. Owner/listing overrides arrive
+  // asynchronously after authentication, so rebuild the marker closures when
+  // markerData changes; otherwise an already-rendered Map Card keeps the
+  // pre-auth marker object with no owner name/phone.
+  useEffect(() => {
+    if (!mapRef.current) return;
+    handleMapReady(mapRef.current);
+  }, [handleMapReady]);
 
   useEffect(() => () => {
     mapClickListenerRef.current?.remove();

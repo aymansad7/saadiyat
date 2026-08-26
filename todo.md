@@ -628,3 +628,9 @@
 - [x] Verify the accepted sea-facing Street 11 sequence and exact Villa 27 deep link on the Interactive Map; keep unresolved positions labelled calibrated
 - [x] Add regression coverage, run TypeScript and 254 full tests, and publish
 - [x] Accept only completed high-confidence Yandex matches from the batch; skip 36 failed, incomplete, medium-confidence, or conflicting results without delaying publication
+
+### Lagoons Live Map Card Owner Data Fix (Aug 26, 2026)
+- [x] Select the real imported key `lagoons/AlSidr-111-02` and prove its database villaKey, map marker key, and API response key match
+- [x] Fix auth timing and marker refresh so Map Card rebuilds after protected owner overrides arrive; cache permissions by community and avoid per-row grant queries for Master/Admin
+- [x] Show owner name/mobile automatically for Master Admin and explicitly authorized users while omitting both from public/unauthorized API results
+- [x] Add a live-database integration regression for `lagoons/AlSidr-111-02`, run TypeScript and 256 full tests, and verify the mobile map shell before publishing
