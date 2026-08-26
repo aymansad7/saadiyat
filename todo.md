@@ -586,3 +586,10 @@
 - [ ] Link only evidence-backed Nudra locations to their S/B/D villa or Private Mansion records; retain unresolved addresses as unassigned sources
 - [x] Add regression coverage for protected Lagoons owner-card parity and preserve existing Nudra location/unit-integrity safeguards
 - [x] Verify TypeScript and 231 full tests; a precise Nudra address-to-unit crosswalk remains the only source-data blocker
+
+### New Lagoons and Noya Owner Workbook Import (Aug 26, 2026)
+- [x] Inspect `Newlagoonsandnoya.xlsx` for unit keys, owner names, owner mobile numbers, prices, and availability across Lagoons and Noya projects
+- [x] Match 1,533 sensitive owner rows to exactly one canonical unit key: 694 Lagoons and 839 Noya. Retain 254 ambiguous and 283 unmatched rows outside database writes
+- [x] Persist confirmed owner records as protected listing overrides and surface them on authorized external cards and Interactive Map cards
+- [x] Verify Master Admin visibility, delegated field permissions, privacy for other users, and 1,533 import audit events; owner fields remain protected for non-authorized roles
+- [x] Run TypeScript and 233 tests, verify the protected card/map loading paths, and publish
