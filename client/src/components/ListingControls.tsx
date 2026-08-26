@@ -76,6 +76,24 @@ export type ListingPropertyFactsData = {
   rentPriceAed?: number | null;
 };
 
+/** Protected owner fields are returned only when the server grants visibility. */
+export function ListingOwnerFacts({
+  listing,
+  className,
+}: {
+  listing?: { ownerName?: string | null; ownerPhone?: string | null } | null;
+  className?: string;
+}) {
+  if (!listing?.ownerName && !listing?.ownerPhone) return null;
+  return (
+    <div className={`mt-2 rounded-sm border border-primary/20 bg-primary/5 px-2.5 py-2 text-[0.65rem] font-mono text-foreground ${className ?? ""}`}>
+      <div className="uppercase tracking-[0.14em] text-[0.55rem] text-muted-foreground">Owner · authorized view</div>
+      {listing.ownerName ? <div className="mt-0.5">{listing.ownerName}</div> : null}
+      {listing.ownerPhone ? <div className="mt-0.5 tabular-nums">{listing.ownerPhone}</div> : null}
+    </div>
+  );
+}
+
 /** Compact, shared rendering of database-backed property overrides. */
 export function ListingPropertyFacts({
   listing,

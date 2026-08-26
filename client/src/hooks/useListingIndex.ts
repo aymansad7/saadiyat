@@ -27,6 +27,7 @@ export type ListingIndexEntry = {
   availableForRent: boolean | null;
   rentPriceAed: number | null;
   ownerName?: string | null; // present only for admin viewers
+  ownerPhone?: string | null; // present only for authorized viewers
 };
 
 type Args = {

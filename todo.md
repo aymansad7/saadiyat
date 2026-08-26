@@ -578,3 +578,11 @@
 - [x] Add group-specific Cards/Table views, type labels, direct unit details, and Interactive Map navigation
 - [x] Add regression tests for phase parsing, counts, group routes, map labels, and no-invented type/phase assignments
 - [x] Verify the grouped UI shell on desktop/mobile, TypeScript, and 231 tests before publishing
+
+### Lagoons Owners and Nudra Location Completion (Aug 26, 2026)
+- [x] Inventory every available source for Lagoons owner name/mobile: no Lagoons owner override exists in the database, and the supplied workbook contains listing-agent labels but no owner name/mobile
+- [x] Show confirmed Lagoons owner data consistently in the external villa card and Interactive Map popup for authorized roles only; the fields remain empty until a source is supplied
+- [x] Inventory every Nudra unit/plot and classify each position as a supplied Yandex control, exact address match, or unassigned source point
+- [ ] Link only evidence-backed Nudra locations to their S/B/D villa or Private Mansion records; retain unresolved addresses as unassigned sources
+- [x] Add regression coverage for protected Lagoons owner-card parity and preserve existing Nudra location/unit-integrity safeguards
+- [x] Verify TypeScript and 231 full tests; a precise Nudra address-to-unit crosswalk remains the only source-data blocker
