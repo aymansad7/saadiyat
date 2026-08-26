@@ -48,6 +48,7 @@ import { SAADIYAT_RESERVE_RECORDS } from "@/data/saadiyatReserve";
 import { LAGOONS_HIDDEN_SL9_PLOTS } from "@/data/lagoonsHiddenSl9";
 import { LAGOONS_SL10_PLOTS, LAGOONS_SL13_PLOTS } from "@/data/lagoonsDcrPhases";
 import { getAvailability } from "@/data/lagoonsAvailability";
+import { BUILDING_PLOTS_SDW4, PRIVATE_OWNERS_VIP_PLOTS } from "@/data/privateOwnersVip";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import { ListingEditor } from "@/components/ListingEditor";
 import { trpc } from "@/lib/trpc";
@@ -74,6 +75,8 @@ export const COMMUNITY_CENTERS = {
   "lagoons-hidden-sl9": { lat: 24.5395, lng: 54.4425, label: "Lagoons · Hidden Phase SL9", color: "#475569" },
   "lagoons-hidden-sl10": { lat: 24.5402, lng: 54.4454, label: "Lagoons · Hidden Phase SL10", color: "#7C3AED" },
   "lagoons-sl13": { lat: 24.5401, lng: 54.4422, label: "Lagoons · Phase SL13", color: "#0F766E" },
+  "private-owners-vip": { lat: 24.5627, lng: 54.4554, label: "Private Owners VIP", color: "#9A3412" },
+  "building-plots-sdw4": { lat: 24.5210, lng: 54.4342, label: "Building Plots SDW4", color: "#4338CA" },
 };
 
 interface MapMarkerData {
@@ -491,6 +494,35 @@ export function buildMarkers(): MapMarkerData[] {
         detailLines: [`${phase} · Plot ${plot.plotNumber}`, plot.aldarPlotId, plot.typology ?? "", "Official DCR centroid"].filter(Boolean),
         dcrHref: plot.dcrUrl,
         dmtHref: plot.dmtUrl,
+        googleMapsHref: plot.googleMapsUrl,
+      });
+    }
+  }
+
+  // Private Owners VIP and Building Plots SDW4 — each location is an official DCR UTM boundary centroid.
+  for (const [community, title, plots, unitType] of [
+    ["private-owners-vip", "Private Owners VIP", PRIVATE_OWNERS_VIP_PLOTS, "Private VIP plot"],
+    ["building-plots-sdw4", "Building Plots SDW4", BUILDING_PLOTS_SDW4, "Building development plot"],
+  ] as const) {
+    for (const plot of plots) {
+      markers.push({
+        id: `${community}-${plot.id}`,
+        lat: plot.latitude,
+        lng: plot.longitude,
+        community,
+        label: `Plot ${plot.plotNumber}`,
+        landSqm: plot.landSqm,
+        landSqft: plot.landSqft,
+        builtUpSqm: plot.maxGfaSqm,
+        builtUpSqft: plot.maxGfaSqft,
+        builtUpLabel: "Max GFA",
+        unitType,
+        developer: title,
+        villaKey: plot.villaKey,
+        detailHref: `/${community}?plot=${encodeURIComponent(plot.villaKey)}#${community}-plot-${plot.id}`,
+        tableHref: `/${community}?view=table&plot=${encodeURIComponent(plot.villaKey)}#${community}-plot-${plot.id}`,
+        detailLines: [plot.projectLabel, plot.locationSource],
+        dcrHref: plot.dcrUrl,
         googleMapsHref: plot.googleMapsUrl,
       });
     }

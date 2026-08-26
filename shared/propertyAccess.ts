@@ -34,6 +34,9 @@ const SAADIYAT_PROJECTS = new Set([
   "lagoons-hidden-sl9",
   "lagoons-hidden-sl10",
   "lagoons-sl13",
+  "nudra",
+  "private-owners-vip",
+  "building-plots-sdw4",
 ]);
 
 export const PROPERTY_AREA_OPTIONS = [
@@ -61,6 +64,9 @@ export const PROPERTY_PROJECT_OPTIONS = [
   { value: "lagoons-hidden-sl9", label: "Lagoons · Hidden Phase SL9" },
   { value: "lagoons-hidden-sl10", label: "Lagoons · Hidden Phase SL10" },
   { value: "lagoons-sl13", label: "Lagoons · Phase SL13" },
+  { value: "nudra", label: "Nudra by IMKAN" },
+  { value: "private-owners-vip", label: "Private Owners VIP" },
+  { value: "building-plots-sdw4", label: "Building Plots SDW4 · NYU Precinct" },
 ] as const;
 
 /** Turns a canonical community/project key into the scope used by grants. */

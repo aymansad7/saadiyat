@@ -23,6 +23,8 @@ const ALL_PROJECTS = [
   { name: "Four Seasons Private Residences", href: "/four-seasons" },
   { name: "Saadiyat Reserve · Phase 1, Phase 2 & Dunes", href: "/saadiyat-reserve" },
   { name: "Nudra by IMKAN", href: "/nudra" },
+  { name: "Private Owners VIP", href: "/private-owners-vip" },
+  { name: "Building Plots SDW4 · NYU Precinct", href: "/building-plots-sdw4" },
   { name: "Saadiyat Lagoons · Hidden Phase SL9", href: "/lagoons-hidden-sl9" },
   { name: "Saadiyat Lagoons · Hidden Phase SL10", href: "/lagoons-hidden-sl10" },
   { name: "Saadiyat Lagoons · Phase SL13", href: "/lagoons-sl13" },

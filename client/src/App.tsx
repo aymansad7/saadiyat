@@ -48,6 +48,7 @@ import FourSeasons from "./pages/FourSeasons";
 import LagoonsHiddenSL9 from "./pages/LagoonsHiddenSL9";
 import LagoonsDcrPhase from "./pages/LagoonsDcrPhase";
 import Nudra from "./pages/Nudra";
+import DcrCommunityPage from "./pages/DcrCommunityPage";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -57,6 +58,8 @@ function Router() {
       <Route path="/available-units" component={AvailableUnits} />
       <Route path="/map" component={SaadiyatMap} />
       <Route path="/nudra">{() => <PropertyProjectGate projectKey="nudra"><Nudra /></PropertyProjectGate>}</Route>
+      <Route path="/private-owners-vip">{() => <PropertyProjectGate projectKey="private-owners-vip"><DcrCommunityPage kind="private-owners-vip" /></PropertyProjectGate>}</Route>
+      <Route path="/building-plots-sdw4">{() => <PropertyProjectGate projectKey="building-plots-sdw4"><DcrCommunityPage kind="building-plots-sdw4" /></PropertyProjectGate>}</Route>
       <Route path="/saadiyat-reserve">{() => <PropertyProjectGate projectKey="saadiyat-reserve"><SaadiyatReserve /></PropertyProjectGate>}</Route>
       <Route path="/four-seasons">{() => <PropertyProjectGate projectKey="four-seasons"><FourSeasons /></PropertyProjectGate>}</Route>
       <Route path="/lagoons-hidden-sl9">{() => <PropertyProjectGate projectKey="lagoons-hidden-sl9"><LagoonsHiddenSL9 /></PropertyProjectGate>}</Route>

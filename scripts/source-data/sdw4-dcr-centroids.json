@@ -1,0 +1,290 @@
+{
+  "results": [
+    {
+      "input": "SDW4_C1",
+      "output": {
+        "centroid": "24.523721,54.432237",
+        "dcr_id": "SDW4_C1",
+        "evidence": "Official Plot Coordinate Table on Page 1 is clearly readable. Extracted 4 UTM Zone 40N boundary points (PL01-PL04). Centroid calculated by averaging UTM points and converting to WGS84 latitude/longitude using pyproj.",
+        "readable": true,
+        "utm_points": "239830.4786,2714705.3117; 239912.4096,2714617.8817; 239850.3641,2714559.6969; 239768.3902,2714647.2589"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C2",
+      "output": {
+        "centroid": "24.520407,54.435745",
+        "dcr_id": "SDW4_C2",
+        "evidence": "The coordinate table is clearly visible on Page 1 of the DCR PDF for SDW4_C2, listing 5 boundary points (Pt.01 to Pt.05) with Easting and Northing values in UTM Zone 40N. Confidence is high as values are sharp and legible.",
+        "readable": true,
+        "utm_points": "240204.7240,2714305.0891; 240252.6389,2714253.8483; 240186.9381,2714192.4118; 240126.4522,2714257.0961; 240174.7466,2714285.1968"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C3",
+      "output": {
+        "centroid": "24.521859,54.432549",
+        "dcr_id": "SDW4_C3",
+        "evidence": "The official Plot Coordinate Table on page 1 is clearly readable, providing four high-precision boundary points (Pt.01 to Pt.04) in WGS84 UTM Zone 40N. Centroid calculated by averaging these points and converting to Lat/Long.",
+        "readable": true,
+        "utm_points": "239882.3520,2714479.9994; 239923.3325,2714436.1744; 239853.9430,2714371.2887; 239812.9625,2714415.1136"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C4",
+      "output": {
+        "centroid": "24.520528,54.437322",
+        "dcr_id": "SDW4_C4",
+        "evidence": "The Plot Coordinate Table is clearly visible on page 1 of the official DCR PDF for SDW4_C4. It lists 4 boundary points (Pt.01-Pt.04) with precise UTM Zone 40N coordinates. Centroid was calculated by averaging these points.",
+        "readable": true,
+        "utm_points": "240358.3315,2714325.2988; 240405.9031,2714274.4253; 240340.1656,2714212.9546; 240292.5940,2714263.8281"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C5",
+      "output": {
+        "centroid": "24.521283,54.438172",
+        "dcr_id": "SDW4_C5",
+        "evidence": "The official Plot Coordinate Table on Page 1 is clearly visible, listing four boundary points (Pt.01-Pt.04) in UTM Zone 40N. All values were extracted and converted to WGS84 coordinates to determine the centroid.",
+        "readable": true,
+        "utm_points": "240453.6211,2714414.4036; 240500.9639,2714363.3161; 240420.5114,2714288.0854; 240372.9399,2714338.9591"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C6",
+      "output": {
+        "centroid": "24.521106,54.436716",
+        "dcr_id": "SDW4_C6",
+        "evidence": "The official Plot Coordinate Table is clearly visible on page 1 of the PDF, containing four boundary points with precise Easting and Northing values in UTM Zone 40N.",
+        "readable": true,
+        "utm_points": "240297.3432,2714390.5204; 240344.8713,2714338.9072; 240279.9338,2714278.4365; 240233.9010,2714329.5952"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C10",
+      "output": {
+        "centroid": "24.522611,54.431711",
+        "dcr_id": "SDW4_C10",
+        "evidence": "The official Plot Coordinate Table on page 1 is clearly readable, listing 5 boundary points (Pt.01 to Pt.05) with Easting and Northing values in UTM Zone 40N. Confidence is high.",
+        "readable": true,
+        "utm_points": "239807.2211,2714580.3452; 239848.2016,2714516.5202; 239782.1722,2714454.7764; 239741.1915,2714498.6014; 239745.1356,2714502.2895"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C11",
+      "output": {
+        "centroid": "24.523155,54.431291",
+        "dcr_id": "SDW4_C11",
+        "evidence": "The coordinate table was clearly visible on page 1 of the DCR PDF for SDW4_C11, listing four boundary points (Pt.01-Pt.04) with high-precision UTM Zone 40N coordinates. All values were extracted and verified against the visual table.",
+        "readable": true,
+        "utm_points": "239745.7504,2714626.0827; 239797.8639,2714570.3519; 239740.8911,2714517.0770; 239688.7776,2714572.8078"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C13",
+      "output": {
+        "centroid": "24.526083,54.431675",
+        "dcr_id": "SDW4_C13",
+        "evidence": "The official Plot Coordinate Table on page 1 of the PDF is clearly readable, providing 8 boundary points (Pt.01 to Pt.08) with precise Easting and Northing values in UTM Zone 40N.",
+        "readable": true,
+        "utm_points": "239750.0510,2714953.5251; 239790.3958,2714930.8577; 239825.2425,2714910.5661; 239890.0705,2714898.4388; 239848.9145,2714887.0567; 239767.3891,2714825.4886; 239729.7088,2714865.7847; 239704.3857,2714890.9013"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C15",
+      "output": {
+        "centroid": "24.525258,54.430760",
+        "dcr_id": "SDW4_C15",
+        "evidence": "The Plot Coordinate Table on page 1 of SDW4_C15.pdf lists 6 boundary points (Pt.01-Pt.06) with Easting/Northing values. The table is clearly visible and readable, confirming the plot location in the NYU Precinct, Saadiyat Island.",
+        "readable": true,
+        "utm_points": "239682.2808,2714862.3047; 239703.4136,2714841.1962; 239740.3225,2714801.7254; 239731.3007,2714793.8044; 239676.7576,2714745.9164; 239628.8446,2714789.0238"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C16",
+      "output": {
+        "centroid": "24.524405,54.429673",
+        "dcr_id": "SDW4_C16",
+        "evidence": "Official Plot Coordinate Table found on page 1, clearly listing 5 boundary points (Pt.01 to Pt.05) with high-precision Northing and Easting values in WGS84 UTM Zone 40N. Confidence is high.",
+        "readable": true,
+        "utm_points": "239561.8806,2714794.1439; 239650.0146,2714723.1683; 239589.6236,2714670.1461; 239575.8791,2714678.7867; 239532.4021,2714699.2632"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C17",
+      "output": {
+        "centroid": "24.521544,54.430686",
+        "dcr_id": "SDW4_C17",
+        "evidence": "The Plot Coordinate Table is clearly visible on the first page of the PDF, listing four points (Pt.01 to Pt.04) with their respective Easting and Northing values in UTM Zone 40N. Confidence is high.",
+        "readable": true,
+        "utm_points": "239677.2066,2714438.7895; 239723.1046,2714389.6857; 239680.2655,2714349.6273; 239634.3711,2714398.7074"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C18",
+      "output": {
+        "centroid": "24.520966,54.430036",
+        "dcr_id": "SDW4_C18",
+        "evidence": "The official Plot Coordinate Table on page 1 lists 4 points (Pt.01-Pt.04) with high-precision Northing and Easting values in WGS84 UTM Zone 40N. All values are clearly legible.",
+        "readable": true,
+        "utm_points": "239619.6132,2714384.9144; 239665.5111,2714335.8306; 239603.5716,2714277.9115; 239557.6761,2714326.9930"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C19",
+      "output": {
+        "centroid": "24.520092,54.428971",
+        "dcr_id": "SDW4_C19",
+        "evidence": "Coordinate table found on page 1, containing 5 boundary points (Pt.01-Pt.05) with clear Northing/Easting values in UTM Zone 40N. Centroid calculated by averaging points and converting to WGS84 lat/long.",
+        "readable": true,
+        "utm_points": "239542.9218,2714313.1962; 239588.8172,2714264.1148; 239511.9378,2714192.2256; 239433.4775,2714203.9778; 239431.9946,2714209.4732"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C20",
+      "output": {
+        "centroid": "24.519659,54.430038",
+        "dcr_id": "SDW4_C20",
+        "evidence": "The Plot Coordinate Table on page 1 of the SDW4_C20 DCR PDF lists four boundary points (Pt.01-Pt.04) with precise UTM Zone 40N coordinates. The table is clearly visible and readable, providing high confidence in the data.",
+        "readable": true,
+        "utm_points": "239614.8397,2714236.2860; 239659.0309,2714189.0271; 239610.3157,2714143.4743; 239552.0867,2714177.6063"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C21",
+      "output": {
+        "centroid": "24.520292,54.430751",
+        "dcr_id": "SDW4_C21",
+        "evidence": "The official Plot Coordinate Table was identified on page 1 of the DCR document. It contains four boundary points (Pt.01-Pt.04) with high-precision UTM Zone 40N coordinates, which were used to calculate the centroid.",
+        "readable": true,
+        "utm_points": "239691.5336,2714308.0018; 239735.7248,2714260.7431; 239673.7853,2714202.8237; 239629.5940,2714250.0827"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C22",
+      "output": {
+        "centroid": "24.520870,54.431401",
+        "dcr_id": "SDW4_C22",
+        "evidence": "Plot Coordinate Table found on page 1 of the official DCR PDF for SDW4_C22. All four points (Pt.01-Pt.04) are clearly readable with Easting and Northing values relative to UTM Zone 40N.",
+        "readable": true,
+        "utm_points": "239749.1263,2714361.8562; 239793.3097,2714314.5916; 239750.4792,2714274.5398; 239706.2879,2714321.7985"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C23",
+      "output": {
+        "centroid": "24.519652,54.434828",
+        "dcr_id": "SDW4_C23",
+        "evidence": "The Plot Coordinate Table for SDW4_C23 (Plot SM13-04) was clearly visible on page 1 of the official DCR PDF, listing four boundary points (Pt.01-Pt.04) in UTM Zone 40N, which were used to calculate the exact centroid.",
+        "readable": true,
+        "utm_points": "240095.9548,2714238.4663; 240162.1591,2714167.6666; 240099.3069,2714108.8939; 240021.2232,2714192.3974"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C24",
+      "output": {
+        "centroid": "24.518280,54.436284",
+        "dcr_id": "SDW4_C24",
+        "evidence": "The official Plot Coordinate Table on page 1 of the DCR document SDW4_C24.pdf is clearly legible, providing four boundary points (Pt.01-Pt.04) with Northing and Easting coordinates in WGS84 UTM Zone 40N.",
+        "readable": true,
+        "utm_points": "240237.4266,2714087.1748; 240304.2606,2714015.7017; 240241.3976,2713956.9176; 240174.5757,2714028.4033"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C25",
+      "output": {
+        "centroid": "24.519048,54.437149",
+        "dcr_id": "SDW4_C25",
+        "evidence": "Official Plot Coordinate Table found on page 1 of SDW4_C25.pdf. Four boundary points (Pt.01-Pt.04) are clearly listed with Northing and Easting values in UTM Zone 40N.",
+        "readable": true,
+        "utm_points": "240327.4502,2714171.3553; 240394.2833,2714099.8832; 240329.8249,2714039.6071; 240262.9910,2714111.0800"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C26",
+      "output": {
+        "centroid": "24.519850,54.438052",
+        "dcr_id": "SDW4_C26",
+        "evidence": "Visible Plot Coordinate Table on Page 1 shows 4 boundary points (Pt.01 to Pt.04) with high-precision Northing and Easting values. The table is clearly readable and explicitly references WGS84 UTM Zone 40N.",
+        "readable": true,
+        "utm_points": "240421.5626,2714259.3592; 240488.3947,2714187.8882; 240422.1118,2714125.9060; 240355.2790,2714197.3778"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C27",
+      "output": {
+        "centroid": "24.520596,54.438893",
+        "dcr_id": "SDW4_C27",
+        "evidence": "The Plot Coordinate Table on Page 1 of the official DCR document for SDW4_C27 was clearly legible. It contains four boundary points (Pt.01 to Pt.04) with precise UTM Zone 40N coordinates, which were used to calculate the centroid.",
+        "readable": true,
+        "utm_points": "240515.4668,2714347.1685;240579.4026,2714272.9909;240503.1489,2714201.6850;240436.3169,2714273.1559"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C29",
+      "output": {
+        "centroid": "24.518236,54.438010",
+        "dcr_id": "SDW4_C29",
+        "evidence": "The Plot Coordinate Table on page 1 is clearly visible and readable, providing four UTM Zone 40N boundary points (Pt.01-Pt.04) for plot SM14-02A.",
+        "readable": true,
+        "utm_points": "240420.9888,2714071.3240; 240472.0083,2714016.7632; 240407.5493,2713956.4878; 240356.5304,2714011.0480"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C30",
+      "output": {
+        "centroid": "24.517756,54.438639",
+        "dcr_id": "SDW4_C30",
+        "evidence": "The Plot Coordinate Table on Page 1 is clearly readable, listing 5 boundary points (Pt.01 to Pt.05) with Easting and Northing values in UTM Zone 40N.",
+        "readable": true,
+        "utm_points": "240472.0083,2714016.7632; 240519.6026,2713965.6514; 240525.2091,2713959.6549; 240460.8578,2713899.4791; 240407.5493,2713956.4878"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C31",
+      "output": {
+        "centroid": "24.517059,54.439208",
+        "dcr_id": "SDW4_C31",
+        "evidence": "The Plot Coordinate Table is clearly visible on page 1 of the PDF for plot SM14-04A. It contains 6 boundary points (PL01-PL06) with Easting and Northing values in UTM Zone 40N. High confidence in extraction.",
+        "readable": true,
+        "utm_points": "240537.7938,2713943.7672; 240583.7221,2713898.6357; 240541.2618,2713866.8146; 240546.2322,2713861.6372; 240522.4551,2713838.0948; 240468.1182,2713878.6125"
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C32",
+      "output": {
+        "centroid": "24.516523,54.439383",
+        "dcr_id": "SDW4_C32",
+        "evidence": "The Plot Coordinate Table on Page 1 of the DCR PDF for SDW4_C32 is clearly readable, providing 6 boundary points (Pt.01-Pt.06) in WGS84 UTM Zone 40N. The centroid was calculated from these points and converted to Lat/Long.",
+        "readable": true,
+        "utm_points": "240571.7108,2713872.9520; 240577.5661,2713844.6421; 240584.5429,2713794.7203; 240562.6267,2713790.1151; 240500.9482,2713789.1783; 240502.4551,2713838.0946"
+      },
+      "error": ""
+    }
+  ]
+}

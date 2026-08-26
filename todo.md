@@ -550,3 +550,17 @@
 - [x] Match rows only to exact Lagoons villa keys; retain 9 ambiguous villa rows and 4 unmatched/non-villa rows outside availability publishing
 - [x] Show the 10 exact matched villas as Available for Sale in Lagoons cards, table, filters, and Interactive Map with the documented price
 - [x] Add source/matching regression coverage and verify green availability semantics before publishing
+
+### Private Owners VIP and Building Plots SDW4 DCR Import (Aug 26, 2026)
+- [x] Probe and extract the supplied SDN3_1, 2, 3, 4_5, 6, 7, 8, and 9 DCRs as Private Owners VIP, preserving SDN3_4_5 as one merged-document record; SDN3_7 is unavailable
+- [x] Probe SDW4_C1 through SDW4_C32 independently, publishing 26 accessible documents and preserving 6 unavailable identifiers without fabrication
+- [x] Extract each confirmed DCR's plot number, land area, max GFA, official UTM boundary-centroid location, and direct DCR/Google source links
+- [x] Build separate Cards/Table community pages, direct detail links, and Interactive Map markers for the two new source-backed communities
+- [x] Add project navigation/search entries and regression tests for counts, DCR links, coordinates, and no-invented-availability rules
+- [x] Verify desktop/mobile views, TypeScript, and 227 full tests, then publish
+
+### Lagoons Owner, Availability and Price Data Import (Aug 26, 2026)
+- [x] Inspect the supplied Lagoons workbook: it contains 23 Lagoons rows only, with unit, availability, price, bedrooms, area and responsible listing agent; Noya rows and owner/mobile fields are not present
+- [x] Match availability and price only to exact units: 10 exact villas are published, while 9 ambiguous villa rows and 4 unmatched/non-villa rows remain excluded
+- [x] Make confirmed availability/price visible in matching cards and map popups; no owner/mobile override was written because the workbook supplies neither field
+- [x] Verify no owner/mobile leakage: no owner/mobile source value exists in this workbook, and the protected owner-field policy remains in effect for future values

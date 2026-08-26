@@ -1,0 +1,564 @@
+{
+  "results": [
+    {
+      "input": "SDN3_1",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 2658,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDN3_1",
+        "land_area_sqm": 4430.41,
+        "plot_number": "SDN3-1",
+        "project_label": "SAADIYAT BEACH DISTRICT",
+        "source_summary": "PDF accessible for SDN3_1 (Saadiyat Beach District). Plot SDN3-1 area: 4,430.41 sqm; max GFA: 2,658.00 sqm. Coordinates given as Easting/Northing only. No evidence of plot merging found; IDs listed are Aldar (SB-31A) and ADM (SDN3-1)."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDN3_2",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 2916,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDN3_2",
+        "land_area_sqm": 4859.81,
+        "plot_number": "SDN3-2",
+        "project_label": "SAADIYAT BEACH DISTRICT",
+        "source_summary": "Document SDN3_2 for Saadiyat Beach District confirms plot SDN3-2 (Aldar ID SB-31B) with a land area of 4,859.81 sqm and a maximum GFA of 2,916.00 sqm. Coordinates are provided in UTM format only. No evidence of a merged plot is present."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDN3_3",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 3219,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDN3_3",
+        "land_area_sqm": 5365.04,
+        "plot_number": "SDN3-3",
+        "project_label": "SAADIYAT BEACH DISTRICT",
+        "source_summary": "The document for SDN3_3 (Saadiyat Beach District) identifies plot SDN3-3 (Aldar SB-31C) with a land area of 5,365.04 sqm and a max GFA of 3,219.00 sqm. Coordinates are provided in Easting/Northing format. No evidence of a merged plot was found."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDN3_4_5",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 6053,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDN3_4_5",
+        "land_area_sqm": 10693,
+        "plot_number": "SDN3-4_5",
+        "project_label": "SAADIYAT BEACH DISTRICT",
+        "source_summary": "The DCR for SDN3_4_5 in Saadiyat Beach District defines a residential plot with a land area of 10,693.00 sqm and a maximum GFA of 6,053.00 sqm. The ADM Plot ID is SDN3-4_5. Coordinates are provided in Easting/Northing (WGS84). No explicit evidence of a plot merger is stated."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDN3_6",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 2500,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDN3_6",
+        "land_area_sqm": 4168.07,
+        "plot_number": "SDN3-6",
+        "project_label": "SAADIYAT BEACH DISTRICT",
+        "source_summary": "The DCR for SDN3-6 (SB-31F) in Saadiyat Beach District specifies a plot area of 4,168.07 sqm and a max GFA of 2,500.00 sqm. Boundary coordinates are provided in Easting/Northing format, but no latitude/longitude is stated. There is no evidence that this is a merged plot."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDN3_7",
+      "output": {
+        "accessible": "",
+        "built_area_sqm": -1,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDN3_7",
+        "land_area_sqm": -1,
+        "plot_number": "NOT STATED",
+        "project_label": "NOT STATED",
+        "source_summary": "The PDF for DCR identifier SDN3_7 is not accessible at the provided URL (https://geosmart.dmt.gov.ae/dcr/SDN3_7.pdf), returning a 404 error. Consequently, no project data, plot details, or coordinates could be extracted."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDN3_8",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 3079,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDN3_8",
+        "land_area_sqm": 5415.02,
+        "plot_number": "SDN3-8",
+        "project_label": "Saadiyat Beach District",
+        "source_summary": "The DCR for plot SDN3-8 (Aldar ID SB-31H) in Saadiyat Beach District states a land area of 5,415.02 sqm and a max GFA of 3,079.00 sqm. Coordinates are provided as Easting/Northing values. No evidence of merged plots was found."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDN3_9",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 3159,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDN3_9",
+        "land_area_sqm": 5265.7,
+        "plot_number": "SDN3-9",
+        "project_label": "SAADIYAT BEACH DISTRICT",
+        "source_summary": "The DCR for SDN3_9 in Saadiyat Beach District specifies a plot area of 5,265.70 sqm and a maximum GFA of 3,159.00 sqm. While Easting and Northing values are provided in the coordinates table, no latitude or longitude is stated. There is no evidence of the plot being merged."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C1",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 40000,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C1",
+        "land_area_sqm": 10256,
+        "plot_number": "SM11-06",
+        "project_label": "NYU Precinct",
+        "source_summary": "The DCR for SDW4_C1 identifies the plot as SM11-06 in the NYU Precinct, Saadiyat. Site area is 10,256 sqm with a max GFA of 40,000 sqm. Coordinates are given in Northing/Easting, not lat/lng. No evidence of merged plots is present in the document."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C2",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 15000,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C2",
+        "land_area_sqm": 7076,
+        "plot_number": "SM13-03",
+        "project_label": "NYU PRECINCT SAADIYAT",
+        "source_summary": "The PDF for SDW4_C2 (Plot SM13-03) in NYU Precinct Saadiyat is accessible. It specifies a site area of 7,076 sqm and a maximum GFA of 15,000 sqm. Coordinates are given in UTM (Zone 40N), but no latitude/longitude are stated. No evidence of a merged plot was found in the document."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C3",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 17415,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C3",
+        "land_area_sqm": 5700,
+        "plot_number": "SM11-08",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "The document for SDW4_C3 (Plot SM11-08) in NYU Precinct, Saadiyat, specifies a site area of 5,700 sqm and a maximum allowable GFA of 17,415 sqm. Coordinates are provided in UTM format only. No evidence of plot merging was found."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C4",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 15021,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C4",
+        "land_area_sqm": 6259,
+        "plot_number": "SM13-05",
+        "project_label": "NYU Precinct",
+        "source_summary": "Document SDW4_C4.pdf describes plot SM13-05 in the NYU Precinct, Saadiyat Island. It states a site area of 6,259 sqm and a max GFA of 15,021 sqm. Only UTM coordinates (Zone 40N) are listed. No evidence of a merged plot is present."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C5",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 31626,
+        "coordinates": "24.521855787307448,54.43832470475101",
+        "dcr_id": "SDW4_C5",
+        "land_area_sqm": 7692,
+        "plot_number": "SM13-08",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "The PDF for SDW4_C5 is accessible, detailing plot SM13-08 within the NYU Precinct, Saadiyat Island. The site area is 7,692 sqm, and the maximum allowable GFA is 31,626 sqm. Coordinates were provided in UTM Zone 40N and converted to lat/lng. No evidence of a merged plot was found."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C6",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 20773,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C6",
+        "land_area_sqm": 5935,
+        "plot_number": "SM13-02",
+        "project_label": "NYU PRECINCT SAADIYAT",
+        "source_summary": "The document for SDW4_C6 (Plot SM13-02) in the NYU Precinct Saadiyat states a site area of 5,935 sq.m and a maximum allowable GFA of 20,773 sq.m. UTM coordinates (Zone 40N) are provided, but no latitude/longitude values are stated. No evidence of a merged plot was found."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C7",
+      "output": {
+        "accessible": "",
+        "built_area_sqm": -1,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C7",
+        "land_area_sqm": -1,
+        "plot_number": "NOT STATED",
+        "project_label": "NOT STATED",
+        "source_summary": "The requested PDF at https://geosmart.dmt.gov.ae/dcr/SDW4_C7.pdf is inaccessible, returning a 404 Not Found error. Consequently, no project data, plot details, or coordinates could be extracted."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C8",
+      "output": {
+        "accessible": "",
+        "built_area_sqm": -1,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C8",
+        "land_area_sqm": -1,
+        "plot_number": "NOT STATED",
+        "project_label": "NOT STATED",
+        "source_summary": "The PDF document for DCR identifier SDW4_C8 at the provided URL returned a 404 Not Found error, indicating the resource is inaccessible or does not exist. No data could be extracted."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C9",
+      "output": {
+        "accessible": "",
+        "built_area_sqm": -1,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C9",
+        "land_area_sqm": -1,
+        "plot_number": "NOT STATED",
+        "project_label": "NOT STATED",
+        "source_summary": "The PDF at the specified URL (https://geosmart.dmt.gov.ae/dcr/SDW4_C9.pdf) is not accessible and returns a 404 Not Found error. Consequently, no project, plot, or area data could be extracted."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C10",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 17415,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C10",
+        "land_area_sqm": 5424,
+        "plot_number": "SM11-05",
+        "project_label": "NYU PRECINCT SAADIYAT",
+        "source_summary": "Document identifies plot SM11-05 in NYU Precinct Saadiyat. Site area is 5,424 sqm with a maximum allowable GFA of 17,415 sqm. Coordinates are provided in UTM (Northing/Easting) format only. No evidence of merged plots is stated."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C11",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 15494,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C11",
+        "land_area_sqm": 5951,
+        "plot_number": "SM11-04",
+        "project_label": "NYU PRECINCT SAADIYAT",
+        "source_summary": "The document for SDW4_C11 (Plot SM11-04, NYU Precinct) is accessible. It specifies a site area of 5,951 sqm and a max GFA of 15,494 sqm. Coordinates are provided in UTM Zone 40N format. No evidence of merged plots was identified."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C12",
+      "output": {
+        "accessible": "",
+        "built_area_sqm": -1,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C12",
+        "land_area_sqm": -1,
+        "plot_number": "NOT STATED",
+        "project_label": "NOT STATED",
+        "source_summary": "The PDF file for DCR identifier SDW4_C12 was not accessible at the provided URL (404 Not Found). No data could be extracted."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C13",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 5000,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C13",
+        "land_area_sqm": 8294,
+        "plot_number": "SM08-29",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "Document for SDW4_C13 identifies Plot SM08-29 in NYU Precinct. Site area is 8,294 sqm; max GFA is 5,000 sqm. Coordinates are provided in UTM (Zone 40N), not lat/lng. No evidence of a merged plot was found. Content is grounded in the provided Plot Regulation Sheet."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C14",
+      "output": {
+        "accessible": "",
+        "built_area_sqm": -1,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C14",
+        "land_area_sqm": -1,
+        "plot_number": "NOT STATED",
+        "project_label": "NOT STATED",
+        "source_summary": "The requested PDF for DCR identifier SDW4_C14 was not accessible at the provided URL, returning a 404 Not Found error. No project, plot, area, or coordinate data could be extracted."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C15",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 21995,
+        "coordinates": "24.525585,54.430639",
+        "dcr_id": "SDW4_C15",
+        "land_area_sqm": 6446,
+        "plot_number": "SM08-30",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "PDF is accessible for SDW4_C15, corresponding to plot SM08-30 in the NYU PRECINCT, Saadiyat Island. Site area is 6,446 sqm; max allowable GFA is 21,995 sqm. Boundary coordinates provided in UTM Zone 40N (converted to lat/lng). No evidence of merged plots found in the document."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C16",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 26700,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C16",
+        "land_area_sqm": 7768,
+        "plot_number": "SM08-28",
+        "project_label": "NYU PRECINCT SAADIYAT",
+        "source_summary": "SDW4_C16 (Plot SM08-28) in NYU Precinct Saadiyat has a site area of 7,768 sqm and a max GFA of 26,700 sqm. Coordinates are given in UTM Zone 40N, but no lat/long values are stated. No evidence of merged plots was found."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C17",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 17817,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C17",
+        "land_area_sqm": 3941,
+        "plot_number": "SM10-07",
+        "project_label": "NYU PRECINCT SAADIYAT",
+        "source_summary": "The DCR document for SDW4_C17 identifies the site as Plot SM10-07 in NYU Precinct, Saadiyat. The land area is 3,941 sqm with a maximum GFA of 17,817 sqm. Coordinates are provided in UTM format (Northing/Easting) only. No evidence of a merged plot was found."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C18",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 24350,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C18",
+        "land_area_sqm": 5688,
+        "plot_number": "SM10-08A",
+        "project_label": "NYU Precinct Saadiyat",
+        "source_summary": "The PDF for SDW4_C18 (Plot SM10-08A) is accessible. It pertains to the NYU Precinct Saadiyat project. The site area is 5,688 sqm with a maximum allowable GFA of 24,350 sqm. Coordinates are provided in UTM Zone 40N format only. No evidence of a merged plot was found."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C19",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 37301,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C19",
+        "land_area_sqm": 8709,
+        "plot_number": "SM10-09",
+        "project_label": "NYU PRECINCT SAADIYAT",
+        "source_summary": "The DCR for SDW4_C19 (Plot SM10-09) in NYU Precinct Saadiyat states a land area of 8,709 sqm and a maximum GFA of 37,301 sqm. The document provides UTM coordinates but no latitude/longitude values. No evidence of merged plots was identified in the regulation sheet."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C20",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 21494,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C20",
+        "land_area_sqm": 4853,
+        "plot_number": "SM10-12",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "PDF accessible for SDW4_C20. Plot SM10-12 in NYU Precinct, Saadiyat, Abu Dhabi has a site area of 4,853 sqm and max GFA of 21,494 sqm. The identifier \"SM10-12\" signifies a merged plot. Only UTM coordinates are stated, no lat/lng."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C21",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 24317,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C21",
+        "land_area_sqm": 5487,
+        "plot_number": "SM10-11A",
+        "project_label": "NYU PRECINCT SAADIYAT",
+        "source_summary": "The document for SDW4_C21 (Plot SM10-11A) in NYU Precinct Saadiyat is accessible. It lists a site area of 5,487 sqm and a maximum allowable GFA of 24,317 sqm. Coordinates are provided in UTM format only. No evidence of plot merging is stated."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C22",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 17219,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C22",
+        "land_area_sqm": 3794,
+        "plot_number": "SM10-10",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "The document for SDW4_C22 identifies the plot as SM10-10 in the NYU Precinct, Saadiyat. Site area is 3,794 sqm with a max GFA of 17,219 sqm. No evidence of a merged plot was found. Coordinates are provided in UTM format (Northing/Easting), not lat/lng."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C23",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 39055,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C23",
+        "land_area_sqm": 9069,
+        "plot_number": "SM13-04",
+        "project_label": "NYU PRECINCT SAADIYAT",
+        "source_summary": "The PDF for SDW4_C23 is accessible and refers to plot SM13-04 in NYU Precinct Saadiyat. The site area is 9,069 sqm, and the maximum allowable GFA is 39,055 sqm. No evidence of merged plots was found. Coordinates are stated in UTM format, not lat/long."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C24",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 29000,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C24",
+        "land_area_sqm": 8421,
+        "plot_number": "SM13-10B",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "Accessible PDF for NYU Precinct, Plot SM13-10B in Abu Dhabi. Site area is 8,421 sqm; max allowable GFA is 29,000 sqm for office use. Coordinates provided in UTM Zone 40N (WGS84), not lat/lng. No explicit evidence of a merged plot was found in the document."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C25",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 30187,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C25",
+        "land_area_sqm": 8635,
+        "plot_number": "SM13-10A",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "The document for SDW4_C25 identifies Plot SM13-10A in NYU Precinct, Saadiyat Island. It states a site area of 8,635 sqm and a maximum allowable GFA of 30,187 sqm. Coordinates are provided in UTM (WGS84, Zone 40N) rather than lat/long. No evidence of a merged plot was found."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C26",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 30200,
+        "coordinates": "24.52045,54.43804",
+        "dcr_id": "SDW4_C26",
+        "land_area_sqm": 8880,
+        "plot_number": "SM13-09B",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "Document for SDW4_C26 identifies plot SM13-09B in NYU Precinct. Site area is 8,880 sqm; max GFA is 30,200 sqm (29,000 office, 1,200 retail). Coordinates derived from UTM Zone 40N data. No evidence of plot merging found."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C27",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 36000,
+        "coordinates": "24.521260,54.438947",
+        "dcr_id": "SDW4_C27",
+        "land_area_sqm": 10436,
+        "plot_number": "SM13-09A",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "PDF for SDW4_C27 (Plot SM13-09A) in NYU Precinct is accessible. Site area is 10,436 sqm, and max GFA is 36,000 sqm. Coordinates were converted from UTM Zone 40N. No evidence of plot merging is stated in the document."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C28",
+      "output": {
+        "accessible": "",
+        "built_area_sqm": -1,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C28",
+        "land_area_sqm": -1,
+        "plot_number": "NOT STATED",
+        "project_label": "NOT STATED",
+        "source_summary": "The PDF for DCR identifier SDW4_C28 is inaccessible at the provided URL (404 Not Found). No project details, plot data, or coordinates could be extracted."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C29",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 26914,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C29",
+        "land_area_sqm": 6592,
+        "plot_number": "SM14-02A",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "The DCR for SDW4_C29 (Plot SM14-02A) in NYU Precinct, Saadiyat, states a site area of 6,592 sqm and a maximum GFA of 26,914 sqm. Coordinates are provided in UTM Zone 40N (Northing/Easting). No evidence of a merged plot is stated in the document."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C30",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 27922,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C30",
+        "land_area_sqm": 6887,
+        "plot_number": "SM14-02B",
+        "project_label": "NYU PRECINCT",
+        "source_summary": "The PDF for SDW4_C30 identifies the project as NYU Precinct with plot number SM14-02B. It specifies a site area of 6,887 sqm and a maximum allowable GFA of 27,922 sqm. Location is given in UTM coordinates only; no latitude/longitude or merged-plot evidence is stated."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C31",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 28947,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C31",
+        "land_area_sqm": 5126,
+        "plot_number": "SM14-04A",
+        "project_label": "NYU Precinct",
+        "source_summary": "The document for SDW4_C31 identifies plot SM14-04A in the NYU Precinct, Saadiyat. It specifies a site area of 5,126 sqm and a maximum allowable GFA of 28,947 sqm. Coordinates are provided in UTM format (Northing/Easting) rather than lat/lng. No evidence of a merged plot is stated."
+      },
+      "error": ""
+    },
+    {
+      "input": "SDW4_C32",
+      "output": {
+        "accessible": true,
+        "built_area_sqm": 26950,
+        "coordinates": "NOT STATED",
+        "dcr_id": "SDW4_C32",
+        "land_area_sqm": 5224,
+        "plot_number": "SM14-04B",
+        "project_label": "NYU PRECINCT SAADIYAT",
+        "source_summary": "The document for SDW4_C32 (Plot SM14-04B) in NYU Precinct Saadiyat is accessible. It defines a site area of 5,224 sqm and a max GFA of 26,950 sqm. Coordinates are listed in UTM format (WGS84, Zone 40N). No specific evidence of a merged plot was identified in the document."
+      },
+      "error": ""
+    }
+  ]
+}
