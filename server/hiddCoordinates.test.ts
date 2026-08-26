@@ -23,10 +23,11 @@ describe("Hidd Al Saadiyat control-calibrated coordinates", () => {
     }
   });
 
-  it("labels every non-control position as calibrated rather than official", () => {
+  it("labels user controls, exact Yandex matches, and calibrated positions as distinct sources", () => {
     expect(hiddVillaCoords).toHaveLength(468);
     expect(hiddVillaCoords.filter((item) => item.positionSource === "user_supplied_coordinate")).toHaveLength(28);
-    expect(hiddVillaCoords.every((item) => ["user_supplied_coordinate", "street_control_calibrated", "shape_control_calibrated"].includes(item.positionSource))).toBe(true);
+    expect(hiddVillaCoords.filter((item) => item.positionSource === "yandex_exact_address_match")).toHaveLength(366);
+    expect(hiddVillaCoords.every((item) => ["user_supplied_coordinate", "yandex_exact_address_match", "street_control_calibrated", "shape_control_calibrated"].includes(item.positionSource))).toBe(true);
     expect(hiddVillaCoords.filter((item) => item.positionSource !== "user_supplied_coordinate").every((item) => item.controlPlot === null)).toBe(true);
   });
 });

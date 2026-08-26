@@ -20,8 +20,13 @@ describe("Unified map property cards", () => {
     expect(villa80?.detailLines).toContain("User-supplied official control");
     expect(villa80?.googleMapsHref).toContain("24.581831,54.471252");
 
-    const nonControl = markers.find((marker) => marker.id === "hidd-100-BOULEVARD");
-    expect(nonControl?.detailLines?.some((line) => line.includes("calibrated to official controls"))).toBe(true);
+    const villa100 = markers.find((marker) => marker.id === "hidd-100-BOULEVARD");
+    expect(villa100?.owner).toContain("Saeed Bin Butti Al Qubaisi");
+    expect(villa100?.tenant).toBe("Mariam Alrashdi");
+    expect(villa100?.tenantPhone).toBe("0506202222");
+    expect(villa100?.tenancyStart).toBeUndefined();
+
+    expect(villa100?.detailLines).toContain("Yandex exact house-address match");
   });
 
   it("carries building-area data for map cards when the originating project provides it", () => {

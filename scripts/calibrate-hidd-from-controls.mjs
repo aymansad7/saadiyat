@@ -7,6 +7,7 @@ const root = resolve(__dirname, "..");
 const coordinatePath = resolve(root, "client/src/data/hiddCoordinates.ts");
 const baselinePath = resolve(__dirname, "source-data/hidd-coordinate-baseline.json");
 const controlsPath = resolve(__dirname, "source-data/hidd-controls.json");
+const yandexLocationsPath = resolve(__dirname, "source-data/hidd-yandex-exact-locations.json");
 
 function parseCoordinatesFromTs(source) {
   const match = source.match(/hiddVillaCoords:\s*HiddVillaCoord\[\]\s*=\s*(\[[\s\S]*?\])\s*;\s*\n\s*export function/);
@@ -79,6 +80,9 @@ if (!existsSync(baselinePath)) {
 
 const baseline = JSON.parse(readFileSync(baselinePath, "utf8"));
 const { controls } = JSON.parse(readFileSync(controlsPath, "utf8"));
+const yandexLocations = existsSync(yandexLocationsPath)
+  ? JSON.parse(readFileSync(yandexLocationsPath, "utf8")).locations
+  : [];
 const byKey = new Map(baseline.map(point => [`${point.street}|${point.villaNumber}`, point]));
 const matchedControls = controls.map(control => ({ control, base: byKey.get(`${control.street}|${control.villaNumber}`) })).filter(item => item.base);
 const unmatchedControls = controls.filter(control => !byKey.has(`${control.street}|${control.villaNumber}`));
@@ -105,11 +109,16 @@ for (const [street, samples] of controlsByStreet) {
 }
 
 const directByKey = new Map(matchedControls.map(sample => [`${sample.control.street}|${sample.control.villaNumber}`, sample.control]));
+const yandexByKey = new Map(yandexLocations.map(location => [`${location.street}|${location.villaNumber}`, location]));
 const output = baseline.map(point => {
   const key = `${point.street}|${point.villaNumber}`;
   const control = directByKey.get(key);
+  const yandex = yandexByKey.get(key);
   if (control) {
     return { ...point, lat: control.latitude, lng: control.longitude, positionSource: "user_supplied_coordinate", controlPlot: control.plotNumber ?? null };
+  }
+  if (yandex) {
+    return { ...point, lat: yandex.latitude, lng: yandex.longitude, positionSource: "yandex_exact_address_match", controlPlot: null };
   }
   const model = streetModels.get(point.street);
   if (model) {
@@ -125,7 +134,7 @@ const output = baseline.map(point => {
   return { ...point, ...calibrated, positionSource: "shape_control_calibrated", controlPlot: null };
 });
 
-const outputTs = `/**\n * Hidd Al Saadiyat villa coordinates.\n * Direct controls are user-supplied sources; other coordinates are derived from the preserved street/master-plan shape and those controls.\n */\n\nexport type HiddPositionSource = "user_supplied_coordinate" | "street_control_calibrated" | "shape_control_calibrated";\n\nexport interface HiddVillaCoord {\n  villaNumber: string;\n  street: string;\n  lat: number;\n  lng: number;\n  positionSource: HiddPositionSource;\n  controlPlot: string | null;\n}\n\nexport const hiddVillaCoords: HiddVillaCoord[] = ${JSON.stringify(output, null, 2)};\n\nexport function findHiddCoord(villaNumber: string, street: string): HiddVillaCoord | undefined {\n  return hiddVillaCoords.find(c => c.villaNumber === villaNumber && c.street === street);\n}\n`;
+const outputTs = `/**\n * Hidd Al Saadiyat villa coordinates.\n * User controls take priority. Exact Yandex house-address matches are retained as a separately labeled source; all remaining points are calibrated from the preserved shape and controls.\n */\n\nexport type HiddPositionSource = "user_supplied_coordinate" | "yandex_exact_address_match" | "street_control_calibrated" | "shape_control_calibrated";\n\nexport interface HiddVillaCoord {\n  villaNumber: string;\n  street: string;\n  lat: number;\n  lng: number;\n  positionSource: HiddPositionSource;\n  controlPlot: string | null;\n}\n\nexport const hiddVillaCoords: HiddVillaCoord[] = ${JSON.stringify(output, null, 2)};\n\nexport function findHiddCoord(villaNumber: string, street: string): HiddVillaCoord | undefined {\n  return hiddVillaCoords.find(c => c.villaNumber === villaNumber && c.street === street);\n}\n`;
 writeFileSync(coordinatePath, outputTs);
 
 const report = {

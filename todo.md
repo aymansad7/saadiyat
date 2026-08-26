@@ -494,3 +494,15 @@
 - [x] Diagnose the clipped/non-clickable Master Admin account menu in the mobile header
 - [x] Keep the mobile account trigger and dropdown inside the viewport with an accessible hit target and dashboard access
 - [x] Verify the repaired header at a narrow 390×844 mobile viewport, run TypeScript, then publish
+
+### Hidd Al Saadiyat Yandex Location Reconciliation (Aug 25, 2026)
+- [x] Audit every current Hidd villa record, official user control, and existing coordinate source before changing any position
+- [x] Extract only Yandex locations that expose an unambiguous matching villa number and street address
+- [x] Apply 366 exact Yandex house-address matches with a distinct source label; retain 28 user-supplied controls as higher-priority sources
+- [x] Keep 50 unmatched/ambiguous and 17 out-of-envelope candidate addresses out of the map pending user confirmation instead of guessing
+- [x] Verify changed Hidd markers/cards, run regression tests, and publish a coverage report
+
+### Hidd Full Interactive Map Card (Aug 25, 2026)
+- [x] Show the complete documented Hidd villa card in the map popup: villa/street, location source, areas, sale/rental state and price where recorded
+- [x] Show documented owner and tenant identity/contact fields only for Master Admin or users with the matching explicit field grants
+- [x] Verify the popup has no hidden critical property details for authorized users and does not leak owner/tenant data to other roles

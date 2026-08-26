@@ -100,6 +100,13 @@ interface MapMarkerData {
   transactions?: PlotTransaction[];
   owner?: string;
   phone?: string;
+  ownerEmail?: string;
+  tenant?: string;
+  tenantPhone?: string;
+  tenantEmail?: string;
+  tenancyStart?: string;
+  tenancyEnd?: string;
+  tenancyContractReceived?: string;
   listing?: PFListing;
   villaKey?: string;
   detailHref?: string;
@@ -130,6 +137,21 @@ type HiddMapVilla = {
   plotAreaSqFt?: string;
   plotNumberAlJaber?: string;
   admPlotNumber?: string;
+  owner1Name?: string;
+  owner1Email?: string;
+  owner1Mobile?: string;
+  owner2Name?: string;
+  owner2Email?: string;
+  owner2Mobile?: string;
+  ownerRepName?: string;
+  ownerRepEmail?: string;
+  ownerRepMobile?: string;
+  tenantName?: string;
+  tenantEmail?: string;
+  tenantMobile?: string;
+  tenancyStart?: string;
+  tenancyEnd?: string;
+  tenancyContractReceived?: string;
 };
 
 const hiddVillas: HiddMapVilla[] = (Array.isArray(hiddDataRaw)
@@ -475,6 +497,8 @@ export function buildMarkers(): MapMarkerData[] {
     const hiddVilla = hiddVillas.find((villa) => String(villa.villaNumber) === hv.villaNumber && villa.street === hv.street);
     const sourceLabel = hv.positionSource === "user_supplied_coordinate"
       ? "User-supplied official control"
+      : hv.positionSource === "yandex_exact_address_match"
+        ? "Yandex exact house-address match"
       : hv.positionSource === "street_control_calibrated"
         ? "Street shape calibrated to official controls"
         : "Community shape calibrated to official controls";
@@ -491,6 +515,19 @@ export function buildMarkers(): MapMarkerData[] {
       builtUpSqft: parseHiddNumber(hiddVilla?.buaAreaSqFt),
       builtUpSqm,
       builtUpLabel: "BUA",
+      bedrooms: hiddVilla?.bedrooms?.replace(/\.0$/, "") || undefined,
+      unitType: hiddVilla?.villaType || undefined,
+      status: hiddVilla?.tenancyStart && !hiddVilla?.tenancyEnd ? "Occupied" : undefined,
+      developer: "Hidd Al Saadiyat",
+      owner: [hiddVilla?.owner1Name, hiddVilla?.owner2Name].filter(Boolean).join(" · ") || undefined,
+      phone: [hiddVilla?.owner1Mobile, hiddVilla?.owner2Mobile].filter(Boolean).join(" · ") || undefined,
+      ownerEmail: [hiddVilla?.owner1Email, hiddVilla?.owner2Email].filter(Boolean).join(" · ") || undefined,
+      tenant: hiddVilla?.tenantName || undefined,
+      tenantPhone: hiddVilla?.tenantMobile || undefined,
+      tenantEmail: hiddVilla?.tenantEmail || undefined,
+      tenancyStart: hiddVilla?.tenancyStart || undefined,
+      tenancyEnd: hiddVilla?.tenancyEnd || undefined,
+      tenancyContractReceived: hiddVilla?.tenancyContractReceived || undefined,
       villaKey: `hidd/${hv.villaNumber}/${hv.street}`,
       detailHref: `/hidd-al-saadiyat`,
       tableHref: `/hidd-al-saadiyat?view=table#villa-${hv.villaNumber}`,
@@ -614,8 +651,8 @@ export default function SaadiyatMap() {
 
   const createInfoContent = useCallback((m: MapMarkerData) => {
     const permissions = permissionsByProject.get(m.community);
-    const canViewOwner = user?.role === "admin" || user?.role === "master" ||
-      Boolean(permissions?.canViewOwnerName || permissions?.canViewOwnerPhone);
+    const canViewOwnerName = user?.role === "admin" || user?.role === "master" || Boolean(permissions?.canViewOwnerName);
+    const canViewOwnerPhone = user?.role === "admin" || user?.role === "master" || Boolean(permissions?.canViewOwnerPhone);
     const canViewOriginalPrice = user?.role === "admin" || user?.role === "master" ||
       Boolean(permissions?.canViewOriginalPrice);
     const canEdit = user?.role === "admin" || user?.role === "master" ||
@@ -729,14 +766,26 @@ export default function SaadiyatMap() {
       html += `</div>`;
     }
 
-    if (showOwners && canViewOwner && (m.owner || m.phone)) {
+    if (showOwners && (canViewOwnerName || canViewOwnerPhone) && (m.owner || m.phone || m.ownerEmail)) {
       html += `<div style="margin-top:6px;padding:6px;background:#f0f4f9;border-radius:4px;border:1px solid #d0dae8">`;
       html += `<div style="font-size:10px;color:#2563EB;font-weight:600;text-transform:uppercase">Owner Info</div>`;
-      if (m.owner) html += `<div style="font-size:13px;font-weight:600;margin-top:2px">${m.owner}</div>`;
-      if (m.phone) html += `<div style="font-size:12px;color:#555;margin-top:1px">${m.phone}</div>`;
+      if (canViewOwnerName && m.owner) html += `<div style="font-size:13px;font-weight:600;margin-top:2px">${m.owner}</div>`;
+      if (canViewOwnerPhone && m.phone) html += `<div style="font-size:12px;color:#555;margin-top:1px">${m.phone}</div>`;
+      if (canViewOwnerPhone && m.ownerEmail) html += `<div style="font-size:12px;color:#555;margin-top:1px;overflow-wrap:anywhere">${m.ownerEmail}</div>`;
       html += `</div>`;
-    } else if (showOwners && canViewOwner) {
+    } else if (showOwners && (canViewOwnerName || canViewOwnerPhone)) {
       html += `<div style="margin-top:6px;font-size:11px;color:#999;font-style:italic">Owner info not yet added</div>`;
+    }
+
+    if (showOwners && (canViewOwnerName || canViewOwnerPhone) && (m.tenant || m.tenantPhone || m.tenantEmail || m.tenancyStart || m.tenancyEnd)) {
+      html += `<div style="margin-top:6px;padding:6px;background:#fef9ec;border-radius:4px;border:1px solid #f5d58b">`;
+      html += `<div style="font-size:10px;color:#9a6700;font-weight:600;text-transform:uppercase">Tenant & Tenancy</div>`;
+      if (canViewOwnerName && m.tenant) html += `<div style="font-size:13px;font-weight:600;margin-top:2px">${m.tenant}</div>`;
+      if (canViewOwnerPhone && m.tenantPhone) html += `<div style="font-size:12px;color:#555;margin-top:1px">${m.tenantPhone}</div>`;
+      if (canViewOwnerPhone && m.tenantEmail) html += `<div style="font-size:12px;color:#555;margin-top:1px;overflow-wrap:anywhere">${m.tenantEmail}</div>`;
+      if (canViewOwnerName && (m.tenancyStart || m.tenancyEnd)) html += `<div style="font-size:11px;color:#555;margin-top:3px">Tenancy: ${m.tenancyStart ?? "—"} → ${m.tenancyEnd ?? "—"}</div>`;
+      if (canViewOwnerName && m.tenancyContractReceived) html += `<div style="font-size:11px;color:#555;margin-top:1px">Contract: ${m.tenancyContractReceived}</div>`;
+      html += `</div>`;
     }
 
     // Full Details, editing, and table navigation
@@ -936,7 +985,7 @@ export default function SaadiyatMap() {
               className="text-xs h-7 bg-background/90 backdrop-blur-sm shadow-md"
             >
               {showOwners ? <EyeOff className="h-3 w-3 mr-1" /> : <Eye className="h-3 w-3 mr-1" />}
-              {showOwners ? "Hide" : "Owners"}
+              {showOwners ? "Hide" : "Owner & Tenant"}
             </Button>
           </div>
         </div>
