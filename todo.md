@@ -568,9 +568,9 @@
 ### DCR Phase Grouping by SL Type (Aug 26, 2026)
 - [x] Inventory every currently stored DCR record: explicit source evidence exists only for SL9, SL10, and SL13; Private Owners VIP and Building Plots SDW4 contain no SL designation
 - [x] Create source-confirmed Lagoons groups from Aldar card codes: SL2, SL3, SL4, SL5, SL7, and SL8; retain Private Owners VIP and Building Plots SDW4 as their own ungrouped DCR communities
-- [ ] Give each phase group Cards/Table views and direct map/detail/DCR links, displaying its documented type rather than an assumed type
-- [ ] Add navigation/search and regression tests for phase membership, source labels, map markers, and no-invented phase rules
-- [ ] Verify full flows and publish
+- [x] Give each phase group Cards/Table views and direct map/detail/DCR links where an individual DCR source is registered, displaying its documented type rather than an assumed type
+- [x] Add navigation/search and regression tests for phase membership, source labels, map markers, and no-invented phase rules
+- [x] Verify full flows on the mobile Lagoons page, TypeScript, and 231 tests before publishing
 
 ### Lagoons SL Groups from Unit Card Codes (Aug 26, 2026)
 - [x] Audit Lagoons card codes and fields to identify the source-backed SL phase and villa type for every unit

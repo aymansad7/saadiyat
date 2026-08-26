@@ -28,6 +28,12 @@ const ALL_PROJECTS = [
   { name: "Saadiyat Lagoons · Hidden Phase SL9", href: "/lagoons-hidden-sl9" },
   { name: "Saadiyat Lagoons · Hidden Phase SL10", href: "/lagoons-hidden-sl10" },
   { name: "Saadiyat Lagoons · Phase SL13", href: "/lagoons-sl13" },
+  { name: "Saadiyat Lagoons · SL2 · Ethir", href: "/saadiyat-lagoons/sl2" },
+  { name: "Saadiyat Lagoons · SL3 · Al Sidr", href: "/saadiyat-lagoons/sl3" },
+  { name: "Saadiyat Lagoons · SL4 · Al Ghaf", href: "/saadiyat-lagoons/sl4" },
+  { name: "Saadiyat Lagoons · SL5 · Al Sidr", href: "/saadiyat-lagoons/sl5" },
+  { name: "Saadiyat Lagoons · SL7 · Al Ghaf", href: "/saadiyat-lagoons/sl7" },
+  { name: "Saadiyat Lagoons · SL8 · Al Ghaf", href: "/saadiyat-lagoons/sl8" },
   { name: "A Huge Plot Between Four Seasons and Omniyat", href: "/community/huge-plot-four-seasons-omniyat" },
   { name: "St. Regis Villas", href: "/st-regis" },
   { name: "Saadiyat Beach Villas", href: "/saadiyat-beach-villas" },
@@ -250,6 +256,20 @@ export default function SiteHeader({ subTitle, back }: Props) {
                   <span className="text-[0.65rem] font-mono text-primary border border-primary/40 px-1 rounded-sm">1549</span>
                 </Link>
               </DropdownMenuItem>
+              <DropdownMenuLabel className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">
+                Lagoons SL groups
+              </DropdownMenuLabel>
+              {[
+                ["SL2", "Ethir"], ["SL3", "Al Sidr"], ["SL4", "Al Ghaf"],
+                ["SL5", "Al Sidr"], ["SL7", "Al Ghaf"], ["SL8", "Al Ghaf"],
+              ].map(([phase, cluster]) => (
+                <DropdownMenuItem key={phase} asChild>
+                  <Link href={`/saadiyat-lagoons/${phase.toLowerCase()}`} className="flex items-center justify-between w-full">
+                    <span className="font-display text-sm">{phase} · {cluster}</span>
+                    <span className="text-[0.65rem] font-mono text-muted-foreground border border-border px-1 rounded-sm">GROUP</span>
+                  </Link>
+                </DropdownMenuItem>
+              ))}
               <DropdownMenuItem asChild>
                 <Link href="/community/saadiyat-golf-views" className="flex items-center justify-between w-full">
                   <span className="font-display text-sm">Golf Views</span>
