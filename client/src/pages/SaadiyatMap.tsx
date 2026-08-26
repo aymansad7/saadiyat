@@ -657,6 +657,8 @@ export default function SaadiyatMap() {
   const markersRef = useRef<google.maps.marker.AdvancedMarkerElement[]>([]);
   const clustererRef = useRef<MarkerClusterer | null>(null);
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
+  const mapClickListenerRef = useRef<google.maps.MapsEventListener | null>(null);
+  const infoCloseListenerRef = useRef<google.maps.MapsEventListener | null>(null);
   const [showOwners, setShowOwners] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [baseMarkerData] = useState<MapMarkerData[]>(() => buildMarkers());
@@ -882,7 +884,22 @@ export default function SaadiyatMap() {
 
   const handleMapReady = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
+    mapClickListenerRef.current?.remove();
+    infoCloseListenerRef.current?.remove();
+    infoWindowRef.current?.close();
     infoWindowRef.current = new google.maps.InfoWindow();
+    const clearPlotDeepLink = () => {
+      const url = new URL(window.location.href);
+      if (!url.searchParams.has("plot")) return;
+      url.searchParams.delete("plot");
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    };
+    const dismissInfoWindow = () => {
+      infoWindowRef.current?.close();
+      clearPlotDeepLink();
+    };
+    mapClickListenerRef.current = map.addListener("click", dismissInfoWindow);
+    infoCloseListenerRef.current = infoWindowRef.current.addListener("closeclick", clearPlotDeepLink);
     const openInfoWindow = (data: MapMarkerData, marker: google.maps.marker.AdvancedMarkerElement) => {
       infoWindowRef.current!.setContent(createInfoContent(data));
       infoWindowRef.current!.open(map, marker);
@@ -950,6 +967,12 @@ export default function SaadiyatMap() {
       }
     }
   }, [markerData, createInfoContent, plotParam]);
+
+  useEffect(() => () => {
+    mapClickListenerRef.current?.remove();
+    infoCloseListenerRef.current?.remove();
+    infoWindowRef.current?.close();
+  }, []);
 
   const toggleSatellite = () => {
     if (!mapRef.current) return;

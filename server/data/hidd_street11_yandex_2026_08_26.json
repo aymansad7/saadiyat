@@ -1,0 +1,387 @@
+{
+  "source": "User-requested Street 11 Yandex reconciliation",
+  "generatedAt": "2026-08-26T17:27:07.616Z",
+  "rule": "Only completed high-confidence exact villa-number + 11 Street matches are accepted.",
+  "accepted": [
+    {
+      "villaNumber": "1",
+      "street": "11",
+      "latitude": 24.571004,
+      "longitude": 54.463814,
+      "returnedAddress": "1, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgFjQUQDQFxufXl2cHxjYA==/",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "2",
+      "street": "11",
+      "latitude": 24.570922,
+      "longitude": 54.464029,
+      "returnedAddress": "2, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=2%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "4",
+      "street": "11",
+      "latitude": 24.570823,
+      "longitude": 54.46438,
+      "returnedAddress": "4, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgFkSk0HQFxufXl2cXRhZw==/?ll=54.464380%2C24.570824&z=16",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "5",
+      "street": "11",
+      "latitude": 24.570117,
+      "longitude": 54.464568,
+      "returnedAddress": "5, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgFkTEMPQFxufXl2cX1iYw==/?ll=54.464569%2C24.570117&z=16",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "6",
+      "street": "11",
+      "latitude": 24.570766,
+      "longitude": 54.464622,
+      "returnedAddress": "6, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/103126/abu-dhabi/?text=6%2C%2011%20Street%2C%20Saadiyat%20Island%20North%2C%20Abu%20Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "7",
+      "street": "11",
+      "latitude": 24.570109,
+      "longitude": 54.464757,
+      "returnedAddress": "7, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=7%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "8",
+      "street": "11",
+      "latitude": 24.570832,
+      "longitude": 54.464856,
+      "returnedAddress": "8, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=8%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "9",
+      "street": "11",
+      "latitude": 24.570068,
+      "longitude": 54.464963,
+      "returnedAddress": "9, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgFkQEMEQFxufXl2cXxlbA==/?ll=54.464963%2C24.570068&z=16",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "10",
+      "street": "11",
+      "latitude": 24.570791,
+      "longitude": 54.465062,
+      "returnedAddress": "10, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=10%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "11",
+      "street": "11",
+      "latitude": 24.570026,
+      "longitude": 54.46517,
+      "returnedAddress": "11, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=11%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "12",
+      "street": "11",
+      "latitude": 24.570749,
+      "longitude": 54.46526,
+      "returnedAddress": "12, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgFlS0MHQFxufXl2cXtnbQ==/?ll=54.465260%2C24.570750&z=16",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "13",
+      "street": "11",
+      "latitude": 24.569985,
+      "longitude": 54.465368,
+      "returnedAddress": "13, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=13%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "14",
+      "street": "11",
+      "latitude": 24.569764,
+      "longitude": 54.465853,
+      "returnedAddress": "14, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=14%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "16",
+      "street": "11",
+      "latitude": 24.570183,
+      "longitude": 54.46588,
+      "returnedAddress": "16, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=16%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "17",
+      "street": "11",
+      "latitude": 24.57038,
+      "longitude": 54.465889,
+      "returnedAddress": "17, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=17%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "18",
+      "street": "11",
+      "latitude": 24.570577,
+      "longitude": 54.465898,
+      "returnedAddress": "18, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=18%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "19",
+      "street": "11",
+      "latitude": 24.570766,
+      "longitude": 54.465898,
+      "returnedAddress": "19, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=19%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "20",
+      "street": "11",
+      "latitude": 24.571218,
+      "longitude": 54.465125,
+      "returnedAddress": "20, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=20%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "21",
+      "street": "11",
+      "latitude": 24.571078,
+      "longitude": 54.465916,
+      "returnedAddress": "21, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=21%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "22",
+      "street": "11",
+      "latitude": 24.571398,
+      "longitude": 54.465179,
+      "returnedAddress": "22, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=22%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "23",
+      "street": "11",
+      "latitude": 24.571283,
+      "longitude": 54.465997,
+      "returnedAddress": "23, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgFlQEwAQFxufXl2cH5rZw==/?ll=54.465997%2C24.571284&z=16",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "24",
+      "street": "11",
+      "latitude": 24.571587,
+      "longitude": 54.465233,
+      "returnedAddress": "24, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=24%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "25",
+      "street": "11",
+      "latitude": 24.571472,
+      "longitude": 54.46605,
+      "returnedAddress": "25, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=25%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "26",
+      "street": "11",
+      "latitude": 24.571768,
+      "longitude": 54.465278,
+      "returnedAddress": "26, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?text=26%2C+11+Street%2C+Saadiyat+Island+North%2C+Abu+Dhabi",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "27",
+      "street": "11",
+      "latitude": 24.571661,
+      "longitude": 54.466104,
+      "returnedAddress": "27, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgFmSEUDQFxufXl2cHplZQ==/",
+      "displacementMetersFromPriorCalibration": null
+    },
+    {
+      "villaNumber": "28",
+      "street": "11",
+      "latitude": 24.571965,
+      "longitude": 54.465341,
+      "returnedAddress": "28, 11 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgFlSkEGQFxufXl2cHVlYQ==/?ll=54.465341%2C24.571966&z=16",
+      "displacementMetersFromPriorCalibration": null
+    }
+  ],
+  "skipped": [
+    {
+      "villaNumber": "3",
+      "reason": "Found exact match for Villa 3 on 11 Street in Yandex Maps."
+    },
+    {
+      "villaNumber": "15",
+      "reason": "Exact match found for Villa 15, 11 Street in Saadiyat Island North."
+    },
+    {
+      "villaNumber": "29",
+      "reason": "The search for '29, 11 Street' returned '27, 11 Street', meaning no exact match for Villa 29 was found."
+    },
+    {
+      "villaNumber": "30",
+      "reason": "Yandex returned 28, 11 Street instead of the requested 30, 11 Street."
+    },
+    {
+      "villaNumber": "33",
+      "reason": "Search for 33 returned 27 instead."
+    },
+    {
+      "villaNumber": "34",
+      "reason": "Yandex returned 28, 11 Street instead of 34, 11 Street, meaning there is no exact match for Villa 34."
+    },
+    {
+      "villaNumber": "36",
+      "reason": "The search for villa 36 returned villa 28, so there is no exact match for villa 36."
+    },
+    {
+      "villaNumber": "37",
+      "reason": "Yandex Maps returned '27, 11 Street' instead of the exact requested villa '37'."
+    },
+    {
+      "villaNumber": "38",
+      "reason": "Found address 28 instead of 38."
+    },
+    {
+      "villaNumber": "39",
+      "reason": "Yandex returned the street \"11 Street\" instead of a specific house/villa matching number 39."
+    },
+    {
+      "villaNumber": "41",
+      "reason": "The search for \"41, 11 Street, Saadiyat Island North, Abu Dhabi\" returned only \"11 Street\" without the specific villa number 41."
+    },
+    {
+      "villaNumber": "43",
+      "reason": "لم يتم العثور على نتيجة دقيقة تطابق رقم الفيلا 43 صراحةً، بل تم توجيه البحث إلى شارع 11 فقط."
+    },
+    {
+      "villaNumber": "44",
+      "reason": "لم يتم العثور على نتيجة تطابق رقم الفيلا 44، فقط تم العثور على الشارع 11 Street."
+    },
+    {
+      "villaNumber": "45",
+      "reason": "Yandex Maps did not return an exact match for villa 45, it only returned the general street address."
+    },
+    {
+      "villaNumber": "46",
+      "reason": "The search result did not return a specific house with number 46, only the general '11 Street' was found."
+    },
+    {
+      "villaNumber": "47 & 49",
+      "reason": "Yandex returned only '11 Street' without the villa numbers 47 & 49, so it is not an exact match."
+    },
+    {
+      "villaNumber": "50",
+      "reason": "The Yandex Maps result shows \"11 Street\" without the specific villa number 50."
+    },
+    {
+      "villaNumber": "51",
+      "reason": "Yandex only shows \"11 Street\" and does not have an exact house page for Villa 51."
+    },
+    {
+      "villaNumber": "52",
+      "reason": "No explicit match found for villa 52 on 11 Street. The result returned is just for '11 Street' without the villa number."
+    },
+    {
+      "villaNumber": "53",
+      "reason": "No exact match found for Villa 53 on 11 Street, Saadiyat Island North in Yandex Maps."
+    },
+    {
+      "villaNumber": "55",
+      "reason": "Yandex Maps search for '55, 11 Street, Saadiyat Island North, Abu Dhabi' did not return an explicit match for the villa number."
+    },
+    {
+      "villaNumber": "56",
+      "reason": "The search result returned \"11 Street\" without the specific villa number 56."
+    },
+    {
+      "villaNumber": "58",
+      "reason": "Could not find exact match for Villa 58 on 11 Street in Yandex Maps."
+    },
+    {
+      "villaNumber": "59",
+      "reason": "No exact match for Villa 59 found on Yandex Maps; it only points to the street."
+    },
+    {
+      "villaNumber": "60",
+      "reason": "Yandex Maps returned only the street \"11 Street\", not the exact villa number 60."
+    },
+    {
+      "villaNumber": "61",
+      "reason": "No exact match found for villa 61; Yandex only returned the general 11 Street."
+    },
+    {
+      "villaNumber": "63",
+      "reason": "The result only shows '11 Street' without the specific villa number '63'."
+    },
+    {
+      "villaNumber": "31",
+      "reason": "Yandex lookup did not return a complete result; skipped by user instruction."
+    },
+    {
+      "villaNumber": "32",
+      "reason": "Yandex lookup did not return a complete result; skipped by user instruction."
+    },
+    {
+      "villaNumber": "35",
+      "reason": "Yandex lookup did not return a complete result; skipped by user instruction."
+    },
+    {
+      "villaNumber": "40",
+      "reason": "Yandex lookup did not return a complete result; skipped by user instruction."
+    },
+    {
+      "villaNumber": "42",
+      "reason": "Yandex lookup did not return a complete result; skipped by user instruction."
+    },
+    {
+      "villaNumber": "48",
+      "reason": "Yandex lookup did not return a complete result; skipped by user instruction."
+    },
+    {
+      "villaNumber": "54",
+      "reason": "Yandex lookup did not return a complete result; skipped by user instruction."
+    },
+    {
+      "villaNumber": "57",
+      "reason": "Yandex lookup did not return a complete result; skipped by user instruction."
+    },
+    {
+      "villaNumber": "62",
+      "reason": "Yandex lookup did not return a complete result; skipped by user instruction."
+    }
+  ]
+}

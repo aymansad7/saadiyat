@@ -613,3 +613,18 @@
 - [x] Ensure every external card links to its exact map marker and every map card links to the exact external unit card
 - [x] Add regression coverage that fails when a community loses a documented core field or exact bidirectional link
 - [x] Verify representative source contracts for Lagoons, Hidd, St. Regis, Jawaher, SBV, Golf Views, Four Seasons, Reserve, Nudra, and DCR-only communities
+
+### Map Card Outside-Click and Ethir Published-State Fix (Aug 26, 2026)
+- [x] Close the active Google Maps InfoWindow immediately when the user taps/clicks empty map space outside the card
+- [x] Clear the selected `plot` deep-link state when a card is dismissed without interfering with marker clicks or card buttons
+- [x] Recheck the published Ethir bedroom counters and loading flow using the same data path used by the live page
+- [x] Add regression coverage for outside-click dismissal and the published Ethir counts/loading state
+- [x] Verify the mobile map shell, TypeScript, and 254 full tests before publishing
+
+### Hidd Street 11 Full Yandex Reconciliation (Aug 26, 2026)
+- [x] Register the supplied Yandex links for Villa 1 and Villa 27 on Street 11 as direct source controls
+- [x] Enumerate every Street 11 villa key in the Hidd registry and query its Yandex house address independently
+- [x] Replace incorrect calibrated Street 11 positions for 26 completed exact matches while preserving unrelated Hidd controls
+- [x] Verify the accepted sea-facing Street 11 sequence and exact Villa 27 deep link on the Interactive Map; keep unresolved positions labelled calibrated
+- [x] Add regression coverage, run TypeScript and 254 full tests, and publish
+- [x] Accept only completed high-confidence Yandex matches from the batch; skip 36 failed, incomplete, medium-confidence, or conflicting results without delaying publication

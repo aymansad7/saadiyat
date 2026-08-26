@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { hiddVillaCoords } from "../client/src/data/hiddCoordinates";
+import street11Audit from "./data/hidd_street11_yandex_2026_08_26.json";
 
 const directControls = new Map<string, { lat: number; lng: number }>([
   ["2|20", { lat: 24.567808, lng: 54.458334 }],
@@ -34,5 +35,18 @@ describe("Hidd Al Saadiyat control-calibrated coordinates", () => {
     expect(hiddVillaCoords.filter((item) => item.positionSource === "yandex_exact_address_match")).toHaveLength(378);
     expect(hiddVillaCoords.every((item) => ["user_supplied_coordinate", "yandex_exact_address_match", "street_control_calibrated", "shape_control_calibrated"].includes(item.positionSource))).toBe(true);
     expect(hiddVillaCoords.filter((item) => item.positionSource !== "user_supplied_coordinate").every((item) => item.controlPlot === null)).toBe(true);
+  });
+
+  it("uses only completed high-confidence Street 11 matches and skips incomplete lookups", () => {
+    expect(street11Audit.accepted).toHaveLength(26);
+    expect(street11Audit.skipped).toHaveLength(36);
+    expect(street11Audit.accepted.every((item) => item.street === "11" && item.returnedAddress.startsWith(`${item.villaNumber}, 11 Street`))).toBe(true);
+
+    const villa27 = hiddVillaCoords.find((item) => item.street === "11" && item.villaNumber === "27");
+    expect(villa27).toMatchObject({
+      lat: 24.571661,
+      lng: 54.466104,
+      positionSource: "yandex_exact_address_match",
+    });
   });
 });
