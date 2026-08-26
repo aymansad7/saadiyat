@@ -9,7 +9,7 @@ const match = source.match(/hiddVillaCoords:\s*HiddVillaCoord\[\]\s*=\s*(\[[\s\S
 if (!match) throw new Error("Could not locate hiddVillaCoords array");
 
 const coordinates = JSON.parse(match[1]);
-const inputs = coordinates.map(({ villaNumber, street }) => ({
+const inputs = coordinates.filter(({ positionSource }) => !["user_supplied_coordinate", "yandex_exact_address_match"].includes(positionSource)).map(({ villaNumber, street }) => ({
   key: `${villaNumber}|${street}`,
   query: `${villaNumber}, ${street === "BOULEVARD" ? "Al Dhiba Street" : `${street} Street`}, Saadiyat Island`,
 }));

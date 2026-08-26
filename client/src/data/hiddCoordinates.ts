@@ -34,9 +34,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "117",
     "street": "BOULEVARD",
-    "lat": 24.585734559239413,
-    "lng": 54.475349484358766,
-    "positionSource": "street_control_calibrated",
+    "lat": 24.586345,
+    "lng": 54.47498,
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
@@ -82,9 +82,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "123",
     "street": "BOULEVARD",
-    "lat": 24.585181530587196,
-    "lng": 54.47433692881032,
-    "positionSource": "street_control_calibrated",
+    "lat": 24.584537,
+    "lng": 54.473476,
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
@@ -162,8 +162,8 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "90",
     "street": "BOULEVARD",
-    "lat": 24.58270469005763,
-    "lng": 54.47228733929177,
+    "lat": 24.582424563992504,
+    "lng": 54.4721489950301,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
@@ -210,24 +210,24 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "77",
     "street": "BOULEVARD",
-    "lat": 24.581664389168623,
-    "lng": 54.47094945647911,
+    "lat": 24.58033503185436,
+    "lng": 54.470877455610704,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "79",
     "street": "BOULEVARD",
-    "lat": 24.581676454896787,
-    "lng": 54.47115150042985,
+    "lat": 24.58055855157795,
+    "lng": 54.471064981713965,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "81",
     "street": "BOULEVARD",
-    "lat": 24.581683950412938,
-    "lng": 54.47135183079044,
+    "lat": 24.580782071301513,
+    "lng": 54.471252507817226,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
@@ -258,9 +258,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "105",
     "street": "BOULEVARD",
-    "lat": 24.583359358985795,
-    "lng": 54.473945070948105,
-    "positionSource": "street_control_calibrated",
+    "lat": 24.583158,
+    "lng": 54.473571,
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
@@ -274,9 +274,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "107",
     "street": "BOULEVARD",
-    "lat": 24.583414754906304,
-    "lng": 54.4741507624767,
-    "positionSource": "street_control_calibrated",
+    "lat": 24.583628,
+    "lng": 54.474376,
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
@@ -426,32 +426,32 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "86",
     "street": "BOULEVARD",
-    "lat": 24.582113184549044,
-    "lng": 54.47185938577702,
+    "lat": 24.58197752454538,
+    "lng": 54.47177394282358,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "88",
     "street": "BOULEVARD",
-    "lat": 24.58238029442522,
-    "lng": 54.47207051589725,
+    "lat": 24.582201044268942,
+    "lng": 54.47196146892684,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "47",
     "street": "BOULEVARD",
-    "lat": 24.577770128282726,
-    "lng": 54.467769889392116,
+    "lat": 24.5769822360009,
+    "lng": 54.4680645640618,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "49",
     "street": "BOULEVARD",
-    "lat": 24.5780933369618,
-    "lng": 54.46802838977508,
+    "lat": 24.577205755724435,
+    "lng": 54.46825209016506,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
@@ -482,9 +482,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "57",
     "street": "11",
-    "lat": 24.57556350370452,
-    "lng": 54.469421320854565,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.57027677714595,
+    "lng": 54.47018176280508,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
@@ -498,17 +498,17 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "58",
     "street": "11",
-    "lat": 24.575846109067754,
-    "lng": 54.46956314882349,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570194777225474,
+    "lng": 54.47039675168031,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "59",
     "street": "11",
-    "lat": 24.575681884836513,
-    "lng": 54.46964268249888,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570250332676796,
+    "lng": 54.470413317598144,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
@@ -522,17 +522,17 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "60",
     "street": "11",
-    "lat": 24.575969573653335,
-    "lng": 54.46978414323131,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570168332756325,
+    "lng": 54.47062830647339,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "61",
     "street": "11",
-    "lat": 24.57580256561081,
-    "lng": 54.46986378709124,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570223888207643,
+    "lng": 54.47064487239122,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
@@ -546,17 +546,17 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "62",
     "street": "11",
-    "lat": 24.576095185440646,
-    "lng": 54.47000488940656,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.57014188828717,
+    "lng": 54.47085986126645,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "63",
     "street": "11",
-    "lat": 24.575925184520326,
-    "lng": 54.470084602552554,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570197443738493,
+    "lng": 54.47087642718428,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
@@ -596,7 +596,7 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
     "street": "BOULEVARD",
     "lat": 24.579581,
     "lng": 54.470641,
-    "positionSource": "yandex_exact_address_match",
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
@@ -604,7 +604,7 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
     "street": "BOULEVARD",
     "lat": 24.579737,
     "lng": 54.470785,
-    "positionSource": "yandex_exact_address_match",
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
@@ -674,8 +674,8 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "50",
     "street": "BOULEVARD",
-    "lat": 24.578337055159697,
-    "lng": 54.46814936034404,
+    "lat": 24.577954169521178,
+    "lng": 54.4683984729649,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
@@ -746,9 +746,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "47 & 49",
     "street": "11",
-    "lat": 24.57506821750598,
-    "lng": 54.46842244535913,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.57039577725713,
+    "lng": 54.46913976623627,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
@@ -796,7 +796,7 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
     "street": "11",
     "lat": 24.570766,
     "lng": 54.465898,
-    "positionSource": "yandex_exact_address_match",
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
@@ -834,97 +834,97 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "29",
     "street": "11",
-    "lat": 24.574319621494297,
-    "lng": 54.46640698824908,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570633777479493,
+    "lng": 54.467055773098664,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "30",
     "street": "11",
-    "lat": 24.574539694841175,
-    "lng": 54.46655487159904,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570551777559018,
+    "lng": 54.46727076197391,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "31",
     "street": "11",
-    "lat": 24.57438603461795,
-    "lng": 54.466632428265946,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570607333010344,
+    "lng": 54.467287327891725,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "32",
     "street": "11",
-    "lat": 24.574609329447096,
-    "lng": 54.46678004874558,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.57052533308987,
+    "lng": 54.46750231676697,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "33",
     "street": "11",
-    "lat": 24.574456478130717,
-    "lng": 54.46685749029412,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.57058088854119,
+    "lng": 54.4675188826848,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "35",
     "street": "11",
-    "lat": 24.574531070547657,
-    "lng": 54.467082154771596,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570554444072037,
+    "lng": 54.467750437477875,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "37",
     "street": "11",
-    "lat": 24.574609902469263,
-    "lng": 54.467306419017135,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570527999602888,
+    "lng": 54.467981992270936,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "39",
     "street": "11",
-    "lat": 24.57469303124583,
-    "lng": 54.46753029461886,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.57050155513374,
+    "lng": 54.46821354706401,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "41",
     "street": "11",
-    "lat": 24.574780475675798,
-    "lng": 54.467753804140436,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570475110664585,
+    "lng": 54.46844510185707,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "43",
     "street": "11",
-    "lat": 24.574872211126813,
-    "lng": 54.46797697732762,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570448666195432,
+    "lng": 54.46867665665013,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "45",
     "street": "11",
-    "lat": 24.574968165621772,
-    "lng": 54.46819984706176,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570422221726282,
+    "lng": 54.46890821144321,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "51",
     "street": "11",
-    "lat": 24.57522558960785,
-    "lng": 54.468755892089206,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.5703561105534,
+    "lng": 54.46948709842587,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
@@ -1170,113 +1170,113 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "34",
     "street": "11",
-    "lat": 24.57468328553898,
-    "lng": 54.46700475651857,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570498888620715,
+    "lng": 54.46773387156004,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "36",
     "street": "11",
-    "lat": 24.574761684111937,
-    "lng": 54.46722899344769,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570472444151566,
+    "lng": 54.4679654263531,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "38",
     "street": "11",
-    "lat": 24.57484461151057,
-    "lng": 54.467452775894614,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570445999682413,
+    "lng": 54.468196981146164,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "40",
     "street": "11",
-    "lat": 24.574932113279193,
-    "lng": 54.46767613447569,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570419555213263,
+    "lng": 54.46842853593924,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "42",
     "street": "11",
-    "lat": 24.57502418812029,
-    "lng": 54.467899109767124,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.57039311074411,
+    "lng": 54.4686600907323,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "44",
     "street": "11",
-    "lat": 24.57512078256856,
-    "lng": 54.468121747537566,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.57036666627496,
+    "lng": 54.468891645525375,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "46",
     "street": "11",
-    "lat": 24.575221787190316,
-    "lng": 54.46834409384035,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570340221805807,
+    "lng": 54.469123200318435,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "48",
     "street": "11",
-    "lat": 24.575327035165653,
-    "lng": 54.468566190365124,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570313777336654,
+    "lng": 54.46935475511151,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "50",
     "street": "11",
-    "lat": 24.575381182926556,
-    "lng": 54.46867715579834,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.57030055510208,
+    "lng": 54.46947053250804,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "52",
     "street": "11",
-    "lat": 24.57549236252934,
-    "lng": 54.468898936759956,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.57027411063293,
+    "lng": 54.469702087301116,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "53",
     "street": "11",
-    "lat": 24.575335031755976,
-    "lng": 54.46897791531629,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570329666084252,
+    "lng": 54.46971865321895,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "54",
     "street": "11",
-    "lat": 24.57560713654563,
-    "lng": 54.46912052966339,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570247666163777,
+    "lng": 54.469933642094176,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "55",
     "street": "11",
-    "lat": 24.575447773984234,
-    "lng": 54.46919972665083,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.5703032216151,
+    "lng": 54.46995020801201,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "56",
     "street": "11",
-    "lat": 24.57572517186192,
-    "lng": 54.4693419370954,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570221221694624,
+    "lng": 54.47016519688725,
+    "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
@@ -1306,8 +1306,8 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "25",
     "street": "BOULEVARD",
-    "lat": 24.5777117802995,
-    "lng": 54.46548776831231,
+    "lat": 24.574523519041662,
+    "lng": 54.46600177692594,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
@@ -1548,7 +1548,7 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
     "street": "11",
     "lat": 24.571004,
     "lng": 54.463814,
-    "positionSource": "yandex_exact_address_match",
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
@@ -1556,7 +1556,7 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
     "street": "11",
     "lat": 24.570922,
     "lng": 54.464029,
-    "positionSource": "yandex_exact_address_match",
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
@@ -1626,17 +1626,17 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "12",
     "street": "11",
-    "lat": 24.574077512239207,
-    "lng": 54.464517957358765,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.570749,
+    "lng": 54.46526,
+    "positionSource": "yandex_exact_address_match",
     "controlPlot": null
   },
   {
     "villaNumber": "13",
     "street": "11",
-    "lat": 24.57391382186335,
-    "lng": 54.464598398887496,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.569985,
+    "lng": 54.465368,
+    "positionSource": "yandex_exact_address_match",
     "controlPlot": null
   },
   {
@@ -1890,9 +1890,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "10",
     "street": "5",
-    "lat": 24.567539671761892,
-    "lng": 54.46182867408356,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.567677,
+    "lng": 54.462646,
+    "positionSource": "yandex_exact_address_match",
     "controlPlot": null
   },
   {
@@ -2210,8 +2210,8 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "22",
     "street": "7",
-    "lat": 24.568522656735187,
-    "lng": 54.464308573487706,
+    "lat": 24.568492081294323,
+    "lng": 54.464429691290576,
     "positionSource": "shape_control_calibrated",
     "controlPlot": null
   },
@@ -2418,9 +2418,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "25",
     "street": "6",
-    "lat": 24.569328412829506,
-    "lng": 54.46035062573273,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.569525,
+    "lng": 54.45943,
+    "positionSource": "yandex_exact_address_match",
     "controlPlot": null
   },
   {
@@ -2818,9 +2818,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "18",
     "street": "8",
-    "lat": 24.570042978312802,
-    "lng": 54.461087876877194,
-    "positionSource": "shape_control_calibrated",
+    "lat": 24.569731,
+    "lng": 54.460948,
+    "positionSource": "yandex_exact_address_match",
     "controlPlot": null
   },
   {
@@ -3210,9 +3210,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "19",
     "street": "4",
-    "lat": 24.568718273784402,
-    "lng": 54.459660527254286,
-    "positionSource": "street_control_calibrated",
+    "lat": 24.568687,
+    "lng": 54.459681,
+    "positionSource": "yandex_exact_address_match",
     "controlPlot": null
   },
   {
@@ -3434,73 +3434,73 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "3",
     "street": "1",
-    "lat": 24.566586323459934,
-    "lng": 54.46030048977219,
+    "lat": 24.56654118457204,
+    "lng": 54.46017967330832,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "4",
     "street": "1",
-    "lat": 24.566566728535236,
-    "lng": 54.460472100473616,
+    "lat": 24.566597585621246,
+    "lng": 54.460458917432945,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "5",
     "street": "1",
-    "lat": 24.566470807625382,
-    "lng": 54.4604703811548,
+    "lat": 24.566425295421993,
+    "lng": 54.46035082724916,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "6",
     "street": "1",
-    "lat": 24.566451212700684,
-    "lng": 54.46064199185623,
+    "lat": 24.566481696471204,
+    "lng": 54.460630071373785,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "7",
     "street": "1",
-    "lat": 24.56635529179083,
-    "lng": 54.46064027253741,
+    "lat": 24.56630940627195,
+    "lng": 54.460521981189984,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "8",
     "street": "1",
-    "lat": 24.566335696866137,
-    "lng": 54.46081188323883,
+    "lat": 24.566365807321166,
+    "lng": 54.46080122531461,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "9",
     "street": "1",
-    "lat": 24.566239775956284,
-    "lng": 54.460810163920016,
+    "lat": 24.566193517121913,
+    "lng": 54.46069313513081,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "10",
     "street": "1",
-    "lat": 24.566220181031586,
-    "lng": 54.460981774621445,
-    "positionSource": "street_control_calibrated",
+    "lat": 24.566338,
+    "lng": 54.460948,
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
     "villaNumber": "11",
     "street": "1",
-    "lat": 24.566124260121732,
-    "lng": 54.46098005530263,
-    "positionSource": "street_control_calibrated",
+    "lat": 24.565984,
+    "lng": 54.460634,
+    "positionSource": "user_supplied_coordinate",
     "controlPlot": null
   },
   {
@@ -3522,64 +3522,64 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "14",
     "street": "1",
-    "lat": 24.565989149362487,
-    "lng": 54.46132155738666,
+    "lat": 24.566018139871044,
+    "lng": 54.461314687137104,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "15",
     "street": "1",
-    "lat": 24.565893228452634,
-    "lng": 54.461319838067844,
+    "lat": 24.565845849671792,
+    "lng": 54.4612065969533,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "16",
     "street": "1",
-    "lat": 24.56587363352794,
-    "lng": 54.46149144876927,
+    "lat": 24.565902250721003,
+    "lng": 54.461485841077945,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "17",
     "street": "1",
-    "lat": 24.565777712618086,
-    "lng": 54.461489729450456,
+    "lat": 24.56572996052175,
+    "lng": 54.461377750894144,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "18",
     "street": "1",
-    "lat": 24.565758117693388,
-    "lng": 54.46166134015188,
-    "positionSource": "street_control_calibrated",
+    "lat": 24.565878,
+    "lng": 54.461622,
+    "positionSource": "yandex_exact_address_match",
     "controlPlot": null
   },
   {
     "villaNumber": "19",
     "street": "1",
-    "lat": 24.565662196783535,
-    "lng": 54.46165962083306,
+    "lat": 24.56561407137171,
+    "lng": 54.46154890483497,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "20",
     "street": "1",
-    "lat": 24.56564260185884,
-    "lng": 54.46183123153449,
+    "lat": 24.565670472420923,
+    "lng": 54.4618281489596,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
   {
     "villaNumber": "21",
     "street": "1",
-    "lat": 24.565546680948987,
-    "lng": 54.46182951221567,
+    "lat": 24.56549818222167,
+    "lng": 54.461720058775796,
     "positionSource": "street_control_calibrated",
     "controlPlot": null
   },
@@ -3690,9 +3690,9 @@ export const hiddVillaCoords: HiddVillaCoord[] = [
   {
     "villaNumber": "14",
     "street": "3",
-    "lat": 24.566841233089395,
-    "lng": 54.46228860957185,
-    "positionSource": "street_control_calibrated",
+    "lat": 24.566781,
+    "lng": 54.462206,
+    "positionSource": "yandex_exact_address_match",
     "controlPlot": null
   },
   {

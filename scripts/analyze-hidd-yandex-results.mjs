@@ -8,7 +8,7 @@ if (!coordinateMatch) throw new Error("Could not read hiddVillaCoords");
 
 const coordinates = JSON.parse(coordinateMatch[1]);
 const controls = JSON.parse(readFileSync(resolve(root, "scripts/source-data/hidd-controls.json"), "utf8")).controls;
-const yandexResults = JSON.parse(readFileSync("/home/ubuntu/reconcile_hidd_yandex_locations.json", "utf8")).results;
+const yandexResults = JSON.parse(readFileSync("/home/ubuntu/resolve_all_remaining_hidd_yandex_addresses.json", "utf8")).results;
 const controlsByKey = new Map(controls.map((control) => [`${control.villaNumber}|${control.street}`, control]));
 const coordinatesByKey = new Map(coordinates.map((coordinate) => [`${coordinate.villaNumber}|${coordinate.street}`, coordinate]));
 
@@ -27,7 +27,7 @@ const reviewed = yandexResults.map(({ output, error }) => {
   return {
     key: output?.hidd_key ?? null,
     current: coordinate ? { lat: coordinate.lat, lng: coordinate.lng, source: coordinate.positionSource } : null,
-    yandex: candidate ? { ...candidate, address: output.returned_address, url: output.yandex_url } : null,
+    yandex: candidate ? { ...candidate, address: output.address, url: output.source_url } : null,
     exactMatch: output?.exact_match === true,
     isUserControl: Boolean(control),
     displacementMeters: coordinate && candidate ? Number(distanceMeters(coordinate, candidate).toFixed(2)) : null,

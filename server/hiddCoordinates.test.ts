@@ -9,6 +9,11 @@ const directControls = new Map<string, { lat: number; lng: number }>([
   ["4|24", { lat: 24.568778, lng: 54.458657 }],
   ["BOULEVARD|80", { lat: 24.581831, lng: 54.471252 }],
   ["BOULEVARD|118", { lat: 24.586218, lng: 54.474764 }],
+  ["11|1", { lat: 24.571004, lng: 54.463814 }],
+  ["11|19", { lat: 24.570766, lng: 54.465898 }],
+  ["1|10", { lat: 24.566338, lng: 54.460948 }],
+  ["BOULEVARD|71", { lat: 24.579581, lng: 54.470641 }],
+  ["BOULEVARD|123", { lat: 24.584537, lng: 54.473476 }],
 ]);
 
 describe("Hidd Al Saadiyat control-calibrated coordinates", () => {
@@ -25,8 +30,8 @@ describe("Hidd Al Saadiyat control-calibrated coordinates", () => {
 
   it("labels user controls, exact Yandex matches, and calibrated positions as distinct sources", () => {
     expect(hiddVillaCoords).toHaveLength(468);
-    expect(hiddVillaCoords.filter((item) => item.positionSource === "user_supplied_coordinate")).toHaveLength(28);
-    expect(hiddVillaCoords.filter((item) => item.positionSource === "yandex_exact_address_match")).toHaveLength(366);
+    expect(hiddVillaCoords.filter((item) => item.positionSource === "user_supplied_coordinate")).toHaveLength(39);
+    expect(hiddVillaCoords.filter((item) => item.positionSource === "yandex_exact_address_match")).toHaveLength(369);
     expect(hiddVillaCoords.every((item) => ["user_supplied_coordinate", "yandex_exact_address_match", "street_control_calibrated", "shape_control_calibrated"].includes(item.positionSource))).toBe(true);
     expect(hiddVillaCoords.filter((item) => item.positionSource !== "user_supplied_coordinate").every((item) => item.controlPlot === null)).toBe(true);
   });

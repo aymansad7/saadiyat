@@ -117,6 +117,8 @@ interface MapMarkerData {
   availabilityStatus?: "available";
   availabilityDate?: string;
   askingPrice?: number;
+  availableForRent?: boolean;
+  rentPrice?: number;
   floorplanHref?: string;
   dcrHref?: string;
   dmtHref?: string;
@@ -656,6 +658,8 @@ export default function SaadiyatMap() {
         builtUpSqft: override.builtUpAreaSqm != null ? Math.round(override.builtUpAreaSqm * 10.7639) : marker.builtUpSqft,
         status: hasManualStatus ? override.status : marker.status,
         askingPrice: override.askingPriceAed ?? marker.askingPrice,
+        availableForRent: (override as any).availableForRent ?? marker.availableForRent,
+        rentPrice: (override as any).rentPriceAed ?? marker.rentPrice,
         availabilityStatus: hasManualStatus
           ? (override.status === "available" ? "available" : undefined)
           : marker.availabilityStatus,
@@ -677,6 +681,7 @@ export default function SaadiyatMap() {
       Boolean(permissions?.canViewOriginalPrice);
     const canEdit = user?.role === "admin" || user?.role === "master" ||
       Boolean(permissions?.canEditProperties);
+    const showSensitiveDetails = showOwners || user?.role === "admin" || user?.role === "master";
     const fmt = (n: number) => new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(n);
     const communityLabel = COMMUNITY_CENTERS[m.community as keyof typeof COMMUNITY_CENTERS]?.label ?? m.community;
     
@@ -756,10 +761,17 @@ export default function SaadiyatMap() {
       html += `</div></div>`;
     }
 
-    if (m.availabilityStatus === "available" && m.askingPrice) {
+    if (m.askingPrice) {
       html += `<div style="margin-top:6px;padding:7px;background:#ecfdf5;border-radius:6px;border:1px solid #6ee7b7">`;
-      html += `<div style="font-size:10px;color:#047857;font-weight:700;text-transform:uppercase">Available · ${m.availabilityDate ?? "current list"}</div>`;
+      html += `<div style="font-size:10px;color:#047857;font-weight:700;text-transform:uppercase">${m.availabilityStatus === "available" ? "Available" : "Current recorded price"}${m.availabilityDate ? ` · ${m.availabilityDate}` : ""}</div>`;
       html += `<div style="font-size:15px;font-weight:800;color:#065f46;margin-top:2px;white-space:nowrap">AED ${fmt(m.askingPrice)}</div>`;
+      html += `</div>`;
+    }
+
+    if (m.availableForRent === true || m.rentPrice) {
+      html += `<div style="margin-top:6px;padding:7px;background:#eff6ff;border-radius:6px;border:1px solid #bfdbfe">`;
+      html += `<div style="font-size:10px;color:#1d4ed8;font-weight:700;text-transform:uppercase">${m.availableForRent === true ? "Available for rent" : "Recorded rental price"}</div>`;
+      if (m.rentPrice) html += `<div style="font-size:15px;font-weight:800;color:#1e3a8a;margin-top:2px;white-space:nowrap">AED ${fmt(m.rentPrice)} / year</div>`;
       html += `</div>`;
     }
 
@@ -786,18 +798,18 @@ export default function SaadiyatMap() {
       html += `</div>`;
     }
 
-    if (showOwners && (canViewOwnerName || canViewOwnerPhone) && (m.owner || m.phone || m.ownerEmail)) {
+    if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone) && (m.owner || m.phone || m.ownerEmail)) {
       html += `<div style="margin-top:6px;padding:6px;background:#f0f4f9;border-radius:4px;border:1px solid #d0dae8">`;
       html += `<div style="font-size:10px;color:#2563EB;font-weight:600;text-transform:uppercase">Owner Info</div>`;
       if (canViewOwnerName && m.owner) html += `<div style="font-size:13px;font-weight:600;margin-top:2px">${m.owner}</div>`;
       if (canViewOwnerPhone && m.phone) html += `<div style="font-size:12px;color:#555;margin-top:1px">${m.phone}</div>`;
       if (canViewOwnerPhone && m.ownerEmail) html += `<div style="font-size:12px;color:#555;margin-top:1px;overflow-wrap:anywhere">${m.ownerEmail}</div>`;
       html += `</div>`;
-    } else if (showOwners && (canViewOwnerName || canViewOwnerPhone)) {
+    } else if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone)) {
       html += `<div style="margin-top:6px;font-size:11px;color:#999;font-style:italic">Owner info not yet added</div>`;
     }
 
-    if (showOwners && (canViewOwnerName || canViewOwnerPhone) && (m.tenant || m.tenantPhone || m.tenantEmail || m.tenancyStart || m.tenancyEnd)) {
+    if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone) && (m.tenant || m.tenantPhone || m.tenantEmail || m.tenancyStart || m.tenancyEnd)) {
       html += `<div style="margin-top:6px;padding:6px;background:#fef9ec;border-radius:4px;border:1px solid #f5d58b">`;
       html += `<div style="font-size:10px;color:#9a6700;font-weight:600;text-transform:uppercase">Tenant & Tenancy</div>`;
       if (canViewOwnerName && m.tenant) html += `<div style="font-size:13px;font-weight:600;margin-top:2px">${m.tenant}</div>`;

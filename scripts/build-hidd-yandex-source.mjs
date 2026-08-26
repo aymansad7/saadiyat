@@ -1,9 +1,14 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { existsSync } from "node:fs";
 
 const root = resolve(import.meta.dirname, "..");
 const approved = JSON.parse(readFileSync(resolve(root, "tmp/hidd-yandex-approved-candidates.json"), "utf8"));
-const locations = approved.accepted.map((entry) => {
+const outputPath = resolve(root, "scripts/source-data/hidd-yandex-exact-locations.json");
+const existingLocations = existsSync(outputPath)
+  ? JSON.parse(readFileSync(outputPath, "utf8")).locations ?? []
+  : [];
+const newLocations = approved.accepted.map((entry) => {
   const [villaNumber, street] = entry.key.split("|");
   return {
     villaNumber,
@@ -15,6 +20,9 @@ const locations = approved.accepted.map((entry) => {
     displacementMetersFromPriorCalibration: entry.displacementMeters,
   };
 });
+const byKey = new Map(existingLocations.map((entry) => [`${entry.villaNumber}|${entry.street}`, entry]));
+for (const location of newLocations) byKey.set(`${location.villaNumber}|${location.street}`, location);
+const locations = [...byKey.values()].sort((a, b) => `${a.street}|${a.villaNumber}`.localeCompare(`${b.street}|${b.villaNumber}`, undefined, { numeric: true }));
 
 const output = {
   source: "Yandex Maps house-address search",
@@ -22,6 +30,5 @@ const output = {
   generatedAt: new Date().toISOString(),
   locations,
 };
-const outputPath = resolve(root, "scripts/source-data/hidd-yandex-exact-locations.json");
 writeFileSync(outputPath, JSON.stringify(output, null, 2));
 console.log(JSON.stringify({ outputPath, count: locations.length }, null, 2));

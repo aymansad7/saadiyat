@@ -515,3 +515,17 @@
 - [x] Add sourced Nudra cards, Cards/Table view, project route, source actions, and Interactive Map address cards that explicitly state when a B/D/S unit crosswalk is unavailable
 - [x] Add tests for registry count, source integrity, price/transaction matching, map markers, and non-fabrication safeguards
 - [x] Verify desktop/mobile views, TypeScript, and 216 full tests, then publish
+
+### Hidd Street 11 and Full Map Card Follow-up (Aug 26, 2026)
+- [x] Extract the supplied Yandex street-address results for Street 11 examples, Street 1 examples, and houses 71, 73, 105, 107, 117, and 123
+- [x] Match each confirmed address to an existing Hidd villa record before updating any coordinate; preserve unmatched links as source notes
+- [x] Rebuild Hidd coordinates with the new exact controls while retaining all prior user controls as higher priority
+- [x] Audit and fix the Hidd map popup so authorized users see every documented property, price, owner, tenant, and tenancy field directly in the card
+- [x] Add regression coverage, mobile/desktop verification, full tests, and publish
+
+### Hidd Complete Yandex Index Coverage & Map-Card Parity (Aug 26, 2026)
+- [x] Inventory all 468 Hidd villa/street keys and classify each coordinate as user control, direct Yandex address, or calibrated fallback
+- [x] Query the Yandex index for every Hidd villa/street key lacking a direct location and accept only exact address matches within Hidd
+- [x] Replace 8 calibrated fallback positions with new direct Yandex matches; retain 60 positions as explicitly labelled calibrated fallback because the index did not provide an exact Hidd house address
+- [x] Audit all map marker families so each popup receives every documented property card field, including land/BUA, original/current/resale/rental price, transactions, and protected owner/tenant fields
+- [x] Add map-card parity and Hidd direct-location coverage tests, verify representative mobile/desktop map shell, full tests, and publish

@@ -31,6 +31,17 @@
     { "villaNumber": "122", "street": "BOULEVARD", "latitude": 24.58524, "longitude": 54.47392 },
     { "villaNumber": "116", "street": "BOULEVARD", "latitude": 24.58575, "longitude": 54.476192 },
     { "villaNumber": "106", "street": "BOULEVARD", "latitude": 24.5834, "longitude": 54.474045 },
-    { "villaNumber": "80", "street": "BOULEVARD", "latitude": 24.581831, "longitude": 54.471252 }
+    { "villaNumber": "80", "street": "BOULEVARD", "latitude": 24.581831, "longitude": 54.471252 },
+    { "villaNumber": "1", "street": "11", "latitude": 24.571004, "longitude": 54.463814 },
+    { "villaNumber": "2", "street": "11", "latitude": 24.570922, "longitude": 54.464029 },
+    { "villaNumber": "19", "street": "11", "latitude": 24.570766, "longitude": 54.465898 },
+    { "villaNumber": "10", "street": "1", "latitude": 24.566338, "longitude": 54.460948 },
+    { "villaNumber": "11", "street": "1", "latitude": 24.565984, "longitude": 54.460634 },
+    { "villaNumber": "71", "street": "BOULEVARD", "latitude": 24.579581, "longitude": 54.470641 },
+    { "villaNumber": "73", "street": "BOULEVARD", "latitude": 24.579737, "longitude": 54.470785 },
+    { "villaNumber": "105", "street": "BOULEVARD", "latitude": 24.583158, "longitude": 54.473571 },
+    { "villaNumber": "107", "street": "BOULEVARD", "latitude": 24.583628, "longitude": 54.474376 },
+    { "villaNumber": "117", "street": "BOULEVARD", "latitude": 24.586345, "longitude": 54.47498 },
+    { "villaNumber": "123", "street": "BOULEVARD", "latitude": 24.584537, "longitude": 54.473476 }
   ]
 }
