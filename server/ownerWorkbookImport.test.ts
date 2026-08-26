@@ -25,6 +25,7 @@ describe("New Lagoons and Noya owner workbook", () => {
     expect(audit.summary.noya).toBe(839);
     expect(new Set(audit.approved_records.map(record => record.villa_key)).size).toBe(audit.approved_records.length);
     expect(audit.approved_records.every(record => record.villa_key.startsWith("lagoons/") || record.villa_key.startsWith("aldar-other/"))).toBe(true);
+    expect(audit.approved_records.filter(record => record.community === "lagoons").some(record => Boolean(record.owner_phone))).toBe(true);
   });
 
   it("preserves ambiguous, unmatched, and conflicting rows outside the import manifest", () => {

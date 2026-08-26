@@ -18,8 +18,32 @@ interface LagoonsVilla {
 
 interface LagoonsDataset {
   total_villas: number;
-  summary: Record<string, any>;
+  summary?: Record<string, any>;
   villas: LagoonsVilla[];
+}
+
+export function summarizeLagoonsVillas(villas: LagoonsVilla[]) {
+  const summary: Record<string, {
+    total: number;
+    by_model: Record<string, number>;
+    corners: number;
+    edges: number;
+  }> = {};
+
+  for (const villa of villas) {
+    const cluster = villa.cluster;
+    if (!summary[cluster]) {
+      summary[cluster] = { total: 0, by_model: {}, corners: 0, edges: 0 };
+    }
+    const current = summary[cluster];
+    current.total += 1;
+    const model = villa.model || (villa.bedrooms ? `${villa.bedrooms}BHK` : "Unknown");
+    current.by_model[model] = (current.by_model[model] ?? 0) + 1;
+    if (villa.is_corner === true) current.corners += 1;
+    if (villa.is_edge === true) current.edges += 1;
+  }
+
+  return summary;
 }
 
 let _cache: LagoonsDataset | null = null;
@@ -49,7 +73,7 @@ export const lagoonsRouter = router({
   /** Get dataset summary (no villa details — lightweight) */
   summary: publicProcedure.query(() => {
     const ds = loadLagoons();
-    return { total_villas: ds.total_villas, summary: ds.summary };
+    return { total_villas: ds.total_villas, summary: summarizeLagoonsVillas(ds.villas) };
   }),
 
   /** Get all villas for a specific cluster */

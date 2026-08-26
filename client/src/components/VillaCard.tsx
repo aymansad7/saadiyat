@@ -14,6 +14,7 @@ import {
   EditListingButton,
   InteractiveMapLink,
   ListingBadge,
+  ListingOwnerFacts,
   ListingPropertyFacts,
   ListingPriceLabel,
 } from "@/components/ListingControls";
@@ -70,6 +71,7 @@ export default function VillaCard({ villa: v, isActive, onHover, onSelect, listi
             </div>
           ) : null}
           <ListingPropertyFacts listing={listing} />
+          <ListingOwnerFacts listing={listing} />
           <h3 className="font-display text-lg text-foreground mt-1 leading-snug">
             {v.buildingTypology || "St. Regis Villa"}
           </h3>

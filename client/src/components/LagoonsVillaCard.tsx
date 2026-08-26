@@ -9,7 +9,7 @@
  *   - Aldar Resale (amber — official source, subject to confirmation)
  *   - Others Resale (neutral — uncertain broker listings)
  */
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { ArrowUpRight, ExternalLink, MapPin } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import type { LagoonsVilla } from "@/data/lagoons";
@@ -35,7 +35,7 @@ function formatAed(value: number) {
 }
 
 export function lagoonsVillaKey(v: LagoonsVilla) {
-  return `saadiyat-lagoons/${v.cluster}-${v.unit_name}`;
+  return `lagoons/${v.unit_name}`;
 }
 
 interface Props {
@@ -62,6 +62,7 @@ function positionBadge(villa: LagoonsVilla): { label: string; cls: string } | nu
 
 export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: Props) {
   const { user } = useAuth();
+  const [, navigate] = useLocation();
   const permissions = trpc.propertyAccess.permissions.useQuery(
     { projects: ["lagoons"] },
     { enabled: Boolean(user) },
@@ -85,8 +86,18 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
 
   return (
     <div
+      role="link"
+      tabIndex={0}
+      onClick={(event) => {
+        const target = event.target as HTMLElement;
+        if (target.closest("a,button,input,select,textarea,[role='button']")) return;
+        navigate(detailHref);
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" && event.target === event.currentTarget) navigate(detailHref);
+      }}
       className={[
-        "villa-card group bg-card border border-border rounded-md overflow-hidden flex flex-col rise-in hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-22px_rgba(34,30,25,0.4)] transition-all",
+        "villa-card group bg-card border border-border rounded-md overflow-hidden flex flex-col rise-in cursor-pointer hover:border-primary/50 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-22px_rgba(34,30,25,0.4)] transition-all",
         cardRing,
       ].join(" ")}
     >
@@ -229,7 +240,7 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
           <div className="ml-auto" onClick={(e) => e.stopPropagation()}>
             <EditListingButton
               villaKey={lagoonsVillaKey(villa)}
-              community="saadiyat-lagoons"
+              community="lagoons"
               villaLabel={`${villa.cluster_label} · ${villa.short_name}`}
             />
           </div>

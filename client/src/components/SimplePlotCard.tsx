@@ -28,6 +28,7 @@ export interface PlotTransaction {
 import {
   EditListingButton,
   ListingBadge,
+  ListingOwnerFacts,
   ListingPropertyFacts,
   ListingPriceLabel,
 } from "@/components/ListingControls";
@@ -118,6 +119,7 @@ export default function SimplePlotCard({
             </div>
           )}
           <ListingPropertyFacts listing={listing} />
+          <ListingOwnerFacts listing={listing} />
           {transactions && transactions.length > 0 && (
             <div className="mt-2 rounded-md border border-border bg-accent/20 overflow-hidden">
               <div className="px-2.5 py-1.5 border-b border-border bg-accent/30 text-[0.62rem] font-mono uppercase tracking-wider text-primary">

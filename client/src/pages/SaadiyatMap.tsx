@@ -669,7 +669,14 @@ export default function SaadiyatMap() {
   const searchString = useSearch();
   const plotParam = new URLSearchParams(searchString).get("plot");
   const phaseParam = new URLSearchParams(searchString).get("phase")?.toUpperCase() ?? null;
-  const propertyOverrides = trpc.villaListings.listByCommunity.useQuery({});
+  const propertyOverrides = trpc.villaListings.listByCommunity.useQuery(
+    {},
+    {
+      enabled: Boolean(user),
+      staleTime: 0,
+      refetchOnMount: "always",
+    },
+  );
   const projectPermissions = trpc.propertyAccess.permissions.useQuery(
     { projects: Object.keys(COMMUNITY_CENTERS) },
     { enabled: Boolean(user) },
@@ -732,6 +739,17 @@ export default function SaadiyatMap() {
         html += `<span style="font-size:10px;color:#6b625b;background:#f4f0eb;border-radius:999px;padding:2px 7px">${line}</span>`;
       }
       html += `</div>`;
+    }
+
+    if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone) && (m.owner || m.phone || m.ownerEmail)) {
+      html += `<div style="margin:1px 0 8px;padding:8px;background:#eff6ff;border-radius:6px;border:1px solid #93c5fd">`;
+      html += `<div style="font-size:10px;color:#1d4ed8;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Owner · Authorized View</div>`;
+      if (canViewOwnerName && m.owner) html += `<div style="font-size:14px;font-weight:700;margin-top:3px;color:#172554">${m.owner}</div>`;
+      if (canViewOwnerPhone && m.phone) html += `<div style="font-size:14px;font-weight:800;color:#1d4ed8;margin-top:2px;direction:ltr;text-align:left;word-break:break-all">${m.phone}</div>`;
+      if (canViewOwnerPhone && m.ownerEmail) html += `<div style="font-size:11px;color:#475569;margin-top:2px;overflow-wrap:anywhere">${m.ownerEmail}</div>`;
+      html += `</div>`;
+    } else if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone)) {
+      html += `<div style="margin:1px 0 7px;font-size:11px;color:#999;font-style:italic">Owner info not yet added</div>`;
     }
     
     if (m.landSqft || m.landSqm) {
@@ -833,17 +851,6 @@ export default function SaadiyatMap() {
       if (m.dmtHref) html += `<a href="${m.dmtHref}" target="_blank" rel="noopener noreferrer" style="color:#7c3f1f">DMT ↗</a>`;
       if (m.googleMapsHref) html += `<a href="${m.googleMapsHref}" target="_blank" rel="noopener noreferrer" style="color:#7c3f1f">Google Maps ↗</a>`;
       html += `</div>`;
-    }
-
-    if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone) && (m.owner || m.phone || m.ownerEmail)) {
-      html += `<div style="margin-top:6px;padding:6px;background:#f0f4f9;border-radius:4px;border:1px solid #d0dae8">`;
-      html += `<div style="font-size:10px;color:#2563EB;font-weight:600;text-transform:uppercase">Owner Info</div>`;
-      if (canViewOwnerName && m.owner) html += `<div style="font-size:13px;font-weight:600;margin-top:2px">${m.owner}</div>`;
-      if (canViewOwnerPhone && m.phone) html += `<div style="font-size:12px;color:#555;margin-top:1px">${m.phone}</div>`;
-      if (canViewOwnerPhone && m.ownerEmail) html += `<div style="font-size:12px;color:#555;margin-top:1px;overflow-wrap:anywhere">${m.ownerEmail}</div>`;
-      html += `</div>`;
-    } else if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone)) {
-      html += `<div style="margin-top:6px;font-size:11px;color:#999;font-style:italic">Owner info not yet added</div>`;
     }
 
     if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone) && (m.tenant || m.tenantPhone || m.tenantEmail || m.tenancyStart || m.tenancyEnd)) {

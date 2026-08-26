@@ -5,7 +5,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import AreaFilterControls from "@/components/AreaFilterControls";
-import { EditListingButton, ListingBadge, ListingPriceLabel, ListingPropertyFacts } from "@/components/ListingControls";
+import { EditListingButton, ListingBadge, ListingOwnerFacts, ListingPriceLabel, ListingPropertyFacts } from "@/components/ListingControls";
 import { trpc } from "@/lib/trpc";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 import { getInitialProjectViewMode } from "@/lib/viewMode";
@@ -43,6 +43,7 @@ function UnitCard({ unit, listing, canViewOriginal }: { unit: NudraUnit; listing
         </div>
         {unit.bedrooms && <p className="mt-3 text-xs text-muted-foreground">{unit.bedrooms} BR · Shell & core delivery in supplied IMKAN material</p>}
         <ListingPropertyFacts listing={listing} />
+        <ListingOwnerFacts listing={listing} />
 
         {canViewOriginal && (unit.originalPriceFiveYearAed || unit.originalPriceSevenYearAed) && (
           <div className="mt-4 rounded-md border border-primary/20 bg-primary/5 p-3">

@@ -5,7 +5,8 @@ import SiteHeader from "@/components/SiteHeader";
 import AreaFilterControls, { type AreaViewMode } from "@/components/AreaFilterControls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { EditListingButton } from "@/components/ListingControls";
+import { EditListingButton, ListingOwnerFacts, ListingPropertyFacts, ListingPriceLabel } from "@/components/ListingControls";
+import { useListingIndex, type ListingIndexEntry } from "@/hooks/useListingIndex";
 import {
   FOUR_SEASONS_AVAILABILITY_DATE,
   FOUR_SEASONS_MASTERPLAN_IMAGE,
@@ -67,6 +68,7 @@ export default function FourSeasons() {
   const [areaMax, setAreaMax] = useState("");
   const [viewMode, setViewMode] = useState<AreaViewMode>(() => getProjectViewMode(searchString));
   const [selectedVilla, setSelectedVilla] = useState<FourSeasonsVilla | null>(null);
+  const { index: listingIndex } = useListingIndex({ community: "four-seasons" });
 
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -177,7 +179,7 @@ export default function FourSeasons() {
           </div>
           {selectedVilla && (
             <div className="border-t border-border p-4 sm:p-5 bg-emerald-50/60 dark:bg-emerald-950/20">
-              <VillaSummary villa={selectedVilla} areaUnit={areaUnit} />
+              <VillaSummary villa={selectedVilla} listing={listingIndex.get(selectedVilla.villaKey)} areaUnit={areaUnit} />
             </div>
           )}
         </section>
@@ -216,7 +218,7 @@ export default function FourSeasons() {
           <section className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {filtered.map((villa) => (
               <article id={`villa-${villa.villaNumber}`} key={villa.villaKey} className={`rounded-xl border bg-card p-5 scroll-mt-28 ${villa.status === "available" ? "border-emerald-500/60 shadow-emerald-100 shadow-sm" : "border-border"}`}>
-                <VillaSummary villa={villa} areaUnit={areaUnit} />
+                <VillaSummary villa={villa} listing={listingIndex.get(villa.villaKey)} areaUnit={areaUnit} />
                 <div className="mt-4 border-t border-border pt-3 flex justify-end">
                   <EditListingButton villaKey={villa.villaKey} community="four-seasons" villaLabel={`Four Seasons · Villa ${villa.villaNumber}`} />
                 </div>
@@ -294,7 +296,7 @@ function StatusBadge({ available }: { available: boolean }) {
     : <span className="inline-flex rounded-full bg-slate-100 text-slate-600 px-2 py-1 text-[0.68rem] font-semibold">Reference only</span>;
 }
 
-function VillaSummary({ villa, areaUnit }: { villa: FourSeasonsVilla; areaUnit: AreaUnit }) {
+function VillaSummary({ villa, listing, areaUnit }: { villa: FourSeasonsVilla; listing?: ListingIndexEntry | null; areaUnit: AreaUnit }) {
   const floorplan = FOUR_SEASONS_FLOORPLAN_BY_VILLA.get(villa.villaNumber);
   const transactions = getFourSeasonsTransactions(villa.villaNumber);
   const confirmed = getConfirmedTransaction(villa.villaNumber);
@@ -312,6 +314,9 @@ function VillaSummary({ villa, areaUnit }: { villa: FourSeasonsVilla; areaUnit: 
         <div><span className="text-xs text-muted-foreground">Bedrooms</span><div className="font-semibold">{villa.bedrooms} BR</div></div>
         <div><span className="text-xs text-muted-foreground">View</span><div className="font-semibold">{villa.view ?? "—"}</div></div>
       </div>
+      {listing?.askingPriceAed ? <div className="mt-3"><ListingPriceLabel askingPriceAed={listing.askingPriceAed} /></div> : null}
+      <ListingPropertyFacts listing={listing} />
+      <ListingOwnerFacts listing={listing} />
       {villa.status === "available" && <div className="mt-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 p-3"><p className="text-xs text-emerald-700 dark:text-emerald-300">Updated {FOUR_SEASONS_AVAILABILITY_DATE}</p><p className="text-xl font-semibold mt-0.5">{formatPrice(villa.askingPriceAed)}</p></div>}
       {transactions.length > 0 && <FourSeasonsTransactionTimeline transactions={transactions} areaUnit={areaUnit} />}
       {floorplan && villa.status !== "available" && <p className="mt-3 text-[0.68rem] text-muted-foreground">Plot and Sellable Area from the developer Floorplan. No current availability implied.</p>}

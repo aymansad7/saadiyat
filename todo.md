@@ -593,3 +593,23 @@
 - [x] Persist confirmed owner records as protected listing overrides and surface them on authorized external cards and Interactive Map cards
 - [x] Verify Master Admin visibility, delegated field permissions, privacy for other users, and 1,533 import audit events; owner fields remain protected for non-authorized roles
 - [x] Run TypeScript and 233 tests, verify the protected card/map loading paths, and publish
+
+### Map Card Owner Mobile Visibility Fix (Aug 26, 2026)
+- [x] Trace imported Lagoons/Noya owner fields from database listing rows through the map listing index and marker merge
+- [x] Show owner name and owner mobile automatically near the top of the exact map card for Master Admin and explicitly authorized users
+- [x] Keep owner fields absent from map HTML and API results for users without owner-data permission
+- [x] Add regression coverage for imported Lagoons owner records and authenticated Map Card refetch behavior before publishing
+
+### Lagoons Counts, Loading State and Card Click Reliability (Aug 26, 2026)
+- [x] Fix Ethir, Al Sidr, and Al Ghaf 4/5/6-bedroom and corner/single-row counters to use the loaded Aldar villa fields instead of transient zeros
+- [x] Show a loading state while cluster data is pending and never flash `No villas match this filter` before the first response arrives
+- [x] Make the full Lagoons villa card a reliable first-click navigation target without nested interactive elements swallowing the click
+- [x] Add regression coverage for non-zero village statistics, loading/empty-state separation, and exact first-click unit navigation
+- [x] Verify TypeScript and 251 full tests after the desktop/mobile interaction fixes
+
+### All-Community External Card and Map Card Parity (Aug 26, 2026)
+- [x] Audit every community marker family and external-card family against one canonical property-field checklist
+- [x] Ensure documented areas, prices, status, rental data, transactions, DCR/source links, and authorized owner/tenant fields appear in both locations where the source supplies them
+- [x] Ensure every external card links to its exact map marker and every map card links to the exact external unit card
+- [x] Add regression coverage that fails when a community loses a documented core field or exact bidirectional link
+- [x] Verify representative source contracts for Lagoons, Hidd, St. Regis, Jawaher, SBV, Golf Views, Four Seasons, Reserve, Nudra, and DCR-only communities

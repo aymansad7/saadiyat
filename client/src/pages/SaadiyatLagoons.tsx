@@ -54,7 +54,7 @@ const SL_PHASES = [
 type AvailFilter = "all" | "any" | "nas-luxury" | "aldar" | "others" | "none";
 
 export default function SaadiyatLagoons() {
-  const { data: lagoonsSummary } = trpc.lagoons.summary.useQuery();
+  const { data: lagoonsSummary, isLoading: summaryLoading } = trpc.lagoons.summary.useQuery();
   const { data: lagoonsAllData } = trpc.lagoons.allVillas.useQuery({ limit: 2000 });
   const lagoonsVillas = lagoonsAllData?.villas ?? [];
 
@@ -330,13 +330,13 @@ export default function SaadiyatLagoons() {
                       6 BR
                     </dt>
                     <dd className="num-display font-display tabular text-xl text-foreground col-span-1">
-                      {s?.by_model?.["4BHK"] ?? 0}
+                      {summaryLoading ? "—" : (s?.by_model?.["4BHK"] ?? 0)}
                     </dd>
                     <dd className="num-display font-display tabular text-xl text-foreground col-span-1">
-                      {s?.by_model?.["5BHK"] ?? 0}
+                      {summaryLoading ? "—" : (s?.by_model?.["5BHK"] ?? 0)}
                     </dd>
                     <dd className="num-display font-display tabular text-xl text-foreground col-span-1">
-                      {s?.by_model?.["6BHK"] ?? 0}
+                      {summaryLoading ? "—" : (s?.by_model?.["6BHK"] ?? 0)}
                     </dd>
                   </dl>
 
@@ -346,7 +346,7 @@ export default function SaadiyatLagoons() {
                         Corners · Single-row
                       </div>
                       <div className="font-mono text-sm tabular text-foreground mt-0.5">
-                        {s?.corners ?? 0} · {s?.edges ?? 0}
+                        {summaryLoading ? "— · —" : `${s?.corners ?? 0} · ${s?.edges ?? 0}`}
                       </div>
                     </div>
                     {cc && cc.any > 0 ? (

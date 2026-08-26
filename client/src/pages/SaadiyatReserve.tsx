@@ -5,7 +5,8 @@ import SiteHeader from "@/components/SiteHeader";
 import AreaFilterControls, { type AreaViewMode } from "@/components/AreaFilterControls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { EditListingButton } from "@/components/ListingControls";
+import { EditListingButton, ListingOwnerFacts, ListingPropertyFacts, ListingPriceLabel } from "@/components/ListingControls";
+import { useListingIndex, type ListingIndexEntry } from "@/hooks/useListingIndex";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import {
@@ -100,6 +101,7 @@ export default function SaadiyatReserve() {
   const [areaMax, setAreaMax] = useState("");
   const [viewMode, setViewMode] = useState<AreaViewMode>(() => getProjectViewMode(searchString));
   const [selected, setSelected] = useState<SaadiyatReserveRecord | null>(null);
+  const { index: listingIndex } = useListingIndex({ community: "saadiyat-reserve" });
 
   useEffect(() => {
     const params = new URLSearchParams(searchString);
@@ -263,7 +265,7 @@ export default function SaadiyatReserve() {
           <section className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {filtered.map(record => (
               <article id={`reserve-record-${record.plotNumber}`} key={record.villaKey} className={`rounded-xl border bg-card p-5 scroll-mt-28 ${record.availability === "available_for_sale" ? "border-emerald-500/60 shadow-sm shadow-emerald-100" : "border-border"}`}>
-                <RecordSummary record={record} areaUnit={areaUnit} canViewOriginalPrice={canViewOriginalPrice} onShowPlan={() => showOnPlan(record)} />
+                <RecordSummary record={record} listing={listingIndex.get(record.villaKey)} areaUnit={areaUnit} canViewOriginalPrice={canViewOriginalPrice} onShowPlan={() => showOnPlan(record)} />
                 <div className="mt-4 border-t border-border pt-3 flex justify-end">
                   <EditListingButton villaKey={record.villaKey} community="saadiyat-reserve" villaLabel={record.label} />
                 </div>
@@ -339,7 +341,7 @@ function AvailabilityBadge({ record }: { record: SaadiyatReserveRecord }) {
   return <span className="text-xs text-muted-foreground">Not listed</span>;
 }
 
-function RecordSummary({ record, areaUnit, canViewOriginalPrice, onShowPlan }: { record: SaadiyatReserveRecord; areaUnit: AreaUnit; canViewOriginalPrice: boolean; onShowPlan?: () => void }) {
+function RecordSummary({ record, listing, areaUnit, canViewOriginalPrice, onShowPlan }: { record: SaadiyatReserveRecord; listing?: ListingIndexEntry | null; areaUnit: AreaUnit; canViewOriginalPrice: boolean; onShowPlan?: () => void }) {
   const landArea = recordArea(record);
   const builtArea = recordBuiltArea(record);
   return (
@@ -357,6 +359,9 @@ function RecordSummary({ record, areaUnit, canViewOriginalPrice, onShowPlan }: {
         <div><span className="text-xs text-muted-foreground">Inventory</span><div className="font-semibold">{inventoryLabel(record)}</div></div>
         <div><span className="text-xs text-muted-foreground">Current availability</span><div className="font-semibold">{availabilityLabel(record)}</div></div>
       </div>
+      {listing?.askingPriceAed ? <div className="mt-3"><ListingPriceLabel askingPriceAed={listing.askingPriceAed} /></div> : null}
+      <ListingPropertyFacts listing={listing} />
+      <ListingOwnerFacts listing={listing} />
       {record.availability === "available_for_sale" && record.askingPriceAed && (
         <div className="mt-4 rounded-lg border border-emerald-300 bg-emerald-50 p-3 dark:border-emerald-900 dark:bg-emerald-950/30">
           <p className="text-xs text-emerald-700 dark:text-emerald-300">Available price · updated {record.availabilityUpdatedAt}</p>

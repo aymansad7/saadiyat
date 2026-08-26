@@ -48,12 +48,11 @@ export default function LagoonsCluster() {
   if (!(cluster in CLUSTER_LABELS)) return <Redirect to="/saadiyat-lagoons" />;
 
   const label = CLUSTER_LABELS[cluster];
-  const { data: allRaw } = trpc.lagoons.villasByCluster.useQuery({ cluster });
+  const villasQuery = trpc.lagoons.villasByCluster.useQuery({ cluster });
+  const allRaw = villasQuery.data;
   const all = (allRaw ?? []) as LagoonsVilla[];
-  // Bulk-fetch listings for this cluster only (e.g. saadiyat-lagoons/ethir-…)
-  const { index: listingIndex } = useListingIndex({
-    prefix: `saadiyat-lagoons/${cluster}-`,
-  });
+  // The canonical key family is `lagoons/<unit_name>` for both cards and map markers.
+  const { index: listingIndex } = useListingIndex({ community: "lagoons" });
 
   const search = useSearch();
   const initialAvail = useMemo<AvailabilityFilter>(() => {
@@ -325,7 +324,12 @@ export default function LagoonsCluster() {
           of <span className="text-foreground tabular">{filtered.length}</span>{" "}
           villas
         </div>
-        {filtered.length === 0 ? (
+        {villasQuery.isLoading || !villasQuery.isFetched ? (
+          <div className="text-center py-24 border border-dashed border-border rounded-md" aria-busy="true">
+            <div className="font-display text-2xl text-foreground">Loading villas…</div>
+            <div className="mt-2 text-sm text-muted-foreground">Preparing unit cards and protected listing details.</div>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-24 border border-dashed border-border rounded-md">
             <div className="font-display text-2xl text-foreground">
               No villas match this filter
