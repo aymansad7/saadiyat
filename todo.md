@@ -529,3 +529,10 @@
 - [x] Replace 8 calibrated fallback positions with new direct Yandex matches; retain 60 positions as explicitly labelled calibrated fallback because the index did not provide an exact Hidd house address
 - [x] Audit all map marker families so each popup receives every documented property card field, including land/BUA, original/current/resale/rental price, transactions, and protected owner/tenant fields
 - [x] Add map-card parity and Hidd direct-location coverage tests, verify representative mobile/desktop map shell, full tests, and publish
+
+### Hidd Reverse Yandex Index Completion (Aug 26, 2026)
+- [x] Generate reverse-lookup inputs from every remaining calibrated Hidd coordinate with its villa/street key
+- [x] Query Yandex at each location and accept an address only when its house number and street match the existing Hidd key exactly
+- [x] Upgrade 9 confirmed points to a direct Yandex source, retaining 51 other coordinates as explicitly labelled calibrated fallback
+- [x] Re-check the full Hidd map card for Master Admin; data is shown directly whenever it exists in the source or a stored property override, and unknown fields remain omitted
+- [x] Run full regression tests, verify the map shell, and publish

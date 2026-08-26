@@ -1,8 +1,62 @@
 {
   "source": "Yandex Maps house-address search",
   "matchingRule": "Exact villa number and street only; BOULEVARD is equivalent to Al Dhiba Street. User-supplied control points take precedence.",
-  "generatedAt": "2026-08-26T09:25:18.240Z",
+  "generatedAt": "2026-08-26T09:44:10.341Z",
   "locations": [
+    {
+      "villaNumber": "3",
+      "street": "1",
+      "latitude": 24.566541,
+      "longitude": 54.46018,
+      "returnedAddress": "3, 1 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?ll=54.46017967330832%2C24.56654118457204&z=19&mode=search&text=24.56654118457204%2C54.46017967330832",
+      "displacementMetersFromPriorCalibration": 0.04
+    },
+    {
+      "villaNumber": "4",
+      "street": "1",
+      "latitude": 24.566598,
+      "longitude": 54.460459,
+      "returnedAddress": "4, 1 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?ll=54.460458917432945%2C24.566597585621246&z=19&mode=whatshere&whatshere%5Bpoint%5D=54.460458917432945%2C24.566597585621246&whatshere%5Bzoom%5D=19",
+      "displacementMetersFromPriorCalibration": 0.05
+    },
+    {
+      "villaNumber": "5",
+      "street": "1",
+      "latitude": 24.566425,
+      "longitude": 54.460351,
+      "returnedAddress": "5, 1 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/11498/abu-dhabi/?l=sat%2Cskl&ll=54.460266%2C24.566330&mode=search&sll=54.460351%2C24.566425&text=24.566425%2C54.460351&z=17",
+      "displacementMetersFromPriorCalibration": 0.04
+    },
+    {
+      "villaNumber": "6",
+      "street": "1",
+      "latitude": 24.566482,
+      "longitude": 54.46063,
+      "returnedAddress": "6, 1 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/11498/abu-dhabi/?ll=54.460630%2C24.566481&mode=search&sll=54.460630%2C24.566482&text=24.566482%2C54.460630&z=19",
+      "displacementMetersFromPriorCalibration": 0.03
+    },
+    {
+      "villaNumber": "7",
+      "street": "1",
+      "latitude": 24.566215,
+      "longitude": 54.460382,
+      "returnedAddress": "7, 1 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgFgSk0FQFxufXl3d35iYQ==/?ll=54.460382%2C24.566215&pt=54.460521981189984%2C24.56630940627195&z=16",
+      "displacementMetersFromPriorCalibration": 17.64
+    },
+    {
+      "villaNumber": "8",
+      "street": "1",
+      "latitude": 24.566366,
+      "longitude": 54.460801,
+      "returnedAddress": "8, 1 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?ll=54.460801,24.566366&z=19&text=24.566365807321166,54.46080122531461",
+      "displacementMetersFromPriorCalibration": 0.03
+    },
     {
       "villaNumber": "13",
       "street": "1",
@@ -13,6 +67,24 @@
       "displacementMetersFromPriorCalibration": 35.06
     },
     {
+      "villaNumber": "14",
+      "street": "1",
+      "latitude": 24.566018,
+      "longitude": 54.461315,
+      "returnedAddress": "14, 1 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/11498/abu-dhabi/?l=sat%2Cskl&ll=54.461335%2C24.566075&mode=search&sll=54.461315%2C24.566018&text=24.566018%2C54.461315&z=16",
+      "displacementMetersFromPriorCalibration": 0.04
+    },
+    {
+      "villaNumber": "16",
+      "street": "1",
+      "latitude": 24.565902,
+      "longitude": 54.461486,
+      "returnedAddress": "1 Street, No:16, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com.tr/maps/?ll=54.461485841077945%2C24.565902250721003&z=19&mode=search&text=24.565902250721003%2C54.461485841077945",
+      "displacementMetersFromPriorCalibration": 0.03
+    },
+    {
       "villaNumber": "18",
       "street": "1",
       "latitude": 24.565878,
@@ -20,6 +92,15 @@
       "returnedAddress": "18, 1 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
       "yandexUrl": "https://yandex.com/maps/121477/emirate-of-abu-dhabi/house/YU0YcgFhT0cFQFxufXl3dHRkbA==/",
       "displacementMetersFromPriorCalibration": 10.8
+    },
+    {
+      "villaNumber": "20",
+      "street": "1",
+      "latitude": 24.56567,
+      "longitude": 54.461828,
+      "returnedAddress": "20, 1 Street, Saadiyat Island North, Saadiyat Island, Abu Dhabi",
+      "yandexUrl": "https://yandex.com/maps/?ll=54.461828,24.565670&z=19&mode=whatshere&whatshere[point]=54.461828,24.565670&whatshere[zoom]=19",
+      "displacementMetersFromPriorCalibration": 0.05
     },
     {
       "villaNumber": "3",
