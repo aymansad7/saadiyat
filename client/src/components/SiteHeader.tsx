@@ -3,7 +3,7 @@
  * Editorial wordmark "Saadiyat" with breadcrumb-style sub-label.
  */
 import { Link, useLocation } from "wouter";
-import { ArrowLeft, MapPin, ChevronDown, FolderOpen, LogOut, User as UserIcon, ShieldCheck, History, Map, Search } from "lucide-react";
+import { ArrowLeft, ChevronDown, FolderOpen, LogOut, User as UserIcon, ShieldCheck, History, Map, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -86,6 +86,8 @@ const ALL_PROJECTS = [
   { name: "Athlon", href: "/aldar-other/athlon" },
 ];
 
+const BRAND_LOGO_URL = "/manus-storage/saadiyat-logo-with-url_742d6090.png";
+
 interface Props {
   subTitle?: string;
   back?: { href: string; label: string };
@@ -120,8 +122,8 @@ export default function SiteHeader({ subTitle, back }: Props) {
   }, [searchOpen]);
 
   return (
-    <header className="border-b border-border/70 bg-background/80 backdrop-blur-md sticky top-0 z-40">
-      <div className="container py-2.5 sm:py-4 flex items-center gap-2 sm:gap-4 min-w-0">
+    <header className="border-b border-border bg-background/95 backdrop-blur-md sticky top-0 z-40">
+      <div className="container py-2.5 sm:py-3.5 flex items-center gap-2 sm:gap-4 min-w-0">
         {back && (
           <Button asChild variant="ghost" size="sm" className="gap-1.5 -ml-2 text-muted-foreground hover:text-foreground">
             <Link href={back.href}>
@@ -130,12 +132,16 @@ export default function SiteHeader({ subTitle, back }: Props) {
             </Link>
           </Button>
         )}
-        <Link href="/" className="flex shrink-0 items-center gap-2.5 group max-[480px]:gap-0">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-sm border border-primary/40 bg-primary/10 text-primary">
-            <MapPin className="h-3.5 w-3.5" />
+        <Link href="/" className="flex shrink-0 items-center gap-2.5 group max-[480px]:gap-0" aria-label="Saadiyat Resale Hub home">
+          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-border bg-card p-0.5 shadow-sm">
+            <img
+              src={BRAND_LOGO_URL}
+              alt="Saadiyat logo with saadiyatresale.com"
+              className="h-full w-full scale-[1.35] object-contain"
+            />
           </span>
           <div className="leading-tight max-[480px]:hidden">
-            <div className="font-display text-[1.15rem] sm:text-[1.35rem] font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors">
+            <div className="font-display text-[1.2rem] sm:text-[1.4rem] font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors">
               Saadiyat<span className="text-primary">.</span>Resale<span className="text-muted-foreground/70">Hub</span>
             </div>
             {subTitle ? (
@@ -384,7 +390,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
                     <DropdownMenuItem asChild>
                       <Link href="/admin/inventory-history" className="gap-2">
                         <History className="h-3.5 w-3.5 text-primary" />
-                        <span>Inventory history</span>
+                        <span>Sales &amp; inventory sync</span>
                       </Link>
                     </DropdownMenuItem>
                   </>

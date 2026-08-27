@@ -126,9 +126,27 @@ export function normStatus(status: string | null): string {
 }
 
 const SOLD_STATUSES = new Set(["sold"]);
+const SALE_AVAILABLE_STATUSES = new Set(["available", "new"]);
 /** True when a status represents a "gone / no longer purchasable" state. */
 export function isSoldStatus(status: string | null): boolean {
   return SOLD_STATUSES.has(normStatus(status));
+}
+
+/**
+ * Aldar labels both confirmed Available units and New-release units as
+ * purchasable inventory. The original source label remains visible in the UI.
+ */
+export function isSaleAvailableStatus(status: string | null): boolean {
+  return SALE_AVAILABLE_STATUSES.has(normStatus(status));
+}
+
+/** Build the exact internal card/detail route for a stored Aldar unit. */
+export function getInventoryUnitHref(
+  unit: Pick<SnapshotUnit, "dataset" | "projectSlug" | "buildingSlug" | "unitName">,
+): string | null {
+  if (!unit.projectSlug || !unit.buildingSlug || !unit.unitName) return null;
+  const prefix = unit.dataset === "saadiyat" ? "/aldar-saadiyat" : "/aldar-other";
+  return `${prefix}/${unit.projectSlug}/${unit.buildingSlug}/${encodeURIComponent(unit.unitName)}`;
 }
 
 /* ----------------------------- diff core ----------------------------- */
@@ -275,6 +293,35 @@ export type ProjectRollup = {
   removed: number;
   examples: string[]; // short human strings, capped
 };
+
+/** Human-readable, source-safe summary for the admin desk and scheduled alert. */
+export function buildSyncChangeSummary(
+  counts: Pick<RunCounts, "unitsScanned" | "newUnits" | "soldUnits" | "statusChanges" | "priceChanges" | "removedUnits">,
+  rollups: ProjectRollup[],
+) {
+  const changed = counts.newUnits + counts.soldUnits + counts.statusChanges + counts.priceChanges + counts.removedUnits;
+  const headline = changed === 0
+    ? `No changes detected across ${counts.unitsScanned.toLocaleString()} Aldar inventory records.`
+    : `${changed.toLocaleString()} change${changed === 1 ? "" : "s"} across ${counts.unitsScanned.toLocaleString()} Aldar inventory records.`;
+  const metrics = [
+    counts.newUnits ? `${counts.newUnits} new` : null,
+    counts.soldUnits ? `${counts.soldUnits} sold` : null,
+    counts.statusChanges ? `${counts.statusChanges} status` : null,
+    counts.priceChanges ? `${counts.priceChanges} price` : null,
+    counts.removedUnits ? `${counts.removedUnits} removed` : null,
+  ].filter(Boolean).join(" · ");
+  const projects = rollups.slice(0, 5).map(row => {
+    const activity = [
+      row.newUnits ? `${row.newUnits} new` : null,
+      row.sold ? `${row.sold} sold` : null,
+      row.statusChanges ? `${row.statusChanges} status` : null,
+      row.priceChanges ? `${row.priceChanges} price` : null,
+      row.removed ? `${row.removed} removed` : null,
+    ].filter(Boolean).join(", ");
+    return activity ? `${row.projectName ?? row.projectSlug}: ${activity}` : null;
+  }).filter((project): project is string => Boolean(project));
+  return { changed, headline, metrics, projects };
+}
 
 export function summarize(events: DiffEvent[]): {
   counts: RunCounts;
@@ -591,4 +638,42 @@ export async function listEventsForRun(runId: number, limit = 2000) {
     .where(eq(inventoryUnitEvents.runId, runId))
     .orderBy(desc(inventoryUnitEvents.id))
     .limit(limit);
+}
+
+/**
+ * Current purchasable Aldar units for the admin sales desk.
+ * The database state is preferred because a manual JSON import is persisted
+ * there. A bundled-data fallback keeps the first-run experience useful while
+ * explicitly reporting that it has not yet been synced.
+ */
+export async function listCurrentSaleInventory() {
+  const db = await getDb();
+  const stateRows = db ? await db.select().from(inventoryUnitState) : [];
+  const source = stateRows.length > 0 ? "last-synced" : "bundled-baseline";
+  const rows = stateRows.length > 0 ? stateRows : loadSnapshotUnits();
+
+  const units = rows
+    .filter(unit => (!("isPresent" in unit) || unit.isPresent !== false) && isSaleAvailableStatus(unit.status))
+    .map(unit => ({
+      dataset: unit.dataset,
+      projectSlug: unit.projectSlug,
+      projectName: unit.projectName,
+      buildingSlug: unit.buildingSlug,
+      buildingName: unit.buildingName,
+      unitName: unit.unitName,
+      aldarLink: unit.aldarLink,
+      status: unit.status,
+      priceAed: unit.priceAed,
+      bedrooms: unit.bedrooms,
+      unitType: unit.unitType,
+      lastSeenAt: "lastSeenAt" in unit ? unit.lastSeenAt : null,
+      href: getInventoryUnitHref(unit),
+    }))
+    .sort((a, b) =>
+      `${a.projectName ?? a.projectSlug}|${a.buildingName ?? ""}|${a.unitName}`.localeCompare(
+        `${b.projectName ?? b.projectSlug}|${b.buildingName ?? ""}|${b.unitName}`,
+      ),
+    );
+
+  return { source, units };
 }

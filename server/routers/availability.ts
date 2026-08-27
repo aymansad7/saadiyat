@@ -12,13 +12,13 @@
 import { z } from "zod";
 import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import {
-  countAvailabilityByCommunity,
   deleteAvailability,
   getAvailabilityById,
   insertAvailability,
   listAvailability,
   updateAvailability,
 } from "../db";
+import { getAvailabilitySummary, listAvailabilityResults } from "../availabilityResults";
 
 const sourceEnum = z.enum(["nas-luxury", "aldar", "others", "manual"]);
 const statusEnum = z.enum(["available", "reserved", "sold", "off-market"]);
@@ -26,43 +26,13 @@ const statusEnum = z.enum(["available", "reserved", "sold", "off-market"]);
 export const availabilityRouter = router({
   /** Public summary — counts grouped by community/status/source. */
   summary: publicProcedure.query(async () => {
-    const rows = await countAvailabilityByCommunity();
-    // Aggregate into a friendly shape:
-    const byCommunity = new Map<
-      string,
-      {
-        community: string;
-        total: number;
-        available: number;
-        reserved: number;
-        sold: number;
-        offMarket: number;
-        bySource: Record<string, number>;
-      }
-    >();
-    for (const r of rows) {
-      const cur =
-        byCommunity.get(r.community) ?? {
-          community: r.community,
-          total: 0,
-          available: 0,
-          reserved: 0,
-          sold: 0,
-          offMarket: 0,
-          bySource: {} as Record<string, number>,
-        };
-      cur.total += r.count;
-      if (r.status === "available") cur.available += r.count;
-      if (r.status === "reserved") cur.reserved += r.count;
-      if (r.status === "sold") cur.sold += r.count;
-      if (r.status === "off-market") cur.offMarket += r.count;
-      cur.bySource[r.source] = (cur.bySource[r.source] ?? 0) + r.count;
-      byCommunity.set(r.community, cur);
-    }
-    return {
-      communities: Array.from(byCommunity.values()),
-    };
+    return { communities: await getAvailabilitySummary() };
   }),
+
+  /** Public source drill-down. Contact data and protected owner fields are deliberately omitted. */
+  results: publicProcedure
+    .input(z.object({ source: z.union([sourceEnum, z.literal("any")]).default("any") }).default({ source: "any" }))
+    .query(async ({ input }) => listAvailabilityResults(input.source)),
 
   /** Public — visible listings for a community (no contactLabel). */
   listForCommunity: publicProcedure

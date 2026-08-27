@@ -67,14 +67,15 @@ export function AvailabilityFilter({ communities }: Props) {
         Live availability
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
-        <Stat label="Total available" value={totalAvailable} accent="primary" />
+        <Stat label="Total available" value={totalAvailable} accent="primary" href="/availability?source=any" />
         <Stat
           label="Available with NAS Luxury"
           value={totalNAS}
           accent="emerald"
+          href="/availability?source=nas-luxury"
         />
-        <Stat label="Aldar Resale" value={totalAldar} />
-        <Stat label="Other brokers" value={totalOthers} />
+        <Stat label="Aldar Resale" value={totalAldar} href="/availability?source=aldar" />
+        <Stat label="Other brokers" value={totalOthers} href="/availability?source=others" />
       </div>
       <div className="overflow-x-auto -mx-1">
         <table className="w-full text-sm">
@@ -131,7 +132,7 @@ export function AvailabilityFilter({ communities }: Props) {
         </table>
       </div>
       <p className="text-xs text-muted-foreground mt-3">
-        Counts are live from the admin-managed inventory.{" "}
+        NAS includes every stored property whose current status is Available. Other-broker entries are source-backed records only.{" "}
         <Link
           href="/admin/availability"
           className="underline underline-offset-2 hover:text-foreground"
@@ -147,10 +148,12 @@ function Stat({
   label,
   value,
   accent,
+  href,
 }: {
   label: string;
   value: number;
   accent?: "primary" | "emerald";
+  href?: string;
 }) {
   const cls =
     accent === "emerald"
@@ -163,9 +166,7 @@ function Stat({
       <div className="text-[0.65rem] uppercase tracking-[0.18em] font-mono text-muted-foreground">
         {label}
       </div>
-      <div className={`font-display num-display text-3xl mt-1 ${cls}`}>
-        {value}
-      </div>
+      {href ? <Link href={href} className={`font-display num-display text-3xl mt-1 inline-block hover:underline underline-offset-4 ${cls}`} aria-label={`View ${label}`}>{value}</Link> : <div className={`font-display num-display text-3xl mt-1 ${cls}`}>{value}</div>}
     </div>
   );
 }

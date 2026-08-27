@@ -187,33 +187,29 @@ export default function Landing() {
       <section className="relative overflow-hidden">
         <div className="container pt-10 sm:pt-16 lg:pt-20 pb-14 sm:pb-20 grid grid-cols-12 gap-6 lg:gap-10">
           <div className="col-span-12 lg:col-span-5 flex flex-col justify-center">
-            <div className="flex items-center gap-2 mb-5 text-xs uppercase tracking-[0.22em] font-mono text-primary">
-              <span className="h-px w-8 bg-primary/60" />
-              Saadiyat Resale Hub
-            </div>
-            <h1 className="font-display text-[2.5rem] leading-[1.05] sm:text-[3.4rem] lg:text-[4rem] font-medium text-foreground">
-              Every Saadiyat project,
+            <h1 className="font-display text-[2.6rem] leading-[1.03] sm:text-[3.5rem] lg:text-[4.15rem] font-medium text-foreground">
+              The Saadiyat resale market,
               <br />
-              <span className="italic text-primary">villa by villa.</span>
+              <span className="italic text-primary">clearly mapped.</span>
             </h1>
             <p className="mt-6 text-[1.02rem] text-muted-foreground max-w-md leading-relaxed">
-              A curated resale atlas of every master-planned project on
-              Saadiyat Island — St. Regis Villas, Saadiyat Lagoons, Saadiyat
-              Beach Villas, Jawaher and more. For each plot: the official DMT
-              DCR sheet, a precise Google Maps pin, and live availability.
+              A practical, source-led workspace for Saadiyat Island — from
+              villas and private plots to residences and developer inventory.
+              Each documented record connects its key facts, source files,
+              location and current availability in one place.
             </p>
             <div className="mt-8 flex items-center gap-3">
               <Button asChild size="lg" className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-md shadow-sm">
                 <a href="#communities">
-                  Browse projects
+                  Explore all projects
                   <ArrowUpRight className="h-4 w-4" />
                 </a>
               </Button>
               <Link
-                href="/st-regis"
+                href="/available-units"
                 className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-4 decoration-dotted decoration-muted-foreground/60"
               >
-                Jump to St. Regis Villas
+                View available units
               </Link>
             </div>
 

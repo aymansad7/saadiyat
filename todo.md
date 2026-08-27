@@ -634,3 +634,21 @@
 - [x] Fix auth timing and marker refresh so Map Card rebuilds after protected owner overrides arrive; cache permissions by community and avoid per-row grant queries for Master/Admin
 - [x] Show owner name/mobile automatically for Master Admin and explicitly authorized users while omitting both from public/unauthorized API results
 - [x] Add a live-database integration regression for `lagoons/AlSidr-111-02`, run TypeScript and 256 full tests, and verify the mobile map shell before publishing
+
+### Saadiyat Resale Hub Redesign, Availability and Sales Sync (Aug 27, 2026)
+- [x] Replace the header pin with the approved Saadiyat logo and identify the site as a Saadiyat-wide resale hub rather than a St. Regis site
+- [x] Remove duplicated Saadiyat Resale Hub home-page wording and refine typography/spacing to a restrained editorial real-estate treatment
+- [x] Build a sales-oriented Sync page showing every currently available Aldar Inventory unit with project, core property facts, latest price/status, source, and exact card/detail link
+- [x] Make Available with NAS automatically reflect each property whose stored availability status is Available, across all supported communities, with a clickable results view
+- [x] Reconcile Available with Aldar Resale and Other Brokers against source-backed listings; do not label scraped/unknown data as available without a documented source
+- [x] Enhance daily and manual Aldar sync with change summary, timestamp, unit-level change log, user-requested Sync action, and Master Admin notification summary
+- [x] Add tests for source counts, availability-source routing, deep links, sync change summaries, and mobile/desktop sales workflow
+- [ ] Verify the redesigned header/home, availability drill-downs, and Sync page on mobile and desktop, then publish
+
+### Saadiyat Logo with Website URL (Aug 26, 2026)
+- [x] Create a clean high-resolution rendition of the supplied Saadiyat logo on a white background
+- [x] Add `saadiyatresale.com` beneath the logo in a refined, legible brand-aligned treatment
+- [x] Review and deliver the final 2048×2048 image asset
+
+### Saadiyat Resale Hub Redesign, Availability and Sales Sync (Aug 27, 2026) — duplicate staging record, superseded
+- [x] Duplicate task block retained for audit history; implementation is tracked in the primary block above.

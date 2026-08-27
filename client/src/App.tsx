@@ -42,6 +42,7 @@ import PublicResaleSearch from "./pages/PublicResaleSearch";
 import CommunityPage from "./pages/CommunityPage";
 import HiddAlSaadiyat from "./pages/HiddAlSaadiyat";
 import AvailableUnits from "./pages/AvailableUnits";
+import AvailabilityResults from "./pages/AvailabilityResults";
 import SaadiyatMap from "./pages/SaadiyatMap";
 import SaadiyatReserve from "./pages/SaadiyatReserve";
 import FourSeasons from "./pages/FourSeasons";
@@ -57,6 +58,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/available-units" component={AvailableUnits} />
+      <Route path="/availability" component={AvailabilityResults} />
       <Route path="/map" component={SaadiyatMap} />
       <Route path="/nudra">{() => <PropertyProjectGate projectKey="nudra"><Nudra /></PropertyProjectGate>}</Route>
       <Route path="/private-owners-vip">{() => <PropertyProjectGate projectKey="private-owners-vip"><DcrCommunityPage kind="private-owners-vip" /></PropertyProjectGate>}</Route>

@@ -16,6 +16,8 @@ import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import {
   getLatestRun,
   getUnitTimeline,
+  buildSyncChangeSummary,
+  listCurrentSaleInventory,
   listEventsForRun,
   listRuns,
   runInventorySync,
@@ -50,6 +52,11 @@ export const inventoryHistoryRouter = router({
     return { run, rollups };
   }),
 
+  /** Current purchasable Aldar units, with exact internal detail links. */
+  currentSaleInventory: adminProcedure.query(async () => {
+    return listCurrentSaleInventory();
+  }),
+
   /** Sync-run history for the admin monitoring page. */
   runs: adminProcedure
     .input(z.object({ limit: z.number().int().min(1).max(100).default(30) }).optional())
@@ -72,7 +79,7 @@ export const inventoryHistoryRouter = router({
       trigger: "manual",
       triggeredBy: who,
     });
-    return { runId, counts, rollups };
+    return { runId, counts, rollups, summary: buildSyncChangeSummary(counts, rollups) };
   }),
 
   /**
@@ -100,6 +107,6 @@ export const inventoryHistoryRouter = router({
           other: input.other as any,
         },
       });
-      return { runId, counts, rollups };
+      return { runId, counts, rollups, summary: buildSyncChangeSummary(counts, rollups) };
     }),
 });
