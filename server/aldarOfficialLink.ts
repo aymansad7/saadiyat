@@ -4,15 +4,6 @@ const ALDAR_HOST = "world.aldar.com";
 const TIMEOUT_MS = 12_000;
 
 const CURRENT_UNIT_QUERY = "unitstate=floorplan&scheme=S1&furnished=true";
-/**
- * Aldar URLs which were opened and verified in a browser by the user but can
- * return an inaccurate status to a server-side, unauthenticated fetch. The
- * target is still calculated from a strict project + unit-code rule below;
- * this set only bypasses the unreliable preflight for that documented case.
- */
-const BROWSER_VERIFIED_CURRENT_UNIT_KEYS = new Set([
-  "the-sustainable-city-yas-island:sc-yn7-th-362",
-]);
 const WITHDRAWN_CURRENT_UNIT_KEYS = new Set([
   "the-row-saadiyat:therowsaadiyat-b1-01-15",
   "the-row-saadiyat:therowsaadiyat-b2-01-05",
@@ -177,6 +168,14 @@ export function getExactOfficialAldarUnitUrl(
   return new URL(rawUrl).toString();
 }
 
+export function isGeneratedCurrentAldarUnitUrl(
+  target: string | null | undefined,
+  unitName: string | null | undefined,
+  projectSlug?: string | null,
+) {
+  return Boolean(target && unitName && target === currentAldarUnitUrl(projectSlug, unitName));
+}
+
 function unavailableHtml(title: string, detail: string) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${title}</title><style>body{margin:0;background:#fbfaf7;color:#1d2823;font-family:Arial,sans-serif}.wrap{max-width:620px;margin:10vh auto;padding:32px}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#98703d}h1{font-family:Georgia,serif;font-size:34px;font-weight:400;line-height:1.15;margin:12px 0}p{color:#58615c;line-height:1.6}a{display:inline-block;margin-top:12px;color:#896225;text-decoration:underline}</style></head><body><main class="wrap"><div class="eyebrow">Saadiyat Resale Hub · Aldar source</div><h1>${title}</h1><p>${detail}</p><a href="javascript:window.close()">Close this tab</a></main></body></html>`;
 }
@@ -198,8 +197,7 @@ export async function aldarOfficialLinkHandler(req: Request, res: Response) {
     ));
   }
 
-  const browserVerifiedKey = `${(projectSlug ?? "").trim().toLowerCase()}:${(unitName ?? "").trim().toLowerCase()}`;
-  if (BROWSER_VERIFIED_CURRENT_UNIT_KEYS.has(browserVerifiedKey)) {
+  if (isGeneratedCurrentAldarUnitUrl(target, unitName, projectSlug)) {
     return res.redirect(302, target);
   }
 

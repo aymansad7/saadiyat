@@ -708,6 +708,11 @@
 - [x] Keep the preflight and unavailable state for legacy source URLs and unknown/unverified project-unit combinations
 - [x] Add regression coverage and verify the published Sustainable City button redirects to the exact supplied Aldar URL
 
+### Aldar Browser-Verified Current Links (Aug 27, 2026)
+- [x] Redirect every generated current URL with a verified project/unit rule directly to the browser, avoiding false negative server-side preflight responses
+- [x] Retain server preflight for legacy-only links and unavailable states for explicit withdrawals or unknown project/unit formats
+- [x] Add regression coverage and verify current-link routing across Sustainable City, Saadiyat, Fahid, and Other project cards
+
 ### Four Seasons Interactive Map Controls Correction (Aug 27, 2026)
 - [ ] Compare every new user-supplied Four Seasons villa, plot, and coordinate control against the published villa-to-plot registry and identify conflicts before location writes
 - [ ] Apply each non-conflicting exact SDN3 control in latitude/longitude storage order and preserve it as a user-supplied official coordinate source

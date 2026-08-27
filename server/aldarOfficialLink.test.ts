@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getExactOfficialAldarUnitUrl } from "./aldarOfficialLink";
+import { getExactOfficialAldarUnitUrl, isGeneratedCurrentAldarUnitUrl } from "./aldarOfficialLink";
 
 describe("official Aldar unit link validation", () => {
   const exactUrl = "https://world.aldar.com/uae/abudhabi/mamshagarden/property/MamshaGarden-B5-01-05";
@@ -52,6 +52,31 @@ describe("official Aldar unit link validation", () => {
       "SC-YN7-TH-001",
       "the-sustainable-city-yas-island",
     )).toBe("https://world.aldar.com/uae/abudhabi/sc/property/YN7-001-01/0?unitstate=floorplan&scheme=S1&furnished=true");
+  });
+
+  it("keeps each generated current URL strictly scoped to its matching project rule", () => {
+    expect(getExactOfficialAldarUnitUrl(
+      "https://world.aldar.com/uae/abudhabi/onesaadiyat/property/OneSaadiyat-Zenith-06-03",
+      "OneSaadiyat-Zenith-06-03",
+      "onesaadiyat",
+    )).toBe("https://world.aldar.com/uae/abudhabi/onesaadiyat/property/Zenith-06-03/0?unitstate=floorplan&scheme=S1&furnished=true");
+    expect(getExactOfficialAldarUnitUrl(
+      null,
+      "OneSaadiyat-Zenith-06-03",
+      "the-sustainable-city-yas-island",
+    )).toBeNull();
+  });
+
+  it("recognizes browser-safe current URLs without trusting a stale legacy target", () => {
+    const sustainableCurrent = getExactOfficialAldarUnitUrl(null, "SC-YN7-TH-362", "the-sustainable-city-yas-island");
+    const oneCurrent = getExactOfficialAldarUnitUrl(null, "OneSaadiyat-Zenith-06-03", "onesaadiyat");
+    expect(isGeneratedCurrentAldarUnitUrl(sustainableCurrent, "SC-YN7-TH-362", "the-sustainable-city-yas-island")).toBe(true);
+    expect(isGeneratedCurrentAldarUnitUrl(oneCurrent, "OneSaadiyat-Zenith-06-03", "onesaadiyat")).toBe(true);
+    expect(isGeneratedCurrentAldarUnitUrl(
+      "https://world.aldar.com/uae/abudhabi/sc/property/SC-YN7-TH-362",
+      "SC-YN7-TH-362",
+      "the-sustainable-city-yas-island",
+    )).toBe(false);
   });
 
   it.each([
