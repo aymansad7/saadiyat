@@ -164,6 +164,9 @@ export function MapView({
       fullscreenControl: true,
       zoomControl: true,
       streetViewControl: true,
+      // The Interactive Map owns pinch and wheel gestures inside its canvas.
+      // This prevents map browsing from becoming browser/page zoom on touch devices.
+      gestureHandling: "greedy",
       mapId: "DEMO_MAP_ID",
     });
     if (onMapReady) {
@@ -187,6 +190,6 @@ export function MapView({
   }, [init]);
 
   return (
-    <div ref={mapContainer} className={cn("w-full h-[500px]", className)} />
+    <div ref={mapContainer} className={cn("w-full h-[500px] touch-none", className)} />
   );
 }

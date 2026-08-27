@@ -8,8 +8,9 @@ const source = readFileSync(
 );
 
 describe("Interactive Map card dismissal", () => {
-  it("closes the active InfoWindow when the user clicks empty map space", () => {
+  it("closes the active selected card when the user clicks empty map space", () => {
     expect(source).toContain('map.addListener("click", dismissInfoWindow)');
+    expect(source).toContain("setSelectedMarker(null)");
     expect(source).toContain("infoWindowRef.current?.close()");
   });
 
@@ -17,5 +18,13 @@ describe("Interactive Map card dismissal", () => {
     expect(source).toContain('url.searchParams.delete("plot")');
     expect(source).toContain('addListener("closeclick", clearPlotDeepLink)');
     expect(source).toContain("window.history.replaceState");
+  });
+
+  it("keeps the map canvas responsible for touch gestures while the Header and card remain fixed", () => {
+    expect(source).toContain("<SiteHeader fixed />");
+    expect(source).toContain("className=\"h-full w-full touch-none\"");
+    expect(source).toContain("selectedMarker &&");
+    expect(source).toContain("map.setCenter({ lat: data.lat, lng: data.lng })");
+    expect(source).toContain("highlightMarker(data.id)");
   });
 });

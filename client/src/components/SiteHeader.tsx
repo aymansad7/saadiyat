@@ -91,9 +91,10 @@ const BRAND_LOGO_URL = "/manus-storage/saadiyat-logo-with-url_742d6090.png";
 interface Props {
   subTitle?: string;
   back?: { href: string; label: string };
+  fixed?: boolean;
 }
 
-export default function SiteHeader({ subTitle, back }: Props) {
+export default function SiteHeader({ subTitle, back, fixed = false }: Props) {
   const [location] = useLocation();
   const showHomeLink = location !== "/";
   const { user, isAuthenticated, logout } = useAuth();
@@ -122,7 +123,7 @@ export default function SiteHeader({ subTitle, back }: Props) {
   }, [searchOpen]);
 
   return (
-    <header className="border-b border-border bg-background/95 backdrop-blur-md sticky top-0 z-40">
+    <header className={`border-b border-border bg-background/95 backdrop-blur-md ${fixed ? "fixed inset-x-0 top-0 z-50" : "sticky top-0 z-40"}`}>
       <div className="container py-2.5 sm:py-3.5 flex items-center gap-2 sm:gap-4 min-w-0">
         {back && (
           <Button asChild variant="ghost" size="sm" className="gap-1.5 -ml-2 text-muted-foreground hover:text-foreground">

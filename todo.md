@@ -671,3 +671,9 @@
 - [x] Verify each project format against official Aldar responses and record source provenance without guessing a unit URL
 - [x] Apply verified current URLs to cards, search results, and Sync while retaining the legacy URL only where it still resolves
 - [x] Add project-level regression tests, run full validation, and publish the all-project link coverage
+
+### Interactive Map Fixed Frame and Touch Controls (Aug 27, 2026)
+- [x] Keep the site Header and selected-unit card in a fixed, readable interface frame while browsing the Interactive Map
+- [x] Restrict pinch, wheel, and drag zoom interactions to the Google Map canvas without browser-page zoom or accidental header/card scaling
+- [x] Center and highlight the selected unit, with a responsive adjacent card panel that preserves access to all documented fields
+- [x] Add regression coverage and verify touch/desktop interaction, then publish

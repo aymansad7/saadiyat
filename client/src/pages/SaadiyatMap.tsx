@@ -12,7 +12,7 @@ import { useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, Layers, Search } from "lucide-react";
+import { Eye, EyeOff, Layers, Search, X } from "lucide-react";
 import { villas } from "@/data/villas";
 import { COMMUNITIES } from "@/data/communities";
 import { getPlotLandArea } from "@/data/plotLandAreas";
@@ -659,7 +659,10 @@ export default function SaadiyatMap() {
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
   const mapClickListenerRef = useRef<google.maps.MapsEventListener | null>(null);
   const infoCloseListenerRef = useRef<google.maps.MapsEventListener | null>(null);
+  const markerPinsRef = useRef(new Map<string, HTMLDivElement>());
+  const selectedPinIdRef = useRef<string | null>(null);
   const [showOwners, setShowOwners] = useState(false);
+  const [selectedMarker, setSelectedMarker] = useState<MapMarkerData | null>(null);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [baseMarkerData] = useState<MapMarkerData[]>(() => buildMarkers());
   const [editingMarker, setEditingMarker] = useState<MapMarkerData | null>(null);
@@ -714,6 +717,51 @@ export default function SaadiyatMap() {
       };
     });
   }, [baseMarkerData, permissionsByProject, propertyOverrides.data, user?.role]);
+
+  const clearPlotDeepLink = useCallback(() => {
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has("plot")) return;
+    url.searchParams.delete("plot");
+    window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+  }, []);
+
+  const highlightMarker = useCallback((markerId: string | null) => {
+    const previousId = selectedPinIdRef.current;
+    if (previousId) {
+      const previousPin = markerPinsRef.current.get(previousId);
+      if (previousPin) {
+        previousPin.style.transform = "scale(1)";
+        previousPin.style.outline = "none";
+        previousPin.style.zIndex = previousPin.dataset.available === "true" ? "10" : "1";
+      }
+    }
+    selectedPinIdRef.current = markerId;
+    if (!markerId) return;
+    const selectedPin = markerPinsRef.current.get(markerId);
+    if (selectedPin) {
+      selectedPin.style.transform = "scale(1.55)";
+      selectedPin.style.outline = "3px solid #f8fafc";
+      selectedPin.style.outlineOffset = "2px";
+      selectedPin.style.zIndex = "100";
+    }
+  }, []);
+
+  const closeSelectedMarker = useCallback(() => {
+    highlightMarker(null);
+    setSelectedMarker(null);
+    infoWindowRef.current?.close();
+    clearPlotDeepLink();
+  }, [clearPlotDeepLink, highlightMarker]);
+
+  const selectMarker = useCallback((data: MapMarkerData) => {
+    const map = mapRef.current;
+    if (map) {
+      map.setCenter({ lat: data.lat, lng: data.lng });
+      map.setZoom(Math.max(map.getZoom() ?? 14, 17));
+    }
+    highlightMarker(data.id);
+    setSelectedMarker(data);
+  }, [highlightMarker]);
 
   const getColor = (community: string) => {
     return COMMUNITY_CENTERS[community as keyof typeof COMMUNITY_CENTERS]?.color ?? "#6B7280";
@@ -888,33 +936,15 @@ export default function SaadiyatMap() {
     clustererRef.current = null;
     for (const marker of markersRef.current) marker.map = null;
     markersRef.current = [];
+    markerPinsRef.current.clear();
+    selectedPinIdRef.current = null;
     mapClickListenerRef.current?.remove();
     infoCloseListenerRef.current?.remove();
     infoWindowRef.current?.close();
     infoWindowRef.current = new google.maps.InfoWindow();
-    const clearPlotDeepLink = () => {
-      const url = new URL(window.location.href);
-      if (!url.searchParams.has("plot")) return;
-      url.searchParams.delete("plot");
-      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
-    };
-    const dismissInfoWindow = () => {
-      infoWindowRef.current?.close();
-      clearPlotDeepLink();
-    };
+    const dismissInfoWindow = () => closeSelectedMarker();
     mapClickListenerRef.current = map.addListener("click", dismissInfoWindow);
     infoCloseListenerRef.current = infoWindowRef.current.addListener("closeclick", clearPlotDeepLink);
-    const openInfoWindow = (data: MapMarkerData, marker: google.maps.marker.AdvancedMarkerElement) => {
-      infoWindowRef.current!.setContent(createInfoContent(data));
-      infoWindowRef.current!.open(map, marker);
-      google.maps.event.addListenerOnce(infoWindowRef.current!, "domready", () => {
-        const editButton = document.querySelector<HTMLButtonElement>(`[data-map-edit-marker="${data.id}"]`);
-        editButton?.addEventListener("click", () => {
-          setEditingMarker(data);
-          infoWindowRef.current?.close();
-        });
-      });
-    };
 
     // Create markers for all plots
     for (const m of markerData) {
@@ -929,11 +959,14 @@ export default function SaadiyatMap() {
       pin.style.border = isListed || isAvailable ? "3px solid #065F46" : "2px solid white";
       pin.style.boxShadow = isListed || isAvailable ? "0 0 8px rgba(16,185,129,0.6)" : "0 1px 3px rgba(0,0,0,0.3)";
       pin.style.cursor = "pointer";
+      pin.style.transition = "transform 160ms cubic-bezier(0.23, 1, 0.32, 1), outline-color 160ms ease-out";
+      pin.dataset.available = String(isListed || isAvailable);
       if (isListed || isAvailable) {
         pin.style.animation = "pulse 2s infinite";
         pin.style.zIndex = "10";
       }
       pin.dataset.community = m.community;
+      markerPinsRef.current.set(m.id, pin);
 
       const marker = new google.maps.marker.AdvancedMarkerElement({
         position: { lat: m.lat, lng: m.lng },
@@ -942,7 +975,7 @@ export default function SaadiyatMap() {
       });
 
       marker.addListener("click", () => {
-        openInfoWindow(m, marker);
+        selectMarker(m);
       });
 
       markersRef.current.push(marker);
@@ -963,14 +996,12 @@ export default function SaadiyatMap() {
       const requestedData = markerData[requestedIndex];
       const requestedMarker = markersRef.current[requestedIndex];
       if (requestedData && requestedMarker) {
-        map.setCenter({ lat: requestedData.lat, lng: requestedData.lng });
-        map.setZoom(18);
         window.setTimeout(() => {
-          openInfoWindow(requestedData, requestedMarker);
+          selectMarker(requestedData);
         }, 300);
       }
     }
-  }, [markerData, createInfoContent, plotParam]);
+  }, [markerData, plotParam, selectMarker, closeSelectedMarker, clearPlotDeepLink]);
 
   // MapView initialises Google Maps only once. Owner/listing overrides arrive
   // asynchronously after authentication, so rebuild the marker closures when
@@ -980,6 +1011,13 @@ export default function SaadiyatMap() {
     if (!mapRef.current) return;
     handleMapReady(mapRef.current);
   }, [handleMapReady]);
+
+  useEffect(() => {
+    if (!selectedMarker) return;
+    const refreshed = markerData.find(marker => marker.id === selectedMarker.id);
+    if (refreshed) setSelectedMarker(refreshed);
+    else setSelectedMarker(null);
+  }, [markerData, selectedMarker?.id]);
 
   useEffect(() => () => {
     mapClickListenerRef.current?.remove();
@@ -1033,10 +1071,11 @@ export default function SaadiyatMap() {
   const visibleMarkerCount = markerData.filter(markerMatchesFilters).length;
 
   return (
-    <div className="h-screen flex flex-col bg-background overflow-hidden">
-      <SiteHeader />
+    <div className="h-[100dvh] min-h-0 flex flex-col bg-background overflow-hidden overscroll-none">
+      <SiteHeader fixed />
       {/* Full screen map container */}
-      <div className="flex-1 relative">
+      <div className="flex-1 min-h-0 relative pt-[65px] sm:pt-[77px]">
+        <div className="relative h-full min-h-0">
         {/* Controls overlay */}
         <div className="absolute top-3 left-3 right-3 z-10 flex flex-wrap gap-2 pointer-events-none">
           <div className="pointer-events-auto flex flex-wrap gap-1.5 bg-background/90 backdrop-blur-sm rounded-lg px-2.5 py-2 shadow-md border border-border/50">
@@ -1122,11 +1161,33 @@ export default function SaadiyatMap() {
         </div>
         {/* Map fills remaining space */}
         <MapView
-          className="h-full w-full"
+          className="h-full w-full touch-none"
           initialCenter={{ lat: 24.5460, lng: 54.4300 }}
           initialZoom={14}
           onMapReady={handleMapReady}
         />
+        {selectedMarker && (
+          <aside
+            aria-label={`${selectedMarker.label} details`}
+            className="absolute z-30 right-3 top-3 bottom-3 w-[min(380px,calc(100%-1.5rem))] overflow-hidden rounded-xl border border-border bg-background/97 shadow-2xl backdrop-blur-md touch-pan-y md:top-4 md:right-4 md:bottom-4 max-md:top-auto max-md:left-3 max-md:right-3 max-md:bottom-3 max-md:w-auto max-md:max-h-[48dvh]"
+            onClick={(event) => {
+              const target = event.target as HTMLElement;
+              const editButton = target.closest<HTMLButtonElement>(`[data-map-edit-marker="${selectedMarker.id}"]`);
+              if (editButton) {
+                event.preventDefault();
+                setEditingMarker(selectedMarker);
+              }
+            }}
+          >
+            <div className="flex items-center justify-between border-b border-border px-3 py-2">
+              <span className="text-[0.68rem] font-mono uppercase tracking-[0.14em] text-muted-foreground">Selected unit</span>
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={closeSelectedMarker} aria-label="Close selected unit card">
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            <div className="max-h-[calc(100%-49px)] overflow-y-auto overscroll-contain px-3 py-2 touch-pan-y" dangerouslySetInnerHTML={{ __html: createInfoContent(selectedMarker) }} />
+          </aside>
+        )}
         {editingMarker?.villaKey && (
           <ListingEditor
             open={Boolean(editingMarker)}
@@ -1136,6 +1197,7 @@ export default function SaadiyatMap() {
             villaLabel={editingMarker.label}
           />
         )}
+        </div>
       </div>
     </div>
   );
