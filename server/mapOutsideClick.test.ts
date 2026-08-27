@@ -20,8 +20,10 @@ describe("Interactive Map card dismissal", () => {
     expect(source).toContain("window.history.replaceState");
   });
 
-  it("keeps the map canvas responsible for touch gestures while the Header and card remain fixed", () => {
-    expect(source).toContain("<SiteHeader fixed />");
+  it("keeps the map canvas responsible for touch gestures while its compact Header can collapse and restore", () => {
+    expect(source).toContain("<SiteHeader fixed compact onCollapse={() => setIsHeaderCollapsed(true)} />");
+    expect(source).toContain("layoutVersion={isHeaderCollapsed ? 1 : 0}");
+    expect(source).toContain("setIsHeaderCollapsed(false)");
     expect(source).toContain("className=\"h-full w-full touch-none\"");
     expect(source).toContain("selectedMarker &&");
     expect(source).toContain("map.setCenter({ lat: data.lat, lng: data.lng })");

@@ -135,6 +135,8 @@ interface MapViewProps {
   initialCenter?: google.maps.LatLngLiteral;
   initialZoom?: number;
   onMapReady?: (map: google.maps.Map) => void;
+  /** Increment when the surrounding layout changes, e.g. the map header is collapsed. */
+  layoutVersion?: number;
 }
 
 export function MapView({
@@ -142,6 +144,7 @@ export function MapView({
   initialCenter = { lat: 37.7749, lng: -122.4194 },
   initialZoom = 12,
   onMapReady,
+  layoutVersion = 0,
 }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map | null>(null);
@@ -188,6 +191,22 @@ export function MapView({
   useEffect(() => {
     init();
   }, [init]);
+
+  useEffect(() => {
+    if (!map.current || !window.google?.maps) return;
+    const reflow = () => {
+      if (!map.current) return;
+      const center = map.current.getCenter();
+      window.google.maps.event.trigger(map.current, "resize");
+      if (center) map.current.setCenter(center);
+    };
+    const frame = requestAnimationFrame(reflow);
+    const timeout = window.setTimeout(reflow, 120);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+    };
+  }, [layoutVersion]);
 
   return (
     <div ref={mapContainer} className={cn("w-full h-[500px] touch-none", className)} />

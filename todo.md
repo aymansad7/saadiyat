@@ -729,3 +729,9 @@
 - [x] Record the user confirmation that Villa 34 belongs to Plot 115 and Villa 35 belongs to Plot 116
 - [x] Apply the confirmed Villa 34 and Villa 35 controls, retaining only Villa 10 and Villa 16 without a plot reassignment
 - [x] Recalibrate, test direct map/card links, and publish the confirmed locations
+
+### Interactive Map Compact Collapsible Header (Aug 27, 2026)
+- [x] Reduce the vertical footprint of the fixed map header without removing navigation or account access
+- [x] Add a keyboard-accessible arrow control that collapses the header and visibly restores it from the map canvas
+- [x] Reflow the map and selected-unit panel on header collapse/restore so available viewport space is immediately used
+- [x] Add regression coverage, verify phone and desktop states, and publish

@@ -3,7 +3,7 @@
  * Editorial wordmark "Saadiyat" with breadcrumb-style sub-label.
  */
 import { Link, useLocation } from "wouter";
-import { ArrowLeft, ChevronDown, FolderOpen, LogOut, User as UserIcon, ShieldCheck, History, Map, Search } from "lucide-react";
+import { ArrowLeft, ChevronDown, ChevronUp, FolderOpen, LogOut, User as UserIcon, ShieldCheck, History, Map, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -92,9 +92,11 @@ interface Props {
   subTitle?: string;
   back?: { href: string; label: string };
   fixed?: boolean;
+  compact?: boolean;
+  onCollapse?: () => void;
 }
 
-export default function SiteHeader({ subTitle, back, fixed = false }: Props) {
+export default function SiteHeader({ subTitle, back, fixed = false, compact = false, onCollapse }: Props) {
   const [location] = useLocation();
   const showHomeLink = location !== "/";
   const { user, isAuthenticated, logout } = useAuth();
@@ -124,7 +126,7 @@ export default function SiteHeader({ subTitle, back, fixed = false }: Props) {
 
   return (
     <header className={`border-b border-border bg-background/95 backdrop-blur-md ${fixed ? "fixed inset-x-0 top-0 z-50" : "sticky top-0 z-40"}`}>
-      <div className="container py-2.5 sm:py-3.5 flex items-center gap-2 sm:gap-4 min-w-0">
+      <div className={`container flex items-center gap-2 sm:gap-4 min-w-0 ${compact ? "py-1 sm:py-1.5" : "py-2.5 sm:py-3.5"}`}>
         {back && (
           <Button asChild variant="ghost" size="sm" className="gap-1.5 -ml-2 text-muted-foreground hover:text-foreground">
             <Link href={back.href}>
@@ -134,7 +136,7 @@ export default function SiteHeader({ subTitle, back, fixed = false }: Props) {
           </Button>
         )}
         <Link href="/" className="flex shrink-0 items-center gap-2.5 group max-[480px]:gap-0" aria-label="Saadiyat Resale Hub home">
-          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-border bg-card p-0.5 shadow-sm sm:h-11 sm:w-11">
+          <span className={`inline-flex shrink-0 items-center justify-center overflow-hidden rounded-sm border border-border bg-card p-0.5 shadow-sm ${compact ? "h-8 w-8 sm:h-9 sm:w-9" : "h-10 w-10 sm:h-11 sm:w-11"}`}>
             <img
               src={BRAND_LOGO_URL}
               alt="Saadiyat logo with saadiyatresale.com"
@@ -142,7 +144,7 @@ export default function SiteHeader({ subTitle, back, fixed = false }: Props) {
             />
           </span>
           <div className="leading-tight max-[480px]:hidden">
-            <div className="font-display text-[1.2rem] sm:text-[1.4rem] font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors">
+            <div className={`font-display font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors ${compact ? "text-[1rem] sm:text-[1.15rem]" : "text-[1.2rem] sm:text-[1.4rem]"}`}>
               Saadiyat<span className="text-primary">.</span>Resale<span className="text-muted-foreground/70">Hub</span>
             </div>
             {subTitle ? (
@@ -157,6 +159,19 @@ export default function SiteHeader({ subTitle, back, fixed = false }: Props) {
           </div>
         </Link>
         <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
+          {compact && onCollapse && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-muted-foreground hover:text-foreground"
+              onClick={onCollapse}
+              aria-label="Hide map header"
+              title="Hide header for full-screen map"
+            >
+              <ChevronUp className="h-4 w-4" />
+            </Button>
+          )}
           {/* Project Search */}
           <div ref={searchRef} className="relative">
             <Button

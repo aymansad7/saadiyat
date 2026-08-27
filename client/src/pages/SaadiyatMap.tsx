@@ -12,7 +12,7 @@ import { useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, Layers, Search, X } from "lucide-react";
+import { ChevronDown, Eye, EyeOff, Layers, Search, X } from "lucide-react";
 import { villas } from "@/data/villas";
 import { COMMUNITIES } from "@/data/communities";
 import { getPlotLandArea } from "@/data/plotLandAreas";
@@ -699,6 +699,7 @@ export default function SaadiyatMap() {
   const [baseMarkerData] = useState<MapMarkerData[]>(() => buildMarkers());
   const [editingMarker, setEditingMarker] = useState<MapMarkerData | null>(null);
   const [isSatellite, setIsSatellite] = useState(false);
+  const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false);
   const [mapQuery, setMapQuery] = useState("");
   const [mapSearchOpen, setMapSearchOpen] = useState(false);
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
@@ -1126,9 +1127,11 @@ export default function SaadiyatMap() {
 
   return (
     <div className="h-[100dvh] min-h-0 flex flex-col bg-background overflow-hidden overscroll-none">
-      <SiteHeader fixed />
+      {!isHeaderCollapsed && (
+        <SiteHeader fixed compact onCollapse={() => setIsHeaderCollapsed(true)} />
+      )}
       {/* Full screen map container */}
-      <div className="flex-1 min-h-0 relative pt-[65px] sm:pt-[77px]">
+      <div className={`flex-1 min-h-0 relative transition-[padding] duration-200 ${isHeaderCollapsed ? "pt-0" : "pt-[48px] sm:pt-[52px]"}`}>
         <div className="relative h-full min-h-0">
         {/* Controls overlay */}
         <div className="absolute top-3 left-3 right-3 z-10 flex flex-wrap gap-2 pointer-events-none">
@@ -1214,6 +1217,18 @@ export default function SaadiyatMap() {
             <span className="font-mono text-[0.65rem] text-muted-foreground whitespace-nowrap">{visibleMarkerCount} shown</span>
           </div>
           <div className="pointer-events-auto ml-auto flex gap-1.5">
+            {isHeaderCollapsed && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsHeaderCollapsed(false)}
+                className="text-xs h-7 bg-background/90 backdrop-blur-sm shadow-md"
+                aria-label="Show map header"
+                title="Show header"
+              >
+                <ChevronDown className="h-3.5 w-3.5 mr-1" /> Header
+              </Button>
+            )}
             <Button
               variant={isSatellite ? "default" : "outline"}
               size="sm"
@@ -1257,6 +1272,7 @@ export default function SaadiyatMap() {
           initialCenter={{ lat: 24.5460, lng: 54.4300 }}
           initialZoom={14}
           onMapReady={handleMapReady}
+          layoutVersion={isHeaderCollapsed ? 1 : 0}
         />
         {selectedMarker && (
           <aside
