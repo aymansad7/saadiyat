@@ -5,8 +5,10 @@ import {
   getInventoryUnitHref,
   isSaleAvailableStatus,
   isSoldStatus,
+  loadSnapshotUnits,
   normStatus,
   summarize,
+  toCurrentSaleInventoryUnits,
   type PrevState,
   type SnapshotUnit,
 } from "./inventorySync";
@@ -71,6 +73,30 @@ describe("sales-desk detail routes", () => {
       ),
     ).toBe("/aldar-other/noya/noya-1/Noya-V-01");
     expect(getInventoryUnitHref(unit({ unitName: "No building", buildingSlug: null }))).toBeNull();
+  });
+
+  it("retains same-named purchasable units from different projects", () => {
+    const units = toCurrentSaleInventoryUnits([
+      unit({ unitName: "A-101", projectSlug: "one", projectName: "One", status: "Available" }),
+      unit({ unitName: "A-101", projectSlug: "two", projectName: "Two", status: "New" }),
+      unit({ unitName: "A-102", projectSlug: "two", projectName: "Two", status: "Sold" }),
+    ]);
+    expect(units).toHaveLength(2);
+    expect(units.map(item => item.projectSlug)).toEqual(["one", "two"]);
+  });
+
+  it("keeps every purchasable record from the deployed Aldar snapshot linked to its exact unit route", () => {
+    const units = toCurrentSaleInventoryUnits(loadSnapshotUnits());
+    expect(units.length).toBeGreaterThan(0);
+    expect(units.every(item => isSaleAvailableStatus(item.status))).toBe(true);
+    expect(units.every(item => item.href !== null)).toBe(true);
+  });
+
+  it("derives documented The Canopies B1–B6 route keys from its blank-source-slug export", () => {
+    const unitFromCanopies = toCurrentSaleInventoryUnits(loadSnapshotUnits()).find(
+      item => item.projectSlug === "the-canopies" && item.buildingName === "B1",
+    );
+    expect(unitFromCanopies?.href).toContain("/aldar-other/the-canopies/b1/");
   });
 });
 

@@ -133,11 +133,11 @@ export default function SiteHeader({ subTitle, back }: Props) {
           </Button>
         )}
         <Link href="/" className="flex shrink-0 items-center gap-2.5 group max-[480px]:gap-0" aria-label="Saadiyat Resale Hub home">
-          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-border bg-card p-0.5 shadow-sm">
+          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-sm border border-border bg-card p-0.5 shadow-sm sm:h-11 sm:w-11">
             <img
               src={BRAND_LOGO_URL}
               alt="Saadiyat logo with saadiyatresale.com"
-              className="h-full w-full scale-[1.35] object-contain"
+              className="h-full w-full scale-[1.2] object-contain"
             />
           </span>
           <div className="leading-tight max-[480px]:hidden">

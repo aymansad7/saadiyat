@@ -84,6 +84,18 @@ type Dataset = {
 // ---------------------------------------------------------------------------
 const __dirname = dirname(fileURLToPath(import.meta.url));
 let DATA: Dataset | null = null;
+
+/** The Canopies export names buildings B1–B6 but leaves their slug blank. */
+function normalizeKnownBuildingSlugs(data: Dataset) {
+  const canopies = data.projects.find(project => project.slug === "the-canopies");
+  if (!canopies) return;
+  for (const building of canopies.buildings) {
+    if (!building.slug && /^B[1-6]$/i.test(building.name || "")) {
+      building.slug = building.name.toLowerCase();
+    }
+  }
+}
+
 export function getDataset(): Dataset {
   if (DATA) return DATA;
   // Try multiple plausible locations so the file is found both in
@@ -110,6 +122,7 @@ export function getDataset(): Dataset {
     throw new Error("Aldar Other dataset not found on server");
   }
   DATA = JSON.parse(raw) as Dataset;
+  normalizeKnownBuildingSlugs(DATA);
   return DATA;
 }
 

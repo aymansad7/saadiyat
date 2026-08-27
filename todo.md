@@ -644,7 +644,7 @@
 - [x] Enhance daily and manual Aldar sync with change summary, timestamp, unit-level change log, user-requested Sync action, and Master Admin notification summary
 - [x] Restrict the scheduled sync endpoint to a verified Heartbeat cron identity and record its authenticated task UID for traceability
 - [x] Add tests for source counts, availability-source routing, deep links, sync change summaries, and mobile/desktop sales workflow
-- [ ] Verify the redesigned header/home, availability drill-downs, and Sync page on mobile and desktop, then publish
+- [x] Verify the redesigned header/home, availability drill-downs, and Sync page on mobile and desktop, then publish
 
 ### Saadiyat Logo with Website URL (Aug 26, 2026)
 - [x] Create a clean high-resolution rendition of the supplied Saadiyat logo on a white background

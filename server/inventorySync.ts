@@ -80,6 +80,11 @@ function flatten(raw: RawDataset, dataset: Dataset): SnapshotUnit[] {
   const out: SnapshotUnit[] = [];
   for (const project of raw.projects || []) {
     for (const building of project.buildings || []) {
+      const buildingSlug = building.slug || (
+        project.slug === "the-canopies" && /^B[1-6]$/i.test(building.name || "")
+          ? building.name.toLowerCase()
+          : null
+      );
       for (const u of building.units || []) {
         if (!u.unit_name) continue;
         out.push({
@@ -87,7 +92,7 @@ function flatten(raw: RawDataset, dataset: Dataset): SnapshotUnit[] {
           dataset,
           projectSlug: project.slug,
           projectName: project.name ?? null,
-          buildingSlug: building.slug ?? null,
+          buildingSlug,
           buildingName: building.name ?? null,
           aldarLink: u.aldar_link ?? null,
           status: u.status ?? null,
@@ -646,14 +651,9 @@ export async function listEventsForRun(runId: number, limit = 2000) {
  * there. A bundled-data fallback keeps the first-run experience useful while
  * explicitly reporting that it has not yet been synced.
  */
-export async function listCurrentSaleInventory() {
-  const db = await getDb();
-  const stateRows = db ? await db.select().from(inventoryUnitState) : [];
-  const source = stateRows.length > 0 ? "last-synced" : "bundled-baseline";
-  const rows = stateRows.length > 0 ? stateRows : loadSnapshotUnits();
-
-  const units = rows
-    .filter(unit => (!("isPresent" in unit) || unit.isPresent !== false) && isSaleAvailableStatus(unit.status))
+export function toCurrentSaleInventoryUnits(rows: SnapshotUnit[]) {
+  return rows
+    .filter(unit => isSaleAvailableStatus(unit.status))
     .map(unit => ({
       dataset: unit.dataset,
       projectSlug: unit.projectSlug,
@@ -666,7 +666,7 @@ export async function listCurrentSaleInventory() {
       priceAed: unit.priceAed,
       bedrooms: unit.bedrooms,
       unitType: unit.unitType,
-      lastSeenAt: "lastSeenAt" in unit ? unit.lastSeenAt : null,
+      lastSeenAt: null,
       href: getInventoryUnitHref(unit),
     }))
     .sort((a, b) =>
@@ -674,6 +674,13 @@ export async function listCurrentSaleInventory() {
         `${b.projectName ?? b.projectSlug}|${b.buildingName ?? ""}|${b.unitName}`,
       ),
     );
+}
 
-  return { source, units };
+export async function listCurrentSaleInventory() {
+  // Unit names are not globally unique across all Aldar projects. Read the canonical deployed
+  // snapshot directly so the sales desk retains every current record rather than collapsing
+  // same-named units through the legacy state table's unitName-only unique key.
+  const units = toCurrentSaleInventoryUnits(loadSnapshotUnits());
+
+  return { source: "deployed-bundled-snapshot" as const, units };
 }
