@@ -33,6 +33,7 @@ import {
 } from "@/components/ListingControls";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
+import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
 
 function Inner() {
   const { project: projectSlug, building: buildingSlug } = useParams<{
@@ -373,7 +374,8 @@ function Inner() {
                   )}
                 </div>
                 </Link>
-                <div className="px-4 pb-3">
+                <div className="flex flex-col gap-2 px-4 pb-3">
+                  <AldarOfficialUnitLink aldarLink={u.aldar_link} unitName={u.unit_name} compact />
                   <EditListingButton
                     villaKey={villaKey}
                     community="aldar-other"

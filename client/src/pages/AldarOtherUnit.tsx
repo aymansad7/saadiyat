@@ -12,6 +12,7 @@ import MasterGate from "@/components/MasterGate";
 import { trpc } from "@/lib/trpc";
 import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
+import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
 import { parsePaymentPlans } from "./AldarUnit";
 import { ResaleCard } from "@/components/ResaleCard";
 import { UnitTimeline } from "@/components/UnitTimeline";
@@ -151,21 +152,7 @@ function Inner() {
             </div>
           </div>
           <div className="col-span-12 md:col-span-4 space-y-3">
-            {unit.aldar_link && (
-              <a
-                href={unit.aldar_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block rounded-md border border-primary/40 bg-primary/5 px-4 py-3 text-primary hover:bg-primary/10 transition-colors"
-              >
-                <div className="text-[0.65rem] uppercase tracking-[0.22em] font-mono">
-                  Aldar deep link
-                </div>
-                <div className="font-display text-base flex items-center gap-2">
-                  Open on world.aldar.com <ExternalLink className="h-3.5 w-3.5" />
-                </div>
-              </a>
-            )}
+            <AldarOfficialUnitLink aldarLink={unit.aldar_link} unitName={unit.unit_name} className="w-full justify-center" />
             {unit.virtual_tour && (
               <a
                 href={unit.virtual_tour}

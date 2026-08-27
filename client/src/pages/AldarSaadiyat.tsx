@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { actionableCount } from "@/data/aldar";
 import type { StatusBreakdown } from "@/data/aldar";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
+import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { fmtAed, shortUnitNumber } from "@/data/aldar/format";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
@@ -82,15 +83,18 @@ export default function AldarSaadiyat() {
               {searchHits.map((hit: any) => {
                 const bld = buildingDisplayName(hit.buildingName);
                 return (
-                  <Link key={`${hit.projectSlug}/${hit.buildingSlug}/${hit.unitName}`} href={`/aldar-saadiyat/${hit.projectSlug}/${hit.buildingSlug}/${encodeURIComponent(hit.unitName ?? "")}`} className="block rounded-md border border-border bg-card p-3 hover:border-primary/60 transition-colors">
-                    <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">{hit.projectName}</span>
-                      <AldarStatusBadge status={hit.status} />
-                    </div>
-                    <div className="font-display text-lg text-foreground">{shortUnitNumber(hit.unitName)}</div>
-                    <div className="text-[0.7rem] font-mono text-muted-foreground">{bld.primary}{bld.secondary && <span className="opacity-60"> · {bld.secondary}</span>}</div>
-                    <div className="mt-2 text-sm num-display">AED {fmtAed(hit.price_aed)}</div>
-                  </Link>
+                  <div key={`${hit.projectSlug}/${hit.buildingSlug}/${hit.unitName}`} className="rounded-md border border-border bg-card p-3 transition-colors hover:border-primary/60">
+                    <Link href={`/aldar-saadiyat/${hit.projectSlug}/${hit.buildingSlug}/${encodeURIComponent(hit.unitName ?? "")}`} className="block">
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">{hit.projectName}</span>
+                        <AldarStatusBadge status={hit.status} />
+                      </div>
+                      <div className="font-display text-lg text-foreground">{shortUnitNumber(hit.unitName)}</div>
+                      <div className="text-[0.7rem] font-mono text-muted-foreground">{bld.primary}{bld.secondary && <span className="opacity-60"> · {bld.secondary}</span>}</div>
+                      <div className="mt-2 text-sm num-display">AED {fmtAed(hit.price_aed)}</div>
+                    </Link>
+                    <AldarOfficialUnitLink aldarLink={hit.aldar_link} unitName={hit.unitName} compact className="mt-2" />
+                  </div>
                 );
               })}
             </div>

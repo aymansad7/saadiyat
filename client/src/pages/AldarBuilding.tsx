@@ -33,6 +33,7 @@ import AreaFilterControls from "@/components/AreaFilterControls";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 import FayaTransactionTimeline from "@/components/FayaTransactionTimeline";
 import { getFayaTransactions } from "@/data/fayaTransactions";
+import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
 
 export default function AldarBuilding() {
   const { project: projectSlug, building: buildingSlug } = useParams<{
@@ -325,7 +326,8 @@ export default function AldarBuilding() {
                   ) : null}
                 </div>
                 </Link>
-                <div className="px-4 pb-3">
+                <div className="flex flex-col gap-2 px-4 pb-3">
+                  <AldarOfficialUnitLink aldarLink={u.aldar_link} unitName={u.unit_name} compact />
                   <EditListingButton
                     villaKey={villaKey}
                     community="aldar-saadiyat"

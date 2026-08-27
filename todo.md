@@ -653,3 +653,10 @@
 
 ### Saadiyat Resale Hub Redesign, Availability and Sales Sync (Aug 27, 2026) — duplicate staging record, superseded
 - [x] Duplicate task block retained for audit history; implementation is tracked in the primary block above.
+
+### Aldar Official Unit Link Integrity and 404 Fix (Aug 27, 2026)
+- [x] Audit every Aldar unit record for its official `aldar_link`, duplicate/mismatched URL association, and link availability without fabricating URLs
+- [x] Make each Aldar unit card and Sync sales-desk row open the exact official Aldar URL only when it is source-backed; retain internal detail access separately
+- [x] Hide or label a missing/invalid official Aldar URL rather than exposing an unsafe 404 destination
+- [x] Add regression coverage for official-link forwarding, missing links, and project/unit mismatch safeguards
+- [x] Verify representative Aldar cards and Sync rows on mobile and desktop, run full checks, and publish

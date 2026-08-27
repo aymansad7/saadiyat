@@ -29,6 +29,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import MasterGate from "@/components/MasterGate";
 import { trpc } from "@/lib/trpc";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
+import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { fmtAed, shortUnitNumber } from "@/data/aldar/format";
 
@@ -203,27 +204,18 @@ function Inner() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {(search.data?.hits ?? []).map(hit => (
-                <Link
-                  key={`${hit.projectSlug}/${hit.buildingSlug}/${hit.unitName}`}
-                  href={`/aldar-other/${hit.projectSlug}/${hit.buildingSlug}/${encodeURIComponent(hit.unitName)}`}
-                  className="block rounded-md border border-border bg-card p-3 hover:border-primary/60 transition-colors"
-                >
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
-                      {hit.projectName}
-                    </span>
-                    <AldarStatusBadge status={hit.status} />
-                  </div>
-                  <div className="font-display text-lg text-foreground">
-                    {shortUnitNumber(hit.unitName)}
-                  </div>
-                  <div className="text-[0.7rem] font-mono text-muted-foreground">
-                    {hit.buildingName}
-                  </div>
-                  <div className="mt-2 text-sm num-display">
-                    AED {fmtAed(hit.price_aed)}
-                  </div>
-                </Link>
+                <div key={`${hit.projectSlug}/${hit.buildingSlug}/${hit.unitName}`} className="rounded-md border border-border bg-card p-3 transition-colors hover:border-primary/60">
+                  <Link href={`/aldar-other/${hit.projectSlug}/${hit.buildingSlug}/${encodeURIComponent(hit.unitName)}`} className="block">
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">{hit.projectName}</span>
+                      <AldarStatusBadge status={hit.status} />
+                    </div>
+                    <div className="font-display text-lg text-foreground">{shortUnitNumber(hit.unitName)}</div>
+                    <div className="text-[0.7rem] font-mono text-muted-foreground">{hit.buildingName}</div>
+                    <div className="mt-2 text-sm num-display">AED {fmtAed(hit.price_aed)}</div>
+                  </Link>
+                  <AldarOfficialUnitLink aldarLink={hit.aldar_link} unitName={hit.unitName} compact className="mt-2" />
+                </div>
               ))}
             </div>
           </div>

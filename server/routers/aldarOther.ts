@@ -406,6 +406,7 @@ export const aldarOtherRouter = router({
         unitName: string;
         status: string | null;
         price_aed: number | null;
+        aldar_link: string | null;
         bedrooms: string | null;
         plot_area_sqm: number | null;
         total_area_sqm: number | null;
@@ -425,6 +426,7 @@ export const aldarOtherRouter = router({
               unitName: u.unit_name,
               status: u.status,
               price_aed: u.price_aed,
+              aldar_link: u.aldar_link,
               bedrooms: u.bedrooms,
               plot_area_sqm: u.plot_area_sqm,
               total_area_sqm: u.total_area_sqm,

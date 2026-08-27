@@ -250,7 +250,7 @@ export const aldarSaadiyatRouter = router({
         projectSlug: string; projectName: string;
         buildingSlug: string; buildingName: string;
         unitName: string; status: string | null;
-        price_aed: number | null; bedrooms: string | null;
+        price_aed: number | null; bedrooms: string | null; aldar_link: string | null;
       }> = [];
       outer: for (const p of data.projects) {
         for (const b of p.buildings) {
@@ -262,7 +262,7 @@ export const aldarSaadiyatRouter = router({
               projectSlug: p.slug, projectName: p.name,
               buildingSlug: b.slug, buildingName: b.name,
               unitName: u.unit_name, status: u.status,
-              price_aed: u.price_aed, bedrooms: u.bedrooms,
+              price_aed: u.price_aed, bedrooms: u.bedrooms, aldar_link: u.aldar_link,
             });
             if (hits.length >= input.limit) break outer;
           }
