@@ -642,6 +642,7 @@
 - [x] Make Available with NAS automatically reflect each property whose stored availability status is Available, across all supported communities, with a clickable results view
 - [x] Reconcile Available with Aldar Resale and Other Brokers against source-backed listings; do not label scraped/unknown data as available without a documented source
 - [x] Enhance daily and manual Aldar sync with change summary, timestamp, unit-level change log, user-requested Sync action, and Master Admin notification summary
+- [x] Restrict the scheduled sync endpoint to a verified Heartbeat cron identity and record its authenticated task UID for traceability
 - [x] Add tests for source counts, availability-source routing, deep links, sync change summaries, and mobile/desktop sales workflow
 - [ ] Verify the redesigned header/home, availability drill-downs, and Sync page on mobile and desktop, then publish
 

@@ -14,25 +14,31 @@
 import type { Request, Response } from "express";
 import { buildSyncChangeSummary, runInventorySync } from "./inventorySync";
 import { notifyOwner } from "./_core/notification";
+import { sdk } from "./_core/sdk";
 
 /** Header Heartbeat sets to the triggering cron task UID. */
 const CRON_TASK_HEADER = "x-manus-cron-task-uid";
 
 export async function inventorySyncScheduledHandler(req: Request, res: Response) {
   try {
-    const taskUid =
+    const caller = await sdk.authenticateRequest(req);
+    if (!caller.isCron || !caller.taskUid) {
+      return res.status(403).json({ error: "cron-only" });
+    }
+    const headerTaskUid =
       (req.headers[CRON_TASK_HEADER] as string | undefined) ||
       (req.headers["x-manus-task-uid"] as string | undefined) ||
       null;
+    const taskUid = caller.taskUid;
 
-    // The platform gateway already gates /api/scheduled/* to cron callers.
-    // We log the task uid for traceability but do not hard-fail if absent so a
-    // manual owner-triggered curl during setup can still run.
-    console.log("[scheduledSync] triggered", { taskUid: taskUid ?? "(none)" });
+    console.log("[scheduledSync] triggered", {
+      taskUid,
+      headerMatchesIdentity: !headerTaskUid || headerTaskUid === taskUid,
+    });
 
     const { runId, counts, rollups } = await runInventorySync({
       trigger: "scheduled",
-      triggeredBy: taskUid ? `cron:${taskUid}` : "cron",
+      triggeredBy: `cron:${taskUid}`,
     });
     const summary = buildSyncChangeSummary(counts, rollups);
     let notificationSent = false;
