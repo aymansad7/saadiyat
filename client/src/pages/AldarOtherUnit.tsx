@@ -152,7 +152,7 @@ function Inner() {
             </div>
           </div>
           <div className="col-span-12 md:col-span-4 space-y-3">
-            <AldarOfficialUnitLink aldarLink={unit.aldar_link} unitName={unit.unit_name} className="w-full justify-center" />
+            <AldarOfficialUnitLink aldarLink={unit.aldar_link} unitName={unit.unit_name} projectSlug={project.slug} className="w-full justify-center" />
             {unit.virtual_tour && (
               <a
                 href={unit.virtual_tour}

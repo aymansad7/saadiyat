@@ -214,7 +214,7 @@ function Inner() {
                     <div className="text-[0.7rem] font-mono text-muted-foreground">{hit.buildingName}</div>
                     <div className="mt-2 text-sm num-display">AED {fmtAed(hit.price_aed)}</div>
                   </Link>
-                  <AldarOfficialUnitLink aldarLink={hit.aldar_link} unitName={hit.unitName} compact className="mt-2" />
+                  <AldarOfficialUnitLink aldarLink={hit.aldar_link} unitName={hit.unitName} projectSlug={hit.projectSlug} compact className="mt-2" />
                 </div>
               ))}
             </div>

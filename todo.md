@@ -665,3 +665,9 @@
 - [x] Support documented current World of Aldar links that use the short unit code, path segment `/0`, and floorplan query parameters
 - [x] Preserve strict project and unit matching while allowing the official current URL format instead of falsely labelling it unavailable
 - [x] Add a regression test for `THESOURCETERRACES-R22-05-02` and validate the supplied official URL before publishing
+
+### Aldar All-Project Current Unit URLs (Aug 27, 2026)
+- [x] Inventory every Aldar project with active units and define a verified current unit URL format per project
+- [x] Verify each project format against official Aldar responses and record source provenance without guessing a unit URL
+- [x] Apply verified current URLs to cards, search results, and Sync while retaining the legacy URL only where it still resolves
+- [x] Add project-level regression tests, run full validation, and publish the all-project link coverage

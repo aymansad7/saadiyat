@@ -4,16 +4,19 @@ import { cn } from "@/lib/utils";
 type Props = {
   aldarLink: string | null | undefined;
   unitName: string | null | undefined;
+  projectSlug: string | null | undefined;
   compact?: boolean;
   className?: string;
 };
 
 /** Opens only the exact source-backed Aldar unit URL through the safe verifier. */
-export default function AldarOfficialUnitLink({ aldarLink, unitName, compact = false, className }: Props) {
-  if (!aldarLink || !unitName) {
+export default function AldarOfficialUnitLink({ aldarLink, unitName, projectSlug, compact = false, className }: Props) {
+  if (!unitName || !projectSlug) {
     return <span className={cn("text-xs text-muted-foreground", className)}>Official Aldar unit link unavailable</span>;
   }
-  const href = `/api/aldar/official-link?${new URLSearchParams({ url: aldarLink, unit: unitName }).toString()}`;
+  const params = new URLSearchParams({ unit: unitName, project: projectSlug });
+  if (aldarLink) params.set("url", aldarLink);
+  const href = `/api/aldar/official-link?${params.toString()}`;
   return (
     <a
       href={href}

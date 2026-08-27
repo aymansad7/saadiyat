@@ -327,7 +327,7 @@ export default function AldarBuilding() {
                 </div>
                 </Link>
                 <div className="flex flex-col gap-2 px-4 pb-3">
-                  <AldarOfficialUnitLink aldarLink={u.aldar_link} unitName={u.unit_name} compact />
+                  <AldarOfficialUnitLink aldarLink={u.aldar_link} unitName={u.unit_name} projectSlug={project.slug} compact />
                   <EditListingButton
                     villaKey={villaKey}
                     community="aldar-saadiyat"
