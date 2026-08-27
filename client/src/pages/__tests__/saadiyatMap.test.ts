@@ -46,4 +46,17 @@ describe("Saadiyat interactive map cards", () => {
     expect(phaseOne).toBeDefined();
     expect(findMapSearchResults(markers, "Reserve Phase 1").some(item => item.slPhase === "PHASE-1")).toBe(true);
   });
+
+  it("keeps confirmed Four Seasons villa markers linked to their exact cards", () => {
+    const villa34 = markers.find((item) => item.villaKey === "four-seasons/villa-34");
+    const villa35 = markers.find((item) => item.villaKey === "four-seasons/villa-35");
+    expect(villa34).toMatchObject({
+      community: "four-seasons",
+      detailHref: "/four-seasons#villa-34",
+    });
+    expect(villa35).toMatchObject({
+      community: "four-seasons",
+      detailHref: "/four-seasons#villa-35",
+    });
+  });
 });

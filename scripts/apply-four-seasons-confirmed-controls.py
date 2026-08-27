@@ -1,6 +1,6 @@
 """Apply non-conflicting user-supplied Four Seasons controls and recalibrate derived markers.
 
-The six ambiguous villa/plot assertions remain untouched until the user resolves them.
+Only the two villa/plot assertions that remain unconfirmed stay untouched.
 """
 
 from __future__ import annotations
@@ -16,7 +16,9 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "client/src/data/fourSeasons.ts"
 CONTROL_PATH = ROOT / "server/data/four-seasons-user-controls-2026-08-27.json"
 REPORT_PATH = ROOT / "tmp/four-seasons-controls-apply.md"
-AMBIGUOUS_VILLAS = {10, 15, 16, 20, 34, 35}
+# User confirmations, 27 Aug 2026: P101→V20, P96→V15, V34→P115,
+# and V35→P116. V10 and V16 have no confirmed replacement plot yet.
+AMBIGUOUS_VILLAS = {10, 16}
 
 
 def features(x: float, y: float) -> list[float]:
@@ -103,9 +105,8 @@ def main() -> None:
         "",
         "## Withheld pending user confirmation",
         "",
-        "- Villa 10 and Villa 20 both claim SDN3 Plot 101.",
-        "- Villa 15 and Villa 16 both claim SDN3 Plot 96.",
-        "- Villa 34 claims Plot 115 while the existing direct Villa 35 control is Plot 115; the new Villa 35 record instead claims Plot 116.",
+        "- Villa 10 remains unassigned after the user confirmed Plot 101 belongs to Villa 20.",
+        "- Villa 16 remains unassigned after the user confirmed Plot 96 belongs to Villa 15.",
         "",
         f"Applied new villas: {', '.join(map(str, applied))}.",
         "",

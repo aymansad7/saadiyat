@@ -718,3 +718,14 @@
 - [x] Apply each non-conflicting exact SDN3 control in latitude/longitude storage order and preserve it as a user-supplied official coordinate source
 - [x] Recalibrate only derived Four Seasons markers from the confirmed controls; do not reassign a villa or plot where the supplied data conflicts
 - [x] Add coordinate and map-card regression coverage, verify the selected villas on desktop/mobile, and publish
+
+### Four Seasons Confirmed Plot 101 and 96 Assignments (Aug 27, 2026)
+- [x] Record the user confirmation that Plot 101 belongs to Villa 20 and Plot 96 belongs to Villa 15
+- [x] Apply those two direct SDN3 controls and recalibrate only the remaining derived markers
+- [x] Leave only Villa 10 and Villa 16 without an inferred plot reassignment; the Villa 34/35 Plot 115/116 contradiction was resolved by the user's later confirmation
+- [x] Add regression coverage, validate cards/map deep links, and publish
+
+### Four Seasons Confirmed Plot 115 and 116 Assignments (Aug 27, 2026)
+- [x] Record the user confirmation that Villa 34 belongs to Plot 115 and Villa 35 belongs to Plot 116
+- [x] Apply the confirmed Villa 34 and Villa 35 controls, retaining only Villa 10 and Villa 16 without a plot reassignment
+- [x] Recalibrate, test direct map/card links, and publish the confirmed locations

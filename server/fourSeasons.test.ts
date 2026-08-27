@@ -66,8 +66,8 @@ describe("Four Seasons source integrity", () => {
     const calibrated = FOUR_SEASONS_VILLAS.filter(
       (villa) => villa.positionSource === "masterplan_quadratic_calibrated_to_sdn3_controls",
     );
-    expect(direct).toHaveLength(28);
-    expect(calibrated).toHaveLength(28);
+    expect(direct).toHaveLength(30);
+    expect(calibrated).toHaveLength(26);
     expect(direct.map((villa) => [villa.villaNumber, villa.sdn3PlotNumber])).toEqual([
       [1, 82],
       [9, 90],
@@ -75,6 +75,7 @@ describe("Four Seasons source integrity", () => {
       [12, 93],
       [13, 94],
       [14, 95],
+      [15, 96],
       [17, 98],
       [18, 99],
       [19, 100],
@@ -92,7 +93,8 @@ describe("Four Seasons source integrity", () => {
       [31, 112],
       [32, 113],
       [33, 114],
-      [35, 115],
+      [34, 115],
+      [35, 116],
       [36, 118],
       [47, 128],
       [53, 132],
@@ -109,7 +111,7 @@ describe("Four Seasons source integrity", () => {
       latitude: 24.5521132,
       longitude: 54.4433158,
     });
-    for (const villaNumber of [10, 15, 16, 34]) {
+    for (const villaNumber of [10, 16]) {
       expect(FOUR_SEASONS_VILLAS.find((villa) => villa.villaNumber === villaNumber)).toMatchObject({
         sdn3PlotNumber: null,
         positionSource: "masterplan_quadratic_calibrated_to_sdn3_controls",
