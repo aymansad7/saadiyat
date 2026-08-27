@@ -684,3 +684,15 @@
 - [x] Allow Master Admin to grant a user several project-level and/or classified phase-level access permissions without replacing their existing grants
 - [x] Preserve all field-level permissions and audit every added, changed, or revoked project/phase grant
 - [x] Add regression coverage, verify the Master and limited-user flows on desktop/mobile, then publish
+
+### Faya and One Saadiyat Official Floor Plans (Aug 27, 2026)
+- [ ] Inspect the currently configured sources and official Aldar data paths for floor plans belonging to Faya Al Saadiyat and One Saadiyat
+- [ ] Extract and preserve only official floor plans whose unit or type mapping can be verified from the source
+- [ ] Add documented floor-plan actions to the matching cards and unit detail views without inferring plans for unmatched units
+- [ ] Add source/mapping regression coverage, verify representative units, and publish
+
+### Smart Global Unit Search for Aldar Codes (Aug 27, 2026)
+- [x] Normalize Aldar project aliases, building codes, and unit numbers in the homepage search, including inputs such as `SC 362`
+- [x] Show the matched unit's documented property type, project, unit code, and direct card action as selectable search options
+- [x] Apply equivalent normalized matching across Aldar projects without inventing a unit association or a property type
+- [x] Add regression coverage, verify homepage and mobile search, then publish

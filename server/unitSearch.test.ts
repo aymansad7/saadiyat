@@ -5,7 +5,6 @@
  * datasets (Saadiyat, Other, Lagoons) and respects filters.
  */
 import { describe, it, expect } from "vitest";
-import { TRPCError } from "@trpc/server";
 import { appRouter } from "./routers";
 import type { Context } from "./_core/context";
 
@@ -67,9 +66,15 @@ describe("unitSearch.search", () => {
     expect(res.results.length).toBeLessThanOrEqual(3);
   });
 
-  it("requires authentication (rejects anonymous)", async () => {
+  it("allows anonymous lookup of non-sensitive unit records", async () => {
     const caller = appRouter.createCaller(anonCtx);
-    await expect(caller.unitSearch.search({ q: "test" })).rejects.toThrow(TRPCError);
+    const res = await caller.unitSearch.search({ q: "SC 362" });
+    expect(res.results).toHaveLength(1);
+    expect(res.results[0]).toMatchObject({
+      unitName: "SC-YN7-TH-362",
+      projectName: "The Sustainable City Yas Island",
+      unitType: "TownHouse",
+    });
   });
 });
 

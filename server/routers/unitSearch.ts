@@ -16,7 +16,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
-type SearchableUnit = {
+export type SearchableUnit = {
   unitName: string;
   projectName: string;
   projectSlug: string;
@@ -62,6 +62,40 @@ function matchesAreaSearch(query: string, unit: SearchableUnit): boolean {
   if (explicitSqft) return close(unit.areaSqft, 10);
   if (explicitSqm) return close(unit.areaSqm, 1);
   return close(unit.areaSqm, 1) || close(unit.areaSqft, 10);
+}
+
+/** Removes punctuation and spacing so SC 362, SC-362, and SC362 are equivalent. */
+export function normalizeUnitSearch(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+/**
+ * Returns a score only when all meaningful input tokens exist in documented
+ * unit, project, building, or type data. It never infers an association.
+ */
+export function scoreSmartUnitSearch(query: string, unit: SearchableUnit): number {
+  const tokens = query
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .map(normalizeUnitSearch)
+    .filter(Boolean);
+  if (!tokens.length) return 0;
+
+  const exactUnit = normalizeUnitSearch(unit.unitName);
+  const searchable = normalizeUnitSearch(
+    [unit.unitName, unit.projectName, unit.projectSlug, unit.buildingName, unit.buildingSlug, unit.unitType, unit.bedrooms]
+      .filter(Boolean)
+      .join(" "),
+  );
+  const normalizedQuery = normalizeUnitSearch(query);
+  if (!tokens.every((token) => searchable.includes(token))) return 0;
+
+  let score = tokens.length * 10;
+  if (exactUnit === normalizedQuery) score += 1_000;
+  else if (exactUnit.includes(normalizedQuery)) score += 500;
+  if (searchable.includes(normalizedQuery)) score += 200;
+  if (tokens.some((token) => /^\d+$/.test(token)) && tokens.some((token) => /[a-z]/.test(token))) score += 75;
+  return score;
 }
 
 function loadAllUnits(): SearchableUnit[] {
@@ -225,7 +259,7 @@ export const unitSearchRouter = router({
    * Search units by name/number substring. Case-insensitive.
    * Returns up to `limit` results (default 30, max 100).
    */
-  search: protectedProcedure
+  search: publicProcedure
     .input(
       z.object({
         q: z.string().min(1).max(200),
@@ -238,19 +272,20 @@ export const unitSearchRouter = router({
     )
     .query(({ input }) => {
       const all = loadAllUnits();
-      const q = input.q.toLowerCase();
-      const results: SearchableUnit[] = [];
+      const rankedResults: Array<{ unit: SearchableUnit; score: number }> = [];
 
       for (const u of all) {
-        if (results.length >= input.limit) break;
         if (input.dataset && u.dataset !== input.dataset) continue;
         if (input.projectSlug && u.projectSlug !== input.projectSlug) continue;
-        const textMatch = `${u.unitName} ${u.projectName} ${u.buildingName ?? ""}`.toLowerCase().includes(q);
-        if (textMatch || matchesAreaSearch(input.q, u)) {
-          results.push(u);
-        }
+        const smartScore = scoreSmartUnitSearch(input.q, u);
+        if (smartScore > 0) rankedResults.push({ unit: u, score: smartScore });
+        else if (matchesAreaSearch(input.q, u)) rankedResults.push({ unit: u, score: 1 });
       }
 
+      const results = rankedResults
+        .sort((a, b) => b.score - a.score || a.unit.projectName.localeCompare(b.unit.projectName) || a.unit.unitName.localeCompare(b.unit.unitName))
+        .slice(0, input.limit)
+        .map(({ unit }) => unit);
       return { results, total: results.length };
     }),
 

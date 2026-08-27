@@ -70,7 +70,7 @@ export default function GlobalUnitSearch() {
         <Input
           ref={inputRef}
           type="text"
-          placeholder="Search unit, project, or area (e.g. 250 m² / 2,691 sqft)…"
+          placeholder="Search project + unit (e.g. SC 362), or area…"
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -118,7 +118,7 @@ export default function GlobalUnitSearch() {
                     <MapPin className="h-4 w-4 text-primary shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-medium text-foreground truncate">
-                        {r.unitName}
+                        {r.unitType ? `${r.unitType} · ` : ""}{r.unitName}
                       </div>
                       <div className="text-xs text-muted-foreground truncate">
                         {r.projectName}
