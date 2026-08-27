@@ -714,7 +714,7 @@
 - [x] Add regression coverage and verify current-link routing across Sustainable City, Saadiyat, Fahid, and Other project cards
 
 ### Four Seasons Interactive Map Controls Correction (Aug 27, 2026)
-- [ ] Compare every new user-supplied Four Seasons villa, plot, and coordinate control against the published villa-to-plot registry and identify conflicts before location writes
-- [ ] Apply each non-conflicting exact SDN3 control in latitude/longitude storage order and preserve it as a user-supplied official coordinate source
-- [ ] Recalibrate only derived Four Seasons markers from the confirmed controls; do not reassign a villa or plot where the supplied data conflicts
-- [ ] Add coordinate and map-card regression coverage, verify the selected villas on desktop/mobile, and publish
+- [x] Compare every new user-supplied Four Seasons villa, plot, and coordinate control against the published villa-to-plot registry and identify conflicts before location writes
+- [x] Apply each non-conflicting exact SDN3 control in latitude/longitude storage order and preserve it as a user-supplied official coordinate source
+- [x] Recalibrate only derived Four Seasons markers from the confirmed controls; do not reassign a villa or plot where the supplied data conflicts
+- [x] Add coordinate and map-card regression coverage, verify the selected villas on desktop/mobile, and publish

@@ -66,13 +66,32 @@ describe("Four Seasons source integrity", () => {
     const calibrated = FOUR_SEASONS_VILLAS.filter(
       (villa) => villa.positionSource === "masterplan_quadratic_calibrated_to_sdn3_controls",
     );
-    expect(direct).toHaveLength(9);
-    expect(calibrated).toHaveLength(47);
+    expect(direct).toHaveLength(28);
+    expect(calibrated).toHaveLength(28);
     expect(direct.map((villa) => [villa.villaNumber, villa.sdn3PlotNumber])).toEqual([
       [1, 82],
       [9, 90],
+      [11, 92],
+      [12, 93],
+      [13, 94],
+      [14, 95],
+      [17, 98],
+      [18, 99],
       [19, 100],
       [20, 101],
+      [21, 102],
+      [22, 103],
+      [23, 104],
+      [24, 105],
+      [25, 106],
+      [26, 107],
+      [27, 108],
+      [28, 109],
+      [29, 110],
+      [30, 111],
+      [31, 112],
+      [32, 113],
+      [33, 114],
       [35, 115],
       [36, 118],
       [47, 128],
@@ -90,6 +109,12 @@ describe("Four Seasons source integrity", () => {
       latitude: 24.5521132,
       longitude: 54.4433158,
     });
+    for (const villaNumber of [10, 15, 16, 34]) {
+      expect(FOUR_SEASONS_VILLAS.find((villa) => villa.villaNumber === villaNumber)).toMatchObject({
+        sdn3PlotNumber: null,
+        positionSource: "masterplan_quadratic_calibrated_to_sdn3_controls",
+      });
+    }
   });
 
   it("keeps all municipal rows pending and source-traceable", () => {
