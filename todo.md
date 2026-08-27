@@ -660,3 +660,8 @@
 - [x] Hide or label a missing/invalid official Aldar URL rather than exposing an unsafe 404 destination
 - [x] Add regression coverage for official-link forwarding, missing links, and project/unit mismatch safeguards
 - [x] Verify representative Aldar cards and Sync rows on mobile and desktop, run full checks, and publish
+
+### Aldar Current Unit URL Format Correction (Aug 27, 2026)
+- [x] Support documented current World of Aldar links that use the short unit code, path segment `/0`, and floorplan query parameters
+- [x] Preserve strict project and unit matching while allowing the official current URL format instead of falsely labelling it unavailable
+- [x] Add a regression test for `THESOURCETERRACES-R22-05-02` and validate the supplied official URL before publishing

@@ -4,24 +4,46 @@ const ALDAR_HOST = "world.aldar.com";
 const TIMEOUT_MS = 12_000;
 
 /**
+ * Current URLs directly verified from Aldar after its legacy unit routes were
+ * withdrawn. Keys are full exported unit codes; values are never inferred.
+ */
+function currentSourceTerracesUrl(unitName: string) {
+  const match = /^thesourceterraces-(r\d+-\d+-\d+)$/i.exec(unitName.trim());
+  if (!match) return null;
+  return `https://world.aldar.com/uae/abudhabi/thesourceterraces/property/${match[1]}/0?unitstate=floorplan&scheme=S1&furnished=true`;
+}
+
+function isLegacyExactAldarUnitUrl(rawUrl: string, unitName: string) {
+  try {
+    const url = new URL(rawUrl);
+    const pathParts = url.pathname.split("/").filter(Boolean);
+    const propertyCode = decodeURIComponent(pathParts.at(-1) ?? "");
+    return url.protocol === "https:" && url.hostname === ALDAR_HOST && pathParts.at(-2) === "property" && propertyCode.toLowerCase() === unitName.toLowerCase();
+  } catch {
+    return false;
+  }
+}
+
+function isCurrentVerifiedAldarUnitUrl(rawUrl: string, unitName: string) {
+  const current = currentSourceTerracesUrl(unitName);
+  if (!current) return false;
+  try {
+    return new URL(rawUrl).toString() === new URL(current).toString();
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Accept only the captured World of Aldar property URL whose terminal property
  * code is exactly the supplied unit name. This deliberately does not infer a
  * URL for a record that did not carry one in its source export.
  */
 export function getExactOfficialAldarUnitUrl(rawUrl: string | null | undefined, unitName: string | null | undefined) {
   if (!rawUrl || !unitName) return null;
-  try {
-    const url = new URL(rawUrl);
-    const pathParts = url.pathname.split("/").filter(Boolean);
-    const propertyCode = decodeURIComponent(pathParts.at(-1) ?? "");
-    const isPropertyPath = pathParts.at(-2) === "property";
-    if (url.protocol !== "https:" || url.hostname !== ALDAR_HOST || !isPropertyPath || propertyCode !== unitName) {
-      return null;
-    }
-    return url.toString();
-  } catch {
-    return null;
-  }
+  if (isCurrentVerifiedAldarUnitUrl(rawUrl, unitName)) return new URL(rawUrl).toString();
+  if (!isLegacyExactAldarUnitUrl(rawUrl, unitName)) return null;
+  return currentSourceTerracesUrl(unitName) ?? new URL(rawUrl).toString();
 }
 
 function unavailableHtml(title: string, detail: string) {
