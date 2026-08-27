@@ -677,3 +677,10 @@
 - [x] Restrict pinch, wheel, and drag zoom interactions to the Google Map canvas without browser-page zoom or accidental header/card scaling
 - [x] Center and highlight the selected unit, with a responsive adjacent card panel that preserves access to all documented fields
 - [x] Add regression coverage and verify touch/desktop interaction, then publish
+
+### Interactive Map Smart Unit Search and Multi-Project Access (Aug 27, 2026)
+- [x] Match map searches intelligently against normalized project names and unit numbers even when the user omits hyphens, spaces, or prefixes
+- [x] Present direct unit-result options that center, highlight, and open the selected map card
+- [x] Allow Master Admin to grant a user several project-level and/or classified phase-level access permissions without replacing their existing grants
+- [x] Preserve all field-level permissions and audit every added, changed, or revoked project/phase grant
+- [x] Add regression coverage, verify the Master and limited-user flows on desktop/mobile, then publish

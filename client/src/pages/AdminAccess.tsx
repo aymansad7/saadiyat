@@ -20,6 +20,7 @@ import {
   Eye,
   FilePenLine,
   History,
+  Layers,
   MapPin,
   Phone,
   Building2,
@@ -38,9 +39,10 @@ import {
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { toast } from "sonner";
-import { PROPERTY_AREA_OPTIONS, PROPERTY_PROJECT_OPTIONS } from "@shared/propertyAccess";
+import { PROPERTY_AREA_OPTIONS, PROPERTY_PHASE_OPTIONS, PROPERTY_PROJECT_OPTIONS } from "@shared/propertyAccess";
 
 type Role = "user" | "admin" | "master";
+type GrantScopeType = "area" | "project" | "phase";
 
 function roleBadge(role: string) {
   if (role === "master")
@@ -80,7 +82,7 @@ export default function AdminAccess() {
   });
   const grants = trpc.propertyAccess.grants.list.useQuery(undefined, { enabled: isMaster });
   const activity = trpc.propertyAccess.activity.useQuery({ limit: 150 }, { enabled: isMaster });
-  const createGrant = trpc.propertyAccess.grants.create.useMutation({
+  const createGrants = trpc.propertyAccess.grants.createMany.useMutation({
     onSuccess: () => {
       utils.propertyAccess.grants.list.invalidate();
       utils.propertyAccess.activity.invalidate();
@@ -97,8 +99,8 @@ export default function AdminAccess() {
   const [newRole, setNewRole] = useState<Role>("user");
   const [newNote, setNewNote] = useState("");
   const [grantEmail, setGrantEmail] = useState("");
-  const [scopeType, setScopeType] = useState<"area" | "project">("area");
-  const [scopeKey, setScopeKey] = useState("saadiyat");
+  const [scopeType, setScopeType] = useState<GrantScopeType>("area");
+  const [selectedScopeKeys, setSelectedScopeKeys] = useState<string[]>(["saadiyat"]);
   const [canViewOriginalPrice, setCanViewOriginalPrice] = useState(false);
   const [canViewOwnerName, setCanViewOwnerName] = useState(false);
   const [canViewOwnerPhone, setCanViewOwnerPhone] = useState(false);
@@ -143,18 +145,24 @@ export default function AdminAccess() {
 
   const onCreateGrant = async (event: FormEvent) => {
     event.preventDefault();
-    if (!grantEmail.includes("@") || !scopeKey) return;
+    if (!grantEmail.includes("@") || selectedScopeKeys.length === 0) return;
+    const scopes = selectedScopeKeys.map(value => {
+      if (scopeType === "area") return { areaKey: value, projectKey: null, phaseKey: null };
+      if (scopeType === "project") return { areaKey: null, projectKey: value, phaseKey: null };
+      const phase = PROPERTY_PHASE_OPTIONS.find(option => option.value === value);
+      return { areaKey: null, projectKey: phase?.projectKey ?? null, phaseKey: phase?.phaseKey ?? null };
+    });
+    if (scopes.some(scope => !scope.areaKey && !scope.projectKey)) return;
     try {
-      await createGrant.mutateAsync({
+      const result = await createGrants.mutateAsync({
         email: grantEmail.trim(),
-        areaKey: scopeType === "area" ? scopeKey : null,
-        projectKey: scopeType === "project" ? scopeKey : null,
+        scopes,
         canViewOriginalPrice,
         canViewOwnerName,
         canViewOwnerPhone,
         canEditProperties,
       });
-      toast.success("Property access grant added");
+      toast.success(`${result.created.length} property grant${result.created.length === 1 ? "" : "s"} added${result.skipped.length ? ` · ${result.skipped.length} already existed` : ""}`);
       setGrantEmail("");
       setCanViewOriginalPrice(false);
       setCanViewOwnerName(false);
@@ -302,12 +310,12 @@ export default function AdminAccess() {
                     ─── Master Admin property permissions
                   </div>
                   <p className="text-sm text-muted-foreground max-w-3xl">
-                    Grant a person access to an entire area or a single project. Field permissions are separate: original price, owner name, owner mobile, and the right to edit property information.
+                    Grant a person access to one or more areas, projects, or classified phases. Field permissions are separate: original price, owner name, owner mobile, and the right to edit property information.
                   </p>
                 </div>
               </div>
               <form onSubmit={onCreateGrant} className="grid gap-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <Input
                     type="email"
                     value={grantEmail}
@@ -316,24 +324,38 @@ export default function AdminAccess() {
                     required
                   />
                   <Select value={scopeType} onValueChange={value => {
-                    const nextType = value as "area" | "project";
+                    const nextType = value as GrantScopeType;
                     setScopeType(nextType);
-                    setScopeKey(nextType === "area" ? "saadiyat" : "st-regis");
+                    setSelectedScopeKeys(nextType === "area" ? ["saadiyat"] : nextType === "project" ? ["st-regis"] : ["lagoons::SL2"]);
                   }}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="area">Entire area</SelectItem>
-                      <SelectItem value="project">Single project</SelectItem>
+                      <SelectItem value="project">One or more projects</SelectItem>
+                      <SelectItem value="phase">One or more classified phases</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Select value={scopeKey} onValueChange={setScopeKey}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {(scopeType === "area" ? PROPERTY_AREA_OPTIONS : PROPERTY_PROJECT_OPTIONS).map(option => (
-                        <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                </div>
+                <div className="rounded-md border border-border bg-secondary/15 p-3">
+                  <div className="mb-2 text-[0.65rem] font-mono uppercase tracking-[0.16em] text-muted-foreground">
+                    Select one or more {scopeType === "area" ? "areas" : scopeType === "project" ? "projects" : "phases"}
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2">
+                    {(scopeType === "area" ? PROPERTY_AREA_OPTIONS : scopeType === "project" ? PROPERTY_PROJECT_OPTIONS : PROPERTY_PHASE_OPTIONS).map(option => {
+                      const selected = selectedScopeKeys.includes(option.value);
+                      return (
+                        <label key={option.value} className={`flex items-center gap-2 rounded-md border px-3 py-2 text-sm cursor-pointer transition-colors ${selected ? "border-primary bg-primary/5 text-foreground" : "border-border bg-card hover:bg-secondary/40"}`}>
+                          <input
+                            type="checkbox"
+                            checked={selected}
+                            onChange={() => setSelectedScopeKeys(current => selected ? current.filter(key => key !== option.value) : [...current, option.value])}
+                            className="h-4 w-4 accent-primary"
+                          />
+                          <span>{option.label}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-sm">
                   {[
@@ -358,9 +380,9 @@ export default function AdminAccess() {
                   })}
                 </div>
                 <div>
-                  <Button type="submit" disabled={createGrant.isPending} className="gap-1.5">
+                  <Button type="submit" disabled={createGrants.isPending || selectedScopeKeys.length === 0} className="gap-1.5">
                     <ShieldCheck className="h-4 w-4" />
-                    {createGrant.isPending ? "Saving…" : "Grant access"}
+                    {createGrants.isPending ? "Saving…" : `Grant access to ${selectedScopeKeys.length} scope${selectedScopeKeys.length === 1 ? "" : "s"}`}
                   </Button>
                 </div>
               </form>
@@ -382,6 +404,7 @@ export default function AdminAccess() {
                           <div className="mt-1 flex flex-wrap gap-1.5 text-xs text-muted-foreground">
                             <span className="inline-flex items-center gap-1"><MapPin className="h-3 w-3" /> {grant.areaKey ?? "Project-only"}</span>
                             {grant.projectKey && <span className="inline-flex items-center gap-1"><Building2 className="h-3 w-3" /> {grant.projectKey}</span>}
+                            {grant.phaseKey && <span className="inline-flex items-center gap-1"><Layers className="h-3 w-3" /> {grant.phaseKey}</span>}
                             {grant.canViewOriginalPrice && <span>Original price</span>}
                             {grant.canViewOwnerName && <span>Owner name</span>}
                             {grant.canViewOwnerPhone && <span>Owner mobile</span>}

@@ -76,6 +76,39 @@ describe("Master Admin property grants", () => {
     expect(permissions[1]?.permissions.canAccess).toBe(false);
   });
 
+  it("lets a master add multiple project and phase grants without exposing another Lagoons phase", async () => {
+    const master = appRouter.createCaller(masterCtx);
+    const result = await master.propertyAccess.grants.createMany({
+      email: EMAIL,
+      scopes: [
+        { areaKey: null, projectKey: "lagoons", phaseKey: "SL2" },
+        { areaKey: null, projectKey: "hidd", phaseKey: null },
+      ],
+      canViewOriginalPrice: true,
+      canViewOwnerName: true,
+      canViewOwnerPhone: false,
+      canEditProperties: true,
+    });
+    expect(result.created).toHaveLength(2);
+
+    const permissions = await appRouter.createCaller(delegatedCtx).propertyAccess.permissions({
+      scopes: [
+        { projectKey: "lagoons", phaseKey: "SL2" },
+        { projectKey: "lagoons", phaseKey: "SL8" },
+        { projectKey: "hidd", phaseKey: null },
+      ],
+    });
+    expect(permissions[0]?.permissions).toMatchObject({
+      canAccess: true,
+      canViewOriginalPrice: true,
+      canViewOwnerName: true,
+      canViewOwnerPhone: false,
+      canEditProperties: true,
+    });
+    expect(permissions[1]?.permissions.canAccess).toBe(false);
+    expect(permissions[2]?.permissions.canEditProperties).toBe(true);
+  });
+
   it("persists delegated edits including areas and rent, and appends activity history", async () => {
     const caller = appRouter.createCaller(delegatedCtx);
     const row = await caller.villaListings.upsert({

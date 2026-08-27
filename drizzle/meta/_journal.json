@@ -71,6 +71,13 @@
       "when": 1787685945727,
       "tag": "0009_cuddly_master_chief",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1787807525422,
+      "tag": "0010_friendly_mandarin",
+      "breakpoints": true
     }
   ]
 }

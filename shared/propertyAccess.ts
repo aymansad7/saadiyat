@@ -1,11 +1,13 @@
 export type PropertyScope = {
   areaKey: string;
   projectKey: string;
+  phaseKey?: string | null;
 };
 
 export type GrantLike = {
   areaKey: string | null;
   projectKey: string | null;
+  phaseKey?: string | null;
   canViewOriginalPrice: boolean;
   canViewOwnerName: boolean;
   canViewOwnerPhone: boolean;
@@ -69,6 +71,23 @@ export const PROPERTY_PROJECT_OPTIONS = [
   { value: "building-plots-sdw4", label: "Building Plots SDW4 · NYU Precinct" },
 ] as const;
 
+/** Source-backed phase labels that can be delegated without exposing an entire project. */
+export const PROPERTY_PHASE_OPTIONS = [
+  { value: "lagoons::SL2", projectKey: "lagoons", phaseKey: "SL2", label: "Saadiyat Lagoons · SL2 · Ethir" },
+  { value: "lagoons::SL3", projectKey: "lagoons", phaseKey: "SL3", label: "Saadiyat Lagoons · SL3 · Al Sidr" },
+  { value: "lagoons::SL4", projectKey: "lagoons", phaseKey: "SL4", label: "Saadiyat Lagoons · SL4 · Al Ghaf" },
+  { value: "lagoons::SL5", projectKey: "lagoons", phaseKey: "SL5", label: "Saadiyat Lagoons · SL5 · Al Sidr" },
+  { value: "lagoons::SL7", projectKey: "lagoons", phaseKey: "SL7", label: "Saadiyat Lagoons · SL7 · Al Ghaf" },
+  { value: "lagoons::SL8", projectKey: "lagoons", phaseKey: "SL8", label: "Saadiyat Lagoons · SL8 · Al Ghaf" },
+  { value: "saadiyat-reserve::PHASE-1", projectKey: "saadiyat-reserve", phaseKey: "PHASE-1", label: "Saadiyat Reserve · Phase 1" },
+  { value: "saadiyat-reserve::PHASE-2", projectKey: "saadiyat-reserve", phaseKey: "PHASE-2", label: "Saadiyat Reserve · Phase 2" },
+  { value: "saadiyat-reserve::PHASE-3", projectKey: "saadiyat-reserve", phaseKey: "PHASE-3", label: "Saadiyat Reserve · Phase 3 · Dunes" },
+] as const;
+
+export function propertyScopeKey(projectKey: string, phaseKey?: string | null) {
+  return `${projectKey}::${phaseKey ?? ""}`;
+}
+
 /** Turns a canonical community/project key into the scope used by grants. */
 export function getPropertyScope(projectKey: string): PropertyScope {
   if (SAADIYAT_PROJECTS.has(projectKey) || projectKey === "aldar-saadiyat" || projectKey.includes("saadiyat")) {
@@ -98,7 +117,10 @@ export function getPropertyScope(projectKey: string): PropertyScope {
   return { areaKey: "other", projectKey };
 }
 
-export function grantAppliesToScope(grant: Pick<GrantLike, "areaKey" | "projectKey">, scope: PropertyScope) {
+export function grantAppliesToScope(grant: Pick<GrantLike, "areaKey" | "projectKey" | "phaseKey">, scope: PropertyScope) {
+  if (grant.phaseKey) {
+    return grant.projectKey === scope.projectKey && grant.phaseKey === scope.phaseKey;
+  }
   return grant.projectKey === scope.projectKey || (!grant.projectKey && grant.areaKey === scope.areaKey);
 }
 

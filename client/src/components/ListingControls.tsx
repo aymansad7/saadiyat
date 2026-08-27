@@ -148,6 +148,7 @@ export function InteractiveMapLink({
 export type EditListingButtonProps = {
   villaKey: string;
   community: string;
+  phaseKey?: string | null;
   villaLabel?: string;
   className?: string;
   /** Optional render slot — called with `onClick` so callers can custom-trigger. */
@@ -157,6 +158,7 @@ export type EditListingButtonProps = {
 export function EditListingButton({
   villaKey,
   community,
+  phaseKey,
   villaLabel,
   className,
   trigger,
@@ -164,7 +166,7 @@ export function EditListingButton({
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const grants = trpc.propertyAccess.permissions.useQuery(
-    { projects: [community] },
+    { scopes: [{ projectKey: community, phaseKey: phaseKey ?? null }] },
     { enabled: Boolean(user) },
   );
   const canEdit =

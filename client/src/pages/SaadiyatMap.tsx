@@ -58,6 +58,7 @@ import {
   matchesAreaQuery,
   type AreaUnit,
 } from "@/lib/areaSearch";
+import { propertyScopeKey } from "@shared/propertyAccess";
 
 // Known community centers on Saadiyat Island
 export const COMMUNITY_CENTERS = {
@@ -79,7 +80,7 @@ export const COMMUNITY_CENTERS = {
   "building-plots-sdw4": { lat: 24.5210, lng: 54.4342, label: "Building Plots SDW4", color: "#4338CA" },
 };
 
-interface MapMarkerData {
+export interface MapMarkerData {
   id: string;
   lat: number;
   lng: number;
@@ -133,6 +134,36 @@ interface MapMarkerData {
 export function getMapMarkerColor(marker: Pick<MapMarkerData, "community" | "availabilityStatus" | "listing" | "markerColor">) {
   if (marker.availabilityStatus === "available" || marker.listing) return "#10B981";
   return marker.markerColor ?? COMMUNITY_CENTERS[marker.community as keyof typeof COMMUNITY_CENTERS]?.color ?? "#6B7280";
+}
+
+/** Normalizes project and unit text so `Lagoons 11102` finds `AlSidr-111-02`. */
+export function normalizeMapSearchText(value: string) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "").trim();
+}
+
+export function findMapSearchResults(markers: MapMarkerData[], query: string, limit = 8) {
+  const tokens = query.trim().toLowerCase().split(/\s+/).map(normalizeMapSearchText).filter(Boolean);
+  const requestedPhase = query.match(/\bphase\s*[-_]?\s*(\d+)\b/i)?.[1];
+  if (tokens.length === 0) return [];
+  return markers
+    .filter(marker => {
+      if (requestedPhase && normalizeMapSearchText(marker.slPhase ?? "") !== `phase${requestedPhase}`) return false;
+      const searchable = normalizeMapSearchText([
+        marker.label,
+        marker.villaKey,
+        marker.community,
+        marker.slPhase,
+        marker.developer,
+        COMMUNITY_CENTERS[marker.community as keyof typeof COMMUNITY_CENTERS]?.label,
+      ].filter(Boolean).join(" "));
+      return tokens.every(token => searchable.includes(token));
+    })
+    .sort((a, b) => {
+      const aExact = normalizeMapSearchText(a.label) === tokens.join("") ? 0 : 1;
+      const bExact = normalizeMapSearchText(b.label) === tokens.join("") ? 0 : 1;
+      return aExact - bExact || a.label.localeCompare(b.label);
+    })
+    .slice(0, limit);
 }
 
 type HiddMapVilla = {
@@ -447,6 +478,7 @@ export function buildMarkers(): MapMarkerData[] {
       availabilityStatus: record.availability === "available_for_sale" ? "available" : undefined,
       availabilityDate: record.availabilityUpdatedAt ?? undefined,
       askingPrice: record.askingPriceAed ?? undefined,
+      slPhase: `PHASE-${record.phase}`,
     });
   }
 
@@ -668,6 +700,7 @@ export default function SaadiyatMap() {
   const [editingMarker, setEditingMarker] = useState<MapMarkerData | null>(null);
   const [isSatellite, setIsSatellite] = useState(false);
   const [mapQuery, setMapQuery] = useState("");
+  const [mapSearchOpen, setMapSearchOpen] = useState(false);
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
   const [areaMin, setAreaMin] = useState("");
   const [areaMax, setAreaMax] = useState("");
@@ -682,19 +715,26 @@ export default function SaadiyatMap() {
       refetchOnMount: "always",
     },
   );
+  const permissionScopes = useMemo(
+    () => Array.from(new Map(baseMarkerData.map(marker => {
+      const scope = { projectKey: marker.community, phaseKey: marker.slPhase ?? null };
+      return [propertyScopeKey(scope.projectKey, scope.phaseKey), scope];
+    })).values()),
+    [baseMarkerData],
+  );
   const projectPermissions = trpc.propertyAccess.permissions.useQuery(
-    { projects: Object.keys(COMMUNITY_CENTERS) },
+    { scopes: permissionScopes },
     { enabled: Boolean(user) },
   );
-  const permissionsByProject = useMemo(
-    () => new Map(projectPermissions.data?.map(item => [item.projectKey, item.permissions]) ?? []),
+  const permissionsByScope = useMemo(
+    () => new Map(projectPermissions.data?.map(item => [propertyScopeKey(item.projectKey, item.phaseKey), item.permissions]) ?? []),
     [projectPermissions.data],
   );
   const markerData = useMemo(() => {
     const overridesByKey = new Map((propertyOverrides.data ?? []).map(row => [row.villaKey, row]));
     return baseMarkerData.filter(marker => {
       if (user?.role === "admin" || user?.role === "master") return true;
-      return permissionsByProject.get(marker.community)?.canAccess === true;
+      return permissionsByScope.get(propertyScopeKey(marker.community, marker.slPhase))?.canAccess === true;
     }).map(marker => {
       const override = marker.villaKey ? overridesByKey.get(marker.villaKey) : undefined;
       if (!override) return marker;
@@ -716,7 +756,12 @@ export default function SaadiyatMap() {
         phone: (override as any).ownerPhone ?? marker.phone,
       };
     });
-  }, [baseMarkerData, permissionsByProject, propertyOverrides.data, user?.role]);
+  }, [baseMarkerData, permissionsByScope, propertyOverrides.data, user?.role]);
+
+  const smartSearchResults = useMemo(
+    () => findMapSearchResults(markerData, mapQuery),
+    [markerData, mapQuery],
+  );
 
   const clearPlotDeepLink = useCallback(() => {
     const url = new URL(window.location.href);
@@ -763,12 +808,21 @@ export default function SaadiyatMap() {
     setSelectedMarker(data);
   }, [highlightMarker]);
 
+  const selectSearchResult = useCallback((marker: MapMarkerData) => {
+    setActiveFilter(null);
+    setAreaMin("");
+    setAreaMax("");
+    setMapQuery("");
+    setMapSearchOpen(false);
+    selectMarker(marker);
+  }, [selectMarker]);
+
   const getColor = (community: string) => {
     return COMMUNITY_CENTERS[community as keyof typeof COMMUNITY_CENTERS]?.color ?? "#6B7280";
   };
 
   const createInfoContent = useCallback((m: MapMarkerData) => {
-    const permissions = permissionsByProject.get(m.community);
+    const permissions = permissionsByScope.get(propertyScopeKey(m.community, m.slPhase));
     const canViewOwnerName = user?.role === "admin" || user?.role === "master" || Boolean(permissions?.canViewOwnerName);
     const canViewOwnerPhone = user?.role === "admin" || user?.role === "master" || Boolean(permissions?.canViewOwnerPhone);
     const canViewOriginalPrice = user?.role === "admin" || user?.role === "master" ||
@@ -928,7 +982,7 @@ export default function SaadiyatMap() {
 
     html += `</div>`;
     return html;
-  }, [showOwners, areaUnit, permissionsByProject, user?.role]);
+  }, [showOwners, areaUnit, permissionsByScope, user?.role]);
 
   const handleMapReady = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
@@ -1105,10 +1159,48 @@ export default function SaadiyatMap() {
               <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
               <Input
                 value={mapQuery}
-                onChange={(event) => setMapQuery(event.target.value)}
-                placeholder="Plot or area…"
+                onChange={(event) => {
+                  setMapQuery(event.target.value);
+                  setMapSearchOpen(true);
+                }}
+                onFocus={() => setMapSearchOpen(true)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && smartSearchResults[0]) {
+                    event.preventDefault();
+                    selectSearchResult(smartSearchResults[0]);
+                  }
+                  if (event.key === "Escape") setMapSearchOpen(false);
+                }}
+                placeholder="Project + unit · Lagoons 11102"
                 className="h-8 w-40 pl-7 text-xs bg-card"
               />
+              {mapSearchOpen && mapQuery.trim() && (
+                <div className="absolute left-0 top-full z-40 mt-1 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-md border border-border bg-card shadow-xl">
+                  {smartSearchResults.length === 0 ? (
+                    <div className="px-3 py-2 text-xs text-muted-foreground">No mapped unit matches this project and unit search.</div>
+                  ) : (
+                    <ul className="max-h-72 overflow-y-auto">
+                      {smartSearchResults.map(marker => (
+                        <li key={marker.id}>
+                          <button
+                            type="button"
+                            onMouseDown={(event) => event.preventDefault()}
+                            onClick={() => selectSearchResult(marker)}
+                            className="flex w-full items-center gap-2 border-b border-border/70 px-3 py-2 text-left last:border-b-0 hover:bg-secondary/50"
+                          >
+                            <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: getMapMarkerColor(marker) }} />
+                            <span className="min-w-0 flex-1">
+                              <span className="block truncate text-xs font-semibold text-foreground">{marker.label}</span>
+                              <span className="block truncate text-[0.65rem] text-muted-foreground">{COMMUNITY_CENTERS[marker.community as keyof typeof COMMUNITY_CENTERS]?.label ?? marker.community}{marker.slPhase ? ` · ${marker.slPhase}` : ""}</span>
+                            </span>
+                            <span className="text-[0.62rem] font-mono text-primary">Open</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
             </div>
             <AreaFilterControls
               unit={areaUnit}

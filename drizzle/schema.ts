@@ -445,6 +445,8 @@ export const propertyAccessGrants = mysqlTable(
     areaKey: varchar("areaKey", { length: 96 }),
     /** Optional canonical community/project slug; narrows a grant when supplied. */
     projectKey: varchar("projectKey", { length: 128 }),
+    /** Optional source-backed phase key; valid only with a project grant. */
+    phaseKey: varchar("phaseKey", { length: 64 }),
     /** Field visibility — false by default for sensitive data. */
     canViewOriginalPrice: boolean("canViewOriginalPrice").default(false).notNull(),
     canViewOwnerName: boolean("canViewOwnerName").default(false).notNull(),
@@ -459,6 +461,7 @@ export const propertyAccessGrants = mysqlTable(
     grantEmailIdx: index("property_access_grants_email_idx").on(t.email),
     grantAreaIdx: index("property_access_grants_area_idx").on(t.areaKey),
     grantProjectIdx: index("property_access_grants_project_idx").on(t.projectKey),
+    grantPhaseIdx: index("property_access_grants_phase_idx").on(t.projectKey, t.phaseKey),
   }),
 );
 export type PropertyAccessGrant = typeof propertyAccessGrants.$inferSelect;

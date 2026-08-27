@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildMarkers } from "../SaadiyatMap";
+import { buildMarkers, findMapSearchResults, normalizeMapSearchText } from "../SaadiyatMap";
 
 describe("Saadiyat interactive map cards", () => {
   const markers = buildMarkers();
@@ -33,5 +33,17 @@ describe("Saadiyat interactive map cards", () => {
       expect(communityMarkers.every((item) => Boolean(item.detailHref))).toBe(true);
       expect(communityMarkers.every((item) => item.tableHref?.includes("view=table"))).toBe(true);
     }
+  });
+
+  it("finds a Lagoons villa by project name and unit number without separators", () => {
+    expect(normalizeMapSearchText("Lagoons 111-02")).toBe("lagoons11102");
+    const results = findMapSearchResults(markers, "Lagoons 11102");
+    expect(results.some(item => item.villaKey === "lagoons/AlSidr-111-02")).toBe(true);
+  });
+
+  it("keeps Saadiyat Reserve phase keys searchable for phase-level map access", () => {
+    const phaseOne = markers.find(item => item.community === "saadiyat-reserve" && item.slPhase === "PHASE-1");
+    expect(phaseOne).toBeDefined();
+    expect(findMapSearchResults(markers, "Reserve Phase 1").some(item => item.slPhase === "PHASE-1")).toBe(true);
   });
 });

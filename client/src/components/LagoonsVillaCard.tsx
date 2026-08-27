@@ -13,6 +13,7 @@ import { Link, useLocation } from "wouter";
 import { ArrowUpRight, ExternalLink, MapPin } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import type { LagoonsVilla } from "@/data/lagoons";
+import { lagoonsVillaCoords } from "@/data/lagoonsCoordinates";
 import {
   getAvailability,
   SOURCE_META,
@@ -63,8 +64,9 @@ function positionBadge(villa: LagoonsVilla): { label: string; cls: string } | nu
 export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: Props) {
   const { user } = useAuth();
   const [, navigate] = useLocation();
+  const phaseKey = lagoonsVillaCoords.find(item => item.unit_name === villa.unit_name)?.sl_phase ?? null;
   const permissions = trpc.propertyAccess.permissions.useQuery(
-    { projects: ["lagoons"] },
+    { scopes: [{ projectKey: "lagoons", phaseKey }] },
     { enabled: Boolean(user) },
   );
   const canViewOriginalPrice =
@@ -241,6 +243,7 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
             <EditListingButton
               villaKey={lagoonsVillaKey(villa)}
               community="lagoons"
+              phaseKey={phaseKey}
               villaLabel={`${villa.cluster_label} · ${villa.short_name}`}
             />
           </div>
