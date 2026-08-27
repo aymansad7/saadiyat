@@ -1,0 +1,267 @@
+[
+  {
+    "slug": "al-deem-townhomes",
+    "name": "Al Deem Townhomes",
+    "sample_unit": "AlDeemTownhomes-AlDeem-TH-399"
+  },
+  {
+    "slug": "al-ghadeer-gardens",
+    "name": "Al Ghadeer Gardens",
+    "sample_unit": "AlGhadeerGardens-R2-V-078"
+  },
+  {
+    "slug": "almarjan",
+    "name": "Al Marjan Island",
+    "sample_unit": "AlMarjan-B3-19-03"
+  },
+  {
+    "slug": "athlon",
+    "name": "Athlon",
+    "sample_unit": "Athlon-Olympia-TH-33-01"
+  },
+  {
+    "slug": "fahidbeachresidences",
+    "name": "Fahid Beach Residences",
+    "sample_unit": "FahidBeachResidences-B6-08-06"
+  },
+  {
+    "slug": "fahidbeachterraces",
+    "name": "Fahid Beach Terraces",
+    "sample_unit": "FahidBeachTerraces-B1-02-09"
+  },
+  {
+    "slug": "fay-al-reeman-ii",
+    "name": "Fay Al Reeman II",
+    "sample_unit": "AlReeman2-N5B-V-001"
+  },
+  {
+    "slug": "fay-alreeman",
+    "name": "Fay Alreeman",
+    "sample_unit": "AlReeman2-N4-V-001"
+  },
+  {
+    "slug": "faya-al-saadiyat",
+    "name": "Faya Al Saadiyat",
+    "sample_unit": "FayaAlSaadiyat-SB45-V-21-01"
+  },
+  {
+    "slug": "faya-al-saadiyat-ii",
+    "name": "Faya Al Saadiyat II",
+    "sample_unit": "FayaAlSaadiyatII-SDN2-V-01-01"
+  },
+  {
+    "slug": "fountainviewresidences",
+    "name": "Mandarin Oriental (Fountain View)",
+    "sample_unit": "FountainViewResidences-B2-09-01"
+  },
+  {
+    "slug": "gardenia-bay",
+    "name": "Gardenia Bay",
+    "sample_unit": "Gardenia-Fuchsia-B21-02-07"
+  },
+  {
+    "slug": "grove",
+    "name": "Saadiyat Grove",
+    "sample_unit": "Grove-Heart2-08-10"
+  },
+  {
+    "slug": "haven",
+    "name": "Haven",
+    "sample_unit": "Haven-Serenity-V-95_01"
+  },
+  {
+    "slug": "louvreresidences",
+    "name": "Louvre Abu Dhabi Residences",
+    "sample_unit": "Grove-R16-05-09"
+  },
+  {
+    "slug": "mamsha-gardens",
+    "name": "Mamsha Gardens",
+    "sample_unit": "MamshaGarden-B5-01-05"
+  },
+  {
+    "slug": "mamsha-palm",
+    "name": "Mamsha Palm",
+    "sample_unit": "MamshaPalm-Residence-05-08"
+  },
+  {
+    "slug": "manarat-living",
+    "name": "Manarat Living",
+    "sample_unit": "Manarat-B1-11-06"
+  },
+  {
+    "slug": "manarat-living-ii",
+    "name": "Manarat Living II",
+    "sample_unit": "ManaratII-B1-02-14"
+  },
+  {
+    "slug": "manaratresidences3",
+    "name": "Manarat Residences 3",
+    "sample_unit": "ManaratIII-B1-04-24"
+  },
+  {
+    "slug": "mayan",
+    "name": "Mayan",
+    "sample_unit": "Mayan-B1-01-01"
+  },
+  {
+    "slug": "nobu-residences",
+    "name": "Nobu Residences",
+    "sample_unit": "NobuResidences-B2-East-05-01"
+  },
+  {
+    "slug": "nouran-living",
+    "name": "Nouran Living",
+    "sample_unit": "NouranLiving-B1-01-01"
+  },
+  {
+    "slug": "noya",
+    "name": "Noya",
+    "sample_unit": "Noya-N1-TH-001"
+  },
+  {
+    "slug": "noyaluma",
+    "name": "NoyaLuma",
+    "sample_unit": "NoyaLuma-N3-V-001"
+  },
+  {
+    "slug": "noyaviva",
+    "name": "NoyaViva",
+    "sample_unit": "NoyaViva-N2-TH-001"
+  },
+  {
+    "slug": "onesaadiyat",
+    "name": "One Saadiyat (Baccarat)",
+    "sample_unit": "OneSaadiyat-Zenith-06-03"
+  },
+  {
+    "slug": "reeman-living",
+    "name": "Reeman Living",
+    "sample_unit": "ReemanLiving-1A-01-01"
+  },
+  {
+    "slug": "rise-by-athlon-1",
+    "name": "Rise By Athlon 1",
+    "sample_unit": "RiseByAthlon-Azul-02-05"
+  },
+  {
+    "slug": "rise-by-athlon-2",
+    "name": "Rise By Athlon 2",
+    "sample_unit": "RiseByAthlon-Cyan-03-12"
+  },
+  {
+    "slug": "rise-by-athlon-3",
+    "name": "Rise By Athlon 3",
+    "sample_unit": "RiseByAthlon-Grid-01-09"
+  },
+  {
+    "slug": "rise-by-athlon-4",
+    "name": "Rise By Athlon 4",
+    "sample_unit": "RiseByAthlon-Foundry-01-09"
+  },
+  {
+    "slug": "rosso-bay-residences",
+    "name": "Rosso Bay Residences",
+    "sample_unit": "AlMarjan-R2-23-03"
+  },
+  {
+    "slug": "saadiyat-reserve-the-dunes",
+    "name": "Saadiyat Reserve – The Dunes",
+    "sample_unit": "SaadiyatReserve-Dunes-V-082"
+  },
+  {
+    "slug": "sama-yas",
+    "name": "Sama Yas",
+    "sample_unit": "SamaYas-B1-02-02"
+  },
+  {
+    "slug": "the-canopies",
+    "name": "The Canopies",
+    "sample_unit": "TheCanopies-B1-01-14"
+  },
+  {
+    "slug": "the-row-saadiyat",
+    "name": "The Row Saadiyat",
+    "sample_unit": "TheRowSaadiyat-B1-02-12"
+  },
+  {
+    "slug": "the-source",
+    "name": "The Source",
+    "sample_unit": "TheSource-R18-05-12"
+  },
+  {
+    "slug": "the-source-ii",
+    "name": "The Source II",
+    "sample_unit": "TheSourceII-R20-09-01"
+  },
+  {
+    "slug": "the-source-terraces",
+    "name": "The Source Terraces",
+    "sample_unit": "TheSourceTerraces-R22-05-02"
+  },
+  {
+    "slug": "the-sustainable-city-yas-island",
+    "name": "The Sustainable City Yas Island",
+    "sample_unit": "SC-YN7-TH-001"
+  },
+  {
+    "slug": "thearthouse",
+    "name": "The Arthouse",
+    "sample_unit": "TheArthouse-R12-08-02"
+  },
+  {
+    "slug": "thebeachhouse",
+    "name": "The Beach House Fahid",
+    "sample_unit": "TheBeachHouse-B4-01-02"
+  },
+  {
+    "slug": "verdes",
+    "name": "Verdes",
+    "sample_unit": "Verdes-Pine-07-08"
+  },
+  {
+    "slug": "wilds",
+    "name": "The Wilds",
+    "sample_unit": "TheWilds-P2-V-005-01"
+  },
+  {
+    "slug": "yas-links-luxury-living",
+    "name": "Yas Links Luxury Living",
+    "sample_unit": "YasLinksLuxury-B1-08-01"
+  },
+  {
+    "slug": "yas-living",
+    "name": "Yas Living",
+    "sample_unit": "YasLiving-B1-01-01"
+  },
+  {
+    "slug": "yas-park-gate",
+    "name": "Yas Park Gate",
+    "sample_unit": "YasParkGate-N2-TH-001"
+  },
+  {
+    "slug": "yas-park-place",
+    "name": "Yas Park Place",
+    "sample_unit": "YasParkPlace-B1-01-01"
+  },
+  {
+    "slug": "yas-park-views",
+    "name": "Yas Park Views",
+    "sample_unit": "YasParkViews-NY2_02-V-001"
+  },
+  {
+    "slug": "yas-riva",
+    "name": "Yas Riva",
+    "sample_unit": "YasRiva-YN7-V-05-001"
+  },
+  {
+    "slug": "yasacres-the-dahlias",
+    "name": "YasAcres The Dahlias",
+    "sample_unit": "YasAcres-Precinct_6-V-001"
+  },
+  {
+    "slug": "yasacres-the-magnolias",
+    "name": "YasAcres The Magnolias",
+    "sample_unit": "YasAcres-Precinct_2-V-001"
+  }
+]

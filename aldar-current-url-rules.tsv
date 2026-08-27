@@ -1,0 +1,53 @@
+al-deem-townhomes	verified	https://world.aldar.com/uae/abudhabi/aldeemtownhomes/property/AlDeem-399-01/0?unitstate=floorplan&scheme=S1&furnished=true	AlDeemTownhomes-AlDeem-TH-399 -> AlDeem-399-01
+al-ghadeer-gardens	unavailable		AlGhadeerGardens-R2-V-078 -> aldar.com/properties/en/uae/al-ghadeer/alghadeer-gardens/[SFDC-ID]
+almarjan	verified	https://world.aldar.com/uae/rak/Almarjan/property/B3-19-03/0	AlMarjan-B3-19-03 -> B3-19-03
+athlon	verified	https://world.aldar.com/uae/dubai/athlon/property/Olympia-33-01/0?scheme=null&unitstate=floorplan&furnished=null	Athlon-Olympia-TH-33-01 -> Olympia-33-01
+fahidbeachresidences	verified	https://world.aldar.com/uae/abudhabi/fahidbeachresidences/property/B6-08-06/0?unitstate=floorplan&scheme=S1&furnished=true	FahidBeachResidences-B6-08-06 -> B6-08-06
+fahidbeachterraces	unavailable		FahidBeachTerraces-B1-02-09 maps to internal Salesforce ID a2DJ7000000HmZFMA0 in the official URL path.
+fay-al-reeman-ii	verified	https://www.aldar.com/properties/en/uae/al-shamkha/fay-al-reeman-2/a2D8d000000BKQrEAO	AlReeman2-N5B-V-001 -> a2D8d000000BKQrEAO
+fay-alreeman	unavailable		AlReeman2-N4-V-001 -> N4-001-01
+faya-al-saadiyat	gated	https://world.aldar.com/uae/abudhabi/fayaalsaadiyat/property/SB45-V-21-01/0?code=FayaAlSaadiyat-SB45-V-21-01	FayaAlSaadiyat-SB45-V-21-01 -> SB45-V-21-01
+faya-al-saadiyat-ii	gated	https://world.aldar.com/uae/abudhabi/fayaalsaadiyat/property/SDN2-V-01-01	FayaAlSaadiyatII-SDN2-V-01-01 -> SDN2-V-01-01
+fountainviewresidences	verified	https://world.aldar.com/en/property/fountainviewresidences/property/B2-09-01/0?scheme=S1&unitstate=interior&furnished=true	FountainViewResidences-B2-09-01 -> B2-09-01
+gardenia-bay	unavailable		Gardenia-Fuchsia-B21-02-07 -> Fuchsia-B21-02-07 (Project name is removed, leaving cluster-building-floor-unit format)
+grove	unavailable		Grove-Heart2-08-10 -> Heart2-08-10
+haven	verified	https://world.aldar.com/uae/dubai/haven/property/Serenity-95-01	Haven-Serenity-V-95_01 -> Serenity-95-01
+louvreresidences	verified	https://world.aldar.com/uae/abudhabi/louvreresidences/property/R16-05-09/0?unitstate=floorplan&scheme=S1&furnished=true	Grove-R16-05-09 -> R16-05-09
+mamsha-gardens	verified	https://world.aldar.com/en/property/mamshagarden/property/B5-01-05/0?scheme=S1&unitstate=interior&furnished=true	MamshaGarden-B5-01-05 -> B5-01-05
+mamsha-palm	verified	https://world.aldar.com/uae/abudhabi/mamshapalm/residence/05?selectedUnit=mamshapalm_residence_05_08	MamshaPalm-Residence-05-08 -> mamshapalm_residence_05_08
+manarat-living	unavailable		Manarat-B1-11-06 -> B1-11-06
+manarat-living-ii	gated	https://world.aldar.com/uae/abudhabi/manaratii/b1	ManaratII-B1-02-14 -> B1-02-14
+manaratresidences3	unavailable		ManaratIII-B1-04-24 -> manaratiii/property/ManaratIII-B1-04-24
+mayan	verified	https://world.aldar.com/uae/abudhabi/mayan/property/B1-01-01/0?unitstate=floorplan&scheme=S1&furnished=true	Mayan-B1-01-01 -> B1-01-01
+nobu-residences	verified	https://world.aldar.com/uae/abudhabi/noburesidences/property/B2E-05-01/0?scheme=S1&unitstate=interior&furnished=true	NobuResidences-B2-East-05-01 -> B2E-05-01
+nouran-living	unavailable		NouranLiving-B1-01-01 -> B1-01-01
+noya	verified	https://world.aldar.com/uae/abudhabi/noya/property/N1-001-01/0?unitstate=floorplan&scheme=S1&furnished=true	Noya-N1-TH-001 -> N1-001-01
+noyaluma	verified	https://world.aldar.com/uae/abudhabi/noyaluma/property/N3-001-01/0?unitstate=floorplan&scheme=S1&furnished=true	NoyaLuma-N3-V-001 -> N3-001-01
+noyaviva	verified	https://world.aldar.com/uae/abudhabi/noyaviva/property/N2-001-01/0?scheme=S1&unitstate=interior&furnished=true	NoyaViva-N2-TH-001 -> N2-001-01
+onesaadiyat	gated	https://world.aldar.com/uae/abudhabi/onesaadiyat/property/ZENITH-06-03/0	OneSaadiyat-Zenith-06-03 -> ZENITH-06-03
+reeman-living	unavailable		ReemanLiving-1A-01-01 -> 1A-01-01
+rise-by-athlon-1	verified	https://world.aldar.com/uae/dubai/risebyathlon/property/Azul-02-05/0?unitstate=floorplan&scheme=S1&furnished=true	RiseByAthlon-Azul-02-05 -> Azul-02-05
+rise-by-athlon-2	unavailable		RiseByAthlon-Cyan-03-12 -> Cyan-03-12
+rise-by-athlon-3	unavailable		RiseByAthlon-Grid-01-09 -> GRID-1-09 (Cluster-Floor-Unit)
+rise-by-athlon-4	unavailable		RiseByAthlon-Foundry-01-09 -> risebyathlon_foundry_01_09
+rosso-bay-residences	verified	https://world.aldar.com/uae/rak/almarjan/property/R2-23-03/0?scheme=S1&unitstate=interior&furnished=true	AlMarjan-R2-23-03 -> R2-23-03
+saadiyat-reserve-the-dunes	verified	https://world.aldar.com/uae/abudhabi/saadiyatreserve/property/Dunes-082-01/0?unitstate=floorplan	SaadiyatReserve-Dunes-V-082 -> Dunes-082-01
+sama-yas	verified	https://world.aldar.com/uae/abudhabi/samayas/property/B1-02-02/0?scheme=S1&unitstate=interior&furnished=true	SamaYas-B1-02-02 -> B1-02-02
+the-canopies	unavailable		TheCanopies-B1-01-14 -> B1-01-14
+the-row-saadiyat	unavailable		TheRowSaadiyat-B1-02-12 -> B1-02-12
+the-source	unavailable		TheSource-R18-05-12 -> R18-05-12
+the-source-ii	unavailable		TheSourceII-R20-09-01 -> R20-09-01
+the-source-terraces	verified	https://world.aldar.com/uae/abudhabi/thesourceterraces/property/R22-05-02/0?unitstate=floorplan&scheme=S1&furnished=true	TheSourceTerraces-R22-05-02 -> R22-05-02-0
+the-sustainable-city-yas-island	unavailable		SC-YN7-TH-001 -> YN7-001-01
+thearthouse	verified	https://world.aldar.com/uae/abudhabi/thearthouse/property/R12-08-02/0?scheme=S1&unitstate=interior&furnished=true	TheArthouse-R12-08-02 -> R12-08-02
+thebeachhouse	verified	https://www.aldar.com/properties/en/uae/fahid-island/the-beach-house-fahid/a2DJ7000000HYTOMA4	TheBeachHouse-B4-01-02 -> a2DJ7000000HYTOMA4
+verdes	unavailable		Verdes-Pine-07-08 -> Pine-07-08
+wilds	verified	https://www.aldar.com/properties/en/uae/dubai/the-wilds/a2DJ7000000H6uCMAS	TheWilds-P2-V-005-01 -> a2DJ7000000H6uCMAS
+yas-links-luxury-living	verified	https://world.aldar.com/uae/abudhabi/yaslinksluxury/property/B1-08-01/0?scheme=S1&unitstate=interior&furnished=true	YasLinksLuxury-B1-08-01 -> B1-08-01
+yas-living	verified	https://world.aldar.com/uae/abudhabi/yasliving/property/B1-01-01/0?scheme=S1&unitstate=interior&furnished=true	YasLiving-B1-01-01 -> B1-01-01
+yas-park-gate	unavailable		YasParkGate-N2-TH-001 -> yasparkgate_n2_001_01
+yas-park-place	verified	https://world.aldar.com/uae/abudhabi/yasparkplace/property/B1-01-01/0?unitstate=floorplan&scheme=S1&furnished=true	YasParkPlace-B1-01-01 -> B1-01-01
+yas-park-views	unavailable		YasParkViews-NY2_02-V-001 -> NY2-02-V-001 (Remove project prefix, replace underscores with hyphens)
+yas-riva	verified	https://world.aldar.com/uae/abudhabi/yasriva/property/YN7-05-001/0?scheme=null&unitstate=floorplan&furnished=null&haspod=true&haspool=true	YasRiva-YN7-V-05-001 -> YN7-05-001
+yasacres-the-dahlias	verified	https://world.aldar.com/uae/abudhabi/yasacres/property/Dahlias-001-01/0?scheme=S1&unitstate=interior&furnished=true	YasAcres-Precinct_6-V-001 -> Dahlias-001-01
+yasacres-the-magnolias	verified	https://world.aldar.com/uae/abudhabi/yasacres/property/Magnolias-001-01/0?unitstate=floorplan&scheme=S1&furnished=true	YasAcres-Precinct_2-V-001 -> Magnolias-001-01

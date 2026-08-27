@@ -38,6 +38,14 @@ describe("official Aldar unit link validation", () => {
     );
   });
 
+  it("prioritizes the documented Sustainable City URL over a stale legacy unit path", () => {
+    expect(getExactOfficialAldarUnitUrl(
+      "https://world.aldar.com/uae/abudhabi/thesustainablecity/property/SC-YN7-TH-362",
+      "SC-YN7-TH-362",
+      "the-sustainable-city-yas-island",
+    )).toBe("https://world.aldar.com/uae/abudhabi/sc/property/YN7-362-01/0?unitstate=floorplan&scheme=S1&furnished=true");
+  });
+
   it.each([
     ["al-deem-townhomes", "AlDeemTownhomes-AlDeem-TH-399", "aldeemtownhomes", "AlDeem-399-01"],
     ["almarjan", "AlMarjan-B3-19-03", "almarjan", "B3-19-03"],

@@ -696,3 +696,15 @@
 - [x] Show the matched unit's documented property type, project, unit code, and direct card action as selectable search options
 - [x] Apply equivalent normalized matching across Aldar projects without inventing a unit association or a property type
 - [x] Add regression coverage, verify homepage and mobile search, then publish
+
+### Aldar Live-Link Priority Repair Across Cards (Aug 27, 2026)
+- [x] Diagnose why the Sustainable City unit card still sends `SC-YN7-TH-362` to its legacy URL instead of the supplied current Aldar URL
+- [x] Make every Aldar card, search result, unit detail, and Sync row prioritize the verified current project/unit URL over a stale legacy URL
+- [x] Run a project-wide live-link audit and retain a clear unavailable state only where no current official unit page exists
+- [x] Add regression coverage, verify the Sustainable City search-to-Aldar flow, and publish
+
+### Four Seasons Interactive Map Controls Correction (Aug 27, 2026)
+- [ ] Compare every new user-supplied Four Seasons villa, plot, and coordinate control against the published villa-to-plot registry and identify conflicts before location writes
+- [ ] Apply each non-conflicting exact SDN3 control in latitude/longitude storage order and preserve it as a user-supplied official coordinate source
+- [ ] Recalibrate only derived Four Seasons markers from the confirmed controls; do not reassign a villa or plot where the supplied data conflicts
+- [ ] Add coordinate and map-card regression coverage, verify the selected villas on desktop/mobile, and publish
