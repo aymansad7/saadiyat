@@ -703,6 +703,11 @@
 - [x] Run a project-wide live-link audit and retain a clear unavailable state only where no current official unit page exists
 - [x] Add regression coverage, verify the Sustainable City search-to-Aldar flow, and publish
 
+### Aldar Production Gateway Current-Link Redirect (Aug 27, 2026)
+- [x] Bypass server-side availability preflight only for a generated current URL that matches a project/unit rule already verified, preventing a false 410 from the production gateway
+- [x] Keep the preflight and unavailable state for legacy source URLs and unknown/unverified project-unit combinations
+- [x] Add regression coverage and verify the published Sustainable City button redirects to the exact supplied Aldar URL
+
 ### Four Seasons Interactive Map Controls Correction (Aug 27, 2026)
 - [ ] Compare every new user-supplied Four Seasons villa, plot, and coordinate control against the published villa-to-plot registry and identify conflicts before location writes
 - [ ] Apply each non-conflicting exact SDN3 control in latitude/longitude storage order and preserve it as a user-supplied official coordinate source

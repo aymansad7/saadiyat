@@ -4,6 +4,15 @@ const ALDAR_HOST = "world.aldar.com";
 const TIMEOUT_MS = 12_000;
 
 const CURRENT_UNIT_QUERY = "unitstate=floorplan&scheme=S1&furnished=true";
+/**
+ * Aldar URLs which were opened and verified in a browser by the user but can
+ * return an inaccurate status to a server-side, unauthenticated fetch. The
+ * target is still calculated from a strict project + unit-code rule below;
+ * this set only bypasses the unreliable preflight for that documented case.
+ */
+const BROWSER_VERIFIED_CURRENT_UNIT_KEYS = new Set([
+  "the-sustainable-city-yas-island:sc-yn7-th-362",
+]);
 const WITHDRAWN_CURRENT_UNIT_KEYS = new Set([
   "the-row-saadiyat:therowsaadiyat-b1-01-15",
   "the-row-saadiyat:therowsaadiyat-b2-01-05",
@@ -187,6 +196,11 @@ export async function aldarOfficialLinkHandler(req: Request, res: Response) {
       "Official unit link unavailable",
       "This unit does not currently have a verified official Aldar URL format that matches its recorded project and unit code. No replacement link has been guessed.",
     ));
+  }
+
+  const browserVerifiedKey = `${(projectSlug ?? "").trim().toLowerCase()}:${(unitName ?? "").trim().toLowerCase()}`;
+  if (BROWSER_VERIFIED_CURRENT_UNIT_KEYS.has(browserVerifiedKey)) {
+    return res.redirect(302, target);
   }
 
   const controller = new AbortController();
