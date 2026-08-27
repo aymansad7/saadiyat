@@ -16,7 +16,7 @@ import {
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useCanAccessOther } from "@/hooks/useCanAccessOther";
 import { getLoginUrl } from "@/const";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 
 /** All navigable projects for quick search */
 const ALL_PROJECTS = [
@@ -94,9 +94,10 @@ interface Props {
   fixed?: boolean;
   compact?: boolean;
   onCollapse?: () => void;
+  mapProjectFilters?: ReactNode;
 }
 
-export default function SiteHeader({ subTitle, back, fixed = false, compact = false, onCollapse }: Props) {
+export default function SiteHeader({ subTitle, back, fixed = false, compact = false, onCollapse, mapProjectFilters }: Props) {
   const [location] = useLocation();
   const showHomeLink = location !== "/";
   const { user, isAuthenticated, logout } = useAuth();
@@ -432,6 +433,11 @@ export default function SiteHeader({ subTitle, back, fixed = false, compact = fa
           )}
         </div>
       </div>
+      {mapProjectFilters && (
+        <div className="border-t border-border/70 bg-background/90">
+          <div className="container py-1.5">{mapProjectFilters}</div>
+        </div>
+      )}
     </header>
   );
 }

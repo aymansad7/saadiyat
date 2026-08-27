@@ -1125,38 +1125,45 @@ export default function SaadiyatMap() {
 
   const visibleMarkerCount = markerData.filter(markerMatchesFilters).length;
 
+  const mapProjectFilters = (
+    <div
+      className="flex max-w-full items-center gap-1.5 overflow-x-auto whitespace-nowrap pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      aria-label="Map project filters"
+    >
+      <Button
+        variant={activeFilter === null ? "default" : "outline"}
+        size="sm"
+        onClick={() => filterByCommunity(null)}
+        className="h-7 shrink-0 text-xs"
+      >
+        <Layers className="mr-1 h-3 w-3" /> All projects
+      </Button>
+      {Object.entries(COMMUNITY_CENTERS).map(([key, val]) => (
+        <Button
+          key={key}
+          variant={activeFilter === key ? "default" : "outline"}
+          size="sm"
+          onClick={() => filterByCommunity(key)}
+          className="h-7 shrink-0 text-xs"
+          aria-pressed={activeFilter === key}
+        >
+          <span className="mr-1.5 inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: val.color }} />
+          {val.label}
+        </Button>
+      ))}
+    </div>
+  );
+
   return (
     <div className="h-[100dvh] min-h-0 flex flex-col bg-background overflow-hidden overscroll-none">
       {!isHeaderCollapsed && (
-        <SiteHeader fixed compact onCollapse={() => setIsHeaderCollapsed(true)} />
+        <SiteHeader fixed compact onCollapse={() => setIsHeaderCollapsed(true)} mapProjectFilters={mapProjectFilters} />
       )}
       {/* Full screen map container */}
-      <div className={`flex-1 min-h-0 relative transition-[padding] duration-200 ${isHeaderCollapsed ? "pt-0" : "pt-[48px] sm:pt-[52px]"}`}>
+      <div className={`flex-1 min-h-0 relative transition-[padding] duration-200 ${isHeaderCollapsed ? "pt-0" : "pt-[86px] sm:pt-[90px]"}`}>
         <div className="relative h-full min-h-0">
         {/* Controls overlay */}
         <div className="absolute top-3 left-3 right-3 z-10 flex flex-wrap gap-2 pointer-events-none">
-          <div className="pointer-events-auto flex flex-wrap gap-1.5 bg-background/90 backdrop-blur-sm rounded-lg px-2.5 py-2 shadow-md border border-border/50">
-            <Button
-              variant={activeFilter === null ? "default" : "outline"}
-              size="sm"
-              onClick={() => filterByCommunity(null)}
-              className="text-xs h-7"
-            >
-              <Layers className="h-3 w-3 mr-1" /> All
-            </Button>
-            {Object.entries(COMMUNITY_CENTERS).map(([key, val]) => (
-              <Button
-                key={key}
-                variant={activeFilter === key ? "default" : "outline"}
-                size="sm"
-                onClick={() => filterByCommunity(key)}
-                className="text-xs h-7"
-              >
-                <span className="inline-block w-2.5 h-2.5 rounded-full mr-1.5" style={{ backgroundColor: val.color }} />
-                <span className="hidden sm:inline">{val.label}</span>
-              </Button>
-            ))}
-          </div>
           <div className="pointer-events-auto flex flex-wrap items-center gap-2 bg-background/90 backdrop-blur-sm rounded-lg px-2.5 py-2 shadow-md border border-border/50">
             <div className="relative">
               <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
@@ -1248,22 +1255,13 @@ export default function SaadiyatMap() {
             </Button>
           </div>
         </div>
-        {/* Legend overlay bottom */}
+        {/* Availability key only: project colors now live in the collapsible Header. */}
         <div className="absolute bottom-3 left-3 z-10 pointer-events-none">
-          <div className="pointer-events-auto flex flex-wrap gap-3 bg-background/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-border/50 text-xs text-muted-foreground">
+          <div className="pointer-events-auto inline-flex bg-background/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-border/50 text-xs text-muted-foreground">
             <div className="flex items-center gap-1.5">
               <span className="inline-block w-3 h-3 rounded-full bg-emerald-500 border-2 border-emerald-800 shadow-[0_0_4px_rgba(16,185,129,0.6)]" />
               <span className="font-medium text-emerald-700">Available ({markerData.filter(m => m.availabilityStatus === "available").length}) · Listed ({markerData.filter(m => m.listing).length})</span>
             </div>
-            {Object.entries(COMMUNITY_CENTERS).map(([key, val]) => {
-              const count = markerData.filter(m => m.community === key).length;
-              return (
-                <div key={key} className="flex items-center gap-1.5 hidden sm:flex">
-                  <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: val.color }} />
-                  <span>{val.label} ({count})</span>
-                </div>
-              );
-            })}
           </div>
         </div>
         {/* Map fills remaining space */}

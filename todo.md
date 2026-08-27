@@ -686,7 +686,7 @@
 - [x] Add regression coverage, verify the Master and limited-user flows on desktop/mobile, then publish
 
 ### Faya and One Saadiyat Official Floor Plans (Aug 27, 2026)
-- [ ] Inspect the currently configured sources and official Aldar data paths for floor plans belonging to Faya Al Saadiyat and One Saadiyat
+- [x] Inspect the currently configured sources and official Aldar data paths for floor plans belonging to Faya Al Saadiyat and One Saadiyat
 - [ ] Extract and preserve only official floor plans whose unit or type mapping can be verified from the source
 - [ ] Add documented floor-plan actions to the matching cards and unit detail views without inferring plans for unmatched units
 - [ ] Add source/mapping regression coverage, verify representative units, and publish
@@ -735,3 +735,9 @@
 - [x] Add a keyboard-accessible arrow control that collapses the header and visibly restores it from the map canvas
 - [x] Reflow the map and selected-unit panel on header collapse/restore so available viewport space is immediately used
 - [x] Add regression coverage, verify phone and desktop states, and publish
+
+### Interactive Map Project Filters in Collapsible Header (Aug 27, 2026)
+- [x] Identify the existing colored project filter strip and remove its duplicate placement below the map header
+- [x] Present project names and their existing colors in a compact header row with controls to hide and restore the row
+- [x] Preserve multi-project filtering, selected-state visibility, map reflow, and selected-card behavior in both header states
+- [x] Add regression coverage, verify phone and desktop controls, and publish
