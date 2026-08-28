@@ -15,7 +15,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { desc, eq, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { getDb } from "./db";
 import {
   inventorySyncRuns,
@@ -643,6 +643,69 @@ export async function listEventsForRun(runId: number, limit = 2000) {
     .where(eq(inventoryUnitEvents.runId, runId))
     .orderBy(desc(inventoryUnitEvents.id))
     .limit(limit);
+}
+
+export type InventoryEventRow = {
+  id: number;
+  runId: number;
+  createdAt: Date;
+  dataset: Dataset;
+  projectSlug: string;
+  projectName: string | null;
+  unitName: string;
+  eventType: DiffEvent["eventType"];
+  fromStatus: string | null;
+  toStatus: string | null;
+  fromPriceAed: number | null;
+  toPriceAed: number | null;
+  href: string | null;
+  buildingName: string | null;
+  bedrooms: string | null;
+  unitType: string | null;
+};
+
+type StoredInventoryEvent = Omit<InventoryEventRow, "href" | "buildingName" | "bedrooms" | "unitType">;
+
+/**
+ * Enrich an append-only historical event with an exact card route only when its
+ * current snapshot record still identifies a project, building, and unit. This
+ * keeps removed records visible without inventing a destination.
+ */
+export function decorateInventoryEvents(
+  events: StoredInventoryEvent[],
+  snapshot: SnapshotUnit[] = loadSnapshotUnits(),
+): InventoryEventRow[] {
+  const unitsByKey = new Map(
+    snapshot.map(unit => [`${unit.dataset}:${unit.projectSlug}:${unit.unitName}`, unit]),
+  );
+  return events.map(event => {
+    const unit = unitsByKey.get(`${event.dataset}:${event.projectSlug}:${event.unitName}`);
+    return {
+      ...event,
+      href: unit ? getInventoryUnitHref(unit) : null,
+      buildingName: unit?.buildingName ?? null,
+      bedrooms: unit?.bedrooms ?? null,
+      unitType: unit?.unitType ?? null,
+    };
+  });
+}
+
+/** Recent persisted per-unit changes for the daily Inventory History table. */
+export async function listRecentInventoryEvents(input?: {
+  limit?: number;
+  projectSlug?: string;
+  eventType?: DiffEvent["eventType"];
+}) {
+  const db = await getDb();
+  if (!db) return [];
+  const conditions = [];
+  if (input?.projectSlug) conditions.push(eq(inventoryUnitEvents.projectSlug, input.projectSlug));
+  if (input?.eventType) conditions.push(eq(inventoryUnitEvents.eventType, input.eventType));
+  const base = db.select().from(inventoryUnitEvents);
+  const rows = conditions.length > 0
+    ? await base.where(and(...conditions)).orderBy(desc(inventoryUnitEvents.createdAt), desc(inventoryUnitEvents.id)).limit(input?.limit ?? 500)
+    : await base.orderBy(desc(inventoryUnitEvents.createdAt), desc(inventoryUnitEvents.id)).limit(input?.limit ?? 500);
+  return decorateInventoryEvents(rows);
 }
 
 /**

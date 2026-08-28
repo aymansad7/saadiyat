@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   computeDiff,
   buildSyncChangeSummary,
+  decorateInventoryEvents,
   getInventoryUnitHref,
   isSaleAvailableStatus,
   isSoldStatus,
@@ -97,6 +98,46 @@ describe("sales-desk detail routes", () => {
       item => item.projectSlug === "the-canopies" && item.buildingName === "B1",
     );
     expect(unitFromCanopies?.href).toContain("/aldar-other/the-canopies/b1/");
+  });
+});
+
+describe("daily inventory event card links", () => {
+  it("links a tracked event to its exact card and leaves an unknown removed unit unlinked", () => {
+    const rows = decorateInventoryEvents(
+      [
+        {
+          id: 1,
+          runId: 12,
+          createdAt: new Date("2026-08-28T02:00:00Z"),
+          dataset: "saadiyat",
+          projectSlug: "faya",
+          projectName: "Faya Al Saadiyat",
+          unitName: "FAYA-01",
+          eventType: "status_change",
+          fromStatus: "Available",
+          toStatus: "Sold",
+          fromPriceAed: null,
+          toPriceAed: null,
+        },
+        {
+          id: 2,
+          runId: 12,
+          createdAt: new Date("2026-08-28T02:00:00Z"),
+          dataset: "saadiyat",
+          projectSlug: "faya",
+          projectName: "Faya Al Saadiyat",
+          unitName: "REMOVED-01",
+          eventType: "removed",
+          fromStatus: "Available",
+          toStatus: null,
+          fromPriceAed: null,
+          toPriceAed: null,
+        },
+      ],
+      [unit({ projectSlug: "faya", unitName: "FAYA-01", buildingSlug: "m1", buildingName: "Massena 1" })],
+    );
+    expect(rows[0]).toMatchObject({ href: "/aldar-saadiyat/faya/m1/FAYA-01", buildingName: "Massena 1" });
+    expect(rows[1]).toMatchObject({ href: null, buildingName: null });
   });
 });
 

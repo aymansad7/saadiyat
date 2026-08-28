@@ -11,6 +11,7 @@ import {
   ArrowUpRight,
   BedDouble,
   Building2,
+  CalendarDays,
   ExternalLink,
   History,
   Plus,
@@ -64,6 +65,49 @@ type Rollup = {
   examples: string[];
 };
 
+type InventoryEvent = {
+  id: number;
+  runId: number;
+  createdAt: Date | string;
+  dataset: "saadiyat" | "other";
+  projectSlug: string;
+  projectName: string | null;
+  unitName: string;
+  eventType: "first_seen" | "status_change" | "price_change" | "removed" | "reappeared";
+  fromStatus: string | null;
+  toStatus: string | null;
+  fromPriceAed: number | null;
+  toPriceAed: number | null;
+  href: string | null;
+  buildingName: string | null;
+  bedrooms: string | null;
+  unitType: string | null;
+};
+
+const EVENT_OPTIONS: Array<{ value: InventoryEvent["eventType"] | "all"; label: string }> = [
+  { value: "all", label: "All changes" },
+  { value: "status_change", label: "Status changes" },
+  { value: "price_change", label: "Price changes" },
+  { value: "first_seen", label: "Newly tracked" },
+  { value: "reappeared", label: "Reappeared" },
+  { value: "removed", label: "Removed from source" },
+];
+
+function eventDescription(event: InventoryEvent) {
+  if (event.eventType === "status_change") return `${event.fromStatus ?? "Unknown"} → ${event.toStatus ?? "Unknown"}`;
+  if (event.eventType === "price_change") return "Price changed";
+  if (event.eventType === "first_seen") return `Newly tracked${event.toStatus ? ` · ${event.toStatus}` : ""}`;
+  if (event.eventType === "reappeared") return `Back in source${event.toStatus ? ` · ${event.toStatus}` : ""}`;
+  return "Removed from source";
+}
+
+function priceDescription(event: InventoryEvent) {
+  if (event.eventType !== "price_change" && event.eventType !== "first_seen" && event.eventType !== "reappeared") return "—";
+  const from = fmtAed(event.fromPriceAed);
+  const to = fmtAed(event.toPriceAed);
+  return from && to ? `${from} → ${to}` : to ?? from ?? "—";
+}
+
 function StatCard({
   label,
   value,
@@ -100,6 +144,9 @@ export default function AdminInventoryHistory() {
   const [inventoryQuery, setInventoryQuery] = useState("");
   const [projectFilter, setProjectFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState<"all" | "available" | "new">("available");
+  const [eventProjectFilter, setEventProjectFilter] = useState("all");
+  const [eventTypeFilter, setEventTypeFilter] = useState<InventoryEvent["eventType"] | "all">("all");
+  const [eventQuery, setEventQuery] = useState("");
 
   const latest = trpc.inventoryHistory.latestRun.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -111,6 +158,17 @@ export default function AdminInventoryHistory() {
   const salesInventory = trpc.inventoryHistory.currentSaleInventory.useQuery(undefined, {
     enabled: isAuthenticated && (user?.role === "admin" || user?.role === "master"),
   });
+  const eventQueryInput = useMemo(
+    () => ({
+      limit: 500,
+      projectSlug: eventProjectFilter === "all" ? undefined : eventProjectFilter,
+      eventType: eventTypeFilter === "all" ? undefined : eventTypeFilter,
+    }),
+    [eventProjectFilter, eventTypeFilter],
+  );
+  const dailyEvents = trpc.inventoryHistory.recentEvents.useQuery(eventQueryInput, {
+    enabled: isAuthenticated && (user?.role === "admin" || user?.role === "master"),
+  });
 
   const syncNow = trpc.inventoryHistory.syncNow.useMutation({
     onSuccess: res => {
@@ -120,6 +178,7 @@ export default function AdminInventoryHistory() {
       utils.inventoryHistory.latestRun.invalidate();
       utils.inventoryHistory.runs.invalidate();
       utils.inventoryHistory.currentSaleInventory.invalidate();
+      utils.inventoryHistory.recentEvents.invalidate();
     },
     onError: e => toast.error(e.message || "Sync failed"),
   });
@@ -134,6 +193,7 @@ export default function AdminInventoryHistory() {
       utils.inventoryHistory.latestRun.invalidate();
       utils.inventoryHistory.runs.invalidate();
       utils.inventoryHistory.currentSaleInventory.invalidate();
+      utils.inventoryHistory.recentEvents.invalidate();
     },
     onError: e => toast.error(e.message || "Import failed"),
   });
@@ -166,6 +226,18 @@ export default function AdminInventoryHistory() {
   }, [inventoryQuery, projectFilter, saleUnits, statusFilter]);
   const availableCount = saleUnits.filter(unit => (unit.status ?? "").toLowerCase() === "available").length;
   const newCount = saleUnits.filter(unit => (unit.status ?? "").toLowerCase() === "new").length;
+  const eventRows = (dailyEvents.data ?? []) as InventoryEvent[];
+  const eventProjects = useMemo(
+    () => Array.from(new Map(eventRows.map(event => [event.projectSlug, event.projectName ?? event.projectSlug])).entries())
+      .map(([slug, label]) => ({ slug, label }))
+      .sort((a, b) => a.label.localeCompare(b.label)),
+    [eventRows],
+  );
+  const displayedEvents = useMemo(() => {
+    const q = eventQuery.trim().toLowerCase();
+    if (!q) return eventRows;
+    return eventRows.filter(event => `${event.unitName} ${event.projectName ?? ""} ${event.buildingName ?? ""} ${event.fromStatus ?? ""} ${event.toStatus ?? ""}`.toLowerCase().includes(q));
+  }, [eventQuery, eventRows]);
 
   function handleImport() {
     let parsed: unknown;
@@ -253,6 +325,30 @@ export default function AdminInventoryHistory() {
                 </div>
               ))}
             </div>
+          )}
+        </section>
+
+        <section className="overflow-hidden rounded-xl border border-border bg-card">
+          <div className="border-b border-border px-5 py-5 sm:px-6">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <div className="flex items-center gap-2 text-[0.68rem] font-mono uppercase tracking-[0.18em] text-primary"><CalendarDays className="h-3.5 w-3.5" /> Daily unit movements</div>
+                <h2 className="mt-1 font-display text-2xl text-foreground">Every recorded inventory change</h2>
+                <p className="mt-1 max-w-2xl text-sm text-muted-foreground">Status, price, new, returned, and removed events are retained by sync date. Select a unit to open its exact card; a removed source record is never given a guessed route.</p>
+              </div>
+              <div className="font-mono text-xs text-muted-foreground">{displayedEvents.length.toLocaleString()} of {eventRows.length.toLocaleString()} movements</div>
+            </div>
+          </div>
+          <div className="grid gap-3 border-b border-border bg-muted/20 px-5 py-4 sm:px-6 md:grid-cols-[minmax(0,1fr)_220px_190px]">
+            <label className="relative block"><Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" /><input value={eventQuery} onChange={event => setEventQuery(event.target.value)} placeholder="Search unit, project or status" className="h-10 w-full rounded-md border border-border bg-background pl-9 pr-3 text-sm text-foreground outline-none transition focus:ring-2 focus:ring-primary/30" /></label>
+            <select value={eventProjectFilter} onChange={event => setEventProjectFilter(event.target.value)} className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"><option value="all">All projects</option>{eventProjects.map(project => <option key={project.slug} value={project.slug}>{project.label}</option>)}</select>
+            <select value={eventTypeFilter} onChange={event => setEventTypeFilter(event.target.value as InventoryEvent["eventType"] | "all")} className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground">{EVENT_OPTIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
+          </div>
+          {dailyEvents.isLoading ? <div className="px-5 py-10 text-sm text-muted-foreground sm:px-6">Loading recorded movements…</div> : dailyEvents.isError ? <div className="px-5 py-10 text-sm text-rose-600 sm:px-6">Could not load unit movements. {dailyEvents.error.message}</div> : displayedEvents.length === 0 ? <div className="px-5 py-10 text-sm text-muted-foreground sm:px-6">No recorded movements match these filters.</div> : (
+            <>
+              <div className="hidden overflow-x-auto md:block"><table className="w-full min-w-[920px] text-left text-sm"><thead className="border-b border-border bg-muted/10 text-[0.65rem] font-mono uppercase tracking-[0.14em] text-muted-foreground"><tr><th className="px-5 py-3 sm:px-6">Date</th><th className="px-3 py-3">Project</th><th className="px-3 py-3">Unit</th><th className="px-3 py-3">Movement</th><th className="px-3 py-3">Price</th><th className="px-5 py-3 text-right sm:px-6">Card</th></tr></thead><tbody className="divide-y divide-border">{displayedEvents.map(event => <tr key={event.id} className="transition-colors hover:bg-accent/35"><td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground sm:px-6">{fmtDateTime(event.createdAt)}</td><td className="max-w-[220px] truncate px-3 py-3 text-muted-foreground">{event.projectName ?? event.projectSlug}</td><td className="px-3 py-3"><div className="font-medium text-foreground">{event.unitName}</div>{event.buildingName && <div className="mt-0.5 text-xs text-muted-foreground">{event.buildingName}</div>}</td><td className="px-3 py-3"><span className="rounded-sm bg-muted px-1.5 py-0.5 font-mono text-[0.62rem] uppercase tracking-wide text-muted-foreground">{event.eventType.replace("_", " ")}</span><div className="mt-1 text-xs text-foreground">{eventDescription(event)}</div></td><td className="whitespace-nowrap px-3 py-3 text-xs text-muted-foreground">{priceDescription(event)}</td><td className="px-5 py-3 text-right sm:px-6">{event.href ? <Button asChild size="sm" variant="outline" className="bg-card"><Link href={event.href}>Open card <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></Link></Button> : <span className="text-xs text-muted-foreground">Source removed</span>}</td></tr>)}</tbody></table></div>
+              <div className="divide-y divide-border md:hidden">{displayedEvents.map(event => <article key={event.id} className="space-y-3 px-5 py-4"><div className="flex items-start justify-between gap-3"><div><div className="font-medium text-foreground">{event.unitName}</div><div className="mt-0.5 text-xs text-muted-foreground">{event.projectName ?? event.projectSlug}{event.buildingName ? ` · ${event.buildingName}` : ""}</div></div><div className="text-right text-xs text-muted-foreground">{fmtDateTime(event.createdAt)}</div></div><div className="flex flex-wrap items-center gap-2"><span className="rounded-sm bg-muted px-1.5 py-0.5 font-mono text-[0.62rem] uppercase tracking-wide text-muted-foreground">{event.eventType.replace("_", " ")}</span><span className="text-sm text-foreground">{eventDescription(event)}</span></div><div className="flex items-center justify-between gap-3"><span className="text-xs text-muted-foreground">{priceDescription(event)}</span>{event.href ? <Button asChild size="sm" variant="outline" className="bg-card"><Link href={event.href}>Open card <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></Link></Button> : <span className="text-xs text-muted-foreground">Source removed</span>}</div></article>)}</div>
+            </>
           )}
         </section>
 

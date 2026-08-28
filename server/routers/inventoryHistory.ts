@@ -18,6 +18,7 @@ import {
   getUnitTimeline,
   buildSyncChangeSummary,
   listCurrentSaleInventory,
+  listRecentInventoryEvents,
   listEventsForRun,
   listRuns,
   runInventorySync,
@@ -56,6 +57,19 @@ export const inventoryHistoryRouter = router({
   currentSaleInventory: adminProcedure.query(async () => {
     return listCurrentSaleInventory();
   }),
+
+  /** Daily per-unit movements with historic fields and a source-safe card link. */
+  recentEvents: adminProcedure
+    .input(
+      z
+        .object({
+          limit: z.number().int().min(1).max(1000).default(500),
+          projectSlug: z.string().min(1).max(128).optional(),
+          eventType: z.enum(["first_seen", "status_change", "price_change", "removed", "reappeared"]).optional(),
+        })
+        .optional(),
+    )
+    .query(({ input }) => listRecentInventoryEvents(input)),
 
   /** Sync-run history for the admin monitoring page. */
   runs: adminProcedure

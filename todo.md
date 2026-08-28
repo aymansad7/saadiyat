@@ -741,3 +741,19 @@
 - [x] Present project names and their existing colors in a compact header row with controls to hide and restore the row
 - [x] Preserve multi-project filtering, selected-state visibility, map reflow, and selected-card behavior in both header states
 - [x] Add regression coverage, verify phone and desktop controls, and publish
+
+### Hidd Property Finder Rental Matching (Aug 27, 2026)
+- [x] Collect documented Hidd rental listings from the supplied Property Finder results and retain their source URLs, plot areas, and property facts
+- [x] Match listings to Hidd system units using documented plot area as the primary key and flag non-unique or incomplete matches
+- [x] Report only confirmed unit numbers and clearly distinguish ambiguous, unmatched, or stale source listings
+
+### Project Recovery ZIP (Aug 27, 2026)
+- [x] Create a dated ZIP recovery archive of the Saadiyat project source, source data, migrations, and documentation
+- [x] Exclude dependency folders, VCS metadata, logs, build artefacts, and environment secrets from the recovery ZIP
+- [x] Verify archive integrity and attach it for download
+
+### Inventory History Daily Unit Change Table (Aug 27, 2026)
+- [x] Audit stored inventory events and existing history procedures for unit, project, date, old/new status, price-change, and internal detail-link data
+- [x] Add a source-backed daily event query with project/status/date filters and an exact unit-detail link for every displayable event
+- [x] Add a readable desktop table and mobile card presentation to Inventory History, with every unit row actionable
+- [x] Add regression coverage, validate the event table and links, then publish
