@@ -30,6 +30,6 @@ No One Saadiyat floor plan is linked in the app yet. An individual World of Alda
 
 Opening the official **Massena** building on 27 Aug 2026 immediately presented Aldar’s **Enter Access Code** gate before any unit or floor-plan details were available. The public map surface therefore cannot be used to infer a plan asset or mapping.
 
-## Deferred status
+## Cancelled status
 
-The Faya and One Saadiyat floor-plan tasks remain intentionally open. Their work must resume only after the user enters an authorized Aldar Access Code in the opened official session or provides an authorized official feed/API that proves the exact unit-or-type-to-file mapping. No access-control bypass, guessed file URL, inferred plan, or card assignment is permitted.
+The user cancelled all Faya and One Saadiyat floor-plan work on 28 Aug 2026. No further access-code request, source check, floor-plan extraction, file upload, mapping, card action, or implementation will be performed unless the user explicitly creates a new task for it. This record is retained solely as an evidence and decision history.

@@ -687,9 +687,9 @@
 
 ### Faya and One Saadiyat Official Floor Plans (Aug 27, 2026)
 - [x] Inspect the currently configured sources and official Aldar data paths for floor plans belonging to Faya Al Saadiyat and One Saadiyat
-- [ ] Extract and preserve only official floor plans whose unit or type mapping can be verified from the source
-- [ ] Add documented floor-plan actions to the matching cards and unit detail views without inferring plans for unmatched units
-- [ ] Add source/mapping regression coverage, verify representative units, and publish
+- [x] Cancelled by user on 28 Aug 2026 — do not extract or preserve Faya/One floor plans, even where a future unit/type mapping becomes available
+- [x] Cancelled by user on 28 Aug 2026 — do not add Faya/One floor-plan actions to cards or unit details
+- [x] Cancelled by user on 28 Aug 2026 — do not continue related source/mapping verification or implementation
 
 ### Smart Global Unit Search for Aldar Codes (Aug 27, 2026)
 - [x] Normalize Aldar project aliases, building codes, and unit numbers in the homepage search, including inputs such as `SC 362`
@@ -790,5 +790,5 @@
 - [x] Remove any stale browser-only unlock state that could reveal route content without a current authenticated server session
 - [x] Show a neutral session-verification state rather than the sign-in form while a valid server session is still being checked
 - [ ] Verify Google OAuth in a connected personal-browser session; the optional connection prompt was declined, so no OAuth claim is made from this test session
-- [ ] Retain the Faya and One Saadiyat official-floor-plan tasks as blocked until an authorized Aldar Access Code or documented official feed provides verifiable unit/type mapping
+- [x] Cancel the Faya and One Saadiyat official-floor-plan tasks completely at the user’s request; do not seek, test, or use access codes or official feeds for them
 - [ ] Retain the Bitrix24 work as deferred until the user explicitly resumes it and supplies the required portal/entity/authentication decisions
