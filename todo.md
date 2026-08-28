@@ -771,24 +771,24 @@
 - [x] Add auth, role, and session-preservation regression coverage; verify sign-in paths and publish
 
 ### Operational Property Listings and Bitrix24 Two-Way CRM Sync (Aug 28, 2026)
-- [ ] Confirm the Bitrix24 portal, CRM entity type/ID, field map, conflict rule, owner-data approval policy, and approved authentication route before creating any connector or storing credentials
+- [x] Deferred by user on 28 Aug 2026 — do not request Bitrix24 portal/entity/authentication decisions until the user explicitly resumes the CRM task
 - [x] Audit `villa_listings`, `availability_listings`, property editing controls, Admin Listings, map marker merge, and audit records; define one stable project/phase/unit-or-plot identity with source provenance
 - [x] Redesign Master Admin Property Listings as the operational workspace for documented available inventory, source labels, status, price, project/phase, and protected owner data for authorized viewers
 - [x] Make status, availability, price, and permitted owner-data edits from Listings, property cards, and Interactive Map write to the same canonical database record and invalidate/rebuild affected cards and markers
 - [x] Preserve Aldar and broker-source records without duplicate listing values or unsupported availability overwrites; keep owner/contact fields absent from unauthorized APIs and UI
-- [ ] Add Bitrix24 connection metadata, field mapping, identity mapping, inbound/outbound event ledger, reconciliation state, retry/error visibility, and audit history after the user approves the integration route and credentials
-- [ ] Implement server-only outbound Bitrix updates with idempotency and source timestamps, plus a verified public inbound event handler that fetches full records and applies permitted changes transactionally
-- [ ] Add an Admin reconciliation/import/retry workflow for failed or conflicting CRM events; never rely on unverified or automatic match heuristics
-- [ ] Add tests for permissions, mapping uniqueness, duplicate inbound events, token validation, outbound transformation, conflict policy, failures, source privacy, and map/listing consistency
-- [ ] Exercise clean-session email/password and Google sign-in without revoking current sessions, run TypeScript and the full test suite, then publish a documented checkpoint
+- [x] Deferred by user on 28 Aug 2026 — no Bitrix24 connection metadata, mapping, sync ledger, reconciliation workflow, or CRM audit implementation is to be created in this task
+- [x] Deferred by user on 28 Aug 2026 — no outbound/inbound Bitrix24 sync implementation is to be created in this task
+- [x] Deferred by user on 28 Aug 2026 — no Bitrix24 reconciliation or retry screen is to be created in this task
+- [x] Deferred by user on 28 Aug 2026 — no Bitrix24-specific test suite is to be created in this task
+- [x] Close this Bitrix task record as deferred: email/password validation and the full non-Bitrix test suite were completed; Google OAuth browser validation remains explicitly unverified pending a future user-approved personal-browser session
 
 ### Current Priority — Complete Actionable Open Items (Aug 28, 2026)
 - [x] Complete the Property Listings source-of-truth audit and synchronization improvements before beginning any Bitrix24 connector or CRM implementation
 - [x] Move historical Hidd owner and tenant source fields behind a server-side permission-filtered query so unauthorised browsers never receive raw contact data
-- [ ] Verify the email/password and Google sign-in paths in clean browser sessions while preserving existing signed-in devices
+- [x] Close the combined sign-in verification record: email/password and cross-page session persistence were verified without revoking devices; Google OAuth requires a future connected personal-browser test and is not claimed as verified
 - [x] Verify the clean-session email/password sign-in and cross-page session persistence without revoking any existing devices
 - [x] Remove any stale browser-only unlock state that could reveal route content without a current authenticated server session
 - [x] Show a neutral session-verification state rather than the sign-in form while a valid server session is still being checked
-- [ ] Verify Google OAuth in a connected personal-browser session; the optional connection prompt was declined, so no OAuth claim is made from this test session
+- [x] Defer Google OAuth browser verification after the personal-browser connection prompt was declined; no OAuth completion was claimed from this session
 - [x] Cancel the Faya and One Saadiyat official-floor-plan tasks completely at the user’s request; do not seek, test, or use access codes or official feeds for them
-- [ ] Retain the Bitrix24 work as deferred until the user explicitly resumes it and supplies the required portal/entity/authentication decisions
+- [x] Retain Bitrix24 as deferred until the user explicitly resumes it and supplies the required portal/entity/authentication decisions
