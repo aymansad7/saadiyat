@@ -757,3 +757,8 @@
 - [x] Add a source-backed daily event query with project/status/date filters and an exact unit-detail link for every displayable event
 - [x] Add a readable desktop table and mobile card presentation to Inventory History, with every unit row actionable
 - [x] Add regression coverage, validate the event table and links, then publish
+
+### Inventory Price Changed Filter (Aug 28, 2026)
+- [x] Add a Price changed filter to the Inventory sales desk and link it to recorded `price_change` events
+- [x] Preserve project/unit search, exact card links, and a clear empty state when no historical price movement exists
+- [x] Add regression coverage, validate on desktop/mobile, and publish

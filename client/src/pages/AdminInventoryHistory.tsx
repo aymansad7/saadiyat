@@ -29,6 +29,7 @@ import { getLoginUrl } from "@/const";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
+import { inventoryUnitEventKey, matchesSalesStatusFilter, type SalesStatusFilter } from "@/lib/inventorySalesFilters";
 
 function fmtDateTime(d: Date | string | null | undefined) {
   if (!d) return "—";
@@ -143,7 +144,7 @@ export default function AdminInventoryHistory() {
   const [importTarget, setImportTarget] = useState<"saadiyat" | "other">("saadiyat");
   const [inventoryQuery, setInventoryQuery] = useState("");
   const [projectFilter, setProjectFilter] = useState("all");
-  const [statusFilter, setStatusFilter] = useState<"all" | "available" | "new">("available");
+  const [statusFilter, setStatusFilter] = useState<SalesStatusFilter>("available");
   const [eventProjectFilter, setEventProjectFilter] = useState("all");
   const [eventTypeFilter, setEventTypeFilter] = useState<InventoryEvent["eventType"] | "all">("all");
   const [eventQuery, setEventQuery] = useState("");
@@ -169,6 +170,10 @@ export default function AdminInventoryHistory() {
   const dailyEvents = trpc.inventoryHistory.recentEvents.useQuery(eventQueryInput, {
     enabled: isAuthenticated && (user?.role === "admin" || user?.role === "master"),
   });
+  const priceChangeEvents = trpc.inventoryHistory.recentEvents.useQuery(
+    { limit: 1000, eventType: "price_change" },
+    { enabled: isAuthenticated && (user?.role === "admin" || user?.role === "master") },
+  );
 
   const syncNow = trpc.inventoryHistory.syncNow.useMutation({
     onSuccess: res => {
@@ -213,17 +218,21 @@ export default function AdminInventoryHistory() {
       ).sort((a, b) => a.label.localeCompare(b.label)),
     [saleUnits],
   );
+  const priceChangedUnitKeys = useMemo(
+    () => new Set((priceChangeEvents.data ?? []).map(event => inventoryUnitEventKey(event))),
+    [priceChangeEvents.data],
+  );
   const displayedUnits = useMemo(() => {
     const q = inventoryQuery.trim().toLowerCase();
     return saleUnits.filter(unit => {
       if (projectFilter !== "all" && `${unit.dataset}:${unit.projectSlug}` !== projectFilter) return false;
-      if (statusFilter !== "all" && (unit.status ?? "").toLowerCase() !== statusFilter) return false;
+      if (!matchesSalesStatusFilter(unit, statusFilter, priceChangedUnitKeys)) return false;
       if (!q) return true;
       return `${unit.unitName} ${unit.projectName ?? ""} ${unit.buildingName ?? ""} ${unit.bedrooms ?? ""} ${unit.unitType ?? ""}`
         .toLowerCase()
         .includes(q);
     });
-  }, [inventoryQuery, projectFilter, saleUnits, statusFilter]);
+  }, [inventoryQuery, priceChangedUnitKeys, projectFilter, saleUnits, statusFilter]);
   const availableCount = saleUnits.filter(unit => (unit.status ?? "").toLowerCase() === "available").length;
   const newCount = saleUnits.filter(unit => (unit.status ?? "").toLowerCase() === "new").length;
   const eventRows = (dailyEvents.data ?? []) as InventoryEvent[];
@@ -311,7 +320,7 @@ export default function AdminInventoryHistory() {
           <div className="border-b border-border bg-muted/20 px-5 py-4 sm:px-6 grid gap-3 md:grid-cols-[minmax(0,1fr)_220px_150px]">
             <label className="relative block"><Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" /><input value={inventoryQuery} onChange={event => setInventoryQuery(event.target.value)} placeholder="Search unit, project, building, type or bedrooms" className="h-10 w-full rounded-md border border-border bg-background pl-9 pr-3 text-sm text-foreground outline-none transition focus:ring-2 focus:ring-primary/30" /></label>
             <select value={projectFilter} onChange={event => setProjectFilter(event.target.value)} className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"><option value="all">All projects</option>{projects.map(project => <option key={project.key} value={project.key}>{project.label}</option>)}</select>
-            <select value={statusFilter} onChange={event => setStatusFilter(event.target.value as "all" | "available" | "new")} className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"><option value="available">Available</option><option value="new">New release</option><option value="all">Available + New</option></select>
+            <select value={statusFilter} onChange={event => setStatusFilter(event.target.value as SalesStatusFilter)} className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"><option value="available">Available</option><option value="new">New release</option><option value="price-changed">Price changed</option><option value="all">Available + New</option></select>
           </div>
           <div className="flex items-center justify-between gap-3 px-5 py-3 text-xs text-muted-foreground sm:px-6"><span>Source: deployed Aldar inventory snapshot. Importing fresh JSON records the change history; a genuine live API feed is not configured.</span><span className="shrink-0 font-mono">{displayedUnits.length.toLocaleString()} shown</span></div>
           {salesInventory.isLoading ? <div className="px-5 py-10 text-sm text-muted-foreground sm:px-6">Loading current inventory…</div> : salesInventory.isError ? <div className="px-5 py-10 text-sm text-rose-600 sm:px-6">Could not load the current sales inventory. {salesInventory.error.message}</div> : displayedUnits.length === 0 ? <div className="px-5 py-10 text-sm text-muted-foreground sm:px-6">No units match these sales-desk filters.</div> : (
