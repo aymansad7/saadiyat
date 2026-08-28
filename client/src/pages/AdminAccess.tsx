@@ -80,6 +80,9 @@ export default function AdminAccess() {
   const updateRole = trpc.magic.access.updateRole.useMutation({
     onSuccess: () => utils.magic.access.list.invalidate(),
   });
+  const setPassword = trpc.magic.access.setPassword.useMutation({
+    onSuccess: () => utils.magic.access.list.invalidate(),
+  });
   const grants = trpc.propertyAccess.grants.list.useQuery(undefined, { enabled: isMaster });
   const activity = trpc.propertyAccess.activity.useQuery({ limit: 150 }, { enabled: isMaster });
   const createGrants = trpc.propertyAccess.grants.createMany.useMutation({
@@ -98,6 +101,7 @@ export default function AdminAccess() {
   const [newEmail, setNewEmail] = useState("");
   const [newRole, setNewRole] = useState<Role>("user");
   const [newNote, setNewNote] = useState("");
+  const [passwordDrafts, setPasswordDrafts] = useState<Record<number, string>>({});
   const [grantEmail, setGrantEmail] = useState("");
   const [scopeType, setScopeType] = useState<GrantScopeType>("area");
   const [selectedScopeKeys, setSelectedScopeKeys] = useState<string[]>(["saadiyat"]);
@@ -140,6 +144,21 @@ export default function AdminAccess() {
       toast.success(`Role updated to ${role}`);
     } catch (err: any) {
       toast.error(err?.message || "Could not update role");
+    }
+  };
+
+  const onSetPassword = async (id: number, email: string) => {
+    const password = passwordDrafts[id] ?? "";
+    if (password.length < 10) {
+      toast.error("Password must contain at least 10 characters.");
+      return;
+    }
+    try {
+      await setPassword.mutateAsync({ id, password });
+      setPasswordDrafts(current => ({ ...current, [id]: "" }));
+      toast.success(`Password updated for ${email}`);
+    } catch (err: any) {
+      toast.error(err?.message || "Could not update password");
     }
   };
 
@@ -230,9 +249,9 @@ export default function AdminAccess() {
           </div>
           <h1 className="font-display text-4xl text-foreground">Allowed emails</h1>
           <p className="text-muted-foreground mt-2 max-w-2xl">
-            Anyone whose email is on this list can sign in via the magic-link
-            flow on the home screen. Removing an email here revokes access for
-            future sign-ins.
+            Invited emails can sign in with their assigned password or Google.
+            Removing an email revokes future authenticated access; Master Admin
+            can update an account password without ever viewing it.
           </p>
           <div className="mt-3 inline-flex items-center gap-2 text-[0.7rem] font-mono uppercase tracking-[0.18em] text-muted-foreground">
             <span>Signed in as</span>
@@ -471,6 +490,7 @@ export default function AdminAccess() {
                   <th className="text-left px-5 py-2.5">Role</th>
                   <th className="text-left px-5 py-2.5 hidden md:table-cell">Note</th>
                   <th className="text-left px-5 py-2.5 hidden md:table-cell">Last sign-in</th>
+                  {isMaster && <th className="text-left px-5 py-2.5 hidden lg:table-cell">Password</th>}
                   <th className="text-right px-5 py-2.5">Actions</th>
                 </tr>
               </thead>
@@ -524,6 +544,29 @@ export default function AdminAccess() {
                         ? new Date(row.lastSeenAt).toLocaleString()
                         : "Never"}
                     </td>
+                    {isMaster && (
+                      <td className="px-5 py-3 hidden lg:table-cell">
+                        <div className="flex items-center gap-2 min-w-[230px]">
+                          <Input
+                            aria-label={`New password for ${row.email}`}
+                            type="password"
+                            autoComplete="new-password"
+                            value={passwordDrafts[row.id] ?? ""}
+                            onChange={event => setPasswordDrafts(current => ({ ...current, [row.id]: event.target.value }))}
+                            className="h-8 text-xs"
+                            placeholder="New password"
+                          />
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => onSetPassword(row.id, row.email)}
+                            disabled={setPassword.isPending || (passwordDrafts[row.id] ?? "").length < 10}
+                          >
+                            Set
+                          </Button>
+                        </div>
+                      </td>
+                    )}
                     <td className="px-5 py-3 text-right">
                       <Button
                         variant="ghost"

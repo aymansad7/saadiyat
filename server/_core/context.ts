@@ -62,6 +62,10 @@ export async function createContext(
         const allowed = await findAllowed(user.email);
         if (allowed) {
           user = { ...user, role: allowed.role };
+        } else {
+          // OAuth authenticates identity, while the email allowlist authorizes
+          // access to this restricted workspace.
+          user = null;
         }
       }
     } catch {

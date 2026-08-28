@@ -762,3 +762,10 @@
 - [x] Add a Price changed filter to the Inventory sales desk and link it to recorded `price_change` events
 - [x] Preserve project/unit search, exact card links, and a clear empty state when no historical price movement exists
 - [x] Add regression coverage, validate on desktop/mobile, and publish
+
+### Email-Only Sign-In with Passwords and Session Preservation (Aug 28, 2026)
+- [x] Audit the existing Google/Manus OAuth, email gate, passcode fallback, session-cookie, and allowlist paths before changing authentication
+- [x] Add password-hash based sign-in for allowed email accounts and remove the shared passcode entry point for new logins
+- [x] Retain Google/Manus OAuth for allowed email identities and preserve current valid device sessions without forced sign-out
+- [x] Set Ayman as Master Admin and configure the supplied Hamzeh and Jamal email/password accounts with the intended role
+- [x] Add auth, role, and session-preservation regression coverage; verify sign-in paths and publish

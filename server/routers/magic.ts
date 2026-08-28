@@ -17,9 +17,11 @@ import {
   createMagicLink,
   findAllowed,
   generateSessionToken,
+  hashPassword,
   isValidEmail,
   normalizeEmail,
   revokeSessionToken,
+  verifyEmailPassword,
   verifyMagicCode,
 } from "../magicAuth";
 import { appendActivityAudit } from "../activityAudit";
@@ -43,6 +45,48 @@ function clientUserAgent(req: Request): string | null {
 const REQUEST_RATE_PER_HOUR = 6; // per email — enough for retries, blocks abuse
 
 export const magicRouter = router({
+  /** Email/password sign-in for an allowlisted account. */
+  password: publicProcedure
+    .input(
+      z.object({
+        email: z.string().min(3).max(320),
+        password: z.string().min(10).max(256),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const email = normalizeEmail(input.email);
+      if (!isValidEmail(email)) {
+        throw new TRPCError({ code: "UNAUTHORIZED", message: "Invalid email or password." });
+      }
+      const ip = clientIp(ctx.req);
+      const ua = clientUserAgent(ctx.req);
+      const result = await verifyEmailPassword(email, input.password, { ip, userAgent: ua });
+      if (!result.ok) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message:
+            result.reason === "locked"
+              ? "Too many attempts. Please wait 15 minutes and try again."
+              : "Invalid email or password.",
+        });
+      }
+      const cookieOptions = getSessionCookieOptions(ctx.req);
+      ctx.res.cookie(MAGIC_SESSION_COOKIE, result.sessionToken, {
+        ...cookieOptions,
+        maxAge: SESSION_TTL_MS,
+      });
+      await appendActivityAudit({
+        eventType: "sign_in",
+        actorEmail: email,
+        targetEmail: email,
+        entityType: "session",
+        entityKey: result.sessionToken.slice(0, 12),
+        summary: `Signed in with email/password and ${result.role} access`,
+        ip,
+        userAgent: ua,
+      });
+      return { ok: true as const, email, role: result.role, expiresAt: result.expiresAt };
+    }),
   /**
    * Step 1 — user submits their email. We always respond with the same shape
    * regardless of whether the address is on the allowlist; the only signal of
@@ -191,7 +235,16 @@ export const magicRouter = router({
       const db = await getDb();
       if (!db) return [];
       const rows = await db
-        .select()
+        .select({
+          id: allowedEmails.id,
+          email: allowedEmails.email,
+          role: allowedEmails.role,
+          addedBy: allowedEmails.addedBy,
+          note: allowedEmails.note,
+          lastSeenAt: allowedEmails.lastSeenAt,
+          createdAt: allowedEmails.createdAt,
+          passwordUpdatedAt: allowedEmails.passwordUpdatedAt,
+        })
         .from(allowedEmails)
         .orderBy(asc(allowedEmails.email));
       return rows;
@@ -270,7 +323,44 @@ export const magicRouter = router({
           ip: clientIp(ctx.req),
           userAgent: clientUserAgent(ctx.req),
         });
-        return row;
+        const { passwordHash: _passwordHash, ...safeRow } = row;
+        return safeRow;
+      }),
+
+    /** Only a Master Admin can set or replace another allowlisted user's password. */
+    setPassword: adminProcedure
+      .input(z.object({ id: z.number().int().positive(), password: z.string().min(10).max(256) }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user.role !== "master") {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Only master users can set passwords." });
+        }
+        const db = await getDb();
+        if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+        const rows = await db.select().from(allowedEmails).where(eq(allowedEmails.id, input.id)).limit(1);
+        const target = rows[0];
+        if (!target) throw new TRPCError({ code: "NOT_FOUND" });
+        await db
+          .update(allowedEmails)
+          .set({
+            passwordHash: hashPassword(input.password),
+            passwordFailedAttempts: 0,
+            passwordLockedUntil: null,
+            passwordUpdatedAt: new Date(),
+          })
+          .where(eq(allowedEmails.id, target.id));
+        await appendActivityAudit({
+          eventType: "access_role_update",
+          actorEmail: ctx.user.email ?? "master",
+          actorName: ctx.user.name ?? null,
+          targetEmail: target.email,
+          entityType: "allowed_email",
+          entityKey: String(target.id),
+          summary: "Updated account password",
+          changes: { passwordUpdated: true },
+          ip: clientIp(ctx.req),
+          userAgent: clientUserAgent(ctx.req),
+        });
+        return { ok: true as const, passwordUpdatedAt: new Date() };
       }),
 
     remove: adminProcedure
@@ -306,7 +396,11 @@ export const magicRouter = router({
           entityType: "allowed_email",
           entityKey: String(target.id),
           summary: "Revoked allowed-user access",
-          changes: target,
+          changes: {
+            role: target.role,
+            note: target.note,
+            passwordConfigured: Boolean(target.passwordHash),
+          },
           ip: clientIp(ctx.req),
           userAgent: clientUserAgent(ctx.req),
         });

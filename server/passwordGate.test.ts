@@ -1,12 +1,10 @@
 /**
- * Contract tests for the EmailGate component (which replaced the legacy
- * PasswordGate) and its retained passcode fallback.
+ * Contract tests for the email-only EmailGate component.
  *
  * Invariants:
- *   - The gate offers an email magic-link flow as the primary mode.
- *   - The legacy passcode flow is still available as a fallback tab.
+ *   - The gate offers allowlisted email/password sign-in and Google OAuth.
+ *   - The legacy shared passcode is not available from the lock screen.
  *   - Unlock state is namespaced and tracked in sessionStorage.
- *   - The gate posts heartbeats once unlocked.
  *   - App.tsx wires every route inside <EmailGate>.
  *   - /resale-search is gated, not bypassed.
  */
@@ -20,28 +18,23 @@ const APP_PATH = path.resolve(__dirname, "../client/src/App.tsx");
 describe("EmailGate", () => {
   const source = fs.readFileSync(GATE_PATH, "utf8");
 
-  it("offers a magic-link flow that calls trpc.magic.request and trpc.magic.verify", () => {
-    expect(source).toContain("trpc.magic.request.useMutation()");
-    expect(source).toContain("trpc.magic.verify.useMutation()");
-    expect(source).toMatch(/requestMagic\.mutateAsync\(\s*\{\s*email:/);
-    expect(source).toMatch(/verifyMagic\.mutateAsync\(\s*\{\s*email:[^}]*code:/s);
+  it("offers email/password sign-in and preserves Google OAuth", () => {
+    expect(source).toContain("trpc.magic.password.useMutation()");
+    expect(source).toMatch(/passwordSignIn\.mutateAsync\(\s*\{\s*email:[^}]*password/s);
+    expect(source).toContain("Continue with Google");
+    expect(source).toContain("getLoginUrl()");
   });
 
-  it("retains the passcode fallback against the server (no hard-coded secret)", () => {
-    expect(source).not.toMatch(/const\s+SECRET\s*=\s*"\d{6}"/);
-    expect(source).toContain("trpc.gate.verify.useMutation()");
-    expect(source).toMatch(/verifyPasscode\.mutateAsync\(\s*\{\s*passcode:/);
+  it("does not render or invoke a shared passcode flow", () => {
+    expect(source).not.toContain("trpc.gate.verify.useMutation()");
+    expect(source).not.toContain("verifyPasscode");
+    expect(source).not.toContain("Passcode");
   });
 
   it("persists unlock state under the namespaced session-storage key", () => {
     expect(source).toContain('const STORAGE_KEY = "saadiyat:gate:unlocked"');
     expect(source).toContain("window.sessionStorage.getItem(STORAGE_KEY)");
     expect(source).toContain('window.sessionStorage.setItem(STORAGE_KEY, "yes")');
-  });
-
-  it("posts a heartbeat after unlock so admin sees who is in", () => {
-    expect(source).toContain("trpc.gate.heartbeat.useMutation()");
-    expect(source).toContain("heartbeat.mutate({ path: location })");
   });
 
   it("is wired into App.tsx so every route goes through <EmailGate>", () => {
@@ -58,6 +51,7 @@ describe("EmailGate", () => {
 
   it("does not expose a passcode-bypass CTA on the lock screen", () => {
     expect(source).not.toContain("/resale-search");
+    expect(source).not.toContain("passcode fallback");
   });
 
   it("uses the new Saadiyat Resale Hub branding on the lock screen", () => {

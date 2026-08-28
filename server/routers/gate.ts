@@ -274,6 +274,20 @@ export const gateRouter = router({
   verify: publicProcedure
     .input(z.object({ passcode: z.string().min(1).max(32) }))
     .mutation(async ({ input, ctx }) => {
+      // This shared passcode endpoint is retired. Existing authenticated
+      // OAuth/email-session cookies remain valid, but new access requires an
+      // allowlisted email and either its password or OAuth identity.
+      void input;
+      void ctx;
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Passcode sign-in has been retired. Use your email and password or Google sign-in.",
+      });
+
+      /* Legacy passcode implementation retained below solely for historical
+       * reference. It is intentionally unreachable and excluded from compile
+       * checking while the new allowlisted email flow is active.
+       *
       const ip = clientIp(ctx.req);
       const ua = userAgent(ctx.req);
       const vid = visitorId(ctx.req);
@@ -363,6 +377,7 @@ export const gateRouter = router({
         success: false as const,
         rotated: reason !== null,
       };
+      */
     }),
 
   /** Returns whether the *caller* itself is treated as a bot — informational. */

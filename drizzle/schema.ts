@@ -264,9 +264,16 @@ export const allowedEmails = mysqlTable(
     id: int("id").autoincrement().primaryKey(),
     email: varchar("email", { length: 320 }).notNull().unique(),
     role: mysqlEnum("role", ["user", "admin", "master"]).default("user").notNull(),
+    /** Scrypt-encoded password hash. The raw password is never persisted. */
+    passwordHash: varchar("passwordHash", { length: 255 }),
+    /** Failed password attempts since the last successful verification. */
+    passwordFailedAttempts: int("passwordFailedAttempts").default(0).notNull(),
+    /** Temporary lockout timestamp after repeated password failures. */
+    passwordLockedUntil: timestamp("passwordLockedUntil"),
+    passwordUpdatedAt: timestamp("passwordUpdatedAt"),
     addedBy: varchar("addedBy", { length: 320 }),
     note: varchar("note", { length: 255 }),
-    /** Last successful magic-link verification — used for the admin "last seen" column. */
+    /** Last successful email/password or OAuth verification — used for the admin "last seen" column. */
     lastSeenAt: timestamp("lastSeenAt"),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
   },

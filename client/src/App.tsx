@@ -3,8 +3,8 @@
  * Coastal Atelier — App shell
  *
  * Every route, including /resale-search, sits behind the EmailGate.
- * Visitors must sign in with a magic-link code (or fall back to the
- * passcode) before seeing any inventory.
+ * Visitors must use an allowlisted email/password or allowlisted Google
+ * identity before seeing any inventory.
  */
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";

@@ -15,7 +15,13 @@
  * All hashing is SHA-256. Codes are zero-padded 6 digits. We rely on TLS for
  * delivery + 10-minute expiry + 5-attempt cap to prevent online brute force.
  */
-import { createHash, randomBytes, randomInt } from "node:crypto";
+import {
+  createHash,
+  randomBytes,
+  randomInt,
+  scryptSync,
+  timingSafeEqual,
+} from "node:crypto";
 import { and, desc, eq, gt, isNull, sql } from "drizzle-orm";
 import {
   allowedEmails,
@@ -30,6 +36,8 @@ export const CODE_TTL_MS = 10 * 60 * 1000; // 10 minutes
 export const SESSION_TTL_MS = 90 * 24 * 60 * 60 * 1000; // 90 days
 export const MAX_VERIFY_ATTEMPTS = 5;
 export const MAGIC_SESSION_COOKIE = "magic_session_token";
+export const PASSWORD_MAX_ATTEMPTS = 5;
+export const PASSWORD_LOCKOUT_MS = 15 * 60 * 1000;
 
 export function normalizeEmail(raw: string): string {
   return raw.trim().toLowerCase();
@@ -47,6 +55,27 @@ export function generateCode(): string {
 
 export function hashCode(code: string): string {
   return createHash("sha256").update(code).digest("hex");
+}
+
+/** Store only a salted scrypt password hash; never persist raw passwords. */
+export function hashPassword(password: string): string {
+  const salt = randomBytes(16).toString("hex");
+  const digest = scryptSync(password, salt, 64, { N: 16_384 }).toString("hex");
+  return `scrypt$${salt}$${digest}`;
+}
+
+/** Constant-time comparison for an encoded hash created by `hashPassword`. */
+export function verifyPasswordHash(password: string, encoded: string | null): boolean {
+  if (!encoded) return false;
+  const [algorithm, salt, storedDigest] = encoded.split("$");
+  if (algorithm !== "scrypt" || !salt || !storedDigest) return false;
+  try {
+    const candidate = scryptSync(password, salt, 64, { N: 16_384 });
+    const expected = Buffer.from(storedDigest, "hex");
+    return candidate.length === expected.length && timingSafeEqual(candidate, expected);
+  } catch {
+    return false;
+  }
 }
 
 export function generateSessionToken(): string {
@@ -186,6 +215,73 @@ export async function verifyMagicCode(
     expiresAt: sessionExpiresAt,
     role: allowed.role,
   };
+}
+
+/** Verify an allowlisted email/password and mint a standard long-lived session. */
+export async function verifyEmailPassword(
+  email: string,
+  password: string,
+  meta: { ip?: string | null; userAgent?: string | null },
+): Promise<
+  | { ok: true; sessionToken: string; expiresAt: Date; role: AllowedEmail["role"] }
+  | { ok: false; reason: "invalid_credentials" | "locked" }
+> {
+  const db = await getDb();
+  if (!db) return { ok: false, reason: "invalid_credentials" };
+  const normalized = normalizeEmail(email);
+  const allowed = await findAllowed(normalized);
+  const now = new Date();
+  if (!allowed || !allowed.passwordHash) {
+    return { ok: false, reason: "invalid_credentials" };
+  }
+  if (allowed.passwordLockedUntil && allowed.passwordLockedUntil > now) {
+    return { ok: false, reason: "locked" };
+  }
+  if (!verifyPasswordHash(password, allowed.passwordHash)) {
+    const failedAttempts = allowed.passwordFailedAttempts + 1;
+    const lockedUntil =
+      failedAttempts >= PASSWORD_MAX_ATTEMPTS
+        ? new Date(now.getTime() + PASSWORD_LOCKOUT_MS)
+        : null;
+    await db
+      .update(allowedEmails)
+      .set({ passwordFailedAttempts: failedAttempts, passwordLockedUntil: lockedUntil })
+      .where(eq(allowedEmails.id, allowed.id));
+    return { ok: false, reason: lockedUntil ? "locked" : "invalid_credentials" };
+  }
+
+  await db
+    .update(allowedEmails)
+    .set({ passwordFailedAttempts: 0, passwordLockedUntil: null, lastSeenAt: now })
+    .where(eq(allowedEmails.id, allowed.id));
+  const sessionToken = generateSessionToken();
+  const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
+  await db.insert(authSessions).values({
+    token: sessionToken,
+    email: normalized,
+    expiresAt,
+    ip: meta.ip ?? null,
+    userAgent: meta.userAgent ?? null,
+  });
+  await db
+    .insert(users)
+    .values({
+      openId: `magic:${normalized}`,
+      email: normalized,
+      name: allowed.email,
+      loginMethod: "email-password",
+      role: allowed.role,
+      lastSignedIn: now,
+    })
+    .onDuplicateKeyUpdate({
+      set: {
+        email: normalized,
+        loginMethod: "email-password",
+        role: allowed.role,
+        lastSignedIn: now,
+      },
+    });
+  return { ok: true, sessionToken, expiresAt, role: allowed.role };
 }
 
 /* ---------------- session lookup ---------------- */
