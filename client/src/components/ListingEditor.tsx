@@ -188,6 +188,9 @@ export function ListingEditor({
         utils.villaListings.listByCommunity.invalidate(),
         utils.villaListings.adminList.invalidate(),
         utils.villaListings.stats.invalidate(),
+        utils.availability.results.invalidate(),
+        utils.availability.summary.invalidate(),
+        utils.availability.listForCommunity.invalidate(),
       ]);
       toast.success("Listing saved.");
       onOpenChange(false);

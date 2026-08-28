@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { LayoutGrid, Table2 } from "lucide-react";
-import hiddDataRaw from "../../../server/data/hidd_al_saadiyat.json";
+import hiddDataRaw from "@/data/hiddPublic.json";
 import { hiddPlotRecords, HIDD_SUMMARY } from "@/data/hiddTransactions";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import { EditListingButton, InteractiveMapLink } from "@/components/ListingControls";
@@ -56,7 +56,8 @@ interface HiddVilla {
   tenantVehicleType?: string;
 }
 
-// Normalize: in production builds, JSON ESM interop may wrap as {default: [...]}
+// This client dataset intentionally includes property facts only. Owner and
+// tenant facts are fetched through the permission-filtered server query below.
 const villas: HiddVilla[] = (Array.isArray(hiddDataRaw) ? hiddDataRaw : (hiddDataRaw as any).default ?? []) as HiddVilla[];
 
 function DetailRow({ label, value }: { label: string; value?: string }) {
@@ -214,6 +215,7 @@ export default function HiddAlSaadiyat() {
   const hiddPermissions = permissions.data?.[0]?.permissions;
   const canViewOwnerName = isAdmin || hiddPermissions?.canViewOwnerName === true;
   const canViewOwnerPhone = isAdmin || hiddPermissions?.canViewOwnerPhone === true;
+  const sensitiveFacts = trpc.hidd.sensitiveFacts.useQuery(undefined, { enabled: Boolean(user) });
   const [search, setSearch] = useState("");
   const [zoneFilter, setZoneFilter] = useState("");
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
@@ -221,14 +223,29 @@ export default function HiddAlSaadiyat() {
   const [areaMax, setAreaMax] = useState("");
   const [viewMode, setViewMode] = useState<"cards" | "table">(getInitialProjectViewMode);
 
+  const enrichedVillas = useMemo(() => {
+    const factsByKey = new Map((sensitiveFacts.data ?? []).map(fact => [fact.villaKey, fact]));
+    return villas.map(villa => ({
+      ...villa,
+      ...factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`),
+      owner1Name: factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`)?.ownerName,
+      owner1Mobile: factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`)?.ownerPhone,
+      owner1Email: factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`)?.ownerEmail,
+      ownerRepMobile: factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`)?.ownerRepMobile,
+      tenantName: factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`)?.tenant,
+      tenantMobile: factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`)?.tenantPhone,
+      tenantEmail: factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`)?.tenantEmail,
+    }));
+  }, [sensitiveFacts.data]);
+
   const zones = useMemo(() => {
     const s = new Set<string>();
-    villas.forEach((v) => v.zone && s.add(v.zone));
+    enrichedVillas.forEach((v) => v.zone && s.add(v.zone));
     return Array.from(s).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-  }, []);
+  }, [enrichedVillas]);
 
   const filtered = useMemo(() => {
-    let list = villas;
+    let list = enrichedVillas;
     if (zoneFilter) {
       list = list.filter((v) => v.zone === zoneFilter);
     }
@@ -254,14 +271,14 @@ export default function HiddAlSaadiyat() {
       );
     }
     return list;
-  }, [search, zoneFilter, isAdmin, areaUnit, areaMin, areaMax]);
+  }, [search, zoneFilter, isAdmin, areaUnit, areaMin, areaMax, enrichedVillas]);
 
   return (
     <div className="container py-8 max-w-6xl">
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Hidd Al Saadiyat</h1>
         <p className="text-muted-foreground text-sm mt-1">
-          {villas.length} villas across {zones.length} zones
+          {enrichedVillas.length} villas across {zones.length} zones
         </p>
       </div>
 
@@ -278,10 +295,10 @@ export default function HiddAlSaadiyat() {
           onChange={(e) => setZoneFilter(e.target.value)}
           className="border rounded-md px-3 py-2 text-sm bg-background"
         >
-          <option value="">All Zones ({villas.length})</option>
+            <option value="">All Zones ({enrichedVillas.length})</option>
           {zones.map((z) => (
             <option key={z} value={z}>
-              Zone {z} ({villas.filter((v) => v.zone === z).length})
+              Zone {z} ({enrichedVillas.filter((v) => v.zone === z).length})
             </option>
           ))}
         </select>
@@ -294,7 +311,7 @@ export default function HiddAlSaadiyat() {
 
       {/* Results count */}
       <p className="text-xs text-muted-foreground mb-4">
-        Showing {filtered.length} of {villas.length} villas
+        Showing {filtered.length} of {enrichedVillas.length} villas
         {!isAdmin && " (owner/tenant details visible to admin only)"}
       </p>
 
@@ -303,12 +320,12 @@ export default function HiddAlSaadiyat() {
         <div className="rounded-lg border border-border bg-card overflow-x-auto">
           <table className="w-full min-w-[900px] text-sm">
             <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
-              <tr><th className="px-4 py-3">Villa</th><th className="px-4 py-3">Street</th><th className="px-4 py-3">Zone</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">BUA</th>{isAdmin && <th className="px-4 py-3">Owner</th>}</tr>
+              <tr><th className="px-4 py-3">Villa</th><th className="px-4 py-3">Street</th><th className="px-4 py-3">Zone</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">BUA</th>{canViewOwnerName && <th className="px-4 py-3">Owner</th>}</tr>
             </thead>
             <tbody className="divide-y divide-border">
               {filtered.map((villa, i) => {
                 const areas = villaAreas(villa);
-                return <tr key={`${villa.zone}-${villa.villaNumber}-${i}`} className="hover:bg-accent/30"><td className="px-4 py-3 font-semibold">{villa.villaNumber ?? "—"}</td><td className="px-4 py-3">{villa.street ?? "—"}</td><td className="px-4 py-3">{villa.zone ?? "—"}</td><td className="px-4 py-3">{villa.bedrooms ?? "—"}</td><td className="px-4 py-3 font-mono">{formatArea(areas.plot, areaUnit)}</td><td className="px-4 py-3 font-mono">{formatArea(areas.bua, areaUnit)}</td>{isAdmin && <td className="px-4 py-3">{villa.owner1Name ?? "—"}</td>}</tr>;
+                return <tr key={`${villa.zone}-${villa.villaNumber}-${i}`} className="hover:bg-accent/30"><td className="px-4 py-3 font-semibold">{villa.villaNumber ?? "—"}</td><td className="px-4 py-3">{villa.street ?? "—"}</td><td className="px-4 py-3">{villa.zone ?? "—"}</td><td className="px-4 py-3">{villa.bedrooms ?? "—"}</td><td className="px-4 py-3 font-mono">{formatArea(areas.plot, areaUnit)}</td><td className="px-4 py-3 font-mono">{formatArea(areas.bua, areaUnit)}</td>{canViewOwnerName && <td className="px-4 py-3">{villa.owner1Name ?? "—"}</td>}</tr>;
               })}
             </tbody>
           </table>

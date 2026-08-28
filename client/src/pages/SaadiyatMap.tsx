@@ -39,7 +39,7 @@ import { pfListings, findListingByVillaKey, PF_SUMMARY } from "@/data/propertyFi
 import type { PFListing } from "@/data/propertyFinderListings";
 import { hiddVillaCoords } from "@/data/hiddCoordinates";
 import { NUDRA_YANDEX_ADDRESS_POINTS } from "@/data/nudra";
-import hiddDataRaw from "../../../server/data/hidd_al_saadiyat.json";
+import hiddDataRaw from "@/data/hiddPublic.json";
 import { lagoonsVillaCoords } from "@/data/lagoonsCoordinates";
 import { FOUR_SEASONS_VILLAS } from "@/data/fourSeasons";
 import { FOUR_SEASONS_FLOORPLAN_BY_VILLA } from "@/data/fourSeasonsFloorplans";
@@ -176,21 +176,6 @@ type HiddMapVilla = {
   plotAreaSqFt?: string;
   plotNumberAlJaber?: string;
   admPlotNumber?: string;
-  owner1Name?: string;
-  owner1Email?: string;
-  owner1Mobile?: string;
-  owner2Name?: string;
-  owner2Email?: string;
-  owner2Mobile?: string;
-  ownerRepName?: string;
-  ownerRepEmail?: string;
-  ownerRepMobile?: string;
-  tenantName?: string;
-  tenantEmail?: string;
-  tenantMobile?: string;
-  tenancyStart?: string;
-  tenancyEnd?: string;
-  tenancyContractReceived?: string;
 };
 
 const hiddVillas: HiddMapVilla[] = (Array.isArray(hiddDataRaw)
@@ -586,17 +571,7 @@ export function buildMarkers(): MapMarkerData[] {
       builtUpLabel: "BUA",
       bedrooms: hiddVilla?.bedrooms?.replace(/\.0$/, "") || undefined,
       unitType: hiddVilla?.villaType || undefined,
-      status: hiddVilla?.tenancyStart && !hiddVilla?.tenancyEnd ? "Occupied" : undefined,
       developer: "Hidd Al Saadiyat",
-      owner: [hiddVilla?.owner1Name, hiddVilla?.owner2Name].filter(Boolean).join(" · ") || undefined,
-      phone: [hiddVilla?.owner1Mobile, hiddVilla?.owner2Mobile].filter(Boolean).join(" · ") || undefined,
-      ownerEmail: [hiddVilla?.owner1Email, hiddVilla?.owner2Email].filter(Boolean).join(" · ") || undefined,
-      tenant: hiddVilla?.tenantName || undefined,
-      tenantPhone: hiddVilla?.tenantMobile || undefined,
-      tenantEmail: hiddVilla?.tenantEmail || undefined,
-      tenancyStart: hiddVilla?.tenancyStart || undefined,
-      tenancyEnd: hiddVilla?.tenancyEnd || undefined,
-      tenancyContractReceived: hiddVilla?.tenancyContractReceived || undefined,
       villaKey: `hidd/${hv.villaNumber}/${hv.street}`,
       detailHref: `/hidd-al-saadiyat?view=cards#villa-${hv.villaNumber}-${hv.street}`,
       tableHref: `/hidd-al-saadiyat?view=table#villa-${hv.villaNumber}`,
@@ -711,11 +686,18 @@ export default function SaadiyatMap() {
   const propertyOverrides = trpc.villaListings.listByCommunity.useQuery(
     {},
     {
-      enabled: Boolean(user),
+      // The server returns only the public projection to visitors, while
+      // authorised sessions receive only the fields allowed by their scope.
+      // This keeps a saved Available status consistent on public cards and map
+      // markers as well as in the Master Admin workspace.
+      enabled: true,
       staleTime: 0,
       refetchOnMount: "always",
     },
   );
+  const hiddSensitiveFacts = trpc.hidd.sensitiveFacts.useQuery(undefined, {
+    enabled: Boolean(user),
+  });
   const permissionScopes = useMemo(
     () => Array.from(new Map(baseMarkerData.map(marker => {
       const scope = { projectKey: marker.community, phaseKey: marker.slPhase ?? null };
@@ -733,31 +715,45 @@ export default function SaadiyatMap() {
   );
   const markerData = useMemo(() => {
     const overridesByKey = new Map((propertyOverrides.data ?? []).map(row => [row.villaKey, row]));
+    const hiddSensitiveByKey = new Map((hiddSensitiveFacts.data ?? []).map(row => [row.villaKey, row]));
     return baseMarkerData.filter(marker => {
       if (user?.role === "admin" || user?.role === "master") return true;
       return permissionsByScope.get(propertyScopeKey(marker.community, marker.slPhase))?.canAccess === true;
     }).map(marker => {
       const override = marker.villaKey ? overridesByKey.get(marker.villaKey) : undefined;
-      if (!override) return marker;
-      const hasManualStatus = override.status && override.status !== "draft";
+      const overrideWithProtectedFields = override as (typeof override & {
+        ownerName?: string | null;
+        ownerPhone?: string | null;
+        ownerEmail?: string | null;
+      }) | undefined;
+      const hiddSensitive = marker.villaKey ? hiddSensitiveByKey.get(marker.villaKey) : undefined;
+      if (!override && !hiddSensitive) return marker;
+      const hasManualStatus = override?.status && override.status !== "draft";
       return {
         ...marker,
-        landSqm: override.landAreaSqm ?? marker.landSqm,
-        landSqft: override.landAreaSqm != null ? Math.round(override.landAreaSqm * 10.7639) : marker.landSqft,
-        builtUpSqm: override.builtUpAreaSqm ?? marker.builtUpSqm,
-        builtUpSqft: override.builtUpAreaSqm != null ? Math.round(override.builtUpAreaSqm * 10.7639) : marker.builtUpSqft,
-        status: hasManualStatus ? override.status : marker.status,
-        askingPrice: override.askingPriceAed ?? marker.askingPrice,
-        availableForRent: (override as any).availableForRent ?? marker.availableForRent,
-        rentPrice: (override as any).rentPriceAed ?? marker.rentPrice,
+        landSqm: override?.landAreaSqm ?? marker.landSqm,
+        landSqft: override?.landAreaSqm != null ? Math.round(override.landAreaSqm * 10.7639) : marker.landSqft,
+        builtUpSqm: override?.builtUpAreaSqm ?? marker.builtUpSqm,
+        builtUpSqft: override?.builtUpAreaSqm != null ? Math.round(override.builtUpAreaSqm * 10.7639) : marker.builtUpSqft,
+        status: hasManualStatus ? override?.status : marker.status,
+        askingPrice: override?.askingPriceAed ?? marker.askingPrice,
+        availableForRent: override?.availableForRent ?? marker.availableForRent,
+        rentPrice: override?.rentPriceAed ?? marker.rentPrice,
         availabilityStatus: hasManualStatus
-          ? (override.status === "available" ? "available" : undefined)
+          ? (override?.status === "available" ? "available" : undefined)
           : marker.availabilityStatus,
-        owner: (override as any).ownerName ?? marker.owner,
-        phone: (override as any).ownerPhone ?? marker.phone,
+        owner: overrideWithProtectedFields?.ownerName ?? hiddSensitive?.ownerName ?? marker.owner,
+        phone: overrideWithProtectedFields?.ownerPhone ?? hiddSensitive?.ownerPhone ?? marker.phone,
+        ownerEmail: overrideWithProtectedFields?.ownerEmail ?? hiddSensitive?.ownerEmail ?? marker.ownerEmail,
+        tenant: hiddSensitive?.tenant ?? marker.tenant,
+        tenantPhone: hiddSensitive?.tenantPhone ?? marker.tenantPhone,
+        tenantEmail: hiddSensitive?.tenantEmail ?? marker.tenantEmail,
+        tenancyStart: hiddSensitive?.tenancyStart ?? marker.tenancyStart,
+        tenancyEnd: hiddSensitive?.tenancyEnd ?? marker.tenancyEnd,
+        tenancyContractReceived: hiddSensitive?.tenancyContractReceived ?? marker.tenancyContractReceived,
       };
     });
-  }, [baseMarkerData, permissionsByScope, propertyOverrides.data, user?.role]);
+  }, [baseMarkerData, hiddSensitiveFacts.data, permissionsByScope, propertyOverrides.data, user?.role]);
 
   const smartSearchResults = useMemo(
     () => findMapSearchResults(markerData, mapQuery),
@@ -830,7 +826,9 @@ export default function SaadiyatMap() {
       Boolean(permissions?.canViewOriginalPrice);
     const canEdit = user?.role === "admin" || user?.role === "master" ||
       Boolean(permissions?.canEditProperties);
-    const showSensitiveDetails = showOwners || user?.role === "admin" || user?.role === "master";
+    // Being authorised makes this control available; it does not reveal owner
+    // data until the user deliberately activates the toggle.
+    const showSensitiveDetails = showOwners;
     const fmt = (n: number) => new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(n);
     const communityLabel = COMMUNITY_CENTERS[m.community as keyof typeof COMMUNITY_CENTERS]?.label ?? m.community;
     

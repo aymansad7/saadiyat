@@ -769,3 +769,26 @@
 - [x] Retain Google/Manus OAuth for allowed email identities and preserve current valid device sessions without forced sign-out
 - [x] Set Ayman as Master Admin and configure the supplied Hamzeh and Jamal email/password accounts with the intended role
 - [x] Add auth, role, and session-preservation regression coverage; verify sign-in paths and publish
+
+### Operational Property Listings and Bitrix24 Two-Way CRM Sync (Aug 28, 2026)
+- [ ] Confirm the Bitrix24 portal, CRM entity type/ID, field map, conflict rule, owner-data approval policy, and approved authentication route before creating any connector or storing credentials
+- [x] Audit `villa_listings`, `availability_listings`, property editing controls, Admin Listings, map marker merge, and audit records; define one stable project/phase/unit-or-plot identity with source provenance
+- [x] Redesign Master Admin Property Listings as the operational workspace for documented available inventory, source labels, status, price, project/phase, and protected owner data for authorized viewers
+- [x] Make status, availability, price, and permitted owner-data edits from Listings, property cards, and Interactive Map write to the same canonical database record and invalidate/rebuild affected cards and markers
+- [x] Preserve Aldar and broker-source records without duplicate listing values or unsupported availability overwrites; keep owner/contact fields absent from unauthorized APIs and UI
+- [ ] Add Bitrix24 connection metadata, field mapping, identity mapping, inbound/outbound event ledger, reconciliation state, retry/error visibility, and audit history after the user approves the integration route and credentials
+- [ ] Implement server-only outbound Bitrix updates with idempotency and source timestamps, plus a verified public inbound event handler that fetches full records and applies permitted changes transactionally
+- [ ] Add an Admin reconciliation/import/retry workflow for failed or conflicting CRM events; never rely on unverified or automatic match heuristics
+- [ ] Add tests for permissions, mapping uniqueness, duplicate inbound events, token validation, outbound transformation, conflict policy, failures, source privacy, and map/listing consistency
+- [ ] Exercise clean-session email/password and Google sign-in without revoking current sessions, run TypeScript and the full test suite, then publish a documented checkpoint
+
+### Current Priority — Complete Actionable Open Items (Aug 28, 2026)
+- [x] Complete the Property Listings source-of-truth audit and synchronization improvements before beginning any Bitrix24 connector or CRM implementation
+- [x] Move historical Hidd owner and tenant source fields behind a server-side permission-filtered query so unauthorised browsers never receive raw contact data
+- [ ] Verify the email/password and Google sign-in paths in clean browser sessions while preserving existing signed-in devices
+- [x] Verify the clean-session email/password sign-in and cross-page session persistence without revoking any existing devices
+- [x] Remove any stale browser-only unlock state that could reveal route content without a current authenticated server session
+- [x] Show a neutral session-verification state rather than the sign-in form while a valid server session is still being checked
+- [ ] Verify Google OAuth in a connected personal-browser session; the optional connection prompt was declined, so no OAuth claim is made from this test session
+- [ ] Retain the Faya and One Saadiyat official-floor-plan tasks as blocked until an authorized Aldar Access Code or documented official feed provides verifiable unit/type mapping
+- [ ] Retain the Bitrix24 work as deferred until the user explicitly resumes it and supplies the required portal/entity/authentication decisions

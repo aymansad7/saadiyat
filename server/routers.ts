@@ -8,6 +8,7 @@ import { lagoonsRouter } from "./routers/lagoons";
 import { availabilityRouter } from "./routers/availability";
 import { filesRouter } from "./routers/files";
 import { gateRouter } from "./routers/gate";
+import { hiddRouter } from "./routers/hidd";
 import { inventoryHistoryRouter } from "./routers/inventoryHistory";
 import { magicRouter } from "./routers/magic";
 import { publicResaleRouter } from "./routers/publicResale";
@@ -45,6 +46,7 @@ export const appRouter = router({
   propertyAccess: propertyAccessRouter,
   files: filesRouter,
   gate: gateRouter,
+  hidd: hiddRouter,
   aldarOther: aldarOtherRouter,
   aldarSaadiyat: aldarSaadiyatRouter,
   lagoons: lagoonsRouter,

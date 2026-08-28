@@ -29,3 +29,7 @@ Checked 27 Aug 2026 at the official World of Aldar project route: https://world.
 No One Saadiyat floor plan is linked in the app yet. An individual World of Aldar unit route after authenticated access, or a permitted API/feed that carries the building/unit mapping and asset URL, is required before assigning a floor plan to any card.
 
 Opening the official **Massena** building on 27 Aug 2026 immediately presented Aldar’s **Enter Access Code** gate before any unit or floor-plan details were available. The public map surface therefore cannot be used to infer a plan asset or mapping.
+
+## Deferred status
+
+The Faya and One Saadiyat floor-plan tasks remain intentionally open. Their work must resume only after the user enters an authorized Aldar Access Code in the opened official session or provides an authorized official feed/API that proves the exact unit-or-type-to-file mapping. No access-control bypass, guessed file URL, inferred plan, or card assignment is permitted.

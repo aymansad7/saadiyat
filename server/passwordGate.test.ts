@@ -4,7 +4,7 @@
  * Invariants:
  *   - The gate offers allowlisted email/password sign-in and Google OAuth.
  *   - The legacy shared passcode is not available from the lock screen.
- *   - Unlock state is namespaced and tracked in sessionStorage.
+ *   - Unlock state is confirmed only by a server-side authenticated session.
  *   - App.tsx wires every route inside <EmailGate>.
  *   - /resale-search is gated, not bypassed.
  */
@@ -31,10 +31,11 @@ describe("EmailGate", () => {
     expect(source).not.toContain("Passcode");
   });
 
-  it("persists unlock state under the namespaced session-storage key", () => {
-    expect(source).toContain('const STORAGE_KEY = "saadiyat:gate:unlocked"');
-    expect(source).toContain("window.sessionStorage.getItem(STORAGE_KEY)");
-    expect(source).toContain('window.sessionStorage.setItem(STORAGE_KEY, "yes")');
+  it("uses the authenticated server session as the sole unlock authority", () => {
+    expect(source).toContain("const meQuery = trpc.auth.me.useQuery");
+    expect(source).toContain("if (meQuery.data?.id || meQuery.data?.email)");
+    expect(source).toContain("Verifying secure session");
+    expect(source).not.toContain("sessionStorage");
   });
 
   it("is wired into App.tsx so every route goes through <EmailGate>", () => {

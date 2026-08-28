@@ -4,9 +4,9 @@
  *  Flow A — enter allowlisted email + password -> session cookie set.
  *  Flow B — Google/Manus OAuth -> the same allowlist controls authorization.
  *
- *  Once authenticated (either flow), unlock state is held in sessionStorage so
- *  internal navigation does not re-prompt. The session cookie set by the
- *  email-password flow is HttpOnly and lasts 90 days.
+ *  The server-issued, HttpOnly session cookie is the only unlock authority.
+ *  Browser storage is never used as an authentication signal, so an old tab
+ *  cannot keep protected routes visible after its server session ends.
  */
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Lock, Mail, KeyRound, AlertTriangle } from "lucide-react";
@@ -15,21 +15,12 @@ import { Input } from "@/components/ui/input";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 
-const STORAGE_KEY = "saadiyat:gate:unlocked";
-
 interface Props {
   children: ReactNode;
 }
 
 export default function EmailGate({ children }: Props) {
-  const [unlocked, setUnlocked] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    try {
-      return window.sessionStorage.getItem(STORAGE_KEY) === "yes";
-    } catch {
-      return false;
-    }
-  });
+  const [unlocked, setUnlocked] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signInError, setSignInError] = useState<string | null>(null);
@@ -46,23 +37,24 @@ export default function EmailGate({ children }: Props) {
   useEffect(() => {
     if (meQuery.data?.id || meQuery.data?.email) {
       setUnlocked(true);
-      try {
-        window.sessionStorage.setItem(STORAGE_KEY, "yes");
-      } catch {}
+    } else if (!meQuery.isLoading) {
+      setUnlocked(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [meQuery.data]);
-
-  // cross-tab unlocks
-  useEffect(() => {
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY && e.newValue === "yes") setUnlocked(true);
-    };
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, []);
+  }, [meQuery.data, meQuery.isLoading]);
 
   if (unlocked) return <>{children}</>;
+
+  if (meQuery.isLoading) {
+    return (
+      <div className="min-h-screen grid place-items-center bg-background px-6 text-center">
+        <div className="space-y-2">
+          <div className="mx-auto h-7 w-7 animate-spin rounded-full border-2 border-primary/25 border-t-primary" aria-hidden="true" />
+          <p className="text-sm text-muted-foreground">Verifying secure session…</p>
+        </div>
+      </div>
+    );
+  }
 
   const submitPassword = async (e: FormEvent) => {
     e.preventDefault();
@@ -71,7 +63,6 @@ export default function EmailGate({ children }: Props) {
     setSubmitting(true);
     try {
       await passwordSignIn.mutateAsync({ email: email.trim(), password });
-      window.sessionStorage.setItem(STORAGE_KEY, "yes");
       setUnlocked(true);
     } catch (err: any) {
       setSignInError(err?.message || "Invalid email or password.");

@@ -21,10 +21,12 @@ describe("Unified map property cards", () => {
     expect(villa80?.googleMapsHref).toContain("24.581831,54.471252");
 
     const villa100 = markers.find((marker) => marker.id === "hidd-100-BOULEVARD");
-    expect(villa100?.owner).toContain("Saeed Bin Butti Al Qubaisi");
-    expect(villa100?.tenant).toBe("Mariam Alrashdi");
-    expect(villa100?.tenantPhone).toBe("0506202222");
-    expect(villa100?.tenancyStart).toBeUndefined();
+    // Sensitive contact and tenancy data is intentionally absent from the
+    // client-side marker dataset and loaded only for authorised sessions.
+    expect(villa100?.owner).toBeUndefined();
+    expect(villa100?.tenant).toBeUndefined();
+    expect(villa100?.tenantPhone).toBeUndefined();
+    expect(villa100?.landSqft).toBeGreaterThan(0);
 
     expect(villa100?.detailLines).toContain("Yandex exact house-address match");
     expect(villa100?.detailHref).toBe("/hidd-al-saadiyat?view=cards#villa-100-BOULEVARD");
