@@ -811,3 +811,8 @@
 - [x] Add tests for project/unit identity, folder isolation, upload classification, access permissions, safe public document types, and the permitted Microsoft token role
 - [x] Defer the representative real SPA and brochure upload/link workflow until a source-backed unit file is available; do not fabricate or attach a non-property file to a unit merely for testing
 - [x] Upload and verify a clearly marked non-property technical verification file under `Operations/Verification`, including private file metadata, an individual view link, and audit record; do not classify it as an SPA, brochure, or unit document
+
+### Aldar New-Project Publication Audit (Aug 29, 2026)
+- [x] Inspect Aldar’s official Cultural District and Saadiyat/Marasi project listings, including Pulse District, to identify only newly published projects or inventory
+- [x] Verify whether each discovered project exposes actual unit identifiers, unit data, availability, or prices; distinguish “Coming Soon” marketing from published inventory
+- [x] Compare verified new project identities with the existing Saadiyat project record and report duplicates, additions, and unavailable data without writing any unverified project or price to the site
