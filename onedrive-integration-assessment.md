@@ -80,6 +80,10 @@ The current client-credentials token was decoded during the OneDrive credential 
 
 The Master Admin page at `/admin/documents` was inspected in a signed-in Master session. It shows a successful OneDrive Business connection, the enforced `Saadiyat Resale Hub` root, the prior workbook-export timestamp, the exact-unit document registration form, and an empty document register. The page is restricted to Master Admin and the public-card pathway remains limited to brochure, floorplan, and marketing files only.
 
+## Non-property technical verification
+
+On 29 Aug 2026, the integration uploaded `Operations/Verification/onedrive-technical-verification.txt`, created an individual OneDrive view link, and stored a successful `upload` event in the server-side OneDrive ledger. The file is explicitly not a unit record, SPA, brochure, floor plan, owner document, or property source file. Its individual share URL was not logged or exposed through the website. A real SPA or brochure remains intentionally untested until a source-backed file is supplied, rather than fabricating a property attachment.
+
 ## References
 
 [1] Microsoft Graph, [Working with files in Microsoft Graph](https://learn.microsoft.com/en-us/graph/api/resources/onedrive?view=graph-rest-1.0).

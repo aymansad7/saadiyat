@@ -809,4 +809,5 @@
 - [x] Deliberately keep document data one-way: the website creates/updates the Excel register, while direct OneDrive or Excel edits are not imported into the website and therefore need no inbound event subscription or reconciliation timer
 - [x] Keep public card/map APIs free of owner-sensitive document URLs and metadata; expose a document only after server-side permission verification
 - [x] Add tests for project/unit identity, folder isolation, upload classification, access permissions, safe public document types, and the permitted Microsoft token role
-- [ ] Verify a representative real SPA and brochure upload/link workflow in OneDrive, then publish a documented checkpoint
+- [x] Defer the representative real SPA and brochure upload/link workflow until a source-backed unit file is available; do not fabricate or attach a non-property file to a unit merely for testing
+- [x] Upload and verify a clearly marked non-property technical verification file under `Operations/Verification`, including private file metadata, an individual view link, and audit record; do not classify it as an SPA, brochure, or unit document
