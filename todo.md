@@ -822,3 +822,7 @@
 - [x] Define a stable source identity for a new project and unit, detect it independently of non-unique unit names, and classify its area with explicit review for unknown regions
 - [x] Extend the existing 06:00 Gulf daily inventory job to record detected projects, add only source-complete verified projects, and send an owner notification listing project, region, units, availability, and prices when published
 - [x] Add review visibility for auto-added projects and tests for duplicate prevention, source completeness, unknown-area handling, and notification-only-on-change behavior
+
+### Yas Bay 360 Public-Data Audit (Aug 29, 2026)
+- [x] Inspect the public Yas Bay 360 experience and its browser-accessible data resources for project, unit, location, price, and availability information
+- [x] Report only data demonstrably published by Yas Bay, distinguishing presentation assets from structured unit or price data, without importing anything into the site
