@@ -37,6 +37,7 @@ import AdminAvailability from "./pages/AdminAvailability";
 import AdminListings from "./pages/AdminListings";
 import AdminAccess from "./pages/AdminAccess";
 import AdminInventoryHistory from "./pages/AdminInventoryHistory";
+import AdminOneDriveDocuments from "./pages/AdminOneDriveDocuments";
 import Resale from "./pages/Resale";
 import PublicResaleSearch from "./pages/PublicResaleSearch";
 import CommunityPage from "./pages/CommunityPage";
@@ -100,6 +101,7 @@ function Router() {
       <Route path="/admin/listings" component={AdminListings} />
       <Route path="/admin/access" component={AdminAccess} />
       <Route path="/admin/inventory-history" component={AdminInventoryHistory} />
+      <Route path="/admin/documents" component={AdminOneDriveDocuments} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

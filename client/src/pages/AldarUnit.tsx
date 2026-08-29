@@ -21,6 +21,7 @@ import {
   EditListingButton,
   ListingBadge,
   ListingPriceLabel,
+  OneDriveCardLinks,
 } from "@/components/ListingControls";
 import FayaTransactionTimeline from "@/components/FayaTransactionTimeline";
 import { getFayaTransactions } from "@/data/fayaTransactions";
@@ -184,6 +185,7 @@ export default function AldarUnit() {
           </div>
           <div className="col-span-12 md:col-span-4 space-y-3">
             <AldarOfficialUnitLink aldarLink={unit.aldar_link} unitName={unit.unit_name} projectSlug={project.slug} className="w-full justify-center" />
+            <OneDriveCardLinks villaKey={villaKey} className="mt-0" />
             {unit.virtual_tour && (
               <a
                 href={unit.virtual_tour}

@@ -792,3 +792,21 @@
 - [x] Defer Google OAuth browser verification after the personal-browser connection prompt was declined; no OAuth completion was claimed from this session
 - [x] Cancel the Faya and One Saadiyat official-floor-plan tasks completely at the user’s request; do not seek, test, or use access codes or official feeds for them
 - [x] Retain Bitrix24 as deferred until the user explicitly resumes it and supplies the required portal/entity/authentication decisions
+
+### OneDrive Central Unit Documents and Storage (Aug 28, 2026)
+- [x] Use the Microsoft 365 Business OneDrive for `ayman@nasluxury.com` as the verified target drive and create a single `Saadiyat Resale Hub` root folder
+- [x] Use the selected root-folder approach: authorize the server-side Microsoft application for the owner’s OneDrive, enforce `Saadiyat Resale Hub` as the only permitted application path, and reject any attempted path outside it
+- [x] Obtain explicit user approval for the Microsoft Graph **application** permission required for unattended server-to-OneDrive operation; keep it reserved for the registered Saadiyat application and never collect a Microsoft password or store refresh tokens
+- [x] Configure the registered single-tenant Microsoft application to use a server-side client-credentials token and reject every drive path outside the approved `Saadiyat Resale Hub` root
+- [x] Enforce the approved per-file policy: Brochures, SPA, and owner documents may use separate OneDrive “anyone with the exact link” view links, while neither folder listing nor unrelated unit files are exposed by the website
+- [x] Make the website the only operational editor for listing data and write its approved changes to a structured Excel workbook in OneDrive; direct Excel edits must not update website data
+- [x] Define a stable unit-folder and document taxonomy using the canonical project/phase/unit-or-plot key; preserve original file name, OneDrive driveItem ID, version/ETag, MIME type, uploader, classification, and audit trail
+- [x] Add a permission-filtered unit-document registry in the database, without storing document bytes or OneDrive credentials in the database, browser, source tree, or logs
+- [x] Create and upload a versioned source-code recovery archive to `Saadiyat Resale Hub/Operations/Code-Archives`, excluding secrets, node_modules, VCS data, logs, and build artifacts
+- [x] Build the Master Admin document workspace to register, view, replace, classify, and link permitted documents to the exact unit, including SPA and brochure workflows
+- [x] Restrict OneDrive administration, document-register listings, upload, archive, and workbook export endpoints to Master Admin so project-scoped users never receive sensitive document metadata or links
+- [x] Integrate Microsoft Graph server-side for folder discovery, upload/download, item metadata, and restricted sharing; use only least-privilege approved Microsoft permissions and secure server-side secrets
+- [x] Deliberately keep document data one-way: the website creates/updates the Excel register, while direct OneDrive or Excel edits are not imported into the website and therefore need no inbound event subscription or reconciliation timer
+- [x] Keep public card/map APIs free of owner-sensitive document URLs and metadata; expose a document only after server-side permission verification
+- [x] Add tests for project/unit identity, folder isolation, upload classification, access permissions, safe public document types, and the permitted Microsoft token role
+- [ ] Verify a representative real SPA and brochure upload/link workflow in OneDrive, then publish a documented checkpoint

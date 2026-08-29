@@ -8,7 +8,11 @@ export type ActivityEventInput = {
     | "access_grant_create"
     | "access_grant_update"
     | "access_grant_delete"
-    | "access_role_update";
+    | "access_role_update"
+    | "document_create"
+    | "document_update"
+    | "document_remove"
+    | "onedrive_sync";
   actorEmail: string;
   actorName?: string | null;
   targetEmail?: string | null;

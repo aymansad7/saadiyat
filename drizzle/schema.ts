@@ -8,6 +8,7 @@ import {
   mysqlTable,
   text,
   timestamp,
+  uniqueIndex,
   varchar,
 } from "drizzle-orm/mysql-core";
 
@@ -475,6 +476,131 @@ export type PropertyAccessGrant = typeof propertyAccessGrants.$inferSelect;
 export type InsertPropertyAccessGrant = typeof propertyAccessGrants.$inferInsert;
 
 /**
+ * OneDrive Business connection metadata. This table deliberately contains no
+ * Microsoft password, client secret, bearer token, or refresh token. Secrets
+ * are managed only through the server environment. A single `primary` row
+ * represents the `Saadiyat Resale Hub` root folder in the owner's drive.
+ */
+export const oneDriveConnections = mysqlTable(
+  "onedrive_connections",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    connectionKey: varchar("connectionKey", { length: 64 }).notNull().unique(),
+    provider: mysqlEnum("provider", ["onedrive_business"]).default("onedrive_business").notNull(),
+    status: mysqlEnum("status", ["pending", "authorized", "active", "error"]).default("pending").notNull(),
+    ownerUpn: varchar("ownerUpn", { length: 320 }).notNull(),
+    tenantId: varchar("tenantId", { length: 64 }),
+    clientId: varchar("clientId", { length: 64 }),
+    driveId: varchar("driveId", { length: 255 }),
+    rootItemId: varchar("rootItemId", { length: 512 }),
+    rootPath: varchar("rootPath", { length: 512 }).notNull(),
+    unitRegisterItemId: varchar("unitRegisterItemId", { length: 512 }),
+    lastWorkbookExportAt: timestamp("lastWorkbookExportAt"),
+    lastError: text("lastError"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    statusIdx: index("onedriveConnections_status_idx").on(t.status),
+  }),
+);
+export type OneDriveConnection = typeof oneDriveConnections.$inferSelect;
+export type InsertOneDriveConnection = typeof oneDriveConnections.$inferInsert;
+
+/**
+ * Metadata-only registry for a file stored in OneDrive. The OneDrive drive item
+ * is the file authority; document bytes are never duplicated in this database.
+ * `websiteVisibility` controls who may receive the item link from the website.
+ * A OneDrive `anyone_link` can still be viewed by a person who receives it, so
+ * confidential file links are never returned from public card/map APIs.
+ */
+export const unitDocuments = mysqlTable(
+  "unit_documents",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    villaKey: varchar("villaKey", { length: 128 }).notNull(),
+    community: varchar("community", { length: 128 }).notNull(),
+    phaseKey: varchar("phaseKey", { length: 64 }),
+    documentType: mysqlEnum("documentType", [
+      "brochure",
+      "spa",
+      "owner_document",
+      "floorplan",
+      "source_file",
+      "marketing",
+      "other",
+    ]).notNull(),
+    websiteVisibility: mysqlEnum("websiteVisibility", ["card_link", "master_admin"])
+      .default("master_admin")
+      .notNull(),
+    shareAccess: mysqlEnum("shareAccess", ["anyone_link", "restricted"])
+      .default("anyone_link")
+      .notNull(),
+    filename: varchar("filename", { length: 255 }).notNull(),
+    mimeType: varchar("mimeType", { length: 128 }).notNull(),
+    sizeBytes: bigint("sizeBytes", { mode: "number" }),
+    description: text("description"),
+    driveId: varchar("driveId", { length: 255 }).notNull(),
+    itemId: varchar("itemId", { length: 512 }).notNull(),
+    parentItemId: varchar("parentItemId", { length: 512 }),
+    webUrl: text("webUrl"),
+    shareUrl: text("shareUrl"),
+    etag: varchar("etag", { length: 512 }),
+    versionLabel: varchar("versionLabel", { length: 128 }),
+    uploadedBy: varchar("uploadedBy", { length: 320 }).notNull(),
+    uploadedByName: varchar("uploadedByName", { length: 255 }),
+    removedAt: timestamp("removedAt"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    driveItemUnique: uniqueIndex("unitDocuments_drive_item_unique").on(t.driveId, t.itemId),
+    villaIdx: index("unitDocuments_villaKey_idx").on(t.villaKey),
+    communityIdx: index("unitDocuments_community_idx").on(t.community),
+    typeIdx: index("unitDocuments_type_idx").on(t.documentType),
+    visibilityIdx: index("unitDocuments_visibility_idx").on(t.websiteVisibility),
+  }),
+);
+export type UnitDocument = typeof unitDocuments.$inferSelect;
+export type InsertUnitDocument = typeof unitDocuments.$inferInsert;
+
+/**
+ * Durable OneDrive operation ledger. It provides idempotency, visible error
+ * history, and a retryable record for upload, link, and workbook-export work.
+ */
+export const oneDriveSyncEvents = mysqlTable(
+  "onedrive_sync_events",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    connectionKey: varchar("connectionKey", { length: 64 }).notNull(),
+    documentId: int("documentId"),
+    eventType: mysqlEnum("eventType", [
+      "upload",
+      "metadata_refresh",
+      "share_link_create",
+      "workbook_export",
+      "failure",
+    ]).notNull(),
+    status: mysqlEnum("status", ["pending", "success", "error"]).default("pending").notNull(),
+    idempotencyKey: varchar("idempotencyKey", { length: 191 }).notNull().unique(),
+    summary: text("summary").notNull(),
+    detailsJson: text("detailsJson"),
+    errorMessage: text("errorMessage"),
+    attemptedAt: timestamp("attemptedAt"),
+    completedAt: timestamp("completedAt"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    connectionIdx: index("onedriveSyncEvents_connection_idx").on(t.connectionKey),
+    documentIdx: index("onedriveSyncEvents_document_idx").on(t.documentId),
+    statusIdx: index("onedriveSyncEvents_status_idx").on(t.status),
+  }),
+);
+export type OneDriveSyncEvent = typeof oneDriveSyncEvents.$inferSelect;
+export type InsertOneDriveSyncEvent = typeof oneDriveSyncEvents.$inferInsert;
+
+/**
  * Append-only record of authenticated sign-ins and privileged changes. It is
  * intentionally separate from the per-listing audit table so Master Admin can
  * review activity across properties, user grants, and sessions in one place.
@@ -490,6 +616,10 @@ export const activityAudit = mysqlTable(
       "access_grant_update",
       "access_grant_delete",
       "access_role_update",
+      "document_create",
+      "document_update",
+      "document_remove",
+      "onedrive_sync",
     ]).notNull(),
     actorEmail: varchar("actorEmail", { length: 320 }).notNull(),
     actorName: varchar("actorName", { length: 255 }),

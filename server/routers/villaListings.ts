@@ -17,6 +17,7 @@ import { and, asc, desc, eq, gte, lte, like, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import {
   propertyAccessGrants,
+  oneDriveSyncEvents,
   villaListingAudit,
   villaListings,
   type VillaListing,
@@ -24,6 +25,7 @@ import {
 import { getPropertyScope, resolvePropertyPermissions } from "../../shared/propertyAccess";
 import { appendActivityAudit } from "../activityAudit";
 import { getDb } from "../db";
+import { exportUnitRegisterWorkbook } from "../oneDrive";
 import { adminProcedure, protectedProcedure, publicProcedure, router } from "../_core/trpc";
 
 /** Anything that is not a "real" community slug we still allow — the UI is the
@@ -381,6 +383,45 @@ export const villaListingsRouter = router({
         summary: `Updated property ${input.villaKey}: ${summary}`,
         changes: diff,
       });
+      // The site is the operational editor. A successful property update
+      // therefore exports the current register to OneDrive, without ever
+      // reading back an Excel edit. A storage failure must not roll back the
+      // already-audited property change.
+      if (process.env.NODE_ENV !== "test") {
+        try {
+          const workbook = await exportUnitRegisterWorkbook();
+          await db.insert(oneDriveSyncEvents).values({
+            connectionKey: "primary",
+            eventType: "workbook_export",
+            status: "success",
+            idempotencyKey: `property-export:${after.id}:${workbook.itemId}:${workbook.etag ?? "unknown"}`,
+            summary: `Exported Unit Register after updating ${input.villaKey}.`,
+            detailsJson: JSON.stringify({ villaKey: input.villaKey, profileCount: workbook.profileCount }),
+            attemptedAt: new Date(),
+            completedAt: new Date(),
+          });
+        } catch (error) {
+          const message = error instanceof Error ? error.message : "Unable to export Unit Register.";
+          await db.insert(oneDriveSyncEvents).values({
+            connectionKey: "primary",
+            eventType: "failure",
+            status: "error",
+            idempotencyKey: `property-export-failure:${after.id}:${Date.now()}`,
+            summary: `Unit Register export failed after updating ${input.villaKey}.`,
+            errorMessage: message,
+            attemptedAt: new Date(),
+            completedAt: new Date(),
+          });
+          await appendActivityAudit({
+            eventType: "onedrive_sync",
+            actorEmail: ctx.user?.email ?? "editor",
+            actorName: ctx.user?.name ?? null,
+            entityType: "onedrive_workbook",
+            entityKey: input.villaKey,
+            summary: `OneDrive Unit Register export failed after property update: ${message}`,
+          });
+        }
+      }
     }
 
     return after;

@@ -7,7 +7,7 @@
  * and contain protected owner data for authorised staff only.
  */
 import { useMemo, useState } from "react";
-import { ExternalLink, MapPin, Pencil, Search, ShieldCheck } from "lucide-react";
+import { ExternalLink, FileText, MapPin, Pencil, Search, ShieldCheck } from "lucide-react";
 import { Link } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -238,10 +238,7 @@ export default function AdminListings() {
             </p>
           </div>
           <div className="rounded-lg bg-muted px-4 py-3 text-sm">
-            <div className="text-xs uppercase tracking-wide text-muted-foreground">Tracked profiles</div>
-            <div className="mt-1 text-2xl font-semibold tabular-nums">
-              {Object.values(totalsByStatus).reduce((a, b) => a + b, 0)}
-            </div>
+            <div className="flex items-center justify-between gap-4"><div><div className="text-xs uppercase tracking-wide text-muted-foreground">Tracked profiles</div><div className="mt-1 text-2xl font-semibold tabular-nums">{Object.values(totalsByStatus).reduce((a, b) => a + b, 0)}</div></div><Link href="/admin/documents" className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-medium hover:bg-secondary"><FileText className="h-3.5 w-3.5" />OneDrive documents</Link></div>
           </div>
         </section>
 

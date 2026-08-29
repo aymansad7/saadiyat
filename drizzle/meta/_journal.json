@@ -85,6 +85,13 @@
       "when": 1787900195647,
       "tag": "0011_glamorous_toad_men",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1788004455998,
+      "tag": "0012_thick_kate_bishop",
+      "breakpoints": true
     }
   ]
 }

@@ -404,6 +404,14 @@ export default function SiteHeader({ subTitle, back, fixed = false, compact = fa
                         <span>Manage listings</span>
                       </Link>
                     </DropdownMenuItem>
+                    {user?.role === "master" && (
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin/documents" className="gap-2">
+                          <FolderOpen className="h-3.5 w-3.5 text-primary" />
+                          <span>OneDrive documents</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem asChild>
                       <Link href="/admin/inventory-history" className="gap-2">
                         <History className="h-3.5 w-3.5 text-primary" />

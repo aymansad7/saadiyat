@@ -9,7 +9,7 @@
  * cards without disturbing layout.
  */
 import { useState } from "react";
-import { MapPin, Pencil } from "lucide-react";
+import { ExternalLink, FileText, MapPin, Pencil } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -120,6 +120,36 @@ export function ListingPropertyFacts({
   return (
     <div className={`mt-2 text-[0.65rem] font-mono text-muted-foreground ${className ?? ""}`}>
       {facts.join(" · ")}
+    </div>
+  );
+}
+
+/**
+ * Links registered explicitly for a property card. The server returns only
+ * brochure, floorplan, and marketing entries marked `card_link`; SPA and owner
+ * document links never cross this card-facing API boundary.
+ */
+export function OneDriveCardLinks({ villaKey, className }: { villaKey: string; className?: string }) {
+  const documents = trpc.oneDrive.cardLinks.useQuery(
+    { villaKey },
+    { enabled: Boolean(villaKey), staleTime: 60_000 },
+  );
+  const rows = documents.data ?? [];
+  if (rows.length === 0) return null;
+  return (
+    <div className={`mt-3 flex flex-wrap gap-2 ${className ?? ""}`}>
+      {rows.map(document => (
+        <a
+          key={document.id}
+          href={document.shareUrl ?? undefined}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-sm border border-primary/30 bg-primary/5 px-2.5 py-1.5 text-xs font-medium text-primary hover:bg-primary/10"
+        >
+          {document.documentType === "brochure" ? "Open brochure" : document.documentType === "floorplan" ? "Open floorplan" : "Open document"}
+          {document.documentType === "brochure" || document.documentType === "floorplan" ? <FileText className="h-3.5 w-3.5" /> : <ExternalLink className="h-3.5 w-3.5" />}
+        </a>
+      ))}
     </div>
   );
 }

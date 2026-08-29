@@ -11,6 +11,7 @@ import { gateRouter } from "./routers/gate";
 import { hiddRouter } from "./routers/hidd";
 import { inventoryHistoryRouter } from "./routers/inventoryHistory";
 import { magicRouter } from "./routers/magic";
+import { oneDriveRouter } from "./routers/oneDrive";
 import { publicResaleRouter } from "./routers/publicResale";
 import { propertyAccessRouter } from "./routers/propertyAccess";
 import { resaleRouter } from "./routers/resale";
@@ -55,6 +56,7 @@ export const appRouter = router({
   availability: availabilityRouter,
   inventoryHistory: inventoryHistoryRouter,
   unitSearch: unitSearchRouter,
+  oneDrive: oneDriveRouter,
 });
 
 export type AppRouter = typeof appRouter;
