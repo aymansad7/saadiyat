@@ -14,6 +14,7 @@ import { fileURLToPath } from "node:url";
 import { z } from "zod";
 import { masterProcedure, router } from "../_core/trpc";
 import { areaForProject, orderedAreas, type AreaKey } from "../aldarAreas";
+import { mergeImportedAldarProjects } from "../importedAldarProjects";
 
 // ---------------------------------------------------------------------------
 // Types (mirror the JSON shape produced by consolidate_other.py)
@@ -172,6 +173,10 @@ export function isLive(s: string | null) {
   return LIVE_STATUSES.has(statusGroup(s));
 }
 
+async function getMergedProjects() {
+  return mergeImportedAldarProjects("other", getDataset().projects);
+}
+
 // ---------------------------------------------------------------------------
 // Router
 // ---------------------------------------------------------------------------
@@ -199,8 +204,9 @@ export const aldarOtherRouter = router({
         .optional()
         .default(() => ({ availableOnly: false })),
     )
-    .query(({ input }) => {
+    .query(async ({ input }) => {
       const data = getDataset();
+      const importedRows = await getMergedProjects();
       const q = (input.q || "").trim().toLowerCase();
 
       type ProjectCard = {
@@ -217,7 +223,7 @@ export const aldarOtherRouter = router({
       };
 
       const cards: ProjectCard[] = [];
-      for (const p of data.projects) {
+      for (const p of importedRows) {
         const allUnits = p.buildings.flatMap(b => b.units);
         const liveUnits = allUnits.filter(u => isLive(u.status));
         const livePrices = liveUnits
@@ -280,17 +286,17 @@ export const aldarOtherRouter = router({
 
       return {
         exported_at: data.exported_at,
-        total_units: data.total_units,
-        total_available: data.total_available,
+        total_units: cards.reduce((sum, project) => sum + project.unit_count, 0),
+        total_available: cards.reduce((sum, project) => sum + project.available_count, 0),
         matched_projects: cards.length,
         areas,
       };
     }),
 
   /** Lightweight summary across all projects (no per-unit detail). */
-  listProjects: masterProcedure.query(() => {
+  listProjects: masterProcedure.query(async () => {
     const data = getDataset();
-    const projects = data.projects.map(p => {
+    const projects = (await getMergedProjects()).map(p => {
       // Aggregate breakdown across all buildings
       const allUnits = p.buildings.flatMap(b => b.units);
       return {
@@ -305,9 +311,9 @@ export const aldarOtherRouter = router({
     projects.sort((a, b) => b.live_count - a.live_count || a.name.localeCompare(b.name));
     return {
       exported_at: data.exported_at,
-      project_count: data.project_count,
-      total_units: data.total_units,
-      total_available: data.total_available,
+      project_count: projects.length,
+      total_units: projects.reduce((sum, project) => sum + project.unit_count, 0),
+      total_available: projects.reduce((sum, project) => sum + project.breakdown.available, 0),
       projects,
     };
   }),
@@ -315,9 +321,8 @@ export const aldarOtherRouter = router({
   /** Project details: buildings (with breakdowns) but no per-unit detail. */
   getProject: masterProcedure
     .input(z.object({ slug: z.string().min(1).max(128) }))
-    .query(({ input }) => {
-      const data = getDataset();
-      const p = data.projects.find(pp => pp.slug === input.slug);
+    .query(async ({ input }) => {
+      const p = (await getMergedProjects()).find(pp => pp.slug === input.slug);
       if (!p) throw new TRPCError({ code: "NOT_FOUND", message: "Project not found" });
       return {
         slug: p.slug,
@@ -343,9 +348,8 @@ export const aldarOtherRouter = router({
         buildingSlug: z.string().min(1).max(128),
       }),
     )
-    .query(({ input }) => {
-      const data = getDataset();
-      const p = data.projects.find(pp => pp.slug === input.projectSlug);
+    .query(async ({ input }) => {
+      const p = (await getMergedProjects()).find(pp => pp.slug === input.projectSlug);
       if (!p) throw new TRPCError({ code: "NOT_FOUND", message: "Project not found" });
       const b = p.buildings.find(bb => bb.slug === input.buildingSlug);
       if (!b) throw new TRPCError({ code: "NOT_FOUND", message: "Building not found" });
@@ -368,9 +372,8 @@ export const aldarOtherRouter = router({
         unitName: z.string().min(1).max(256),
       }),
     )
-    .query(({ input }) => {
-      const data = getDataset();
-      const p = data.projects.find(pp => pp.slug === input.projectSlug);
+    .query(async ({ input }) => {
+      const p = (await getMergedProjects()).find(pp => pp.slug === input.projectSlug);
       if (!p) throw new TRPCError({ code: "NOT_FOUND", message: "Project not found" });
       const b = p.buildings.find(bb => bb.slug === input.buildingSlug);
       if (!b) throw new TRPCError({ code: "NOT_FOUND", message: "Building not found" });
@@ -395,8 +398,8 @@ export const aldarOtherRouter = router({
         limit: z.number().int().min(1).max(200).optional().default(100),
       }),
     )
-    .query(({ input }) => {
-      const data = getDataset();
+    .query(async ({ input }) => {
+      const projects = await getMergedProjects();
       const q = input.query.trim().toLowerCase();
       const hits: Array<{
         projectSlug: string;
@@ -412,7 +415,7 @@ export const aldarOtherRouter = router({
         total_area_sqm: number | null;
       }> = [];
 
-      outer: for (const p of data.projects) {
+      outer: for (const p of projects) {
         for (const b of p.buildings) {
           for (const u of b.units) {
             if (!u.unit_name) continue;

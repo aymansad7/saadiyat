@@ -66,6 +66,17 @@ type Rollup = {
   examples: string[];
 };
 
+type DetectedProject = {
+  dataset: "saadiyat" | "other";
+  projectSlug: string;
+  projectName: string;
+  areaKey: string;
+  unitCount: number;
+  availableCount: number;
+  priceMinAed: number | null;
+  priceMaxAed: number | null;
+};
+
 type InventoryEvent = {
   id: number;
   runId: number;
@@ -205,6 +216,7 @@ export default function AdminInventoryHistory() {
 
   const run = latest.data?.run ?? null;
   const rollups = (latest.data?.rollups ?? []) as Rollup[];
+  const newProjects = (latest.data?.newProjects ?? []) as DetectedProject[];
   const saleUnits = salesInventory.data?.units ?? [];
   const projects = useMemo(
     () =>
@@ -301,7 +313,7 @@ export default function AdminInventoryHistory() {
 
         {importOpen && (
           <Card><CardContent className="p-5 space-y-3">
-            <div className="text-sm text-muted-foreground">Paste a fresh Aldar snapshot (same shape as the bundled dataset: <code>{`{ "projects": [ { "slug", "name", "buildings": [...] } ] }`}</code>). It is diffed against the last snapshot and recorded as a new run. On-disk baseline files are not overwritten.</div>
+            <div className="text-sm text-muted-foreground">Paste a fresh official Aldar snapshot (same shape as the bundled dataset: <code>{`{ "projects": [ { "slug", "name", "buildings": [...] } ] }`}</code>). It is diffed against the last snapshot and recorded as a new run. A source-complete project not previously tracked is saved for browsing, grouped by region, and included in the owner alert. On-disk baseline files are not overwritten.</div>
             <div className="flex items-center gap-2"><label className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Dataset:</label><select className="rounded-md border border-border bg-background px-2 py-1 text-sm" value={importTarget} onChange={e => setImportTarget(e.target.value as "saadiyat" | "other")}><option value="saadiyat">Saadiyat</option><option value="other">Other Aldar</option></select></div>
             <textarea className="w-full h-40 rounded-md border border-border bg-background p-3 font-mono text-xs" placeholder='{ "projects": [ ... ] }' value={importText} onChange={e => setImportText(e.target.value)} />
             <div className="flex justify-end gap-2"><Button variant="ghost" onClick={() => setImportOpen(false)}>Cancel</Button><Button onClick={handleImport} disabled={importMut.isPending || !importText.trim()}>{importMut.isPending ? "Importing…" : "Diff & record"}</Button></div>
@@ -322,7 +334,7 @@ export default function AdminInventoryHistory() {
             <select value={projectFilter} onChange={event => setProjectFilter(event.target.value)} className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"><option value="all">All projects</option>{projects.map(project => <option key={project.key} value={project.key}>{project.label}</option>)}</select>
             <select value={statusFilter} onChange={event => setStatusFilter(event.target.value as SalesStatusFilter)} className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"><option value="available">Available</option><option value="new">New release</option><option value="price-changed">Price changed</option><option value="all">Available + New</option></select>
           </div>
-          <div className="flex items-center justify-between gap-3 px-5 py-3 text-xs text-muted-foreground sm:px-6"><span>Source: deployed Aldar inventory snapshot. Importing fresh JSON records the change history; a genuine live API feed is not configured.</span><span className="shrink-0 font-mono">{displayedUnits.length.toLocaleString()} shown</span></div>
+          <div className="flex items-center justify-between gap-3 px-5 py-3 text-xs text-muted-foreground sm:px-6"><span>Source: {salesInventory.data?.source === "latest-recorded-import" ? "latest recorded Aldar import" : "deployed Aldar inventory snapshot"}. Importing fresh JSON records change history and source-complete projects; a genuine live API feed is not configured.</span><span className="shrink-0 font-mono">{displayedUnits.length.toLocaleString()} shown</span></div>
           {salesInventory.isLoading ? <div className="px-5 py-10 text-sm text-muted-foreground sm:px-6">Loading current inventory…</div> : salesInventory.isError ? <div className="px-5 py-10 text-sm text-rose-600 sm:px-6">Could not load the current sales inventory. {salesInventory.error.message}</div> : displayedUnits.length === 0 ? <div className="px-5 py-10 text-sm text-muted-foreground sm:px-6">No units match these sales-desk filters.</div> : (
             <div className="max-h-[660px] divide-y divide-border overflow-y-auto">
               {displayedUnits.map(unit => (
@@ -362,6 +374,11 @@ export default function AdminInventoryHistory() {
         </section>
 
         {run ? <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"><StatCard label="Units scanned" value={Number(run.unitsScanned ?? 0).toLocaleString()} /><StatCard label="Newly tracked" value={run.newUnits ?? 0} tone="new" /><StatCard label="Sold" value={run.soldUnits ?? 0} tone="sold" /><StatCard label="Status changes" value={run.statusChanges ?? 0} /><StatCard label="Price changes" value={run.priceChanges ?? 0} tone="price" /><StatCard label="Removed" value={run.removedUnits ?? 0} /></div> : <Card><CardContent className="p-6 text-sm text-muted-foreground">No sync has run yet. Click <span className="font-medium">Run sync now</span> to take the first baseline.</CardContent></Card>}
+
+        <section>
+          <div className="mb-3 flex items-center gap-2"><Plus className="h-4 w-4 text-emerald-600" /><h2 className="font-display text-xl text-foreground">New projects detected</h2></div>
+          {newProjects.length === 0 ? <Card><CardContent className="p-5 text-sm text-muted-foreground">No source-complete project was first detected in the latest import. “Coming Soon” marketing without units is not added here.</CardContent></Card> : <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">{newProjects.map(project => <Card key={`${project.dataset}:${project.projectSlug}`}><CardContent className="p-5"><div className="flex items-start justify-between gap-3"><div><h3 className="font-display text-lg text-foreground">{project.projectName}</h3><p className="mt-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">{project.dataset} · {project.areaKey}</p></div><span className="rounded-sm bg-emerald-500/10 px-2 py-1 text-xs text-emerald-700 dark:text-emerald-300">New</span></div><div className="mt-4 grid grid-cols-2 gap-3 text-sm"><div><div className="text-xs text-muted-foreground">Source units</div><div className="mt-1 font-semibold text-foreground">{project.unitCount.toLocaleString()}</div></div><div><div className="text-xs text-muted-foreground">Available</div><div className="mt-1 font-semibold text-foreground">{project.availableCount.toLocaleString()}</div></div></div><p className="mt-4 text-sm font-medium text-foreground">{project.priceMinAed == null ? "Price not published" : project.priceMinAed === project.priceMaxAed ? fmtAed(project.priceMinAed) : `${fmtAed(project.priceMinAed)} – ${fmtAed(project.priceMaxAed)}`}</p></CardContent></Card>)}</div>}
+        </section>
 
         <section><h2 className="font-display text-xl text-foreground mb-3">Latest changes by project</h2>{rollups.length === 0 ? <Card><CardContent className="p-6 text-sm text-muted-foreground">No changes detected in the most recent run.</CardContent></Card> : <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">{rollups.map(r => <Card key={`${r.dataset}-${r.projectSlug}`}><CardContent className="p-5"><div className="flex items-center justify-between gap-2"><div className="font-display text-lg text-foreground">{r.projectName ?? r.projectSlug}</div><span className="text-[0.6rem] font-mono uppercase tracking-wider rounded bg-muted px-1.5 py-0.5 text-muted-foreground">{r.dataset}</span></div><div className="mt-3 flex flex-wrap gap-3 text-sm">{r.sold > 0 && <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400"><TrendingDown className="h-3.5 w-3.5" /> {r.sold} sold</span>}{r.newUnits > 0 && <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400"><Plus className="h-3.5 w-3.5" /> {r.newUnits} new</span>}{r.priceChanges > 0 && <span className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400"><TrendingUp className="h-3.5 w-3.5" /> {r.priceChanges} price</span>}{r.statusChanges > 0 && <span className="text-muted-foreground">{r.statusChanges} status</span>}{r.removed > 0 && <span className="text-muted-foreground">{r.removed} removed</span>}</div>{r.examples.length > 0 && <ul className="mt-3 space-y-1 text-xs text-muted-foreground font-mono">{r.examples.map((ex, i) => <li key={i} className="truncate">• {ex}</li>)}</ul>}</CardContent></Card>)}</div>}</section>
 

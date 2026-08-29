@@ -9,6 +9,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
+import { mergeImportedAldarProjects } from "../importedAldarProjects";
 
 // Reuse types from the Other router (same JSON shape)
 export type SaadiyatUnit = {
@@ -141,14 +142,18 @@ function breakdown(units: { status: string | null }[]): StatusBreakdown {
 const LIVE_STATUSES = new Set(["available", "new", "booked", "blocked", "reserved"]);
 function isLive(s: string | null) { return LIVE_STATUSES.has(statusGroup(s)); }
 
+async function getMergedProjects() {
+  return mergeImportedAldarProjects("saadiyat", getSaadiyatDataset().projects);
+}
+
 // ---------------------------------------------------------------------------
 // Router
 // ---------------------------------------------------------------------------
 export const aldarSaadiyatRouter = router({
   /** List all projects with breakdowns (no unit-level detail). */
-  listProjects: publicProcedure.query(() => {
+  listProjects: publicProcedure.query(async () => {
     const data = getSaadiyatDataset();
-    const projects = data.projects.map(p => {
+    const projects = (await getMergedProjects()).map(p => {
       const allUnits = p.buildings.flatMap(b => b.units);
       return {
         slug: p.slug,
@@ -162,9 +167,9 @@ export const aldarSaadiyatRouter = router({
     projects.sort((a, b) => b.live_count - a.live_count || a.name.localeCompare(b.name));
     return {
       exported_at: data.exported_at,
-      project_count: data.project_count,
-      total_units: data.total_units,
-      total_available: data.total_available,
+      project_count: projects.length,
+      total_units: projects.reduce((sum, project) => sum + project.unit_count, 0),
+      total_available: projects.reduce((sum, project) => sum + project.breakdown.available, 0),
       projects,
     };
   }),
@@ -172,9 +177,8 @@ export const aldarSaadiyatRouter = router({
   /** Project details: buildings with breakdowns. */
   getProject: publicProcedure
     .input(z.object({ slug: z.string().min(1).max(128) }))
-    .query(({ input }) => {
-      const data = getSaadiyatDataset();
-      const p = data.projects.find(pp => pp.slug === input.slug);
+    .query(async ({ input }) => {
+      const p = (await getMergedProjects()).find(pp => pp.slug === input.slug);
       if (!p) throw new TRPCError({ code: "NOT_FOUND", message: "Project not found" });
       return {
         slug: p.slug,
@@ -198,9 +202,8 @@ export const aldarSaadiyatRouter = router({
       projectSlug: z.string().min(1).max(128),
       buildingSlug: z.string().min(1).max(128),
     }))
-    .query(({ input }) => {
-      const data = getSaadiyatDataset();
-      const p = data.projects.find(pp => pp.slug === input.projectSlug);
+    .query(async ({ input }) => {
+      const p = (await getMergedProjects()).find(pp => pp.slug === input.projectSlug);
       if (!p) throw new TRPCError({ code: "NOT_FOUND", message: "Project not found" });
       const b = p.buildings.find(bb => bb.slug === input.buildingSlug);
       if (!b) throw new TRPCError({ code: "NOT_FOUND", message: "Building not found" });
@@ -221,9 +224,8 @@ export const aldarSaadiyatRouter = router({
       buildingSlug: z.string().min(1).max(128),
       unitName: z.string().min(1).max(256),
     }))
-    .query(({ input }) => {
-      const data = getSaadiyatDataset();
-      const p = data.projects.find(pp => pp.slug === input.projectSlug);
+    .query(async ({ input }) => {
+      const p = (await getMergedProjects()).find(pp => pp.slug === input.projectSlug);
       if (!p) throw new TRPCError({ code: "NOT_FOUND", message: "Project not found" });
       const b = p.buildings.find(bb => bb.slug === input.buildingSlug);
       if (!b) throw new TRPCError({ code: "NOT_FOUND", message: "Building not found" });
@@ -243,8 +245,8 @@ export const aldarSaadiyatRouter = router({
       liveOnly: z.boolean().optional().default(false),
       limit: z.number().int().min(1).max(200).optional().default(100),
     }))
-    .query(({ input }) => {
-      const data = getSaadiyatDataset();
+    .query(async ({ input }) => {
+      const projects = await getMergedProjects();
       const q = input.query.trim().toLowerCase();
       const hits: Array<{
         projectSlug: string; projectName: string;
@@ -252,7 +254,7 @@ export const aldarSaadiyatRouter = router({
         unitName: string; status: string | null;
         price_aed: number | null; bedrooms: string | null; aldar_link: string | null;
       }> = [];
-      outer: for (const p of data.projects) {
+      outer: for (const p of projects) {
         for (const b of p.buildings) {
           for (const u of b.units) {
             if (!u.unit_name) continue;

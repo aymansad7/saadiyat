@@ -12,7 +12,7 @@
  * platform Investigate flow can surface them verbatim.
  */
 import type { Request, Response } from "express";
-import { buildSyncChangeSummary, runInventorySync } from "./inventorySync";
+import { buildSyncChangeSummary, runInventorySync, shouldNotifyInventoryOwner } from "./inventorySync";
 import { notifyOwner } from "./_core/notification";
 import { sdk } from "./_core/sdk";
 
@@ -36,18 +36,23 @@ export async function inventorySyncScheduledHandler(req: Request, res: Response)
       headerMatchesIdentity: !headerTaskUid || headerTaskUid === taskUid,
     });
 
-    const { runId, counts, rollups } = await runInventorySync({
+    const { runId, counts, rollups, newProjects } = await runInventorySync({
       trigger: "scheduled",
       triggeredBy: `cron:${taskUid}`,
     });
     const summary = buildSyncChangeSummary(counts, rollups);
     let notificationSent = false;
-    if (summary.changed > 0) {
+    if (shouldNotifyInventoryOwner(counts, newProjects)) {
       notificationSent = await notifyOwner({
-        title: `Aldar inventory sync #${runId}: ${summary.changed} change${summary.changed === 1 ? "" : "s"}`,
+        title: newProjects.length
+          ? `Aldar: ${newProjects.length} new project${newProjects.length === 1 ? "" : "s"} detected`
+          : `Aldar inventory sync #${runId}: ${summary.changed} change${summary.changed === 1 ? "" : "s"}`,
         content: [
           summary.headline,
           summary.metrics || "No category totals reported.",
+          newProjects.length
+            ? `New source-complete projects: ${newProjects.map(project => `${project.projectName} [${project.areaKey}] · ${project.unitCount} units · ${project.availableCount} available${project.priceMinAed != null ? ` · AED ${project.priceMinAed.toLocaleString()}–${(project.priceMaxAed ?? project.priceMinAed).toLocaleString()}` : " · price not published"}`).join("\n")}`
+            : "No new source-complete project detected.",
           summary.projects.length ? `Top affected projects: ${summary.projects.join(" · ")}` : "No project-level changes reported.",
           "Source: bundled Aldar inventory snapshot unless a manual JSON import was supplied. No live Aldar API feed is configured.",
         ].join("\n"),
@@ -60,6 +65,7 @@ export async function inventorySyncScheduledHandler(req: Request, res: Response)
       counts,
       summary,
       topProjects: rollups.slice(0, 10),
+      newProjects,
       notificationSent,
       snapshotSource: "bundled Aldar inventory snapshot",
     });

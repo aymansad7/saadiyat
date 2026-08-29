@@ -4,6 +4,7 @@ import {
   double,
   index,
   int,
+  longtext,
   mysqlEnum,
   mysqlTable,
   text,
@@ -681,6 +682,8 @@ export const inventorySyncRuns = mysqlTable(
     statusChanges: int("statusChanges").default(0).notNull(),
     priceChanges: int("priceChanges").default(0).notNull(),
     removedUnits: int("removedUnits").default(0).notNull(),
+    /** JSON summary of source-complete projects first detected in this run. */
+    newProjectsJson: text("newProjectsJson"),
 
     /** Optional error message when status="error". */
     errorMessage: text("errorMessage"),
@@ -703,7 +706,7 @@ export const inventoryUnitState = mysqlTable(
   {
     id: int("id").autoincrement().primaryKey(),
     /** Canonical Aldar unit identifier, e.g. "FayaAlSaadiyat-SB45-V-01-01". */
-    unitName: varchar("unitName", { length: 191 }).notNull().unique(),
+    unitName: varchar("unitName", { length: 191 }).notNull(),
     /** Which source file this unit belongs to. */
     dataset: mysqlEnum("dataset", ["saadiyat", "other"]).notNull(),
     /** Project slug (e.g. "fayaalsaadiyat"). */
@@ -734,10 +737,50 @@ export const inventoryUnitState = mysqlTable(
     stateDatasetIdx: index("inventory_unit_state_dataset_idx").on(t.dataset),
     stateProjectIdx: index("inventory_unit_state_project_idx").on(t.projectSlug),
     stateStatusIdx: index("inventory_unit_state_status_idx").on(t.status),
+    stateIdentityUnique: uniqueIndex("inventory_unit_state_identity_unique").on(
+      t.dataset,
+      t.projectSlug,
+      t.unitName,
+    ),
   }),
 );
 export type InventoryUnitState = typeof inventoryUnitState.$inferSelect;
 export type InsertInventoryUnitState = typeof inventoryUnitState.$inferInsert;
+
+/**
+ * Latest complete project payload from an administrator-imported Aldar source.
+ * The source is retained as provided so a newly detected project can appear in
+ * the existing Aldar project/unit pages without inventing fields or prices.
+ */
+export const inventoryImportedProjects = mysqlTable(
+  "inventory_imported_projects",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    dataset: mysqlEnum("dataset", ["saadiyat", "other"]).notNull(),
+    projectSlug: varchar("projectSlug", { length: 128 }).notNull(),
+    projectName: varchar("projectName", { length: 255 }).notNull(),
+    /** Saadiyat is explicit; unknown non-Saadiyat projects remain Other Areas pending review. */
+    areaKey: varchar("areaKey", { length: 64 }).notNull(),
+    /** Complete source project object only; never user-entered listing or owner data. */
+    sourceJson: longtext("sourceJson").notNull(),
+    unitCount: int("unitCount").default(0).notNull(),
+    availableCount: int("availableCount").default(0).notNull(),
+    firstDetectedRunId: int("firstDetectedRunId"),
+    lastImportedRunId: int("lastImportedRunId").notNull(),
+    importedBy: varchar("importedBy", { length: 320 }).notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  t => ({
+    importedProjectIdentityUnique: uniqueIndex("inventory_imported_projects_identity_unique").on(
+      t.dataset,
+      t.projectSlug,
+    ),
+    importedProjectAreaIdx: index("inventory_imported_projects_area_idx").on(t.areaKey),
+    importedProjectRunIdx: index("inventory_imported_projects_run_idx").on(t.lastImportedRunId),
+  }),
+);
+export type InventoryImportedProject = typeof inventoryImportedProjects.$inferSelect;
 
 export const inventoryUnitEvents = mysqlTable(
   "inventory_unit_events",

@@ -1,0 +1,1 @@
+ALTER TABLE `inventory_sync_runs` ADD `newProjectsJson` text;

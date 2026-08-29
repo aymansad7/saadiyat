@@ -50,7 +50,13 @@ export const inventoryHistoryRouter = router({
     } catch {
       rollups = [];
     }
-    return { run, rollups };
+    let newProjects: unknown[] = [];
+    try {
+      newProjects = run.newProjectsJson ? JSON.parse(run.newProjectsJson) : [];
+    } catch {
+      newProjects = [];
+    }
+    return { run, rollups, newProjects };
   }),
 
   /** Current purchasable Aldar units, with exact internal detail links. */
@@ -89,11 +95,11 @@ export const inventoryHistoryRouter = router({
   /** Manually run a sync against the datasets currently on disk. */
   syncNow: adminProcedure.mutation(async ({ ctx }) => {
     const who = ctx.user?.email || ctx.user?.name || "admin";
-    const { runId, counts, rollups } = await runInventorySync({
+    const { runId, counts, rollups, newProjects } = await runInventorySync({
       trigger: "manual",
       triggeredBy: who,
     });
-    return { runId, counts, rollups, summary: buildSyncChangeSummary(counts, rollups) };
+    return { runId, counts, rollups, newProjects, summary: buildSyncChangeSummary(counts, rollups) };
   }),
 
   /**
@@ -113,7 +119,7 @@ export const inventoryHistoryRouter = router({
         throw new Error("Provide at least one dataset (saadiyat or other).");
       }
       const who = ctx.user?.email || ctx.user?.name || "admin";
-      const { runId, counts, rollups } = await runInventorySync({
+      const { runId, counts, rollups, newProjects } = await runInventorySync({
         trigger: "manual",
         triggeredBy: who,
         datasets: {
@@ -121,6 +127,6 @@ export const inventoryHistoryRouter = router({
           other: input.other as any,
         },
       });
-      return { runId, counts, rollups, summary: buildSyncChangeSummary(counts, rollups) };
+      return { runId, counts, rollups, newProjects, summary: buildSyncChangeSummary(counts, rollups) };
     }),
 });

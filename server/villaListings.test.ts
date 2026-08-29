@@ -28,7 +28,7 @@ beforeAll(async () => {
   if (!db) return;
   await db.delete(villaListingAudit).where(eq(villaListingAudit.villaKey, TEST_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, TEST_KEY));
-});
+}, 30_000);
 
 afterAll(async () => {
   const db = await getDb();
@@ -36,7 +36,7 @@ afterAll(async () => {
   await db.delete(villaListingAudit).where(eq(villaListingAudit.villaKey, TEST_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, TEST_KEY));
   await db.delete(villaListings).where(like(villaListings.community, "test-villaListings%"));
-});
+}, 30_000);
 
 describe("villaListings router — public masking", () => {
   it("byKey returns null for an unknown villa", { timeout: 20_000 }, async () => {

@@ -2,13 +2,16 @@ import { describe, expect, it } from "vitest";
 import {
   computeDiff,
   buildSyncChangeSummary,
+  detectNewInventoryProjects,
   decorateInventoryEvents,
   getInventoryUnitHref,
+  inventoryUnitKey,
   isSaleAvailableStatus,
   isSoldStatus,
   loadSnapshotUnits,
   normStatus,
   summarize,
+  shouldNotifyInventoryOwner,
   toCurrentSaleInventoryUnits,
   type PrevState,
   type SnapshotUnit,
@@ -31,7 +34,16 @@ function unit(partial: Partial<SnapshotUnit> & { unitName: string }): SnapshotUn
 }
 
 function prevMap(states: PrevState[]): Map<string, PrevState> {
-  return new Map(states.map(state => [state.unitName, state]));
+  return new Map(
+    states.map(state => [
+      inventoryUnitKey({
+        dataset: state.dataset ?? "saadiyat",
+        projectSlug: state.projectSlug ?? "bs-park-place",
+        unitName: state.unitName,
+      }),
+      state,
+    ]),
+  );
 }
 
 describe("normStatus / availability classification", () => {
@@ -182,6 +194,25 @@ describe("computeDiff", () => {
     const prev = prevMap([{ unitName: "BSPP-V-01", status: "Available", priceAed: 1_000_000, isPresent: true }]);
     expect(computeDiff(prev, [unit({ unitName: "BSPP-V-01" })])).toHaveLength(0);
   });
+
+  it("keeps same-named units in different projects independent during a sync", () => {
+    const prev = prevMap([
+      {
+        dataset: "saadiyat",
+        projectSlug: "one",
+        unitName: "A-101",
+        status: "Available",
+        priceAed: 1_000_000,
+        isPresent: true,
+      },
+    ]);
+    const events = computeDiff(prev, [
+      unit({ projectSlug: "one", projectName: "One", unitName: "A-101", status: "Available" }),
+      unit({ projectSlug: "two", projectName: "Two", unitName: "A-101", status: "New" }),
+    ]);
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({ eventType: "first_seen", projectSlug: "two", unitName: "A-101" });
+  });
 });
 
 describe("summarize", () => {
@@ -189,7 +220,7 @@ describe("summarize", () => {
     const prev = prevMap([
       { unitName: "BSPP-V-01", status: "Available", priceAed: 1_000_000, isPresent: true },
       { unitName: "BSPP-V-02", status: "Available", priceAed: 2_000_000, isPresent: true },
-      { unitName: "GHD-V-09", status: "Available", priceAed: 1_500_000, isPresent: true },
+      { projectSlug: "fay-alghadeer", unitName: "GHD-V-09", status: "Available", priceAed: 1_500_000, isPresent: true },
     ]);
     const current = [
       unit({ unitName: "BSPP-V-01", status: "Sold" }),
@@ -222,5 +253,51 @@ describe("sync change summary", () => {
     expect(summary.changed).toBe(4);
     expect(summary.metrics).toContain("2 sold");
     expect(summary.projects[0]).toContain("Park Place");
+  });
+});
+
+describe("new project detection", () => {
+  const incoming = {
+    saadiyat: {
+      projects: [
+        {
+          slug: "marsa-al-saadiyat",
+          name: "Marsa Al Saadiyat",
+          buildings: [{ slug: "marsa", name: "Marsa", units: [{ unit_name: "M-101", status: "Available", price_aed: 4_000_000 }] }],
+        },
+        { slug: "pulse-district", name: "Pulse District", buildings: [] },
+      ],
+    },
+    other: {
+      projects: [
+        {
+          slug: "unknown-new-project",
+          name: "Unknown New Project",
+          buildings: [{ slug: "tower-a", name: "Tower A", units: [{ unit_name: "A-1", status: "New", price_aed: null }] }],
+        },
+      ],
+    },
+  };
+
+  it("accepts only source-complete projects and preserves the Saadiyat area", () => {
+    const found = detectNewInventoryProjects(incoming, []);
+    expect(found).toEqual(expect.arrayContaining([
+      expect.objectContaining({ projectSlug: "marsa-al-saadiyat", areaKey: "saadiyat", unitCount: 1, availableCount: 1, priceMinAed: 4_000_000 }),
+      expect.objectContaining({ projectSlug: "unknown-new-project", areaKey: "other", unitCount: 1, priceMinAed: null }),
+    ]));
+    expect(found.some(project => project.projectSlug === "pulse-district")).toBe(false);
+  });
+
+  it("does not report a project twice once its source identity is known", () => {
+    const found = detectNewInventoryProjects(incoming, ["saadiyat::marsa-al-saadiyat"]);
+    expect(found.some(project => project.projectSlug === "marsa-al-saadiyat")).toBe(false);
+    expect(found.some(project => project.projectSlug === "unknown-new-project")).toBe(true);
+  });
+
+  it("notifies the owner only when inventory changed or a new complete project appears", () => {
+    const unchanged = { newUnits: 0, soldUnits: 0, statusChanges: 0, priceChanges: 0, removedUnits: 0 };
+    expect(shouldNotifyInventoryOwner(unchanged, [])).toBe(false);
+    expect(shouldNotifyInventoryOwner(unchanged, detectNewInventoryProjects(incoming, []))).toBe(true);
+    expect(shouldNotifyInventoryOwner({ ...unchanged, priceChanges: 1 }, [])).toBe(true);
   });
 });

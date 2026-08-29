@@ -18,11 +18,13 @@ import { fileURLToPath } from "node:url";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { getDb } from "./db";
 import {
+  inventoryImportedProjects,
   inventorySyncRuns,
   inventoryUnitEvents,
   inventoryUnitState,
   type InsertInventoryUnitEvent,
 } from "../drizzle/schema";
+import { areaForProject } from "./aldarAreas";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -56,6 +58,17 @@ type RawUnit = {
 type RawBuilding = { slug: string; name: string; units: RawUnit[] };
 type RawProject = { slug: string; name: string; buildings: RawBuilding[] };
 type RawDataset = { projects: RawProject[] };
+
+export type DetectedInventoryProject = {
+  dataset: Dataset;
+  projectSlug: string;
+  projectName: string;
+  areaKey: string;
+  unitCount: number;
+  availableCount: number;
+  priceMinAed: number | null;
+  priceMaxAed: number | null;
+};
 
 function readJsonFromCandidates(file: string): string {
   const candidates = [
@@ -111,17 +124,80 @@ function flatten(raw: RawDataset, dataset: Dataset): SnapshotUnit[] {
  * Optionally accepts in-memory datasets (used by the manual import endpoint so
  * a freshly-uploaded JSON can be diffed without writing it to disk first).
  */
-export function loadSnapshotUnits(opts?: {
+function loadSnapshotDatasets(opts?: {
   saadiyat?: RawDataset;
   other?: RawDataset;
-}): SnapshotUnit[] {
+}): { saadiyat: RawDataset; other: RawDataset } {
   const saadiyat =
     opts?.saadiyat ??
     (JSON.parse(readJsonFromCandidates("aldar_saadiyat.json")) as RawDataset);
   const other =
     opts?.other ??
     (JSON.parse(readJsonFromCandidates("aldar_other.json")) as RawDataset);
+  return { saadiyat, other };
+}
+
+export function loadSnapshotUnits(opts?: {
+  saadiyat?: RawDataset;
+  other?: RawDataset;
+}): SnapshotUnit[] {
+  const { saadiyat, other } = loadSnapshotDatasets(opts);
   return [...flatten(saadiyat, "saadiyat"), ...flatten(other, "other")];
+}
+
+/** Stable source identity; Aldar unit names are not unique across projects. */
+export function inventoryUnitKey(unit: Pick<SnapshotUnit, "dataset" | "projectSlug" | "unitName">): string {
+  return `${unit.dataset}::${unit.projectSlug}::${unit.unitName}`;
+}
+
+function inventoryProjectKey(dataset: Dataset, projectSlug: string): string {
+  return `${dataset}::${projectSlug}`;
+}
+
+function sourceProjects(datasets: { saadiyat: RawDataset; other: RawDataset }): Array<{
+  dataset: Dataset;
+  raw: RawProject;
+  summary: DetectedInventoryProject;
+}> {
+  const output: Array<{ dataset: Dataset; raw: RawProject; summary: DetectedInventoryProject }> = [];
+  for (const [dataset, rawDataset] of Object.entries(datasets) as Array<[Dataset, RawDataset]>) {
+    for (const project of rawDataset.projects ?? []) {
+      const units = flatten({ projects: [project] }, dataset);
+      if (!project.slug || !project.name || units.length === 0) continue;
+      const prices = units.map(unit => unit.priceAed).filter((value): value is number => value != null && value > 0);
+      output.push({
+        dataset,
+        raw: project,
+        summary: {
+          dataset,
+          projectSlug: project.slug,
+          projectName: project.name,
+          areaKey: dataset === "saadiyat" ? "saadiyat" : areaForProject(project.slug),
+          unitCount: units.length,
+          availableCount: units.filter(unit => isSaleAvailableStatus(unit.status)).length,
+          priceMinAed: prices.length ? Math.min(...prices) : null,
+          priceMaxAed: prices.length ? Math.max(...prices) : null,
+        },
+      });
+    }
+  }
+  return output;
+}
+
+/** Detect only complete source projects absent from both the state and import ledgers. */
+export function detectNewInventoryProjects(
+  datasets: { saadiyat: RawDataset; other: RawDataset },
+  knownProjectKeys: Iterable<string>,
+): DetectedInventoryProject[] {
+  const known = new Set(knownProjectKeys);
+  return sourceProjects(datasets)
+    .map(item => item.summary)
+    .filter(project => !known.has(inventoryProjectKey(project.dataset, project.projectSlug)));
+}
+
+/** A scheduled owner alert is meaningful only for a recorded inventory change or new project. */
+export function shouldNotifyInventoryOwner(counts: Pick<RunCounts, "newUnits" | "soldUnits" | "statusChanges" | "priceChanges" | "removedUnits">, newProjects: readonly DetectedInventoryProject[]): boolean {
+  return counts.newUnits + counts.soldUnits + counts.statusChanges + counts.priceChanges + counts.removedUnits > 0 || newProjects.length > 0;
 }
 
 /* ----------------------------- status helpers ----------------------------- */
@@ -169,7 +245,10 @@ export type DiffEvent = {
 };
 
 export type PrevState = {
+  id?: number;
   unitName: string;
+  dataset?: Dataset;
+  projectSlug?: string;
   status: string | null;
   priceAed: number | null;
   isPresent: boolean;
@@ -187,8 +266,9 @@ export function computeDiff(
   const seen = new Set<string>();
 
   for (const u of current) {
-    seen.add(u.unitName);
-    const p = prev.get(u.unitName);
+    const key = inventoryUnitKey(u);
+    seen.add(key);
+    const p = prev.get(key);
 
     if (!p) {
       // brand-new unit we have never recorded
@@ -257,13 +337,13 @@ export function computeDiff(
   }
 
   // units that were present before but are gone now
-  prev.forEach((p, unitName) => {
-    if (seen.has(unitName)) return;
+  prev.forEach((p, key) => {
+    if (seen.has(key)) return;
     if (!p.isPresent) return; // already marked removed
     events.push({
-      unitName,
-      dataset: "saadiyat", // overwritten below from state row when persisting
-      projectSlug: "",
+      unitName: p.unitName,
+      dataset: p.dataset ?? "saadiyat",
+      projectSlug: p.projectSlug ?? "",
       projectName: null,
       eventType: "removed",
       fromStatus: p.status,
@@ -430,6 +510,7 @@ export async function runInventorySync(opts: {
   runId: number;
   counts: RunCounts;
   rollups: ProjectRollup[];
+  newProjects: DetectedInventoryProject[];
 }> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
@@ -448,32 +529,45 @@ export async function runInventorySync(opts: {
   const runId = run.id;
 
   try {
-    const current = loadSnapshotUnits(opts.datasets);
+    const datasets = loadSnapshotDatasets(opts.datasets);
+    const current = [...flatten(datasets.saadiyat, "saadiyat"), ...flatten(datasets.other, "other")];
 
     // load previous state
     const prevRows = await db.select().from(inventoryUnitState);
     const prev = new Map<string, PrevState>();
     const prevMeta = new Map<string, { dataset: Dataset; projectSlug: string; projectName: string | null }>();
     for (const r of prevRows) {
-      prev.set(r.unitName, {
+      const key = inventoryUnitKey(r);
+      prev.set(key, {
+        id: r.id,
         unitName: r.unitName,
+        dataset: r.dataset,
+        projectSlug: r.projectSlug,
         status: r.status,
         priceAed: r.priceAed,
         isPresent: r.isPresent,
       });
-      prevMeta.set(r.unitName, {
+      prevMeta.set(key, {
         dataset: r.dataset,
         projectSlug: r.projectSlug,
         projectName: r.projectName,
       });
     }
 
+    const knownProjectKeys = new Set(prevRows.map(row => inventoryProjectKey(row.dataset, row.projectSlug)));
+    const priorImportedProjects = await db
+      .select({ dataset: inventoryImportedProjects.dataset, projectSlug: inventoryImportedProjects.projectSlug })
+      .from(inventoryImportedProjects);
+    for (const row of priorImportedProjects) knownProjectKeys.add(inventoryProjectKey(row.dataset, row.projectSlug));
+    const incomingProjects = sourceProjects(datasets);
+    const newProjects = detectNewInventoryProjects(datasets, knownProjectKeys);
+
     const events = computeDiff(prev, current);
 
     // backfill dataset/project for "removed" events from stored metadata
     for (const e of events) {
       if (e.eventType === "removed") {
-        const m = prevMeta.get(e.unitName);
+        const m = prevMeta.get(inventoryUnitKey(e));
         if (m) {
           e.dataset = m.dataset;
           e.projectSlug = m.projectSlug;
@@ -545,17 +639,51 @@ export async function runInventorySync(opts: {
         });
     }
 
+    // Preserve every complete official source project so it can be rendered as
+    // a real project/unit record rather than an inferred card.
+    for (const { dataset, raw, summary } of incomingProjects) {
+        const firstDetected = newProjects.some(project =>
+          project.dataset === dataset && project.projectSlug === summary.projectSlug,
+        );
+        await db
+          .insert(inventoryImportedProjects)
+          .values({
+            dataset,
+            projectSlug: summary.projectSlug,
+            projectName: summary.projectName,
+            areaKey: summary.areaKey,
+            sourceJson: JSON.stringify(raw),
+            unitCount: summary.unitCount,
+            availableCount: summary.availableCount,
+            firstDetectedRunId: firstDetected ? runId : null,
+            lastImportedRunId: runId,
+            importedBy: opts.triggeredBy ?? "system",
+          })
+          .onDuplicateKeyUpdate({
+            set: {
+              projectName: summary.projectName,
+              areaKey: summary.areaKey,
+              sourceJson: JSON.stringify(raw),
+              unitCount: summary.unitCount,
+              availableCount: summary.availableCount,
+              lastImportedRunId: runId,
+              importedBy: opts.triggeredBy ?? "system",
+            },
+          });
+    }
+
     // mark removed units as not present
-    const removedNames = events
+    const removedIds = events
       .filter(e => e.eventType === "removed")
-      .map(e => e.unitName);
-    for (let i = 0; i < removedNames.length; i += 500) {
-      const batch = removedNames.slice(i, i + 500);
+      .map(event => prev.get(inventoryUnitKey(event))?.id)
+      .filter((id): id is number => typeof id === "number");
+    for (let i = 0; i < removedIds.length; i += 500) {
+      const batch = removedIds.slice(i, i + 500);
       if (batch.length === 0) continue;
       await db
         .update(inventoryUnitState)
         .set({ isPresent: false, lastSeenRunId: runId })
-        .where(inArray(inventoryUnitState.unitName, batch));
+        .where(inArray(inventoryUnitState.id, batch));
     }
 
     const { counts, rollups } = summarize(events);
@@ -572,11 +700,12 @@ export async function runInventorySync(opts: {
         priceChanges: counts.priceChanges,
         removedUnits: counts.removedUnits,
         summaryJson: JSON.stringify(rollups).slice(0, 60000),
+        newProjectsJson: JSON.stringify(newProjects).slice(0, 60000),
         finishedAt: new Date(),
       })
       .where(eq(inventorySyncRuns.id, runId));
 
-    return { runId, counts, rollups };
+    return { runId, counts, rollups, newProjects };
   } catch (err) {
     await db
       .update(inventorySyncRuns)
@@ -705,7 +834,8 @@ export async function listRecentInventoryEvents(input?: {
   const rows = conditions.length > 0
     ? await base.where(and(...conditions)).orderBy(desc(inventoryUnitEvents.createdAt), desc(inventoryUnitEvents.id)).limit(input?.limit ?? 500)
     : await base.orderBy(desc(inventoryUnitEvents.createdAt), desc(inventoryUnitEvents.id)).limit(input?.limit ?? 500);
-  return decorateInventoryEvents(rows);
+  const storedUnits = await listStoredSnapshotUnits();
+  return decorateInventoryEvents(rows, storedUnits.length ? storedUnits : loadSnapshotUnits());
 }
 
 /**
@@ -740,10 +870,31 @@ export function toCurrentSaleInventoryUnits(rows: SnapshotUnit[]) {
 }
 
 export async function listCurrentSaleInventory() {
-  // Unit names are not globally unique across all Aldar projects. Read the canonical deployed
-  // snapshot directly so the sales desk retains every current record rather than collapsing
-  // same-named units through the legacy state table's unitName-only unique key.
-  const units = toCurrentSaleInventoryUnits(loadSnapshotUnits());
+  const storedUnits = await listStoredSnapshotUnits();
+  if (storedUnits.length) {
+    return { source: "latest-recorded-import" as const, units: toCurrentSaleInventoryUnits(storedUnits) };
+  }
+  return { source: "deployed-bundled-snapshot" as const, units: toCurrentSaleInventoryUnits(loadSnapshotUnits()) };
+}
 
-  return { source: "deployed-bundled-snapshot" as const, units };
+async function listStoredSnapshotUnits(): Promise<SnapshotUnit[]> {
+  const db = await getDb();
+  if (!db) return [];
+  const rows = await db
+    .select()
+    .from(inventoryUnitState)
+    .where(eq(inventoryUnitState.isPresent, true));
+  return rows.map(row => ({
+    dataset: row.dataset,
+    projectSlug: row.projectSlug,
+    projectName: row.projectName ?? row.projectSlug,
+    buildingSlug: row.buildingSlug,
+    buildingName: row.buildingName,
+    unitName: row.unitName,
+    aldarLink: row.aldarLink,
+    status: row.status,
+    priceAed: row.priceAed,
+    bedrooms: row.bedrooms,
+    unitType: row.unitType,
+  }));
 }

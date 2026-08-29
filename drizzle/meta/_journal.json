@@ -92,6 +92,20 @@
       "when": 1788004455998,
       "tag": "0012_thick_kate_bishop",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "5",
+      "when": 1788017554688,
+      "tag": "0013_bored_roulette",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "5",
+      "when": 1788018014254,
+      "tag": "0014_chief_whistler",
+      "breakpoints": true
     }
   ]
 }

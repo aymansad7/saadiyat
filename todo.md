@@ -816,3 +816,9 @@
 - [x] Inspect Aldar’s official Cultural District and Saadiyat/Marasi project listings, including Pulse District, to identify only newly published projects or inventory
 - [x] Verify whether each discovered project exposes actual unit identifiers, unit data, availability, or prices; distinguish “Coming Soon” marketing from published inventory
 - [x] Compare verified new project identities with the existing Saadiyat project record and report duplicates, additions, and unavailable data without writing any unverified project or price to the site
+
+### Daily Aldar New-Project Detection and Owner Alert (Aug 29, 2026)
+- [x] Confirm that the daily Aldar source remains an imported official snapshot; do not claim or implement a live Aldar feed without approved credentials
+- [x] Define a stable source identity for a new project and unit, detect it independently of non-unique unit names, and classify its area with explicit review for unknown regions
+- [x] Extend the existing 06:00 Gulf daily inventory job to record detected projects, add only source-complete verified projects, and send an owner notification listing project, region, units, availability, and prices when published
+- [x] Add review visibility for auto-added projects and tests for duplicate prevention, source completeness, unknown-area handling, and notification-only-on-change behavior
