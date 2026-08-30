@@ -828,15 +828,20 @@
 - [x] Report only data demonstrably published by Yas Bay, distinguishing presentation assets from structured unit or price data, without importing anything into the site
 
 ### Weekly Property Finder Saadiyat Listing Monitor (Aug 29, 2026)
-- [ ] Confirm the permitted Property Finder data source and its published date fields before scheduling weekly collection
-- [ ] Track the requested Saadiyat communities: Hidd Al Saadiyat, Saadiyat Beach Villas, Jawaher Saadiyat, Nudra, Saadiyat Lagoons, and St. Regis
-- [ ] Record each external listing with source URL, external listing ID, advertised date when published, and otherwise clearly labelled first-observed date
-- [ ] Match a listing to an internal unit only with a documented unique unit/plot identity or independently sufficient evidence; never claim an area-only match is certain
-- [ ] Create a weekly run record, change summary, and owner notification that separates new listings, price changes, removed listings, confirmed matches, and unmatched listings
-- [ ] Add regression coverage for duplicate external listings, ambiguous areas, protected owner-data exclusion, publication-date handling, and notification-on-change behavior
+- [x] Deferred by user on 30 Aug 2026 — do not configure a weekly Property Finder monitor until an authorized source is selected
+- [x] Deferred by user on 30 Aug 2026 — no community tracking job was created
+- [x] Deferred by user on 30 Aug 2026 — no Property Finder listing data, dates, or external identifiers were collected
+- [x] Deferred by user on 30 Aug 2026 — no matching process or internal-unit association was run
+- [x] Deferred by user on 30 Aug 2026 — no weekly run record, change summary, or notification was configured
+- [x] Deferred by user on 30 Aug 2026 — no monitor-specific test suite was created
 
 ### ADREC/DARI and ADGM Data-Source Feasibility (Aug 30, 2026)
 - [x] Verify whether ADREC/DARI offers an authorized business API, export, or data feed covering registered listings or permits that can identify Property Finder publications
 - [x] Verify whether ADGM offers a relevant authorized data product or public registry for Saadiyat residential listing publication data, rather than only company/regulatory records
 - [x] Compare the official source scopes with the required Property Finder fields: external listing ID/URL, publication date, advertised price/status, community, unit/plot, and area
 - [x] Report the compliant route, access owner, and any remaining data gap before configuring a weekly monitor
+
+### Madhmoun/DARI Authorized Daily Listing Feed (Aug 30, 2026)
+- [x] Deferred by user on 30 Aug 2026 — do not open or inspect the company’s authenticated DARI/Madhmoun data source until explicitly resumed
+- [x] Deferred by user on 30 Aug 2026 — no source URL, export, field mapping, cadence, or portal data was collected
+- [x] Deferred by user on 30 Aug 2026 — do not configure the weekly monitor from public Property Finder or Bayut pages
