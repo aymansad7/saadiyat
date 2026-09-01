@@ -398,19 +398,27 @@ export default function SiteHeader({ subTitle, back, fixed = false, compact = fa
                         <span>Manage access</span>
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/admin/listings" className="gap-2">
-                        <FolderOpen className="h-3.5 w-3.5 text-primary" />
-                        <span>Manage listings</span>
-                      </Link>
-                    </DropdownMenuItem>
                     {user?.role === "master" && (
-                      <DropdownMenuItem asChild>
-                        <Link href="/admin/documents" className="gap-2">
-                          <FolderOpen className="h-3.5 w-3.5 text-primary" />
-                          <span>OneDrive documents</span>
-                        </Link>
-                      </DropdownMenuItem>
+                      <>
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin/listings" className="gap-2">
+                            <FolderOpen className="h-3.5 w-3.5 text-primary" />
+                            <span>Manage listings</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin/owners" className="gap-2">
+                            <UserIcon className="h-3.5 w-3.5 text-primary" />
+                            <span>Manage owners</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin/documents" className="gap-2">
+                            <FolderOpen className="h-3.5 w-3.5 text-primary" />
+                            <span>OneDrive documents</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
                     )}
                     <DropdownMenuItem asChild>
                       <Link href="/admin/inventory-history" className="gap-2">

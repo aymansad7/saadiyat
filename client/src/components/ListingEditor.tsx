@@ -33,6 +33,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export type ListingStatus =
   | "draft"
@@ -86,6 +87,10 @@ export type ListingEditorProps = {
   onOpenChange: (open: boolean) => void;
   villaKey: string;
   community: string;
+  phaseKey?: string | null;
+  buildingKey?: string | null;
+  unitTypeKey?: string | null;
+  bedrooms?: number | null;
   villaLabel?: string;
 };
 
@@ -94,6 +99,10 @@ export function ListingEditor({
   onOpenChange,
   villaKey,
   community,
+  phaseKey,
+  buildingKey,
+  unitTypeKey,
+  bedrooms,
   villaLabel,
 }: ListingEditorProps) {
   const utils = trpc.useUtils();
@@ -101,7 +110,15 @@ export function ListingEditor({
     { villaKey },
     { enabled: open },
   );
+  const { user } = useAuth();
+  const permissions = trpc.propertyAccess.permissions.useQuery(
+    { scopes: [{ projectKey: community, phaseKey: phaseKey ?? null, buildingKey: buildingKey ?? null, unitTypeKey: unitTypeKey ?? null, bedrooms: bedrooms ?? null }] },
+    { enabled: open && Boolean(user) },
+  );
   const upsert = trpc.villaListings.upsert.useMutation();
+  const isMaster = user?.role === "master";
+  const canManageOwnerName = isMaster || permissions.data?.[0]?.permissions.canViewOwnerName === true;
+  const canManageOwnerPhone = isMaster || permissions.data?.[0]?.permissions.canViewOwnerPhone === true;
 
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
 
@@ -146,6 +163,9 @@ export function ListingEditor({
     const payload = {
       villaKey,
       community,
+      ...(buildingKey !== undefined ? { buildingKey } : {}),
+      ...(unitTypeKey !== undefined ? { unitTypeKey } : {}),
+      ...(bedrooms !== undefined ? { bedrooms } : {}),
       askingPriceAed:
         form.askingPriceAed.trim() === ""
           ? null
@@ -161,10 +181,12 @@ export function ListingEditor({
         form.rentPriceAed.trim() === "" ? null : Number(form.rentPriceAed.replace(/[,\s]/g, "")),
       listingPartners: form.listingPartners.trim() || null,
       publicNotes: form.publicNotes.trim() || null,
-      ownerName: form.ownerName.trim() || null,
-      ownerPhone: form.ownerPhone.trim() || null,
-      ownerEmail: form.ownerEmail.trim() || null,
-      internalNotes: form.internalNotes.trim() || null,
+      ...(canManageOwnerName ? { ownerName: form.ownerName.trim() || null } : {}),
+      ...(canManageOwnerPhone ? { ownerPhone: form.ownerPhone.trim() || null } : {}),
+      ...(isMaster ? {
+        ownerEmail: form.ownerEmail.trim() || null,
+        internalNotes: form.internalNotes.trim() || null,
+      } : {}),
     };
     if (
       payload.askingPriceAed != null &&
@@ -205,8 +227,8 @@ export function ListingEditor({
         <DialogHeader>
           <DialogTitle>Edit listing — {heading}</DialogTitle>
           <DialogDescription>
-            Public fields appear on the property card. Owner contact and
-            internal notes are visible only to admins.
+            Public fields appear on the property card. Owner fields are shown
+            only when this exact unit scope permits them.
           </DialogDescription>
         </DialogHeader>
 
@@ -323,30 +345,30 @@ export function ListingEditor({
 
             <Separator />
 
-            {/* ---------- admin-only fields ---------- */}
-            <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-4">
+            {/* ---------- restricted owner fields ---------- */}
+            {(canManageOwnerName || canManageOwnerPhone || isMaster) && <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-4">
               <div className="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-amber-600">
                 <Lock className="h-3.5 w-3.5" />
-                Admin-only · never shown publicly
+                Restricted owner fields · never shown publicly
               </div>
               <div className="grid gap-4 md:grid-cols-2">
-                <div className="grid gap-1.5">
+                {canManageOwnerName && <div className="grid gap-1.5">
                   <Label htmlFor="owner-name">Owner name</Label>
                   <Input
                     id="owner-name"
                     value={form.ownerName}
                     onChange={e => update("ownerName", e.target.value)}
                   />
-                </div>
-                <div className="grid gap-1.5">
+                </div>}
+                {canManageOwnerPhone && <div className="grid gap-1.5">
                   <Label htmlFor="owner-phone">Owner phone</Label>
                   <Input
                     id="owner-phone"
                     value={form.ownerPhone}
                     onChange={e => update("ownerPhone", e.target.value)}
                   />
-                </div>
-                <div className="md:col-span-2 grid gap-1.5">
+                </div>}
+                {isMaster && <div className="md:col-span-2 grid gap-1.5">
                   <Label htmlFor="owner-email">Owner email</Label>
                   <Input
                     id="owner-email"
@@ -354,8 +376,8 @@ export function ListingEditor({
                     value={form.ownerEmail}
                     onChange={e => update("ownerEmail", e.target.value)}
                   />
-                </div>
-                <div className="md:col-span-2 grid gap-1.5">
+                </div>}
+                {isMaster && <div className="md:col-span-2 grid gap-1.5">
                   <Label htmlFor="internal-notes">Internal notes</Label>
                   <Textarea
                     id="internal-notes"
@@ -364,9 +386,9 @@ export function ListingEditor({
                     onChange={e => update("internalNotes", e.target.value)}
                     rows={4}
                   />
-                </div>
+                </div>}
               </div>
-            </div>
+            </div>}
           </div>
         )}
 

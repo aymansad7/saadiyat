@@ -94,6 +94,8 @@ export interface MapMarkerData {
   saleableSqft?: number;
   saleableSqm?: number;
   bedrooms?: string;
+  buildingKey?: string;
+  unitTypeKey?: string;
   unitType?: string;
   model?: string;
   status?: string;
@@ -129,6 +131,22 @@ export interface MapMarkerData {
   dmtHref?: string;
   googleMapsHref?: string;
   markerColor?: string;
+}
+
+function scopeKeyPart(value: string | null | undefined): string | null {
+  const normalized = value?.trim().toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return normalized || null;
+}
+
+function mapMarkerScope(marker: Pick<MapMarkerData, "community" | "slPhase" | "buildingKey" | "unitTypeKey" | "unitType" | "bedrooms">) {
+  const parsedBedrooms = marker.bedrooms == null ? null : Number.parseInt(String(marker.bedrooms), 10);
+  return {
+    projectKey: marker.community,
+    phaseKey: marker.slPhase ?? null,
+    buildingKey: marker.buildingKey ?? null,
+    unitTypeKey: marker.unitTypeKey ?? null,
+    bedrooms: Number.isInteger(parsedBedrooms) ? parsedBedrooms : null,
+  };
 }
 
 export function getMapMarkerColor(marker: Pick<MapMarkerData, "community" | "availabilityStatus" | "listing" | "markerColor">) {
@@ -570,6 +588,8 @@ export function buildMarkers(): MapMarkerData[] {
       builtUpSqm,
       builtUpLabel: "BUA",
       bedrooms: hiddVilla?.bedrooms?.replace(/\.0$/, "") || undefined,
+      buildingKey: scopeKeyPart(`street-${hv.street}`) ?? undefined,
+      unitTypeKey: scopeKeyPart(hiddVilla?.villaType) ?? undefined,
       unitType: hiddVilla?.villaType || undefined,
       developer: "Hidd Al Saadiyat",
       villaKey: `hidd/${hv.villaNumber}/${hv.street}`,
@@ -635,6 +655,8 @@ export function buildMarkers(): MapMarkerData[] {
       saleableSqft: lv.saleable_area_sqm ? Math.round(lv.saleable_area_sqm * 10.7639 * 100) / 100 : undefined,
       saleableSqm: lv.saleable_area_sqm || undefined,
       bedrooms: lv.bedrooms || undefined,
+      buildingKey: scopeKeyPart(`cluster-${lv.cluster}`) ?? undefined,
+      unitTypeKey: scopeKeyPart(lv.unit_type) ?? undefined,
       unitType: lv.unit_type || undefined,
       model: lv.model || undefined,
       slPhase: lv.sl_phase || undefined,
@@ -698,33 +720,39 @@ export default function SaadiyatMap() {
   const hiddSensitiveFacts = trpc.hidd.sensitiveFacts.useQuery(undefined, {
     enabled: Boolean(user),
   });
-  const permissionScopes = useMemo(
-    () => Array.from(new Map(baseMarkerData.map(marker => {
-      const scope = { projectKey: marker.community, phaseKey: marker.slPhase ?? null };
-      return [propertyScopeKey(scope.projectKey, scope.phaseKey), scope];
-    })).values()),
-    [baseMarkerData],
-  );
+  const permissionScopes = useMemo(() => {
+    const overridesByKey = new Map((propertyOverrides.data ?? []).map(row => [row.villaKey, row]));
+    return Array.from(new Map(baseMarkerData.map(marker => {
+      const override = marker.villaKey ? overridesByKey.get(marker.villaKey) : undefined;
+      const scope = {
+        ...mapMarkerScope(marker),
+        buildingKey: override?.buildingKey ?? marker.buildingKey ?? null,
+        unitTypeKey: override?.unitTypeKey ?? marker.unitTypeKey ?? null,
+        bedrooms: override?.bedrooms ?? mapMarkerScope(marker).bedrooms,
+      };
+      return [propertyScopeKey(scope), scope];
+    })).values());
+  }, [baseMarkerData, propertyOverrides.data]);
   const projectPermissions = trpc.propertyAccess.permissions.useQuery(
     { scopes: permissionScopes },
     { enabled: Boolean(user) },
   );
   const permissionsByScope = useMemo(
-    () => new Map(projectPermissions.data?.map(item => [propertyScopeKey(item.projectKey, item.phaseKey), item.permissions]) ?? []),
+    () => new Map(projectPermissions.data?.map(item => [propertyScopeKey(item.scope), item.permissions]) ?? []),
     [projectPermissions.data],
   );
   const markerData = useMemo(() => {
     const overridesByKey = new Map((propertyOverrides.data ?? []).map(row => [row.villaKey, row]));
     const hiddSensitiveByKey = new Map((hiddSensitiveFacts.data ?? []).map(row => [row.villaKey, row]));
-    return baseMarkerData.filter(marker => {
-      if (user?.role === "admin" || user?.role === "master") return true;
-      return permissionsByScope.get(propertyScopeKey(marker.community, marker.slPhase))?.canAccess === true;
-    }).map(marker => {
+    return baseMarkerData.map(marker => {
       const override = marker.villaKey ? overridesByKey.get(marker.villaKey) : undefined;
       const overrideWithProtectedFields = override as (typeof override & {
         ownerName?: string | null;
         ownerPhone?: string | null;
         ownerEmail?: string | null;
+        buildingKey?: string | null;
+        unitTypeKey?: string | null;
+        bedrooms?: number | null;
       }) | undefined;
       const hiddSensitive = marker.villaKey ? hiddSensitiveByKey.get(marker.villaKey) : undefined;
       if (!override && !hiddSensitive) return marker;
@@ -742,17 +770,20 @@ export default function SaadiyatMap() {
         availabilityStatus: hasManualStatus
           ? (override?.status === "available" ? "available" : undefined)
           : marker.availabilityStatus,
-        owner: overrideWithProtectedFields?.ownerName ?? hiddSensitive?.ownerName ?? marker.owner,
-        phone: overrideWithProtectedFields?.ownerPhone ?? hiddSensitive?.ownerPhone ?? marker.phone,
-        ownerEmail: overrideWithProtectedFields?.ownerEmail ?? hiddSensitive?.ownerEmail ?? marker.ownerEmail,
-        tenant: hiddSensitive?.tenant ?? marker.tenant,
-        tenantPhone: hiddSensitive?.tenantPhone ?? marker.tenantPhone,
-        tenantEmail: hiddSensitive?.tenantEmail ?? marker.tenantEmail,
-        tenancyStart: hiddSensitive?.tenancyStart ?? marker.tenancyStart,
-        tenancyEnd: hiddSensitive?.tenancyEnd ?? marker.tenancyEnd,
-        tenancyContractReceived: hiddSensitive?.tenancyContractReceived ?? marker.tenancyContractReceived,
+        buildingKey: overrideWithProtectedFields?.buildingKey ?? marker.buildingKey,
+        unitTypeKey: overrideWithProtectedFields?.unitTypeKey ?? marker.unitTypeKey,
+        bedrooms: overrideWithProtectedFields?.bedrooms != null ? String(overrideWithProtectedFields.bedrooms) : marker.bedrooms,
+        owner: overrideWithProtectedFields?.ownerName ?? hiddSensitive?.ownerName,
+        phone: overrideWithProtectedFields?.ownerPhone ?? hiddSensitive?.ownerPhone,
+        ownerEmail: user?.role === "master" ? (overrideWithProtectedFields?.ownerEmail ?? hiddSensitive?.ownerEmail) : undefined,
+        tenant: user?.role === "master" ? hiddSensitive?.tenant : undefined,
+        tenantPhone: user?.role === "master" ? hiddSensitive?.tenantPhone : undefined,
+        tenantEmail: user?.role === "master" ? hiddSensitive?.tenantEmail : undefined,
+        tenancyStart: user?.role === "master" ? hiddSensitive?.tenancyStart : undefined,
+        tenancyEnd: user?.role === "master" ? hiddSensitive?.tenancyEnd : undefined,
+        tenancyContractReceived: user?.role === "master" ? hiddSensitive?.tenancyContractReceived : undefined,
       };
-    });
+    }).filter(marker => permissionsByScope.get(propertyScopeKey(mapMarkerScope(marker)))?.canAccess === true);
   }, [baseMarkerData, hiddSensitiveFacts.data, permissionsByScope, propertyOverrides.data, user?.role]);
 
   const smartSearchResults = useMemo(
@@ -819,27 +850,27 @@ export default function SaadiyatMap() {
   };
 
   const createInfoContent = useCallback((m: MapMarkerData) => {
-    const permissions = permissionsByScope.get(propertyScopeKey(m.community, m.slPhase));
-    const canViewOwnerName = user?.role === "admin" || user?.role === "master" || Boolean(permissions?.canViewOwnerName);
-    const canViewOwnerPhone = user?.role === "admin" || user?.role === "master" || Boolean(permissions?.canViewOwnerPhone);
-    const canViewOriginalPrice = user?.role === "admin" || user?.role === "master" ||
-      Boolean(permissions?.canViewOriginalPrice);
-    const canEdit = user?.role === "admin" || user?.role === "master" ||
-      Boolean(permissions?.canEditProperties);
+    const permissions = permissionsByScope.get(propertyScopeKey(mapMarkerScope(m)));
+    const canViewOwnerName = Boolean(permissions?.canViewOwnerName);
+    const canViewOwnerPhone = Boolean(permissions?.canViewOwnerPhone);
+    const canViewOwnerEmail = user?.role === "master";
+    const canViewOriginalPrice = Boolean(permissions?.canViewOriginalPrice);
+    const canEdit = Boolean(permissions?.canEditProperties);
     // Being authorised makes this control available; it does not reveal owner
     // data until the user deliberately activates the toggle.
     const showSensitiveDetails = showOwners;
     const fmt = (n: number) => new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(n);
     const communityLabel = COMMUNITY_CENTERS[m.community as keyof typeof COMMUNITY_CENTERS]?.label ?? m.community;
     
+    const escapeHtml = (value: string | number) => String(value).replace(/[&<>'"]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[char]!);
     let html = `<div style="font-family:system-ui;width:min(290px,calc(100vw - 90px));max-width:290px;max-height:min(430px,60vh);overflow:auto;padding:6px 4px 8px">`;
-    html += `<div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:4px">${communityLabel}</div>`;
-    html += `<div style="font-size:16px;font-weight:600;margin-bottom:8px">${m.label}</div>`;
+    html += `<div style="font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:4px">${escapeHtml(communityLabel)}</div>`;
+    html += `<div style="font-size:16px;font-weight:600;margin-bottom:8px">${escapeHtml(m.label)}</div>`;
 
     if (m.detailLines?.length) {
       html += `<div style="display:flex;flex-wrap:wrap;gap:4px;margin:-2px 0 7px">`;
       for (const line of m.detailLines) {
-        html += `<span style="font-size:10px;color:#6b625b;background:#f4f0eb;border-radius:999px;padding:2px 7px">${line}</span>`;
+        html += `<span style="font-size:10px;color:#6b625b;background:#f4f0eb;border-radius:999px;padding:2px 7px">${escapeHtml(line)}</span>`;
       }
       html += `</div>`;
     }
@@ -847,9 +878,9 @@ export default function SaadiyatMap() {
     if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone) && (m.owner || m.phone || m.ownerEmail)) {
       html += `<div style="margin:1px 0 8px;padding:8px;background:#eff6ff;border-radius:6px;border:1px solid #93c5fd">`;
       html += `<div style="font-size:10px;color:#1d4ed8;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Owner · Authorized View</div>`;
-      if (canViewOwnerName && m.owner) html += `<div style="font-size:14px;font-weight:700;margin-top:3px;color:#172554">${m.owner}</div>`;
-      if (canViewOwnerPhone && m.phone) html += `<div style="font-size:14px;font-weight:800;color:#1d4ed8;margin-top:2px;direction:ltr;text-align:left;word-break:break-all">${m.phone}</div>`;
-      if (canViewOwnerPhone && m.ownerEmail) html += `<div style="font-size:11px;color:#475569;margin-top:2px;overflow-wrap:anywhere">${m.ownerEmail}</div>`;
+      if (canViewOwnerName && m.owner) html += `<div style="font-size:14px;font-weight:700;margin-top:3px;color:#172554">${escapeHtml(m.owner)}</div>`;
+      if (canViewOwnerPhone && m.phone) html += `<div style="font-size:14px;font-weight:800;color:#1d4ed8;margin-top:2px;direction:ltr;text-align:left;word-break:break-all">${escapeHtml(m.phone)}</div>`;
+      if (canViewOwnerEmail && m.ownerEmail) html += `<div style="font-size:11px;color:#475569;margin-top:2px;overflow-wrap:anywhere">${escapeHtml(m.ownerEmail)}</div>`;
       html += `</div>`;
     } else if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone)) {
       html += `<div style="margin:1px 0 7px;font-size:11px;color:#999;font-style:italic">Owner info not yet added</div>`;
@@ -1298,6 +1329,10 @@ export default function SaadiyatMap() {
             onOpenChange={open => !open && setEditingMarker(null)}
             villaKey={editingMarker.villaKey}
             community={editingMarker.community}
+            phaseKey={mapMarkerScope(editingMarker).phaseKey}
+            buildingKey={mapMarkerScope(editingMarker).buildingKey}
+            unitTypeKey={mapMarkerScope(editingMarker).unitTypeKey}
+            bedrooms={mapMarkerScope(editingMarker).bedrooms}
             villaLabel={editingMarker.label}
           />
         )}

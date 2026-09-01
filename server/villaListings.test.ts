@@ -22,6 +22,9 @@ const userCtx = {
 const adminCtx = {
   user: { id: "a-1", role: "admin", name: "A", email: "a@a.test" },
 } as any;
+const masterCtx = {
+  user: { id: "m-1", role: "master", name: "M", email: "m@m.test" },
+} as any;
 
 beforeAll(async () => {
   const db = await getDb();
@@ -64,7 +67,7 @@ describe("villaListings router — public masking", () => {
   });
 });
 
-describe("villaListings router — admin upsert + masking", () => {
+describe("villaListings router — Master Admin upsert + masking", () => {
   it("rejects upsert for anonymous callers", async () => {
     const caller = appRouter.createCaller(anonCtx);
     await expect(
@@ -87,8 +90,8 @@ describe("villaListings router — admin upsert + masking", () => {
     ).rejects.toBeTruthy();
   });
 
-  it("admin can create + update a listing and audit row is written", { timeout: 30_000 }, async () => {
-    const admin = appRouter.createCaller(adminCtx);
+  it("Master Admin can create + update a listing and audit row is written", { timeout: 30_000 }, async () => {
+    const admin = appRouter.createCaller(masterCtx);
 
     // create
     const created = await admin.villaListings.upsert({
@@ -115,7 +118,7 @@ describe("villaListings router — admin upsert + masking", () => {
     expect(pubRow.ownerPhone).toBeUndefined();
     expect(pubRow.internalNotes).toBeUndefined();
 
-    // admin DOES see owner fields
+    // Master Admin does see owner fields
     const adminRow: any = await admin.villaListings.byKey({ villaKey: TEST_KEY });
     expect(adminRow.ownerName).toBe("Test Owner");
     expect(adminRow.internalNotes).toBe("Internal: very motivated");
@@ -166,8 +169,8 @@ describe("villaListings — Aldar villaKey shapes", () => {
     }
   });
 
-  it("accepts aldar-saadiyat and aldar-other villaKeys via admin upsert", async () => {
-    const caller = appRouter.createCaller(adminCtx);
+  it("accepts aldar-saadiyat and aldar-other villaKeys via Master Admin upsert", async () => {
+    const caller = appRouter.createCaller(masterCtx);
     for (const k of ALDAR_KEYS) {
       const row = await caller.villaListings.upsert({
         villaKey: k.villaKey,
@@ -226,7 +229,7 @@ describe("villaListings.adminList — price range + multi-field search", () => {
   });
 
   it("filters by priceMin/priceMax inclusive bounds", { timeout: 30_000 }, async () => {
-    const admin = appRouter.createCaller(adminCtx);
+    const admin = appRouter.createCaller(masterCtx);
     await admin.villaListings.upsert({
       villaKey: PRICE_KEY_LOW,
       community: PRICE_COMMUNITY,
@@ -273,7 +276,7 @@ describe("villaListings.adminList — price range + multi-field search", () => {
   });
 
   it("free-text q matches across villaKey, ownerName, and internalNotes", { timeout: 30_000 }, async () => {
-    const admin = appRouter.createCaller(adminCtx);
+    const admin = appRouter.createCaller(masterCtx);
 
     await admin.villaListings.upsert({
       villaKey: Q_KEY_A,

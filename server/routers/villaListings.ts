@@ -26,7 +26,7 @@ import { getPropertyScope, resolvePropertyPermissions } from "../../shared/prope
 import { appendActivityAudit } from "../activityAudit";
 import { getDb } from "../db";
 import { exportUnitRegisterWorkbook } from "../oneDrive";
-import { adminProcedure, protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 
 /** Anything that is not a "real" community slug we still allow — the UI is the
  * source of truth for which communities exist. We only validate shape. */
@@ -63,6 +63,9 @@ type PublicVillaListing = Pick<
   | "builtUpAreaSqm"
   | "availableForRent"
   | "rentPriceAed"
+  | "buildingKey"
+  | "unitTypeKey"
+  | "bedrooms"
   | "updatedAt"
 >;
 
@@ -79,23 +82,31 @@ function toPublic(row: VillaListing): PublicVillaListing {
     builtUpAreaSqm: row.builtUpAreaSqm,
     availableForRent: row.availableForRent,
     rentPriceAed: row.rentPriceAed,
+    buildingKey: row.buildingKey,
+    unitTypeKey: row.unitTypeKey,
+    bedrooms: row.bedrooms,
     updatedAt: row.updatedAt,
   };
 }
 
-function isAdmin(user: { role?: string | null } | null): boolean {
-  return user?.role === "admin" || user?.role === "master";
+function isMaster(user: { role?: string | null } | null): boolean {
+  return user?.role === "master";
 }
+
+const masterProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (!isMaster(ctx.user)) throw new TRPCError({ code: "FORBIDDEN", message: "Master Admin access required." });
+  return next();
+});
 
 async function resolveCallerPermissions(
   user: { role?: string | null; email?: string | null } | null | undefined,
-  community: string,
+  scope: ReturnType<typeof getPropertyScope>,
 ) {
   if (!user) return null;
   // Master/admin permissions are role-derived. Avoid one grants-table query per
   // listing row when the full Interactive Map loads every property override.
-  if (isAdmin(user)) {
-    return resolvePropertyPermissions(user.role, [], getPropertyScope(community));
+  if (isMaster(user)) {
+    return resolvePropertyPermissions(user.role, [], scope);
   }
   const db = await getDb();
   const grants = !db || !user.email
@@ -104,7 +115,16 @@ async function resolveCallerPermissions(
       .select()
       .from(propertyAccessGrants)
       .where(eq(propertyAccessGrants.email, user.email.toLowerCase()));
-  return resolvePropertyPermissions(user.role, grants, getPropertyScope(community));
+  return resolvePropertyPermissions(user.role, grants, scope);
+}
+
+function listingScope(row: Pick<VillaListing, "community" | "buildingKey" | "unitTypeKey" | "bedrooms">) {
+  return {
+    ...getPropertyScope(row.community),
+    buildingKey: row.buildingKey ?? null,
+    unitTypeKey: row.unitTypeKey ?? null,
+    bedrooms: row.bedrooms ?? null,
+  };
 }
 
 function toVisible(
@@ -136,6 +156,9 @@ const upsertInput = z.object({
   builtUpAreaSqm: z.number().nonnegative().max(10_000_000).nullable().optional(),
   availableForRent: z.boolean().nullable().optional(),
   rentPriceAed: z.number().int().nonnegative().max(10_000_000_000).nullable().optional(),
+  buildingKey: z.string().max(128).nullable().optional(),
+  unitTypeKey: z.string().max(128).nullable().optional(),
+  bedrooms: z.number().int().min(0).max(30).nullable().optional(),
   ownerName: z.string().max(255).nullable().optional(),
   ownerPhone: z.string().max(64).nullable().optional(),
   ownerEmail: z.string().max(320).nullable().optional(),
@@ -196,8 +219,8 @@ export const villaListingsRouter = router({
         .limit(1);
       const row = rows[0];
       if (!row) return null;
-      const permissions = await resolveCallerPermissions(ctx.user, row.community);
-      return toVisible(row, permissions, isAdmin(ctx.user));
+      const permissions = await resolveCallerPermissions(ctx.user, listingScope(row));
+      return toVisible(row, permissions, isMaster(ctx.user));
     }),
 
   /** Returns either an exact-community match or a prefix match (for SBV gates).
@@ -221,18 +244,9 @@ export const villaListingsRouter = router({
         .where(where.length ? and(...where) : undefined)
         .orderBy(asc(villaListings.villaKey));
       if (!ctx.user) return rows.map(toPublic);
-      const permissionsByCommunity = new Map<
-        string,
-        ReturnType<typeof resolveCallerPermissions>
-      >();
       return Promise.all(rows.map(async row => {
-        let permissionPromise = permissionsByCommunity.get(row.community);
-        if (!permissionPromise) {
-          permissionPromise = resolveCallerPermissions(ctx.user, row.community);
-          permissionsByCommunity.set(row.community, permissionPromise);
-        }
-        const permissions = await permissionPromise;
-        return toVisible(row, permissions, isAdmin(ctx.user));
+        const permissions = await resolveCallerPermissions(ctx.user, listingScope(row));
+        return toVisible(row, permissions, isMaster(ctx.user));
       }));
     }),
 
@@ -242,7 +256,7 @@ export const villaListingsRouter = router({
    *  - priceMin/priceMax (AED): inclusive bounds, applied only to non-null askingPriceAed
    *  - q: case-insensitive substring matched across `villaKey`, `ownerName`, and `internalNotes`
    */
-  adminList: adminProcedure
+  adminList: masterProcedure
     .input(
       z
         .object({
@@ -286,7 +300,7 @@ export const villaListingsRouter = router({
     }),
 
   /** Aggregate counts by status per community — for the admin dashboard. */
-  stats: adminProcedure.query(async () => {
+  stats: masterProcedure.query(async () => {
     const db = await getDb();
     if (!db) return [];
     return db
@@ -302,7 +316,19 @@ export const villaListingsRouter = router({
   upsert: protectedProcedure.input(upsertInput).mutation(async ({ input, ctx }) => {
     const db = await getDb();
     if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-    const permissions = await resolveCallerPermissions(ctx.user, input.community);
+    const before = await db
+      .select()
+      .from(villaListings)
+      .where(eq(villaListings.villaKey, input.villaKey))
+      .limit(1);
+    const beforeRow: VillaListing | null = before[0] ?? null;
+    const existingScope = beforeRow ? listingScope(beforeRow) : {
+      ...getPropertyScope(input.community),
+      buildingKey: input.buildingKey ?? null,
+      unitTypeKey: input.unitTypeKey ?? null,
+      bedrooms: input.bedrooms ?? null,
+    };
+    const permissions = await resolveCallerPermissions(ctx.user, existingScope);
     if (!permissions?.canEditProperties) {
       throw new TRPCError({ code: "FORBIDDEN", message: "You do not have edit access to this project." });
     }
@@ -310,20 +336,13 @@ export const villaListingsRouter = router({
     const writesOwnerPhone = "ownerPhone" in input;
     const writesOwnerEmail = "ownerEmail" in input;
     if (
-      !isAdmin(ctx.user) &&
+      !isMaster(ctx.user) &&
       ((writesOwnerName && !permissions.canViewOwnerName) ||
         (writesOwnerPhone && !permissions.canViewOwnerPhone) ||
         writesOwnerEmail)
     ) {
       throw new TRPCError({ code: "FORBIDDEN", message: "You do not have access to edit this owner contact field." });
     }
-    const before = await db
-      .select()
-      .from(villaListings)
-      .where(eq(villaListings.villaKey, input.villaKey))
-      .limit(1);
-    const beforeRow: VillaListing | null = before[0] ?? null;
-
     const updateSet: Partial<VillaListing> = {};
     for (const k of [
       "askingPriceAed",
@@ -334,6 +353,9 @@ export const villaListingsRouter = router({
       "builtUpAreaSqm",
       "availableForRent",
       "rentPriceAed",
+      "buildingKey",
+      "unitTypeKey",
+      "bedrooms",
       "ownerName",
       "ownerPhone",
       "ownerEmail",
@@ -342,6 +364,12 @@ export const villaListingsRouter = router({
       if (k in input) (updateSet as any)[k] = (input as any)[k] ?? null;
     }
     updateSet.updatedBy = ctx.user?.email ?? "admin";
+    const becomingAvailable = input.status === "available" && beforeRow?.status !== "available";
+    if (becomingAvailable && !beforeRow?.publishedAt) {
+      updateSet.publishedAt = new Date();
+      updateSet.publishedBy = ctx.user?.email ?? "admin";
+      updateSet.publishedByName = ctx.user?.name ?? null;
+    }
 
     if (beforeRow) {
       await db
@@ -427,7 +455,7 @@ export const villaListingsRouter = router({
     return after;
   }),
 
-  audit: adminProcedure
+  audit: masterProcedure
     .input(z.object({ villaKey: villaKeySchema, limit: z.number().int().min(1).max(200).default(50) }))
     .query(async ({ input }) => {
       const db = await getDb();

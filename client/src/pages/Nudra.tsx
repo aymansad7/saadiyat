@@ -10,6 +10,7 @@ import { trpc } from "@/lib/trpc";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 import { getInitialProjectViewMode } from "@/lib/viewMode";
 import { NUDRA_PAYMENT_PLAN_NOTE, NUDRA_SOURCE_LINKS, NUDRA_UNITS, type NudraUnit } from "@/data/nudra";
+import { propertyScopeKey } from "@shared/propertyAccess";
 
 function formatAed(value?: number) {
   return value ? `AED ${new Intl.NumberFormat("en-AE").format(value)}` : "—";
@@ -19,6 +20,22 @@ function categoryTone(category: string) {
   if (category.startsWith("Shores")) return "text-amber-700 border-amber-300 bg-amber-50";
   if (category.startsWith("Beach")) return "text-sky-700 border-sky-300 bg-sky-50";
   return "text-violet-700 border-violet-300 bg-violet-50";
+}
+
+function scopeKeyPart(value: string | null | undefined): string | null {
+  const normalized = value?.trim().toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return normalized || null;
+}
+
+function nudraScope(unit: NudraUnit) {
+  const bedrooms = unit.bedrooms == null ? null : Number.parseInt(String(unit.bedrooms), 10);
+  return {
+    projectKey: "nudra",
+    phaseKey: null,
+    buildingKey: null,
+    unitTypeKey: scopeKeyPart(unit.category),
+    bedrooms: Number.isInteger(bedrooms) ? bedrooms : null,
+  };
 }
 
 function UnitCard({ unit, listing, canViewOriginal }: { unit: NudraUnit; listing: any; canViewOriginal: boolean }) {
@@ -62,7 +79,7 @@ function UnitCard({ unit, listing, canViewOriginal }: { unit: NudraUnit; listing
       </div>
       <div className="p-4 pt-0 flex flex-wrap gap-2">
         <Link href={`/map?plot=nudra-${encodeURIComponent(unit.unitNumber)}`} className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-muted"><MapPin className="h-3.5 w-3.5" /> Map</Link>
-        <EditListingButton villaKey={unit.villaKey} community="nudra" villaLabel={`Nudra · ${unit.unitNumber}`} />
+        <EditListingButton villaKey={unit.villaKey} community="nudra" unitTypeKey={nudraScope(unit).unitTypeKey} bedrooms={nudraScope(unit).bedrooms} villaLabel={`Nudra · ${unit.unitNumber}`} />
       </div>
     </article>
   );
@@ -76,19 +93,31 @@ export default function Nudra() {
   const [areaMin, setAreaMin] = useState("");
   const [areaMax, setAreaMax] = useState("");
   const [viewMode, setViewMode] = useState<"cards" | "table">(getInitialProjectViewMode);
-  const isAdmin = user?.role === "admin" || user?.role === "master";
-  const permissions = trpc.propertyAccess.permissions.useQuery({ projects: ["nudra"] }, { enabled: Boolean(user) });
-  const canViewOriginal = isAdmin || permissions.data?.[0]?.permissions.canViewOriginalPrice === true;
+  const nudraScopes = useMemo(
+    () => Array.from(new Map(NUDRA_UNITS.map(unit => {
+      const scope = nudraScope(unit);
+      return [propertyScopeKey(scope), scope];
+    })).values()),
+    [],
+  );
+  const permissions = trpc.propertyAccess.permissions.useQuery({ scopes: nudraScopes }, { enabled: Boolean(user) });
+  const permissionsByScope = useMemo(
+    () => new Map(permissions.data?.map(item => [propertyScopeKey(item.scope), item.permissions]) ?? []),
+    [permissions.data],
+  );
   const listings = trpc.villaListings.listByCommunity.useQuery({});
   const listingByKey = useMemo(() => new Map((listings.data ?? []).filter((row) => row.community === "nudra").map((row) => [row.villaKey, row])), [listings.data]);
   const filtered = useMemo(() => NUDRA_UNITS.filter((unit) => {
+    if (!permissionsByScope.get(propertyScopeKey(nudraScope(unit)))?.canAccess) return false;
     const listing = listingByKey.get(unit.villaKey);
     const area = { sqm: listing?.landAreaSqm ?? unit.plotAreaSqm };
     if (!isWithinAreaRange(area, areaUnit, areaMin, areaMax)) return false;
     if (category !== "all" && !unit.category.startsWith(category)) return false;
     const q = search.trim().toLowerCase();
     return !q || unit.unitNumber.toLowerCase().includes(q) || unit.category.toLowerCase().includes(q) || matchesAreaQuery(q, area) || matchesAreaQuery(q, { sqm: unit.saleableAreaSqm });
-  }), [search, category, areaUnit, areaMin, areaMax, listingByKey]);
+  }), [search, category, areaUnit, areaMin, areaMax, listingByKey, permissionsByScope]);
+
+  const canViewAnyOriginal = filtered.some(unit => permissionsByScope.get(propertyScopeKey(nudraScope(unit)))?.canViewOriginalPrice === true);
 
   return <main className="container max-w-7xl py-8 sm:py-10">
     <header className="rounded-xl border border-border bg-card p-6 sm:p-8 shadow-sm">
@@ -103,6 +132,6 @@ export default function Nudra() {
       <p className="mt-3 text-xs text-muted-foreground">{filtered.length} of {NUDRA_UNITS.length} records · {NUDRA_PAYMENT_PLAN_NOTE}</p>
     </section>
 
-    {viewMode === "cards" ? <section className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">{filtered.map((unit) => <UnitCard key={unit.unitNumber} unit={unit} listing={listingByKey.get(unit.villaKey)} canViewOriginal={canViewOriginal} />)}</section> : <section className="mt-6 overflow-x-auto rounded-lg border border-border bg-card"><table className="w-full min-w-[980px] text-sm"><thead className="bg-muted/50 text-left text-[0.65rem] uppercase tracking-[0.16em] font-mono text-muted-foreground"><tr><th className="px-4 py-3">Unit</th><th className="px-4 py-3">Type</th><th className="px-4 py-3">Land</th><th className="px-4 py-3">Saleable</th>{canViewOriginal && <th className="px-4 py-3">Original 5Y / 7Y</th>}<th className="px-4 py-3">Latest transaction</th><th className="px-4 py-3">Actions</th></tr></thead><tbody className="divide-y divide-border">{filtered.map((unit) => { const listing = listingByKey.get(unit.villaKey); const latest = unit.transactions.at(-1); return <tr key={unit.unitNumber} className="hover:bg-muted/30"><td className="px-4 py-3 font-semibold">{unit.unitNumber}</td><td className="px-4 py-3 text-muted-foreground">{unit.category}</td><td className="px-4 py-3 font-mono">{formatArea({ sqm: listing?.landAreaSqm ?? unit.plotAreaSqm }, "sqm")}</td><td className="px-4 py-3 font-mono">{formatArea({ sqm: listing?.builtUpAreaSqm ?? unit.saleableAreaSqm }, "sqm")}</td>{canViewOriginal && <td className="px-4 py-3 font-mono text-xs">{unit.originalPriceFiveYearAed ? `${formatAed(unit.originalPriceFiveYearAed)} / ${formatAed(unit.originalPriceSevenYearAed)}` : "—"}</td>}<td className="px-4 py-3 font-mono text-xs">{latest ? `${latest.date} · ${formatAed(latest.priceAed)}` : "—"}</td><td className="px-4 py-3"><div className="flex gap-2"><Link href={`/map?plot=nudra-${encodeURIComponent(unit.unitNumber)}`} className="text-primary"><ExternalLink className="h-4 w-4" /></Link><EditListingButton villaKey={unit.villaKey} community="nudra" villaLabel={`Nudra · ${unit.unitNumber}`} /></div></td></tr>; })}</tbody></table></section>}
+    {viewMode === "cards" ? <section className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">{filtered.map((unit) => <UnitCard key={unit.unitNumber} unit={unit} listing={listingByKey.get(unit.villaKey)} canViewOriginal={permissionsByScope.get(propertyScopeKey(nudraScope(unit)))?.canViewOriginalPrice === true} />)}</section> : <section className="mt-6 overflow-x-auto rounded-lg border border-border bg-card"><table className="w-full min-w-[980px] text-sm"><thead className="bg-muted/50 text-left text-[0.65rem] uppercase tracking-[0.16em] font-mono text-muted-foreground"><tr><th className="px-4 py-3">Unit</th><th className="px-4 py-3">Type</th><th className="px-4 py-3">Land</th><th className="px-4 py-3">Saleable</th>{canViewAnyOriginal && <th className="px-4 py-3">Original 5Y / 7Y</th>}<th className="px-4 py-3">Latest transaction</th><th className="px-4 py-3">Actions</th></tr></thead><tbody className="divide-y divide-border">{filtered.map((unit) => { const listing = listingByKey.get(unit.villaKey); const latest = unit.transactions.at(-1); const canViewOriginal = permissionsByScope.get(propertyScopeKey(nudraScope(unit)))?.canViewOriginalPrice === true; return <tr key={unit.unitNumber} className="hover:bg-muted/30"><td className="px-4 py-3 font-semibold">{unit.unitNumber}</td><td className="px-4 py-3 text-muted-foreground">{unit.category}</td><td className="px-4 py-3 font-mono">{formatArea({ sqm: listing?.landAreaSqm ?? unit.plotAreaSqm }, "sqm")}</td><td className="px-4 py-3 font-mono">{formatArea({ sqm: listing?.builtUpAreaSqm ?? unit.saleableAreaSqm }, "sqm")}</td>{canViewAnyOriginal && <td className="px-4 py-3 font-mono text-xs">{canViewOriginal && unit.originalPriceFiveYearAed ? `${formatAed(unit.originalPriceFiveYearAed)} / ${formatAed(unit.originalPriceSevenYearAed)}` : "—"}</td>}<td className="px-4 py-3 font-mono text-xs">{latest ? `${latest.date} · ${formatAed(latest.priceAed)}` : "—"}</td><td className="px-4 py-3"><div className="flex gap-2"><Link href={`/map?plot=nudra-${encodeURIComponent(unit.unitNumber)}`} className="text-primary"><ExternalLink className="h-4 w-4" /></Link><EditListingButton villaKey={unit.villaKey} community="nudra" unitTypeKey={nudraScope(unit).unitTypeKey} bedrooms={nudraScope(unit).bedrooms} villaLabel={`Nudra · ${unit.unitNumber}`} /></div></td></tr>; })}</tbody></table></section>}
   </main>;
 }

@@ -55,6 +55,7 @@ export default function AdminOneDriveDocuments() {
   const [villaKey, setVillaKey] = useState("");
   const [community, setCommunity] = useState("");
   const [phaseKey, setPhaseKey] = useState("");
+  const [ownerId, setOwnerId] = useState("none");
   const [documentType, setDocumentType] = useState<DocumentType>("brochure");
   const [visibility, setVisibility] = useState<Visibility>("card_link");
   const [description, setDescription] = useState("");
@@ -64,6 +65,7 @@ export default function AdminOneDriveDocuments() {
   const isMaster = user?.role === "master";
   const status = trpc.oneDrive.status.useQuery(undefined, { enabled: isAuthenticated && Boolean(user) });
   const documents = trpc.oneDrive.list.useQuery({ q: query.trim() || undefined, limit: 200 }, { enabled: isAuthenticated && Boolean(user) });
+  const owners = trpc.propertyOwners.list.useQuery({ limit: 500 }, { enabled: isAuthenticated && Boolean(user) && user?.role === "master" });
   const initialise = trpc.oneDrive.initialise.useMutation({
     onSuccess: async () => {
       toast.success("OneDrive root folder verified.");
@@ -137,11 +139,16 @@ export default function AdminOneDriveDocuments() {
       toast.error("SPA, owner documents, and source files stay out of property cards.");
       return;
     }
+    if (documentType === "owner_document" && ownerId === "none") {
+      toast.error("Select the reviewed owner linked to this unit before uploading an owner document.");
+      return;
+    }
     const fileBase64 = await fileToBase64(selectedFile);
     upload.mutate({
       villaKey: villaKey.trim(),
       community: community.trim(),
       phaseKey: phaseKey.trim() || null,
+      ownerId: ownerId === "none" ? null : Number(ownerId),
       documentType,
       websiteVisibility: visibility,
       filename: selectedFile.name,
@@ -181,6 +188,7 @@ export default function AdminOneDriveDocuments() {
               <div className="space-y-2"><Label htmlFor="one-drive-unit">Unit / plot key</Label><Input id="one-drive-unit" placeholder="e.g. Lagoons/SL2/139-01" value={villaKey} onChange={e => setVillaKey(e.target.value)} /></div>
               <div className="space-y-2"><Label htmlFor="one-drive-community">Community key</Label><Input id="one-drive-community" placeholder="e.g. lagoons" value={community} onChange={e => setCommunity(e.target.value)} /></div>
               <div className="space-y-2"><Label htmlFor="one-drive-phase">Phase (optional)</Label><Input id="one-drive-phase" placeholder="e.g. SL2" value={phaseKey} onChange={e => setPhaseKey(e.target.value)} /></div>
+              <div className="space-y-2"><Label>Linked owner <span className="text-muted-foreground">(required for owner document)</span></Label><Select value={ownerId} onValueChange={setOwnerId}><SelectTrigger><SelectValue placeholder="No owner link" /></SelectTrigger><SelectContent><SelectItem value="none">No owner link</SelectItem>{(owners.data ?? []).map(owner => <SelectItem key={owner.id} value={String(owner.id)}>{owner.displayName}</SelectItem>)}</SelectContent></Select></div>
               <div className="space-y-2"><Label>Document type</Label><Select value={documentType} onValueChange={value => { const type = value as DocumentType; setDocumentType(type); if (!PUBLIC_CARD_TYPES.has(type)) setVisibility("master_admin"); }}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{DOCUMENT_TYPES.map(type => <SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>)}</SelectContent></Select></div>
               <div className="space-y-2"><Label>Website visibility</Label><Select value={visibility} onValueChange={value => setVisibility(value as Visibility)}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="master_admin">Master Admin only</SelectItem>{PUBLIC_CARD_TYPES.has(documentType) ? <SelectItem value="card_link">Show an individual link on the card</SelectItem> : null}</SelectContent></Select></div>
               <div className="space-y-2"><Label htmlFor="one-drive-file">OneDrive file</Label><Input id="one-drive-file" type="file" onChange={onFileChange} /></div>

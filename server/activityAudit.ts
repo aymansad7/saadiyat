@@ -12,7 +12,10 @@ export type ActivityEventInput = {
     | "document_create"
     | "document_update"
     | "document_remove"
-    | "onedrive_sync";
+    | "onedrive_sync"
+    | "owner_create"
+    | "owner_update"
+    | "owner_unit_link";
   actorEmail: string;
   actorName?: string | null;
   targetEmail?: string | null;

@@ -16,10 +16,11 @@ import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
 import { ResaleCard } from "@/components/ResaleCard";
 import { UnitTimeline } from "@/components/UnitTimeline";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { useProjectAccess } from "@/components/PropertyProjectGate";
+import { propertyScopeKey } from "@shared/propertyAccess";
 import {
   EditListingButton,
   ListingBadge,
+  ListingOwnerFacts,
   ListingPriceLabel,
   OneDriveCardLinks,
 } from "@/components/ListingControls";
@@ -108,11 +109,26 @@ export default function AldarUnit() {
     { enabled: Boolean(villaKey), staleTime: 60_000 },
   );
   const { user } = useAuth();
-  const isAdmin = user?.role === "admin" || user?.role === "master";
-  const { canViewOriginalPrice } = useProjectAccess();
+  const unitScope = ctx
+    ? {
+        projectKey: "aldar-saadiyat",
+        phaseKey: null,
+        buildingKey: ctx.building.slug,
+        unitTypeKey: ctx.unit.unit_model ?? ctx.unit.unit_type ?? ctx.unit.unit_category ?? null,
+        bedrooms: ctx.unit.bedrooms == null || !Number.isInteger(Number(ctx.unit.bedrooms)) ? null : Number(ctx.unit.bedrooms),
+      }
+    : { projectKey: "aldar-saadiyat", phaseKey: null, buildingKey: null, unitTypeKey: null, bedrooms: null };
+  const unitPermissions = trpc.propertyAccess.permissions.useQuery(
+    { scopes: [unitScope] },
+    { enabled: Boolean(user) && Boolean(ctx) },
+  );
+  const exactPermissions = unitPermissions.data?.find(item => propertyScopeKey(item.scope) === propertyScopeKey(unitScope))?.permissions;
+  const canAccess = exactPermissions?.canAccess === true;
+  const canViewOriginalPrice = exactPermissions?.canViewOriginalPrice === true;
 
   if (ctxLoading) return <div className="min-h-screen flex items-center justify-center"><div className="text-muted-foreground font-mono text-sm">Loading...</div></div>;
   if (!ctx) return <Redirect to={`/aldar-saadiyat/${params.project ?? ""}`} />;
+  if (!user || (!unitPermissions.isLoading && !canAccess)) return <Redirect to={`/aldar-saadiyat/${params.project ?? ""}`} />;
   const { project, building, unit } = ctx;
   const dn = buildingDisplayName(building.name);
   const plans = unit.payment_plans ? parsePaymentPlans(unit.payment_plans) : [];
@@ -234,15 +250,8 @@ export default function AldarUnit() {
                   {listing.publicNotes && (
                     <div className="text-sm text-foreground/80 max-w-2xl">{listing.publicNotes}</div>
                   )}
-                  {isAdmin && (listing.ownerName || listing.ownerPhone || listing.ownerEmail) && (
-                    <div className="mt-2 rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs space-y-0.5">
-                      <div className="font-mono uppercase tracking-wider text-amber-700 dark:text-amber-300">Owner (internal — admin only)</div>
-                      {listing.ownerName && <div>Name: <span className="font-medium">{listing.ownerName}</span></div>}
-                      {listing.ownerPhone && <div>Phone: <span className="font-medium">{listing.ownerPhone}</span></div>}
-                      {listing.ownerEmail && <div>Email: <span className="font-medium">{listing.ownerEmail}</span></div>}
-                    </div>
-                  )}
-                  {isAdmin && listing.internalNotes && (
+                  <ListingOwnerFacts listing={listing} />
+                  {user?.role === "master" && listing.internalNotes && (
                     <div className="mt-1 rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs">
                       <div className="font-mono uppercase tracking-wider text-amber-700 dark:text-amber-300 mb-1">Internal notes</div>
                       <div className="whitespace-pre-wrap">{listing.internalNotes}</div>
@@ -256,6 +265,9 @@ export default function AldarUnit() {
             <EditListingButton
               villaKey={villaKey}
               community="aldar-saadiyat"
+              buildingKey={building.slug}
+              unitTypeKey={unit.unit_model ?? unit.unit_type ?? unit.unit_category ?? null}
+              bedrooms={unit.bedrooms == null ? null : Number(unit.bedrooms)}
               villaLabel={`${project.name} · ${dn.primary} · ${unit.unit_name}`}
             />
           </div>

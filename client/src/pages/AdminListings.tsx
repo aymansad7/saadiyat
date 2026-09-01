@@ -115,7 +115,7 @@ export default function AdminListings() {
     return Number.isFinite(n) && n >= 0 ? n : undefined;
   }, [priceMaxStr]);
 
-  const stats = trpc.villaListings.stats.useQuery(undefined, { enabled: isAuthenticated });
+  const stats = trpc.villaListings.stats.useQuery(undefined, { enabled: isAuthenticated && user?.role === "master" });
   const profiles = trpc.villaListings.adminList.useQuery(
     {
       community: community === "all" ? undefined : community,
@@ -125,13 +125,13 @@ export default function AdminListings() {
       priceMax,
       limit: 500,
     },
-    { enabled: isAuthenticated },
+    { enabled: isAuthenticated && user?.role === "master" },
   );
   // A source-aware read model: managed Available profiles, Aldar, curated
   // brokers, and NAS records are included without being merged by price/area.
   const available = trpc.availability.results.useQuery(
     { source: "any" },
-    { enabled: isAuthenticated },
+    { enabled: isAuthenticated && user?.role === "master" },
   );
 
   const totalsByStatus = useMemo(() => {
@@ -203,7 +203,7 @@ export default function AdminListings() {
     );
   }
 
-  if (user?.role !== "admin" && user?.role !== "master") {
+  if (user?.role !== "master") {
     return (
       <div className="min-h-screen flex flex-col">
         <SiteHeader />
@@ -212,7 +212,7 @@ export default function AdminListings() {
             <CardContent className="p-8 text-center">
               <h1 className="text-xl font-semibold">Access denied</h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                Your account does not have admin permissions.
+                Listings include protected owner and publication data and are available to Master Admin only.
               </p>
             </CardContent>
           </Card>
@@ -238,7 +238,7 @@ export default function AdminListings() {
             </p>
           </div>
           <div className="rounded-lg bg-muted px-4 py-3 text-sm">
-            <div className="flex items-center justify-between gap-4"><div><div className="text-xs uppercase tracking-wide text-muted-foreground">Tracked profiles</div><div className="mt-1 text-2xl font-semibold tabular-nums">{Object.values(totalsByStatus).reduce((a, b) => a + b, 0)}</div></div><Link href="/admin/documents" className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-medium hover:bg-secondary"><FileText className="h-3.5 w-3.5" />OneDrive documents</Link></div>
+            <div className="flex items-center justify-between gap-4"><div><div className="text-xs uppercase tracking-wide text-muted-foreground">Tracked profiles</div><div className="mt-1 text-2xl font-semibold tabular-nums">{Object.values(totalsByStatus).reduce((a, b) => a + b, 0)}</div></div><div className="flex flex-wrap gap-2"><Link href="/admin/owners" className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-medium hover:bg-secondary"><ShieldCheck className="h-3.5 w-3.5" />Owners</Link><Link href="/admin/documents" className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1.5 text-xs font-medium hover:bg-secondary"><FileText className="h-3.5 w-3.5" />OneDrive documents</Link></div></div>
           </div>
         </section>
 

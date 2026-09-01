@@ -398,6 +398,15 @@ export const villaListings = mysqlTable(
     /** Free-form internal notes (deal history, motivation, prior offers). */
     internalNotes: text("internalNotes"),
 
+    /** Source-backed grouping fields used to narrow access grants. */
+    buildingKey: varchar("buildingKey", { length: 128 }),
+    unitTypeKey: varchar("unitTypeKey", { length: 128 }),
+    bedrooms: int("bedrooms"),
+    /** First time this operational profile was explicitly published as resale Available. */
+    publishedAt: timestamp("publishedAt"),
+    publishedBy: varchar("publishedBy", { length: 320 }),
+    publishedByName: varchar("publishedByName", { length: 255 }),
+
     /* ------------ audit-light fields ------------ */
     /** Email of last user who edited this listing. */
     updatedBy: varchar("updatedBy", { length: 320 }),
@@ -407,6 +416,8 @@ export const villaListings = mysqlTable(
   (t) => ({
     villaListingsCommunityIdx: index("villa_listings_community_idx").on(t.community),
     villaListingsStatusIdx: index("villa_listings_status_idx").on(t.status),
+    villaListingsBuildingIdx: index("villa_listings_building_idx").on(t.community, t.buildingKey),
+    villaListingsTypeIdx: index("villa_listings_type_idx").on(t.community, t.unitTypeKey),
   }),
 );
 export type VillaListing = typeof villaListings.$inferSelect;
@@ -439,6 +450,53 @@ export type VillaListingAuditRow = typeof villaListingAudit.$inferSelect;
 export type InsertVillaListingAudit = typeof villaListingAudit.$inferInsert;
 
 /**
+ * A protected owner contact record. It intentionally has no public endpoint;
+ * links to properties are stored separately so one owner can own many units.
+ */
+export const propertyOwners = mysqlTable(
+  "property_owners",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    displayName: varchar("displayName", { length: 255 }).notNull(),
+    phone: varchar("phone", { length: 64 }),
+    email: varchar("email", { length: 320 }),
+    internalNotes: text("internalNotes"),
+    sourceLabel: varchar("sourceLabel", { length: 255 }),
+    createdBy: varchar("createdBy", { length: 320 }).notNull(),
+    createdByName: varchar("createdByName", { length: 255 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    ownerNameIdx: index("propertyOwners_name_idx").on(t.displayName),
+  }),
+);
+export type PropertyOwner = typeof propertyOwners.$inferSelect;
+
+/** Exact, reviewed association between an owner and a canonical unit identity. */
+export const propertyOwnerUnits = mysqlTable(
+  "property_owner_units",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    ownerId: int("ownerId").notNull(),
+    villaKey: varchar("villaKey", { length: 128 }).notNull(),
+    community: varchar("community", { length: 128 }).notNull(),
+    relationship: mysqlEnum("relationship", ["owner", "co_owner", "representative"]).default("owner").notNull(),
+    sourceLabel: varchar("sourceLabel", { length: 255 }),
+    linkedBy: varchar("linkedBy", { length: 320 }).notNull(),
+    linkedByName: varchar("linkedByName", { length: 255 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    ownerUnitUnique: uniqueIndex("propertyOwnerUnits_owner_unit_unique").on(t.ownerId, t.villaKey),
+    ownerUnitVillaIdx: index("propertyOwnerUnits_villa_idx").on(t.villaKey, t.community),
+    ownerUnitOwnerIdx: index("propertyOwnerUnits_owner_idx").on(t.ownerId),
+  }),
+);
+export type PropertyOwnerUnit = typeof propertyOwnerUnits.$inferSelect;
+
+/**
  * Master-managed, field-aware property visibility grants. A grant applies to
  * either an area (`areaKey`) or a specific project (`projectKey`). Both must
  * never be blank; enforcement happens in the application so it can derive a
@@ -456,10 +514,17 @@ export const propertyAccessGrants = mysqlTable(
     projectKey: varchar("projectKey", { length: 128 }),
     /** Optional source-backed phase key; valid only with a project grant. */
     phaseKey: varchar("phaseKey", { length: 64 }),
+    /** Optional source-backed building key; valid only with a project grant. */
+    buildingKey: varchar("buildingKey", { length: 128 }),
+    /** Optional unit type/model key; valid only with a project grant. */
+    unitTypeKey: varchar("unitTypeKey", { length: 128 }),
+    /** Optional bedroom count that narrows a project grant. */
+    bedrooms: int("bedrooms"),
     /** Field visibility — false by default for sensitive data. */
     canViewOriginalPrice: boolean("canViewOriginalPrice").default(false).notNull(),
     canViewOwnerName: boolean("canViewOwnerName").default(false).notNull(),
     canViewOwnerPhone: boolean("canViewOwnerPhone").default(false).notNull(),
+    canViewOwnerDocuments: boolean("canViewOwnerDocuments").default(false).notNull(),
     /** A delegated editor may update property profile fields within this scope. */
     canEditProperties: boolean("canEditProperties").default(false).notNull(),
     createdBy: varchar("createdBy", { length: 320 }).notNull(),
@@ -471,6 +536,8 @@ export const propertyAccessGrants = mysqlTable(
     grantAreaIdx: index("property_access_grants_area_idx").on(t.areaKey),
     grantProjectIdx: index("property_access_grants_project_idx").on(t.projectKey),
     grantPhaseIdx: index("property_access_grants_phase_idx").on(t.projectKey, t.phaseKey),
+    grantBuildingIdx: index("property_access_grants_building_idx").on(t.projectKey, t.buildingKey),
+    grantTypeIdx: index("property_access_grants_type_idx").on(t.projectKey, t.unitTypeKey),
   }),
 );
 export type PropertyAccessGrant = typeof propertyAccessGrants.$inferSelect;
@@ -520,6 +587,8 @@ export const unitDocuments = mysqlTable(
   {
     id: int("id").autoincrement().primaryKey(),
     villaKey: varchar("villaKey", { length: 128 }).notNull(),
+    /** Optional owner relation; present only for reviewed protected owner files. */
+    ownerId: int("ownerId"),
     community: varchar("community", { length: 128 }).notNull(),
     phaseKey: varchar("phaseKey", { length: 64 }),
     documentType: mysqlEnum("documentType", [
@@ -621,6 +690,9 @@ export const activityAudit = mysqlTable(
       "document_update",
       "document_remove",
       "onedrive_sync",
+      "owner_create",
+      "owner_update",
+      "owner_unit_link",
     ]).notNull(),
     actorEmail: varchar("actorEmail", { length: 320 }).notNull(),
     actorName: varchar("actorName", { length: 255 }),

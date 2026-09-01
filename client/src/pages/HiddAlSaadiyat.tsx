@@ -12,6 +12,7 @@ import { EditListingButton, InteractiveMapLink } from "@/components/ListingContr
 import { trpc } from "@/lib/trpc";
 import { getInitialProjectViewMode } from "@/lib/viewMode";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, sqftToSqm, type AreaUnit } from "@/lib/areaSearch";
+import { propertyScopeKey } from "@shared/propertyAccess";
 
 interface HiddVilla {
   villaNumber?: string;
@@ -85,21 +86,37 @@ function villaAreas(villa: HiddVilla) {
   };
 }
 
+function scopeKeyPart(value: string | undefined): string | null {
+  const normalized = value?.trim().toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return normalized || null;
+}
+
+function hiddScope(villa: HiddVilla) {
+  const bedrooms = Number.parseInt(villa.bedrooms ?? "", 10);
+  return {
+    projectKey: "hidd",
+    phaseKey: null,
+    buildingKey: scopeKeyPart(`street-${villa.street ?? ""}`),
+    unitTypeKey: scopeKeyPart(villa.villaType),
+    bedrooms: Number.isInteger(bedrooms) ? bedrooms : null,
+  };
+}
+
 function VillaCard({
   villa,
-  isAdmin,
-  canViewOwnerName,
-  canViewOwnerPhone,
+  permissions,
+  isMaster,
   areaUnit,
 }: {
   villa: HiddVilla;
-  isAdmin: boolean;
-  canViewOwnerName: boolean;
-  canViewOwnerPhone: boolean;
+  permissions?: { canViewOwnerName: boolean; canViewOwnerPhone: boolean; canEditProperties: boolean };
+  isMaster: boolean;
   areaUnit: AreaUnit;
 }) {
   const [expanded, setExpanded] = useState(false);
   const areas = villaAreas(villa);
+  const canViewOwnerName = permissions?.canViewOwnerName === true;
+  const canViewOwnerPhone = permissions?.canViewOwnerPhone === true;
 
   return (
     <Card id={`villa-${villa.villaNumber ?? "unknown"}-${villa.street ?? "unknown"}`} className="hover:shadow-md transition-shadow scroll-mt-28">
@@ -143,37 +160,37 @@ function VillaCard({
             <DetailRow label="DLP Expiry" value={villa.dlpExpiry} />
           </div>
 
-          {/* Owner Info - Admin Only */}
+          {/* Owner facts are supplied by the server only for this exact unit scope. */}
           {(canViewOwnerName || canViewOwnerPhone) && (villa.owner1Name || villa.owner1Mobile) && (
             <div>
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">Owner</p>
               {canViewOwnerName && <DetailRow label="Owner 1" value={villa.owner1Name} />}
-              {isAdmin && <DetailRow label="Email" value={villa.owner1Email} />}
+              {isMaster && <DetailRow label="Email" value={villa.owner1Email} />}
               {canViewOwnerPhone && <DetailRow label="Mobile" value={villa.owner1Mobile} />}
               {canViewOwnerName && villa.owner2Name && (
                 <>
                   <DetailRow label="Owner 2" value={villa.owner2Name} />
                   <DetailRow label="Relationship" value={villa.owner2Relationship} />
-                  {isAdmin && <DetailRow label="Email" value={villa.owner2Email} />}
+                  {isMaster && <DetailRow label="Email" value={villa.owner2Email} />}
                   {canViewOwnerPhone && <DetailRow label="Mobile" value={villa.owner2Mobile} />}
                 </>
               )}
               {canViewOwnerName && villa.ownerRepName && (
                 <>
                   <DetailRow label="Representative" value={villa.ownerRepName} />
-                  {isAdmin && <DetailRow label="Rep Email" value={villa.ownerRepEmail} />}
+                  {isMaster && <DetailRow label="Rep Email" value={villa.ownerRepEmail} />}
                   {canViewOwnerPhone && <DetailRow label="Rep Mobile" value={villa.ownerRepMobile} />}
                 </>
               )}
-              {isAdmin && <DetailRow label="HIDD Card" value={villa.hiddCard} />}
-              {isAdmin && <DetailRow label="Plate #" value={villa.plateNumber} />}
-              {isAdmin && <DetailRow label="Vehicle" value={villa.vehicleType} />}
-              {isAdmin && <DetailRow label="Access Cards" value={villa.registeredAccessCards} />}
+              {isMaster && <DetailRow label="HIDD Card" value={villa.hiddCard} />}
+              {isMaster && <DetailRow label="Plate #" value={villa.plateNumber} />}
+              {isMaster && <DetailRow label="Vehicle" value={villa.vehicleType} />}
+              {isMaster && <DetailRow label="Access Cards" value={villa.registeredAccessCards} />}
             </div>
           )}
 
-          {/* Tenant Info - Admin Only */}
-          {isAdmin && villa.tenantName && (
+          {/* Tenant facts are Master Admin only. */}
+          {isMaster && villa.tenantName && (
             <div>
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">Tenant</p>
               <DetailRow label="Name" value={villa.tenantName} />
@@ -197,6 +214,9 @@ function VillaCard({
           <EditListingButton
             villaKey={`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`}
             community="hidd"
+            buildingKey={hiddScope(villa).buildingKey}
+            unitTypeKey={hiddScope(villa).unitTypeKey}
+            bedrooms={hiddScope(villa).bedrooms}
             villaLabel={`Hidd · Villa ${villa.villaNumber ?? "—"}`}
           />
         </div>
@@ -207,14 +227,22 @@ function VillaCard({
 
 export default function HiddAlSaadiyat() {
   const { user } = useAuth();
-  const isAdmin = user?.role === "admin" || user?.role === "master";
+  const isMaster = user?.role === "master";
+  const hiddScopes = useMemo(
+    () => Array.from(new Map(villas.map(villa => {
+      const scope = hiddScope(villa);
+      return [propertyScopeKey(scope), scope];
+    })).values()),
+    [],
+  );
   const permissions = trpc.propertyAccess.permissions.useQuery(
-    { projects: ["hidd"] },
+    { scopes: hiddScopes },
     { enabled: Boolean(user) },
   );
-  const hiddPermissions = permissions.data?.[0]?.permissions;
-  const canViewOwnerName = isAdmin || hiddPermissions?.canViewOwnerName === true;
-  const canViewOwnerPhone = isAdmin || hiddPermissions?.canViewOwnerPhone === true;
+  const permissionsByScope = useMemo(
+    () => new Map(permissions.data?.map(item => [propertyScopeKey(item.scope), item.permissions]) ?? []),
+    [permissions.data],
+  );
   const sensitiveFacts = trpc.hidd.sensitiveFacts.useQuery(undefined, { enabled: Boolean(user) });
   const [search, setSearch] = useState("");
   const [zoneFilter, setZoneFilter] = useState("");
@@ -225,7 +253,7 @@ export default function HiddAlSaadiyat() {
 
   const enrichedVillas = useMemo(() => {
     const factsByKey = new Map((sensitiveFacts.data ?? []).map(fact => [fact.villaKey, fact]));
-    return villas.map(villa => ({
+    return villas.filter(villa => permissionsByScope.get(propertyScopeKey(hiddScope(villa)))?.canAccess === true).map(villa => ({
       ...villa,
       ...factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`),
       owner1Name: factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`)?.ownerName,
@@ -236,7 +264,7 @@ export default function HiddAlSaadiyat() {
       tenantMobile: factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`)?.tenantPhone,
       tenantEmail: factsByKey.get(`hidd/${villa.villaNumber ?? "unknown"}/${villa.street ?? "unknown"}`)?.tenantEmail,
     }));
-  }, [sensitiveFacts.data]);
+  }, [permissionsByScope, sensitiveFacts.data]);
 
   const zones = useMemo(() => {
     const s = new Set<string>();
@@ -265,13 +293,15 @@ export default function HiddAlSaadiyat() {
           v.admPlotNumber?.toLowerCase().includes(q) ||
           v.plotNumberAlJaber?.toLowerCase().includes(q) ||
           v.zone?.toLowerCase().includes(q) ||
-          (isAdmin && v.owner1Name?.toLowerCase().includes(q)) ||
-          (isAdmin && v.tenantName?.toLowerCase().includes(q));
+          v.owner1Name?.toLowerCase().includes(q) ||
+          v.tenantName?.toLowerCase().includes(q);
         }
       );
     }
     return list;
-  }, [search, zoneFilter, isAdmin, areaUnit, areaMin, areaMax, enrichedVillas]);
+  }, [search, zoneFilter, areaUnit, areaMin, areaMax, enrichedVillas]);
+
+  const hasOwnerNames = enrichedVillas.some(villa => Boolean(villa.owner1Name));
 
   return (
     <div className="container py-8 max-w-6xl">
@@ -311,8 +341,7 @@ export default function HiddAlSaadiyat() {
 
       {/* Results count */}
       <p className="text-xs text-muted-foreground mb-4">
-        Showing {filtered.length} of {enrichedVillas.length} villas
-        {!isAdmin && " (owner/tenant details visible to admin only)"}
+        Showing {filtered.length} of {enrichedVillas.length} permitted villas
       </p>
 
       {/* Villa Results */}
@@ -320,12 +349,12 @@ export default function HiddAlSaadiyat() {
         <div className="rounded-lg border border-border bg-card overflow-x-auto">
           <table className="w-full min-w-[900px] text-sm">
             <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
-              <tr><th className="px-4 py-3">Villa</th><th className="px-4 py-3">Street</th><th className="px-4 py-3">Zone</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">BUA</th>{canViewOwnerName && <th className="px-4 py-3">Owner</th>}</tr>
+              <tr><th className="px-4 py-3">Villa</th><th className="px-4 py-3">Street</th><th className="px-4 py-3">Zone</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">BUA</th>{hasOwnerNames && <th className="px-4 py-3">Owner</th>}</tr>
             </thead>
             <tbody className="divide-y divide-border">
               {filtered.map((villa, i) => {
                 const areas = villaAreas(villa);
-                return <tr key={`${villa.zone}-${villa.villaNumber}-${i}`} className="hover:bg-accent/30"><td className="px-4 py-3 font-semibold">{villa.villaNumber ?? "—"}</td><td className="px-4 py-3">{villa.street ?? "—"}</td><td className="px-4 py-3">{villa.zone ?? "—"}</td><td className="px-4 py-3">{villa.bedrooms ?? "—"}</td><td className="px-4 py-3 font-mono">{formatArea(areas.plot, areaUnit)}</td><td className="px-4 py-3 font-mono">{formatArea(areas.bua, areaUnit)}</td>{canViewOwnerName && <td className="px-4 py-3">{villa.owner1Name ?? "—"}</td>}</tr>;
+                return <tr key={`${villa.zone}-${villa.villaNumber}-${i}`} className="hover:bg-accent/30"><td className="px-4 py-3 font-semibold">{villa.villaNumber ?? "—"}</td><td className="px-4 py-3">{villa.street ?? "—"}</td><td className="px-4 py-3">{villa.zone ?? "—"}</td><td className="px-4 py-3">{villa.bedrooms ?? "—"}</td><td className="px-4 py-3 font-mono">{formatArea(areas.plot, areaUnit)}</td><td className="px-4 py-3 font-mono">{formatArea(areas.bua, areaUnit)}</td>{hasOwnerNames && <td className="px-4 py-3">{villa.owner1Name ?? "—"}</td>}</tr>;
               })}
             </tbody>
           </table>
@@ -333,7 +362,7 @@ export default function HiddAlSaadiyat() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((villa, i) => (
-            <VillaCard key={`${villa.zone}-${villa.villaNumber}-${i}`} villa={villa} isAdmin={isAdmin} canViewOwnerName={canViewOwnerName} canViewOwnerPhone={canViewOwnerPhone} areaUnit={areaUnit} />
+            <VillaCard key={`${villa.zone}-${villa.villaNumber}-${i}`} villa={villa} permissions={permissionsByScope.get(propertyScopeKey(hiddScope(villa)))} isMaster={isMaster} areaUnit={areaUnit} />
           ))}
         </div>
       )}

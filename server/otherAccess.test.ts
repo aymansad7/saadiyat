@@ -1,8 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  canAccessOtherProjects,
-  OTHER_PROJECTS_ALLOWED_ADMINS,
-} from "../shared/otherAccess";
+import { canAccessOtherProjects } from "../shared/otherAccess";
 
 describe("canAccessOtherProjects", () => {
   it("allows any master regardless of email", () => {
@@ -13,16 +10,10 @@ describe("canAccessOtherProjects", () => {
     expect(canAccessOtherProjects("master", "random@example.com")).toBe(true);
   });
 
-  it("allows the explicitly allowlisted admin (Hamzeh)", () => {
-    expect(canAccessOtherProjects("admin", "hamzeh@nasluxury.com")).toBe(true);
-  });
-
-  it("is case-insensitive and trims the allowlisted admin email", () => {
-    expect(canAccessOtherProjects("admin", "HAMZEH@NASLUXURY.COM")).toBe(true);
-    expect(canAccessOtherProjects("admin", "  hamzeh@nasluxury.com  ")).toBe(true);
-  });
-
-  it("blocks every other admin", () => {
+  it("blocks every Admin, including a previously allowlisted address", () => {
+    expect(canAccessOtherProjects("admin", "hamzeh@nasluxury.com")).toBe(false);
+    expect(canAccessOtherProjects("admin", "HAMZEH@NASLUXURY.COM")).toBe(false);
+    expect(canAccessOtherProjects("admin", "  hamzeh@nasluxury.com  ")).toBe(false);
     expect(canAccessOtherProjects("admin", "someone@nasluxury.com")).toBe(false);
     expect(canAccessOtherProjects("admin", "ayman@nasluxury.com")).toBe(false);
     expect(canAccessOtherProjects("admin", null)).toBe(false);
@@ -34,9 +25,5 @@ describe("canAccessOtherProjects", () => {
     expect(canAccessOtherProjects(null, "hamzeh@nasluxury.com")).toBe(false);
     expect(canAccessOtherProjects(undefined, "hamzeh@nasluxury.com")).toBe(false);
     expect(canAccessOtherProjects("", "hamzeh@nasluxury.com")).toBe(false);
-  });
-
-  it("keeps the allowlist limited to Hamzeh only (no scope creep)", () => {
-    expect(OTHER_PROJECTS_ALLOWED_ADMINS).toEqual(["hamzeh@nasluxury.com"]);
   });
 });

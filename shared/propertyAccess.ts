@@ -2,15 +2,22 @@ export type PropertyScope = {
   areaKey: string;
   projectKey: string;
   phaseKey?: string | null;
+  buildingKey?: string | null;
+  unitTypeKey?: string | null;
+  bedrooms?: number | null;
 };
 
 export type GrantLike = {
   areaKey: string | null;
   projectKey: string | null;
   phaseKey?: string | null;
+  buildingKey?: string | null;
+  unitTypeKey?: string | null;
+  bedrooms?: number | null;
   canViewOriginalPrice: boolean;
   canViewOwnerName: boolean;
   canViewOwnerPhone: boolean;
+  canViewOwnerDocuments?: boolean;
   canEditProperties: boolean;
 };
 
@@ -19,6 +26,7 @@ export type PropertyPermissions = {
   canViewOriginalPrice: boolean;
   canViewOwnerName: boolean;
   canViewOwnerPhone: boolean;
+  canViewOwnerDocuments: boolean;
   canEditProperties: boolean;
 };
 
@@ -84,8 +92,30 @@ export const PROPERTY_PHASE_OPTIONS = [
   { value: "saadiyat-reserve::PHASE-3", projectKey: "saadiyat-reserve", phaseKey: "PHASE-3", label: "Saadiyat Reserve · Phase 3 · Dunes" },
 ] as const;
 
-export function propertyScopeKey(projectKey: string, phaseKey?: string | null) {
-  return `${projectKey}::${phaseKey ?? ""}`;
+/**
+ * A stable client key for an exact access scope. Keeping all narrowing fields
+ * in the key prevents a permission granted for one building, type, or bedroom
+ * count from being reused by another property in the same project or phase.
+ */
+export function propertyScopeKey(scope: Pick<PropertyScope, "projectKey" | "phaseKey" | "buildingKey" | "unitTypeKey" | "bedrooms">): string;
+export function propertyScopeKey(projectKey: string, phaseKey?: string | null, buildingKey?: string | null, unitTypeKey?: string | null, bedrooms?: number | null): string;
+export function propertyScopeKey(
+  scopeOrProject: Pick<PropertyScope, "projectKey" | "phaseKey" | "buildingKey" | "unitTypeKey" | "bedrooms"> | string,
+  phaseKey?: string | null,
+  buildingKey?: string | null,
+  unitTypeKey?: string | null,
+  bedrooms?: number | null,
+) {
+  const scope = typeof scopeOrProject === "string"
+    ? { projectKey: scopeOrProject, phaseKey, buildingKey, unitTypeKey, bedrooms }
+    : scopeOrProject;
+  return [
+    scope.projectKey,
+    scope.phaseKey ?? "",
+    scope.buildingKey ?? "",
+    scope.unitTypeKey ?? "",
+    scope.bedrooms ?? "",
+  ].join("::");
 }
 
 /** Turns a canonical community/project key into the scope used by grants. */
@@ -117,11 +147,21 @@ export function getPropertyScope(projectKey: string): PropertyScope {
   return { areaKey: "other", projectKey };
 }
 
-export function grantAppliesToScope(grant: Pick<GrantLike, "areaKey" | "projectKey" | "phaseKey">, scope: PropertyScope) {
+export function grantAppliesToScope(
+  grant: Pick<GrantLike, "areaKey" | "projectKey" | "phaseKey" | "buildingKey" | "unitTypeKey" | "bedrooms">,
+  scope: PropertyScope,
+) {
   if (grant.phaseKey) {
-    return grant.projectKey === scope.projectKey && grant.phaseKey === scope.phaseKey;
+    if (grant.projectKey !== scope.projectKey || grant.phaseKey !== scope.phaseKey) return false;
+  } else if (!(grant.projectKey === scope.projectKey || (!grant.projectKey && grant.areaKey === scope.areaKey))) {
+    return false;
   }
-  return grant.projectKey === scope.projectKey || (!grant.projectKey && grant.areaKey === scope.areaKey);
+  // Every extra constraint makes a grant narrower. Missing source metadata must
+  // never accidentally satisfy a building/type/bedroom-specific grant.
+  if (grant.buildingKey && grant.buildingKey !== scope.buildingKey) return false;
+  if (grant.unitTypeKey && grant.unitTypeKey !== scope.unitTypeKey) return false;
+  if (grant.bedrooms != null && grant.bedrooms !== scope.bedrooms) return false;
+  return true;
 }
 
 export function resolvePropertyPermissions(
@@ -129,14 +169,15 @@ export function resolvePropertyPermissions(
   grants: GrantLike[],
   scope: PropertyScope,
 ): PropertyPermissions {
-  // Preserve the established admin/master operational model. Grants let a
-  // Master selectively delegate visibility and editing to standard users.
-  if (role === "master" || role === "admin") {
+  // Master Admin alone has universal operational visibility. Every other
+  // account, including role=admin, must satisfy an explicit, scoped grant.
+  if (role === "master") {
     return {
       canAccess: true,
       canViewOriginalPrice: true,
       canViewOwnerName: true,
       canViewOwnerPhone: true,
+      canViewOwnerDocuments: true,
       canEditProperties: true,
     };
   }
@@ -147,6 +188,7 @@ export function resolvePropertyPermissions(
     canViewOriginalPrice: applicable.some(grant => grant.canViewOriginalPrice),
     canViewOwnerName: applicable.some(grant => grant.canViewOwnerName),
     canViewOwnerPhone: applicable.some(grant => grant.canViewOwnerPhone),
+    canViewOwnerDocuments: applicable.some(grant => Boolean(grant.canViewOwnerDocuments)),
     canEditProperties: applicable.some(grant => grant.canEditProperties),
   };
 }

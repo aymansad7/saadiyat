@@ -20,6 +20,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import {
   EditListingButton,
   ListingBadge,
+  ListingOwnerFacts,
   ListingPriceLabel,
 } from "@/components/ListingControls";
 
@@ -45,7 +46,6 @@ function Inner() {
     { enabled: Boolean(villaKey), staleTime: 60_000 },
   );
   const { user } = useAuth();
-  const isAdmin = user?.role === "admin" || user?.role === "master";
   const listing = listingQuery.data as
     | {
         askingPriceAed: number | null;
@@ -201,15 +201,8 @@ function Inner() {
                   {listing.publicNotes && (
                     <div className="text-sm text-foreground/80 max-w-2xl">{listing.publicNotes}</div>
                   )}
-                  {isAdmin && (listing.ownerName || listing.ownerPhone || listing.ownerEmail) && (
-                    <div className="mt-2 rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs space-y-0.5">
-                      <div className="font-mono uppercase tracking-wider text-amber-700 dark:text-amber-300">Owner (internal — admin only)</div>
-                      {listing.ownerName && <div>Name: <span className="font-medium">{listing.ownerName}</span></div>}
-                      {listing.ownerPhone && <div>Phone: <span className="font-medium">{listing.ownerPhone}</span></div>}
-                      {listing.ownerEmail && <div>Email: <span className="font-medium">{listing.ownerEmail}</span></div>}
-                    </div>
-                  )}
-                  {isAdmin && listing.internalNotes && (
+                  <ListingOwnerFacts listing={listing} />
+                  {user?.role === "master" && listing.internalNotes && (
                     <div className="mt-1 rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs">
                       <div className="font-mono uppercase tracking-wider text-amber-700 dark:text-amber-300 mb-1">Internal notes</div>
                       <div className="whitespace-pre-wrap">{listing.internalNotes}</div>

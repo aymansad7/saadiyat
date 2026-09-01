@@ -29,7 +29,6 @@ export function PropertyProjectGate({ projectKey, children }: { projectKey: stri
     { enabled: Boolean(user) },
   );
   const canAccess =
-    user?.role === "admin" ||
     user?.role === "master" ||
     permission.data?.[0]?.permissions.canAccess === true;
 
@@ -38,7 +37,7 @@ export function PropertyProjectGate({ projectKey, children }: { projectKey: stri
   }
   if (canAccess) {
     const grant = permission.data?.[0]?.permissions;
-    const isPrivileged = user?.role === "admin" || user?.role === "master";
+    const isPrivileged = user?.role === "master";
     return (
       <ProjectAccessContext.Provider value={{
         canViewOriginalPrice: isPrivileged || grant?.canViewOriginalPrice === true,

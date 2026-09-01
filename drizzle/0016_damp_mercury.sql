@@ -1,0 +1,1 @@
+ALTER TABLE `activity_audit` MODIFY COLUMN `eventType` enum('sign_in','property_edit','access_grant_create','access_grant_update','access_grant_delete','access_role_update','document_create','document_update','document_remove','onedrive_sync','owner_create','owner_update','owner_unit_link') NOT NULL;

@@ -108,7 +108,11 @@ export default function AdminAccess() {
   const [canViewOriginalPrice, setCanViewOriginalPrice] = useState(false);
   const [canViewOwnerName, setCanViewOwnerName] = useState(false);
   const [canViewOwnerPhone, setCanViewOwnerPhone] = useState(false);
+  const [canViewOwnerDocuments, setCanViewOwnerDocuments] = useState(false);
   const [canEditProperties, setCanEditProperties] = useState(false);
+  const [grantBuildingKey, setGrantBuildingKey] = useState("");
+  const [grantUnitTypeKey, setGrantUnitTypeKey] = useState("");
+  const [grantBedrooms, setGrantBedrooms] = useState("");
 
   const onAdd = async (e: FormEvent) => {
     e.preventDefault();
@@ -165,11 +169,20 @@ export default function AdminAccess() {
   const onCreateGrant = async (event: FormEvent) => {
     event.preventDefault();
     if (!grantEmail.includes("@") || selectedScopeKeys.length === 0) return;
+    const narrowing = scopeType === "area" ? {} : {
+      buildingKey: grantBuildingKey.trim() || null,
+      unitTypeKey: grantUnitTypeKey.trim() || null,
+      bedrooms: grantBedrooms.trim() ? Number(grantBedrooms) : null,
+    };
+    if (narrowing.bedrooms != null && (!Number.isInteger(narrowing.bedrooms) || narrowing.bedrooms < 0 || narrowing.bedrooms > 30)) {
+      toast.error("Bedrooms must be a whole number from 0 to 30.");
+      return;
+    }
     const scopes = selectedScopeKeys.map(value => {
       if (scopeType === "area") return { areaKey: value, projectKey: null, phaseKey: null };
-      if (scopeType === "project") return { areaKey: null, projectKey: value, phaseKey: null };
+      if (scopeType === "project") return { areaKey: null, projectKey: value, phaseKey: null, ...narrowing };
       const phase = PROPERTY_PHASE_OPTIONS.find(option => option.value === value);
-      return { areaKey: null, projectKey: phase?.projectKey ?? null, phaseKey: phase?.phaseKey ?? null };
+      return { areaKey: null, projectKey: phase?.projectKey ?? null, phaseKey: phase?.phaseKey ?? null, ...narrowing };
     });
     if (scopes.some(scope => !scope.areaKey && !scope.projectKey)) return;
     try {
@@ -179,6 +192,7 @@ export default function AdminAccess() {
         canViewOriginalPrice,
         canViewOwnerName,
         canViewOwnerPhone,
+        canViewOwnerDocuments,
         canEditProperties,
       });
       toast.success(`${result.created.length} property grant${result.created.length === 1 ? "" : "s"} added${result.skipped.length ? ` · ${result.skipped.length} already existed` : ""}`);
@@ -186,7 +200,11 @@ export default function AdminAccess() {
       setCanViewOriginalPrice(false);
       setCanViewOwnerName(false);
       setCanViewOwnerPhone(false);
+      setCanViewOwnerDocuments(false);
       setCanEditProperties(false);
+      setGrantBuildingKey("");
+      setGrantUnitTypeKey("");
+      setGrantBedrooms("");
     } catch (err: any) {
       toast.error(err?.message || "Could not create property access grant");
     }
@@ -376,11 +394,20 @@ export default function AdminAccess() {
                     })}
                   </div>
                 </div>
+                {scopeType !== "area" && (
+                  <div className="grid grid-cols-1 gap-3 rounded-md border border-border bg-secondary/10 p-3 sm:grid-cols-3">
+                    <div><label className="mb-1 block text-xs font-medium">Building key <span className="font-normal text-muted-foreground">optional</span></label><Input value={grantBuildingKey} onChange={event => setGrantBuildingKey(event.target.value)} placeholder="e.g. R17" /></div>
+                    <div><label className="mb-1 block text-xs font-medium">Unit type <span className="font-normal text-muted-foreground">optional</span></label><Input value={grantUnitTypeKey} onChange={event => setGrantUnitTypeKey(event.target.value)} placeholder="e.g. 2BHK" /></div>
+                    <div><label className="mb-1 block text-xs font-medium">Bedrooms <span className="font-normal text-muted-foreground">optional</span></label><Input inputMode="numeric" value={grantBedrooms} onChange={event => setGrantBedrooms(event.target.value)} placeholder="e.g. 2" /></div>
+                    <p className="sm:col-span-3 text-xs leading-5 text-muted-foreground">Any field you set narrows every selected project/phase grant. A unit without matching source metadata will remain hidden.</p>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-sm">
                   {[
                     [canViewOriginalPrice, setCanViewOriginalPrice, "View original price", Eye],
                     [canViewOwnerName, setCanViewOwnerName, "View owner name", UserIcon],
                     [canViewOwnerPhone, setCanViewOwnerPhone, "View owner mobile", Phone],
+                    [canViewOwnerDocuments, setCanViewOwnerDocuments, "View owner files", FilePenLine],
                     [canEditProperties, setCanEditProperties, "Edit property data", FilePenLine],
                   ].map(([checked, setChecked, label, Icon]) => {
                     const PermissionIcon = Icon as typeof Eye;
@@ -424,9 +451,13 @@ export default function AdminAccess() {
                             <span className="inline-flex items-center gap-1"><MapPin className="h-3 w-3" /> {grant.areaKey ?? "Project-only"}</span>
                             {grant.projectKey && <span className="inline-flex items-center gap-1"><Building2 className="h-3 w-3" /> {grant.projectKey}</span>}
                             {grant.phaseKey && <span className="inline-flex items-center gap-1"><Layers className="h-3 w-3" /> {grant.phaseKey}</span>}
+                            {grant.buildingKey && <span className="inline-flex items-center gap-1"><Building2 className="h-3 w-3" /> Building {grant.buildingKey}</span>}
+                            {grant.unitTypeKey && <span>Type {grant.unitTypeKey}</span>}
+                            {grant.bedrooms != null && <span>{grant.bedrooms} bedrooms</span>}
                             {grant.canViewOriginalPrice && <span>Original price</span>}
                             {grant.canViewOwnerName && <span>Owner name</span>}
                             {grant.canViewOwnerPhone && <span>Owner mobile</span>}
+                            {grant.canViewOwnerDocuments && <span>Owner files</span>}
                             {grant.canEditProperties && <span>Edit</span>}
                           </div>
                         </div>

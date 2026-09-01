@@ -5,6 +5,7 @@ import {
   oneDriveConnections,
   oneDriveSyncEvents,
   propertyAccessGrants,
+  propertyOwnerUnits,
   unitDocuments,
   villaListings,
   type UnitDocument,
@@ -36,6 +37,12 @@ function isSensitive(type: UnitDocument["documentType"]) {
   return type === "spa" || type === "owner_document" || type === "source_file";
 }
 
+function isOwnerFile(type: UnitDocument["documentType"]) {
+  // A delegated owner-document grant never carries an SPA. SPAs and source
+  // records remain Master-only even for an otherwise authorised project user.
+  return type === "owner_document";
+}
+
 function toSafeCardDocument(row: UnitDocument) {
   return {
     id: row.id,
@@ -48,14 +55,28 @@ function toSafeCardDocument(row: UnitDocument) {
   };
 }
 
-async function canAccessCommunity(user: { role?: string | null; email?: string | null } | null | undefined, community: string) {
-  if (!user) return false;
-  if (user.role === "admin" || user.role === "master") return true;
-  if (!user.email) return false;
+async function getExactDocumentPermissions(
+  user: { role?: string | null; email?: string | null } | null | undefined,
+  input: { villaKey: string; community: string },
+) {
+  if (!user) return null;
   const db = await getDb();
-  if (!db) return false;
-  const grants = await db.select().from(propertyAccessGrants).where(eq(propertyAccessGrants.email, user.email.toLowerCase()));
-  return resolvePropertyPermissions(user.role, grants, getPropertyScope(community)).canAccess;
+  if (!db) return null;
+  const listing = (await db.select().from(villaListings).where(and(
+    eq(villaListings.villaKey, input.villaKey),
+    eq(villaListings.community, input.community),
+  )).limit(1))[0] ?? null;
+  const base = getPropertyScope(input.community);
+  const scope = {
+    ...base,
+    buildingKey: listing?.buildingKey ?? null,
+    unitTypeKey: listing?.unitTypeKey ?? null,
+    bedrooms: listing?.bedrooms ?? null,
+  };
+  const grants = !user.email
+    ? []
+    : await db.select().from(propertyAccessGrants).where(eq(propertyAccessGrants.email, user.email.toLowerCase()));
+  return resolvePropertyPermissions(user.role, grants, scope);
 }
 
 async function recordEvent(input: {
@@ -129,7 +150,8 @@ export const oneDriveRouter = router({
   forVilla: protectedProcedure
     .input(z.object({ villaKey: villaKeySchema, community: communitySchema }))
     .query(async ({ input, ctx }) => {
-      if (!(await canAccessCommunity(ctx.user, input.community))) {
+      const permissions = await getExactDocumentPermissions(ctx.user, input);
+      if (!permissions?.canAccess) {
         throw new TRPCError({ code: "FORBIDDEN", message: "You do not have access to this project." });
       }
       const db = await getDb();
@@ -140,10 +162,10 @@ export const oneDriveRouter = router({
         isNull(unitDocuments.removedAt),
       )).orderBy(desc(unitDocuments.updatedAt));
       const isMaster = ctx.user?.role === "master";
-      return rows.filter(row => isMaster || !isSensitive(row.documentType)).map(row => ({
+      return rows.filter(row => isMaster || !isSensitive(row.documentType) || (isOwnerFile(row.documentType) && permissions.canViewOwnerDocuments)).map(row => ({
         ...row,
-        shareUrl: isMaster || !isSensitive(row.documentType) ? row.shareUrl : null,
-        webUrl: isMaster || !isSensitive(row.documentType) ? row.webUrl : null,
+        shareUrl: isMaster || !isSensitive(row.documentType) || (isOwnerFile(row.documentType) && permissions.canViewOwnerDocuments) ? row.shareUrl : null,
+        webUrl: isMaster || !isSensitive(row.documentType) || (isOwnerFile(row.documentType) && permissions.canViewOwnerDocuments) ? row.webUrl : null,
       }));
     }),
 
@@ -193,6 +215,7 @@ export const oneDriveRouter = router({
       villaKey: villaKeySchema,
       community: communitySchema,
       phaseKey: z.string().max(64).nullable().optional(),
+      ownerId: z.number().int().positive().nullable().optional(),
       documentType: documentTypeSchema,
       websiteVisibility: visibilitySchema.default("master_admin"),
       filename: z.string().min(1).max(255),
@@ -206,6 +229,14 @@ export const oneDriveRouter = router({
       }
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      if (input.ownerId != null) {
+        const relation = (await db.select().from(propertyOwnerUnits).where(and(
+          eq(propertyOwnerUnits.ownerId, input.ownerId),
+          eq(propertyOwnerUnits.villaKey, input.villaKey),
+          eq(propertyOwnerUnits.community, input.community),
+        )).limit(1))[0];
+        if (!relation) throw new TRPCError({ code: "BAD_REQUEST", message: "Owner files require an existing, reviewed owner-to-unit relationship." });
+      }
       const encoded = input.fileBase64.replace(/^data:[^;]+;base64,/, "");
       const bytes = Buffer.from(encoded, "base64");
       if (!bytes.length || bytes.length > 25 * 1024 * 1024) {
@@ -218,6 +249,7 @@ export const oneDriveRouter = router({
       const shareUrl = await createOneDriveViewLink({ driveId: configured.drive.id, itemId: item.id });
       await db.insert(unitDocuments).values({
         villaKey: input.villaKey,
+        ownerId: input.ownerId ?? null,
         community: input.community,
         phaseKey: input.phaseKey ?? null,
         documentType: input.documentType,
@@ -241,6 +273,7 @@ export const oneDriveRouter = router({
           mimeType: item.file?.mimeType || input.mimeType,
           sizeBytes: item.size ?? bytes.length,
           description: input.description ?? null,
+          ownerId: input.ownerId ?? null,
           parentItemId: folderId,
           webUrl: item.webUrl ?? null,
           shareUrl,

@@ -845,3 +845,17 @@
 - [x] Deferred by user on 30 Aug 2026 — do not open or inspect the company’s authenticated DARI/Madhmoun data source until explicitly resumed
 - [x] Deferred by user on 30 Aug 2026 — no source URL, export, field mapping, cadence, or portal data was collected
 - [x] Deferred by user on 30 Aug 2026 — do not configure the weekly monitor from public Property Finder or Bayut pages
+
+### Grove Heart Two-Bedroom Plus Maid Correction (Aug 30, 2026)
+- [x] Re-extract only Grove Heart records carrying the explicit 2BHK+M source classification, grouped by building, without including Grove Louvre units; neither current Aldar source contains such a Grove Heart record
+
+### Unified Units, Owners, Files, Availability and Granular Access (Aug 30, 2026)
+- [x] Audit all current unit records, cards, map markers, owner fields, availability sources, document registers, and project/phase grants before migration
+- [x] Define a canonical unit identity and separate ownership, listing/publication, source availability, owner-file, and audit fields without inferring any owner-to-unit association
+- [x] Build a Master Admin ownership workspace that links owner records and authorized owner files to the exact villa, apartment, plot, or developer unit and records publisher identity and published-at date
+- [x] Make Master Admin owner information available consistently in permitted cards and map panels for every supported community, while keeping it absent for unauthorised API and UI responses
+- [x] Extend access grants to support explicit community, building, unit type/bedroom category, and existing phase scopes, plus independent view/edit/owner/document rights
+- [x] Restrict unrestricted owner and owner-document visibility to Master Admin; require explicit scoped grants for standard Admin and User accounts
+- [x] Support a documented transition to Available for Resale from the unified unit record, preserving developer/broker provenance and audit history
+- [x] Add tests for multi-community identity, owner-file privacy, precise building/type permissions, master visibility, publication actors/dates, source separation, and map/card/list consistency
+- [ ] Migrate any remaining legacy source cards that lack canonical building/type/bedroom metadata before granting non-Master access to those records; retain Master-only access rather than infer a scope

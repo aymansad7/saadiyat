@@ -46,8 +46,10 @@ describe("New Lagoons and Noya owner workbook", () => {
     );
     expect(mapSource).toContain("handleMapReady(mapRef.current)");
     expect(mapSource).toContain("clustererRef.current?.clearMarkers()");
-    expect(mapSource).toContain("owner: overrideWithProtectedFields?.ownerName ?? hiddSensitive?.ownerName ?? marker.owner");
-    expect(mapSource).toContain("phone: overrideWithProtectedFields?.ownerPhone ?? hiddSensitive?.ownerPhone ?? marker.phone");
+    expect(mapSource).toContain("owner: overrideWithProtectedFields?.ownerName ?? hiddSensitive?.ownerName");
+    expect(mapSource).toContain("phone: overrideWithProtectedFields?.ownerPhone ?? hiddSensitive?.ownerPhone");
+    expect(mapSource).not.toContain("hiddSensitive?.ownerName ?? marker.owner");
+    expect(mapSource).not.toContain("hiddSensitive?.ownerPhone ?? marker.phone");
   });
 
   it("returns a real imported Lagoons owner name and phone to Master but not to public callers", { timeout: 30_000 }, async () => {

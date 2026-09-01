@@ -53,6 +53,21 @@ function joined(...values: unknown[]): string | undefined {
   return result || undefined;
 }
 
+function scopeKeyPart(value: unknown): string | null {
+  const normalized = text(value)?.toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return normalized || null;
+}
+
+function hiddScope(row: HiddRawVilla) {
+  const bedrooms = Number.parseInt(text(row.bedrooms) ?? "", 10);
+  return {
+    ...getPropertyScope("hidd"),
+    buildingKey: scopeKeyPart(`street-${text(row.street) ?? ""}`),
+    unitTypeKey: scopeKeyPart(row.villaType),
+    bedrooms: Number.isInteger(bedrooms) ? bedrooms : null,
+  };
+}
+
 /**
  * Maps the protected columns from the Hidd source file only after the caller's
  * project/field permissions are resolved. The browser never receives this raw
@@ -60,7 +75,7 @@ function joined(...values: unknown[]): string | undefined {
  */
 export async function getHiddSensitiveFacts(user: { role?: string | null; email?: string | null } | null | undefined) {
   if (!user) return [] as HiddSensitiveFact[];
-  const isAdmin = user.role === "admin" || user.role === "master";
+  const isMaster = user.role === "master";
   const db = await getDb();
   const grants = !db || !user.email
     ? []
@@ -68,28 +83,27 @@ export async function getHiddSensitiveFacts(user: { role?: string | null; email?
       .select()
       .from(propertyAccessGrants)
       .where(eq(propertyAccessGrants.email, user.email.toLowerCase()));
-  const permissions = resolvePropertyPermissions(user.role, grants, getPropertyScope("hidd"));
-  if (!permissions.canAccess || (!permissions.canViewOwnerName && !permissions.canViewOwnerPhone && !isAdmin)) {
-    return [] as HiddSensitiveFact[];
-  }
-
   return rawVillas.flatMap(row => {
     const villaKey = hiddVillaKey(row);
     if (!villaKey) return [];
+    const permissions = resolvePropertyPermissions(user.role, grants, hiddScope(row));
+    if (!permissions.canAccess || (!permissions.canViewOwnerName && !permissions.canViewOwnerPhone && !isMaster)) {
+      return [];
+    }
     const fact: HiddSensitiveFact = { villaKey };
 
-    if (permissions.canViewOwnerName || isAdmin) {
+    if (permissions.canViewOwnerName || isMaster) {
       fact.ownerName = joined(row.owner1Name, row.owner2Name);
       fact.owner2Relationship = text(row.owner2Relationship);
       fact.ownerRepName = text(row.ownerRepName);
     }
-    if (permissions.canViewOwnerPhone || isAdmin) {
+    if (permissions.canViewOwnerPhone || isMaster) {
       fact.ownerPhone = joined(row.owner1Mobile, row.owner2Mobile);
       fact.ownerRepMobile = text(row.ownerRepMobile);
     }
-    // Email, tenant, vehicle, access-card, and tenancy details retain the
-    // existing master/admin-only policy.
-    if (isAdmin) {
+    // Email, tenant, vehicle, access-card, and tenancy details are Master
+    // Admin only. Delegated users can receive only explicit name/phone grants.
+    if (isMaster) {
       fact.ownerEmail = joined(row.owner1Email, row.owner2Email);
       fact.ownerRepEmail = text(row.ownerRepEmail);
       fact.hiddCard = text(row.hiddCard);

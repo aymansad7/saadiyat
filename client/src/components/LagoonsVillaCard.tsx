@@ -35,6 +35,11 @@ function formatAed(value: number) {
   return new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(value);
 }
 
+function scopeKeyPart(value: string | null | undefined): string | null {
+  const normalized = value?.trim().toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return normalized || null;
+}
+
 export function lagoonsVillaKey(v: LagoonsVilla) {
   return `lagoons/${v.unit_name}`;
 }
@@ -65,12 +70,14 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
   const { user } = useAuth();
   const [, navigate] = useLocation();
   const phaseKey = lagoonsVillaCoords.find(item => item.unit_name === villa.unit_name)?.sl_phase ?? null;
+  const buildingKey = scopeKeyPart(`cluster-${villa.cluster}`);
+  const unitTypeKey = scopeKeyPart(villa.aldar_data?.unit_type ?? villa.variant);
+  const bedrooms = villa.bedrooms == null ? null : Number.parseInt(String(villa.bedrooms), 10);
   const permissions = trpc.propertyAccess.permissions.useQuery(
-    { scopes: [{ projectKey: "lagoons", phaseKey }] },
+    { scopes: [{ projectKey: "lagoons", phaseKey, buildingKey, unitTypeKey, bedrooms: Number.isInteger(bedrooms) ? bedrooms : null }] },
     { enabled: Boolean(user) },
   );
   const canViewOriginalPrice =
-    user?.role === "admin" ||
     user?.role === "master" ||
     permissions.data?.[0]?.permissions.canViewOriginalPrice === true;
   const badge = positionBadge(villa);
@@ -244,6 +251,9 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
               villaKey={lagoonsVillaKey(villa)}
               community="lagoons"
               phaseKey={phaseKey}
+              buildingKey={buildingKey}
+              unitTypeKey={unitTypeKey}
+              bedrooms={Number.isInteger(bedrooms) ? bedrooms : null}
               villaLabel={`${villa.cluster_label} · ${villa.short_name}`}
             />
           </div>

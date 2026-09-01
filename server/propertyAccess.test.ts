@@ -10,6 +10,7 @@ import { getDb } from "./db";
 import { appRouter } from "./routers";
 
 const EMAIL = "delegated-property-editor@test.local";
+const NARROW_EMAIL = "narrow-property-viewer@test.local";
 const VILLA_KEY = "permissions-test/Plot-1";
 const COMMUNITY = "permissions-test";
 
@@ -27,6 +28,7 @@ async function cleanup() {
   const db = await getDb();
   if (!db) return;
   await db.delete(propertyAccessGrants).where(eq(propertyAccessGrants.email, EMAIL));
+  await db.delete(propertyAccessGrants).where(eq(propertyAccessGrants.email, NARROW_EMAIL));
   await db.delete(villaListingAudit).where(eq(villaListingAudit.villaKey, VILLA_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, VILLA_KEY));
   await db.delete(activityAudit).where(
@@ -107,6 +109,50 @@ describe("Master Admin property grants", () => {
     });
     expect(permissions[1]?.permissions.canAccess).toBe(false);
     expect(permissions[2]?.permissions.canEditProperties).toBe(true);
+  });
+
+  it("limits a delegated owner-file grant to the exact project, building, unit type, and bedroom count", async () => {
+    const master = appRouter.createCaller(masterCtx);
+    await master.propertyAccess.grants.createMany({
+      email: NARROW_EMAIL,
+      scopes: [{ areaKey: null, projectKey: "hidd", phaseKey: null, buildingKey: "B-17", unitTypeKey: "2BHK", bedrooms: 2 }],
+      canViewOriginalPrice: false,
+      canViewOwnerName: true,
+      canViewOwnerPhone: false,
+      canViewOwnerDocuments: true,
+      canEditProperties: false,
+    });
+    const narrowCaller = appRouter.createCaller({ user: { id: 904, role: "user", name: "Narrow Viewer", email: NARROW_EMAIL } } as any);
+    const permissions = await narrowCaller.propertyAccess.permissions({
+      scopes: [
+        { projectKey: "hidd", phaseKey: null, buildingKey: "B-17", unitTypeKey: "2BHK", bedrooms: 2 },
+        { projectKey: "hidd", phaseKey: null, buildingKey: "B-18", unitTypeKey: "2BHK", bedrooms: 2 },
+        { projectKey: "hidd", phaseKey: null, buildingKey: "B-17", unitTypeKey: "3BHK", bedrooms: 3 },
+      ],
+    });
+    expect(permissions[0]?.permissions).toMatchObject({ canAccess: true, canViewOwnerName: true, canViewOwnerDocuments: true });
+    expect(permissions[1]?.permissions.canAccess).toBe(false);
+    expect(permissions[2]?.permissions.canAccess).toBe(false);
+  });
+
+  it("keeps unrestricted owner data and the Listings workspace exclusive to Master Admin", async () => {
+    const master = appRouter.createCaller(masterCtx);
+    await master.villaListings.upsert({
+      villaKey: VILLA_KEY,
+      community: COMMUNITY,
+      status: "draft",
+      ownerName: "Master Only Owner",
+      ownerPhone: "+971500000001",
+    });
+
+    const adminView: any = await appRouter.createCaller(adminCtx).villaListings.byKey({ villaKey: VILLA_KEY });
+    expect(adminView.ownerName).toBeUndefined();
+    expect(adminView.ownerPhone).toBeUndefined();
+    await expect(appRouter.createCaller(adminCtx).villaListings.adminList({ limit: 10 })).rejects.toBeTruthy();
+
+    const masterView: any = await master.villaListings.byKey({ villaKey: VILLA_KEY });
+    expect(masterView.ownerName).toBe("Master Only Owner");
+    expect(masterView.ownerPhone).toBe("+971500000001");
   });
 
   it("persists delegated edits including areas and rent, and appends activity history", async () => {

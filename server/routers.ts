@@ -14,6 +14,7 @@ import { magicRouter } from "./routers/magic";
 import { oneDriveRouter } from "./routers/oneDrive";
 import { publicResaleRouter } from "./routers/publicResale";
 import { propertyAccessRouter } from "./routers/propertyAccess";
+import { propertyOwnersRouter } from "./routers/propertyOwners";
 import { resaleRouter } from "./routers/resale";
 import { unitSearchRouter } from "./routers/unitSearch";
 import { villaListingsRouter } from "./routers/villaListings";
@@ -45,6 +46,7 @@ export const appRouter = router({
   magic: magicRouter,
   villaListings: villaListingsRouter,
   propertyAccess: propertyAccessRouter,
+  propertyOwners: propertyOwnersRouter,
   files: filesRouter,
   gate: gateRouter,
   hidd: hiddRouter,

@@ -19,6 +19,7 @@ import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@
 import { actionableCount, statusBucket } from "@/data/aldar";
 import type { StatusBreakdown } from "@/data/aldar";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { fmtAed, shortUnitNumber } from "@/data/aldar/format";
@@ -34,8 +35,21 @@ import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "
 import FayaTransactionTimeline from "@/components/FayaTransactionTimeline";
 import { getFayaTransactions } from "@/data/fayaTransactions";
 import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
+import { propertyScopeKey } from "@shared/propertyAccess";
+
+function aldarUnitScope(buildingKey: string, unit: any) {
+  const bedrooms = unit.bedrooms == null ? null : Number(unit.bedrooms);
+  return {
+    projectKey: "aldar-saadiyat",
+    phaseKey: null,
+    buildingKey,
+    unitTypeKey: unit.unit_model ?? unit.unit_type ?? unit.unit_category ?? null,
+    bedrooms: Number.isInteger(bedrooms) ? bedrooms : null,
+  };
+}
 
 export default function AldarBuilding() {
+  const { user } = useAuth();
   const { project: projectSlug, building: buildingSlug } = useParams<{
     project: string;
     building: string;
@@ -55,6 +69,21 @@ export default function AldarBuilding() {
   const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
 
   const allUnits = ctx?.building.units ?? [];
+  const unitScopes = useMemo(
+    () => Array.from(new Map(allUnits.map((unit: any) => {
+      const scope = aldarUnitScope(buildingSlug ?? "", unit);
+      return [propertyScopeKey(scope), scope];
+    })).values()),
+    [allUnits, buildingSlug],
+  );
+  const unitPermissions = trpc.propertyAccess.permissions.useQuery(
+    { scopes: unitScopes.length ? unitScopes : [{ projectKey: "aldar-saadiyat", phaseKey: null }] },
+    { enabled: Boolean(user) && unitScopes.length > 0 },
+  );
+  const permissionsByScope = useMemo(
+    () => new Map(unitPermissions.data?.map(item => [propertyScopeKey(item.scope), item.permissions]) ?? []),
+    [unitPermissions.data],
+  );
 
   const bedroomOptions = useMemo(() => {
     const set = new Set<string>();
@@ -65,7 +94,9 @@ export default function AldarBuilding() {
   }, [allUnits]);
 
   const units = useMemo(() => {
-    let list = allUnits.slice();
+    let list = allUnits.filter((unit: any) =>
+      permissionsByScope.get(propertyScopeKey(aldarUnitScope(buildingSlug ?? "", unit)))?.canAccess === true,
+    );
     const q = query.trim().toLowerCase();
     list = list.filter((u: any) => {
       const plotArea = { sqm: u.plot_area_sqm };
@@ -125,7 +156,7 @@ export default function AldarBuilding() {
       });
     }
     return list;
-  }, [allUnits, availableOnly, bedroomFilter, sort, query, areaUnit, areaMin, areaMax]);
+  }, [allUnits, availableOnly, bedroomFilter, sort, query, areaUnit, areaMin, areaMax, permissionsByScope, buildingSlug]);
 
   // Bulk-fetch all listings for units in this building (before any early
   // returns — hook order must be stable).
@@ -137,6 +168,8 @@ export default function AldarBuilding() {
   if (isLoading || !ctx) return <div className="min-h-screen flex items-center justify-center"><div className="text-muted-foreground font-mono text-sm">Loading...</div></div>;
   const { project, building } = ctx;
   const dn = buildingDisplayName(building.name);
+  const canViewOriginalPriceFor = (unit: any) =>
+    permissionsByScope.get(propertyScopeKey(aldarUnitScope(building.slug, unit)))?.canViewOriginalPrice === true;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -247,7 +280,7 @@ export default function AldarBuilding() {
                     <td className="px-4 py-3"><AldarStatusBadge status={u.status} /></td>
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.plot_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.total_area_sqm ?? u.saleable_area_sqm }, areaUnit)}</td>
-                    <td className="px-4 py-3 font-semibold">AED {fmtAed(u.price_aed)}</td>
+                    <td className="px-4 py-3 font-semibold">{canViewOriginalPriceFor(u) ? `AED ${fmtAed(u.price_aed)}` : "—"}</td>
                     <td className="px-4 py-3">
                       {getFayaTransactions(u.unit_name)[0] ? (
                         <div>
@@ -290,14 +323,14 @@ export default function AldarBuilding() {
                     {u.unit_model ?? u.unit_category ?? "—"}
                     {u.bedrooms && ` · ${u.bedrooms}BR`}
                   </div>
-                  <div className="mt-2 border-t border-border pt-2">
+                  {canViewOriginalPriceFor(u) && <div className="mt-2 border-t border-border pt-2">
                     <div className="text-[0.62rem] font-mono uppercase tracking-[0.18em] text-muted-foreground">
                       Original price (without add-ons)
                     </div>
                     <div className="font-display text-xl num-display text-foreground">
                       AED {fmtAed(u.price_aed)}
                     </div>
-                  </div>
+                  </div>}
                   <div className="grid grid-cols-2 gap-2 text-[0.7rem] font-mono text-muted-foreground">
                     <div>
                       <div className="text-[0.6rem] uppercase tracking-[0.18em]">Plot</div>
@@ -331,6 +364,9 @@ export default function AldarBuilding() {
                   <EditListingButton
                     villaKey={villaKey}
                     community="aldar-saadiyat"
+                    buildingKey={building.slug}
+                    unitTypeKey={u.unit_model ?? u.unit_type ?? u.unit_category ?? null}
+                    bedrooms={u.bedrooms == null ? null : Number(u.bedrooms)}
                     villaLabel={`${project.name} · ${dn.primary} · ${u.unit_name}`}
                     className="w-full justify-center"
                   />

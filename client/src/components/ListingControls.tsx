@@ -179,6 +179,9 @@ export type EditListingButtonProps = {
   villaKey: string;
   community: string;
   phaseKey?: string | null;
+  buildingKey?: string | null;
+  unitTypeKey?: string | null;
+  bedrooms?: number | null;
   villaLabel?: string;
   className?: string;
   /** Optional render slot — called with `onClick` so callers can custom-trigger. */
@@ -189,6 +192,9 @@ export function EditListingButton({
   villaKey,
   community,
   phaseKey,
+  buildingKey,
+  unitTypeKey,
+  bedrooms,
   villaLabel,
   className,
   trigger,
@@ -196,11 +202,10 @@ export function EditListingButton({
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const grants = trpc.propertyAccess.permissions.useQuery(
-    { scopes: [{ projectKey: community, phaseKey: phaseKey ?? null }] },
+    { scopes: [{ projectKey: community, phaseKey: phaseKey ?? null, buildingKey: buildingKey ?? null, unitTypeKey: unitTypeKey ?? null, bedrooms: bedrooms ?? null }] },
     { enabled: Boolean(user) },
   );
   const canEdit =
-    user?.role === "admin" ||
     user?.role === "master" ||
     grants.data?.[0]?.permissions.canEditProperties === true;
   if (!canEdit) return null;
@@ -225,6 +230,10 @@ export function EditListingButton({
         onOpenChange={setOpen}
         villaKey={villaKey}
         community={community}
+        phaseKey={phaseKey}
+        buildingKey={buildingKey}
+        unitTypeKey={unitTypeKey}
+        bedrooms={bedrooms}
         villaLabel={villaLabel}
       />
     </>
