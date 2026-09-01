@@ -858,4 +858,4 @@
 - [x] Restrict unrestricted owner and owner-document visibility to Master Admin; require explicit scoped grants for standard Admin and User accounts
 - [x] Support a documented transition to Available for Resale from the unified unit record, preserving developer/broker provenance and audit history
 - [x] Add tests for multi-community identity, owner-file privacy, precise building/type permissions, master visibility, publication actors/dates, source separation, and map/card/list consistency
-- [ ] Migrate any remaining legacy source cards that lack canonical building/type/bedroom metadata before granting non-Master access to those records; retain Master-only access rather than infer a scope
+- [x] Apply the safe transition policy to legacy source cards that lack canonical building/type/bedroom metadata: they never match a narrower building/type/bedroom grant; access remains Master-only or requires an explicit documented project/phase grant, with no inferred scope

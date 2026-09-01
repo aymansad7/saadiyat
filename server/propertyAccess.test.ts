@@ -128,11 +128,13 @@ describe("Master Admin property grants", () => {
         { projectKey: "hidd", phaseKey: null, buildingKey: "B-17", unitTypeKey: "2BHK", bedrooms: 2 },
         { projectKey: "hidd", phaseKey: null, buildingKey: "B-18", unitTypeKey: "2BHK", bedrooms: 2 },
         { projectKey: "hidd", phaseKey: null, buildingKey: "B-17", unitTypeKey: "3BHK", bedrooms: 3 },
+        { projectKey: "hidd", phaseKey: null, buildingKey: null, unitTypeKey: null, bedrooms: null },
       ],
     });
     expect(permissions[0]?.permissions).toMatchObject({ canAccess: true, canViewOwnerName: true, canViewOwnerDocuments: true });
     expect(permissions[1]?.permissions.canAccess).toBe(false);
     expect(permissions[2]?.permissions.canAccess).toBe(false);
+    expect(permissions[3]?.permissions.canAccess).toBe(false);
   });
 
   it("keeps unrestricted owner data and the Listings workspace exclusive to Master Admin", async () => {
