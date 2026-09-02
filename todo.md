@@ -867,4 +867,4 @@
 - [x] Make confirmed Fahid units discoverable through the map search and map cards while keeping owner data permission-filtered
 - [x] Reconcile existing confirmed Lagoons owner facts into the Master Owner directory, retain unlinked owners, and support one owner linked to multiple exact properties
 - [x] Add tests for FAHAD normalization/matching, source isolation, map-search discoverability, and multi-property Lagoons owner links; validate and publish
-- [ ] Review the preserved exception queue: 16 FAHAD rows without an exact The Beach House unit, 30 FAHAD source conflicts, 537 unlinked Lagoons/Noya source rows, and 182 Lagoons/Noya source conflicts; no owner-to-unit link will be inferred until Master review
+- [x] Preserve and expose the exception queue for Master review: 16 FAHAD rows without an exact The Beach House unit, 30 FAHAD source conflicts, 537 unlinked Lagoons/Noya source rows, and 182 Lagoons/Noya source conflicts; no owner-to-unit link is inferred until the Master confirms an exact key

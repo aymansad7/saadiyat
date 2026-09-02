@@ -157,6 +157,66 @@ export const propertyOwnersRouter = router({
     return { ok: true as const };
   }),
 
+  reviewQueue: masterProcedure.input(z.object({ sourceFile: z.string().max(255).optional(), limit: z.number().int().min(1).max(2_000).default(500) }).default({ limit: 500 })).query(async ({ input }) => {
+    const db = await getDb();
+    if (!db) return [];
+    const filters = [or(eq(propertyOwnerImportRecords.matchStatus, "unlinked"), eq(propertyOwnerImportRecords.matchStatus, "conflict"))];
+    if (input.sourceFile) filters.push(eq(propertyOwnerImportRecords.sourceFile, input.sourceFile));
+    return db.select().from(propertyOwnerImportRecords).where(and(...filters)).orderBy(desc(propertyOwnerImportRecords.updatedAt)).limit(input.limit);
+  }),
+
+  resolveImport: masterProcedure.input(z.object({
+    importRecordId: z.number().int().positive(),
+    villaKey: key,
+    community,
+    relationship: z.enum(["owner", "co_owner", "representative"]).default("owner"),
+  })).mutation(async ({ input, ctx }) => {
+    const db = await getDb();
+    if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+    const sourceRecord = (await db.select().from(propertyOwnerImportRecords).where(eq(propertyOwnerImportRecords.id, input.importRecordId)).limit(1))[0];
+    if (!sourceRecord) throw new TRPCError({ code: "NOT_FOUND", message: "Imported source row was not found." });
+    if (!sourceRecord.ownerId) throw new TRPCError({ code: "BAD_REQUEST", message: "This source row is not associated with an owner record." });
+    const owner = (await db.select().from(propertyOwners).where(eq(propertyOwners.id, sourceRecord.ownerId)).limit(1))[0];
+    if (!owner) throw new TRPCError({ code: "NOT_FOUND", message: "Source owner record was not found." });
+    const sourceLabel = `${sourceRecord.sourceFile} · ${sourceRecord.sourceSheet} row ${sourceRecord.sourceRow}`;
+    await db.insert(propertyOwnerUnits).values({
+      ownerId: owner.id,
+      villaKey: input.villaKey,
+      community: input.community,
+      relationship: input.relationship,
+      sourceLabel,
+      linkedBy: ctx.user.email ?? "master",
+      linkedByName: ctx.user.name ?? null,
+    }).onDuplicateKeyUpdate({ set: { relationship: input.relationship, sourceLabel, linkedBy: ctx.user.email ?? "master", linkedByName: ctx.user.name ?? null } });
+    if (input.relationship === "owner") {
+      await db.insert(villaListings).values({
+        villaKey: input.villaKey,
+        community: input.community,
+        status: "draft",
+        ownerName: owner.displayName,
+        ownerPhone: owner.phone,
+        ownerEmail: owner.email,
+        updatedBy: ctx.user.email ?? "master",
+      }).onDuplicateKeyUpdate({ set: { ownerName: owner.displayName, ownerPhone: owner.phone, ownerEmail: owner.email, updatedBy: ctx.user.email ?? "master" } });
+    }
+    await db.update(propertyOwnerImportRecords).set({
+      villaKey: input.villaKey,
+      community: input.community,
+      matchStatus: "linked",
+      matchReason: "master_confirmed_exact_link",
+      importedBy: ctx.user.email ?? "master",
+    }).where(eq(propertyOwnerImportRecords.id, sourceRecord.id));
+    await appendActivityAudit({
+      eventType: "owner_unit_link",
+      actorEmail: ctx.user.email ?? "master",
+      actorName: ctx.user.name ?? null,
+      entityType: "owner_import_record",
+      entityKey: String(sourceRecord.id),
+      summary: `Master confirmed source row ${sourceLabel} for exact unit ${input.villaKey}`,
+    });
+    return { ok: true as const };
+  }),
+
   /** Full owner record and documents are Master Admin only. */
   detail: masterProcedure.input(z.object({ id: z.number().int().positive() })).query(async ({ input }) => {
     const db = await getDb();

@@ -1,12 +1,15 @@
 import { eq } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { propertyOwnerUnits, propertyOwners, villaListings } from "../drizzle/schema";
+import { propertyOwnerImportRecords, propertyOwnerUnits, propertyOwners, villaListings } from "../drizzle/schema";
 import { getDb } from "./db";
 import { appRouter } from "./routers";
 
 const OWNER_SOURCE = "vitest-unified-owner-record";
+const OWNER_REVIEW_SOURCE = "vitest-unified-owner-review";
+const OWNER_REVIEW_FILE = "vitest-owner-review.xlsx";
 const VILLA_KEY = "owners-test/Villa-1";
 const SECOND_VILLA_KEY = "owners-test/Villa-2";
+const REVIEW_VILLA_KEY = "owners-test/Villa-review";
 const PUBLISHED_VILLA_KEY = "owners-test/Villa-Published";
 const COMMUNITY = "owners-test";
 
@@ -23,12 +26,16 @@ const userCtx = {
 async function cleanup() {
   const db = await getDb();
   if (!db) return;
+  await db.delete(propertyOwnerImportRecords).where(eq(propertyOwnerImportRecords.sourceFile, OWNER_REVIEW_FILE));
   await db.delete(propertyOwnerUnits).where(eq(propertyOwnerUnits.villaKey, VILLA_KEY));
   await db.delete(propertyOwnerUnits).where(eq(propertyOwnerUnits.villaKey, SECOND_VILLA_KEY));
+  await db.delete(propertyOwnerUnits).where(eq(propertyOwnerUnits.villaKey, REVIEW_VILLA_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, VILLA_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, SECOND_VILLA_KEY));
+  await db.delete(villaListings).where(eq(villaListings.villaKey, REVIEW_VILLA_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, PUBLISHED_VILLA_KEY));
   await db.delete(propertyOwners).where(eq(propertyOwners.sourceLabel, OWNER_SOURCE));
+  await db.delete(propertyOwners).where(eq(propertyOwners.sourceLabel, OWNER_REVIEW_SOURCE));
 }
 
 beforeAll(cleanup);
@@ -85,6 +92,45 @@ describe("unified owner records", () => {
 
     await expect(admin.propertyOwners.list({ limit: 10 })).rejects.toBeTruthy();
     await expect(user.propertyOwners.list({ limit: 10 })).rejects.toBeTruthy();
+  });
+
+  it("requires a Master-confirmed exact key to resolve an imported exception row", async () => {
+    const master = appRouter.createCaller(masterCtx);
+    const owner = await master.propertyOwners.create({
+      displayName: "Review Queue Owner",
+      phone: "+971500009999",
+      sourceLabel: OWNER_REVIEW_SOURCE,
+    });
+    const db = await getDb();
+    if (!db) throw new Error("Test database unavailable.");
+    const result = await db.insert(propertyOwnerImportRecords).values({
+      sourceFile: OWNER_REVIEW_FILE,
+      sourceSheet: "Owners",
+      sourceRow: 1,
+      sourceUnit: "B1-01-01",
+      sourceProject: "Test Project",
+      ownerId: owner.id,
+      matchStatus: "unlinked",
+      matchReason: "no_exact_unit_match",
+      rawOwnerName: owner.displayName,
+      rawOwnerPhone: owner.phone,
+      importedBy: masterCtx.user.email,
+    });
+    const importRecordId = Number(result[0].insertId);
+    const queued = await master.propertyOwners.reviewQueue({ sourceFile: OWNER_REVIEW_FILE, limit: 10 });
+    expect(queued).toEqual(expect.arrayContaining([expect.objectContaining({ id: importRecordId, matchStatus: "unlinked" })]));
+
+    await master.propertyOwners.resolveImport({
+      importRecordId,
+      villaKey: REVIEW_VILLA_KEY,
+      community: COMMUNITY,
+      relationship: "owner",
+    });
+    const detail = await master.propertyOwners.detail({ id: owner.id });
+    expect(detail?.links).toContainEqual(expect.objectContaining({ villaKey: REVIEW_VILLA_KEY, relationship: "owner" }));
+    expect(detail?.imports).toContainEqual(expect.objectContaining({ id: importRecordId, villaKey: REVIEW_VILLA_KEY, matchStatus: "linked", matchReason: "master_confirmed_exact_link" }));
+    const remaining = await master.propertyOwners.reviewQueue({ sourceFile: OWNER_REVIEW_FILE, limit: 10 });
+    expect(remaining).toHaveLength(0);
   });
 
   it("records the publisher and first publication date when a unified unit becomes available for resale", async () => {

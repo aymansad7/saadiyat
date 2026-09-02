@@ -19,12 +19,14 @@ export default function AdminOwners() {
   const [q, setQ] = useState("");
   const [form, setForm] = useState({ displayName: "", phone: "", email: "", sourceLabel: "", internalNotes: "" });
   const [link, setLink] = useState({ ownerId: "", villaKey: "", community: "", relationship: "owner", sourceLabel: "" });
+  const [review, setReview] = useState<{ importRecordId: number; ownerId: number | null; sourceLabel: string; sourceUnit: string; villaKey: string; community: string; relationship: "owner" | "co_owner" | "representative" } | null>(null);
   const [selectedOwnerId, setSelectedOwnerId] = useState<number | null>(null);
   const owners = trpc.propertyOwners.list.useQuery({ q: clean(q), limit: 5_000 }, { enabled: user?.role === "master" });
   const ownerDetail = trpc.propertyOwners.detail.useQuery(
     { id: selectedOwnerId ?? 0 },
     { enabled: user?.role === "master" && selectedOwnerId !== null },
   );
+  const reviewQueue = trpc.propertyOwners.reviewQueue.useQuery({ limit: 1_000 }, { enabled: user?.role === "master" });
   const create = trpc.propertyOwners.create.useMutation({
     onSuccess: async owner => {
       await utils.propertyOwners.list.invalidate();
@@ -40,6 +42,15 @@ export default function AdminOwners() {
       if (selectedOwnerId) await utils.propertyOwners.detail.invalidate({ id: selectedOwnerId });
       setLink(current => ({ ...current, villaKey: "", community: "", sourceLabel: "" }));
       toast.success("Owner linked to the exact unit and recorded in the audit trail.");
+    },
+    onError: error => toast.error(error.message),
+  });
+  const resolveImport = trpc.propertyOwners.resolveImport.useMutation({
+    onSuccess: async () => {
+      await Promise.all([utils.propertyOwners.list.invalidate(), utils.propertyOwners.reviewQueue.invalidate()]);
+      if (selectedOwnerId) await utils.propertyOwners.detail.invalidate({ id: selectedOwnerId });
+      setReview(null);
+      toast.success("Source row resolved to the exact unit and recorded in the audit trail.");
     },
     onError: error => toast.error(error.message),
   });
@@ -72,6 +83,14 @@ export default function AdminOwners() {
             <Button disabled={!link.ownerId || !clean(link.villaKey) || !clean(link.community) || linkUnit.isPending} onClick={() => { setSelectedOwnerId(Number(link.ownerId)); linkUnit.mutate({ ownerId: Number(link.ownerId), villaKey: link.villaKey.trim(), community: link.community.trim(), relationship: link.relationship as "owner" | "co_owner" | "representative", sourceLabel: clean(link.sourceLabel) ?? null }); }}>{linkUnit.isPending ? "Linking…" : "Link exact unit"}</Button>
           </CardContent></Card>
         </div>
+
+        <Card className="border-amber-200/80">
+          <CardHeader className="gap-2 border-b pb-4"><CardTitle className="flex flex-wrap items-center justify-between gap-3 text-base"><span>Imported source review queue · {reviewQueue.data?.length ?? 0}</span><span className="text-xs font-normal text-muted-foreground">Unlinked and conflicting rows are preserved; no automatic reassignment occurs.</span></CardTitle></CardHeader>
+          <CardContent className="space-y-4 pt-5">
+            {review ? <div className="rounded-lg border border-primary/25 bg-primary/5 p-4"><div className="flex flex-wrap items-center justify-between gap-2"><div><div className="text-sm font-semibold">Resolve source row · {review.sourceUnit}</div><div className="mt-1 text-xs text-muted-foreground">{review.sourceLabel}</div></div><Button variant="ghost" size="sm" onClick={() => setReview(null)}>Cancel</Button></div><div className="mt-4 grid gap-3 md:grid-cols-3"><div><Label>Canonical exact unit / plot key</Label><Input value={review.villaKey} onChange={event => setReview({ ...review, villaKey: event.target.value })} placeholder="aldar-other/thebeachhouse/b8/..." /></div><div><Label>Community key</Label><Input value={review.community} onChange={event => setReview({ ...review, community: event.target.value })} placeholder="aldar-other" /></div><div><Label>Relationship</Label><select className="mt-1 h-9 w-full rounded-md border bg-background px-3 text-sm" value={review.relationship} onChange={event => setReview({ ...review, relationship: event.target.value as typeof review.relationship })}><option value="owner">Owner</option><option value="co_owner">Co-owner</option><option value="representative">Representative</option></select></div></div><Button className="mt-4" disabled={!review.ownerId || !clean(review.villaKey) || !clean(review.community) || resolveImport.isPending} onClick={() => resolveImport.mutate({ importRecordId: review.importRecordId, villaKey: review.villaKey.trim(), community: review.community.trim(), relationship: review.relationship })}>{resolveImport.isPending ? "Resolving…" : "Confirm exact link"}</Button></div> : null}
+            <div className="max-h-[30rem] divide-y overflow-y-auto rounded-md border">{reviewQueue.isLoading ? <p className="p-4 text-sm text-muted-foreground">Loading protected source rows…</p> : reviewQueue.data?.length ? reviewQueue.data.map(record => <div key={record.id} className="flex flex-col gap-3 p-4 lg:flex-row lg:items-center lg:justify-between"><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className="font-mono text-sm">{record.sourceUnit ?? "No source unit"}</span><span className={record.matchStatus === "conflict" ? "rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800" : "rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700"}>{record.matchStatus}</span></div><div className="mt-1 truncate text-xs text-muted-foreground">{record.sourceFile} · {record.sourceSheet} row {record.sourceRow}{record.sourceProject ? ` · ${record.sourceProject}` : ""}{record.matchReason ? ` · ${record.matchReason.replaceAll("_", " ")}` : ""}</div><div className="mt-1 text-xs text-muted-foreground">Owner: {record.rawOwnerName ?? "Not supplied"}{record.rawOwnerPhone ? ` · ${record.rawOwnerPhone}` : ""}</div></div><div className="flex shrink-0 gap-2"><Button variant="outline" size="sm" disabled={!record.ownerId} onClick={() => { if (record.ownerId) setSelectedOwnerId(record.ownerId); }}>Owner file</Button><Button size="sm" disabled={!record.ownerId} onClick={() => { setSelectedOwnerId(record.ownerId); setReview({ importRecordId: record.id, ownerId: record.ownerId, sourceLabel: `${record.sourceFile} · ${record.sourceSheet} row ${record.sourceRow}`, sourceUnit: record.sourceUnit ?? "No source unit", villaKey: record.villaKey ?? "", community: record.community ?? "", relationship: "owner" }); }}>Review exact link</Button></div></div>) : <p className="p-4 text-sm text-muted-foreground">No unlinked or conflicting source rows remain in the review queue.</p>}</div>
+          </CardContent>
+        </Card>
 
         {selectedOwnerId !== null && (
           <Card className="border-primary/20">
