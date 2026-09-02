@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { and, desc, eq, inArray, isNull, like, or } from "drizzle-orm";
 import { z } from "zod";
-import { propertyOwnerUnits, propertyOwners, unitDocuments, villaListings } from "../../drizzle/schema";
+import { propertyOwnerImportRecords, propertyOwnerUnits, propertyOwners, unitDocuments, villaListings } from "../../drizzle/schema";
 import { appendActivityAudit } from "../activityAudit";
 import { getDb } from "../db";
 import { protectedProcedure, router } from "../_core/trpc";
@@ -23,13 +23,37 @@ const ownerInput = z.object({
 
 export const propertyOwnersRouter = router({
   list: masterProcedure
-    .input(z.object({ q: z.string().max(128).optional(), limit: z.number().int().min(1).max(500).default(200) }).default({ limit: 200 }))
+    .input(z.object({ q: z.string().max(128).optional(), limit: z.number().int().min(1).max(5_000).default(200) }).default({ limit: 200 }))
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return [];
       const q = input.q?.trim();
       const where = q ? or(like(propertyOwners.displayName, `%${q}%`), like(propertyOwners.phone, `%${q}%`), like(propertyOwners.email, `%${q}%`)) : undefined;
-      return db.select().from(propertyOwners).where(where).orderBy(desc(propertyOwners.updatedAt)).limit(input.limit);
+      const owners = await db.select().from(propertyOwners).where(where).orderBy(desc(propertyOwners.updatedAt)).limit(input.limit);
+      if (!owners.length) return [];
+      const ids = owners.map(owner => owner.id);
+      const [links, imports] = await Promise.all([
+        db.select({ ownerId: propertyOwnerUnits.ownerId }).from(propertyOwnerUnits).where(inArray(propertyOwnerUnits.ownerId, ids)),
+        db.select({ ownerId: propertyOwnerImportRecords.ownerId, matchStatus: propertyOwnerImportRecords.matchStatus }).from(propertyOwnerImportRecords).where(inArray(propertyOwnerImportRecords.ownerId, ids)),
+      ]);
+      const linkCount = new Map<number, number>();
+      const sourceStats = new Map<number, { total: number; unlinked: number; conflict: number }>();
+      for (const link of links) linkCount.set(link.ownerId, (linkCount.get(link.ownerId) ?? 0) + 1);
+      for (const record of imports) {
+        if (record.ownerId == null) continue;
+        const stats = sourceStats.get(record.ownerId) ?? { total: 0, unlinked: 0, conflict: 0 };
+        stats.total += 1;
+        if (record.matchStatus === "unlinked") stats.unlinked += 1;
+        if (record.matchStatus === "conflict") stats.conflict += 1;
+        sourceStats.set(record.ownerId, stats);
+      }
+      return owners.map(owner => ({
+        ...owner,
+        linkCount: linkCount.get(owner.id) ?? 0,
+        sourceRecordCount: sourceStats.get(owner.id)?.total ?? 0,
+        unlinkedSourceCount: sourceStats.get(owner.id)?.unlinked ?? 0,
+        conflictSourceCount: sourceStats.get(owner.id)?.conflict ?? 0,
+      }));
     }),
 
   create: masterProcedure.input(ownerInput).mutation(async ({ input, ctx }) => {
@@ -140,10 +164,11 @@ export const propertyOwnersRouter = router({
     const owner = (await db.select().from(propertyOwners).where(eq(propertyOwners.id, input.id)).limit(1))[0] ?? null;
     if (!owner) return null;
     const links = await db.select().from(propertyOwnerUnits).where(eq(propertyOwnerUnits.ownerId, input.id)).orderBy(desc(propertyOwnerUnits.updatedAt));
+    const imports = await db.select().from(propertyOwnerImportRecords).where(eq(propertyOwnerImportRecords.ownerId, input.id)).orderBy(desc(propertyOwnerImportRecords.updatedAt));
     const unitKeys = links.map(link => link.villaKey);
     const documents = unitKeys.length
       ? await db.select().from(unitDocuments).where(and(inArray(unitDocuments.villaKey, unitKeys), eq(unitDocuments.ownerId, input.id), isNull(unitDocuments.removedAt))).orderBy(desc(unitDocuments.updatedAt))
       : [];
-    return { owner, links, documents };
+    return { owner, links, imports, documents };
   }),
 });

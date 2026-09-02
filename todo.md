@@ -859,3 +859,12 @@
 - [x] Support a documented transition to Available for Resale from the unified unit record, preserving developer/broker provenance and audit history
 - [x] Add tests for multi-community identity, owner-file privacy, precise building/type permissions, master visibility, publication actors/dates, source separation, and map/card/list consistency
 - [x] Apply the safe transition policy to legacy source cards that lack canonical building/type/bedroom metadata: they never match a narrower building/type/bedroom grant; access remains Master-only or requires an explicit documented project/phase grant, with no inferred scope
+
+### FAHAD Data Import, Map Search and Lagoons Owner Register (Sep 2, 2026)
+- [x] Inspect and normalize the supplied `FAHAD.xlsx` workbook, preserving every source row and field provenance without inventing building or unit matches
+- [x] Match FAHAD rows only to confirmed existing Fahid units; isolate any B1–B11 or unit ambiguity for user review rather than guessing
+- [x] Persist confirmed FAHAD property/listing and owner facts through the unified operational model, preserving source provenance and audit events
+- [x] Make confirmed Fahid units discoverable through the map search and map cards while keeping owner data permission-filtered
+- [x] Reconcile existing confirmed Lagoons owner facts into the Master Owner directory, retain unlinked owners, and support one owner linked to multiple exact properties
+- [x] Add tests for FAHAD normalization/matching, source isolation, map-search discoverability, and multi-property Lagoons owner links; validate and publish
+- [ ] Review the preserved exception queue: 16 FAHAD rows without an exact The Beach House unit, 30 FAHAD source conflicts, 537 unlinked Lagoons/Noya source rows, and 182 Lagoons/Noya source conflicts; no owner-to-unit link will be inferred until Master review

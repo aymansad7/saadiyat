@@ -497,6 +497,41 @@ export const propertyOwnerUnits = mysqlTable(
 export type PropertyOwnerUnit = typeof propertyOwnerUnits.$inferSelect;
 
 /**
+ * Private, idempotent ledger for owner-source imports. It preserves rows that
+ * cannot yet be linked to a canonical unit, so a Master Admin can review and
+ * attach the resulting owner record later without rerunning unsafe matching.
+ */
+export const propertyOwnerImportRecords = mysqlTable(
+  "property_owner_import_records",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    sourceFile: varchar("sourceFile", { length: 255 }).notNull(),
+    sourceSheet: varchar("sourceSheet", { length: 128 }).notNull(),
+    sourceRow: int("sourceRow").notNull(),
+    sourceUnit: varchar("sourceUnit", { length: 128 }),
+    sourceProject: varchar("sourceProject", { length: 128 }),
+    ownerId: int("ownerId"),
+    villaKey: varchar("villaKey", { length: 128 }),
+    community: varchar("community", { length: 64 }),
+    matchStatus: mysqlEnum("matchStatus", ["linked", "unlinked", "conflict"]).notNull(),
+    matchReason: varchar("matchReason", { length: 512 }),
+    rawOwnerName: varchar("rawOwnerName", { length: 255 }).notNull(),
+    rawOwnerPhone: varchar("rawOwnerPhone", { length: 64 }),
+    sourceItemId: varchar("sourceItemId", { length: 255 }),
+    importedBy: varchar("importedBy", { length: 320 }).notNull(),
+    importedAt: timestamp("importedAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    ownerImportSourceRowUnique: uniqueIndex("ownerImport_source_row_unique").on(t.sourceFile, t.sourceSheet, t.sourceRow),
+    ownerImportOwnerIdx: index("ownerImport_owner_idx").on(t.ownerId),
+    ownerImportVillaIdx: index("ownerImport_villa_idx").on(t.villaKey, t.community),
+    ownerImportStatusIdx: index("ownerImport_status_idx").on(t.matchStatus),
+  }),
+);
+export type PropertyOwnerImportRecord = typeof propertyOwnerImportRecords.$inferSelect;
+
+/**
  * Master-managed, field-aware property visibility grants. A grant applies to
  * either an area (`areaKey`) or a specific project (`projectKey`). Both must
  * never be blank; enforcement happens in the application so it can derive a

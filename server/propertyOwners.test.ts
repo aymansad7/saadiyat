@@ -6,6 +6,7 @@ import { appRouter } from "./routers";
 
 const OWNER_SOURCE = "vitest-unified-owner-record";
 const VILLA_KEY = "owners-test/Villa-1";
+const SECOND_VILLA_KEY = "owners-test/Villa-2";
 const PUBLISHED_VILLA_KEY = "owners-test/Villa-Published";
 const COMMUNITY = "owners-test";
 
@@ -23,7 +24,9 @@ async function cleanup() {
   const db = await getDb();
   if (!db) return;
   await db.delete(propertyOwnerUnits).where(eq(propertyOwnerUnits.villaKey, VILLA_KEY));
+  await db.delete(propertyOwnerUnits).where(eq(propertyOwnerUnits.villaKey, SECOND_VILLA_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, VILLA_KEY));
+  await db.delete(villaListings).where(eq(villaListings.villaKey, SECOND_VILLA_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, PUBLISHED_VILLA_KEY));
   await db.delete(propertyOwners).where(eq(propertyOwners.sourceLabel, OWNER_SOURCE));
 }
@@ -49,14 +52,24 @@ describe("unified owner records", () => {
       relationship: "owner",
       sourceLabel: OWNER_SOURCE,
     });
+    await master.propertyOwners.linkUnit({
+      ownerId: owner.id,
+      villaKey: SECOND_VILLA_KEY,
+      community: COMMUNITY,
+      relationship: "owner",
+      sourceLabel: OWNER_SOURCE,
+    });
 
     const detail = await master.propertyOwners.detail({ id: owner.id });
-    expect(detail?.links).toHaveLength(1);
-    expect(detail?.links[0]).toMatchObject({ villaKey: VILLA_KEY, community: COMMUNITY, relationship: "owner" });
+    expect(detail?.links).toHaveLength(2);
+    expect(detail?.links).toContainEqual(expect.objectContaining({ villaKey: VILLA_KEY, community: COMMUNITY, relationship: "owner" }));
+    expect(detail?.links).toContainEqual(expect.objectContaining({ villaKey: SECOND_VILLA_KEY, community: COMMUNITY, relationship: "owner" }));
 
     const masterCard: any = await master.villaListings.byKey({ villaKey: VILLA_KEY });
     expect(masterCard).toMatchObject({ ownerName: "Verified Owner Test", ownerPhone: "+971500001234", status: "draft" });
     expect(masterCard.publishedAt).toBeUndefined();
+    const secondCard: any = await master.villaListings.byKey({ villaKey: SECOND_VILLA_KEY });
+    expect(secondCard).toMatchObject({ status: "draft" });
   });
 
   it("never gives an unscoped Admin or User the owner contact or owner register", async () => {

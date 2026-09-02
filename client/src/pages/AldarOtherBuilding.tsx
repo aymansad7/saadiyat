@@ -6,7 +6,7 @@
  */
 import { useMemo, useState } from "react";
 import { useParams, Link } from "wouter";
-import { Building2, Sparkles, ArrowUpDown, Lock, Search, Eye, EyeOff, User, LayoutGrid, Table2 } from "lucide-react";
+import { Building2, Sparkles, ArrowUpDown, Lock, Search, Eye, EyeOff, LayoutGrid, Table2 } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
@@ -29,6 +29,7 @@ import { useListingIndex } from "@/hooks/useListingIndex";
 import {
   EditListingButton,
   ListingBadge,
+  ListingOwnerFacts,
   ListingPriceLabel,
 } from "@/components/ListingControls";
 import AreaFilterControls from "@/components/AreaFilterControls";
@@ -277,8 +278,10 @@ function Inner() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {units.map(u => (
-                  <tr key={u.unit_name} className="hover:bg-accent/30">
+                {units.map(u => {
+                  const villaKey = `aldar-other/${projectSlug}/${buildingSlug}/${u.unit_name ?? ""}`;
+                  const listing = listingIndex.get(villaKey) ?? null;
+                  return <tr key={u.unit_name} className="hover:bg-accent/30">
                     <td className="px-4 py-3">
                       <Link href={`/aldar-other/${projectSlug}/${buildingSlug}/${encodeURIComponent(u.unit_name ?? "")}`} className="font-semibold hover:text-primary">
                         {shortUnitNumber(u.unit_name)}
@@ -289,9 +292,9 @@ function Inner() {
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.plot_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.total_area_sqm ?? u.saleable_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-semibold">AED {fmtAed(u.price_aed)}</td>
-                    {showOwners && <td className="px-4 py-3">{(u as any).owner_name ?? "—"}</td>}
+                    {showOwners && <td className="px-4 py-3"><ListingOwnerFacts listing={listing} className="mt-0" /></td>}
                   </tr>
-                ))}
+                })}
               </tbody>
             </table>
           </div>
@@ -358,20 +361,7 @@ function Inner() {
                       with {listing.listingPartners}
                     </div>
                   ) : null}
-                  {showOwners && (u as any).owner_name && (
-                    <div className="mt-2 p-2 rounded-md border border-blue-200 bg-blue-50 dark:bg-blue-950/30 dark:border-blue-800">
-                      <div className="flex items-center gap-1 mb-0.5">
-                        <User className="h-3 w-3 text-blue-600" />
-                        <span className="text-[0.6rem] font-mono uppercase tracking-wider text-blue-600 dark:text-blue-400">Owner</span>
-                      </div>
-                      <div className="text-sm font-medium text-foreground">{(u as any).owner_name}</div>
-                      {(u as any).owner_mobile && (
-                        <a href={`tel:${(u as any).owner_mobile}`} className="text-xs text-blue-600 dark:text-blue-400 hover:underline">
-                          {(u as any).owner_mobile}
-                        </a>
-                      )}
-                    </div>
-                  )}
+                  {showOwners ? <ListingOwnerFacts listing={listing} /> : null}
                 </div>
                 </Link>
                 <div className="flex flex-col gap-2 px-4 pb-3">
@@ -380,6 +370,9 @@ function Inner() {
                     villaKey={villaKey}
                     community="aldar-other"
                     villaLabel={u.unit_name ?? villaKey}
+                    buildingKey={buildingSlug ?? null}
+                    unitTypeKey={u.unit_model ?? u.unit_category ?? null}
+                    bedrooms={u.bedrooms != null && /^\d+$/.test(String(u.bedrooms)) ? Number(u.bedrooms) : null}
                     className="w-full justify-center"
                   />
                 </div>

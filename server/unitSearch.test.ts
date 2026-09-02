@@ -38,6 +38,16 @@ describe("unitSearch.search", () => {
     expect(res.results[0].href).toContain("/aldar-other/");
   });
 
+  it("finds The Beach House Fahid units by project and exact unit code", async () => {
+    const caller = appRouter.createCaller(adminCtx());
+    const byProject = await caller.unitSearch.search({ q: "Fahid", dataset: "other", projectSlug: "thebeachhouse", limit: 10 });
+    const byUnit = await caller.unitSearch.search({ q: "B8-01-01", dataset: "other", projectSlug: "thebeachhouse", limit: 10 });
+    expect(byProject.results.length).toBeGreaterThan(0);
+    expect(byProject.results.every(result => result.projectSlug === "thebeachhouse")).toBe(true);
+    expect(byUnit.results.some(result => result.unitName.endsWith("B8-01-01"))).toBe(true);
+    expect(byUnit.results[0]?.href).toContain("/aldar-other/thebeachhouse/");
+  });
+
   it("returns results from Lagoons dataset", async () => {
     const caller = appRouter.createCaller(adminCtx());
     // "AlGhaf" is a known prefix in Lagoons

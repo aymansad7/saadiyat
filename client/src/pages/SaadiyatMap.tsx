@@ -8,7 +8,7 @@ import { useRef, useState, useCallback, useEffect, useMemo } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { MapView } from "@/components/Map";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
-import { useSearch } from "wouter";
+import { Link, useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -720,6 +720,10 @@ export default function SaadiyatMap() {
   const hiddSensitiveFacts = trpc.hidd.sensitiveFacts.useQuery(undefined, {
     enabled: Boolean(user),
   });
+  const fahidSearch = trpc.unitSearch.search.useQuery(
+    { q: mapQuery, dataset: "other", projectSlug: "thebeachhouse", limit: 100 },
+    { enabled: mapSearchOpen && mapQuery.trim().length >= 2 },
+  );
   const permissionScopes = useMemo(() => {
     const overridesByKey = new Map((propertyOverrides.data ?? []).map(row => [row.villaKey, row]));
     return Array.from(new Map(baseMarkerData.map(marker => {
@@ -790,6 +794,8 @@ export default function SaadiyatMap() {
     () => findMapSearchResults(markerData, mapQuery),
     [markerData, mapQuery],
   );
+  const fahidSearchResults = useMemo(() => fahidSearch.data?.results ?? [], [fahidSearch.data]);
+  const isFahidProjectSearch = normalizeMapSearchText(mapQuery).includes("fahid");
 
   const clearPlotDeepLink = useCallback(() => {
     const url = new URL(window.location.href);
@@ -1204,9 +1210,14 @@ export default function SaadiyatMap() {
                 }}
                 onFocus={() => setMapSearchOpen(true)}
                 onKeyDown={(event) => {
-                  if (event.key === "Enter" && smartSearchResults[0]) {
-                    event.preventDefault();
-                    selectSearchResult(smartSearchResults[0]);
+                  if (event.key === "Enter") {
+                    if (smartSearchResults[0]) {
+                      event.preventDefault();
+                      selectSearchResult(smartSearchResults[0]);
+                    } else if (fahidSearchResults[0]) {
+                      event.preventDefault();
+                      window.location.assign(fahidSearchResults[0].href);
+                    }
                   }
                   if (event.key === "Escape") setMapSearchOpen(false);
                 }}
@@ -1215,10 +1226,24 @@ export default function SaadiyatMap() {
               />
               {mapSearchOpen && mapQuery.trim() && (
                 <div className="absolute left-0 top-full z-40 mt-1 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-md border border-border bg-card shadow-xl">
-                  {smartSearchResults.length === 0 ? (
-                    <div className="px-3 py-2 text-xs text-muted-foreground">No mapped unit matches this project and unit search.</div>
+                  {smartSearchResults.length === 0 && fahidSearchResults.length === 0 && !isFahidProjectSearch ? (
+                    <div className="px-3 py-2 text-xs text-muted-foreground">{fahidSearch.isFetching ? "Searching documented Fahid units…" : "No mapped unit or documented Fahid unit matches this search."}</div>
                   ) : (
                     <ul className="max-h-72 overflow-y-auto">
+                      {isFahidProjectSearch ? (
+                        <li>
+                          <Link
+                            href="/aldar-other/thebeachhouse"
+                            onMouseDown={(event) => event.preventDefault()}
+                            onClick={() => { setMapSearchOpen(false); setMapQuery(""); }}
+                            className="flex w-full items-center gap-2 border-b border-border bg-sky-50/70 px-3 py-2.5 text-left hover:bg-sky-100/70 dark:bg-sky-950/20"
+                          >
+                            <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-sky-500" />
+                            <span className="min-w-0 flex-1"><span className="block text-xs font-semibold text-foreground">The Beach House Fahid · all units</span><span className="block text-[0.65rem] text-muted-foreground">Open the complete unit register. No physical pin is shown until source coordinates are registered.</span></span>
+                            <span className="text-[0.62rem] font-mono text-primary">Open</span>
+                          </Link>
+                        </li>
+                      ) : null}
                       {smartSearchResults.map(marker => (
                         <li key={marker.id}>
                           <button
@@ -1234,6 +1259,26 @@ export default function SaadiyatMap() {
                             </span>
                             <span className="text-[0.62rem] font-mono text-primary">Open</span>
                           </button>
+                        </li>
+                      ))}
+                      {fahidSearchResults.length ? (
+                        <li className="border-t border-border bg-muted/30 px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Fahid inventory · card links</li>
+                      ) : null}
+                      {fahidSearchResults.map(unit => (
+                        <li key={`${unit.projectSlug}/${unit.buildingSlug}/${unit.unitName}`}>
+                          <Link
+                            href={unit.href}
+                            onMouseDown={(event) => event.preventDefault()}
+                            onClick={() => { setMapSearchOpen(false); setMapQuery(""); }}
+                            className="flex w-full items-center gap-2 border-b border-border/70 px-3 py-2 text-left last:border-b-0 hover:bg-secondary/50"
+                          >
+                            <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-sky-500" />
+                            <span className="min-w-0 flex-1">
+                              <span className="block truncate text-xs font-semibold text-foreground">{unit.unitName}</span>
+                              <span className="block truncate text-[0.65rem] text-muted-foreground">{unit.projectName} · {unit.buildingName ?? "Building"}{unit.bedrooms ? ` · ${unit.bedrooms}BR` : ""}</span>
+                            </span>
+                            <span className="text-[0.62rem] font-mono text-primary">Open card</span>
+                          </Link>
                         </li>
                       ))}
                     </ul>
