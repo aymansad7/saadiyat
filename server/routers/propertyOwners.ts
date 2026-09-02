@@ -28,31 +28,54 @@ export const propertyOwnersRouter = router({
       const db = await getDb();
       if (!db) return [];
       const q = input.q?.trim();
-      const where = q ? or(like(propertyOwners.displayName, `%${q}%`), like(propertyOwners.phone, `%${q}%`), like(propertyOwners.email, `%${q}%`)) : undefined;
+      const sourceOwnerIds = q
+        ? Array.from(new Set((await db.select({ ownerId: propertyOwnerImportRecords.ownerId }).from(propertyOwnerImportRecords).where(or(
+          like(propertyOwnerImportRecords.sourceUnit, `%${q}%`),
+          like(propertyOwnerImportRecords.sourceProject, `%${q}%`),
+          like(propertyOwnerImportRecords.sourceFile, `%${q}%`),
+          like(propertyOwnerImportRecords.villaKey, `%${q}%`),
+          like(propertyOwnerImportRecords.community, `%${q}%`),
+        ))).map(row => row.ownerId).filter((id): id is number => id != null)))
+        : [];
+      const where = q
+        ? sourceOwnerIds.length
+          ? or(like(propertyOwners.displayName, `%${q}%`), like(propertyOwners.phone, `%${q}%`), like(propertyOwners.email, `%${q}%`), inArray(propertyOwners.id, sourceOwnerIds))
+          : or(like(propertyOwners.displayName, `%${q}%`), like(propertyOwners.phone, `%${q}%`), like(propertyOwners.email, `%${q}%`))
+        : undefined;
       const owners = await db.select().from(propertyOwners).where(where).orderBy(desc(propertyOwners.updatedAt)).limit(input.limit);
       if (!owners.length) return [];
       const ids = owners.map(owner => owner.id);
       const [links, imports] = await Promise.all([
-        db.select({ ownerId: propertyOwnerUnits.ownerId }).from(propertyOwnerUnits).where(inArray(propertyOwnerUnits.ownerId, ids)),
-        db.select({ ownerId: propertyOwnerImportRecords.ownerId, matchStatus: propertyOwnerImportRecords.matchStatus }).from(propertyOwnerImportRecords).where(inArray(propertyOwnerImportRecords.ownerId, ids)),
+        db.select().from(propertyOwnerUnits).where(inArray(propertyOwnerUnits.ownerId, ids)).orderBy(desc(propertyOwnerUnits.updatedAt)),
+        db.select().from(propertyOwnerImportRecords).where(inArray(propertyOwnerImportRecords.ownerId, ids)).orderBy(desc(propertyOwnerImportRecords.updatedAt)),
       ]);
-      const linkCount = new Map<number, number>();
-      const sourceStats = new Map<number, { total: number; unlinked: number; conflict: number }>();
-      for (const link of links) linkCount.set(link.ownerId, (linkCount.get(link.ownerId) ?? 0) + 1);
+      const linksByOwner = new Map<number, typeof links>();
+      const importsByOwner = new Map<number, typeof imports>();
+      const sourceStats = new Map<number, { total: number; linked: number; unlinked: number; conflict: number; files: string[]; projects: string[] }>();
+      for (const link of links) linksByOwner.set(link.ownerId, [...(linksByOwner.get(link.ownerId) ?? []), link]);
       for (const record of imports) {
         if (record.ownerId == null) continue;
-        const stats = sourceStats.get(record.ownerId) ?? { total: 0, unlinked: 0, conflict: 0 };
+        importsByOwner.set(record.ownerId, [...(importsByOwner.get(record.ownerId) ?? []), record]);
+        const stats = sourceStats.get(record.ownerId) ?? { total: 0, linked: 0, unlinked: 0, conflict: 0, files: [], projects: [] };
         stats.total += 1;
+        if (record.matchStatus === "linked") stats.linked += 1;
         if (record.matchStatus === "unlinked") stats.unlinked += 1;
         if (record.matchStatus === "conflict") stats.conflict += 1;
+        if (!stats.files.includes(record.sourceFile)) stats.files.push(record.sourceFile);
+        if (record.sourceProject && !stats.projects.includes(record.sourceProject)) stats.projects.push(record.sourceProject);
         sourceStats.set(record.ownerId, stats);
       }
       return owners.map(owner => ({
         ...owner,
-        linkCount: linkCount.get(owner.id) ?? 0,
+        links: linksByOwner.get(owner.id) ?? [],
+        importRecords: importsByOwner.get(owner.id) ?? [],
+        linkCount: linksByOwner.get(owner.id)?.length ?? 0,
         sourceRecordCount: sourceStats.get(owner.id)?.total ?? 0,
+        linkedSourceCount: sourceStats.get(owner.id)?.linked ?? 0,
         unlinkedSourceCount: sourceStats.get(owner.id)?.unlinked ?? 0,
         conflictSourceCount: sourceStats.get(owner.id)?.conflict ?? 0,
+        sourceFiles: sourceStats.get(owner.id)?.files ?? [],
+        sourceProjects: sourceStats.get(owner.id)?.projects ?? [],
       }));
     }),
 

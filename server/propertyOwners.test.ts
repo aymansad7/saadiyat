@@ -129,9 +129,16 @@ describe("unified owner records", () => {
     const detail = await master.propertyOwners.detail({ id: owner.id });
     expect(detail?.links).toContainEqual(expect.objectContaining({ villaKey: REVIEW_VILLA_KEY, relationship: "owner" }));
     expect(detail?.imports).toContainEqual(expect.objectContaining({ id: importRecordId, villaKey: REVIEW_VILLA_KEY, matchStatus: "linked", matchReason: "master_confirmed_exact_link" }));
+    const directoryByProject: any[] = await master.propertyOwners.list({ q: "Test Project", limit: 10 });
+    expect(directoryByProject).toContainEqual(expect.objectContaining({
+      id: owner.id,
+      sourceProjects: ["Test Project"],
+      links: expect.arrayContaining([expect.objectContaining({ villaKey: REVIEW_VILLA_KEY })]),
+      importRecords: expect.arrayContaining([expect.objectContaining({ id: importRecordId, matchStatus: "linked" })]),
+    }));
     const remaining = await master.propertyOwners.reviewQueue({ sourceFile: OWNER_REVIEW_FILE, limit: 10 });
     expect(remaining).toHaveLength(0);
-  });
+  }, 15_000);
 
   it("records the publisher and first publication date when a unified unit becomes available for resale", async () => {
     const master = appRouter.createCaller(masterCtx);
