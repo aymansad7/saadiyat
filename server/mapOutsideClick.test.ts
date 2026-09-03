@@ -20,13 +20,14 @@ describe("Interactive Map card dismissal", () => {
     expect(source).toContain("window.history.replaceState");
   });
 
-  it("keeps colored project filters inside the collapsible Header while the canvas owns touch gestures", () => {
+  it("keeps colored project filters inside the collapsible Header while Google Maps owns touch gestures", () => {
     expect(source).toContain("mapProjectFilters={mapProjectFilters}");
     expect(source).toContain('aria-label="Map project filters"');
     expect(source).toContain("All projects");
     expect(source).toContain("layoutVersion={isHeaderCollapsed ? 1 : 0}");
     expect(source).toContain("setIsHeaderCollapsed(false)");
-    expect(source).toContain("className=\"h-full w-full touch-none\"");
+    expect(source).toContain("className=\"h-full w-full\"");
+    expect(source).not.toContain("className=\"h-full w-full touch-none\"");
     expect(source).toContain("selectedMarker &&");
     expect(source).toContain("map.setCenter({ lat: data.lat, lng: data.lng })");
     expect(source).toContain("highlightMarker(data.id)");

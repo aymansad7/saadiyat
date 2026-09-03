@@ -880,3 +880,6 @@
 ### Urgent Mobile Authentication Recovery (Sep 3, 2026)
 - [x] Diagnose the unexpected sign-out and restore Google OAuth initiation and return handling on the published mobile domain without revoking other active sessions; POST is now limited to the large map-permission query instead of every tRPC request
 - [x] Verify email/password and Google sign-in entry points, add regression coverage, and publish the verified correction; active email/password sessions renew only in their final 30 days while expired or revoked sessions remain invalid
+
+### Urgent Safari/iPhone Map Canvas Recovery (Sep 3, 2026)
+- [x] Diagnose and correct the white Google Maps canvas on Safari/iPhone when marker data has loaded, without changing documented coordinates or map-card links; establish a measurable canvas, Safari viewport reflow, origin referrer policy, and native Google touch handling

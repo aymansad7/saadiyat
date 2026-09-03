@@ -102,6 +102,10 @@ function loadMapScript(): Promise<void> {
     const script = document.createElement("script");
     script.id = "manus-google-maps-sdk";
     script.src = `${MAPS_PROXY_URL}/maps/api/js?key=${API_KEY}&v=weekly&libraries=marker,places,geocoding,geometry`;
+    // The maps proxy authorizes the website origin. Explicitly preserve the
+    // origin-only referrer on Safari/iOS, where privacy defaults can otherwise
+    // omit it for an injected cross-origin script and leave a blank map canvas.
+    script.referrerPolicy = "strict-origin-when-cross-origin";
     script.async = true;
     script.onload = async () => {
       try {
@@ -149,6 +153,15 @@ export function MapView({
   const map = useRef<google.maps.Map | null>(null);
 
   const init = usePersistFn(async () => {
+    // On older Safari releases the initial flex layout can report a 0px map
+    // height while the dynamic viewport is settling. A ResizeObserver below
+    // retries once the container is measurable instead of constructing a
+    // permanently blank Maps canvas.
+    if (map.current) return;
+    const container = mapContainer.current;
+    if (!container || container.clientWidth < 2 || container.clientHeight < 2) {
+      return;
+    }
     try {
       await loadMapScript();
     } catch (error) {
@@ -157,6 +170,9 @@ export function MapView({
     }
     if (!mapContainer.current) {
       console.error("Map container not found");
+      return;
+    }
+    if (mapContainer.current.clientWidth < 2 || mapContainer.current.clientHeight < 2) {
       return;
     }
     map.current = new window.google.maps.Map(mapContainer.current, {
@@ -192,6 +208,41 @@ export function MapView({
   }, [init]);
 
   useEffect(() => {
+    const container = mapContainer.current;
+    if (!container) return;
+
+    let frame: number | null = null;
+    const reflowOrInit = () => {
+      if (frame !== null) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        if (!map.current) {
+          void init();
+          return;
+        }
+        const center = map.current.getCenter();
+        window.google?.maps?.event.trigger(map.current, "resize");
+        if (center) map.current.setCenter(center);
+      });
+    };
+
+    // iPhone Safari frequently finalizes its visual viewport after the first
+    // paint. Listen to both element and visual-viewport changes so Google Maps
+    // initializes only after it receives a real canvas size.
+    const observer = new ResizeObserver(reflowOrInit);
+    observer.observe(container);
+    window.visualViewport?.addEventListener("resize", reflowOrInit);
+    window.visualViewport?.addEventListener("scroll", reflowOrInit);
+    window.setTimeout(reflowOrInit, 350);
+    window.setTimeout(reflowOrInit, 900);
+    return () => {
+      observer.disconnect();
+      window.visualViewport?.removeEventListener("resize", reflowOrInit);
+      window.visualViewport?.removeEventListener("scroll", reflowOrInit);
+      if (frame !== null) cancelAnimationFrame(frame);
+    };
+  }, [init]);
+
+  useEffect(() => {
     if (!map.current || !window.google?.maps) return;
     const reflow = () => {
       if (!map.current) return;
@@ -208,6 +259,6 @@ export function MapView({
   }, [layoutVersion]);
 
   return (
-    <div ref={mapContainer} className={cn("w-full h-[500px] touch-none", className)} />
+    <div ref={mapContainer} className={cn("w-full h-[500px] min-h-[320px]", className)} />
   );
 }

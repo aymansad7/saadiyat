@@ -107,6 +107,13 @@ describe("Unified map property cards", () => {
     expect(clientSource).toContain('op.path === "propertyAccess.permissions"');
     expect(clientSource).toContain("splitLink");
     expect(mapSource).toContain("isRenderingMarkers");
+    const mapComponentSource = fs.readFileSync(path.resolve(process.cwd(), "client/src/components/Map.tsx"), "utf8");
+    expect(mapComponentSource).toContain("ResizeObserver");
+    expect(mapComponentSource).toContain("visualViewport");
+    expect(mapComponentSource).toContain('referrerPolicy = "strict-origin-when-cross-origin"');
+    expect(mapSource).toContain("h-screen h-[100dvh]");
+    expect(mapComponentSource).toContain('gestureHandling: "greedy"');
+    expect(mapSource).not.toContain('className="h-full w-full touch-none"');
     expect(mapSource).toContain("batchSize = 160");
   });
 

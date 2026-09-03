@@ -1225,12 +1225,12 @@ export default function SaadiyatMap() {
   );
 
   return (
-    <div className="h-[100dvh] min-h-0 flex flex-col bg-background overflow-hidden overscroll-none">
+    <div className="h-screen h-[100dvh] min-h-0 flex flex-col bg-background overflow-hidden overscroll-none">
       {!isHeaderCollapsed && (
         <SiteHeader fixed compact onCollapse={() => setIsHeaderCollapsed(true)} mapProjectFilters={mapProjectFilters} />
       )}
       {/* Full screen map container */}
-      <div className={`flex-1 min-h-0 relative transition-[padding] duration-200 ${isHeaderCollapsed ? "pt-0" : "pt-[86px] sm:pt-[90px]"}`}>
+      <div className={`flex-1 min-h-[320px] relative transition-[padding] duration-200 ${isHeaderCollapsed ? "pt-0" : "pt-[86px] sm:pt-[90px]"}`}>
         <div className="relative h-full min-h-0">
         {/* Controls overlay */}
         <div className="absolute top-3 left-3 right-3 z-10 flex flex-wrap gap-2 pointer-events-none">
@@ -1375,7 +1375,7 @@ export default function SaadiyatMap() {
         </div>
         {/* Map fills remaining space */}
         <MapView
-          className="h-full w-full touch-none"
+          className="h-full w-full"
           initialCenter={{ lat: 24.5460, lng: 54.4300 }}
           initialZoom={14}
           onMapReady={handleMapReady}
