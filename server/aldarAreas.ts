@@ -75,6 +75,8 @@ const PROJECT_AREA: Record<string, AreaKey> = {
 
   // --- Al Ghadeer ---
   "al-ghadeer-gardens": "al-ghadeer",
+  "al-ghadeer-parks-1": "al-ghadeer",
+  "al-ghadeer-parks-2": "al-ghadeer",
 
   // --- Saadiyat (physically Saadiyat Marina District) ---
   "nouran-living": "saadiyat",

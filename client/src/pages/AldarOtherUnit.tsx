@@ -328,6 +328,12 @@ function Inner() {
             <Row label="Unit Model" value={unit.unit_model ?? "—"} />
             <Row label="Bedrooms" value={unit.bedrooms ?? "—"} />
             <Row label="Status" value={unit.status ?? "—"} />
+            {unit.source_unit_status && (
+              <Row label="Official captured unit state" value={unit.source_unit_status} />
+            )}
+            {unit.source_captured_at && (
+              <Row label="Official source capture" value={unit.source_captured_at} />
+            )}
             <Row label="Property Status" value={unit.property_status ?? "—"} />
             <Row label="Inventory Category" value={unit.inventory_category ?? "—"} />
             <Row

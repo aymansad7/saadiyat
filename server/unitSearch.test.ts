@@ -48,6 +48,22 @@ describe("unitSearch.search", () => {
     expect(byUnit.results[0]?.href).toContain("/aldar-other/thebeachhouse/");
   });
 
+  it("finds captured Al Ghadeer units by project and preserves their exact card route", async () => {
+    const caller = appRouter.createCaller(adminCtx());
+    const byProject = await caller.unitSearch.search({ q: "Al Ghadeer Parks 2", dataset: "other", projectSlug: "al-ghadeer-parks-2", limit: 10 });
+    const byExactCode = await caller.unitSearch.search({ q: "N2 V 004 Test 01", dataset: "other", projectSlug: "al-ghadeer-gardens", limit: 10 });
+    expect(byProject.results.length).toBeGreaterThan(0);
+    expect(byProject.results.every(result => result.projectSlug === "al-ghadeer-parks-2")).toBe(true);
+    expect(byExactCode.results).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        unitName: "AlGhadeerGardens-N2-V-004-Test-01",
+        href: "/aldar-other/al-ghadeer-gardens/n2/AlGhadeerGardens-N2-V-004-Test-01",
+        priceAed: null,
+        status: null,
+      }),
+    ]));
+  });
+
   it("returns results from Lagoons dataset", async () => {
     const caller = appRouter.createCaller(adminCtx());
     // "AlGhaf" is a known prefix in Lagoons

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { prepareLagoonsGoogleOwnerRecords } from "./lagoonsGoogleSheetOwnerImport";
+import { latestGoogleCardRows, prepareLagoonsGoogleOwnerRecords } from "./lagoonsGoogleSheetOwnerImport";
 
 const owner = { id: 7, displayName: "Reviewed owner", phone: "+971 50 123 4567", email: null };
 const source = (overrides: Partial<{ status: "linked" | "unlinked" | "conflict"; villa_key: string; owner_phone: string | null }> = {}) => ({
@@ -39,5 +39,16 @@ describe("Lagoons Google owner import", () => {
   it("does not use a phone or source row without an exact unit key to create a relation", () => {
     const result = prepareLagoonsGoogleOwnerRecords([source({ status: "unlinked", villa_key: "" })], new Map([["lagoons/AlGhaf-127-03", [owner]]]));
     expect(result[0]).toMatchObject({ ownerId: null, community: null, matchStatus: "unlinked" });
+  });
+
+  it("uses the latest supplied CRM row per reviewed exact unit while retaining prior rows for history", () => {
+    const prepared = prepareLagoonsGoogleOwnerRecords([
+      source({ source_row: 12, owner_phone: "050 123 4567" }),
+      source({ source_row: 19, owner_phone: "050 123 4568" }),
+    ], new Map([["lagoons/AlGhaf-127-03", [owner]]]));
+    const [group] = latestGoogleCardRows(prepared);
+    expect(group.current.source_row).toBe(19);
+    expect(group.current.matchStatus).toBe("conflict");
+    expect(group.previous.map(row => row.source_row)).toEqual([12]);
   });
 });

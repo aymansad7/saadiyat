@@ -397,6 +397,10 @@ export const villaListings = mysqlTable(
     ownerEmail: varchar("ownerEmail", { length: 320 }),
     /** Free-form internal notes (deal history, motivation, prior offers). */
     internalNotes: text("internalNotes"),
+    /** Current structured CRM snapshot for this exact unit; Master Admin only. */
+    ownerCurrentDataJson: text("ownerCurrentDataJson"),
+    /** Prior structured CRM/card snapshots; append-only and Master Admin only. */
+    ownerHistoryJson: text("ownerHistoryJson"),
 
     /** Source-backed grouping fields used to narrow access grants. */
     phaseKey: varchar("phaseKey", { length: 64 }),

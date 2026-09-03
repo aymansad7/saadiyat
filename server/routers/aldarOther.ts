@@ -50,6 +50,12 @@ export type AldarOtherUnit = {
   payment_plans: string | null;
   building_section: string | null;
   project_field: string | null;
+  /** Raw static explorer label; this is deliberately not an operational availability state. */
+  source_unit_status?: string | null;
+  /** ISO date of the manually captured official World of Aldar source. */
+  source_captured_at?: string | null;
+  /** Original World of Aldar cluster route used for this captured source row. */
+  source_route?: string | null;
 };
 
 export type AldarOtherBuilding = {

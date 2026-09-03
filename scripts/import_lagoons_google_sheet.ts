@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { eq, sql } from "drizzle-orm";
 import { propertyOwnerImportRecords, propertyOwnerUnits, propertyOwners, villaListingAudit, villaListings } from "../drizzle/schema";
-import { prepareLagoonsGoogleOwnerRecords, type LagoonsGooglePlanRow } from "../server/lagoonsGoogleSheetOwnerImport";
+import { latestGoogleCardRows, prepareLagoonsGoogleOwnerRecords, type LagoonsGooglePlanRow } from "../server/lagoonsGoogleSheetOwnerImport";
 import { getDb } from "../server/db";
 import { ensureFolderPath, getConfiguredOneDrive, uploadOneDriveFile } from "../server/oneDrive";
 
@@ -15,6 +15,43 @@ const BATCH_SIZE = 250;
 
 function chunks<T>(values: T[]) {
   return Array.from({ length: Math.ceil(values.length / BATCH_SIZE) }, (_, index) => values.slice(index * BATCH_SIZE, (index + 1) * BATCH_SIZE));
+}
+
+function readHistory(value: string | null) {
+  try {
+    const parsed = JSON.parse(value ?? "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function toWholeAed(value: string | number | null | undefined) {
+  if (value == null || value === "") return null;
+  const numeric = Number(String(value).replace(/[^0-9.]/g, ""));
+  return Number.isFinite(numeric) && numeric >= 0 && numeric <= 10_000_000_000 ? Math.round(numeric) : null;
+}
+
+function crmSnapshot(row: LagoonsGooglePlanRow, importedAt: string) {
+  return {
+    source: SOURCE_FILE,
+    sourceSheet: row.source_sheet,
+    sourceRow: row.source_row,
+    importedAt,
+    stage: row.snapshot?.stage ?? null,
+    offeringType: row.snapshot?.offeringType ?? null,
+    responsiblePerson: row.snapshot?.responsiblePerson ?? null,
+    community: row.snapshot?.community ?? null,
+    subCommunity: row.snapshot?.subCommunity ?? null,
+    buildingName: row.snapshot?.buildingName ?? null,
+    listingAvailability: row.snapshot?.listingAvailability ?? null,
+    bedrooms: row.snapshot?.bedrooms ?? null,
+    offeringPrice: row.snapshot?.offeringPrice ?? null,
+    propertyType: row.snapshot?.propertyType ?? null,
+    product: row.snapshot?.product ?? null,
+    price: row.snapshot?.price ?? null,
+    quantity: row.snapshot?.quantity ?? null,
+  };
 }
 
 async function archiveSourceWithRetry() {
@@ -59,7 +96,7 @@ async function main() {
   }
   const prepared = prepareLagoonsGoogleOwnerRecords(plan.records, ownerByVilla);
   const reasonCounts = Object.fromEntries(
-    [...new Set(prepared.map(row => row.matchReason))]
+    Array.from(new Set(prepared.map(row => row.matchReason)))
       .map(reason => [reason, prepared.filter(row => row.matchReason === reason).length])
       .sort((left, right) => Number(right[1]) - Number(left[1])),
   );
@@ -69,16 +106,13 @@ async function main() {
     linked: prepared.filter(row => row.matchStatus === "linked").length,
     unlinked: prepared.filter(row => row.matchStatus === "unlinked").length,
     conflicts: prepared.filter(row => row.matchStatus === "conflict").length,
-    distinctLinkedUnits: new Set(prepared.filter(row => row.matchStatus === "linked").map(row => row.villa_key)).size,
+    currentCardUnits: latestGoogleCardRows(prepared).length,
     reasonCounts,
   };
   if (!APPLY) return void console.log(JSON.stringify(summary, null, 2));
 
   const existingSourceItemId = existingImportRows.find(row => row.sourceItemId)?.sourceItemId ?? null;
-  let sourceItemId = existingSourceItemId;
-  if (!sourceItemId) {
-    sourceItemId = await archiveSourceWithRetry();
-  }
+  const sourceItemId = existingSourceItemId ?? await archiveSourceWithRetry();
   if (!sourceItemId) throw new Error("OneDrive did not return a source file identifier.");
 
   for (const batch of chunks(prepared)) {
@@ -110,18 +144,45 @@ async function main() {
   }
 
   const listingByKey = new Map(listings.map(listing => [listing.villaKey, listing]));
-  const overlayRows = [...new Map(prepared.filter(row => row.matchStatus === "linked" && row.villa_key && row.ownerId).map(row => [`${row.villa_key}|${row.ownerId}`, row])).values()];
+  const overlayGroups = latestGoogleCardRows(prepared);
+  const importedAt = new Date().toISOString();
+  const auditRows: { villaKey: string; actorEmail: string; actorName: string; summary: string; changesJson: string }[] = [];
   let overlaysWritten = 0;
-  for (const row of overlayRows) {
-    const owner = ownerById.get(row.ownerId!);
-    if (!owner || !row.villa_key) continue;
+  for (const group of overlayGroups) {
+    const row = group.current;
+    if (!row.villa_key || !row.ownerId) continue;
+    const owner = ownerById.get(row.ownerId);
+    if (!owner) continue;
     const existing = listingByKey.get(row.villa_key);
-    if (existing && ((existing.ownerName && existing.ownerName !== owner.displayName) || (existing.ownerPhone && owner.phone && existing.ownerPhone.replace(/\D/g, "") !== owner.phone.replace(/\D/g, "")))) continue;
+    const snapshot = crmSnapshot(row, importedAt);
+    const currentBefore = existing ? readHistory(existing.ownerCurrentDataJson)[0] ?? null : null;
+    const priorHistory = existing ? readHistory(existing.ownerHistoryJson) : [];
+    const history = currentBefore?.sourceRow === row.source_row
+      ? priorHistory
+      : [
+          ...priorHistory,
+          ...(currentBefore ? [{ kind: "prior_google_crm_current", capturedAt: importedAt, data: currentBefore }] : []),
+          ...group.previous.map(previous => ({ kind: "prior_google_crm_row", capturedAt: importedAt, data: crmSnapshot(previous, importedAt) })),
+          ...(existing && (existing.ownerName || existing.ownerPhone || existing.ownerEmail)
+            ? [{ kind: "prior_card_owner_overlay", capturedAt: importedAt, data: { ownerName: existing.ownerName, ownerPhone: existing.ownerPhone, ownerEmail: existing.ownerEmail } }]
+            : []),
+        ].slice(-80);
+    const askingPriceAed = toWholeAed(row.snapshot?.offeringPrice) ?? existing?.askingPriceAed ?? null;
+    const currentPhone = row.owner_phone ?? existing?.ownerPhone ?? owner.phone;
+    const changes = {
+      ownerPhone: { from: existing?.ownerPhone ?? null, to: currentPhone },
+      askingPriceAed: { from: existing?.askingPriceAed ?? null, to: askingPriceAed },
+      currentSourceRow: row.source_row,
+      priorSourceRows: group.previous.map(previous => previous.source_row),
+    };
     if (existing) {
       await db.update(villaListings).set({
-        ownerName: existing.ownerName ?? owner.displayName,
-        ownerPhone: existing.ownerPhone ?? owner.phone,
-        ownerEmail: existing.ownerEmail ?? owner.email,
+        ownerName: owner.displayName,
+        ownerPhone: currentPhone,
+        ownerEmail: owner.email ?? existing.ownerEmail,
+        askingPriceAed,
+        ownerCurrentDataJson: JSON.stringify([snapshot]),
+        ownerHistoryJson: JSON.stringify(history),
         updatedBy: ACTOR,
       }).where(eq(villaListings.id, existing.id));
     } else {
@@ -130,20 +191,24 @@ async function main() {
         community: "lagoons",
         status: "draft",
         ownerName: owner.displayName,
-        ownerPhone: owner.phone,
+        ownerPhone: currentPhone,
         ownerEmail: owner.email,
+        askingPriceAed,
+        ownerCurrentDataJson: JSON.stringify([snapshot]),
+        ownerHistoryJson: JSON.stringify(history),
         updatedBy: ACTOR,
       });
     }
+    auditRows.push({
+      villaKey: row.villa_key,
+      actorEmail: ACTOR,
+      actorName: ACTOR_NAME,
+      summary: `Applied latest Google CRM row ${row.source_row}; prior values retained as owner history.`,
+      changesJson: JSON.stringify({ source: SOURCE_FILE, ...changes }),
+    });
     overlaysWritten += 1;
   }
-  if (overlayRows.length) {
-    await db.insert(villaListingAudit).values(overlayRows.map(row => ({
-      villaKey: row.villa_key!, actorEmail: ACTOR, actorName: ACTOR_NAME,
-      summary: `Reconciled existing reviewed owner record from Google CRM row ${row.source_row}; listing remains Draft.`,
-      changesJson: JSON.stringify({ source: SOURCE_FILE, sourceRow: row.source_row, ownerOverlay: "reconciled_from_reviewed_relation" }),
-    })));
-  }
+  if (auditRows.length) await db.insert(villaListingAudit).values(auditRows);
   console.log(JSON.stringify({ ...summary, sourceFileStoredInOneDrive: true, cardOverlaysWritten: overlaysWritten }, null, 2));
 }
 

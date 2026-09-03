@@ -110,6 +110,18 @@ export interface MapMarkerData {
   owner?: string;
   phone?: string;
   ownerEmail?: string;
+  crmCurrent?: {
+    sourceRow?: number;
+    stage?: string | null;
+    offeringType?: string | null;
+    listingAvailability?: string | null;
+    offeringPrice?: string | number | null;
+    propertyType?: string | null;
+    product?: string | null;
+    bedrooms?: string | number | null;
+    buildingName?: string | null;
+    responsiblePerson?: string | null;
+  };
   tenant?: string;
   tenantPhone?: string;
   tenantEmail?: string;
@@ -149,6 +161,15 @@ function mapMarkerScope(marker: Pick<MapMarkerData, "community" | "slPhase" | "b
     bedrooms: Number.isInteger(parsedBedrooms) ? parsedBedrooms : null,
     inventoryKey: marker.inventoryKey ?? null,
   };
+}
+
+function parseCurrentOwnerCrm(value: string | null | undefined): MapMarkerData["crmCurrent"] {
+  try {
+    const parsed = JSON.parse(value ?? "[]");
+    return Array.isArray(parsed) && parsed[0] && typeof parsed[0] === "object" ? parsed[0] : undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 export function getMapMarkerColor(marker: Pick<MapMarkerData, "community" | "availabilityStatus" | "listing" | "markerColor">) {
@@ -764,6 +785,7 @@ export default function SaadiyatMap() {
         ownerName?: string | null;
         ownerPhone?: string | null;
         ownerEmail?: string | null;
+        ownerCurrentDataJson?: string | null;
         buildingKey?: string | null;
         unitTypeKey?: string | null;
         bedrooms?: number | null;
@@ -794,6 +816,7 @@ export default function SaadiyatMap() {
         owner: overrideWithProtectedFields?.ownerName ?? hiddSensitive?.ownerName,
         phone: overrideWithProtectedFields?.ownerPhone ?? hiddSensitive?.ownerPhone,
         ownerEmail: user?.role === "master" ? (overrideWithProtectedFields?.ownerEmail ?? hiddSensitive?.ownerEmail) : undefined,
+        crmCurrent: user?.role === "master" ? parseCurrentOwnerCrm(overrideWithProtectedFields?.ownerCurrentDataJson) : undefined,
         tenant: user?.role === "master" ? hiddSensitive?.tenant : undefined,
         tenantPhone: user?.role === "master" ? hiddSensitive?.tenantPhone : undefined,
         tenantEmail: user?.role === "master" ? hiddSensitive?.tenantEmail : undefined,
@@ -874,6 +897,7 @@ export default function SaadiyatMap() {
     const canViewOwnerName = Boolean(permissions?.canViewOwnerName);
     const canViewOwnerPhone = Boolean(permissions?.canViewOwnerPhone);
     const canViewOwnerEmail = user?.role === "master";
+    const canViewCurrentCrm = user?.role === "master";
     const canViewOriginalPrice = Boolean(permissions?.canViewOriginalPrice);
     const canEdit = Boolean(permissions?.canEditProperties);
     // Being authorised makes this control available; it does not reveal owner
@@ -904,6 +928,20 @@ export default function SaadiyatMap() {
       html += `</div>`;
     } else if (showSensitiveDetails && (canViewOwnerName || canViewOwnerPhone)) {
       html += `<div style="margin:1px 0 7px;font-size:11px;color:#999;font-style:italic">Owner info not yet added</div>`;
+    }
+    if (canViewCurrentCrm && m.crmCurrent) {
+      const crmFacts = [
+        ["Stage", m.crmCurrent.stage], ["Listing", m.crmCurrent.listingAvailability], ["Offering", m.crmCurrent.offeringType],
+        ["Offering price", m.crmCurrent.offeringPrice], ["Type", m.crmCurrent.propertyType], ["Product", m.crmCurrent.product],
+        ["Bedrooms", m.crmCurrent.bedrooms], ["Building", m.crmCurrent.buildingName], ["Responsible", m.crmCurrent.responsiblePerson],
+      ].filter((fact): fact is [string, string | number] => fact[1] != null && fact[1] !== "");
+      if (crmFacts.length) {
+        html += `<div style="margin:1px 0 8px;padding:8px;background:#f0f9ff;border-radius:6px;border:1px solid #bae6fd">`;
+        html += `<div style="font-size:10px;color:#0369a1;font-weight:700;text-transform:uppercase;letter-spacing:.06em">Google CRM · Current data</div>`;
+        html += `<div style="margin-top:4px;font-size:11px;line-height:1.5;color:#334155">${crmFacts.map(([label, value]) => `<div><span style="color:#64748b">${escapeHtml(label)}: </span>${escapeHtml(value)}</div>`).join("")}</div>`;
+        if (m.crmCurrent.sourceRow) html += `<div style="margin-top:3px;font-size:9px;color:#64748b">Source row ${escapeHtml(m.crmCurrent.sourceRow)}</div>`;
+        html += `</div>`;
+      }
     }
     
     if (m.landSqft || m.landSqm) {

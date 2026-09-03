@@ -134,6 +134,13 @@
       "when": 1788414058692,
       "tag": "0018_sour_alex_power",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1788432833799,
+      "tag": "0019_wakeful_bloodscream",
+      "breakpoints": true
     }
   ]
 }

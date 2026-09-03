@@ -176,6 +176,13 @@ describe("computeDiff", () => {
     expect(computeDiff(prev, [unit({ unitName: "BSPP-V-01", status: "Available" })]).find(event => event.eventType === "status_change")).toBeUndefined();
   });
 
+  it("does not misreport an omitted source status as an operational status change", () => {
+    const prev = prevMap([{ unitName: "GHD-R2-V-001-01", status: "Sold", priceAed: 2_000_000, isPresent: true }]);
+    const events = computeDiff(prev, [unit({ unitName: "GHD-R2-V-001-01", status: null, priceAed: null })]);
+    expect(events.find(event => event.eventType === "status_change")).toBeUndefined();
+    expect(events.find(event => event.eventType === "price_change")).toBeUndefined();
+  });
+
   it("emits price_change when the price differs but not when a price is unknown", () => {
     const changed = computeDiff(prevMap([{ unitName: "BSPP-V-01", status: "Available", priceAed: 1_000_000, isPresent: true }]), [unit({ unitName: "BSPP-V-01", priceAed: 1_200_000 })]);
     expect(changed.find(event => event.eventType === "price_change")?.toPriceAed).toBe(1_200_000);

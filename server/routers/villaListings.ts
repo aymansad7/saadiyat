@@ -146,6 +146,8 @@ function toVisible(
     // Admin/master permissions include the private operational fields.
     base.ownerEmail = row.ownerEmail;
     base.internalNotes = row.internalNotes;
+    base.ownerCurrentDataJson = row.ownerCurrentDataJson;
+    base.ownerHistoryJson = row.ownerHistoryJson;
     base.updatedBy = row.updatedBy;
   }
   return base;

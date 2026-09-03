@@ -8,6 +8,21 @@ export type LagoonsGooglePlanRow = {
   status: "linked" | "unlinked" | "conflict";
   reason: string;
   villa_key?: string;
+  snapshot?: {
+    stage?: string | null;
+    offeringType?: string | null;
+    responsiblePerson?: string | null;
+    community?: string | null;
+    subCommunity?: string | null;
+    buildingName?: string | null;
+    listingAvailability?: string | null;
+    bedrooms?: string | number | null;
+    offeringPrice?: string | number | null;
+    propertyType?: string | null;
+    product?: string | null;
+    price?: string | number | null;
+    quantity?: string | number | null;
+  };
 };
 
 export type ExistingPrimaryOwner = {
@@ -104,4 +119,24 @@ export function prepareLagoonsGoogleOwnerRecords(
     }
   }
   return prepared;
+}
+
+/**
+ * The supplied Google workbook is the current CRM snapshot. A record may
+ * update a card only after its exact unit and previously reviewed owner link
+ * have both been established. Where a unit appears more than once, the final
+ * source row is its current CRM row while earlier rows are retained in history.
+ */
+export function latestGoogleCardRows(rows: PreparedGoogleOwnerRecord[]) {
+  const byVilla = new Map<string, PreparedGoogleOwnerRecord[]>();
+  for (const row of rows) {
+    if (!row.villa_key || !row.ownerId) continue;
+    if (row.matchStatus !== "linked" && row.matchStatus !== "conflict") continue;
+    byVilla.set(row.villa_key, [...(byVilla.get(row.villa_key) ?? []), row]);
+  }
+  return Array.from(byVilla.entries()).map(([villaKey, values]: [string, PreparedGoogleOwnerRecord[]]) => ({
+    villaKey,
+    current: values.slice().sort((a: PreparedGoogleOwnerRecord, b: PreparedGoogleOwnerRecord) => b.source_row - a.source_row)[0],
+    previous: values.slice().sort((a: PreparedGoogleOwnerRecord, b: PreparedGoogleOwnerRecord) => a.source_row - b.source_row).slice(0, -1),
+  }));
 }

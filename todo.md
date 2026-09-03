@@ -895,3 +895,8 @@
 - [x] Review the shared Google Sheet, preserve a private source record in OneDrive, and import owner fields only against confirmed canonical unit keys; all 2,403 source rows are archived in OneDrive and retained in the protected source ledger
 - [x] Surface permitted imported owner facts consistently in the matching unit cards and map cards, while retaining unresolved rows for Master review; all 535 reviewed Lagoons owner links have name and phone overlays, while 596 CRM phone conflicts remain attached to the reviewed owner for Master review without overwriting card data
 - [x] Prevent the Lagoons detail route from redirecting while its unit and protected owner overlay are still loading
+
+### Current Owner Data and Gulf Ghadeer Gardens (Sep 3, 2026)
+- [x] Treat the supplied Google Sheet as the current owner-data authority for exact unit matches and preserve every differing prior value as a dated owner-history event
+- [x] Discover every officially published Gulf Ghadeer Gardens phase and unit/project record, add only verified data to the system, and export a dated Excel register to OneDrive
+- [x] Link every exact Lagoons unit match to its own verified Aldar Interactive page; never substitute a project page or a similar unit link

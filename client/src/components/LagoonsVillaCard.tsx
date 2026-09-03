@@ -24,6 +24,7 @@ import {
   EditListingButton,
   InteractiveMapLink,
   ListingBadge,
+  ListingOwnerCrmData,
   ListingOwnerFacts,
   ListingPropertyFacts,
   ListingPriceLabel,
@@ -188,6 +189,7 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
         ) : null}
         <ListingPropertyFacts listing={listing} />
         <ListingOwnerFacts listing={listing} />
+        <ListingOwnerCrmData listing={listing} />
         {originalPrice != null && canViewOriginalPrice && (
           <div className="mt-3 border-l-2 border-primary/50 pl-2.5">
             <div className="text-[0.6rem] uppercase tracking-[0.16em] font-mono text-muted-foreground">

@@ -302,7 +302,10 @@ export function computeDiff(
     }
 
     // status change
-    if (normStatus(p.status) !== normStatus(u.status)) {
+    // An omitted status means the new source did not publish an operational
+    // availability value. Preserve that uncertainty in state without emitting
+    // a false "status change" from a prior source value to unknown.
+    if (u.status != null && normStatus(p.status) !== normStatus(u.status)) {
       events.push({
         unitName: u.unitName,
         dataset: u.dataset,

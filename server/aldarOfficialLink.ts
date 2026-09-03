@@ -54,9 +54,15 @@ function currentAldarUnitUrl(projectSlug: string | null | undefined, unitName: s
         ? prefixed(/^almarjan-(.+)$/i, "almarjan")
         : project === "al-ghadeer-gardens"
           ? (() => {
-              const match = /^alghadeergardens-(r\d+-(?:v|th)-\d+)$/i.exec(unit);
-              return match ? { projectPath: "alghadeergardens", code: `${match[1]}-01` } : null;
+            const match = /^alghadeergardens-((?:r|n)\d+-(?:v|th)-\d+(?:-[a-z]+)?(?:-\d+)?)$/i.exec(unit);
+            if (!match) return null;
+            const code = /-\d{2}$/i.test(match[1]) ? match[1] : `${match[1]}-01`;
+            return { projectPath: "alghadeergardens", code };
             })()
+          : project === "al-ghadeer-parks-1"
+            ? prefixed(/^alghadeerparks1-(nc-(?:v|th)-\d+-\d+)$/i, "alghadeerparks1")
+            : project === "al-ghadeer-parks-2"
+              ? prefixed(/^alghadeerparks2-(nd-(?:v|th)-\d+-\d+)$/i, "alghadeerparks2")
         : project === "nobu-residences"
           ? (() => {
               const match = /^noburesidences-b2-east-(\d{2}-\d{2})$/i.exec(unit);

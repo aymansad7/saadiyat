@@ -15,7 +15,7 @@ import { trpc } from "@/lib/trpc";
 import type { LagoonsVilla } from "@/data/lagoons";
 import { ResaleCard } from "@/components/ResaleCard";
 import { getAvailability, SOURCE_META } from "@/data/lagoonsAvailability";
-import { ListingOwnerFacts, ListingPropertyFacts } from "@/components/ListingControls";
+import { ListingOwnerCrmData, ListingOwnerFacts, ListingPropertyFacts } from "@/components/ListingControls";
 import { getLagoonsDetailState } from "@/lib/lagoonsDetailState";
 
 function fmtAed(n: number): string {
@@ -226,6 +226,7 @@ export default function LagoonsVillaDetail() {
           />
           <ListingPropertyFacts listing={listing ?? null} />
           <ListingOwnerFacts listing={ownerListing} />
+          <ListingOwnerCrmData listing={listing ?? null} />
         </div>
       </section>
 

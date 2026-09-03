@@ -9,7 +9,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { appRouter } from "./routers";
 import { getDb } from "./db";
-import { villaListingAudit, villaListings } from "../drizzle/schema";
+import { propertyAccessGrants, villaListingAudit, villaListings } from "../drizzle/schema";
 import { eq, like } from "drizzle-orm";
 
 const TEST_KEY = "test-villaListings/Plot-1";
@@ -31,6 +31,7 @@ beforeAll(async () => {
   if (!db) return;
   await db.delete(villaListingAudit).where(eq(villaListingAudit.villaKey, TEST_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, TEST_KEY));
+  await db.delete(propertyAccessGrants).where(eq(propertyAccessGrants.email, "a@a.test"));
 }, 30_000);
 
 afterAll(async () => {
@@ -39,6 +40,7 @@ afterAll(async () => {
   await db.delete(villaListingAudit).where(eq(villaListingAudit.villaKey, TEST_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, TEST_KEY));
   await db.delete(villaListings).where(like(villaListings.community, "test-villaListings%"));
+  await db.delete(propertyAccessGrants).where(eq(propertyAccessGrants.email, "a@a.test"));
 }, 30_000);
 
 describe("villaListings router — public masking", () => {
@@ -123,6 +125,19 @@ describe("villaListings router — Master Admin upsert + masking", () => {
     expect(adminRow.ownerName).toBe("Test Owner");
     expect(adminRow.internalNotes).toBe("Internal: very motivated");
 
+    const db = await getDb();
+    if (!db) throw new Error("Database unavailable");
+    await db.update(villaListings).set({
+      ownerCurrentDataJson: JSON.stringify([{ sourceRow: 18, stage: "Current" }]),
+      ownerHistoryJson: JSON.stringify([{ kind: "prior_card_owner_overlay", data: { ownerPhone: "+9715000" } }]),
+    }).where(eq(villaListings.villaKey, TEST_KEY));
+    const protectedMasterRow: any = await admin.villaListings.byKey({ villaKey: TEST_KEY });
+    const protectedPublicRow: any = await appRouter.createCaller(anonCtx).villaListings.byKey({ villaKey: TEST_KEY });
+    expect(protectedMasterRow.ownerCurrentDataJson).toContain("Current");
+    expect(protectedMasterRow.ownerHistoryJson).toContain("prior_card_owner_overlay");
+    expect(protectedPublicRow.ownerCurrentDataJson).toBeUndefined();
+    expect(protectedPublicRow.ownerHistoryJson).toBeUndefined();
+
     // update price → audit row should be appended
     await admin.villaListings.upsert({
       villaKey: TEST_KEY,
@@ -134,6 +149,25 @@ describe("villaListings router — Master Admin upsert + masking", () => {
     expect(audit.length).toBeGreaterThanOrEqual(2);
     const summaries = audit.map((a: any) => a.summary).join("\n");
     expect(summaries).toMatch(/askingPriceAed/);
+  });
+
+  it("shows delegated owner name and phone without releasing Google current or history payloads", { timeout: 30_000 }, async () => {
+    const db = await getDb();
+    if (!db) return;
+    await db.insert(propertyAccessGrants).values({
+      email: "a@a.test",
+      areaKey: "other",
+      projectKey: TEST_COMMUNITY,
+      canViewOwnerName: true,
+      canViewOwnerPhone: true,
+      createdBy: "m@m.test",
+    });
+    const delegatedRow: any = await appRouter.createCaller(adminCtx).villaListings.byKey({ villaKey: TEST_KEY });
+    expect(delegatedRow.ownerName).toBe("Test Owner");
+    expect(delegatedRow.ownerPhone).toBe("+9715000");
+    expect(delegatedRow.ownerCurrentDataJson).toBeUndefined();
+    expect(delegatedRow.ownerHistoryJson).toBeUndefined();
+    expect(delegatedRow.internalNotes).toBeUndefined();
   });
 
   it("listByCommunity bulk fetches the test community", { timeout: 20_000 }, async () => {

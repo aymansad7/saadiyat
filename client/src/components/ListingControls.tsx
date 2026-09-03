@@ -94,6 +94,79 @@ export function ListingOwnerFacts({
   );
 }
 
+type OwnerCrmSnapshot = {
+  sourceRow?: number;
+  stage?: string | null;
+  offeringType?: string | null;
+  responsiblePerson?: string | null;
+  buildingName?: string | null;
+  listingAvailability?: string | null;
+  bedrooms?: string | number | null;
+  offeringPrice?: string | number | null;
+  propertyType?: string | null;
+  product?: string | null;
+  price?: string | number | null;
+  quantity?: string | number | null;
+  ownerName?: string | null;
+  ownerPhone?: string | null;
+  ownerEmail?: string | null;
+};
+
+function parseOwnerRecords(value: string | null | undefined): OwnerCrmSnapshot[] {
+  try {
+    const parsed = JSON.parse(value ?? "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function ownerCrmFields(snapshot: OwnerCrmSnapshot) {
+  return [
+    ["Stage", snapshot.stage], ["Listing", snapshot.listingAvailability], ["Offering", snapshot.offeringType],
+    ["Offering price", snapshot.offeringPrice], ["Price", snapshot.price], ["Product", snapshot.product],
+    ["Property type", snapshot.propertyType], ["Bedrooms", snapshot.bedrooms], ["Building", snapshot.buildingName],
+    ["Responsible", snapshot.responsiblePerson], ["Owner phone", snapshot.ownerPhone], ["Owner email", snapshot.ownerEmail],
+  ].filter((item): item is [string, string | number] => item[1] != null && item[1] !== "");
+}
+
+/** These JSON payloads are returned by the server only to Master Admin. */
+export function ListingOwnerCrmData({
+  listing,
+  className,
+}: {
+  listing?: object | null;
+  className?: string;
+}) {
+  const protectedListing = listing as { ownerCurrentDataJson?: string | null; ownerHistoryJson?: string | null } | null | undefined;
+  const current = parseOwnerRecords(protectedListing?.ownerCurrentDataJson)[0];
+  const history = parseOwnerRecords(protectedListing?.ownerHistoryJson);
+  if (!current && history.length === 0) return null;
+  return (
+    <div className={`mt-2 rounded-sm border border-sky-500/25 bg-sky-500/5 px-2.5 py-2 text-[0.65rem] ${className ?? ""}`}>
+      {current ? <div>
+        <div className="uppercase tracking-[0.14em] text-[0.55rem] text-sky-700 dark:text-sky-300">Google CRM · current data</div>
+        <div className="mt-1 grid grid-cols-2 gap-x-3 gap-y-1">
+          {ownerCrmFields(current).map(([label, value]) => <div key={label} className="min-w-0"><span className="text-muted-foreground">{label}: </span><span className="break-words text-foreground">{String(value)}</span></div>)}
+        </div>
+        {current.sourceRow ? <div className="mt-1 text-[0.55rem] text-muted-foreground">Source row {current.sourceRow}</div> : null}
+      </div> : null}
+      {history.length ? <details className={current ? "mt-2 border-t border-sky-500/15 pt-2" : ""}>
+        <summary className="cursor-pointer text-[0.6rem] font-medium text-sky-700 dark:text-sky-300">Previous data history · {history.length}</summary>
+        <div className="mt-2 max-h-48 space-y-2 overflow-auto pr-1">
+          {history.map((entry, index) => {
+            const data = (entry as { data?: OwnerCrmSnapshot }).data ?? entry;
+            return <div key={`${data.sourceRow ?? "card"}-${index}`} className="rounded border border-sky-500/15 bg-background/50 px-2 py-1.5">
+              <div className="text-[0.55rem] uppercase tracking-[0.1em] text-muted-foreground">{data.sourceRow ? `Google row ${data.sourceRow}` : "Previous card data"}</div>
+              <div className="mt-0.5 grid grid-cols-2 gap-x-2 gap-y-0.5">{ownerCrmFields(data).map(([label, value]) => <div key={label} className="break-words"><span className="text-muted-foreground">{label}: </span>{String(value)}</div>)}</div>
+            </div>;
+          })}
+        </div>
+      </details> : null}
+    </div>
+  );
+}
+
 /** Compact, shared rendering of database-backed property overrides. */
 export function ListingPropertyFacts({
   listing,
