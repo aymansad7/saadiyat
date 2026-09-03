@@ -65,7 +65,7 @@ describe("captured official Al Ghadeer snapshot", () => {
     }
   });
 
-  it("restores only the exact R2 historical source prices and never manufactures availability", () => {
+  it("keeps exact workbook-backed prices and never manufactures operational availability", () => {
     for (const item of expected) {
       const project = snapshot.projects.find(candidate => candidate.slug === item.project);
       const building = project?.buildings.find(candidate => candidate.slug === item.building);
@@ -76,13 +76,10 @@ describe("captured official Al Ghadeer snapshot", () => {
         && unit.source_captured_at === "2026-09-03"
       ))).toBe(true);
       const priced = building?.units.filter(unit => unit.price_aed != null) ?? [];
-      if (item.building === "r2") {
-        expect(priced).toHaveLength(434);
-        expect(priced.every(unit => unit.price_source_captured_at === "2026-08-12")).toBe(true);
-      } else {
-        expect(priced).toHaveLength(0);
-        expect(building?.units.every(unit => unit.payment_plans === null)).toBe(true);
-      }
+      const expectedPriced = item.building === "n2" ? 352 : item.count;
+      expect(priced).toHaveLength(expectedPriced);
+      expect(priced.every(unit => unit.price_source_captured_at === "2026-09-03")).toBe(true);
+      expect(building?.units.every(unit => Array.isArray(unit.official_payment_plans))).toBe(true);
     }
   });
 });

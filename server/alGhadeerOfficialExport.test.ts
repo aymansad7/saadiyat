@@ -2,14 +2,16 @@ import { describe, expect, it } from "vitest";
 import { alGhadeerOfficialExportRows } from "./alGhadeerOfficialExport";
 
 describe("Al Ghadeer official register export", () => {
-  it("contains every captured unit and restores only the exact R2 historical prices without creating operational availability", () => {
+  it("contains every captured unit with workbook-backed prices where the source publishes a positive value, without creating operational availability", () => {
     const rows = alGhadeerOfficialExportRows();
     expect(rows).toHaveLength(1243);
     expect(new Set(rows.map(row => `${row.project}::${row.unitCode}`)).size).toBe(1243);
-    const r2PricedRows = rows.filter(row => row.cluster === "R2" && row.priceAed != null);
-    expect(r2PricedRows).toHaveLength(434);
-    expect(r2PricedRows.every(row => row.priceSourceCaptureDate === "2026-08-12")).toBe(true);
-    expect(rows.filter(row => row.cluster !== "R2").every(row => row.priceAed === null)).toBe(true);
+    const pricedRows = rows.filter(row => row.priceAed != null);
+    expect(pricedRows).toHaveLength(1242);
+    expect(pricedRows.every(row => row.priceSourceCaptureDate === "2026-09-03")).toBe(true);
+    expect(rows.filter(row => row.priceAed == null).map(row => row.unitCode)).toEqual([
+      "AlGhadeerGardens-N2-V-004-Test-01",
+    ]);
     expect(rows.every(row => row.operationalAvailability === null)).toBe(true);
   });
 

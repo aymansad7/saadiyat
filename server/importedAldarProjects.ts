@@ -9,6 +9,15 @@ type SourceProject = {
   [key: string]: unknown;
 };
 
+const importedProjectCache = new Map<"saadiyat" | "other", { expiresAt: number; projects: SourceProject[] }>();
+const CACHE_TTL_MS = 60_000;
+
+/** Clear cached complete source payloads immediately after a successful sync. */
+export function invalidateImportedAldarProjectCache(dataset?: "saadiyat" | "other") {
+  if (dataset) importedProjectCache.delete(dataset);
+  else importedProjectCache.clear();
+}
+
 function isSourceProject(value: unknown): value is SourceProject {
   return Boolean(
     value &&
@@ -29,6 +38,8 @@ export async function mergeImportedAldarProjects<T extends SourceProject>(
   dataset: "saadiyat" | "other",
   baseline: T[],
 ): Promise<T[]> {
+  const cached = importedProjectCache.get(dataset);
+  if (cached && cached.expiresAt > Date.now()) return cached.projects as T[];
   const db = await getDb();
   if (!db) return baseline;
   const rows = await db
@@ -46,5 +57,7 @@ export async function mergeImportedAldarProjects<T extends SourceProject>(
       // Keep the last known bundled project if an imported record is corrupt.
     }
   }
-  return Array.from(merged.values());
+  const projects = Array.from(merged.values());
+  importedProjectCache.set(dataset, { projects, expiresAt: Date.now() + CACHE_TTL_MS });
+  return projects;
 }

@@ -10,15 +10,24 @@ const sourceFiles = [
   "alghadeer_n2_units.json",
   "alghadeer_parks1_units.json",
   "alghadeer_parks2_units.json",
+  "alghadeer_complete_workbook.json",
   "link-verification.md",
 ] as const;
+const completeWorkbookSource = resolve(process.cwd(), "../upload/Aldar_Al_Ghadeer_Hero_Full_Complete.xlsx");
 
 const archive = await archiveAlGhadeerOfficialSourceFiles(
-  await Promise.all(sourceFiles.map(async filename => ({
+  [
+    ...(await Promise.all(sourceFiles.map(async filename => ({
     filename,
     bytes: Buffer.from(await readFile(resolve(sourceDir, filename))),
     mimeType: filename.endsWith(".json") ? "application/json" : "text/markdown",
-  }))),
+    })))),
+    {
+      filename: "Aldar_Al_Ghadeer_Hero_Full_Complete.xlsx",
+      bytes: Buffer.from(await readFile(completeWorkbookSource)),
+      mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    },
+  ],
 );
 const legacyArchive = await archiveAlGhadeerOfficialSourceFiles([
   {

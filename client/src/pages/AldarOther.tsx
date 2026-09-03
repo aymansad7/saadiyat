@@ -313,7 +313,7 @@ function Inner() {
                       {/* A project-type starting price is not a unit-level price. */}
                       <div className="mt-3 text-sm">
                         <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] text-muted-foreground mr-2">
-                          {p.official_starting_price_min != null ? "Official starting price" : "Price"}
+                          {p.official_starting_price_min != null ? "Official starting price" : "Documented unit price"}
                         </span>
                         <span className="num-display text-foreground">
                           {p.official_starting_price_min != null

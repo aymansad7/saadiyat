@@ -145,24 +145,23 @@ function baselineOtherDataset(): OtherDataset {
   throw new Error("Aldar Other baseline dataset was not found.");
 }
 
-function historicalR2PricingByUnit(baseline: OtherDataset) {
-  const prices = new Map<string, Record<string, unknown>>();
-  const project = baseline.projects.find(row => row.slug === "al-ghadeer-gardens");
-  for (const building of (project?.buildings as Array<Record<string, unknown>> | undefined) ?? []) {
-    if (building.slug !== "r2" || !Array.isArray(building.units)) continue;
-    for (const unit of building.units as Array<Record<string, unknown>>) {
-      if (typeof unit.unit_name === "string" && typeof unit.price_aed === "number" && unit.price_aed > 0) {
-        prices.set(unit.unit_name, unit);
+function documentedGhadeerUnitsByName(baseline: OtherDataset) {
+  const units = new Map<string, Record<string, unknown>>();
+  for (const project of baseline.projects.filter(row => GHADDEER_SLUGS.has(String(row.slug)))) {
+    for (const building of (project.buildings as Array<Record<string, unknown>> | undefined) ?? []) {
+      if (!Array.isArray(building.units)) continue;
+      for (const unit of building.units as Array<Record<string, unknown>>) {
+        if (typeof unit.unit_name === "string") units.set(unit.unit_name, unit);
       }
     }
   }
-  return prices;
+  return units;
 }
 
 export async function captureAlGhadeerOfficialSnapshot(fetchImpl: typeof fetch = fetch) {
   const captureDate = new Date().toISOString().slice(0, 10);
   const baseline = baselineOtherDataset();
-  const historicR2Prices = historicalR2PricingByUnit(baseline);
+  const documentedUnits = documentedGhadeerUnitsByName(baseline);
   const captured = await Promise.all(AL_GHADEER_OFFICIAL_CLUSTERS.map(async cluster => {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 25_000);
@@ -177,16 +176,20 @@ export async function captureAlGhadeerOfficialSnapshot(fetchImpl: typeof fetch =
       if (!sourceUnits.length) throw new Error(`${cluster.buildingName}: no matching official units were published in a complete page response.`);
       const units = sourceUnits.map(row => {
         const normalized = normalizeUnit(cluster, row, captureDate);
-        const historic = cluster.buildingSlug === "r2" ? historicR2Prices.get(normalized.unit_name) : null;
-        if (normalized.price_aed != null || !historic) return normalized;
+        const documented = documentedUnits.get(normalized.unit_name);
+        if (!documented) return normalized;
         return {
+          ...documented,
           ...normalized,
-          price_aed: historic.price_aed,
-          reservation_amount: historic.reservation_amount ?? null,
-          online_reservation_fee: historic.online_reservation_fee ?? null,
-          payment_plans: historic.payment_plans ?? null,
-          price_source: historic.price_source ?? "Historical Aldar official price snapshot",
-          price_source_captured_at: historic.price_source_captured_at ?? "2026-08-12",
+          // The captured explorer has precedence for live unit facts; the exact
+          // workbook source is retained when the explorer omits commercial fields.
+          price_aed: normalized.price_aed ?? documented.price_aed ?? null,
+          reservation_amount: documented.reservation_amount ?? null,
+          online_reservation_fee: documented.online_reservation_fee ?? null,
+          payment_plans: normalized.payment_plans ?? documented.payment_plans ?? null,
+          price_source: normalized.price_aed != null ? "World of Aldar live capture" : documented.price_source ?? null,
+          price_source_captured_at: normalized.price_aed != null ? captureDate : documented.price_source_captured_at ?? null,
+          project_field: documented.project_field ?? normalized.project_field,
         };
       });
       if (new Set(units.map(unit => unit.unit_name)).size !== units.length) throw new Error(`${cluster.buildingName}: duplicate official unit code.`);
@@ -200,7 +203,18 @@ export async function captureAlGhadeerOfficialSnapshot(fetchImpl: typeof fetch =
   for (const { cluster, units } of captured) {
     let project = byProject.get(cluster.projectSlug);
     if (!project) {
-      project = { slug: cluster.projectSlug, name: cluster.projectName, area: "other", source_file: `World of Aldar live capture · ${captureDate}`, unit_count: 0, available_count: 0, building_count: 0, buildings: [] as unknown[] };
+      const documentedProject = baseline.projects.find(row => row.slug === cluster.projectSlug);
+      project = {
+        slug: cluster.projectSlug,
+        name: cluster.projectName,
+        area: "other",
+        source_file: `World of Aldar live capture · ${captureDate}`,
+        unit_count: 0,
+        available_count: 0,
+        building_count: 0,
+        buildings: [] as unknown[],
+        published_starting_prices: documentedProject?.published_starting_prices ?? null,
+      };
       byProject.set(cluster.projectSlug, project);
     }
     (project.buildings as unknown[]).push({ slug: cluster.buildingSlug, name: cluster.buildingName, unit_count: units.length, available_count: 0, units });

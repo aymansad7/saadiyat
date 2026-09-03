@@ -2,7 +2,7 @@
  * /aldar-other/:project   (MASTER ONLY)
  */
 import { useMemo, useState } from "react";
-import { useParams, Link } from "wouter";
+import { Link, useParams } from "wouter";
 import { Building2, ArrowRight, Sparkles, Lock, FileText } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import MasterGate from "@/components/MasterGate";
 import { trpc } from "@/lib/trpc";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
+import { fmtAed } from "@/data/aldar/format";
 
 function Inner() {
   const { project: slug } = useParams<{ project: string }>();
@@ -164,6 +165,18 @@ function Inner() {
                   <div className="mt-2 text-[0.72rem] font-mono uppercase tracking-[0.18em] text-muted-foreground num-display">
                     {b.unit_count} units
                   </div>
+                  {(b.price_min != null || b.price_max != null) && (
+                    <div className="mt-3 text-sm text-foreground num-display">
+                      <span className="mr-2 text-[0.65rem] font-mono uppercase tracking-[0.18em] text-muted-foreground">Documented price</span>
+                      {b.price_min != null && b.price_max != null
+                        ? b.price_min === b.price_max
+                          ? `AED ${fmtAed(b.price_min)}`
+                          : `AED ${fmtAed(b.price_min)} – ${fmtAed(b.price_max)}`
+                        : b.price_min != null
+                          ? `AED ${fmtAed(b.price_min)}`
+                          : `AED ${fmtAed(b.price_max!)}`}
+                    </div>
+                  )}
                   <div className="mt-3 pt-3 border-t border-border/60">
                     <AldarStatusPills breakdown={b.breakdown} size="xs" />
                   </div>

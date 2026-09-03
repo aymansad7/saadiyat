@@ -206,8 +206,8 @@ async function getMergedProjects() {
 export const aldarOtherRouter = router({
   /**
    * Projects grouped by Area, with optional filters applied to the per-project
-   * aggregates. Each project carries a price range (min/max over live units),
-   * status breakdown, and live/available counts so the UI can render rich cards
+   * aggregates. Each project carries a documented original-price range over
+   * units with a source price; live/available counts remain operational only.
    * and filter without fetching unit-level detail.
    *
    * Filters:
@@ -250,11 +250,11 @@ export const aldarOtherRouter = router({
       for (const p of importedRows) {
         const allUnits = p.buildings.flatMap(b => b.units);
         const liveUnits = allUnits.filter(u => isLive(u.status));
-        const livePrices = liveUnits
+        const documentedPrices = allUnits
           .map(u => u.price_aed)
           .filter((n): n is number => typeof n === "number" && n > 0);
-        const priceMin = livePrices.length ? Math.min(...livePrices) : null;
-        const priceMax = livePrices.length ? Math.max(...livePrices) : null;
+        const priceMin = documentedPrices.length ? Math.min(...documentedPrices) : null;
+        const priceMax = documentedPrices.length ? Math.max(...documentedPrices) : null;
         const startingPrices = p.published_starting_prices?.prices
           .map(price => price.starting_price_aed)
           .filter(price => typeof price === "number" && price > 0) ?? [];
@@ -265,7 +265,7 @@ export const aldarOtherRouter = router({
         if (input.availableOnly && availableCount === 0) continue;
         if (q && !p.name.toLowerCase().includes(q)) continue;
         if (input.priceMin != null || input.priceMax != null) {
-          // Need a price range to compare; drop projects without live prices.
+          // Need a documented source price range to compare.
           if (priceMin == null || priceMax == null) continue;
           if (input.priceMin != null && priceMax < input.priceMin) continue;
           if (input.priceMax != null && priceMin > input.priceMax) continue;
@@ -366,6 +366,14 @@ export const aldarOtherRouter = router({
           unit_count: b.unit_count,
           breakdown: breakdown(b.units),
           live_count: b.units.filter(u => isLive(u.status)).length,
+          price_min: (() => {
+            const prices = b.units.map(u => u.price_aed).filter((value): value is number => typeof value === "number" && value > 0);
+            return prices.length ? Math.min(...prices) : null;
+          })(),
+          price_max: (() => {
+            const prices = b.units.map(u => u.price_aed).filter((value): value is number => typeof value === "number" && value > 0);
+            return prices.length ? Math.max(...prices) : null;
+          })(),
         })),
       };
     }),

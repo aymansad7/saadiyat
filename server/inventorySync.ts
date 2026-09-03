@@ -17,6 +17,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { and, desc, eq, inArray, sql } from "drizzle-orm";
 import { getDb } from "./db";
+import { invalidateImportedAldarProjectCache } from "./importedAldarProjects";
 import {
   inventoryImportedProjects,
   inventorySyncRuns,
@@ -765,6 +766,7 @@ export async function runInventorySync(opts: {
       })
       .where(eq(inventorySyncRuns.id, runId));
 
+    invalidateImportedAldarProjectCache();
     return { runId, counts, rollups, newProjects };
   } catch (err) {
     await db

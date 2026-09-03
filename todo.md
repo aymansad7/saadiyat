@@ -909,3 +909,6 @@
 
 ### Al Ghadeer Parks Release-State and Price Audit (Sep 3, 2026)
 - [x] Identify and remove any inferred Sold Out label on Parks before a supported official unit-release status exists, then cross-check Aldar official endpoints and assets for unit-level Parks pricing before importing any value
+
+### Al Ghadeer Complete Workbook Import (Sep 3, 2026)
+- [x] Profile Aldar_Al_Ghadeer_Hero_Full_Complete.xlsx, match each Parks row to an exact official NC/ND unit code, import documented fields with provenance, and export the updated register without cross-unit assumptions

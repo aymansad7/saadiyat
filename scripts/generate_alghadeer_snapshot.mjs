@@ -10,6 +10,7 @@ const checkOnly = process.argv.includes("--check");
 const officialCapture = "World of Aldar captured snapshot · 2026-09-03";
 const noOperationalAvailabilityNote = "Captured official unit record; no price or current availability was published in this snapshot.";
 const legacyPricingPath = resolve(root, "server/data/sources/world-of-aldar/2026-08-12/alghadeer_gardens_r2_pricing.json");
+const completeWorkbookPath = resolve(root, "server/data/sources/world-of-aldar/2026-09-03/alghadeer_complete_workbook.json");
 const parksStartingPrices = {
   label: "Official project starting prices (not unit-specific)",
   source: "Aldar Properties · Al Ghadeer Parks project page",
@@ -77,6 +78,23 @@ function textOrNull(value) {
   return typeof value === "string" && value.trim() ? value.trim() : null;
 }
 
+function formatPaymentPlans(plans) {
+  if (!Array.isArray(plans)) return null;
+  const serialized = plans
+    .filter(plan => plan?.name && Array.isArray(plan.installments) && plan.installments.length)
+    .map(plan => {
+      const discount = Number(plan.discount_pct ?? 0);
+      const header = `${plan.name}${discount > 0 ? ` (Disc:${discount}%)` : ""}`;
+      const installments = plan.installments
+        .filter(item => typeof item?.percentage === "number")
+        .map(item => `${item.label ?? "Installment"}: ${item.percentage}%`)
+        .join(", ");
+      return installments ? `${header} => ${installments}` : null;
+    })
+    .filter(Boolean);
+  return serialized.length ? serialized.join("|||") : null;
+}
+
 function canonicalUnit(cluster, source, legacyPricingByUnit) {
   const unitNumber = textOrNull(source.unitNumber);
   if (!unitNumber || !unitNumber.startsWith(cluster.sourcePrefix)) {
@@ -133,24 +151,86 @@ function canonicalUnit(cluster, source, legacyPricingByUnit) {
   };
 }
 
+function applyWorkbookDetails(unit, detail) {
+  if (!detail) throw new Error(`${unit.unit_name}: missing exact workbook detail.`);
+  const paymentPlans = formatPaymentPlans(detail.payment_plans);
+  return {
+    ...unit,
+    unit_type: detail.unit_type ?? unit.unit_type,
+    unit_category: detail.unit_category ?? unit.unit_category,
+    unit_model: detail.unit_model ?? unit.unit_model,
+    bedrooms: detail.bedrooms == null ? unit.bedrooms : String(detail.bedrooms),
+    total_rooms: detail.total_rooms ?? unit.total_rooms,
+    source_unit_status: detail.source_unit_status ?? unit.source_unit_status,
+    source_captured_at: detail.captured_at?.slice(0, 10) ?? unit.source_captured_at,
+    property_status: detail.property_status ?? unit.property_status,
+    inventory_category: detail.inventory_category ?? unit.inventory_category,
+    price_aed: detail.price_aed ?? unit.price_aed,
+    reservation_amount: detail.reservation_amount_aed ?? unit.reservation_amount,
+    online_reservation_fee: detail.online_reservation_fee_aed ?? unit.online_reservation_fee,
+    plot_area_sqm: detail.plot_area_sqm ?? unit.plot_area_sqm,
+    saleable_area_sqm: detail.saleable_area_sqm ?? unit.saleable_area_sqm,
+    total_area_sqm: detail.suite_area_sqm ?? detail.total_area_sqm ?? unit.total_area_sqm,
+    terrace_area_sqm: detail.terrace_area_sqm ?? unit.terrace_area_sqm,
+    service_charge_aed_sqm: detail.service_charge_aed_sqm ?? unit.service_charge_aed_sqm,
+    service_charge_escalation_pct: detail.service_charge_escalation_pct ?? unit.service_charge_escalation_pct,
+    car_parks: detail.car_parks ?? unit.car_parks,
+    unit_finishes: detail.unit_finishes ?? unit.unit_finishes,
+    features_spec: detail.features_spec ?? unit.features_spec,
+    mandatory_pool: detail.mandatory_swimming_pool ?? unit.mandatory_pool,
+    mandatory_premium: detail.mandatory_premium ?? unit.mandatory_premium,
+    darna_applicable: detail.darna_applicable ?? unit.darna_applicable,
+    virtual_tour: detail.virtual_tour ?? unit.virtual_tour,
+    payment_plans: paymentPlans ?? unit.payment_plans,
+    price_source: "User-provided Aldar Al Ghadeer Hero Full Complete workbook",
+    price_source_captured_at: detail.captured_at?.slice(0, 10) ?? "2026-09-03",
+    price_per_sqm_aed: detail.price_per_sqm_aed ?? null,
+    price_per_sqft_aed: detail.price_per_sqft_aed ?? null,
+    completion_date: detail.completion_date ?? null,
+    digital_sales: detail.digital_sales ?? null,
+    kiosk_enabled: detail.kiosk_enabled ?? null,
+    eligible_for_furnishing: detail.eligible_for_furnishing ?? null,
+    eligible_for_unit_finishing: detail.eligible_for_unit_finishing ?? null,
+    eligible_for_swimming_pool: detail.eligible_for_swimming_pool ?? null,
+    eligible_for_pod: detail.eligible_for_pod ?? null,
+    eligible_for_multi_purpose: detail.eligible_for_multi_purpose ?? null,
+    mandatory_pod: detail.mandatory_pod ?? null,
+    document_label: detail.document_label ?? null,
+    swimming_pool_options: detail.swimming_pool_options ?? null,
+    pod_types: detail.pod_types ?? null,
+    design_types: detail.design_types ?? null,
+    amenities: detail.amenities ?? null,
+    official_payment_plans: detail.payment_plans ?? [],
+    official_offers: detail.offers ?? [],
+    workbook_source_section: detail.source_section ?? null,
+    workbook_captured_at: detail.captured_at ?? null,
+    project_field: "Verified exact record from user-provided Aldar Al Ghadeer workbook; operational NAS availability remains separate.",
+  };
+}
+
 async function buildOfficialProjects() {
   const legacySource = JSON.parse(await readFile(legacyPricingPath, "utf8"));
   if (!Array.isArray(legacySource.units) || legacySource.units.length !== 434) {
     throw new Error("Expected the preserved 434-row Al Ghadeer Gardens R2 pricing source.");
   }
   const legacyPricingByUnit = new Map(legacySource.units.map(row => [row.unit_name, row]));
+  const workbookSource = JSON.parse(await readFile(completeWorkbookPath, "utf8"));
+  if (!Array.isArray(workbookSource.units) || workbookSource.units.length !== 1243) {
+    throw new Error("Expected the 1,243-row exact-matched Al Ghadeer workbook source.");
+  }
+  const workbookDetailsByUnit = new Map(workbookSource.units.map(row => [row.canonical_unit_code, row]));
   const groups = new Map();
   for (const cluster of clusters) {
     const raw = JSON.parse(await readFile(resolve(sourceDir, cluster.sourceFile), "utf8"));
     if (!Array.isArray(raw) || raw.length !== cluster.expectedCount) {
       throw new Error(`${cluster.sourceFile}: expected ${cluster.expectedCount} source rows, received ${Array.isArray(raw) ? raw.length : "non-array"}.`);
     }
-    const units = raw.map(row => canonicalUnit(cluster, row, legacyPricingByUnit));
+    const units = raw.map(row => {
+      const unit = canonicalUnit(cluster, row, legacyPricingByUnit);
+      return applyWorkbookDetails(unit, workbookDetailsByUnit.get(unit.unit_name.replace(/-01$/i, "")));
+    });
     if (new Set(units.map(unit => unit.unit_name)).size !== units.length) {
       throw new Error(`${cluster.sourceFile}: duplicate canonical unit identities.`);
-    }
-    if (cluster.buildingSlug === "r2" && units.filter(unit => unit.price_aed != null).length !== 434) {
-      throw new Error("R2 historical price mapping did not produce the reviewed 434 exact matches.");
     }
     let project = groups.get(cluster.projectSlug);
     if (!project) {

@@ -96,6 +96,50 @@ function Inner() {
 
   const { project, building, unit } = ctxq.data;
   const plans = unit.payment_plans ? parsePaymentPlans(unit.payment_plans) : [];
+  const extendedUnit = unit as typeof unit & {
+    price_per_sqm_aed?: number | null;
+    price_per_sqft_aed?: number | null;
+    completion_date?: string | null;
+    digital_sales?: boolean | null;
+    kiosk_enabled?: boolean | null;
+    eligible_for_furnishing?: boolean | null;
+    eligible_for_unit_finishing?: boolean | null;
+    eligible_for_swimming_pool?: boolean | null;
+    eligible_for_pod?: boolean | null;
+    eligible_for_multi_purpose?: boolean | null;
+    mandatory_pod?: boolean | null;
+    document_label?: string | null;
+    swimming_pool_options?: string | null;
+    pod_types?: string | null;
+    design_types?: string | null;
+    amenities?: string | null;
+    official_payment_plans?: Array<{
+      name?: string | null;
+      classification?: string | null;
+      type?: string | null;
+      discount_pct?: number | null;
+      rebate_pct?: number | null;
+      installments?: Array<{
+        label?: string | null;
+        percentage?: number | null;
+        date?: string | null;
+        amount_aed?: number | null;
+        is_handover?: boolean | null;
+      }>;
+    }>;
+    official_offers?: Array<{
+      name?: string | null;
+      lines?: Array<{
+        type?: string | null;
+        applies_to?: string | null;
+        promo_type?: string | null;
+        promo_value?: string | null;
+      }>;
+    }>;
+  };
+  const officialPlans = extendedUnit.official_payment_plans ?? [];
+  const officialOffers = extendedUnit.official_offers ?? [];
+  const yesNo = (value: boolean | null | undefined) => value == null ? "—" : value ? "Yes" : "No";
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -312,6 +356,58 @@ function Inner() {
         </section>
       )}
 
+      {(officialPlans.length > 0 || officialOffers.length > 0) && (
+        <section className="border-b border-border bg-background">
+          <div className="container py-6 sm:py-8 space-y-6">
+            {officialPlans.length > 0 && (
+              <div>
+                <div className="mb-4 flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
+                  <Tag className="h-3.5 w-3.5" />
+                  Official payment schedule
+                </div>
+                <div className="grid gap-4 xl:grid-cols-2">
+                  {officialPlans.map((plan, index) => (
+                    <div key={`${plan.name ?? "plan"}-${index}`} className="rounded-md border border-border bg-card overflow-hidden">
+                      <div className="border-b border-border bg-primary/5 px-4 py-3">
+                        <div className="font-display text-lg text-foreground">{plan.name ?? "Payment plan"}</div>
+                        <div className="mt-1 text-[0.7rem] uppercase tracking-[0.15em] font-mono text-muted-foreground">
+                          {[plan.classification, plan.type, plan.discount_pct ? `${plan.discount_pct}% discount` : null, plan.rebate_pct ? `${plan.rebate_pct}% rebate` : null].filter(Boolean).join(" · ")}
+                        </div>
+                      </div>
+                      <div className="divide-y divide-border text-sm">
+                        {(plan.installments ?? []).map((installment, installmentIndex) => (
+                          <div key={`${installment.label ?? "installment"}-${installmentIndex}`} className="grid grid-cols-12 gap-2 px-4 py-2.5">
+                            <div className="col-span-6 text-foreground">{installment.label ?? "Installment"}{installment.is_handover ? " · Handover" : ""}</div>
+                            <div className="col-span-2 text-right num-display">{installment.percentage ?? "—"}{installment.percentage != null ? "%" : ""}</div>
+                            <div className="col-span-4 text-right num-display text-foreground">{installment.amount_aed != null ? `AED ${fmtAed(installment.amount_aed)}` : installment.date ?? "—"}</div>
+                            {installment.amount_aed != null && installment.date && <div className="col-span-12 text-right text-xs text-muted-foreground">Due {installment.date}</div>}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {officialOffers.length > 0 && (
+              <div>
+                <div className="mb-3 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">Official offers</div>
+                <div className="grid gap-3 md:grid-cols-2">
+                  {officialOffers.map((offer, index) => (
+                    <div key={`${offer.name ?? "offer"}-${index}`} className="rounded-md border border-border bg-card px-4 py-3">
+                      <div className="font-display text-base text-foreground">{offer.name ?? "Offer"}</div>
+                      <div className="mt-2 space-y-1 text-sm text-muted-foreground">
+                        {(offer.lines ?? []).map((line, lineIndex) => <div key={`${line.type ?? "line"}-${lineIndex}`}>{[line.type, line.applies_to, line.promo_type, line.promo_value].filter(Boolean).join(" · ")}</div>)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
       {/* Full details */}
       <section className="container py-8 sm:py-10">
         <div className="mb-4 flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
@@ -340,6 +436,9 @@ function Inner() {
               label="Original price (without add-ons)"
               value={`AED ${fmtAed(unit.price_aed)}`}
             />
+            <Row label="Price per m²" value={extendedUnit.price_per_sqm_aed != null ? `AED ${fmtAed(extendedUnit.price_per_sqm_aed)}` : "—"} />
+            <Row label="Price per ft²" value={extendedUnit.price_per_sqft_aed != null ? `AED ${fmtAed(extendedUnit.price_per_sqft_aed)}` : "—"} />
+            <Row label="Expected completion" value={extendedUnit.completion_date ?? "—"} />
             <Row
               label="Reservation Amount"
               value={unit.reservation_amount != null ? `AED ${fmtAed(unit.reservation_amount)}` : "—"}
@@ -391,6 +490,19 @@ function Inner() {
               value={unit.darna_applicable == null ? "—" : unit.darna_applicable ? "Yes" : "No"}
             />
             <Row label="Features / Spec" value={unit.features_spec ?? "—"} />
+            <Row label="Digital sales" value={yesNo(extendedUnit.digital_sales)} />
+            <Row label="Kiosk enabled" value={yesNo(extendedUnit.kiosk_enabled)} />
+            <Row label="Furnishing eligible" value={yesNo(extendedUnit.eligible_for_furnishing)} />
+            <Row label="Unit finishing eligible" value={yesNo(extendedUnit.eligible_for_unit_finishing)} />
+            <Row label="Swimming pool eligible" value={yesNo(extendedUnit.eligible_for_swimming_pool)} />
+            <Row label="POD eligible" value={yesNo(extendedUnit.eligible_for_pod)} />
+            <Row label="Multi-purpose eligible" value={yesNo(extendedUnit.eligible_for_multi_purpose)} />
+            <Row label="Mandatory POD" value={yesNo(extendedUnit.mandatory_pod)} />
+            <Row label="Document type" value={extendedUnit.document_label ?? "—"} />
+            <Row label="Pool options" value={extendedUnit.swimming_pool_options ?? "—"} />
+            <Row label="POD types" value={extendedUnit.pod_types ?? "—"} />
+            <Row label="Design types" value={extendedUnit.design_types ?? "—"} />
+            <Row label="Amenities" value={extendedUnit.amenities ?? "—"} />
           </dl>
         </div>
       </section>
