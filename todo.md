@@ -892,5 +892,6 @@
 - [x] Show every user’s exact project, phase, inventory, field, and document grants beside their name, with Master Admin controls to add, revise, or revoke each grant
 
 ### Google Sheet Owner Import (Sep 3, 2026)
-- [ ] Review the shared Google Sheet, preserve a private source record in OneDrive, and import owner fields only against confirmed canonical unit keys
-- [ ] Surface permitted imported owner facts consistently in the matching unit cards and map cards, while retaining unresolved rows for Master review
+- [x] Review the shared Google Sheet, preserve a private source record in OneDrive, and import owner fields only against confirmed canonical unit keys; all 2,403 source rows are archived in OneDrive and retained in the protected source ledger
+- [x] Surface permitted imported owner facts consistently in the matching unit cards and map cards, while retaining unresolved rows for Master review; all 535 reviewed Lagoons owner links have name and phone overlays, while 596 CRM phone conflicts remain attached to the reviewed owner for Master review without overwriting card data
+- [x] Prevent the Lagoons detail route from redirecting while its unit and protected owner overlay are still loading

@@ -15,6 +15,8 @@ import { trpc } from "@/lib/trpc";
 import type { LagoonsVilla } from "@/data/lagoons";
 import { ResaleCard } from "@/components/ResaleCard";
 import { getAvailability, SOURCE_META } from "@/data/lagoonsAvailability";
+import { ListingOwnerFacts, ListingPropertyFacts } from "@/components/ListingControls";
+import { getLagoonsDetailState } from "@/lib/lagoonsDetailState";
 
 function fmtAed(n: number): string {
   return new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(n);
@@ -23,9 +25,21 @@ function fmtAed(n: number): string {
 export default function LagoonsVillaDetail() {
   const params = useParams<{ cluster: string; unit: string }>();
   const unit = params.unit ? decodeURIComponent(params.unit) : "";
-  const { data: villaRaw } = trpc.lagoons.villa.useQuery({ unitName: unit ?? "" }, { enabled: !!unit });
+  const villaQuery = trpc.lagoons.villa.useQuery({ unitName: unit ?? "" }, { enabled: !!unit });
+  const villaRaw = villaQuery.data;
+  const listingKey = unit ? `lagoons/${unit}` : "";
+  const { data: listing } = trpc.villaListings.byKey.useQuery({ villaKey: listingKey }, { enabled: Boolean(listingKey) });
+  const ownerListing = listing as { ownerName?: string | null; ownerPhone?: string | null } | null | undefined;
   const villa = villaRaw as LagoonsVilla | null | undefined;
-  if (!villa) return <Redirect to={`/saadiyat-lagoons/${params.cluster ?? ""}`} />;
+  const detailState = getLagoonsDetailState(villaQuery.isLoading, Boolean(villa));
+  if (detailState === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background px-6 text-center">
+        <p className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">Loading villa record…</p>
+      </div>
+    );
+  }
+  if (detailState === "not-found" || !villa) return <Redirect to={`/saadiyat-lagoons/${params.cluster ?? ""}`} />;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -210,6 +224,8 @@ export default function LagoonsVillaDetail() {
               villa.aldar_data?.aldar_unit_name ?? "",
             ].filter(Boolean)}
           />
+          <ListingPropertyFacts listing={listing ?? null} />
+          <ListingOwnerFacts listing={ownerListing} />
         </div>
       </section>
 
