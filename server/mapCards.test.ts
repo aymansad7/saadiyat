@@ -104,6 +104,8 @@ describe("Unified map property cards", () => {
     const clientSource = fs.readFileSync(path.resolve(process.cwd(), "client/src/main.tsx"), "utf8");
     const mapSource = fs.readFileSync(path.resolve(process.cwd(), "client/src/pages/SaadiyatMap.tsx"), "utf8");
     expect(clientSource).toContain('methodOverride: "POST"');
+    expect(clientSource).toContain('op.path === "propertyAccess.permissions"');
+    expect(clientSource).toContain("splitLink");
     expect(mapSource).toContain("isRenderingMarkers");
     expect(mapSource).toContain("batchSize = 160");
   });

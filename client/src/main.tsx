@@ -1,7 +1,7 @@
 import { trpc } from "@/lib/trpc";
 import { UNAUTHED_ERR_MSG } from '@shared/const';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { httpBatchLink, TRPCClientError } from "@trpc/client";
+import { httpBatchLink, splitLink, TRPCClientError } from "@trpc/client";
 import { createRoot } from "react-dom/client";
 import superjson from "superjson";
 import App from "./App";
@@ -38,28 +38,41 @@ queryClient.getMutationCache().subscribe(event => {
   }
 });
 
+const trpcFetch: typeof fetch = (input, init) => {
+  const headers = new Headers(init?.headers ?? {});
+  try {
+    headers.set("X-Visitor-Id", ensureVisitorId());
+  } catch {
+    /* ignore (SSR / privacy mode) */
+  }
+  return globalThis.fetch(input, {
+    ...(init ?? {}),
+    headers,
+    credentials: "include",
+  });
+};
+
+const standardTrpcLink = httpBatchLink({
+  url: "/api/trpc",
+  transformer: superjson,
+  fetch: trpcFetch,
+});
+
+const mapPermissionsTrpcLink = httpBatchLink({
+  url: "/api/trpc",
+  transformer: superjson,
+  // The map can submit one exact scope per marker. Keep just this high-cardinality
+  // request on POST so its payload never exceeds mobile/browser URL limits.
+  methodOverride: "POST",
+  fetch: trpcFetch,
+});
+
 const trpcClient = trpc.createClient({
   links: [
-    httpBatchLink({
-      url: "/api/trpc",
-      transformer: superjson,
-      // Map permission checks can contain one exact scope per marker. POST
-      // avoids browser/proxy URL-length limits that otherwise leave Maps with
-      // an empty permission result and no dots on mobile/direct loads.
-      methodOverride: "POST",
-      fetch(input, init) {
-        const headers = new Headers(init?.headers ?? {});
-        try {
-          headers.set("X-Visitor-Id", ensureVisitorId());
-        } catch {
-          /* ignore (SSR / privacy mode) */
-        }
-        return globalThis.fetch(input, {
-          ...(init ?? {}),
-          headers,
-          credentials: "include",
-        });
-      },
+    splitLink({
+      condition: op => op.path === "propertyAccess.permissions",
+      true: mapPermissionsTrpcLink,
+      false: standardTrpcLink,
     }),
   ],
 });

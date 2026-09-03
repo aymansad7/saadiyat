@@ -34,6 +34,7 @@ import { getDb } from "./db";
 
 export const CODE_TTL_MS = 10 * 60 * 1000; // 10 minutes
 export const SESSION_TTL_MS = 90 * 24 * 60 * 60 * 1000; // 90 days
+export const SESSION_RENEWAL_WINDOW_MS = 30 * 24 * 60 * 60 * 1000; // final 30 days
 export const MAX_VERIFY_ATTEMPTS = 5;
 export const MAGIC_SESSION_COOKIE = "magic_session_token";
 export const PASSWORD_MAX_ATTEMPTS = 5;
@@ -81,6 +82,16 @@ export function verifyPasswordHash(password: string, encoded: string | null): bo
 export function generateSessionToken(): string {
   // 32 random bytes hex-encoded → 64 chars; well under the 128-char column.
   return randomBytes(32).toString("hex");
+}
+
+/**
+ * Keep an actively used device signed in without making sessions perpetual.
+ * We refresh only during the final 30 days of a valid 90-day session. A
+ * revoked or expired session is never revived by this check.
+ */
+export function shouldRenewSession(expiresAt: Date, now = new Date()): boolean {
+  const remainingMs = expiresAt.getTime() - now.getTime();
+  return remainingMs > 0 && remainingMs <= SESSION_RENEWAL_WINDOW_MS;
 }
 
 /* ---------------- allowlist ---------------- */
@@ -291,6 +302,8 @@ export async function findUserBySessionToken(token: string): Promise<{
   role: AllowedEmail["role"];
   name: string | null;
   openId: string;
+  expiresAt: Date;
+  wasRenewed: boolean;
 } | null> {
   const db = await getDb();
   if (!db) return null;
@@ -309,11 +322,22 @@ export async function findUserBySessionToken(token: string): Promise<{
   const sess = rows[0];
   if (!sess) return null;
 
-  // Update lastUsedAt — best-effort, don't await to keep auth hot.
-  void db
-    .update(authSessions)
-    .set({ lastUsedAt: now })
-    .where(eq(authSessions.id, sess.id));
+  const wasRenewed = shouldRenewSession(sess.expiresAt, now);
+  const expiresAt = wasRenewed ? new Date(now.getTime() + SESSION_TTL_MS) : sess.expiresAt;
+  if (wasRenewed) {
+    // Await the renewal so the returned cookie is never longer-lived than the
+    // server-side session record that authorizes it.
+    await db
+      .update(authSessions)
+      .set({ lastUsedAt: now, expiresAt })
+      .where(eq(authSessions.id, sess.id));
+  } else {
+    // Update last-used metadata without slowing normal authentication requests.
+    void db
+      .update(authSessions)
+      .set({ lastUsedAt: now })
+      .where(eq(authSessions.id, sess.id));
+  }
 
   const allowed = await findAllowed(sess.email);
   if (!allowed) {
@@ -330,6 +354,8 @@ export async function findUserBySessionToken(token: string): Promise<{
     role: allowed.role,
     name: allowed.email,
     openId: `magic:${sess.email}`,
+    expiresAt,
+    wasRenewed,
   };
 }
 

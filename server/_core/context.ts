@@ -5,6 +5,7 @@ import { getDb } from "../db";
 import { eq } from "drizzle-orm";
 import { users } from "../../drizzle/schema";
 import { sdk } from "./sdk";
+import { getSessionCookieOptions } from "./cookies";
 
 export type TrpcContext = {
   req: CreateExpressContextOptions["req"];
@@ -46,6 +47,13 @@ export async function createContext(
           if (rows[0]) {
             // Override role from the authoritative allowed_emails table
             user = { ...rows[0], role: magicUser.role };
+            if (magicUser.wasRenewed) {
+              const remainingMs = Math.max(0, magicUser.expiresAt.getTime() - Date.now());
+              opts.res.cookie(MAGIC_SESSION_COOKIE, magicToken, {
+                ...getSessionCookieOptions(opts.req),
+                maxAge: remainingMs,
+              });
+            }
           }
         }
       }

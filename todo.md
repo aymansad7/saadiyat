@@ -876,3 +876,7 @@
 - [x] Let Master Admin grant access by project, phase, and documented inventory class, including Reserve plots only, without granting other Saadiyat projects or units
 - [x] Audit every project card with a documented map location to ensure its Map action targets the same canonical unit and map selection; Nudra uses the project map until an exact unit-to-address crosswalk is supplied
 - [x] Diagnose and correct mobile map marker loading so valid dots remain visible after direct navigation and refresh without fabricating coordinates
+
+### Urgent Mobile Authentication Recovery (Sep 3, 2026)
+- [x] Diagnose the unexpected sign-out and restore Google OAuth initiation and return handling on the published mobile domain without revoking other active sessions; POST is now limited to the large map-permission query instead of every tRPC request
+- [x] Verify email/password and Google sign-in entry points, add regression coverage, and publish the verified correction; active email/password sessions renew only in their final 30 days while expired or revoked sessions remain invalid
