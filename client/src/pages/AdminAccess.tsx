@@ -44,6 +44,33 @@ import { PROPERTY_AREA_OPTIONS, PROPERTY_INVENTORY_OPTIONS, PROPERTY_PHASE_OPTIO
 type Role = "user" | "admin" | "master";
 type GrantScopeType = "area" | "project" | "phase" | "inventory";
 
+type PropertyGrantRow = {
+  id: number;
+  email: string;
+  areaKey: string | null;
+  projectKey: string | null;
+  phaseKey: string | null;
+  buildingKey: string | null;
+  unitTypeKey: string | null;
+  bedrooms: number | null;
+  inventoryKey: string | null;
+  canViewOriginalPrice: boolean;
+  canViewOwnerName: boolean;
+  canViewOwnerPhone: boolean;
+  canViewOwnerDocuments: boolean;
+  canEditProperties: boolean;
+};
+
+function describeGrantScope(grant: PropertyGrantRow) {
+  const parts = [grant.projectKey ?? grant.areaKey ?? "No scope"];
+  if (grant.phaseKey) parts.push(grant.phaseKey);
+  if (grant.inventoryKey) parts.push(grant.inventoryKey.replaceAll("_", " "));
+  if (grant.buildingKey) parts.push(`Building ${grant.buildingKey}`);
+  if (grant.unitTypeKey) parts.push(`Type ${grant.unitTypeKey}`);
+  if (grant.bedrooms != null) parts.push(`${grant.bedrooms} BR`);
+  return parts.join(" · ");
+}
+
 function roleBadge(role: string) {
   if (role === "master")
     return (
@@ -97,6 +124,12 @@ export default function AdminAccess() {
       utils.propertyAccess.activity.invalidate();
     },
   });
+  const updateGrant = trpc.propertyAccess.grants.update.useMutation({
+    onSuccess: () => {
+      utils.propertyAccess.grants.list.invalidate();
+      utils.propertyAccess.activity.invalidate();
+    },
+  });
 
   const [newEmail, setNewEmail] = useState("");
   const [newRole, setNewRole] = useState<Role>("user");
@@ -113,6 +146,7 @@ export default function AdminAccess() {
   const [grantBuildingKey, setGrantBuildingKey] = useState("");
   const [grantUnitTypeKey, setGrantUnitTypeKey] = useState("");
   const [grantBedrooms, setGrantBedrooms] = useState("");
+  const [editingGrantId, setEditingGrantId] = useState<number | null>(null);
 
   const onAdd = async (e: FormEvent) => {
     e.preventDefault();
@@ -190,16 +224,31 @@ export default function AdminAccess() {
     });
     if (scopes.some(scope => !scope.areaKey && !scope.projectKey)) return;
     try {
-      const result = await createGrants.mutateAsync({
-        email: grantEmail.trim(),
-        scopes,
-        canViewOriginalPrice,
-        canViewOwnerName,
-        canViewOwnerPhone,
-        canViewOwnerDocuments,
-        canEditProperties,
-      });
-      toast.success(`${result.created.length} property grant${result.created.length === 1 ? "" : "s"} added${result.skipped.length ? ` · ${result.skipped.length} already existed` : ""}`);
+      if (editingGrantId != null) {
+        const scope = scopes[0];
+        if (!scope) return;
+        await updateGrant.mutateAsync({
+          id: editingGrantId,
+          ...scope,
+          canViewOriginalPrice,
+          canViewOwnerName,
+          canViewOwnerPhone,
+          canViewOwnerDocuments,
+          canEditProperties,
+        });
+        toast.success("Property access grant updated");
+      } else {
+        const result = await createGrants.mutateAsync({
+          email: grantEmail.trim(),
+          scopes,
+          canViewOriginalPrice,
+          canViewOwnerName,
+          canViewOwnerPhone,
+          canViewOwnerDocuments,
+          canEditProperties,
+        });
+        toast.success(`${result.created.length} property grant${result.created.length === 1 ? "" : "s"} added${result.skipped.length ? ` · ${result.skipped.length} already existed` : ""}`);
+      }
       setGrantEmail("");
       setCanViewOriginalPrice(false);
       setCanViewOwnerName(false);
@@ -209,6 +258,7 @@ export default function AdminAccess() {
       setGrantBuildingKey("");
       setGrantUnitTypeKey("");
       setGrantBedrooms("");
+      setEditingGrantId(null);
     } catch (err: any) {
       toast.error(err?.message || "Could not create property access grant");
     }
@@ -222,6 +272,36 @@ export default function AdminAccess() {
     } catch (err: any) {
       toast.error(err?.message || "Could not remove property access grant");
     }
+  };
+
+  const beginGrantEdit = (grant: PropertyGrantRow) => {
+    const type: GrantScopeType = grant.inventoryKey
+      ? "inventory"
+      : grant.phaseKey
+        ? "phase"
+        : grant.projectKey
+          ? "project"
+          : "area";
+    const scopeValue = type === "inventory"
+      ? `${grant.projectKey}::${grant.inventoryKey}`
+      : type === "phase"
+        ? `${grant.projectKey}::${grant.phaseKey}`
+        : type === "project"
+          ? grant.projectKey!
+          : grant.areaKey!;
+    setEditingGrantId(grant.id);
+    setGrantEmail(grant.email);
+    setScopeType(type);
+    setSelectedScopeKeys([scopeValue]);
+    setCanViewOriginalPrice(grant.canViewOriginalPrice);
+    setCanViewOwnerName(grant.canViewOwnerName);
+    setCanViewOwnerPhone(grant.canViewOwnerPhone);
+    setCanViewOwnerDocuments(grant.canViewOwnerDocuments);
+    setCanEditProperties(grant.canEditProperties);
+    setGrantBuildingKey(grant.buildingKey ?? "");
+    setGrantUnitTypeKey(grant.unitTypeKey ?? "");
+    setGrantBedrooms(grant.bedrooms == null ? "" : String(grant.bedrooms));
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (loading) {
@@ -250,6 +330,13 @@ export default function AdminAccess() {
   }
 
   const rows = list.data ?? [];
+  const grantsByEmail = new Map<string, PropertyGrantRow[]>();
+  for (const grant of (grants.data ?? []) as PropertyGrantRow[]) {
+    const key = grant.email.toLowerCase();
+    const current = grantsByEmail.get(key) ?? [];
+    current.push(grant);
+    grantsByEmail.set(key, current);
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -356,6 +443,12 @@ export default function AdminAccess() {
                 </div>
               </div>
               <form onSubmit={onCreateGrant} className="grid gap-4">
+                {editingGrantId != null && (
+                  <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-primary/30 bg-primary/5 px-3 py-2 text-sm">
+                    <span>Editing one grant for <strong>{grantEmail}</strong></span>
+                    <Button type="button" size="sm" variant="ghost" onClick={() => setEditingGrantId(null)}>Cancel edit</Button>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <Input
                     type="email"
@@ -433,7 +526,7 @@ export default function AdminAccess() {
                 <div>
                   <Button type="submit" disabled={createGrants.isPending || selectedScopeKeys.length === 0} className="gap-1.5">
                     <ShieldCheck className="h-4 w-4" />
-                    {createGrants.isPending ? "Saving…" : `Grant access to ${selectedScopeKeys.length} scope${selectedScopeKeys.length === 1 ? "" : "s"}`}
+                    {createGrants.isPending || updateGrant.isPending ? "Saving…" : editingGrantId != null ? "Update this grant" : `Grant access to ${selectedScopeKeys.length} scope${selectedScopeKeys.length === 1 ? "" : "s"}`}
                   </Button>
                 </div>
               </form>
@@ -467,9 +560,12 @@ export default function AdminAccess() {
                             {grant.canEditProperties && <span>Edit</span>}
                           </div>
                         </div>
-                        <Button variant="ghost" size="sm" className="text-destructive self-start" onClick={() => onRemoveGrant(grant.id)}>
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        <div className="flex gap-1 self-start">
+                          <Button variant="ghost" size="sm" onClick={() => beginGrantEdit(grant as PropertyGrantRow)}>Edit</Button>
+                          <Button variant="ghost" size="sm" className="text-destructive" onClick={() => onRemoveGrant(grant.id)}>
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -539,6 +635,18 @@ export default function AdminAccess() {
                       {row.addedBy && (
                         <div className="text-xs text-muted-foreground mt-0.5">
                           added by {row.addedBy}
+                        </div>
+                      )}
+                      {isMaster && (
+                        <div className="mt-2 flex flex-wrap gap-1.5">
+                          {(grantsByEmail.get(row.email.toLowerCase()) ?? []).map(grant => (
+                            <span key={grant.id} className="inline-flex items-center gap-1 rounded-sm border border-primary/25 bg-primary/5 px-1.5 py-0.5 text-[0.65rem] text-foreground">
+                              {describeGrantScope(grant)}
+                              <button type="button" className="text-primary hover:underline" onClick={() => beginGrantEdit(grant)}>Edit</button>
+                              <button type="button" className="text-destructive hover:underline" onClick={() => onRemoveGrant(grant.id)}>Remove</button>
+                            </span>
+                          ))}
+                          <button type="button" className="text-xs text-primary hover:underline" onClick={() => { setEditingGrantId(null); setGrantEmail(row.email); setScopeType("area"); setSelectedScopeKeys(["saadiyat"]); setGrantBuildingKey(""); setGrantUnitTypeKey(""); setGrantBedrooms(""); window.scrollTo({ top: 0, behavior: "smooth" }); }}>+ Add property access</button>
                         </div>
                       )}
                     </td>

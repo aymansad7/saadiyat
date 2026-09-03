@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext, useMemo, type ReactNode } from "react";
 import { LockKeyhole } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -9,6 +9,8 @@ type ProjectAccessContextValue = {
   canViewOwnerName: boolean;
   canViewOwnerPhone: boolean;
   canEditProperties: boolean;
+  /** Null means a Master Admin or a documented whole-project grant. */
+  allowedPhaseKeys: string[] | null;
 };
 
 const ProjectAccessContext = createContext<ProjectAccessContextValue>({
@@ -16,34 +18,56 @@ const ProjectAccessContext = createContext<ProjectAccessContextValue>({
   canViewOwnerName: false,
   canViewOwnerPhone: false,
   canEditProperties: false,
+  allowedPhaseKeys: [],
 });
 
 export function useProjectAccess() {
   return useContext(ProjectAccessContext);
 }
 
-export function PropertyProjectGate({ projectKey, children }: { projectKey: string; children: ReactNode }) {
+export function PropertyProjectGate({
+  projectKey,
+  phaseKeys,
+  children,
+}: {
+  projectKey: string;
+  /** Declare a route's source-backed phases when it is safe to access any one of them. */
+  phaseKeys?: readonly string[];
+  children: ReactNode;
+}) {
   const { user, loading } = useAuth();
+  const phaseKeySignature = phaseKeys?.join("::") ?? "";
+  const permissionInput = useMemo(
+    () => phaseKeys?.length
+      ? { scopes: phaseKeys.map(phaseKey => ({ projectKey, phaseKey })) }
+      : { projects: [projectKey] },
+    [projectKey, phaseKeySignature],
+  );
   const permission = trpc.propertyAccess.permissions.useQuery(
-    { projects: [projectKey] },
+    permissionInput,
     { enabled: Boolean(user) },
   );
+  const permitted = permission.data?.filter(item => item.permissions.canAccess) ?? [];
   const canAccess =
     user?.role === "master" ||
-    permission.data?.[0]?.permissions.canAccess === true;
+    permitted.length > 0;
 
   if (loading || permission.isLoading) {
     return <div className="min-h-screen bg-background" />;
   }
   if (canAccess) {
-    const grant = permission.data?.[0]?.permissions;
+    const grant = permitted[0]?.permissions;
     const isPrivileged = user?.role === "master";
+    const allowedPhaseKeys = isPrivileged || !phaseKeys?.length
+      ? null
+      : permitted.flatMap(item => item.scope.phaseKey ? [item.scope.phaseKey] : []);
     return (
       <ProjectAccessContext.Provider value={{
         canViewOriginalPrice: isPrivileged || grant?.canViewOriginalPrice === true,
         canViewOwnerName: isPrivileged || grant?.canViewOwnerName === true,
         canViewOwnerPhone: isPrivileged || grant?.canViewOwnerPhone === true,
         canEditProperties: isPrivileged || grant?.canEditProperties === true,
+        allowedPhaseKeys,
       }}>
         {children}
       </ProjectAccessContext.Provider>

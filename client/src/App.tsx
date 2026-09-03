@@ -55,6 +55,12 @@ import DcrCommunityPage from "./pages/DcrCommunityPage";
 import LagoonsSlGroup from "./pages/LagoonsSlGroup";
 
 function Router() {
+  const lagoonsPhaseKeysByCluster = {
+    ethir: ["SL2"],
+    "al-sidr": ["SL3", "SL5"],
+    "al-ghaf": ["SL4", "SL7", "SL8"],
+  } as const;
+  const allLagoonsPhaseKeys = ["SL2", "SL3", "SL4", "SL5", "SL7", "SL8"] as const;
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
@@ -77,15 +83,15 @@ function Router() {
       <Route path="/community/:slug">{({ slug }) => <PropertyProjectGate projectKey={slug}><CommunityPage /></PropertyProjectGate>}</Route>
       <Route path="/hidd-al-saadiyat">{() => <PropertyProjectGate projectKey="hidd"><HiddAlSaadiyat /></PropertyProjectGate>}</Route>
       <Route path="/saadiyat-beach-villas">{() => <PropertyProjectGate projectKey="saadiyat-beach-villas"><SaadiyatBeachVillas /></PropertyProjectGate>}</Route>
-      <Route path="/saadiyat-lagoons">{() => <PropertyProjectGate projectKey="lagoons"><SaadiyatLagoons /></PropertyProjectGate>}</Route>
-      <Route path="/saadiyat-lagoons/sl2">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL2" /></PropertyProjectGate>}</Route>
-      <Route path="/saadiyat-lagoons/sl3">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL3" /></PropertyProjectGate>}</Route>
-      <Route path="/saadiyat-lagoons/sl4">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL4" /></PropertyProjectGate>}</Route>
-      <Route path="/saadiyat-lagoons/sl5">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL5" /></PropertyProjectGate>}</Route>
-      <Route path="/saadiyat-lagoons/sl7">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL7" /></PropertyProjectGate>}</Route>
-      <Route path="/saadiyat-lagoons/sl8">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsSlGroup phase="SL8" /></PropertyProjectGate>}</Route>
-      <Route path="/saadiyat-lagoons/:cluster/:unit">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsVillaDetail /></PropertyProjectGate>}</Route>
-      <Route path="/saadiyat-lagoons/:cluster">{() => <PropertyProjectGate projectKey="lagoons"><LagoonsCluster /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons">{() => <PropertyProjectGate projectKey="lagoons" phaseKeys={allLagoonsPhaseKeys}><SaadiyatLagoons /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl2">{() => <PropertyProjectGate projectKey="lagoons" phaseKeys={["SL2"]}><LagoonsSlGroup phase="SL2" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl3">{() => <PropertyProjectGate projectKey="lagoons" phaseKeys={["SL3"]}><LagoonsSlGroup phase="SL3" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl4">{() => <PropertyProjectGate projectKey="lagoons" phaseKeys={["SL4"]}><LagoonsSlGroup phase="SL4" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl5">{() => <PropertyProjectGate projectKey="lagoons" phaseKeys={["SL5"]}><LagoonsSlGroup phase="SL5" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl7">{() => <PropertyProjectGate projectKey="lagoons" phaseKeys={["SL7"]}><LagoonsSlGroup phase="SL7" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/sl8">{() => <PropertyProjectGate projectKey="lagoons" phaseKeys={["SL8"]}><LagoonsSlGroup phase="SL8" /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/:cluster/:unit">{({ cluster }) => <PropertyProjectGate projectKey="lagoons" phaseKeys={lagoonsPhaseKeysByCluster[cluster as keyof typeof lagoonsPhaseKeysByCluster] ?? []}><LagoonsVillaDetail /></PropertyProjectGate>}</Route>
+      <Route path="/saadiyat-lagoons/:cluster">{({ cluster }) => <PropertyProjectGate projectKey="lagoons" phaseKeys={lagoonsPhaseKeysByCluster[cluster as keyof typeof lagoonsPhaseKeysByCluster] ?? []}><LagoonsCluster /></PropertyProjectGate>}</Route>
       <Route path="/documents" component={Documents} />
       <Route path="/aldar-saadiyat">{() => <PropertyProjectGate projectKey="aldar-saadiyat"><AldarSaadiyat /></PropertyProjectGate>}</Route>
       <Route path="/aldar-saadiyat/:project/:building/:unit">{({ project }) => <PropertyProjectGate projectKey={project}><AldarUnit /></PropertyProjectGate>}</Route>

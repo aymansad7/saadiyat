@@ -886,3 +886,11 @@
 
 ### Persistent iPhone Google Maps Load Failure (Sep 3, 2026)
 - [x] Replace the current opaque Google Maps loader with an iPhone-compatible, observable loader that reports a real failure state and can retry without changing property data or map links; WebKit confirmed the proxy requires anonymous CORS to send Origin, and the loader now waits for Maps API availability without an early async onload race
+
+### Lagoons Access Repair and Grant Management (Sep 3, 2026)
+- [x] Repair the current Lagoons project/phase grant so it reaches only the intended Lagoons scope and map; phase-gated routes now query their exact documented SL scope rather than incorrectly demanding a project-wide grant
+- [x] Show every user’s exact project, phase, inventory, field, and document grants beside their name, with Master Admin controls to add, revise, or revoke each grant
+
+### Google Sheet Owner Import (Sep 3, 2026)
+- [ ] Review the shared Google Sheet, preserve a private source record in OneDrive, and import owner fields only against confirmed canonical unit keys
+- [ ] Surface permitted imported owner facts consistently in the matching unit cards and map cards, while retaining unresolved rows for Master review
