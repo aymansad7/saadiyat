@@ -23,6 +23,7 @@ import {
   listRuns,
   runInventorySync,
 } from "../inventorySync";
+import { refreshAlGhadeerOfficialInventory } from "../alGhadeerOfficialSync";
 
 /** Loose schema for an uploaded Aldar dataset (projects → buildings → units). */
 const rawDatasetSchema = z
@@ -71,7 +72,7 @@ export const inventoryHistoryRouter = router({
         .object({
           limit: z.number().int().min(1).max(1000).default(500),
           projectSlug: z.string().min(1).max(128).optional(),
-          eventType: z.enum(["first_seen", "status_change", "price_change", "removed", "reappeared"]).optional(),
+          eventType: z.enum(["first_seen", "status_change", "source_status_change", "price_change", "removed", "reappeared"]).optional(),
         })
         .optional(),
     )
@@ -92,14 +93,14 @@ export const inventoryHistoryRouter = router({
       return { events };
     }),
 
-  /** Manually run a sync against the datasets currently on disk. */
+  /** Manually refresh official Ghadeer first, then sync all current inventory. */
   syncNow: adminProcedure.mutation(async ({ ctx }) => {
     const who = ctx.user?.email || ctx.user?.name || "admin";
-    const { runId, counts, rollups, newProjects } = await runInventorySync({
+    const { captureDate, runId, counts, rollups, newProjects } = await refreshAlGhadeerOfficialInventory({
       trigger: "manual",
       triggeredBy: who,
     });
-    return { runId, counts, rollups, newProjects, summary: buildSyncChangeSummary(counts, rollups) };
+    return { captureDate, runId, counts, rollups, newProjects, summary: buildSyncChangeSummary(counts, rollups) };
   }),
 
   /**

@@ -799,6 +799,8 @@ export const inventorySyncRuns = mysqlTable(
     newUnits: int("newUnits").default(0).notNull(),
     soldUnits: int("soldUnits").default(0).notNull(),
     statusChanges: int("statusChanges").default(0).notNull(),
+    /** Changes in a raw explorer/source status, retained separately from sale availability. */
+    sourceStatusChanges: int("sourceStatusChanges").default(0).notNull(),
     priceChanges: int("priceChanges").default(0).notNull(),
     removedUnits: int("removedUnits").default(0).notNull(),
     /** JSON summary of source-complete projects first detected in this run. */
@@ -839,6 +841,8 @@ export const inventoryUnitState = mysqlTable(
     aldarLink: text("aldarLink"),
     /** Latest status as reported by Aldar (Available/Sold/Booked/Reserved/Blocked/New/...). */
     status: varchar("status", { length: 64 }),
+    /** Raw World of Aldar explorer label; never used as an NAS sale-availability state. */
+    sourceStatus: varchar("sourceStatus", { length: 64 }),
     /** Latest price in AED. NULL when unknown. */
     priceAed: bigint("priceAed", { mode: "number" }),
     bedrooms: varchar("bedrooms", { length: 32 }),
@@ -914,6 +918,7 @@ export const inventoryUnitEvents = mysqlTable(
     eventType: mysqlEnum("eventType", [
       "first_seen",
       "status_change",
+      "source_status_change",
       "price_change",
       "removed",
       "reappeared",
@@ -921,6 +926,9 @@ export const inventoryUnitEvents = mysqlTable(
     /** Status before/after (for status_change & first_seen.toStatus). */
     fromStatus: varchar("fromStatus", { length: 64 }),
     toStatus: varchar("toStatus", { length: 64 }),
+    /** Raw source/explorer label before and after a source_status_change event. */
+    fromSourceStatus: varchar("fromSourceStatus", { length: 64 }),
+    toSourceStatus: varchar("toSourceStatus", { length: 64 }),
     /** Price before/after in AED (for price_change & first_seen.toPrice). */
     fromPriceAed: bigint("fromPriceAed", { mode: "number" }),
     toPriceAed: bigint("toPriceAed", { mode: "number" }),

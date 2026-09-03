@@ -54,9 +54,18 @@
 
 نفذت المزامنة اليدوية المسجلة **900002** بعد التحقق من المفتاح المركب `dataset + project + unit`. سجلت **806** وحدات جديدة تشغيليًا؛ أما وحدات R2 الـ437 السابقة فحُفظت ضمن هويتها الممددة باللاحقة الرسمية `-01` حتى لا تضيع أحداثها التاريخية. لم تُسجل المزامنة أي تغيير حالة أو سعر ناتج من حقول غير منشورة. كما صدر ملف Excel باسم `Al-Ghadeer-Official-Unit-Register-2026-09-03.xlsx` يضم **1,243** صفًا؛ أعمدة السعر والتوافر التشغيلي فيه فارغة عمدًا، وهو تصدير أحادي الاتجاه ولا يعيد أي تعديل من Excel إلى الموقع.
 
+### تدقيق اختلاف R2 والأسعار — 3 سبتمبر 2026
+
+أظهر سجل المصدر السابق في الإصدار `d4206f5` (12 أغسطس 2026) مشروع **Al Ghadeer Gardens** بوحدات R2 عددها **434** وأسعار مصدرية تتراوح بين **1,763,344** و**3,761,482 درهم**. استخدم المصدر السابق رمزًا مثل `AlGhadeerGardens-R2-V-088`، بينما تستخدم لقطة World of Aldar الجديدة رمزًا رسميًا ممددًا مثل `AlGhadeerGardens-R2-V-088-01`.
+
+المطابقة المنضبطة التي تحذف لاحقة الطابق `-01` طابقت **434 من 437** وحدة R2 فقط. لذلك يمكن استعادة أسعار المصدر السابقة لهذه الوحدات مع وسمها بتاريخ مصدرها، من دون نقلها إلى N2 أو Parks أو تخمين سعر للوحدات الثلاث التي لم تكن في المصدر السابق. يظل السعر خاضعًا لتاريخ المصدر ولا يمثل سعرًا حيًا أو سعر إعادة بيع.
+
+أما **Al Ghadeer Parks** فهو الإطلاق الأحدث الذي تصفه Aldar رسميًا بأنه “latest chapter”. تجمع صفحته الرسمية مجموعتي NC وND اللتين تمثلان **453** وحدة في النظام (280 + 173)، وتعلن أسعارًا ابتدائية فقط: 2-bedroom Townhouse من 1.9 مليون درهم، و3-bedroom Townhouse من 2.2 مليون درهم، و4-bedroom Villa من 3.3 مليون درهم، مع 55/45. هذه أسعار بداية على مستوى النوع وليست أسعارًا لكل وحدة، لذلك لا تُنسخ إلى بطاقات الوحدات الفردية.
+
 ## المراجع الرسمية
 
 1. [World of Aldar — Al Ghadeer Gardens R2](https://world.aldar.com/uae/abudhabi/alghadeergardens/r2)
 2. [World of Aldar — Al Ghadeer Gardens N2](https://world.aldar.com/uae/abudhabi/alghadeergardens/n2)
 3. [World of Aldar — Al Ghadeer Parks 1 NC](https://world.aldar.com/uae/abudhabi/alghadeerparks1/nc)
 4. [World of Aldar — Al Ghadeer Parks 2 ND](https://world.aldar.com/uae/abudhabi/alghadeerparks2/nd)
+5. [Aldar Properties — Al Ghadeer Parks official launch page](https://www.aldar.com/properties/en/alghadeer-parks)

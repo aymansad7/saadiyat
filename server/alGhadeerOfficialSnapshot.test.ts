@@ -65,19 +65,24 @@ describe("captured official Al Ghadeer snapshot", () => {
     }
   });
 
-  it("does not manufacture price, payment plan, or operational availability from the captured explorer state", () => {
+  it("restores only the exact R2 historical source prices and never manufactures availability", () => {
     for (const item of expected) {
       const project = snapshot.projects.find(candidate => candidate.slug === item.project);
       const building = project?.buildings.find(candidate => candidate.slug === item.building);
       expect(project?.available_count).toBe(0);
       expect(building?.units.every(unit => (
         unit.status === null
-        && unit.price_aed === null
-        && unit.reservation_amount === null
-        && unit.payment_plans === null
         && typeof unit.source_unit_status === "string"
         && unit.source_captured_at === "2026-09-03"
       ))).toBe(true);
+      const priced = building?.units.filter(unit => unit.price_aed != null) ?? [];
+      if (item.building === "r2") {
+        expect(priced).toHaveLength(434);
+        expect(priced.every(unit => unit.price_source_captured_at === "2026-08-12")).toBe(true);
+      } else {
+        expect(priced).toHaveLength(0);
+        expect(building?.units.every(unit => unit.payment_plans === null)).toBe(true);
+      }
     }
   });
 });

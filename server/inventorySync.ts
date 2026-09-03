@@ -40,6 +40,8 @@ export type SnapshotUnit = {
   buildingName: string | null;
   aldarLink: string | null;
   status: string | null;
+  /** Explorer/source-only state such as Sold or Booked; not NAS availability. */
+  sourceStatus: string | null;
   priceAed: number | null;
   bedrooms: string | null;
   unitType: string | null;
@@ -53,6 +55,7 @@ type RawUnit = {
   unit_type: string | null;
   bedrooms: string | number | null;
   status: string | null;
+  source_unit_status?: string | null;
   price_aed: number | null;
 };
 type RawBuilding = { slug: string; name: string; units: RawUnit[] };
@@ -109,6 +112,7 @@ function flatten(raw: RawDataset, dataset: Dataset): SnapshotUnit[] {
           buildingName: building.name ?? null,
           aldarLink: u.aldar_link ?? null,
           status: u.status ?? null,
+          sourceStatus: u.source_unit_status ?? null,
           priceAed: typeof u.price_aed === "number" ? Math.round(u.price_aed) : null,
           bedrooms: u.bedrooms == null ? null : String(u.bedrooms),
           unitType: u.unit_type ?? null,
@@ -196,8 +200,8 @@ export function detectNewInventoryProjects(
 }
 
 /** A scheduled owner alert is meaningful only for a recorded inventory change or new project. */
-export function shouldNotifyInventoryOwner(counts: Pick<RunCounts, "newUnits" | "soldUnits" | "statusChanges" | "priceChanges" | "removedUnits">, newProjects: readonly DetectedInventoryProject[]): boolean {
-  return counts.newUnits + counts.soldUnits + counts.statusChanges + counts.priceChanges + counts.removedUnits > 0 || newProjects.length > 0;
+export function shouldNotifyInventoryOwner(counts: Pick<RunCounts, "newUnits" | "soldUnits" | "statusChanges" | "sourceStatusChanges" | "priceChanges" | "removedUnits">, newProjects: readonly DetectedInventoryProject[]): boolean {
+  return counts.newUnits + counts.soldUnits + counts.statusChanges + counts.sourceStatusChanges + counts.priceChanges + counts.removedUnits > 0 || newProjects.length > 0;
 }
 
 /* ----------------------------- status helpers ----------------------------- */
@@ -237,9 +241,11 @@ export type DiffEvent = {
   dataset: Dataset;
   projectSlug: string;
   projectName: string | null;
-  eventType: "first_seen" | "status_change" | "price_change" | "removed" | "reappeared";
+  eventType: "first_seen" | "status_change" | "source_status_change" | "price_change" | "removed" | "reappeared";
   fromStatus: string | null;
   toStatus: string | null;
+  fromSourceStatus: string | null;
+  toSourceStatus: string | null;
   fromPriceAed: number | null;
   toPriceAed: number | null;
 };
@@ -250,6 +256,7 @@ export type PrevState = {
   dataset?: Dataset;
   projectSlug?: string;
   status: string | null;
+  sourceStatus?: string | null;
   priceAed: number | null;
   isPresent: boolean;
 };
@@ -280,6 +287,8 @@ export function computeDiff(
         eventType: "first_seen",
         fromStatus: null,
         toStatus: u.status,
+        fromSourceStatus: null,
+        toSourceStatus: u.sourceStatus,
         fromPriceAed: null,
         toPriceAed: u.priceAed,
       });
@@ -296,6 +305,8 @@ export function computeDiff(
         eventType: "reappeared",
         fromStatus: p.status,
         toStatus: u.status,
+        fromSourceStatus: p.sourceStatus ?? null,
+        toSourceStatus: u.sourceStatus,
         fromPriceAed: p.priceAed,
         toPriceAed: u.priceAed,
       });
@@ -314,16 +325,41 @@ export function computeDiff(
         eventType: "status_change",
         fromStatus: p.status,
         toStatus: u.status,
+        fromSourceStatus: null,
+        toSourceStatus: null,
         fromPriceAed: null,
         toPriceAed: null,
       });
     }
 
-    // price change (only when both numbers are known and differ)
+    // Explorer-state changes are retained independently from operational
+    // availability. The first capture only establishes a baseline.
     if (
-      p.priceAed != null &&
+      u.sourceStatus != null &&
+      p.sourceStatus != null &&
+      normStatus(p.sourceStatus) !== normStatus(u.sourceStatus)
+    ) {
+      events.push({
+        unitName: u.unitName,
+        dataset: u.dataset,
+        projectSlug: u.projectSlug,
+        projectName: u.projectName,
+        eventType: "source_status_change",
+        fromStatus: null,
+        toStatus: null,
+        fromSourceStatus: p.sourceStatus,
+        toSourceStatus: u.sourceStatus,
+        fromPriceAed: null,
+        toPriceAed: null,
+      });
+    }
+
+    // Record a price when it first becomes published for a source that already
+    // has a captured baseline, as well as later official price changes.
+    if (
       u.priceAed != null &&
-      p.priceAed !== u.priceAed
+      p.priceAed !== u.priceAed &&
+      (p.priceAed != null || (p.sourceStatus != null && u.sourceStatus != null))
     ) {
       events.push({
         unitName: u.unitName,
@@ -333,6 +369,8 @@ export function computeDiff(
         eventType: "price_change",
         fromStatus: null,
         toStatus: null,
+        fromSourceStatus: null,
+        toSourceStatus: null,
         fromPriceAed: p.priceAed,
         toPriceAed: u.priceAed,
       });
@@ -351,6 +389,8 @@ export function computeDiff(
       eventType: "removed",
       fromStatus: p.status,
       toStatus: null,
+      fromSourceStatus: p.sourceStatus ?? null,
+      toSourceStatus: null,
       fromPriceAed: p.priceAed,
       toPriceAed: null,
     });
@@ -366,6 +406,7 @@ export type RunCounts = {
   newUnits: number;
   soldUnits: number;
   statusChanges: number;
+  sourceStatusChanges: number;
   priceChanges: number;
   removedUnits: number;
 };
@@ -377,6 +418,7 @@ export type ProjectRollup = {
   newUnits: number;
   sold: number;
   statusChanges: number;
+  sourceStatusChanges: number;
   priceChanges: number;
   removed: number;
   examples: string[]; // short human strings, capped
@@ -384,10 +426,10 @@ export type ProjectRollup = {
 
 /** Human-readable, source-safe summary for the admin desk and scheduled alert. */
 export function buildSyncChangeSummary(
-  counts: Pick<RunCounts, "unitsScanned" | "newUnits" | "soldUnits" | "statusChanges" | "priceChanges" | "removedUnits">,
+  counts: Pick<RunCounts, "unitsScanned" | "newUnits" | "soldUnits" | "statusChanges" | "sourceStatusChanges" | "priceChanges" | "removedUnits">,
   rollups: ProjectRollup[],
 ) {
-  const changed = counts.newUnits + counts.soldUnits + counts.statusChanges + counts.priceChanges + counts.removedUnits;
+  const changed = counts.newUnits + counts.soldUnits + counts.statusChanges + counts.sourceStatusChanges + counts.priceChanges + counts.removedUnits;
   const headline = changed === 0
     ? `No changes detected across ${counts.unitsScanned.toLocaleString()} Aldar inventory records.`
     : `${changed.toLocaleString()} change${changed === 1 ? "" : "s"} across ${counts.unitsScanned.toLocaleString()} Aldar inventory records.`;
@@ -395,6 +437,7 @@ export function buildSyncChangeSummary(
     counts.newUnits ? `${counts.newUnits} new` : null,
     counts.soldUnits ? `${counts.soldUnits} sold` : null,
     counts.statusChanges ? `${counts.statusChanges} status` : null,
+    counts.sourceStatusChanges ? `${counts.sourceStatusChanges} source status` : null,
     counts.priceChanges ? `${counts.priceChanges} price` : null,
     counts.removedUnits ? `${counts.removedUnits} removed` : null,
   ].filter(Boolean).join(" · ");
@@ -403,6 +446,7 @@ export function buildSyncChangeSummary(
       row.newUnits ? `${row.newUnits} new` : null,
       row.sold ? `${row.sold} sold` : null,
       row.statusChanges ? `${row.statusChanges} status` : null,
+      row.sourceStatusChanges ? `${row.sourceStatusChanges} source status` : null,
       row.priceChanges ? `${row.priceChanges} price` : null,
       row.removed ? `${row.removed} removed` : null,
     ].filter(Boolean).join(", ");
@@ -420,6 +464,7 @@ export function summarize(events: DiffEvent[]): {
     newUnits: 0,
     soldUnits: 0,
     statusChanges: 0,
+    sourceStatusChanges: 0,
     priceChanges: 0,
     removedUnits: 0,
   };
@@ -436,6 +481,7 @@ export function summarize(events: DiffEvent[]): {
         newUnits: 0,
         sold: 0,
         statusChanges: 0,
+        sourceStatusChanges: 0,
         priceChanges: 0,
         removed: 0,
         examples: [],
@@ -469,6 +515,11 @@ export function summarize(events: DiffEvent[]): {
         } else if (r.examples.length < 5) {
           r.examples.push(`${e.unitName}: ${e.fromStatus ?? "?"}→${e.toStatus ?? "?"}`);
         }
+        break;
+      case "source_status_change":
+        counts.sourceStatusChanges += 1;
+        r.sourceStatusChanges += 1;
+        if (r.examples.length < 5) r.examples.push(`source: ${e.unitName} ${e.fromSourceStatus ?? "?"}→${e.toSourceStatus ?? "?"}`);
         break;
       case "price_change":
         counts.priceChanges += 1;
@@ -547,6 +598,7 @@ export async function runInventorySync(opts: {
         dataset: r.dataset,
         projectSlug: r.projectSlug,
         status: r.status,
+        sourceStatus: r.sourceStatus,
         priceAed: r.priceAed,
         isPresent: r.isPresent,
       });
@@ -589,6 +641,8 @@ export async function runInventorySync(opts: {
         eventType: e.eventType,
         fromStatus: e.fromStatus,
         toStatus: e.toStatus,
+        fromSourceStatus: e.fromSourceStatus,
+        toSourceStatus: e.toSourceStatus,
         fromPriceAed: e.fromPriceAed,
         toPriceAed: e.toPriceAed,
         runId,
@@ -614,6 +668,7 @@ export async function runInventorySync(opts: {
             buildingName: u.buildingName,
             aldarLink: u.aldarLink,
             status: u.status,
+            sourceStatus: u.sourceStatus,
             priceAed: u.priceAed,
             bedrooms: u.bedrooms,
             unitType: u.unitType,
@@ -632,6 +687,7 @@ export async function runInventorySync(opts: {
             buildingName: sqlValues("buildingName"),
             aldarLink: sqlValues("aldarLink"),
             status: sqlValues("status"),
+            sourceStatus: sqlValues("sourceStatus"),
             priceAed: sqlValues("priceAed"),
             bedrooms: sqlValues("bedrooms"),
             unitType: sqlValues("unitType"),
@@ -700,6 +756,7 @@ export async function runInventorySync(opts: {
         newUnits: counts.newUnits,
         soldUnits: counts.soldUnits,
         statusChanges: counts.statusChanges,
+        sourceStatusChanges: counts.sourceStatusChanges,
         priceChanges: counts.priceChanges,
         removedUnits: counts.removedUnits,
         summaryJson: JSON.stringify(rollups).slice(0, 60000),
@@ -896,6 +953,7 @@ async function listStoredSnapshotUnits(): Promise<SnapshotUnit[]> {
     unitName: row.unitName,
     aldarLink: row.aldarLink,
     status: row.status,
+    sourceStatus: row.sourceStatus,
     priceAed: row.priceAed,
     bedrooms: row.bedrooms,
     unitType: row.unitType,

@@ -9,6 +9,7 @@ const checkOnly = process.argv.includes("--check");
 
 const officialCapture = "World of Aldar captured snapshot · 2026-09-03";
 const noOperationalAvailabilityNote = "Captured official unit record; no price or current availability was published in this snapshot.";
+const legacyPricingPath = resolve(root, "server/data/sources/world-of-aldar/2026-08-12/alghadeer_gardens_r2_pricing.json");
 
 const clusters = [
   {
@@ -64,7 +65,7 @@ function textOrNull(value) {
   return typeof value === "string" && value.trim() ? value.trim() : null;
 }
 
-function canonicalUnit(cluster, source) {
+function canonicalUnit(cluster, source, legacyPricingByUnit) {
   const unitNumber = textOrNull(source.unitNumber);
   if (!unitNumber || !unitNumber.startsWith(cluster.sourcePrefix)) {
     throw new Error(`${cluster.buildingName}: source row does not have the expected published unitNumber prefix.`);
@@ -76,6 +77,8 @@ function canonicalUnit(cluster, source) {
   const bedrooms = numberOrNull(source.bedroomCount);
   const suiteArea = numberOrNull(source.suiteArea);
   const saleableArea = numberOrNull(source.saleableArea);
+  const legacyKey = cluster.buildingSlug === "r2" ? unitNumber.replace(/-01$/i, "") : null;
+  const legacyPricing = legacyKey ? legacyPricingByUnit.get(legacyKey) ?? null : null;
   return {
     // Use World of Aldar's full stable unitNumber as the canonical local identity.
     unit_name: unitNumber,
@@ -88,44 +91,54 @@ function canonicalUnit(cluster, source) {
     total_rooms: textOrNull(source.propertyName),
     // Do not turn an exploratory-map `unitStatus` into operational availability.
     status: null,
-    price_aed: null,
-    reservation_amount: null,
-    online_reservation_fee: null,
+    price_aed: legacyPricing?.price_aed ?? null,
+    reservation_amount: legacyPricing?.reservation_amount ?? null,
+    online_reservation_fee: legacyPricing?.online_reservation_fee ?? null,
     plot_area_sqm: numberOrNull(source.plotArea),
     saleable_area_sqm: saleableArea,
     total_area_sqm: suiteArea ?? saleableArea,
     terrace_area_sqm: null,
     balcony_area_sqm: numberOrNull(source.balconyArea),
-    service_charge_aed_sqm: null,
-    service_charge_escalation_pct: null,
-    car_parks: null,
+    service_charge_aed_sqm: legacyPricing?.service_charge_aed_sqm ?? null,
+    service_charge_escalation_pct: legacyPricing?.service_charge_escalation_pct ?? null,
+    car_parks: legacyPricing?.car_parks ?? null,
     unit_finishes: source.isFurnished === false ? "Unfurnished" : null,
     features_spec: textOrNull(source.variantCode),
-    inventory_category: "Official World of Aldar captured snapshot",
-    property_status: null,
-    mandatory_pool: null,
-    mandatory_premium: null,
-    darna_applicable: null,
-    virtual_tour: null,
-    payment_plans: null,
+    inventory_category: legacyPricing?.inventory_category ?? "Official World of Aldar captured snapshot",
+    property_status: legacyPricing?.property_status ?? null,
+    mandatory_pool: legacyPricing?.mandatory_pool ?? null,
+    mandatory_premium: legacyPricing?.mandatory_premium ?? null,
+    darna_applicable: legacyPricing?.darna_applicable ?? null,
+    virtual_tour: legacyPricing?.virtual_tour ?? null,
+    payment_plans: legacyPricing?.payment_plans ?? null,
     building_section: cluster.buildingName,
     project_field: noOperationalAvailabilityNote,
     source_unit_status: textOrNull(source.unitStatus),
     source_captured_at: "2026-09-03",
     source_route: `/uae/abudhabi/${cluster.projectPath}/${cluster.buildingSlug}`,
+    price_source: legacyPricing ? "Historical Aldar official price snapshot" : null,
+    price_source_captured_at: legacyPricing ? "2026-08-12" : null,
   };
 }
 
 async function buildOfficialProjects() {
+  const legacySource = JSON.parse(await readFile(legacyPricingPath, "utf8"));
+  if (!Array.isArray(legacySource.units) || legacySource.units.length !== 434) {
+    throw new Error("Expected the preserved 434-row Al Ghadeer Gardens R2 pricing source.");
+  }
+  const legacyPricingByUnit = new Map(legacySource.units.map(row => [row.unit_name, row]));
   const groups = new Map();
   for (const cluster of clusters) {
     const raw = JSON.parse(await readFile(resolve(sourceDir, cluster.sourceFile), "utf8"));
     if (!Array.isArray(raw) || raw.length !== cluster.expectedCount) {
       throw new Error(`${cluster.sourceFile}: expected ${cluster.expectedCount} source rows, received ${Array.isArray(raw) ? raw.length : "non-array"}.`);
     }
-    const units = raw.map(row => canonicalUnit(cluster, row));
+    const units = raw.map(row => canonicalUnit(cluster, row, legacyPricingByUnit));
     if (new Set(units.map(unit => unit.unit_name)).size !== units.length) {
       throw new Error(`${cluster.sourceFile}: duplicate canonical unit identities.`);
+    }
+    if (cluster.buildingSlug === "r2" && units.filter(unit => unit.price_aed != null).length !== 434) {
+      throw new Error("R2 historical price mapping did not produce the reviewed 434 exact matches.");
     }
     let project = groups.get(cluster.projectSlug);
     if (!project) {

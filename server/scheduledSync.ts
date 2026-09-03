@@ -12,9 +12,10 @@
  * platform Investigate flow can surface them verbatim.
  */
 import type { Request, Response } from "express";
-import { buildSyncChangeSummary, runInventorySync, shouldNotifyInventoryOwner } from "./inventorySync";
+import { buildSyncChangeSummary, shouldNotifyInventoryOwner } from "./inventorySync";
 import { notifyOwner } from "./_core/notification";
 import { sdk } from "./_core/sdk";
+import { refreshAlGhadeerOfficialInventory } from "./alGhadeerOfficialSync";
 
 /** Header Heartbeat sets to the triggering cron task UID. */
 const CRON_TASK_HEADER = "x-manus-cron-task-uid";
@@ -36,7 +37,7 @@ export async function inventorySyncScheduledHandler(req: Request, res: Response)
       headerMatchesIdentity: !headerTaskUid || headerTaskUid === taskUid,
     });
 
-    const { runId, counts, rollups, newProjects } = await runInventorySync({
+    const { captureDate, runId, counts, rollups, newProjects } = await refreshAlGhadeerOfficialInventory({
       trigger: "scheduled",
       triggeredBy: `cron:${taskUid}`,
     });
@@ -54,7 +55,7 @@ export async function inventorySyncScheduledHandler(req: Request, res: Response)
             ? `New source-complete projects: ${newProjects.map(project => `${project.projectName} [${project.areaKey}] · ${project.unitCount} units · ${project.availableCount} available${project.priceMinAed != null ? ` · AED ${project.priceMinAed.toLocaleString()}–${(project.priceMaxAed ?? project.priceMinAed).toLocaleString()}` : " · price not published"}`).join("\n")}`
             : "No new source-complete project detected.",
           summary.projects.length ? `Top affected projects: ${summary.projects.join(" · ")}` : "No project-level changes reported.",
-          "Source: bundled Aldar inventory snapshot unless a manual JSON import was supplied. No live Aldar API feed is configured.",
+          `Source: bundled Aldar inventory snapshot plus complete World of Aldar Al Ghadeer capture dated ${captureDate}. Raw explorer labels are not NAS availability.`,
         ].join("\n"),
       });
     }
@@ -67,7 +68,8 @@ export async function inventorySyncScheduledHandler(req: Request, res: Response)
       topProjects: rollups.slice(0, 10),
       newProjects,
       notificationSent,
-      snapshotSource: "bundled Aldar inventory snapshot",
+      snapshotSource: "bundled Aldar inventory snapshot plus World of Aldar Al Ghadeer capture",
+      captureDate,
     });
   } catch (err) {
     const e = err as Error;

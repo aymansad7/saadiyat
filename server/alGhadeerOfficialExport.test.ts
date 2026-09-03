@@ -2,11 +2,15 @@ import { describe, expect, it } from "vitest";
 import { alGhadeerOfficialExportRows } from "./alGhadeerOfficialExport";
 
 describe("Al Ghadeer official register export", () => {
-  it("contains every captured official unit without creating a price or operational availability value", () => {
+  it("contains every captured unit and restores only the exact R2 historical prices without creating operational availability", () => {
     const rows = alGhadeerOfficialExportRows();
     expect(rows).toHaveLength(1243);
     expect(new Set(rows.map(row => `${row.project}::${row.unitCode}`)).size).toBe(1243);
-    expect(rows.every(row => row.priceAed === null && row.operationalAvailability === null)).toBe(true);
+    const r2PricedRows = rows.filter(row => row.cluster === "R2" && row.priceAed != null);
+    expect(r2PricedRows).toHaveLength(434);
+    expect(r2PricedRows.every(row => row.priceSourceCaptureDate === "2026-08-12")).toBe(true);
+    expect(rows.filter(row => row.cluster !== "R2").every(row => row.priceAed === null)).toBe(true);
+    expect(rows.every(row => row.operationalAvailability === null)).toBe(true);
   });
 
   it("retains the capture state separately and keeps every link at its exact unit code", () => {

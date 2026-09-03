@@ -26,6 +26,7 @@ function unit(partial: Partial<SnapshotUnit> & { unitName: string }): SnapshotUn
     buildingName: "B1",
     aldarLink: null,
     status: "Available",
+    sourceStatus: null,
     priceAed: 1_000_000,
     bedrooms: "3",
     unitType: "Villa",
@@ -183,6 +184,17 @@ describe("computeDiff", () => {
     expect(events.find(event => event.eventType === "price_change")).toBeUndefined();
   });
 
+  it("tracks later World of Aldar explorer changes without calling them operational availability", () => {
+    const prev = prevMap([{ unitName: "GHD-R2-V-001-01", status: null, sourceStatus: "Booked", priceAed: null, isPresent: true }]);
+    const events = computeDiff(prev, [unit({ unitName: "GHD-R2-V-001-01", status: null, sourceStatus: "Sold", priceAed: 1_200_000 })]);
+    expect(events).toEqual(expect.arrayContaining([
+      expect.objectContaining({ eventType: "source_status_change", fromSourceStatus: "Booked", toSourceStatus: "Sold" }),
+      expect.objectContaining({ eventType: "price_change", fromPriceAed: null, toPriceAed: 1_200_000 }),
+    ]));
+    expect(events.some(event => event.eventType === "status_change")).toBe(false);
+    expect(isSaleAvailableStatus("Sold")).toBe(false);
+  });
+
   it("emits price_change when the price differs but not when a price is unknown", () => {
     const changed = computeDiff(prevMap([{ unitName: "BSPP-V-01", status: "Available", priceAed: 1_000_000, isPresent: true }]), [unit({ unitName: "BSPP-V-01", priceAed: 1_200_000 })]);
     expect(changed.find(event => event.eventType === "price_change")?.toPriceAed).toBe(1_200_000);
@@ -246,7 +258,7 @@ describe("summarize", () => {
 
 describe("sync change summary", () => {
   it("reports no-change runs without an unnecessary alert payload", () => {
-    const summary = buildSyncChangeSummary({ unitsScanned: 5, newUnits: 0, soldUnits: 0, statusChanges: 0, priceChanges: 0, removedUnits: 0 }, []);
+    const summary = buildSyncChangeSummary({ unitsScanned: 5, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 }, []);
     expect(summary.changed).toBe(0);
     expect(summary.headline).toContain("No changes detected");
     expect(summary.projects).toEqual([]);
@@ -254,10 +266,10 @@ describe("sync change summary", () => {
 
   it("includes category totals and the affected project in a changed run", () => {
     const summary = buildSyncChangeSummary(
-      { unitsScanned: 15, newUnits: 1, soldUnits: 2, statusChanges: 0, priceChanges: 1, removedUnits: 0 },
-      [{ dataset: "saadiyat", projectSlug: "park-place", projectName: "Park Place", newUnits: 1, sold: 2, statusChanges: 0, priceChanges: 1, removed: 0, examples: [] }],
+      { unitsScanned: 15, newUnits: 1, soldUnits: 2, statusChanges: 0, sourceStatusChanges: 1, priceChanges: 1, removedUnits: 0 },
+      [{ dataset: "saadiyat", projectSlug: "park-place", projectName: "Park Place", newUnits: 1, sold: 2, statusChanges: 0, sourceStatusChanges: 1, priceChanges: 1, removed: 0, examples: [] }],
     );
-    expect(summary.changed).toBe(4);
+    expect(summary.changed).toBe(5);
     expect(summary.metrics).toContain("2 sold");
     expect(summary.projects[0]).toContain("Park Place");
   });
@@ -302,7 +314,7 @@ describe("new project detection", () => {
   });
 
   it("notifies the owner only when inventory changed or a new complete project appears", () => {
-    const unchanged = { newUnits: 0, soldUnits: 0, statusChanges: 0, priceChanges: 0, removedUnits: 0 };
+    const unchanged = { newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 };
     expect(shouldNotifyInventoryOwner(unchanged, [])).toBe(false);
     expect(shouldNotifyInventoryOwner(unchanged, detectNewInventoryProjects(incoming, []))).toBe(true);
     expect(shouldNotifyInventoryOwner({ ...unchanged, priceChanges: 1 }, [])).toBe(true);

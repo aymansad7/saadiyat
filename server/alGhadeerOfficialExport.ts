@@ -34,7 +34,9 @@ export type AlGhadeerExportRow = {
   captureDate: string | null;
   officialLink: string | null;
   sourceRoute: string | null;
-  priceAed: null;
+  priceAed: number | null;
+  priceSource: string | null;
+  priceSourceCaptureDate: string | null;
   operationalAvailability: null;
 };
 
@@ -57,7 +59,13 @@ export function alGhadeerOfficialExportRows(): AlGhadeerExportRow[] {
     sourceRoute: unit.source_route ?? null,
     // These fields are intentionally null: World of Aldar's captured explorer
     // did not publish a price or operational availability for this import.
-    priceAed: null,
+    priceAed: typeof unit.price_aed === "number" ? unit.price_aed : null,
+    priceSource: typeof unit.price_aed === "number"
+      ? (unit as AldarOtherUnit & { price_source?: string | null }).price_source ?? "Historical Aldar official price snapshot"
+      : null,
+    priceSourceCaptureDate: typeof unit.price_aed === "number"
+      ? (unit as AldarOtherUnit & { price_source_captured_at?: string | null }).price_source_captured_at ?? "2026-08-12"
+      : null,
     operationalAvailability: null,
   }))));
 }
@@ -86,13 +94,16 @@ async function recordEvent(input: { eventType: "upload" | "workbook_export"; ide
   });
 }
 
-export async function archiveAlGhadeerOfficialSourceFiles(files: Array<{ filename: string; bytes: Buffer; mimeType: string }>) {
+export async function archiveAlGhadeerOfficialSourceFiles(
+  files: Array<{ filename: string; bytes: Buffer; mimeType: string }>,
+  captureDate = CAPTURE_DATE,
+) {
   const configured = await getConfiguredOneDrive();
   const sourceFolder = await ensureFolderPath(configured.drive.id, configured.root.id, [
     "Operations",
     "Official-Snapshots",
     "World-of-Aldar",
-    CAPTURE_DATE,
+    captureDate,
   ]);
   const saved = [] as Array<{ filename: string; itemId: string }>;
   for (const file of files) {
@@ -106,9 +117,9 @@ export async function archiveAlGhadeerOfficialSourceFiles(files: Array<{ filenam
     if (!item.id) throw new Error(`OneDrive did not return an item identifier for ${file.filename}.`);
     await recordEvent({
       eventType: "upload",
-      idempotencyKey: `official-world-of-aldar-ghadeer:${CAPTURE_DATE}:${file.filename}`,
+      idempotencyKey: `official-world-of-aldar-ghadeer:${captureDate}:${file.filename}`,
       summary: `Archived official World of Aldar Ghadeer source: ${file.filename}.`,
-      details: { source: "World of Aldar captured snapshot", captureDate: CAPTURE_DATE, filename: file.filename, itemId: item.id },
+      details: { source: "World of Aldar captured snapshot", captureDate, filename: file.filename, itemId: item.id },
     });
     saved.push({ filename: file.filename, itemId: item.id });
   }
@@ -145,6 +156,8 @@ export async function exportAlGhadeerOfficialWorkbook() {
     { header: "Official Interactive Link", key: "officialLink", width: 96 },
     { header: "Official Source Route", key: "sourceRoute", width: 48 },
     { header: "Official Price (AED)", key: "priceAed", width: 22 },
+    { header: "Price Source", key: "priceSource", width: 42 },
+    { header: "Price Source Capture", key: "priceSourceCaptureDate", width: 24 },
     { header: "Operational Availability", key: "operationalAvailability", width: 28 },
   ];
   sheet.getRow(1).font = { bold: true };
@@ -154,7 +167,7 @@ export async function exportAlGhadeerOfficialWorkbook() {
   note.columns = [{ header: "Source note", key: "note", width: 120 }];
   note.getRow(1).font = { bold: true };
   note.addRow({ note: `Captured from World of Aldar on ${CAPTURE_DATE}. This is a static official snapshot, not a live feed.` });
-  note.addRow({ note: "Official prices and current operational availability were not published in the reviewed source and are intentionally blank." });
+  note.addRow({ note: "R2 shows 434 historical Aldar official prices preserved from the 2026-08-12 source. The 3 unmatched R2 units and all N2/Parks unit prices remain blank because a unit-level price was not published in the reviewed source." });
   note.addRow({ note: "Captured Explorer State is retained as a raw source label only; it is not an NAS availability listing." });
   note.addRow({ note: "Every Interactive Link is derived from the exact captured full unit code; no generic project or lookalike unit URL is included." });
 

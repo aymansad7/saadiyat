@@ -900,3 +900,9 @@
 - [x] Treat the supplied Google Sheet as the current owner-data authority for exact unit matches and preserve every differing prior value as a dated owner-history event
 - [x] Discover every officially published Gulf Ghadeer Gardens phase and unit/project record, add only verified data to the system, and export a dated Excel register to OneDrive
 - [x] Link every exact Lagoons unit match to its own verified Aldar Interactive page; never substitute a project page or a similar unit link
+
+### Daily Al Ghadeer Official Update (Sep 3, 2026)
+- [x] Extend the existing 06:00 Gulf Aldar inventory cycle to re-capture only officially published Al Ghadeer unit price and source-status updates, log differences, and notify the owner without inferring sale availability
+
+### Al Ghadeer Phase and Price Regression Audit (Sep 3, 2026)
+- [x] Compare prior Ghadeer source projects, current imported projects, and the latest official World of Aldar pages to identify the newly published phase and restore only documented prices that were replaced or hidden incorrectly
