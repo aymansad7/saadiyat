@@ -10,6 +10,18 @@ const checkOnly = process.argv.includes("--check");
 const officialCapture = "World of Aldar captured snapshot · 2026-09-03";
 const noOperationalAvailabilityNote = "Captured official unit record; no price or current availability was published in this snapshot.";
 const legacyPricingPath = resolve(root, "server/data/sources/world-of-aldar/2026-08-12/alghadeer_gardens_r2_pricing.json");
+const parksStartingPrices = {
+  label: "Official project starting prices (not unit-specific)",
+  source: "Aldar Properties · Al Ghadeer Parks project page",
+  source_url: "https://www.aldar.com/properties/en/alghadeer-parks",
+  captured_at: "2026-09-03",
+  payment_plan: "55/45",
+  prices: [
+    { unit_type: "2-bedroom Townhouse", bedrooms: 2, starting_price_aed: 1900000 },
+    { unit_type: "3-bedroom Townhouse", bedrooms: 3, starting_price_aed: 2200000 },
+    { unit_type: "4-bedroom Villa", bedrooms: 4, starting_price_aed: 3300000 },
+  ],
+};
 
 const clusters = [
   {
@@ -151,6 +163,9 @@ async function buildOfficialProjects() {
         available_count: 0,
         building_count: 0,
         buildings: [],
+        // Aldar publishes these prices for Parks by home type, not by NC/ND unit.
+        // They remain project metadata and are never copied into `price_aed`.
+        published_starting_prices: cluster.projectSlug.startsWith("al-ghadeer-parks-") ? parksStartingPrices : null,
       };
       groups.set(cluster.projectSlug, project);
     }

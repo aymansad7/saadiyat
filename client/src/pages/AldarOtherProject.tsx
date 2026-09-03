@@ -87,6 +87,24 @@ function Inner() {
               <div className="mt-4">
               <AldarStatusPills breakdown={projectBreakdown} size="sm" />
               </div>
+              {project.data.published_starting_prices && (
+                <div className="mt-5 rounded-md border border-sky-500/25 bg-sky-500/5 p-4">
+                  <p className="text-[0.68rem] font-mono uppercase tracking-[0.18em] text-sky-800 dark:text-sky-200">
+                    {project.data.published_starting_prices.label}
+                  </p>
+                  <div className="mt-3 grid gap-2 sm:grid-cols-3 text-sm text-foreground">
+                    {project.data.published_starting_prices.prices.map(price => (
+                      <div key={price.unit_type} className="rounded border border-border/70 bg-background/50 px-3 py-2">
+                        <div>{price.unit_type}</div>
+                        <div className="mt-1 font-semibold num-display">From AED {(price.starting_price_aed / 1_000_000).toFixed(1)}M</div>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    Payment plan: {project.data.published_starting_prices.payment_plan}. These are project starting prices by home type, not prices for NC/ND individual units.
+                  </p>
+                </div>
+              )}
               {slug === "the-sustainable-city-yas-island" && (
                 <div className="mt-4">
                   <Button asChild variant="outline" size="sm" className="gap-1.5 border-primary/30 text-primary hover:bg-primary/10">
@@ -136,7 +154,7 @@ function Inner() {
                       </span>
                     ) : (
                       <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">
-                        Sold out
+                        No active inventory published
                       </span>
                     )}
                   </div>

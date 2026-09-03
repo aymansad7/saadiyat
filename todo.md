@@ -906,3 +906,6 @@
 
 ### Al Ghadeer Phase and Price Regression Audit (Sep 3, 2026)
 - [x] Compare prior Ghadeer source projects, current imported projects, and the latest official World of Aldar pages to identify the newly published phase and restore only documented prices that were replaced or hidden incorrectly
+
+### Al Ghadeer Parks Release-State and Price Audit (Sep 3, 2026)
+- [x] Identify and remove any inferred Sold Out label on Parks before a supported official unit-release status exists, then cross-check Aldar official endpoints and assets for unit-level Parks pricing before importing any value

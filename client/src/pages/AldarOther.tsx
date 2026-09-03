@@ -12,6 +12,7 @@
  */
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
+import { getInventoryPublicationState } from "../lib/inventoryPublicationState";
 import {
   Search,
   Building2,
@@ -278,17 +279,21 @@ function Inner() {
                           <MapPin className="h-3 w-3" />
                           {area.name}
                         </div>
-                        {p.available_count > 0 ? (
+                        {getInventoryPublicationState(p.slug, p.available_count, p.live_count).tone === "available" ? (
                           <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-sm">
                             {p.available_count} available
                           </span>
-                        ) : p.live_count > 0 ? (
+                        ) : getInventoryPublicationState(p.slug, p.available_count, p.live_count).tone === "live" ? (
                           <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-amber-500/50 bg-amber-500/10 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-sm">
                             {p.live_count} live
                           </span>
+                        ) : getInventoryPublicationState(p.slug, p.available_count, p.live_count).tone === "registration" ? (
+                          <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-sky-500/50 bg-sky-500/10 text-sky-800 dark:text-sky-200 px-2 py-0.5 rounded-sm">
+                            Registration open
+                          </span>
                         ) : (
                           <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">
-                            Sold out
+                            No active inventory published
                           </span>
                         )}
                       </div>
@@ -305,13 +310,15 @@ function Inner() {
                         <span className="num-display">{p.unit_count} units</span>
                       </div>
 
-                      {/* Origin price range (shown from outside, per request) */}
+                      {/* A project-type starting price is not a unit-level price. */}
                       <div className="mt-3 text-sm">
                         <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] text-muted-foreground mr-2">
-                          Price
+                          {p.official_starting_price_min != null ? "Official starting price" : "Price"}
                         </span>
                         <span className="num-display text-foreground">
-                          {priceRangeLabel(p.price_min, p.price_max)}
+                          {p.official_starting_price_min != null
+                            ? `From AED ${fmtAed(p.official_starting_price_min)}`
+                            : priceRangeLabel(p.price_min, p.price_max)}
                         </span>
                       </div>
 

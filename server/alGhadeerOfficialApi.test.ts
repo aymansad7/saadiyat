@@ -32,6 +32,20 @@ describe("Al Ghadeer official project browsing", () => {
     });
   });
 
+  it("keeps Parks starting prices as official project metadata, not per-unit prices", async () => {
+    const project = await caller("master").getProject({ slug: "al-ghadeer-parks-1" });
+    expect(project.published_starting_prices).toMatchObject({
+      payment_plan: "55/45",
+      prices: [
+        { unit_type: "2-bedroom Townhouse", starting_price_aed: 1900000 },
+        { unit_type: "3-bedroom Townhouse", starting_price_aed: 2200000 },
+        { unit_type: "4-bedroom Villa", starting_price_aed: 3300000 },
+      ],
+    });
+    const building = await caller("master").getBuilding({ projectSlug: "al-ghadeer-parks-1", buildingSlug: "nc" });
+    expect(building.units.every(unit => unit.price_aed == null)).toBe(true);
+  });
+
   it("keeps Aldar Other inventory unavailable to a normal admin even when the data exists", async () => {
     await expect(caller("admin").getProject({ slug: "al-ghadeer-parks-1" })).rejects.toMatchObject({ code: "FORBIDDEN" });
   });

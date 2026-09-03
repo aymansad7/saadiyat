@@ -66,6 +66,21 @@ export type AldarOtherBuilding = {
   units: AldarOtherUnit[];
 };
 
+export type OfficialStartingPrice = {
+  unit_type: string;
+  bedrooms: number;
+  starting_price_aed: number;
+};
+
+export type OfficialStartingPrices = {
+  label: string;
+  source: string;
+  source_url: string;
+  captured_at: string;
+  payment_plan: string;
+  prices: OfficialStartingPrice[];
+};
+
 export type AldarOtherProject = {
   slug: string;
   name: string;
@@ -75,6 +90,8 @@ export type AldarOtherProject = {
   available_count: number;
   building_count: number;
   buildings: AldarOtherBuilding[];
+  /** Published project/type starting prices. These must never be read as unit prices. */
+  published_starting_prices?: OfficialStartingPrices | null;
 };
 
 type Dataset = {
@@ -226,6 +243,7 @@ export const aldarOtherRouter = router({
         available_count: number;
         price_min: number | null;
         price_max: number | null;
+        official_starting_price_min: number | null;
       };
 
       const cards: ProjectCard[] = [];
@@ -237,6 +255,10 @@ export const aldarOtherRouter = router({
           .filter((n): n is number => typeof n === "number" && n > 0);
         const priceMin = livePrices.length ? Math.min(...livePrices) : null;
         const priceMax = livePrices.length ? Math.max(...livePrices) : null;
+        const startingPrices = p.published_starting_prices?.prices
+          .map(price => price.starting_price_aed)
+          .filter(price => typeof price === "number" && price > 0) ?? [];
+        const officialStartingPriceMin = startingPrices.length ? Math.min(...startingPrices) : null;
         const availableCount = allUnits.filter(u => statusGroup(u.status) === "available").length;
 
         // Apply filters at the project level.
@@ -260,6 +282,7 @@ export const aldarOtherRouter = router({
           available_count: availableCount,
           price_min: priceMin,
           price_max: priceMax,
+          official_starting_price_min: officialStartingPriceMin,
         });
       }
 
@@ -334,6 +357,7 @@ export const aldarOtherRouter = router({
         slug: p.slug,
         name: p.name,
         source_file: p.source_file,
+        published_starting_prices: p.published_starting_prices ?? null,
         unit_count: p.unit_count,
         building_count: p.building_count,
         buildings: p.buildings.map(b => ({
