@@ -5,6 +5,7 @@ export type PropertyScope = {
   buildingKey?: string | null;
   unitTypeKey?: string | null;
   bedrooms?: number | null;
+  inventoryKey?: string | null;
 };
 
 export type GrantLike = {
@@ -14,6 +15,7 @@ export type GrantLike = {
   buildingKey?: string | null;
   unitTypeKey?: string | null;
   bedrooms?: number | null;
+  inventoryKey?: string | null;
   canViewOriginalPrice: boolean;
   canViewOwnerName: boolean;
   canViewOwnerPhone: boolean;
@@ -92,22 +94,30 @@ export const PROPERTY_PHASE_OPTIONS = [
   { value: "saadiyat-reserve::PHASE-3", projectKey: "saadiyat-reserve", phaseKey: "PHASE-3", label: "Saadiyat Reserve · Phase 3 · Dunes" },
 ] as const;
 
+/** Source-backed inventory classifications that are safe to delegate independently. */
+export const PROPERTY_INVENTORY_OPTIONS = [
+  { value: "saadiyat-reserve::reserve_land", projectKey: "saadiyat-reserve", inventoryKey: "reserve_land", label: "Saadiyat Reserve · Land plots only" },
+  { value: "saadiyat-reserve::reserve_built_villa", projectKey: "saadiyat-reserve", inventoryKey: "reserve_built_villa", label: "Saadiyat Reserve · Built Reserve villas only" },
+  { value: "saadiyat-reserve::dunes_built_villa", projectKey: "saadiyat-reserve", inventoryKey: "dunes_built_villa", label: "Saadiyat Reserve · Dunes villas only" },
+] as const;
+
 /**
  * A stable client key for an exact access scope. Keeping all narrowing fields
  * in the key prevents a permission granted for one building, type, or bedroom
  * count from being reused by another property in the same project or phase.
  */
-export function propertyScopeKey(scope: Pick<PropertyScope, "projectKey" | "phaseKey" | "buildingKey" | "unitTypeKey" | "bedrooms">): string;
-export function propertyScopeKey(projectKey: string, phaseKey?: string | null, buildingKey?: string | null, unitTypeKey?: string | null, bedrooms?: number | null): string;
+export function propertyScopeKey(scope: Pick<PropertyScope, "projectKey" | "phaseKey" | "buildingKey" | "unitTypeKey" | "bedrooms" | "inventoryKey">): string;
+export function propertyScopeKey(projectKey: string, phaseKey?: string | null, buildingKey?: string | null, unitTypeKey?: string | null, bedrooms?: number | null, inventoryKey?: string | null): string;
 export function propertyScopeKey(
-  scopeOrProject: Pick<PropertyScope, "projectKey" | "phaseKey" | "buildingKey" | "unitTypeKey" | "bedrooms"> | string,
+  scopeOrProject: Pick<PropertyScope, "projectKey" | "phaseKey" | "buildingKey" | "unitTypeKey" | "bedrooms" | "inventoryKey"> | string,
   phaseKey?: string | null,
   buildingKey?: string | null,
   unitTypeKey?: string | null,
   bedrooms?: number | null,
+  inventoryKey?: string | null,
 ) {
   const scope = typeof scopeOrProject === "string"
-    ? { projectKey: scopeOrProject, phaseKey, buildingKey, unitTypeKey, bedrooms }
+    ? { projectKey: scopeOrProject, phaseKey, buildingKey, unitTypeKey, bedrooms, inventoryKey }
     : scopeOrProject;
   return [
     scope.projectKey,
@@ -115,6 +125,7 @@ export function propertyScopeKey(
     scope.buildingKey ?? "",
     scope.unitTypeKey ?? "",
     scope.bedrooms ?? "",
+    scope.inventoryKey ?? "",
   ].join("::");
 }
 
@@ -148,7 +159,7 @@ export function getPropertyScope(projectKey: string): PropertyScope {
 }
 
 export function grantAppliesToScope(
-  grant: Pick<GrantLike, "areaKey" | "projectKey" | "phaseKey" | "buildingKey" | "unitTypeKey" | "bedrooms">,
+  grant: Pick<GrantLike, "areaKey" | "projectKey" | "phaseKey" | "buildingKey" | "unitTypeKey" | "bedrooms" | "inventoryKey">,
   scope: PropertyScope,
 ) {
   if (grant.phaseKey) {
@@ -161,6 +172,7 @@ export function grantAppliesToScope(
   if (grant.buildingKey && grant.buildingKey !== scope.buildingKey) return false;
   if (grant.unitTypeKey && grant.unitTypeKey !== scope.unitTypeKey) return false;
   if (grant.bedrooms != null && grant.bedrooms !== scope.bedrooms) return false;
+  if (grant.inventoryKey && grant.inventoryKey !== scope.inventoryKey) return false;
   return true;
 }
 

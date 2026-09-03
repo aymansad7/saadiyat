@@ -91,6 +91,7 @@ export type ListingEditorProps = {
   buildingKey?: string | null;
   unitTypeKey?: string | null;
   bedrooms?: number | null;
+  inventoryKey?: string | null;
   villaLabel?: string;
 };
 
@@ -103,6 +104,7 @@ export function ListingEditor({
   buildingKey,
   unitTypeKey,
   bedrooms,
+  inventoryKey,
   villaLabel,
 }: ListingEditorProps) {
   const utils = trpc.useUtils();
@@ -112,7 +114,7 @@ export function ListingEditor({
   );
   const { user } = useAuth();
   const permissions = trpc.propertyAccess.permissions.useQuery(
-    { scopes: [{ projectKey: community, phaseKey: phaseKey ?? null, buildingKey: buildingKey ?? null, unitTypeKey: unitTypeKey ?? null, bedrooms: bedrooms ?? null }] },
+    { scopes: [{ projectKey: community, phaseKey: phaseKey ?? null, buildingKey: buildingKey ?? null, unitTypeKey: unitTypeKey ?? null, bedrooms: bedrooms ?? null, inventoryKey: inventoryKey ?? null }] },
     { enabled: open && Boolean(user) },
   );
   const upsert = trpc.villaListings.upsert.useMutation();
@@ -166,6 +168,8 @@ export function ListingEditor({
       ...(buildingKey !== undefined ? { buildingKey } : {}),
       ...(unitTypeKey !== undefined ? { unitTypeKey } : {}),
       ...(bedrooms !== undefined ? { bedrooms } : {}),
+      ...(phaseKey !== undefined ? { phaseKey } : {}),
+      ...(inventoryKey !== undefined ? { inventoryKey } : {}),
       askingPriceAed:
         form.askingPriceAed.trim() === ""
           ? null

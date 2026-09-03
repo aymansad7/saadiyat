@@ -127,6 +127,13 @@
       "when": 1788314513247,
       "tag": "0017_zippy_nitro",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1788414058692,
+      "tag": "0018_sour_alex_power",
+      "breakpoints": true
     }
   ]
 }

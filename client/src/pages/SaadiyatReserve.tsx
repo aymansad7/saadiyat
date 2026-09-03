@@ -84,14 +84,21 @@ function recordBuiltArea(record: SaadiyatReserveRecord) {
 
 export default function SaadiyatReserve() {
   const { user } = useAuth();
+  const reserveScopes = useMemo(() => SAADIYAT_RESERVE_RECORDS.map(record => ({
+    projectKey: "saadiyat-reserve",
+    phaseKey: `PHASE-${record.phase}`,
+    inventoryKey: record.inventoryKind,
+  })), []);
   const permissions = trpc.propertyAccess.permissions.useQuery(
-    { projects: ["saadiyat-reserve"] },
+    { scopes: reserveScopes },
     { enabled: Boolean(user) },
   );
-  const canViewOriginalPrice =
-    user?.role === "admin" ||
-    user?.role === "master" ||
-    permissions.data?.[0]?.permissions.canViewOriginalPrice === true;
+  const permissionsByVillaKey = useMemo(() => new globalThis.Map(
+    SAADIYAT_RESERVE_RECORDS.map((record, index) => [record.villaKey, permissions.data?.[index]?.permissions]),
+  ), [permissions.data]);
+  const accessFor = (record: SaadiyatReserveRecord) => permissionsByVillaKey.get(record.villaKey);
+  const canAccessRecord = (record: SaadiyatReserveRecord) => user?.role === "master" || accessFor(record)?.canAccess === true;
+  const canViewOriginalPrice = (record: SaadiyatReserveRecord) => user?.role === "master" || accessFor(record)?.canViewOriginalPrice === true;
   const searchString = useSearch();
   const [query, setQuery] = useState("");
   const [phase, setPhase] = useState<PhaseFilter>("all");
@@ -117,6 +124,7 @@ export default function SaadiyatReserve() {
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     return SAADIYAT_RESERVE_RECORDS.filter(record => {
+      if (user && user.role !== "master" && !canAccessRecord(record)) return false;
       if (phase !== "all" && record.phase !== phase) return false;
       if (inventory === "available" && record.availability !== "available_for_sale") return false;
       if (inventory === "land" && record.inventoryKind !== "reserve_land") return false;
@@ -137,7 +145,7 @@ export default function SaadiyatReserve() {
         || matchesAreaQuery(normalized, recordArea(record))
         || matchesAreaQuery(normalized, recordBuiltArea(record));
     });
-  }, [query, phase, inventory, areaUnit, areaMin, areaMax]);
+  }, [query, phase, inventory, areaUnit, areaMin, areaMax, permissionsByVillaKey, user]);
 
   const visibleNumbers = new Set(filtered.map(record => record.plotNumber));
   const availableCount = SAADIYAT_RESERVE_RECORDS.filter(record => record.availability === "available_for_sale").length;
@@ -179,7 +187,7 @@ export default function SaadiyatReserve() {
             </div>
           </div>
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
-            <Stat label="All records" value="306" />
+            <Stat label="Visible records" value={String(user && user.role !== "master" ? filtered.length : 306)} />
             <Stat label="Phase 1 plots" value="116" accent="sky" />
             <Stat label="Phase 2 plots" value="107" accent="fuchsia" />
             <Stat label="Reserve land" value={String(SAADIYAT_RESERVE_LAND_PLOTS.length)} />
@@ -219,9 +227,9 @@ export default function SaadiyatReserve() {
               ))}
             </div>
           </div>
-          {selected && (
+          {selected && canAccessRecord(selected) && (
             <div className="border-t border-border p-4 sm:p-5 bg-muted/30">
-              <RecordSummary record={selected} areaUnit={areaUnit} canViewOriginalPrice={canViewOriginalPrice} />
+              <RecordSummary record={selected} listing={listingIndex.get(selected.villaKey)} areaUnit={areaUnit} canViewOriginalPrice={canViewOriginalPrice(selected)} />
             </div>
           )}
         </section>
@@ -265,9 +273,9 @@ export default function SaadiyatReserve() {
           <section className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {filtered.map(record => (
               <article id={`reserve-record-${record.plotNumber}`} key={record.villaKey} className={`rounded-xl border bg-card p-5 scroll-mt-28 ${record.availability === "available_for_sale" ? "border-emerald-500/60 shadow-sm shadow-emerald-100" : "border-border"}`}>
-                <RecordSummary record={record} listing={listingIndex.get(record.villaKey)} areaUnit={areaUnit} canViewOriginalPrice={canViewOriginalPrice} onShowPlan={() => showOnPlan(record)} />
+                <RecordSummary record={record} listing={listingIndex.get(record.villaKey)} areaUnit={areaUnit} canViewOriginalPrice={canViewOriginalPrice(record)} onShowPlan={() => showOnPlan(record)} />
                 <div className="mt-4 border-t border-border pt-3 flex justify-end">
-                  <EditListingButton villaKey={record.villaKey} community="saadiyat-reserve" villaLabel={record.label} />
+                  <EditListingButton villaKey={record.villaKey} community="saadiyat-reserve" phaseKey={`PHASE-${record.phase}`} bedrooms={record.dunes?.bedrooms ?? record.saleInventory?.bedrooms ?? null} inventoryKey={record.inventoryKind} villaLabel={record.label} />
                 </div>
               </article>
             ))}
@@ -299,13 +307,13 @@ export default function SaadiyatReserve() {
                     <td className="px-4 py-3">{record.dunes ? `${record.dunes.bedrooms} BR` : record.saleInventory?.bedrooms ? `${record.saleInventory.bedrooms} BR` : "—"}</td>
                     <td className="px-4 py-3 text-right font-mono">{formatArea(recordArea(record), areaUnit)}</td>
                     <td className="px-4 py-3 text-right font-mono">{formatArea(recordBuiltArea(record), areaUnit)}</td>
-                    <td className="px-4 py-3 text-right"><div className="font-semibold">{record.askingPriceAed ? formatPrice(record.askingPriceAed) : canViewOriginalPrice && record.originalPriceAed ? formatPrice(record.originalPriceAed) : "—"}</div><div className="text-[0.65rem] text-muted-foreground">{record.askingPriceAed ? "Available" : canViewOriginalPrice && record.originalPriceAed ? "Original" : ""}</div></td>
+                    <td className="px-4 py-3 text-right"><div className="font-semibold">{record.askingPriceAed ? formatPrice(record.askingPriceAed) : canViewOriginalPrice(record) && record.originalPriceAed ? formatPrice(record.originalPriceAed) : "—"}</div><div className="text-[0.65rem] text-muted-foreground">{record.askingPriceAed ? "Available" : canViewOriginalPrice(record) && record.originalPriceAed ? "Original" : ""}</div></td>
                     <td className="px-4 py-3 text-xs text-muted-foreground">{record.positionSource === "user_supplied_sde3_coordinate" ? "Official SDE3 control" : "Master-plan calibrated"}</td>
                     <td className="px-4 py-3 text-right whitespace-nowrap">
                       <Link className="text-primary hover:underline" href={`/map?plot=${encodeURIComponent(record.villaKey)}`}>Map</Link>
                       <button type="button" className="ml-3 text-primary hover:underline" onClick={() => showOnPlan(record)}>Plan</button>
                       {record.dunes && <Link className="ml-3 text-primary hover:underline" href={record.dunes.existingDetailsPath}>Details</Link>}
-                      <span className="inline-flex ml-3 align-middle"><EditListingButton villaKey={record.villaKey} community="saadiyat-reserve" villaLabel={record.label} /></span>
+                      <span className="inline-flex ml-3 align-middle"><EditListingButton villaKey={record.villaKey} community="saadiyat-reserve" phaseKey={`PHASE-${record.phase}`} bedrooms={record.dunes?.bedrooms ?? record.saleInventory?.bedrooms ?? null} inventoryKey={record.inventoryKind} villaLabel={record.label} /></span>
                     </td>
                   </tr>
                 ))}

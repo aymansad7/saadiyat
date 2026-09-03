@@ -871,3 +871,8 @@
 
 ### Unified Master Owner Directory Visibility (Sep 2, 2026)
 - [x] Consolidate every owner record, linked property, source import record, and unlinked owner-bearing source row into the protected Master Admin Owners directory, with search across owner, project, unit, and source fields
+
+### Project, Phase and Inventory Access Grants (Sep 3, 2026)
+- [x] Let Master Admin grant access by project, phase, and documented inventory class, including Reserve plots only, without granting other Saadiyat projects or units
+- [x] Audit every project card with a documented map location to ensure its Map action targets the same canonical unit and map selection; Nudra uses the project map until an exact unit-to-address crosswalk is supplied
+- [x] Diagnose and correct mobile map marker loading so valid dots remain visible after direct navigation and refresh without fabricating coordinates

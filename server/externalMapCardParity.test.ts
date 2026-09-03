@@ -31,11 +31,17 @@ describe("external card and Interactive Map card parity", () => {
     ["Lagoons", "client/src/components/LagoonsVillaCard.tsx", "InteractiveMapLink"],
     ["St. Regis", "client/src/components/VillaCard.tsx", "InteractiveMapLink"],
     ["generic DCR plots", "client/src/components/SimplePlotCard.tsx", "/map?plot="],
-    ["Nudra", "client/src/pages/Nudra.tsx", "/map?plot="],
+    ["Nudra project map", "client/src/pages/Nudra.tsx", "/map?community=nudra"],
     ["Four Seasons", "client/src/pages/FourSeasons.tsx", "/map?plot="],
     ["Saadiyat Reserve", "client/src/pages/SaadiyatReserve.tsx", "/map?plot="],
-  ])("keeps an exact external-card-to-map link for %s", (_label, relative, needle) => {
+  ])("keeps a documented external-card-to-map route for %s", (_label, relative, needle) => {
     expect(read(relative)).toContain(needle);
+  });
+
+  it("does not claim a unit-specific Nudra pin before a source-backed address crosswalk exists", () => {
+    const nudraSource = read("client/src/pages/Nudra.tsx");
+    expect(nudraSource).not.toContain("plot=nudra-");
+    expect(mapSource).toContain("communityParam");
   });
 
   it("keeps exact map-to-card navigation and the documented core field checklist", () => {

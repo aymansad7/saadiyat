@@ -11,6 +11,7 @@ import { appRouter } from "./routers";
 
 const EMAIL = "delegated-property-editor@test.local";
 const NARROW_EMAIL = "narrow-property-viewer@test.local";
+const RESERVE_LAND_EMAIL = "reserve-land-viewer@test.local";
 const VILLA_KEY = "permissions-test/Plot-1";
 const COMMUNITY = "permissions-test";
 
@@ -29,6 +30,7 @@ async function cleanup() {
   if (!db) return;
   await db.delete(propertyAccessGrants).where(eq(propertyAccessGrants.email, EMAIL));
   await db.delete(propertyAccessGrants).where(eq(propertyAccessGrants.email, NARROW_EMAIL));
+  await db.delete(propertyAccessGrants).where(eq(propertyAccessGrants.email, RESERVE_LAND_EMAIL));
   await db.delete(villaListingAudit).where(eq(villaListingAudit.villaKey, VILLA_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, VILLA_KEY));
   await db.delete(activityAudit).where(
@@ -109,6 +111,33 @@ describe("Master Admin property grants", () => {
     });
     expect(permissions[1]?.permissions.canAccess).toBe(false);
     expect(permissions[2]?.permissions.canEditProperties).toBe(true);
+  });
+
+  it("limits a Reserve land grant to source-classified Reserve plots and excludes villas, Dunes, and Lagoons", async () => {
+    const master = appRouter.createCaller(masterCtx);
+    await master.propertyAccess.grants.createMany({
+      email: RESERVE_LAND_EMAIL,
+      scopes: [{ areaKey: null, projectKey: "saadiyat-reserve", phaseKey: null, inventoryKey: "reserve_land" }],
+      canViewOriginalPrice: true,
+      canViewOwnerName: false,
+      canViewOwnerPhone: false,
+      canEditProperties: false,
+    });
+    const reserveLandCaller = appRouter.createCaller({ user: { id: 905, role: "user", name: "Reserve Land Viewer", email: RESERVE_LAND_EMAIL } } as any);
+    const permissions = await reserveLandCaller.propertyAccess.permissions({
+      scopes: [
+        { projectKey: "saadiyat-reserve", phaseKey: "PHASE-1", inventoryKey: "reserve_land" },
+        { projectKey: "saadiyat-reserve", phaseKey: "PHASE-2", inventoryKey: "reserve_land" },
+        { projectKey: "saadiyat-reserve", phaseKey: "PHASE-1", inventoryKey: "reserve_built_villa" },
+        { projectKey: "saadiyat-reserve", phaseKey: "PHASE-3", inventoryKey: "dunes_built_villa" },
+        { projectKey: "lagoons", phaseKey: "SL2", inventoryKey: null },
+      ],
+    });
+    expect(permissions[0]?.permissions).toMatchObject({ canAccess: true, canViewOriginalPrice: true });
+    expect(permissions[1]?.permissions).toMatchObject({ canAccess: true, canViewOriginalPrice: true });
+    expect(permissions[2]?.permissions.canAccess).toBe(false);
+    expect(permissions[3]?.permissions.canAccess).toBe(false);
+    expect(permissions[4]?.permissions.canAccess).toBe(false);
   });
 
   it("limits a delegated owner-file grant to the exact project, building, unit type, and bedroom count", async () => {

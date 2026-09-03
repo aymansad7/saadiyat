@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import fs from "node:fs";
+import path from "node:path";
 import { buildMarkers, COMMUNITY_CENTERS, getMapMarkerColor } from "../client/src/pages/SaadiyatMap";
 
 describe("Unified map property cards", () => {
@@ -87,6 +89,23 @@ describe("Unified map property cards", () => {
     expect(getMapMarkerColor({ community: "four-seasons", availabilityStatus: "available" })).toBe("#10B981");
     expect(getMapMarkerColor({ community: "jawaher", listing: {} as never })).toBe("#10B981");
     expect(Object.values(COMMUNITY_CENTERS).filter((item) => item.color === "#10B981")).toHaveLength(0);
+  });
+
+  it("carries the exact Reserve phase and inventory classification needed for land-only access", () => {
+    const reserveLand = markers.find((marker) => marker.community === "saadiyat-reserve" && marker.inventoryKey === "reserve_land");
+    const dunes = markers.find((marker) => marker.community === "saadiyat-reserve" && marker.inventoryKey === "dunes_built_villa");
+    expect(reserveLand?.slPhase).toMatch(/^PHASE-[12]$/);
+    expect(reserveLand?.inventoryKey).toBe("reserve_land");
+    expect(dunes?.slPhase).toBe("PHASE-3");
+    expect(dunes?.inventoryKey).toBe("dunes_built_villa");
+  });
+
+  it("uses POST for the high-cardinality map permission query so mobile browsers do not hit URL-length limits", () => {
+    const clientSource = fs.readFileSync(path.resolve(process.cwd(), "client/src/main.tsx"), "utf8");
+    const mapSource = fs.readFileSync(path.resolve(process.cwd(), "client/src/pages/SaadiyatMap.tsx"), "utf8");
+    expect(clientSource).toContain('methodOverride: "POST"');
+    expect(mapSource).toContain("isRenderingMarkers");
+    expect(mapSource).toContain("batchSize = 160");
   });
 
   it("keeps every project family connected to a property detail/table card with documented land data where provided", () => {

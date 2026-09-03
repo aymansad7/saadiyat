@@ -43,6 +43,10 @@ const trpcClient = trpc.createClient({
     httpBatchLink({
       url: "/api/trpc",
       transformer: superjson,
+      // Map permission checks can contain one exact scope per marker. POST
+      // avoids browser/proxy URL-length limits that otherwise leave Maps with
+      // an empty permission result and no dots on mobile/direct loads.
+      methodOverride: "POST",
       fetch(input, init) {
         const headers = new Headers(init?.headers ?? {});
         try {

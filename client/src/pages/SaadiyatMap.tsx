@@ -97,6 +97,7 @@ export interface MapMarkerData {
   buildingKey?: string;
   unitTypeKey?: string;
   unitType?: string;
+  inventoryKey?: string;
   model?: string;
   status?: string;
   developer?: string;
@@ -138,7 +139,7 @@ function scopeKeyPart(value: string | null | undefined): string | null {
   return normalized || null;
 }
 
-function mapMarkerScope(marker: Pick<MapMarkerData, "community" | "slPhase" | "buildingKey" | "unitTypeKey" | "unitType" | "bedrooms">) {
+function mapMarkerScope(marker: Pick<MapMarkerData, "community" | "slPhase" | "buildingKey" | "unitTypeKey" | "unitType" | "bedrooms" | "inventoryKey">) {
   const parsedBedrooms = marker.bedrooms == null ? null : Number.parseInt(String(marker.bedrooms), 10);
   return {
     projectKey: marker.community,
@@ -146,6 +147,7 @@ function mapMarkerScope(marker: Pick<MapMarkerData, "community" | "slPhase" | "b
     buildingKey: marker.buildingKey ?? null,
     unitTypeKey: marker.unitTypeKey ?? null,
     bedrooms: Number.isInteger(parsedBedrooms) ? parsedBedrooms : null,
+    inventoryKey: marker.inventoryKey ?? null,
   };
 }
 
@@ -482,6 +484,7 @@ export function buildMarkers(): MapMarkerData[] {
       availabilityDate: record.availabilityUpdatedAt ?? undefined,
       askingPrice: record.askingPriceAed ?? undefined,
       slPhase: `PHASE-${record.phase}`,
+      inventoryKey: record.inventoryKind,
     });
   }
 
@@ -690,6 +693,8 @@ export default function SaadiyatMap() {
   const infoCloseListenerRef = useRef<google.maps.MapsEventListener | null>(null);
   const markerPinsRef = useRef(new Map<string, HTMLDivElement>());
   const selectedPinIdRef = useRef<string | null>(null);
+  const markerBuildTimerRef = useRef<number | null>(null);
+  const markerBuildIdRef = useRef(0);
   const [showOwners, setShowOwners] = useState(false);
   const [selectedMarker, setSelectedMarker] = useState<MapMarkerData | null>(null);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -702,9 +707,12 @@ export default function SaadiyatMap() {
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
   const [areaMin, setAreaMin] = useState("");
   const [areaMax, setAreaMax] = useState("");
+  const [renderedMarkerCount, setRenderedMarkerCount] = useState(0);
+  const [isRenderingMarkers, setIsRenderingMarkers] = useState(false);
   const searchString = useSearch();
   const plotParam = new URLSearchParams(searchString).get("plot");
   const phaseParam = new URLSearchParams(searchString).get("phase")?.toUpperCase() ?? null;
+  const communityParam = new URLSearchParams(searchString).get("community");
   const propertyOverrides = trpc.villaListings.listByCommunity.useQuery(
     {},
     {
@@ -733,6 +741,8 @@ export default function SaadiyatMap() {
         buildingKey: override?.buildingKey ?? marker.buildingKey ?? null,
         unitTypeKey: override?.unitTypeKey ?? marker.unitTypeKey ?? null,
         bedrooms: override?.bedrooms ?? mapMarkerScope(marker).bedrooms,
+        phaseKey: override?.phaseKey ?? marker.slPhase ?? null,
+        inventoryKey: override?.inventoryKey ?? marker.inventoryKey ?? null,
       };
       return [propertyScopeKey(scope), scope];
     })).values());
@@ -757,6 +767,8 @@ export default function SaadiyatMap() {
         buildingKey?: string | null;
         unitTypeKey?: string | null;
         bedrooms?: number | null;
+        phaseKey?: string | null;
+        inventoryKey?: string | null;
       }) | undefined;
       const hiddSensitive = marker.villaKey ? hiddSensitiveByKey.get(marker.villaKey) : undefined;
       if (!override && !hiddSensitive) return marker;
@@ -777,6 +789,8 @@ export default function SaadiyatMap() {
         buildingKey: overrideWithProtectedFields?.buildingKey ?? marker.buildingKey,
         unitTypeKey: overrideWithProtectedFields?.unitTypeKey ?? marker.unitTypeKey,
         bedrooms: overrideWithProtectedFields?.bedrooms != null ? String(overrideWithProtectedFields.bedrooms) : marker.bedrooms,
+        slPhase: overrideWithProtectedFields?.phaseKey ?? marker.slPhase,
+        inventoryKey: overrideWithProtectedFields?.inventoryKey ?? marker.inventoryKey,
         owner: overrideWithProtectedFields?.ownerName ?? hiddSensitive?.ownerName,
         phone: overrideWithProtectedFields?.ownerPhone ?? hiddSensitive?.ownerPhone,
         ownerEmail: user?.role === "master" ? (overrideWithProtectedFields?.ownerEmail ?? hiddSensitive?.ownerEmail) : undefined,
@@ -787,7 +801,7 @@ export default function SaadiyatMap() {
         tenancyEnd: user?.role === "master" ? hiddSensitive?.tenancyEnd : undefined,
         tenancyContractReceived: user?.role === "master" ? hiddSensitive?.tenancyContractReceived : undefined,
       };
-    }).filter(marker => permissionsByScope.get(propertyScopeKey(mapMarkerScope(marker)))?.canAccess === true);
+    }).filter(marker => !user || user.role === "master" || permissionsByScope.get(propertyScopeKey(mapMarkerScope(marker)))?.canAccess === true);
   }, [baseMarkerData, hiddSensitiveFacts.data, permissionsByScope, propertyOverrides.data, user?.role]);
 
   const smartSearchResults = useMemo(
@@ -1022,6 +1036,9 @@ export default function SaadiyatMap() {
 
   const handleMapReady = useCallback((map: google.maps.Map) => {
     mapRef.current = map;
+    markerBuildIdRef.current += 1;
+    const buildId = markerBuildIdRef.current;
+    if (markerBuildTimerRef.current != null) window.clearTimeout(markerBuildTimerRef.current);
     clustererRef.current?.clearMarkers();
     clustererRef.current = null;
     for (const marker of markersRef.current) marker.map = null;
@@ -1036,56 +1053,67 @@ export default function SaadiyatMap() {
     mapClickListenerRef.current = map.addListener("click", dismissInfoWindow);
     infoCloseListenerRef.current = infoWindowRef.current.addListener("closeclick", clearPlotDeepLink);
 
-    // Create markers for all plots
-    for (const m of markerData) {
-      const isListed = !!m.listing;
-      const isAvailable = m.availabilityStatus === "available";
-      const color = getMapMarkerColor(m);
-      const pin = document.createElement("div");
-      pin.style.width = isListed || isAvailable ? "16px" : "12px";
-      pin.style.height = isListed || isAvailable ? "16px" : "12px";
-      pin.style.borderRadius = "50%";
-      pin.style.backgroundColor = color;
-      pin.style.border = isListed || isAvailable ? "3px solid #065F46" : "2px solid white";
-      pin.style.boxShadow = isListed || isAvailable ? "0 0 8px rgba(16,185,129,0.6)" : "0 1px 3px rgba(0,0,0,0.3)";
-      pin.style.cursor = "pointer";
-      pin.style.transition = "transform 160ms cubic-bezier(0.23, 1, 0.32, 1), outline-color 160ms ease-out";
-      pin.dataset.available = String(isListed || isAvailable);
-      if (isListed || isAvailable) {
-        pin.style.animation = "pulse 2s infinite";
-        pin.style.zIndex = "10";
-      }
-      pin.dataset.community = m.community;
-      markerPinsRef.current.set(m.id, pin);
-
-      const marker = new google.maps.marker.AdvancedMarkerElement({
-        position: { lat: m.lat, lng: m.lng },
-        content: pin,
-        title: m.label,
-      });
-
-      marker.addListener("click", () => {
-        selectMarker(m);
-      });
-
-      markersRef.current.push(marker);
-    }
-
     // Render through the official clusterer instead of mounting 2,500+ DOM
     // markers at once. Dense Hidd/Lagoons points expand progressively as the
     // user zooms, which keeps mobile pan/zoom responsive.
     clustererRef.current = new MarkerClusterer({
       map,
-      markers: markersRef.current,
+      markers: [],
     });
+
+    // A single synchronous loop over thousands of AdvancedMarker DOM elements
+    // can leave mobile Maps white until JavaScript yields. Construct short
+    // batches instead; every batch is immediately clustered and visible.
+    const batchSize = 160;
+    let nextIndex = 0;
+    setRenderedMarkerCount(0);
+    setIsRenderingMarkers(markerData.length > 0);
+    const buildNextBatch = () => {
+      if (buildId !== markerBuildIdRef.current || !clustererRef.current) return;
+      const batch: google.maps.marker.AdvancedMarkerElement[] = [];
+      const stopIndex = Math.min(nextIndex + batchSize, markerData.length);
+      for (; nextIndex < stopIndex; nextIndex += 1) {
+        const m = markerData[nextIndex]!;
+        const isListed = !!m.listing;
+        const isAvailable = m.availabilityStatus === "available";
+        const pin = document.createElement("div");
+        pin.style.width = isListed || isAvailable ? "16px" : "12px";
+        pin.style.height = isListed || isAvailable ? "16px" : "12px";
+        pin.style.borderRadius = "50%";
+        pin.style.backgroundColor = getMapMarkerColor(m);
+        pin.style.border = isListed || isAvailable ? "3px solid #065F46" : "2px solid white";
+        pin.style.boxShadow = isListed || isAvailable ? "0 0 8px rgba(16,185,129,0.6)" : "0 1px 3px rgba(0,0,0,0.3)";
+        pin.style.cursor = "pointer";
+        pin.style.transition = "transform 160ms cubic-bezier(0.23, 1, 0.32, 1), outline-color 160ms ease-out";
+        pin.dataset.available = String(isListed || isAvailable);
+        if (isListed || isAvailable) {
+          pin.style.animation = "pulse 2s infinite";
+          pin.style.zIndex = "10";
+        }
+        pin.dataset.community = m.community;
+        markerPinsRef.current.set(m.id, pin);
+        const marker = new google.maps.marker.AdvancedMarkerElement({ position: { lat: m.lat, lng: m.lng }, content: pin, title: m.label });
+        marker.addListener("click", () => selectMarker(m));
+        batch.push(marker);
+        markersRef.current.push(marker);
+      }
+      clustererRef.current.addMarkers(batch);
+      setRenderedMarkerCount(nextIndex);
+      if (nextIndex < markerData.length) {
+        markerBuildTimerRef.current = window.setTimeout(buildNextBatch, 0);
+      } else {
+        markerBuildTimerRef.current = null;
+        setIsRenderingMarkers(false);
+      }
+    };
+    buildNextBatch();
 
     // Deep-link only after every marker exists. The earlier effect-based version
     // could run before handleMapReady and never retry because refs do not rerender.
     if (plotParam) {
       const requestedIndex = markerData.findIndex((marker) => marker.villaKey === plotParam);
       const requestedData = markerData[requestedIndex];
-      const requestedMarker = markersRef.current[requestedIndex];
-      if (requestedData && requestedMarker) {
+      if (requestedData) {
         window.setTimeout(() => {
           selectMarker(requestedData);
         }, 300);
@@ -1110,6 +1138,8 @@ export default function SaadiyatMap() {
   }, [markerData, selectedMarker?.id]);
 
   useEffect(() => () => {
+    markerBuildIdRef.current += 1;
+    if (markerBuildTimerRef.current != null) window.clearTimeout(markerBuildTimerRef.current);
     mapClickListenerRef.current?.remove();
     infoCloseListenerRef.current?.remove();
     infoWindowRef.current?.close();
@@ -1138,6 +1168,11 @@ export default function SaadiyatMap() {
     }
   };
 
+  useEffect(() => {
+    if (!communityParam || !(communityParam in COMMUNITY_CENTERS)) return;
+    filterByCommunity(communityParam);
+  }, [communityParam]);
+
   const markerMatchesFilters = useCallback((data: MapMarkerData) => {
     if (activeFilter && data.community !== activeFilter) return false;
     if (phaseParam && data.slPhase !== phaseParam) return false;
@@ -1156,7 +1191,7 @@ export default function SaadiyatMap() {
     const visibleMarkers = markersRef.current.filter((_, index) => markerMatchesFilters(markerData[index]));
     clusterer.clearMarkers();
     clusterer.addMarkers(visibleMarkers);
-  }, [markerData, markerMatchesFilters]);
+  }, [markerData, markerMatchesFilters, renderedMarkerCount]);
 
   const visibleMarkerCount = markerData.filter(markerMatchesFilters).length;
 
@@ -1295,7 +1330,7 @@ export default function SaadiyatMap() {
               onMaxChange={setAreaMax}
               compact
             />
-            <span className="font-mono text-[0.65rem] text-muted-foreground whitespace-nowrap">{visibleMarkerCount} shown</span>
+            <span className="font-mono text-[0.65rem] text-muted-foreground whitespace-nowrap">{isRenderingMarkers ? `${renderedMarkerCount}/${visibleMarkerCount} dots` : `${visibleMarkerCount} shown`}</span>
           </div>
           <div className="pointer-events-auto ml-auto flex gap-1.5">
             {isHeaderCollapsed && (
@@ -1378,6 +1413,7 @@ export default function SaadiyatMap() {
             buildingKey={mapMarkerScope(editingMarker).buildingKey}
             unitTypeKey={mapMarkerScope(editingMarker).unitTypeKey}
             bedrooms={mapMarkerScope(editingMarker).bedrooms}
+            inventoryKey={mapMarkerScope(editingMarker).inventoryKey}
             villaLabel={editingMarker.label}
           />
         )}

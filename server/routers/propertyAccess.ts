@@ -18,13 +18,14 @@ const scopeShape = {
   buildingKey: narrowValue.nullable().optional(),
   unitTypeKey: narrowValue.nullable().optional(),
   bedrooms: z.number().int().min(0).max(30).nullable().optional(),
+  inventoryKey: narrowValue.nullable().optional(),
 };
 const scopeInput = z.object(scopeShape).superRefine((value, ctx) => {
   if (!value.areaKey && !value.projectKey) {
     ctx.addIssue({ code: "custom", message: "Choose an area, project, or project phase." });
   }
-  if ((value.phaseKey || value.buildingKey || value.unitTypeKey || value.bedrooms != null) && !value.projectKey) {
-    ctx.addIssue({ code: "custom", message: "Phase, building, type, and bedroom grants require a project." });
+  if ((value.phaseKey || value.buildingKey || value.unitTypeKey || value.bedrooms != null || value.inventoryKey) && !value.projectKey) {
+    ctx.addIssue({ code: "custom", message: "Phase, inventory, building, type, and bedroom grants require a project." });
   }
 });
 const flagsInput = z.object({
@@ -62,8 +63,8 @@ export const propertyAccessRouter = router({
       const grants = !db || !email
         ? []
         : await db.select().from(propertyAccessGrants).where(eq(propertyAccessGrants.email, email));
-      const requestedScopes: Array<{ areaKey?: string | null; projectKey?: string | null; phaseKey?: string | null; buildingKey?: string | null; unitTypeKey?: string | null; bedrooms?: number | null }> =
-        input.scopes ?? (input.projects ?? []).map(projectKey => ({ projectKey, areaKey: null, phaseKey: null, buildingKey: null, unitTypeKey: null, bedrooms: null }));
+      const requestedScopes: Array<{ areaKey?: string | null; projectKey?: string | null; phaseKey?: string | null; buildingKey?: string | null; unitTypeKey?: string | null; bedrooms?: number | null; inventoryKey?: string | null }> =
+        input.scopes ?? (input.projects ?? []).map(projectKey => ({ projectKey, areaKey: null, phaseKey: null, buildingKey: null, unitTypeKey: null, bedrooms: null, inventoryKey: null }));
       return requestedScopes.map(requestedScope => {
         const baseScope = getPropertyScope(requestedScope.projectKey!);
         const scope = {
@@ -73,6 +74,7 @@ export const propertyAccessRouter = router({
           buildingKey: requestedScope.buildingKey ?? null,
           unitTypeKey: requestedScope.unitTypeKey ?? null,
           bedrooms: requestedScope.bedrooms ?? null,
+          inventoryKey: requestedScope.inventoryKey ?? null,
         };
         return {
           projectKey: scope.projectKey,
@@ -80,6 +82,7 @@ export const propertyAccessRouter = router({
           buildingKey: scope.buildingKey,
           unitTypeKey: scope.unitTypeKey,
           bedrooms: scope.bedrooms,
+          inventoryKey: scope.inventoryKey,
           scope,
           permissions: resolvePropertyPermissions(ctx.user.role, grants, scope),
         };
@@ -96,7 +99,7 @@ export const propertyAccessRouter = router({
     create: masterOnlyProcedure
       .input(z.object({ email: emailSchema, ...scopeShape, ...flagsInput.shape }).superRefine((value, ctx) => {
         if (!value.areaKey && !value.projectKey) ctx.addIssue({ code: "custom", message: "Choose an area, project, or project phase." });
-        if ((value.phaseKey || value.buildingKey || value.unitTypeKey || value.bedrooms != null) && !value.projectKey) ctx.addIssue({ code: "custom", message: "Phase, building, type, and bedroom grants require a project." });
+        if ((value.phaseKey || value.buildingKey || value.unitTypeKey || value.bedrooms != null || value.inventoryKey) && !value.projectKey) ctx.addIssue({ code: "custom", message: "Phase, inventory, building, type, and bedroom grants require a project." });
       }))
       .mutation(async ({ input, ctx }) => {
         if (!input.areaKey && !input.projectKey) throw new TRPCError({ code: "BAD_REQUEST" });
@@ -110,6 +113,7 @@ export const propertyAccessRouter = router({
           buildingKey: input.buildingKey ?? null,
           unitTypeKey: input.unitTypeKey ?? null,
           bedrooms: input.bedrooms ?? null,
+          inventoryKey: input.inventoryKey ?? null,
           canViewOriginalPrice: input.canViewOriginalPrice,
           canViewOwnerName: input.canViewOwnerName,
           canViewOwnerPhone: input.canViewOwnerPhone,
@@ -138,7 +142,7 @@ export const propertyAccessRouter = router({
         const db = await getDb();
         if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
         const existing = await db.select().from(propertyAccessGrants).where(eq(propertyAccessGrants.email, input.email));
-        const scopeKey = (scope: typeof input.scopes[number]) => `${scope.areaKey ?? ""}|${scope.projectKey ?? ""}|${scope.phaseKey ?? ""}|${scope.buildingKey ?? ""}|${scope.unitTypeKey ?? ""}|${scope.bedrooms ?? ""}`;
+        const scopeKey = (scope: typeof input.scopes[number]) => `${scope.areaKey ?? ""}|${scope.projectKey ?? ""}|${scope.phaseKey ?? ""}|${scope.buildingKey ?? ""}|${scope.unitTypeKey ?? ""}|${scope.bedrooms ?? ""}|${scope.inventoryKey ?? ""}`;
         const existingKeys = new Set(existing.map(row => scopeKey(row)));
         const uniqueScopes = new Map(input.scopes.map(scope => [scopeKey(scope), scope]));
         const created = [];
@@ -156,6 +160,7 @@ export const propertyAccessRouter = router({
             buildingKey: scope.buildingKey ?? null,
             unitTypeKey: scope.unitTypeKey ?? null,
             bedrooms: scope.bedrooms ?? null,
+            inventoryKey: scope.inventoryKey ?? null,
             canViewOriginalPrice: input.canViewOriginalPrice,
             canViewOwnerName: input.canViewOwnerName,
             canViewOwnerPhone: input.canViewOwnerPhone,
@@ -165,14 +170,14 @@ export const propertyAccessRouter = router({
           });
           const rows = await db.select().from(propertyAccessGrants).where(eq(propertyAccessGrants.id, Number(result[0].insertId))).limit(1);
           const row = rows[0]!;
-          await appendActivityAudit({
-            eventType: "access_grant_create",
-            ...actor(ctx),
-            targetEmail: row.email,
-            entityType: "property_access_grant",
-            entityKey: String(row.id),
-            summary: `Created ${row.phaseKey ? `phase ${row.phaseKey} in project ${row.projectKey}` : row.projectKey ? `project ${row.projectKey}` : `area ${row.areaKey}`} grant`,
-            changes: row,
+        await appendActivityAudit({
+          eventType: "access_grant_create",
+          ...actor(ctx),
+          targetEmail: row.email,
+          entityType: "property_access_grant",
+          entityKey: String(row.id),
+          summary: `Created ${row.inventoryKey ? `inventory ${row.inventoryKey} in project ${row.projectKey}` : row.phaseKey ? `phase ${row.phaseKey} in project ${row.projectKey}` : row.projectKey ? `project ${row.projectKey}` : `area ${row.areaKey}`} grant`,
+          changes: row,
           });
           created.push(row);
         }
@@ -182,7 +187,7 @@ export const propertyAccessRouter = router({
     update: masterOnlyProcedure
       .input(z.object({ id: z.number().int().positive(), ...scopeShape, ...flagsInput.shape }).superRefine((value, ctx) => {
         if (!value.areaKey && !value.projectKey) ctx.addIssue({ code: "custom", message: "Choose an area, project, or project phase." });
-        if ((value.phaseKey || value.buildingKey || value.unitTypeKey || value.bedrooms != null) && !value.projectKey) ctx.addIssue({ code: "custom", message: "Phase, building, type, and bedroom grants require a project." });
+        if ((value.phaseKey || value.buildingKey || value.unitTypeKey || value.bedrooms != null || value.inventoryKey) && !value.projectKey) ctx.addIssue({ code: "custom", message: "Phase, inventory, building, type, and bedroom grants require a project." });
       }))
       .mutation(async ({ input, ctx }) => {
         if (!input.areaKey && !input.projectKey) throw new TRPCError({ code: "BAD_REQUEST" });
@@ -197,6 +202,7 @@ export const propertyAccessRouter = router({
           buildingKey: input.buildingKey ?? null,
           unitTypeKey: input.unitTypeKey ?? null,
           bedrooms: input.bedrooms ?? null,
+          inventoryKey: input.inventoryKey ?? null,
           canViewOriginalPrice: input.canViewOriginalPrice,
           canViewOwnerName: input.canViewOwnerName,
           canViewOwnerPhone: input.canViewOwnerPhone,

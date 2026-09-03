@@ -39,10 +39,10 @@ import {
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { toast } from "sonner";
-import { PROPERTY_AREA_OPTIONS, PROPERTY_PHASE_OPTIONS, PROPERTY_PROJECT_OPTIONS } from "@shared/propertyAccess";
+import { PROPERTY_AREA_OPTIONS, PROPERTY_INVENTORY_OPTIONS, PROPERTY_PHASE_OPTIONS, PROPERTY_PROJECT_OPTIONS } from "@shared/propertyAccess";
 
 type Role = "user" | "admin" | "master";
-type GrantScopeType = "area" | "project" | "phase";
+type GrantScopeType = "area" | "project" | "phase" | "inventory";
 
 function roleBadge(role: string) {
   if (role === "master")
@@ -181,8 +181,12 @@ export default function AdminAccess() {
     const scopes = selectedScopeKeys.map(value => {
       if (scopeType === "area") return { areaKey: value, projectKey: null, phaseKey: null };
       if (scopeType === "project") return { areaKey: null, projectKey: value, phaseKey: null, ...narrowing };
-      const phase = PROPERTY_PHASE_OPTIONS.find(option => option.value === value);
-      return { areaKey: null, projectKey: phase?.projectKey ?? null, phaseKey: phase?.phaseKey ?? null, ...narrowing };
+      if (scopeType === "phase") {
+        const phase = PROPERTY_PHASE_OPTIONS.find(option => option.value === value);
+        return { areaKey: null, projectKey: phase?.projectKey ?? null, phaseKey: phase?.phaseKey ?? null, ...narrowing };
+      }
+      const inventory = PROPERTY_INVENTORY_OPTIONS.find(option => option.value === value);
+      return { areaKey: null, projectKey: inventory?.projectKey ?? null, phaseKey: null, inventoryKey: inventory?.inventoryKey ?? null, ...narrowing };
     });
     if (scopes.some(scope => !scope.areaKey && !scope.projectKey)) return;
     try {
@@ -363,22 +367,23 @@ export default function AdminAccess() {
                   <Select value={scopeType} onValueChange={value => {
                     const nextType = value as GrantScopeType;
                     setScopeType(nextType);
-                    setSelectedScopeKeys(nextType === "area" ? ["saadiyat"] : nextType === "project" ? ["st-regis"] : ["lagoons::SL2"]);
+                    setSelectedScopeKeys(nextType === "area" ? ["saadiyat"] : nextType === "project" ? ["st-regis"] : nextType === "phase" ? ["lagoons::SL2"] : ["saadiyat-reserve::reserve_land"]);
                   }}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="area">Entire area</SelectItem>
                       <SelectItem value="project">One or more projects</SelectItem>
                       <SelectItem value="phase">One or more classified phases</SelectItem>
+                      <SelectItem value="inventory">Documented inventory class</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="rounded-md border border-border bg-secondary/15 p-3">
                   <div className="mb-2 text-[0.65rem] font-mono uppercase tracking-[0.16em] text-muted-foreground">
-                    Select one or more {scopeType === "area" ? "areas" : scopeType === "project" ? "projects" : "phases"}
+                    Select one or more {scopeType === "area" ? "areas" : scopeType === "project" ? "projects" : scopeType === "phase" ? "phases" : "inventory classes"}
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2">
-                    {(scopeType === "area" ? PROPERTY_AREA_OPTIONS : scopeType === "project" ? PROPERTY_PROJECT_OPTIONS : PROPERTY_PHASE_OPTIONS).map(option => {
+                    {(scopeType === "area" ? PROPERTY_AREA_OPTIONS : scopeType === "project" ? PROPERTY_PROJECT_OPTIONS : scopeType === "phase" ? PROPERTY_PHASE_OPTIONS : PROPERTY_INVENTORY_OPTIONS).map(option => {
                       const selected = selectedScopeKeys.includes(option.value);
                       return (
                         <label key={option.value} className={`flex items-center gap-2 rounded-md border px-3 py-2 text-sm cursor-pointer transition-colors ${selected ? "border-primary bg-primary/5 text-foreground" : "border-border bg-card hover:bg-secondary/40"}`}>
@@ -454,6 +459,7 @@ export default function AdminAccess() {
                             {grant.buildingKey && <span className="inline-flex items-center gap-1"><Building2 className="h-3 w-3" /> Building {grant.buildingKey}</span>}
                             {grant.unitTypeKey && <span>Type {grant.unitTypeKey}</span>}
                             {grant.bedrooms != null && <span>{grant.bedrooms} bedrooms</span>}
+                            {grant.inventoryKey && <span>Inventory {grant.inventoryKey.replaceAll("_", " ")}</span>}
                             {grant.canViewOriginalPrice && <span>Original price</span>}
                             {grant.canViewOwnerName && <span>Owner name</span>}
                             {grant.canViewOwnerPhone && <span>Owner mobile</span>}

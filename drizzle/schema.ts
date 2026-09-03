@@ -399,9 +399,12 @@ export const villaListings = mysqlTable(
     internalNotes: text("internalNotes"),
 
     /** Source-backed grouping fields used to narrow access grants. */
+    phaseKey: varchar("phaseKey", { length: 64 }),
     buildingKey: varchar("buildingKey", { length: 128 }),
     unitTypeKey: varchar("unitTypeKey", { length: 128 }),
     bedrooms: int("bedrooms"),
+    /** Source-backed inventory class, e.g. `reserve_land` or `dunes_built_villa`. */
+    inventoryKey: varchar("inventoryKey", { length: 128 }),
     /** First time this operational profile was explicitly published as resale Available. */
     publishedAt: timestamp("publishedAt"),
     publishedBy: varchar("publishedBy", { length: 320 }),
@@ -418,6 +421,8 @@ export const villaListings = mysqlTable(
     villaListingsStatusIdx: index("villa_listings_status_idx").on(t.status),
     villaListingsBuildingIdx: index("villa_listings_building_idx").on(t.community, t.buildingKey),
     villaListingsTypeIdx: index("villa_listings_type_idx").on(t.community, t.unitTypeKey),
+    villaListingsPhaseIdx: index("villa_listings_phase_idx").on(t.community, t.phaseKey),
+    villaListingsInventoryIdx: index("villa_listings_inventory_idx").on(t.community, t.inventoryKey),
   }),
 );
 export type VillaListing = typeof villaListings.$inferSelect;
@@ -555,6 +560,8 @@ export const propertyAccessGrants = mysqlTable(
     unitTypeKey: varchar("unitTypeKey", { length: 128 }),
     /** Optional bedroom count that narrows a project grant. */
     bedrooms: int("bedrooms"),
+    /** Optional documented inventory class that narrows a project grant. */
+    inventoryKey: varchar("inventoryKey", { length: 128 }),
     /** Field visibility — false by default for sensitive data. */
     canViewOriginalPrice: boolean("canViewOriginalPrice").default(false).notNull(),
     canViewOwnerName: boolean("canViewOwnerName").default(false).notNull(),
@@ -573,6 +580,7 @@ export const propertyAccessGrants = mysqlTable(
     grantPhaseIdx: index("property_access_grants_phase_idx").on(t.projectKey, t.phaseKey),
     grantBuildingIdx: index("property_access_grants_building_idx").on(t.projectKey, t.buildingKey),
     grantTypeIdx: index("property_access_grants_type_idx").on(t.projectKey, t.unitTypeKey),
+    grantInventoryIdx: index("property_access_grants_inventory_idx").on(t.projectKey, t.inventoryKey),
   }),
 );
 export type PropertyAccessGrant = typeof propertyAccessGrants.$inferSelect;

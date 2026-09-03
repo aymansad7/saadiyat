@@ -63,9 +63,11 @@ type PublicVillaListing = Pick<
   | "builtUpAreaSqm"
   | "availableForRent"
   | "rentPriceAed"
+  | "phaseKey"
   | "buildingKey"
   | "unitTypeKey"
   | "bedrooms"
+  | "inventoryKey"
   | "updatedAt"
 >;
 
@@ -82,9 +84,11 @@ function toPublic(row: VillaListing): PublicVillaListing {
     builtUpAreaSqm: row.builtUpAreaSqm,
     availableForRent: row.availableForRent,
     rentPriceAed: row.rentPriceAed,
+    phaseKey: row.phaseKey,
     buildingKey: row.buildingKey,
     unitTypeKey: row.unitTypeKey,
     bedrooms: row.bedrooms,
+    inventoryKey: row.inventoryKey,
     updatedAt: row.updatedAt,
   };
 }
@@ -118,12 +122,14 @@ async function resolveCallerPermissions(
   return resolvePropertyPermissions(user.role, grants, scope);
 }
 
-function listingScope(row: Pick<VillaListing, "community" | "buildingKey" | "unitTypeKey" | "bedrooms">) {
+function listingScope(row: Pick<VillaListing, "community" | "phaseKey" | "buildingKey" | "unitTypeKey" | "bedrooms" | "inventoryKey">) {
   return {
     ...getPropertyScope(row.community),
+    phaseKey: row.phaseKey ?? null,
     buildingKey: row.buildingKey ?? null,
     unitTypeKey: row.unitTypeKey ?? null,
     bedrooms: row.bedrooms ?? null,
+    inventoryKey: row.inventoryKey ?? null,
   };
 }
 
@@ -156,9 +162,11 @@ const upsertInput = z.object({
   builtUpAreaSqm: z.number().nonnegative().max(10_000_000).nullable().optional(),
   availableForRent: z.boolean().nullable().optional(),
   rentPriceAed: z.number().int().nonnegative().max(10_000_000_000).nullable().optional(),
+  phaseKey: z.string().max(64).nullable().optional(),
   buildingKey: z.string().max(128).nullable().optional(),
   unitTypeKey: z.string().max(128).nullable().optional(),
   bedrooms: z.number().int().min(0).max(30).nullable().optional(),
+  inventoryKey: z.string().max(128).nullable().optional(),
   ownerName: z.string().max(255).nullable().optional(),
   ownerPhone: z.string().max(64).nullable().optional(),
   ownerEmail: z.string().max(320).nullable().optional(),
@@ -179,6 +187,11 @@ function diffChanges(
     "builtUpAreaSqm",
     "availableForRent",
     "rentPriceAed",
+    "phaseKey",
+    "buildingKey",
+    "unitTypeKey",
+    "bedrooms",
+    "inventoryKey",
     "ownerName",
     "ownerPhone",
     "ownerEmail",
@@ -324,9 +337,11 @@ export const villaListingsRouter = router({
     const beforeRow: VillaListing | null = before[0] ?? null;
     const existingScope = beforeRow ? listingScope(beforeRow) : {
       ...getPropertyScope(input.community),
+      phaseKey: input.phaseKey ?? null,
       buildingKey: input.buildingKey ?? null,
       unitTypeKey: input.unitTypeKey ?? null,
       bedrooms: input.bedrooms ?? null,
+      inventoryKey: input.inventoryKey ?? null,
     };
     const permissions = await resolveCallerPermissions(ctx.user, existingScope);
     if (!permissions?.canEditProperties) {
@@ -353,9 +368,11 @@ export const villaListingsRouter = router({
       "builtUpAreaSqm",
       "availableForRent",
       "rentPriceAed",
+      "phaseKey",
       "buildingKey",
       "unitTypeKey",
       "bedrooms",
+      "inventoryKey",
       "ownerName",
       "ownerPhone",
       "ownerEmail",

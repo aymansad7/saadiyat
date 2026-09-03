@@ -103,7 +103,6 @@ function loadMapScript(): Promise<void> {
     script.id = "manus-google-maps-sdk";
     script.src = `${MAPS_PROXY_URL}/maps/api/js?key=${API_KEY}&v=weekly&libraries=marker,places,geocoding,geometry`;
     script.async = true;
-    script.crossOrigin = "anonymous";
     script.onload = async () => {
       try {
         if (!window.google?.maps?.Map) {
