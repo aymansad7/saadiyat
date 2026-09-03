@@ -883,3 +883,6 @@
 
 ### Urgent Safari/iPhone Map Canvas Recovery (Sep 3, 2026)
 - [x] Diagnose and correct the white Google Maps canvas on Safari/iPhone when marker data has loaded, without changing documented coordinates or map-card links; establish a measurable canvas, Safari viewport reflow, origin referrer policy, and native Google touch handling
+
+### Persistent iPhone Google Maps Load Failure (Sep 3, 2026)
+- [x] Replace the current opaque Google Maps loader with an iPhone-compatible, observable loader that reports a real failure state and can retry without changing property data or map links; WebKit confirmed the proxy requires anonymous CORS to send Origin, and the loader now waits for Maps API availability without an early async onload race

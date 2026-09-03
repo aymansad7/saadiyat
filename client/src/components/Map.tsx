@@ -76,7 +76,7 @@
 
 /// <reference types="@types/google.maps" />
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePersistFn } from "@/hooks/usePersistFn";
 import { cn } from "@/lib/utils";
 
@@ -101,11 +101,19 @@ function loadMapScript(): Promise<void> {
   mapScriptPromise = new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.id = "manus-google-maps-sdk";
-    script.src = `${MAPS_PROXY_URL}/maps/api/js?key=${API_KEY}&v=weekly&libraries=marker,places,geocoding,geometry`;
+    // This map only uses AdvancedMarkerElement. Loading optional Places,
+    // Geocoding and Geometry bundles on the first mobile paint adds several
+    // network requests and was the remaining failure point on Safari/iPhone.
+    script.src = `${MAPS_PROXY_URL}/maps/api/js?key=${API_KEY}&v=weekly&libraries=marker`;
     // The maps proxy authorizes the website origin. Explicitly preserve the
     // origin-only referrer on Safari/iOS, where privacy defaults can otherwise
     // omit it for an injected cross-origin script and leave a blank map canvas.
     script.referrerPolicy = "strict-origin-when-cross-origin";
+    // The Manus Maps proxy authorizes the request origin and answers with
+    // Access-Control-Allow-Origin. A normal cross-origin script request sends
+    // only Referer (which the proxy rejects); anonymous CORS sends Origin
+    // without exposing cookies or credentials.
+    script.crossOrigin = "anonymous";
     script.async = true;
     script.onload = async () => {
       try {
@@ -151,6 +159,9 @@ export function MapView({
 }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map | null>(null);
+  const retryCount = useRef(0);
+  const retryTimer = useRef<number | null>(null);
+  const [loadError, setLoadError] = useState(false);
 
   const init = usePersistFn(async () => {
     // On older Safari releases the initial flex layout can report a 0px map
@@ -166,6 +177,13 @@ export function MapView({
       await loadMapScript();
     } catch (error) {
       console.error(error);
+      if (retryCount.current < 2) {
+        const delay = retryCount.current === 0 ? 800 : 2_000;
+        retryCount.current += 1;
+        retryTimer.current = window.setTimeout(() => void init(), delay);
+      } else {
+        setLoadError(true);
+      }
       return;
     }
     if (!mapContainer.current) {
@@ -187,6 +205,8 @@ export function MapView({
       gestureHandling: "greedy",
       mapId: "DEMO_MAP_ID",
     });
+    retryCount.current = 0;
+    setLoadError(false);
     if (onMapReady) {
       onMapReady(map.current);
     }
@@ -205,6 +225,9 @@ export function MapView({
 
   useEffect(() => {
     init();
+    return () => {
+      if (retryTimer.current !== null) window.clearTimeout(retryTimer.current);
+    };
   }, [init]);
 
   useEffect(() => {
@@ -259,6 +282,22 @@ export function MapView({
   }, [layoutVersion]);
 
   return (
-    <div ref={mapContainer} className={cn("w-full h-[500px] min-h-[320px]", className)} />
+    <div className={cn("relative w-full h-[500px] min-h-[320px]", className)}>
+      <div ref={mapContainer} className="absolute inset-0" />
+      {loadError ? (
+        <button
+          type="button"
+          onClick={() => {
+            retryCount.current = 0;
+            setLoadError(false);
+            void init();
+          }}
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-background/95 p-6 text-center text-sm text-muted-foreground"
+        >
+          <span className="font-medium text-foreground">The interactive map could not load.</span>
+          <span className="text-xs">Tap to retry the map connection.</span>
+        </button>
+      ) : null}
+    </div>
   );
 }

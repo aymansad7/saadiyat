@@ -111,6 +111,10 @@ describe("Unified map property cards", () => {
     expect(mapComponentSource).toContain("ResizeObserver");
     expect(mapComponentSource).toContain("visualViewport");
     expect(mapComponentSource).toContain('referrerPolicy = "strict-origin-when-cross-origin"');
+    expect(mapComponentSource).toContain('crossOrigin = "anonymous"');
+    expect(mapComponentSource).toContain("libraries=marker");
+    expect(mapComponentSource).not.toContain("loading=async");
+    expect(mapComponentSource).toContain("Tap to retry the map connection.");
     expect(mapSource).toContain("h-screen h-[100dvh]");
     expect(mapComponentSource).toContain('gestureHandling: "greedy"');
     expect(mapSource).not.toContain('className="h-full w-full touch-none"');
