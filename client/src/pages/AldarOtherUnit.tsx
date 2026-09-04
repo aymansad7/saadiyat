@@ -20,6 +20,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import {
   EditListingButton,
   ListingBadge,
+  UnitContactHistory,
   ListingOwnerFacts,
   ListingPriceLabel,
 } from "@/components/ListingControls";
@@ -263,6 +264,12 @@ function Inner() {
               villaLabel={`${project.name} · ${building.name} · ${unit.unit_name}`}
             />
           </div>
+        </div>
+      </section>
+
+      <section className="border-b border-border bg-card/10">
+        <div className="container py-5 sm:py-6">
+          <UnitContactHistory villaKey={villaKey} community="aldar-other" className="mt-0 max-w-3xl" />
         </div>
       </section>
 

@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { and, desc, eq, inArray, isNull, like, or } from "drizzle-orm";
 import { z } from "zod";
-import { propertyOwnerImportRecords, propertyOwnerUnits, propertyOwners, unitDocuments, villaListings } from "../../drizzle/schema";
+import { propertyOwnerImportRecords, propertyOwnerUnits, propertyOwners, unitDocuments, villaListingAudit, villaListings } from "../../drizzle/schema";
 import { appendActivityAudit } from "../activityAudit";
 import { getDb } from "../db";
 import { protectedProcedure, router } from "../_core/trpc";
@@ -21,7 +21,146 @@ const ownerInput = z.object({
   sourceLabel: z.string().trim().max(255).nullable().optional(),
 });
 
+type UnitContactObservation = {
+  kind: "reviewed_owner_link" | "current_card_email" | "historical_card_email";
+  role: string;
+  sourceLabel: string | null;
+  occurredAt: Date;
+};
+
+function auditOwnerEmailValues(changesJson: string | null): Array<{ value: string; role: string }> {
+  try {
+    const parsed = JSON.parse(changesJson ?? "{}") as {
+      ownerEmail?: { from?: unknown; to?: unknown };
+    };
+    const change = parsed.ownerEmail;
+    if (!change) return [];
+    const values: Array<{ value: unknown; role: string }> = [
+      { value: change.from, role: "Previous card contact" },
+      { value: change.to, role: "Card contact" },
+    ];
+    return values.flatMap(({ value, role }) => {
+      const email = typeof value === "string" ? value.trim().toLowerCase() : "";
+      return email ? [{ value: email, role }] : [];
+    });
+  } catch {
+    return [];
+  }
+}
+
+function relationshipLabel(relationship: "owner" | "co_owner" | "representative") {
+  return relationship === "co_owner" ? "Co-owner" : relationship === "representative" ? "Representative" : "Owner";
+}
+
 export const propertyOwnersRouter = router({
+  /**
+   * Master-only, exact-unit contact provenance. This keeps any email that is
+   * still evidenced by a reviewed owner relation or by the append-only card
+   * audit, even when the unit later becomes sold or off-market.
+   */
+  unitContacts: masterProcedure
+    .input(z.object({ villaKey: key, community }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const [links, listingRows, audits] = await Promise.all([
+        db.select().from(propertyOwnerUnits).where(and(
+          eq(propertyOwnerUnits.villaKey, input.villaKey),
+          eq(propertyOwnerUnits.community, input.community),
+        )).orderBy(desc(propertyOwnerUnits.updatedAt)),
+        db.select().from(villaListings).where(eq(villaListings.villaKey, input.villaKey)).limit(1),
+        db.select().from(villaListingAudit).where(eq(villaListingAudit.villaKey, input.villaKey)).orderBy(desc(villaListingAudit.createdAt)),
+      ]);
+      const ownerIds = Array.from(new Set(links.map(link => link.ownerId)));
+      const owners = ownerIds.length
+        ? await db.select().from(propertyOwners).where(inArray(propertyOwners.id, ownerIds))
+        : [];
+      const ownersById = new Map(owners.map(owner => [owner.id, owner]));
+      const contacts = new Map<string, {
+        email: string;
+        displayName: string | null;
+        roles: string[];
+        firstSeenAt: Date;
+        lastSeenAt: Date;
+        observations: UnitContactObservation[];
+      }>();
+      const add = (inputContact: {
+        email: string | null;
+        displayName?: string | null;
+        role: string;
+        kind: UnitContactObservation["kind"];
+        sourceLabel: string | null;
+        occurredAt: Date;
+      }) => {
+        const email = inputContact.email?.trim().toLowerCase() ?? "";
+        if (!email) return;
+        const existing = contacts.get(email);
+        const observation: UnitContactObservation = {
+          kind: inputContact.kind,
+          role: inputContact.role,
+          sourceLabel: inputContact.sourceLabel,
+          occurredAt: inputContact.occurredAt,
+        };
+        if (!existing) {
+          contacts.set(email, {
+            email,
+            displayName: inputContact.displayName ?? null,
+            roles: [inputContact.role],
+            firstSeenAt: inputContact.occurredAt,
+            lastSeenAt: inputContact.occurredAt,
+            observations: [observation],
+          });
+          return;
+        }
+        if (inputContact.displayName && !existing.displayName) existing.displayName = inputContact.displayName;
+        if (!existing.roles.includes(inputContact.role)) existing.roles.push(inputContact.role);
+        if (inputContact.occurredAt < existing.firstSeenAt) existing.firstSeenAt = inputContact.occurredAt;
+        if (inputContact.occurredAt > existing.lastSeenAt) existing.lastSeenAt = inputContact.occurredAt;
+        existing.observations.push(observation);
+      };
+
+      for (const link of links) {
+        const owner = ownersById.get(link.ownerId);
+        add({
+          email: owner?.email ?? null,
+          displayName: owner?.displayName ?? null,
+          role: relationshipLabel(link.relationship),
+          kind: "reviewed_owner_link",
+          sourceLabel: link.sourceLabel,
+          occurredAt: link.createdAt,
+        });
+      }
+      const listing = listingRows[0];
+      if (listing) {
+        add({
+          email: listing.ownerEmail,
+          displayName: listing.ownerName,
+          role: "Current card contact",
+          kind: "current_card_email",
+          sourceLabel: "Current unit card",
+          occurredAt: listing.updatedAt,
+        });
+      }
+      for (const audit of audits) {
+        for (const email of auditOwnerEmailValues(audit.changesJson)) {
+          add({
+            email: email.value,
+            role: email.role,
+            kind: "historical_card_email",
+            sourceLabel: `Card audit · ${audit.actorEmail}`,
+            occurredAt: audit.createdAt,
+          });
+        }
+      }
+      return Array.from(contacts.values())
+        .map(contact => ({
+          ...contact,
+          roles: contact.roles.sort(),
+          observations: contact.observations.sort((a, b) => b.occurredAt.getTime() - a.occurredAt.getTime()),
+        }))
+        .sort((a, b) => b.lastSeenAt.getTime() - a.lastSeenAt.getTime());
+    }),
+
   list: masterProcedure
     .input(z.object({ q: z.string().max(128).optional(), limit: z.number().int().min(1).max(5_000).default(200) }).default({ limit: 200 }))
     .query(async ({ input }) => {

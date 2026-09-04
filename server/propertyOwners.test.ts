@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { propertyOwnerImportRecords, propertyOwnerUnits, propertyOwners, villaListings } from "../drizzle/schema";
+import { propertyOwnerImportRecords, propertyOwnerUnits, propertyOwners, villaListingAudit, villaListings } from "../drizzle/schema";
 import { getDb } from "./db";
 import { appRouter } from "./routers";
 
@@ -30,6 +30,7 @@ async function cleanup() {
   await db.delete(propertyOwnerUnits).where(eq(propertyOwnerUnits.villaKey, VILLA_KEY));
   await db.delete(propertyOwnerUnits).where(eq(propertyOwnerUnits.villaKey, SECOND_VILLA_KEY));
   await db.delete(propertyOwnerUnits).where(eq(propertyOwnerUnits.villaKey, REVIEW_VILLA_KEY));
+  await db.delete(villaListingAudit).where(eq(villaListingAudit.villaKey, VILLA_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, VILLA_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, SECOND_VILLA_KEY));
   await db.delete(villaListings).where(eq(villaListings.villaKey, REVIEW_VILLA_KEY));
@@ -92,6 +93,34 @@ describe("unified owner records", () => {
 
     await expect(admin.propertyOwners.list({ limit: 10 })).rejects.toBeTruthy();
     await expect(user.propertyOwners.list({ limit: 10 })).rejects.toBeTruthy();
+  });
+
+  it("keeps exact historical unit emails, their documented role, and their source Master-only", async () => {
+    const db = await getDb();
+    if (!db) throw new Error("Test database unavailable.");
+    await db.insert(villaListingAudit).values({
+      villaKey: VILLA_KEY,
+      actorEmail: masterCtx.user.email,
+      actorName: masterCtx.user.name,
+      summary: "Updated owner email",
+      changesJson: JSON.stringify({ ownerEmail: { from: "previous.contact@example.test", to: "verified.owner@example.test" } }),
+    });
+    const master = appRouter.createCaller(masterCtx);
+    const contacts = await master.propertyOwners.unitContacts({ villaKey: VILLA_KEY, community: COMMUNITY });
+    expect(contacts).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        email: "verified.owner@example.test",
+        roles: expect.arrayContaining(["Owner"]),
+      }),
+      expect.objectContaining({
+        email: "previous.contact@example.test",
+        roles: expect.arrayContaining(["Previous card contact"]),
+      }),
+    ]));
+    const admin = appRouter.createCaller(adminCtx);
+    const user = appRouter.createCaller(userCtx);
+    await expect(admin.propertyOwners.unitContacts({ villaKey: VILLA_KEY, community: COMMUNITY })).rejects.toBeTruthy();
+    await expect(user.propertyOwners.unitContacts({ villaKey: VILLA_KEY, community: COMMUNITY })).rejects.toBeTruthy();
   });
 
   it("requires a Master-confirmed exact key to resolve an imported exception row", async () => {

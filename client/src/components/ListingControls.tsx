@@ -9,7 +9,7 @@
  * cards without disturbing layout.
  */
 import { useState } from "react";
-import { ExternalLink, FileText, MapPin, Pencil } from "lucide-react";
+import { ExternalLink, FileText, Mail, MapPin, Pencil } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -90,6 +90,63 @@ export function ListingOwnerFacts({
       <div className="uppercase tracking-[0.14em] text-[0.55rem] text-muted-foreground">Owner · authorized view</div>
       {listing.ownerName ? <div className="mt-0.5">{listing.ownerName}</div> : null}
       {listing.ownerPhone ? <div className="mt-0.5 tabular-nums">{listing.ownerPhone}</div> : null}
+    </div>
+  );
+}
+
+/** Master-only provenance for all exact, documented emails attached to a unit. */
+export function UnitContactHistory({
+  villaKey,
+  community,
+  className,
+}: {
+  villaKey: string;
+  community: string;
+  className?: string;
+}) {
+  const { user } = useAuth();
+  const contacts = trpc.propertyOwners.unitContacts.useQuery(
+    { villaKey, community },
+    { enabled: user?.role === "master" && Boolean(villaKey) && Boolean(community), staleTime: 60_000 },
+  );
+  if (user?.role !== "master" || contacts.isLoading || !contacts.data?.length) return null;
+  const fmtDate = (value: Date | string) => new Date(value).toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  return (
+    <div className={`mt-3 rounded-md border border-violet-500/25 bg-violet-500/5 px-3 py-2.5 text-xs ${className ?? ""}`}>
+      <div className="flex items-center gap-1.5 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-violet-700 dark:text-violet-300">
+        <Mail className="h-3.5 w-3.5" /> Unit contact history · Master only
+      </div>
+      <div className="mt-2 space-y-2">
+        {contacts.data.map(contact => (
+          <details key={contact.email} className="rounded border border-violet-500/15 bg-background/55 px-2.5 py-2">
+            <summary className="cursor-pointer list-none">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <div className="break-all font-medium text-foreground">{contact.email}</div>
+                  <div className="mt-0.5 text-[0.65rem] text-muted-foreground">
+                    {contact.displayName ? `${contact.displayName} · ` : ""}{contact.roles.join(" · ")}
+                  </div>
+                </div>
+                <div className="text-right text-[0.6rem] text-muted-foreground">
+                  <div>First: {fmtDate(contact.firstSeenAt)}</div>
+                  <div>Last: {fmtDate(contact.lastSeenAt)}</div>
+                </div>
+              </div>
+            </summary>
+            <div className="mt-2 space-y-1 border-t border-violet-500/15 pt-2 text-[0.65rem] text-muted-foreground">
+              {contact.observations.map((observation, index) => (
+                <div key={`${observation.kind}-${observation.occurredAt}-${index}`}>
+                  <span className="text-foreground">{observation.role}</span> · {fmtDate(observation.occurredAt)}{observation.sourceLabel ? ` · ${observation.sourceLabel}` : ""}
+                </div>
+              ))}
+            </div>
+          </details>
+        ))}
+      </div>
     </div>
   );
 }

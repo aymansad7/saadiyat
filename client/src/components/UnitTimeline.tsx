@@ -29,6 +29,8 @@ type EventRow = {
   eventType: string;
   fromStatus: string | null;
   toStatus: string | null;
+  fromSourceStatus?: string | null;
+  toSourceStatus?: string | null;
   fromPriceAed: number | null;
   toPriceAed: number | null;
   createdAt: Date | string;
@@ -53,6 +55,10 @@ function iconFor(type: string) {
 
 function isSold(s: string | null) {
   return (s || "").trim().toLowerCase() === "sold";
+}
+
+function priceTransition(from: number | null, to: number | null) {
+  return <><span className="text-muted-foreground">{from == null ? "Not published" : fmtAed(from)}</span><ArrowRight className="h-3 w-3 text-muted-foreground" /><span className="font-medium">{to == null ? "Not published" : fmtAed(to)}</span></>;
 }
 
 function describe(e: EventRow): React.ReactNode {
@@ -82,12 +88,20 @@ function describe(e: EventRow): React.ReactNode {
           )}
         </span>
       );
+    case "source_status_change":
+      return (
+        <span className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-muted-foreground">Official source state</span>
+          <span>{e.fromSourceStatus ?? "Not published"}</span>
+          <ArrowRight className="h-3 w-3 text-muted-foreground" />
+          <span className="font-medium">{e.toSourceStatus ?? "Not published"}</span>
+        </span>
+      );
     case "price_change":
       return (
         <span className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-muted-foreground">{fmtAed(e.fromPriceAed)}</span>
-          <ArrowRight className="h-3 w-3 text-muted-foreground" />
-          <span className="font-medium">{fmtAed(e.toPriceAed)}</span>
+          <span className="text-muted-foreground">{e.fromPriceAed == null ? "Price first published" : "Price changed"}</span>
+          {priceTransition(e.fromPriceAed, e.toPriceAed)}
           {e.fromPriceAed != null && e.toPriceAed != null && (
             <span
               className={
@@ -107,9 +121,9 @@ function describe(e: EventRow): React.ReactNode {
         </span>
       );
     case "removed":
-      return <span>Removed from Aldar feed (was {e.fromStatus ?? "—"})</span>;
+      return <span>Removed from Aldar feed — status {e.fromStatus ?? "Not published"}{e.fromPriceAed != null ? ` · last price ${fmtAed(e.fromPriceAed)}` : ""}</span>;
     case "reappeared":
-      return <span>Back in Aldar feed — status {e.toStatus ?? "—"}</span>;
+      return <span className="flex items-center gap-1.5 flex-wrap">Back in Aldar feed — status <span className="font-medium">{e.toStatus ?? "Not published"}</span>{e.fromPriceAed !== e.toPriceAed && priceTransition(e.fromPriceAed, e.toPriceAed)}</span>;
     default:
       return <span>{e.eventType}</span>;
   }
@@ -127,7 +141,7 @@ export function UnitTimeline({ unitName }: { unitName: string }) {
     <div>
       <div className="flex items-center gap-2 mb-4 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary">
         <History className="h-3.5 w-3.5" />
-        Availability history
+        Sync history
       </div>
 
       {q.isLoading ? (
@@ -135,7 +149,7 @@ export function UnitTimeline({ unitName }: { unitName: string }) {
       ) : events.length === 0 ? (
         <div className="text-sm text-muted-foreground">
           No tracked changes yet. Weekly snapshots run every Monday at 06:00 (Gulf time);
-          changes to availability and price will appear here.
+          every recorded price, status, and official source-state change will appear here.
         </div>
       ) : (
         <ol className="relative border-l border-border ml-1.5 space-y-4">

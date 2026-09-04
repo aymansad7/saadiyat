@@ -912,3 +912,8 @@
 
 ### Al Ghadeer Complete Workbook Import (Sep 3, 2026)
 - [x] Profile Aldar_Al_Ghadeer_Hero_Full_Complete.xlsx, match each Parks row to an exact official NC/ND unit code, import documented fields with provenance, and export the updated register without cross-unit assumptions
+
+### Sync History Detail and Unit Contact Provenance (Sep 4, 2026)
+- [x] Show every documented price and status transition as previous value → new value on the unit card and Sync History, with event date and source
+- [x] Surface all historically linked unit emails with their documented responsible/seller role for Master Admin only, without exposing protected contact data to other roles
+- [x] Produce an audited Al Ghadeer Parks change report covering the prior day through today, with exact values for every price/status change
