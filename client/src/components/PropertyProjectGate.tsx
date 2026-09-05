@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, type ReactNode } from "react";
+import { createContext, useContext, useMemo, useRef, type ReactNode } from "react";
 import { LockKeyhole } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -51,26 +51,33 @@ export function PropertyProjectGate({
   const canAccess =
     user?.role === "master" ||
     permitted.length > 0;
-
-  if (loading || permission.isLoading) {
-    return <div className="min-h-screen bg-background" />;
-  }
+  const lastGranted = useRef<ProjectAccessContextValue | null>(null);
   if (canAccess) {
     const grant = permitted[0]?.permissions;
     const isPrivileged = user?.role === "master";
-    const allowedPhaseKeys = isPrivileged || !phaseKeys?.length
-      ? null
-      : permitted.flatMap(item => item.scope.phaseKey ? [item.scope.phaseKey] : []);
+    lastGranted.current = {
+      canViewOriginalPrice: isPrivileged || grant?.canViewOriginalPrice === true,
+      canViewOwnerName: isPrivileged || grant?.canViewOwnerName === true,
+      canViewOwnerPhone: isPrivileged || grant?.canViewOwnerPhone === true,
+      canEditProperties: isPrivileged || grant?.canEditProperties === true,
+      allowedPhaseKeys: isPrivileged || !phaseKeys?.length
+        ? null
+        : permitted.flatMap(item => item.scope.phaseKey ? [item.scope.phaseKey] : []),
+    };
+  }
+
+  if (loading || permission.isLoading) {
+    // Keep an already-authorized route rendered during a short resume/recheck.
+    // This never grants first-load access: a no-cache visitor still sees the
+    // safe loading shell until the server answers.
+    if (lastGranted.current) {
+      return <ProjectAccessContext.Provider value={lastGranted.current}>{children}</ProjectAccessContext.Provider>;
+    }
+    return <div className="min-h-screen bg-background"><SiteHeader /><main className="container py-12"><div className="h-28 animate-pulse rounded-lg bg-muted/45" /></main></div>;
+  }
+  if (canAccess) {
     return (
-      <ProjectAccessContext.Provider value={{
-        canViewOriginalPrice: isPrivileged || grant?.canViewOriginalPrice === true,
-        canViewOwnerName: isPrivileged || grant?.canViewOwnerName === true,
-        canViewOwnerPhone: isPrivileged || grant?.canViewOwnerPhone === true,
-        canEditProperties: isPrivileged || grant?.canEditProperties === true,
-        allowedPhaseKeys,
-      }}>
-        {children}
-      </ProjectAccessContext.Provider>
+      <ProjectAccessContext.Provider value={lastGranted.current!}>{children}</ProjectAccessContext.Provider>
     );
   }
 

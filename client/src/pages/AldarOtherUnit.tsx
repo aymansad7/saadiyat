@@ -60,6 +60,8 @@ function Inner() {
           | null;
         listingPartners: string | null;
         publicNotes: string | null;
+        saleAgentName?: string | null;
+        soldAt?: Date | string | null;
         ownerName?: string | null;
         ownerPhone?: string | null;
         ownerEmail?: string | null;
@@ -246,6 +248,12 @@ function Inner() {
                   {listing.publicNotes && (
                     <div className="text-sm text-foreground/80 max-w-2xl">{listing.publicNotes}</div>
                   )}
+                  {user?.role === "master" && listing.status === "sold" && (
+                    <div className="rounded-md border border-rose-500/30 bg-rose-500/5 px-3 py-2 text-xs text-foreground">
+                      <div className="font-mono uppercase tracking-wider text-rose-700 dark:text-rose-300">Operational sale record</div>
+                      <div className="mt-1">{listing.soldAt ? `Sale date: ${new Date(listing.soldAt).toLocaleDateString()}` : "Sale date not recorded"}{listing.saleAgentName ? ` · Responsible: ${listing.saleAgentName}` : " · Responsible not recorded"}</div>
+                    </div>
+                  )}
                   <ListingOwnerFacts listing={listing} />
                   {user?.role === "master" && listing.internalNotes && (
                     <div className="mt-1 rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs">
@@ -286,7 +294,7 @@ function Inner() {
       {unit.unit_name && (
         <section className="border-b border-border bg-card/20">
           <div className="container py-6 sm:py-8">
-            <UnitTimeline unitName={unit.unit_name} />
+            <UnitTimeline unitName={unit.unit_name} villaKey={villaKey} />
           </div>
         </section>
       )}

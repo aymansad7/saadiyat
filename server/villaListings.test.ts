@@ -149,6 +149,21 @@ describe("villaListings router — Master Admin upsert + masking", () => {
     expect(audit.length).toBeGreaterThanOrEqual(2);
     const summaries = audit.map((a: any) => a.summary).join("\n");
     expect(summaries).toMatch(/askingPriceAed/);
+
+    await admin.villaListings.upsert({
+      villaKey: TEST_KEY,
+      community: TEST_COMMUNITY,
+      status: "sold",
+      saleAgentName: "Test Representative",
+      soldAt: new Date("2026-09-05T12:00:00.000Z"),
+    });
+    const saleHistory = await admin.villaListings.history({ villaKey: TEST_KEY });
+    const sale = saleHistory.find((entry: any) => entry.eventType === "manual_sold");
+    expect(sale).toBeTruthy();
+    expect(sale.saleAgentName).toBe("Test Representative");
+    expect(sale.fromStatus).toBe("available");
+    expect(sale.toStatus).toBe("sold");
+    await expect(appRouter.createCaller(adminCtx).villaListings.history({ villaKey: TEST_KEY })).rejects.toBeTruthy();
   });
 
   it("shows delegated owner name and phone without releasing Google current or history payloads", { timeout: 30_000 }, async () => {

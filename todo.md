@@ -917,3 +917,13 @@
 - [x] Show every documented price and status transition as previous value → new value on the unit card and Sync History, with event date and source
 - [x] Surface all historically linked unit emails with their documented responsible/seller role for Master Admin only, without exposing protected contact data to other roles
 - [x] Produce an audited Al Ghadeer Parks change report covering the prior day through today, with exact values for every price/status change
+
+### Al Ghadeer Unit Email Provenance Audit (Sep 4, 2026)
+- [x] Inspect official capture and the supplied matched workbook for unit-level emails; neither contains an email field or a non-empty unit-level email value, so nothing was imported or displayed
+
+### Sold Transition Detection and Actionable History (Sep 5, 2026)
+- [x] Audit Yas Park Place Building 1 #203 against its source snapshot and stored unit state, then repair any sync behavior that misses a verified transition to Sold
+- [x] Make every documented Sold transition visible and clickable in Sync History with previous/new price and status plus documented seller/responsible identity where available
+
+### Resilient Tab Resume (Sep 5, 2026)
+- [x] Keep the last successfully rendered unit/project page visible when the browser returns from another tab, while refreshing protected data in the background without a white loading screen

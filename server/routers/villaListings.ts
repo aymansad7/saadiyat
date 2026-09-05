@@ -24,6 +24,7 @@ import {
 } from "../../drizzle/schema";
 import { getPropertyScope, resolvePropertyPermissions } from "../../shared/propertyAccess";
 import { appendActivityAudit } from "../activityAudit";
+import { resolveAvailabilityHref } from "../availabilityResults";
 import { getDb } from "../db";
 import { exportUnitRegisterWorkbook } from "../oneDrive";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
@@ -149,6 +150,8 @@ function toVisible(
     base.ownerCurrentDataJson = row.ownerCurrentDataJson;
     base.ownerHistoryJson = row.ownerHistoryJson;
     base.updatedBy = row.updatedBy;
+    base.saleAgentName = row.saleAgentName;
+    base.soldAt = row.soldAt;
   }
   return base;
 }
@@ -160,6 +163,8 @@ const upsertInput = z.object({
   status: z.enum(STATUS_VALUES).optional(),
   listingPartners: z.string().max(2_000).nullable().optional(),
   publicNotes: z.string().max(8_000).nullable().optional(),
+  saleAgentName: z.string().max(255).nullable().optional(),
+  soldAt: z.coerce.date().nullable().optional(),
   landAreaSqm: z.number().nonnegative().max(10_000_000).nullable().optional(),
   builtUpAreaSqm: z.number().nonnegative().max(10_000_000).nullable().optional(),
   availableForRent: z.boolean().nullable().optional(),
@@ -185,6 +190,8 @@ function diffChanges(
     "status",
     "listingPartners",
     "publicNotes",
+    "saleAgentName",
+    "soldAt",
     "landAreaSqm",
     "builtUpAreaSqm",
     "availableForRent",
@@ -219,6 +226,28 @@ function buildSummary(diff: Record<string, { from: unknown; to: unknown }>): str
     return `${k}=${to}`;
   });
   return parts.join("; ") || "no-op";
+}
+
+type ListingHistoryChange = { from: unknown; to: unknown };
+
+function parseListingHistoryChanges(value: string | null): Record<string, ListingHistoryChange> {
+  try {
+    const parsed = JSON.parse(value ?? "{}") as Record<string, ListingHistoryChange>;
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function listingHistoryLocation(villaKey: string) {
+  const parts = villaKey.split("/");
+  const isAldar = parts[0] === "aldar-other" || parts[0] === "aldar-saadiyat";
+  return {
+    projectSlug: isAldar && parts.length >= 4 ? parts[1] : null,
+    buildingName: isAldar && parts.length >= 4 ? parts[2] : null,
+    unitName: isAldar && parts.length >= 4 ? decodeURIComponent(parts.slice(3).join("/")) : villaKey,
+    href: resolveAvailabilityHref("manual", villaKey),
+  };
 }
 
 export const villaListingsRouter = router({
@@ -366,6 +395,8 @@ export const villaListingsRouter = router({
       "status",
       "listingPartners",
       "publicNotes",
+      "saleAgentName",
+      "soldAt",
       "landAreaSqm",
       "builtUpAreaSqm",
       "availableForRent",
@@ -388,6 +419,10 @@ export const villaListingsRouter = router({
       updateSet.publishedAt = new Date();
       updateSet.publishedBy = ctx.user?.email ?? "admin";
       updateSet.publishedByName = ctx.user?.name ?? null;
+    }
+    const becomingSold = input.status === "sold" && beforeRow?.status !== "sold";
+    if (becomingSold && !("soldAt" in input)) {
+      updateSet.soldAt = new Date();
     }
 
     if (beforeRow) {
@@ -485,5 +520,56 @@ export const villaListingsRouter = router({
         .where(eq(villaListingAudit.villaKey, input.villaKey))
         .orderBy(desc(villaListingAudit.createdAt))
         .limit(input.limit);
+    }),
+
+  /**
+   * Operational card history is intentionally distinct from the Aldar source
+   * feed. It exposes a user-confirmed sale without altering a developer-source
+   * status, and is limited to Master Admin because it includes edit identity.
+   */
+  history: masterProcedure
+    .input(
+      z
+        .object({
+          villaKey: villaKeySchema.optional(),
+          limit: z.number().int().min(1).max(1000).default(500),
+        })
+        .default({ limit: 500 }),
+    )
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const query = db.select().from(villaListingAudit);
+      const audits = input.villaKey
+        ? await query
+          .where(eq(villaListingAudit.villaKey, input.villaKey))
+          .orderBy(desc(villaListingAudit.createdAt), desc(villaListingAudit.id))
+          .limit(input.limit)
+        : await query
+          .orderBy(desc(villaListingAudit.createdAt), desc(villaListingAudit.id))
+          .limit(input.limit);
+      return audits.map(audit => {
+        const changes = parseListingHistoryChanges(audit.changesJson);
+        const status = changes.status;
+        const price = changes.askingPriceAed;
+        const saleAgent = changes.saleAgentName;
+        const soldAt = changes.soldAt;
+        return {
+          id: `card-${audit.id}`,
+          createdAt: audit.createdAt,
+          eventType: status?.to === "sold" ? "manual_sold" as const : "card_update" as const,
+          villaKey: audit.villaKey,
+          ...listingHistoryLocation(audit.villaKey),
+          fromStatus: typeof status?.from === "string" ? status.from : null,
+          toStatus: typeof status?.to === "string" ? status.to : null,
+          fromPriceAed: typeof price?.from === "number" ? price.from : null,
+          toPriceAed: typeof price?.to === "number" ? price.to : null,
+          saleAgentName: typeof saleAgent?.to === "string" ? saleAgent.to : null,
+          soldAt: typeof soldAt?.to === "string" ? soldAt.to : null,
+          actorName: audit.actorName,
+          actorEmail: audit.actorEmail,
+          changes,
+        };
+      });
     }),
 });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { describeInventoryEvent } from "../AdminInventoryHistory";
+import { describeCardHistoryEvent, describeInventoryEvent } from "../AdminInventoryHistory";
 
 describe("Sync History change labels", () => {
   it("shows the exact prior and newly published price when no prior price existed", () => {
@@ -33,5 +33,29 @@ describe("Sync History change labels", () => {
       fromPriceAed: null,
       toPriceAed: null,
     })).toBe("Official source state: New → Booked");
+  });
+
+  it("shows an operational sale as a documented transition instead of a generic card update", () => {
+    const label = describeCardHistoryEvent({
+      id: "card-1",
+      createdAt: "2026-09-05T14:14:03.000Z",
+      eventType: "manual_sold",
+      villaKey: "aldar-other/yas-park-place/yasparkplace-b1/YasParkPlace-B1-02-03",
+      projectSlug: "yas-park-place",
+      buildingName: "yasparkplace-b1",
+      unitName: "YasParkPlace-B1-02-03",
+      href: "/aldar-other/yas-park-place/yasparkplace-b1/YasParkPlace-B1-02-03",
+      fromStatus: "available",
+      toStatus: "sold",
+      fromPriceAed: null,
+      toPriceAed: null,
+      saleAgentName: "Test Representative",
+      soldAt: "2026-09-05T14:14:03.000Z",
+      actorName: "Master Admin",
+      actorEmail: "master@example.test",
+      changes: { status: { from: "available", to: "sold" } },
+    });
+    expect(label).toContain("Operational sale: available → Sold");
+    expect(label).toContain("responsible: Test Representative");
   });
 });

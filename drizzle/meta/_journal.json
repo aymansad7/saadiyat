@@ -148,6 +148,13 @@
       "when": 1788439735094,
       "tag": "0020_stiff_randall",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "5",
+      "when": 1788617262171,
+      "tag": "0021_glamorous_eddie_brock",
+      "breakpoints": true
     }
   ]
 }

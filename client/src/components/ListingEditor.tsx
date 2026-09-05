@@ -61,6 +61,8 @@ type FormState = {
   rentPriceAed: string;
   listingPartners: string;
   publicNotes: string;
+  saleAgentName: string;
+  soldAt: string;
   ownerName: string;
   ownerPhone: string;
   ownerEmail: string;
@@ -76,6 +78,8 @@ const EMPTY_FORM: FormState = {
   rentPriceAed: "",
   listingPartners: "",
   publicNotes: "",
+  saleAgentName: "",
+  soldAt: "",
   ownerName: "",
   ownerPhone: "",
   ownerEmail: "",
@@ -140,6 +144,8 @@ export function ListingEditor({
         rentPriceAed: row.rentPriceAed != null ? String(row.rentPriceAed) : "",
         listingPartners: row.listingPartners ?? "",
         publicNotes: row.publicNotes ?? "",
+        saleAgentName: row.saleAgentName ?? "",
+        soldAt: row.soldAt ? new Date(row.soldAt).toISOString().slice(0, 10) : "",
         ownerName: row.ownerName ?? "",
         ownerPhone: row.ownerPhone ?? "",
         ownerEmail: row.ownerEmail ?? "",
@@ -185,6 +191,10 @@ export function ListingEditor({
         form.rentPriceAed.trim() === "" ? null : Number(form.rentPriceAed.replace(/[,\s]/g, "")),
       listingPartners: form.listingPartners.trim() || null,
       publicNotes: form.publicNotes.trim() || null,
+      ...(isMaster ? {
+        saleAgentName: form.status === "sold" ? form.saleAgentName.trim() || null : null,
+        soldAt: form.status === "sold" && form.soldAt ? new Date(`${form.soldAt}T12:00:00`).toISOString() : null,
+      } : {}),
       ...(canManageOwnerName ? { ownerName: form.ownerName.trim() || null } : {}),
       ...(canManageOwnerPhone ? { ownerPhone: form.ownerPhone.trim() || null } : {}),
       ...(isMaster ? {
@@ -346,6 +356,28 @@ export function ListingEditor({
                 rows={3}
               />
             </div>
+
+            {isMaster && form.status === "sold" && <div className="grid gap-4 rounded-lg border border-stone-500/25 bg-stone-500/5 p-4 md:grid-cols-2">
+              <div className="grid gap-1.5">
+                <Label htmlFor="sale-agent">Sale representative / responsible</Label>
+                <Input
+                  id="sale-agent"
+                  placeholder="Name only when documented"
+                  value={form.saleAgentName}
+                  onChange={e => update("saleAgentName", e.target.value)}
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="sold-at">Sale date</Label>
+                <Input
+                  id="sold-at"
+                  type="date"
+                  value={form.soldAt}
+                  onChange={e => update("soldAt", e.target.value)}
+                />
+              </div>
+              <p className="md:col-span-2 text-xs text-muted-foreground">Saved as an operational sale record. It does not overwrite the developer&apos;s source status.</p>
+            </div>}
 
             <Separator />
 

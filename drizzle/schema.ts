@@ -382,6 +382,10 @@ export const villaListings = mysqlTable(
     listingPartners: text("listingPartners"),
     /** Public-facing remarks (finishing, view, payment plan, signature features). */
     publicNotes: text("publicNotes"),
+    /** Master-recorded sales representative or responsible person for a confirmed sale. */
+    saleAgentName: varchar("saleAgentName", { length: 255 }),
+    /** Date the operational sale was recorded; distinct from the developer source status. */
+    soldAt: timestamp("soldAt"),
     /** Editable land-area override in square metres. Source data remains unchanged. */
     landAreaSqm: double("landAreaSqm"),
     /** Editable built-up/internal-area override in square metres. Source data remains unchanged. */

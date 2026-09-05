@@ -9,7 +9,19 @@ import { getLoginUrl } from "./const";
 import "./index.css";
 import { ensureVisitorId } from "./lib/visitor";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Preserve successfully verified protected data while a mobile browser
+      // resumes a paused tab. Explicit mutations still invalidate immediately.
+      staleTime: 5 * 60_000,
+      gcTime: 60 * 60_000,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
+      retry: 1,
+    },
+  },
+});
 
 const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;

@@ -20,6 +20,7 @@ import {
   TrendingDown,
   TrendingUp,
   Upload,
+  UserRoundCheck,
 } from "lucide-react";
 import { toast } from "sonner";
 import SiteHeader from "@/components/SiteHeader";
@@ -98,6 +99,26 @@ type InventoryEvent = {
   unitType: string | null;
 };
 
+type CardHistoryEvent = {
+  id: string;
+  createdAt: Date | string;
+  eventType: "manual_sold" | "card_update";
+  villaKey: string;
+  projectSlug: string | null;
+  buildingName: string | null;
+  unitName: string;
+  href: string | null;
+  fromStatus: string | null;
+  toStatus: string | null;
+  fromPriceAed: number | null;
+  toPriceAed: number | null;
+  saleAgentName: string | null;
+  soldAt: string | null;
+  actorName: string | null;
+  actorEmail: string;
+  changes: Record<string, { from: unknown; to: unknown }>;
+};
+
 const EVENT_OPTIONS: Array<{ value: InventoryEvent["eventType"] | "all"; label: string }> = [
   { value: "all", label: "All changes" },
   { value: "status_change", label: "Status changes" },
@@ -122,6 +143,38 @@ function priceDescription(event: InventoryEvent) {
   const from = fmtAed(event.fromPriceAed);
   const to = fmtAed(event.toPriceAed);
   return from && to ? `${from} → ${to}` : to ?? from ?? "—";
+}
+
+function cardValue(value: unknown, field: string) {
+  if (value == null || value === "") return "Not stated";
+  if (field === "askingPriceAed" || field === "rentPriceAed") return fmtAed(Number(value)) ?? "Not stated";
+  if (field === "soldAt") return fmtDateTime(String(value));
+  return String(value);
+}
+
+const cardFieldLabels: Record<string, string> = {
+  askingPriceAed: "Asking price",
+  status: "Operational status",
+  saleAgentName: "Responsible",
+  soldAt: "Sale date",
+  listingPartners: "Listing partners",
+  publicNotes: "Public notes",
+  landAreaSqm: "Land area",
+  builtUpAreaSqm: "Built-up area",
+  availableForRent: "Rental availability",
+  rentPriceAed: "Rent price",
+};
+
+export function describeCardHistoryEvent(event: CardHistoryEvent) {
+  if (event.eventType === "manual_sold") {
+    return `Operational sale: ${event.fromStatus ?? "Not stated"} → Sold${event.saleAgentName ? ` · responsible: ${event.saleAgentName}` : ""}${event.soldAt ? ` · sale date: ${fmtDateTime(event.soldAt)}` : ""}`;
+  }
+  const privateFields = new Set(["ownerName", "ownerPhone", "ownerEmail", "internalNotes"]);
+  const pairs = Object.entries(event.changes)
+    .filter(([field]) => !privateFields.has(field))
+    .slice(0, 3)
+    .map(([field, change]) => `${cardFieldLabels[field] ?? field}: ${cardValue(change.from, field)} → ${cardValue(change.to, field)}`);
+  return pairs.length ? pairs.join(" · ") : "Operational card updated";
 }
 
 function StatCard({
@@ -185,6 +238,10 @@ export default function AdminInventoryHistory() {
   const dailyEvents = trpc.inventoryHistory.recentEvents.useQuery(eventQueryInput, {
     enabled: isAuthenticated && (user?.role === "admin" || user?.role === "master"),
   });
+  const cardHistory = trpc.villaListings.history.useQuery(
+    { limit: 500 },
+    { enabled: isAuthenticated && user?.role === "master" },
+  );
   const priceChangeEvents = trpc.inventoryHistory.recentEvents.useQuery(
     { limit: 1000, eventType: "price_change" },
     { enabled: isAuthenticated && (user?.role === "admin" || user?.role === "master") },
@@ -252,6 +309,7 @@ export default function AdminInventoryHistory() {
   const availableCount = saleUnits.filter(unit => (unit.status ?? "").toLowerCase() === "available").length;
   const newCount = saleUnits.filter(unit => (unit.status ?? "").toLowerCase() === "new").length;
   const eventRows = (dailyEvents.data ?? []) as InventoryEvent[];
+  const cardEvents = (cardHistory.data ?? []) as CardHistoryEvent[];
   const eventProjects = useMemo(
     () => Array.from(new Map(eventRows.map(event => [event.projectSlug, event.projectName ?? event.projectSlug])).entries())
       .map(([slug, label]) => ({ slug, label }))
@@ -353,6 +411,23 @@ export default function AdminInventoryHistory() {
           )}
         </section>
 
+        {user?.role === "master" && <section className="overflow-hidden rounded-xl border border-border bg-card">
+          <div className="border-b border-border px-5 py-5 sm:px-6">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <div className="flex items-center gap-2 text-[0.68rem] font-mono uppercase tracking-[0.18em] text-primary"><UserRoundCheck className="h-3.5 w-3.5" /> Operational card changes</div>
+                <h2 className="mt-1 font-display text-2xl text-foreground">Sales and edits recorded on unit cards</h2>
+                <p className="mt-1 max-w-2xl text-sm text-muted-foreground">This is the operational ledger. It is separate from Aldar&apos;s source status and shows every recorded card change with values before and after.</p>
+              </div>
+              <div className="font-mono text-xs text-muted-foreground">{cardEvents.length.toLocaleString()} records</div>
+            </div>
+          </div>
+          {cardHistory.isLoading ? <div className="px-5 py-8 text-sm text-muted-foreground sm:px-6">Loading card history…</div> : cardEvents.length === 0 ? <div className="px-5 py-8 text-sm text-muted-foreground sm:px-6">No operational card changes recorded yet.</div> : <>
+            <div className="hidden overflow-x-auto md:block"><table className="w-full min-w-[980px] text-left text-sm"><thead className="border-b border-border bg-muted/10 text-[0.65rem] font-mono uppercase tracking-[0.14em] text-muted-foreground"><tr><th className="px-5 py-3 sm:px-6">Date</th><th className="px-3 py-3">Project</th><th className="px-3 py-3">Unit</th><th className="px-3 py-3">Change</th><th className="px-3 py-3">Responsible / recorded by</th><th className="px-5 py-3 text-right sm:px-6">Card</th></tr></thead><tbody className="divide-y divide-border">{cardEvents.map(event => <tr key={event.id} className="transition-colors hover:bg-accent/35"><td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground sm:px-6">{fmtDateTime(event.createdAt)}</td><td className="max-w-[180px] truncate px-3 py-3 text-muted-foreground">{event.projectSlug ?? "Property card"}</td><td className="max-w-[240px] truncate px-3 py-3 font-medium text-foreground">{event.unitName}</td><td className="max-w-[420px] px-3 py-3 text-xs text-foreground">{describeCardHistoryEvent(event)}</td><td className="px-3 py-3 text-xs text-muted-foreground">{event.saleAgentName ?? "Not recorded"}<div className="mt-0.5">Recorded by {event.actorName || event.actorEmail}</div></td><td className="px-5 py-3 text-right sm:px-6">{event.href ? <Button asChild size="sm" variant="outline" className="bg-card"><Link href={event.href}>Open card <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></Link></Button> : <span className="text-xs text-muted-foreground">Route unavailable</span>}</td></tr>)}</tbody></table></div>
+            <div className="divide-y divide-border md:hidden">{cardEvents.map(event => <article key={event.id} className="space-y-2 px-5 py-4"><div className="flex items-start justify-between gap-3"><div><div className="font-medium text-foreground">{event.unitName}</div><div className="mt-0.5 text-xs text-muted-foreground">{event.projectSlug ?? "Property card"}</div></div><div className="text-right text-xs text-muted-foreground">{fmtDateTime(event.createdAt)}</div></div><div className="text-sm text-foreground">{describeCardHistoryEvent(event)}</div><div className="flex items-center justify-between gap-3"><span className="text-xs text-muted-foreground">{event.saleAgentName ? `Responsible: ${event.saleAgentName}` : "Responsible not recorded"}</span>{event.href ? <Button asChild size="sm" variant="outline" className="bg-card"><Link href={event.href}>Open card <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></Link></Button> : null}</div></article>)}</div>
+          </>}
+        </section>}
+
         <section className="overflow-hidden rounded-xl border border-border bg-card">
           <div className="border-b border-border px-5 py-5 sm:px-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -377,7 +452,7 @@ export default function AdminInventoryHistory() {
           )}
         </section>
 
-        {run ? <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"><StatCard label="Units scanned" value={Number(run.unitsScanned ?? 0).toLocaleString()} /><StatCard label="Newly tracked" value={run.newUnits ?? 0} tone="new" /><StatCard label="Sold" value={run.soldUnits ?? 0} tone="sold" /><StatCard label="Status changes" value={run.statusChanges ?? 0} /><StatCard label="Price changes" value={run.priceChanges ?? 0} tone="price" /><StatCard label="Removed" value={run.removedUnits ?? 0} /></div> : <Card><CardContent className="p-6 text-sm text-muted-foreground">No sync has run yet. Click <span className="font-medium">Run sync now</span> to take the first baseline.</CardContent></Card>}
+        {run ? <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3"><StatCard label="Units scanned" value={Number(run.unitsScanned ?? 0).toLocaleString()} /><StatCard label="Newly tracked" value={run.newUnits ?? 0} tone="new" /><StatCard label="Aldar-source sold" value={run.soldUnits ?? 0} tone="sold" /><StatCard label="Status changes" value={run.statusChanges ?? 0} /><StatCard label="Price changes" value={run.priceChanges ?? 0} tone="price" /><StatCard label="Removed" value={run.removedUnits ?? 0} /></div> : <Card><CardContent className="p-6 text-sm text-muted-foreground">No sync has run yet. Click <span className="font-medium">Run sync now</span> to take the first baseline.</CardContent></Card>}
 
         <section>
           <div className="mb-3 flex items-center gap-2"><Plus className="h-4 w-4 text-emerald-600" /><h2 className="font-display text-xl text-foreground">New projects detected</h2></div>
@@ -386,7 +461,7 @@ export default function AdminInventoryHistory() {
 
         <section><h2 className="font-display text-xl text-foreground mb-3">Latest changes by project</h2>{rollups.length === 0 ? <Card><CardContent className="p-6 text-sm text-muted-foreground">No changes detected in the most recent run.</CardContent></Card> : <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">{rollups.map(r => <Card key={`${r.dataset}-${r.projectSlug}`}><CardContent className="p-5"><div className="flex items-center justify-between gap-2"><div className="font-display text-lg text-foreground">{r.projectName ?? r.projectSlug}</div><span className="text-[0.6rem] font-mono uppercase tracking-wider rounded bg-muted px-1.5 py-0.5 text-muted-foreground">{r.dataset}</span></div><div className="mt-3 flex flex-wrap gap-3 text-sm">{r.sold > 0 && <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400"><TrendingDown className="h-3.5 w-3.5" /> {r.sold} sold</span>}{r.newUnits > 0 && <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400"><Plus className="h-3.5 w-3.5" /> {r.newUnits} new</span>}{r.priceChanges > 0 && <span className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400"><TrendingUp className="h-3.5 w-3.5" /> {r.priceChanges} price</span>}{r.statusChanges > 0 && <span className="text-muted-foreground">{r.statusChanges} status</span>}{r.removed > 0 && <span className="text-muted-foreground">{r.removed} removed</span>}</div>{r.examples.length > 0 && <ul className="mt-3 space-y-1 text-xs text-muted-foreground font-mono">{r.examples.map((ex, i) => <li key={i} className="truncate">• {ex}</li>)}</ul>}</CardContent></Card>)}</div>}</section>
 
-        <section><h2 className="font-display text-xl text-foreground mb-3">Recent syncs</h2><Card><CardContent className="p-0"><div className="divide-y divide-border">{(runs.data ?? []).map(r => <div key={r.id} className="flex items-center justify-between gap-4 px-5 py-3 text-sm flex-wrap"><div className="flex items-center gap-3"><span className="font-mono text-xs text-muted-foreground">#{r.id}</span><span className="text-foreground">{fmtDateTime(r.startedAt)}</span><span className={"text-[0.6rem] font-mono uppercase tracking-wider rounded px-1.5 py-0.5 " + (r.status === "success" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : r.status === "error" ? "bg-rose-500/10 text-rose-600 dark:text-rose-400" : "bg-muted text-muted-foreground")}>{r.status}</span><span className="text-[0.6rem] font-mono uppercase tracking-wider text-muted-foreground">{r.trigger}</span></div><div className="flex items-center gap-4 text-xs text-muted-foreground"><span>{Number(r.unitsScanned ?? 0).toLocaleString()} scanned</span><span className="text-rose-600 dark:text-rose-400">{r.soldUnits ?? 0} sold</span><span className="text-emerald-600 dark:text-emerald-400">{r.newUnits ?? 0} new</span><span className="text-amber-600 dark:text-amber-400">{r.priceChanges ?? 0} price</span></div></div>)}{(runs.data ?? []).length === 0 && <div className="px-5 py-6 text-sm text-muted-foreground">No runs recorded.</div>}</div></CardContent></Card></section>
+        <section><h2 className="font-display text-xl text-foreground mb-3">Recent source syncs</h2><Card><CardContent className="p-0"><div className="divide-y divide-border">{(runs.data ?? []).map(r => <div key={r.id} className="flex items-center justify-between gap-4 px-5 py-3 text-sm flex-wrap"><div className="flex items-center gap-3"><span className="font-mono text-xs text-muted-foreground">#{r.id}</span><span className="text-foreground">{fmtDateTime(r.startedAt)}</span><span className={"text-[0.6rem] font-mono uppercase tracking-wider rounded px-1.5 py-0.5 " + (r.status === "success" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : r.status === "error" ? "bg-rose-500/10 text-rose-600 dark:text-rose-400" : "bg-muted text-muted-foreground")}>{r.status}</span><span className="text-[0.6rem] font-mono uppercase tracking-wider text-muted-foreground">{r.trigger}</span></div><div className="flex items-center gap-4 text-xs text-muted-foreground"><span>{Number(r.unitsScanned ?? 0).toLocaleString()} scanned</span><span className="text-rose-600 dark:text-rose-400">{r.soldUnits ?? 0} source sold</span><span className="text-emerald-600 dark:text-emerald-400">{r.newUnits ?? 0} new</span><span className="text-amber-600 dark:text-amber-400">{r.priceChanges ?? 0} price</span></div></div>)}{(runs.data ?? []).length === 0 && <div className="px-5 py-6 text-sm text-muted-foreground">No runs recorded.</div>}</div></CardContent></Card></section>
       </main>
     </div>
   );

@@ -303,7 +303,7 @@ export default function AldarUnit() {
       {unit.unit_name && (
         <section className="border-b border-border bg-card/20">
           <div className="container py-6 sm:py-8">
-            <UnitTimeline unitName={unit.unit_name} />
+            <UnitTimeline unitName={unit.unit_name} villaKey={villaKey} />
           </div>
         </section>
       )}
