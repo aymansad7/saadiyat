@@ -932,3 +932,6 @@
 - [x] Make the authorized unit editor available from the interactive-map property card and refresh the map card immediately after a saved unit edit
 - [x] Keep card and map fields synchronized for price, availability, property areas, and owner facts under the existing scoped-access policy
 - [x] Reserve green map markers and availability indicators exclusively for units whose operational listing status is Available
+
+### Sei Saadiyat Official Import (Sep 7, 2026)
+- [x] Profile Aldar_Sei_Saadiyat_778_Units_FULL.xlsx, import exact source units into a dedicated Saadiyat project with Buildings 1–6, and prepare it for the existing official daily pricing sync without inventing prices or availability

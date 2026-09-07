@@ -45,6 +45,7 @@ const ALL_PROJECTS = [
   { name: "Nouran Living", href: "/aldar-other/nouran-living" },
   { name: "Faya Al Saadiyat", href: "/aldar-saadiyat/faya-al-saadiyat" },
   { name: "Faya Al Saadiyat II", href: "/aldar-saadiyat/faya-al-saadiyat-ii" },
+  { name: "Sei Saadiyat", href: "/aldar-saadiyat/sei-saadiyat" },
   { name: "Louvre Residences", href: "/aldar-saadiyat/louvreresidences" },
   { name: "Mamsha Gardens", href: "/aldar-saadiyat/mamsha-gardens" },
   { name: "Mamsha Palm", href: "/aldar-saadiyat/mamsha-palm" },
