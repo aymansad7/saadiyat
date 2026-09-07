@@ -25,6 +25,13 @@ The supplied locator for `SeiSaadiyat-T6-16-02` also opened the official Sei int
 
 The workbook is an owner-supplied Aldar export and records `New` as its source status. It contains no published unit prices at capture. A subsequent official price sync may update a unit only when an official source supplies a value tied to that exact source unit code or supplied unit identifier.
 
+## Hourly official price monitoring — Sep 7, 2026
+
+- The live official page `https://world.aldar.com/uae/abudhabi/seisaadiyat` returned all 778 source unit codes at the time of verification.
+- Its current unit `price` fields were blank; the known AED 1 placeholder is explicitly excluded from price-publication detection.
+- Heartbeat task `HXDpFLpNDP7FMuqLNLkYw6` (`sei-saadiyat-hourly-price-monitor`) invokes `/api/scheduled/seiPriceMonitor` each hour from 08:00 through 23:00 Gulf time (`0 0 4-19 * * *` UTC). The handler skips runs before 2026-09-08 08:00 Gulf, so its first effective monitoring window is tomorrow.
+- On the first valid official unit price, the handler records the unit-level price history, notifies the project owner, archives the captured official HTML privately in OneDrive, then pauses this monitoring task. It does not treat AED 0, a blank value, or AED 1 as a published price.
+
 ## Preview verification
 
 On 7 September 2026, the Sei project route in the preview resolved to the protected Saadiyat Resale Hub sign-in gate without a session. This confirms that project data is not exposed in the unauthenticated preview. Server tests verify the imported six-building structure; an authenticated Master Admin session is needed for a visual card review.
