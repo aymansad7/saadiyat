@@ -38,6 +38,12 @@ describe("official Aldar unit link validation", () => {
     );
   });
 
+  it("accepts a Sei interactive locator only when the opaque source identifier belongs to that exact unit", () => {
+    const b6Floor16 = "https://world.aldar.com/uae/abudhabi/seisaadiyat?unit=a2DTq000013fppTMAQ";
+    expect(getExactOfficialAldarUnitUrl(b6Floor16, "SeiSaadiyat-T6-16-02", "sei-saadiyat")).toBe(b6Floor16);
+    expect(getExactOfficialAldarUnitUrl(b6Floor16, "SeiSaadiyat-T6-16-01", "sei-saadiyat")).toBeNull();
+  });
+
   it("prioritizes the documented Sustainable City URL over a stale legacy unit path", () => {
     expect(getExactOfficialAldarUnitUrl(
       "https://world.aldar.com/uae/abudhabi/thesustainablecity/property/SC-YN7-TH-362",

@@ -94,6 +94,14 @@ export function parsePaymentPlans(raw: string): ParsedPlan[] {
     .filter(p => p.installments.length > 0);
 }
 
+/** Source format: SeiSaadiyat-T6-16-02 → Building 6 · Floor 16. */
+export function seiBuildingFloorLabel(projectSlug: string | null | undefined, unitName: string | null | undefined) {
+  if ((projectSlug || "").toLowerCase() !== "sei-saadiyat" || !unitName) return null;
+  const match = /^SeiSaadiyat-T([1-6])-(\d{2})-\d{2}$/i.exec(unitName);
+  if (!match) return null;
+  return `Open Building ${match[1]} · Floor ${Number(match[2])} plan`;
+}
+
 export default function AldarUnit() {
   const params = useParams<{ project: string; building: string; unit: string }>();
   const unitName = params.unit ? decodeURIComponent(params.unit) : "";
@@ -109,7 +117,7 @@ export default function AldarUnit() {
     { villaKey },
     { enabled: Boolean(villaKey), staleTime: 60_000 },
   );
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const unitScope = ctx
     ? {
         projectKey: "aldar-saadiyat",
@@ -124,12 +132,13 @@ export default function AldarUnit() {
     { enabled: Boolean(user) && Boolean(ctx) },
   );
   const exactPermissions = unitPermissions.data?.find(item => propertyScopeKey(item.scope) === propertyScopeKey(unitScope))?.permissions;
-  const canAccess = exactPermissions?.canAccess === true;
-  const canViewOriginalPrice = exactPermissions?.canViewOriginalPrice === true;
+  const isMaster = user?.role === "master";
+  const canAccess = isMaster || exactPermissions?.canAccess === true;
+  const canViewOriginalPrice = isMaster || exactPermissions?.canViewOriginalPrice === true;
 
-  if (ctxLoading) return <div className="min-h-screen flex items-center justify-center"><div className="text-muted-foreground font-mono text-sm">Loading...</div></div>;
+  if (ctxLoading || (authLoading && !ctx)) return <div className="min-h-screen flex items-center justify-center"><div className="text-muted-foreground font-mono text-sm">Loading...</div></div>;
   if (!ctx) return <Redirect to={`/aldar-saadiyat/${params.project ?? ""}`} />;
-  if (!user || (!unitPermissions.isLoading && !canAccess)) return <Redirect to={`/aldar-saadiyat/${params.project ?? ""}`} />;
+  if (!user || (!isMaster && !unitPermissions.isLoading && !canAccess)) return <Redirect to={`/aldar-saadiyat/${params.project ?? ""}`} />;
   const { project, building, unit } = ctx;
   const dn = buildingDisplayName(building.name);
   const plans = unit.payment_plans ? parsePaymentPlans(unit.payment_plans) : [];
@@ -201,7 +210,13 @@ export default function AldarUnit() {
             </div>
           </div>
           <div className="col-span-12 md:col-span-4 space-y-3">
-            <AldarOfficialUnitLink aldarLink={unit.aldar_link} unitName={unit.unit_name} projectSlug={project.slug} className="w-full justify-center" />
+            <AldarOfficialUnitLink
+              aldarLink={unit.aldar_link}
+              unitName={unit.unit_name}
+              projectSlug={project.slug}
+              label={seiBuildingFloorLabel(project.slug, unit.unit_name) ?? undefined}
+              className="w-full justify-center"
+            />
             <OneDriveCardLinks villaKey={villaKey} className="mt-0" />
             {unit.virtual_tour && (
               <a

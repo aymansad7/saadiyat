@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import { getSaadiyatDataset } from "./routers/aldarSaadiyat";
 
 const ALDAR_HOST = "world.aldar.com";
 const TIMEOUT_MS = 12_000;
@@ -17,6 +18,34 @@ const WITHDRAWN_CURRENT_UNIT_KEYS = new Set([
   "fahidbeachresidences:fahidbeachresidences-b5-01-04",
   "louvreresidences:grove-r16-05-09",
 ]);
+
+type SeiSourceUnit = { unit_name: string | null; aldar_link: string | null };
+
+/**
+ * Sei currently publishes a project-interactive URL with an opaque, per-unit
+ * query parameter. Resolve that parameter from the server-side source snapshot
+ * so callers cannot pair an arbitrary Sei URL with a different unit code.
+ */
+function verifiedSeiSourceLocator(unitName: string) {
+  const project = getSaadiyatDataset().projects.find(item => item.slug === "sei-saadiyat");
+  const unit = project?.buildings
+    .flatMap(building => building.units)
+    .find(item => item.unit_name?.toLowerCase() === unitName.toLowerCase()) as SeiSourceUnit | undefined;
+  const raw = unit?.aldar_link;
+  if (!raw) return null;
+  try {
+    const url = new URL(raw);
+    if (
+      url.protocol !== "https:" ||
+      url.hostname !== ALDAR_HOST ||
+      url.pathname !== "/uae/abudhabi/seisaadiyat" ||
+      !url.searchParams.get("unit")
+    ) return null;
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Current URLs verified against a live World of Aldar response on 27 Aug 2026.
@@ -163,6 +192,15 @@ export function getExactOfficialAldarUnitUrl(
   projectSlug?: string | null,
 ) {
   if (!unitName) return null;
+  if ((projectSlug || "").trim().toLowerCase() === "sei-saadiyat") {
+    const stored = verifiedSeiSourceLocator(unitName);
+    if (!stored || !rawUrl) return null;
+    try {
+      return new URL(rawUrl).toString() === stored ? stored : null;
+    } catch {
+      return null;
+    }
+  }
   const current = currentAldarUnitUrl(projectSlug, unitName);
   if (current) {
     if (!rawUrl || isCurrentVerifiedAldarUnitUrl(rawUrl, unitName, projectSlug) || isLegacyExactAldarUnitUrl(rawUrl, unitName)) {

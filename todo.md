@@ -938,3 +938,7 @@
 
 ### Sei Building Unit Visibility Fix (Sep 7, 2026)
 - [x] Fix the Sei building-page filter so source-status New units render on initial open, while Available remains an explicit operational availability filter
+
+### Sei Unit Detail and Floor-Link Fix (Sep 7, 2026)
+- [x] Prevent Sei unit detail pages from navigating back to the building while their unit query is still resolving
+- [x] Derive and validate a Building/Floor-only Aldar destination from each Sei unit code, and expose it on the corresponding card without inventing an apartment-level URL

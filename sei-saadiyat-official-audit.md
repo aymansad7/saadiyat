@@ -19,6 +19,8 @@ The total is 778. A zero price is treated as **unpublished**, not as AED 0 and n
 
 On 7 September 2026, the supplied link for `SeiSaadiyat-T4-05-07` loaded the official World of Aldar **Sei Saadiyat** interactive environment with its supplied `unit` identifier as the query parameter. It did not expose a stable path containing the human unit code. The import must therefore retain the supplied URL verbatim as its exact source route and must not derive a lookalike unit path.
 
+The supplied locator for `SeiSaadiyat-T6-16-02` also opened the official Sei interactive environment and focused the **Sei Six** building. The reviewed route does not publish a separate stable URL parameter for Floor 16, so any website label may identify `Building 6 · Floor 16` from the source unit code, but must continue to open the exact supplied locator rather than fabricate a floor-only World of Aldar URL.
+
 ## Sync boundary
 
 The workbook is an owner-supplied Aldar export and records `New` as its source status. It contains no published unit prices at capture. A subsequent official price sync may update a unit only when an official source supplies a value tied to that exact source unit code or supplied unit identifier.

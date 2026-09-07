@@ -13,9 +13,9 @@ if (source.project?.slug !== "sei-saadiyat" || source.project?.unit_count !== 77
 
 const publicUnit = (unit) => ({
   unit_name: unit.unit_name,
-  // No exact human-code detail page has been demonstrated for Sei. Preserve
-  // source locators privately; never expose the generic project map as a unit link.
-  aldar_link: null,
+  // This is the exact source-backed World of Aldar interactive locator. The
+  // server validates it against this specific unit before redirecting.
+  aldar_link: unit.aldar_link,
   unit_type: unit.unit_type,
   unit_category: unit.unit_category,
   unit_model: unit.unit_model,

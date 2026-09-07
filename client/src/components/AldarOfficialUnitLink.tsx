@@ -5,12 +5,13 @@ type Props = {
   aldarLink: string | null | undefined;
   unitName: string | null | undefined;
   projectSlug: string | null | undefined;
+  label?: string;
   compact?: boolean;
   className?: string;
 };
 
 /** Opens only the exact source-backed Aldar unit URL through the safe verifier. */
-export default function AldarOfficialUnitLink({ aldarLink, unitName, projectSlug, compact = false, className }: Props) {
+export default function AldarOfficialUnitLink({ aldarLink, unitName, projectSlug, label, compact = false, className }: Props) {
   if (!unitName || !projectSlug) {
     return <span className={cn("text-xs text-muted-foreground", className)}>Official Aldar unit link unavailable</span>;
   }
@@ -29,7 +30,7 @@ export default function AldarOfficialUnitLink({ aldarLink, unitName, projectSlug
         className,
       )}
     >
-      {compact ? "Official Aldar" : "Open exact Aldar unit page"} <ExternalLink className={compact ? "h-3 w-3" : "h-3.5 w-3.5"} />
+      {label ?? (compact ? "Official Aldar" : "Open exact Aldar unit page")} <ExternalLink className={compact ? "h-3 w-3" : "h-3.5 w-3.5"} />
     </a>
   );
 }

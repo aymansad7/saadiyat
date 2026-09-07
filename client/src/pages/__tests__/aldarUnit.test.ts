@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parsePaymentPlans } from "../AldarUnit";
+import { parsePaymentPlans, seiBuildingFloorLabel } from "../AldarUnit";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { statusTone } from "@/data/aldar";
 
@@ -121,5 +121,17 @@ describe("breakdownForUnits + actionableCount", () => {
     expect(bd.total).toBe(10);
     // actionable = available + new + booked + blocked + reserved
     expect(actionableCount(bd)).toBe(6);
+  });
+});
+
+describe("seiBuildingFloorLabel", () => {
+  it("uses the documented source code to name a building and floor without creating an apartment URL", () => {
+    expect(seiBuildingFloorLabel("sei-saadiyat", "SeiSaadiyat-T6-16-02")).toBe("Open Building 6 · Floor 16 plan");
+    expect(seiBuildingFloorLabel("sei-saadiyat", "SeiSaadiyat-T1-01-01")).toBe("Open Building 1 · Floor 1 plan");
+  });
+
+  it("does not infer a floor label for another project or an unrecognized code", () => {
+    expect(seiBuildingFloorLabel("mamsha-gardens", "SeiSaadiyat-T6-16-02")).toBeNull();
+    expect(seiBuildingFloorLabel("sei-saadiyat", "SeiSaadiyat-T6-penthouse")).toBeNull();
   });
 });

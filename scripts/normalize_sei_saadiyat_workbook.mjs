@@ -94,12 +94,10 @@ const units = rows.map(row => {
     building_slug: tower.slug,
     building_name: tower.name,
     source_tower: tower.raw,
-    // The supplied route is an official project-map route with an opaque unit
-    // identifier, not a demonstrated unit-detail page. It remains in the
-    // private source record and no generic project page is exposed as a unit link.
-    aldar_link: null,
-    source_unit_id: sourceLocator.unitId,
-    source_unit_locator: sourceLocator.url,
+    // The supplied route is an official project-interactive route with an
+    // opaque source-unit identifier. The server verifies it against this exact
+    // unit before redirecting; no apartment or floor path is derived.
+    aldar_link: sourceLocator.url,
     unit_type: toText(row.unitType),
     unit_category: toText(row.unitCategory),
     unit_model: toText(row.unitModel),

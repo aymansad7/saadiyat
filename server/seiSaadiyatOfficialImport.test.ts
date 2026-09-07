@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { seiSaadiyatOfficialExportRows } from "./seiSaadiyatOfficialExport";
 import { getSaadiyatDataset } from "./routers/aldarSaadiyat";
+import { getExactOfficialAldarUnitUrl } from "./aldarOfficialLink";
 
 describe("Sei Saadiyat official import", () => {
-  it("keeps all 778 exact source units in six distinct buildings without fabricating prices or unit links", () => {
+  it("keeps all 778 exact source units in six distinct buildings without fabricating prices or public unit routes", () => {
     const project = getSaadiyatDataset().projects.find(item => item.slug === "sei-saadiyat");
     expect(project).toBeDefined();
     expect(project?.name).toBe("Sei Saadiyat");
@@ -21,7 +22,14 @@ describe("Sei Saadiyat official import", () => {
     expect(new Set(units.map(unit => unit.unit_name))).toHaveLength(778);
     expect(units.every(unit => unit.status === "New")).toBe(true);
     expect(units.every(unit => unit.price_aed == null)).toBe(true);
-    expect(units.every(unit => unit.aldar_link == null)).toBe(true);
+    expect(units.every(unit => {
+      if (!unit.aldar_link) return false;
+      const url = new URL(unit.aldar_link);
+      return url.hostname === "world.aldar.com"
+        && url.pathname === "/uae/abudhabi/seisaadiyat"
+        && Boolean(url.searchParams.get("unit"));
+    })).toBe(true);
+    expect(units.every(unit => getExactOfficialAldarUnitUrl(unit.aldar_link, unit.unit_name, "sei-saadiyat") === unit.aldar_link)).toBe(true);
     expect(units.some(unit => unit.unit_name === "SeiSaadiyat-T4-05-07")).toBe(true);
   });
 
