@@ -927,3 +927,8 @@
 
 ### Resilient Tab Resume (Sep 5, 2026)
 - [x] Keep the last successfully rendered unit/project page visible when the browser returns from another tab, while refreshing protected data in the background without a white loading screen
+
+### Map and Card Editing Parity (Sep 5, 2026)
+- [x] Make the authorized unit editor available from the interactive-map property card and refresh the map card immediately after a saved unit edit
+- [x] Keep card and map fields synchronized for price, availability, property areas, and owner facts under the existing scoped-access policy
+- [x] Reserve green map markers and availability indicators exclusively for units whose operational listing status is Available

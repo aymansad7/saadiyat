@@ -27,6 +27,15 @@ describe("external card and Interactive Map card parity", () => {
     expect(mapSource).toContain("enabled: Boolean(user)");
   });
 
+  it("allows an authorised editor to update the exact map-card unit and refreshes its marker data", () => {
+    const editorSource = read("client/src/components/ListingEditor.tsx");
+    expect(mapSource).toContain('data-map-edit-marker="${m.id}"');
+    expect(mapSource).toContain("setEditingMarker(selectedMarker)");
+    expect(mapSource).toContain("<ListingEditor");
+    expect(mapSource).toContain("handleMapReady(mapRef.current)");
+    expect(editorSource).toContain("utils.villaListings.listByCommunity.invalidate()");
+  });
+
   it.each([
     ["Lagoons", "client/src/components/LagoonsVillaCard.tsx", "InteractiveMapLink"],
     ["St. Regis", "client/src/components/VillaCard.tsx", "InteractiveMapLink"],

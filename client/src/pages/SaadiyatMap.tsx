@@ -173,7 +173,10 @@ function parseCurrentOwnerCrm(value: string | null | undefined): MapMarkerData["
 }
 
 export function getMapMarkerColor(marker: Pick<MapMarkerData, "community" | "availabilityStatus" | "listing" | "markerColor">) {
-  if (marker.availabilityStatus === "available" || marker.listing) return "#10B981";
+  // Green is reserved for the operational Available state saved on the unified
+  // card. A historical listing, source price, or other broker badge alone must
+  // never make a map dot look available.
+  if (marker.availabilityStatus === "available") return "#10B981";
   return marker.markerColor ?? COMMUNITY_CENTERS[marker.community as keyof typeof COMMUNITY_CENTERS]?.color ?? "#6B7280";
 }
 
@@ -1112,19 +1115,18 @@ export default function SaadiyatMap() {
       const stopIndex = Math.min(nextIndex + batchSize, markerData.length);
       for (; nextIndex < stopIndex; nextIndex += 1) {
         const m = markerData[nextIndex]!;
-        const isListed = !!m.listing;
         const isAvailable = m.availabilityStatus === "available";
         const pin = document.createElement("div");
-        pin.style.width = isListed || isAvailable ? "16px" : "12px";
-        pin.style.height = isListed || isAvailable ? "16px" : "12px";
+        pin.style.width = isAvailable ? "16px" : "12px";
+        pin.style.height = isAvailable ? "16px" : "12px";
         pin.style.borderRadius = "50%";
         pin.style.backgroundColor = getMapMarkerColor(m);
-        pin.style.border = isListed || isAvailable ? "3px solid #065F46" : "2px solid white";
-        pin.style.boxShadow = isListed || isAvailable ? "0 0 8px rgba(16,185,129,0.6)" : "0 1px 3px rgba(0,0,0,0.3)";
+        pin.style.border = isAvailable ? "3px solid #065F46" : "2px solid white";
+        pin.style.boxShadow = isAvailable ? "0 0 8px rgba(16,185,129,0.6)" : "0 1px 3px rgba(0,0,0,0.3)";
         pin.style.cursor = "pointer";
         pin.style.transition = "transform 160ms cubic-bezier(0.23, 1, 0.32, 1), outline-color 160ms ease-out";
-        pin.dataset.available = String(isListed || isAvailable);
-        if (isListed || isAvailable) {
+        pin.dataset.available = String(isAvailable);
+        if (isAvailable) {
           pin.style.animation = "pulse 2s infinite";
           pin.style.zIndex = "10";
         }
@@ -1407,7 +1409,7 @@ export default function SaadiyatMap() {
           <div className="pointer-events-auto inline-flex bg-background/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-border/50 text-xs text-muted-foreground">
             <div className="flex items-center gap-1.5">
               <span className="inline-block w-3 h-3 rounded-full bg-emerald-500 border-2 border-emerald-800 shadow-[0_0_4px_rgba(16,185,129,0.6)]" />
-              <span className="font-medium text-emerald-700">Available ({markerData.filter(m => m.availabilityStatus === "available").length}) · Listed ({markerData.filter(m => m.listing).length})</span>
+              <span className="font-medium text-emerald-700">Available ({markerData.filter(m => m.availabilityStatus === "available").length})</span>
             </div>
           </div>
         </div>

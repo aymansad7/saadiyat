@@ -82,12 +82,12 @@ describe("Unified map property cards", () => {
     expect(privateVilla?.dcrHref).toContain("geosmart.dmt.gov.ae/dcr/");
   });
 
-  it("reserves green strictly for documented available or listed markers", () => {
+  it("reserves green strictly for the documented operational Available state", () => {
     expect(getMapMarkerColor({ community: "saadiyat-beach-villas" })).not.toBe("#10B981");
     expect(getMapMarkerColor({ community: "lagoons-hidden-sl9" })).not.toBe("#10B981");
     expect(getMapMarkerColor({ community: "hidd" })).not.toBe("#10B981");
     expect(getMapMarkerColor({ community: "four-seasons", availabilityStatus: "available" })).toBe("#10B981");
-    expect(getMapMarkerColor({ community: "jawaher", listing: {} as never })).toBe("#10B981");
+    expect(getMapMarkerColor({ community: "jawaher", listing: {} as never })).not.toBe("#10B981");
     expect(Object.values(COMMUNITY_CENTERS).filter((item) => item.color === "#10B981")).toHaveLength(0);
   });
 
