@@ -16,6 +16,7 @@ import { buildSyncChangeSummary, shouldNotifyInventoryOwner } from "./inventoryS
 import { notifyOwner } from "./_core/notification";
 import { sdk } from "./_core/sdk";
 import { refreshAlGhadeerOfficialInventory } from "./alGhadeerOfficialSync";
+import { refreshSeiSaadiyatOfficialInventory } from "./seiSaadiyatOfficialSync";
 
 /** Header Heartbeat sets to the triggering cron task UID. */
 const CRON_TASK_HEADER = "x-manus-cron-task-uid";
@@ -71,6 +72,28 @@ export async function inventorySyncScheduledHandler(req: Request, res: Response)
       snapshotSource: "bundled Aldar inventory snapshot plus World of Aldar Al Ghadeer capture",
       captureDate,
     });
+  } catch (err) {
+    const e = err as Error;
+    return res.status(500).json({
+      error: e?.message ?? String(err),
+      stack: e?.stack,
+      context: { url: req.originalUrl },
+      timestamp: new Date().toISOString(),
+    });
+  }
+}
+
+/** Hourly official Sei price monitor. The cron disables itself after first valid pricing. */
+export async function seiPriceMonitorScheduledHandler(req: Request, res: Response) {
+  try {
+    const caller = await sdk.authenticateRequest(req);
+    if (!caller.isCron || !caller.taskUid) return res.status(403).json({ error: "cron-only" });
+    const result = await refreshSeiSaadiyatOfficialInventory({
+      trigger: "scheduled",
+      triggeredBy: `cron:${caller.taskUid}`,
+      monitorTaskUid: caller.taskUid,
+    });
+    return res.json({ ok: true, ...result });
   } catch (err) {
     const e = err as Error;
     return res.status(500).json({

@@ -942,3 +942,7 @@
 ### Sei Unit Detail and Floor-Link Fix (Sep 7, 2026)
 - [x] Prevent Sei unit detail pages from navigating back to the building while their unit query is still resolving
 - [x] Derive and validate a Building/Floor-only Aldar destination from each Sei unit code, and expose it on the corresponding card without inventing an apartment-level URL
+
+### Sei Official Price Monitoring (Sep 7, 2026)
+- [ ] Verify Sei Saadiyat is included in the existing Aldar sync and that AED 1 placeholder values are excluded from published-price detection
+- [ ] Run hourly official-price checks from 08:00 Gulf time beginning Sep 8, 2026, and notify the project owner immediately when the first valid Sei price is published

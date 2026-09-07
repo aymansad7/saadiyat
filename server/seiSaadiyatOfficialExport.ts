@@ -32,19 +32,19 @@ async function recordEvent(input: { eventType: "upload" | "workbook_export"; ide
   });
 }
 
-async function sourceFolder() {
+async function sourceFolder(captureDate = SEI_CAPTURE_DATE) {
   const configured = await getConfiguredOneDrive();
   const folderId = await ensureFolderPath(configured.drive.id, configured.root.id, [
     "Operations",
     "Official-Snapshots",
     "World-of-Aldar",
-    SEI_CAPTURE_DATE,
+    captureDate,
   ]);
   return { configured, folderId };
 }
 
-export async function archiveSeiSaadiyatSourceFiles(files: Array<{ filename: string; bytes: Buffer; mimeType: string }>) {
-  const { configured, folderId } = await sourceFolder();
+export async function archiveSeiSaadiyatSourceFiles(files: Array<{ filename: string; bytes: Buffer; mimeType: string }>, captureDate = SEI_CAPTURE_DATE) {
+  const { configured, folderId } = await sourceFolder(captureDate);
   const saved: Array<{ filename: string; itemId: string }> = [];
   for (const file of files) {
     const item = await uploadOneDriveFile({
@@ -57,9 +57,9 @@ export async function archiveSeiSaadiyatSourceFiles(files: Array<{ filename: str
     if (!item.id) throw new Error(`OneDrive did not return an item identifier for ${file.filename}.`);
     await recordEvent({
       eventType: "upload",
-      idempotencyKey: `official-world-of-aldar-sei:${SEI_CAPTURE_DATE}:${file.filename}`,
+      idempotencyKey: `official-world-of-aldar-sei:${captureDate}:${file.filename}`,
       summary: `Archived Sei Saadiyat source: ${file.filename}.`,
-      details: { source: "Project-owner supplied Aldar unit export", captureDate: SEI_CAPTURE_DATE, filename: file.filename, itemId: item.id },
+      details: { source: "Official World of Aldar Sei capture", captureDate, filename: file.filename, itemId: item.id },
     });
     saved.push({ filename: file.filename, itemId: item.id });
   }
