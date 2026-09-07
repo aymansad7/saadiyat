@@ -935,3 +935,6 @@
 
 ### Sei Saadiyat Official Import (Sep 7, 2026)
 - [x] Profile Aldar_Sei_Saadiyat_778_Units_FULL.xlsx, import exact source units into a dedicated Saadiyat project with Buildings 1–6, and prepare it for the existing official daily pricing sync without inventing prices or availability
+
+### Sei Building Unit Visibility Fix (Sep 7, 2026)
+- [x] Fix the Sei building-page filter so source-status New units render on initial open, while Available remains an explicit operational availability filter

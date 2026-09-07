@@ -48,6 +48,14 @@ function aldarUnitScope(buildingKey: string, unit: any) {
   };
 }
 
+/** Master access is universal; non-Master access remains grant-based and deny-by-default. */
+export function canRenderAldarBuildingUnit(
+  role: string | null | undefined,
+  permissions: { canAccess?: boolean } | undefined,
+) {
+  return role === "master" || permissions?.canAccess === true;
+}
+
 export default function AldarBuilding() {
   const { user } = useAuth();
   const { project: projectSlug, building: buildingSlug } = useParams<{
@@ -95,7 +103,10 @@ export default function AldarBuilding() {
 
   const units = useMemo(() => {
     let list = allUnits.filter((unit: any) =>
-      permissionsByScope.get(propertyScopeKey(aldarUnitScope(buildingSlug ?? "", unit)))?.canAccess === true,
+      canRenderAldarBuildingUnit(
+        user?.role,
+        permissionsByScope.get(propertyScopeKey(aldarUnitScope(buildingSlug ?? "", unit))),
+      ),
     );
     const q = query.trim().toLowerCase();
     list = list.filter((u: any) => {
@@ -156,7 +167,7 @@ export default function AldarBuilding() {
       });
     }
     return list;
-  }, [allUnits, availableOnly, bedroomFilter, sort, query, areaUnit, areaMin, areaMax, permissionsByScope, buildingSlug]);
+  }, [allUnits, availableOnly, bedroomFilter, sort, query, areaUnit, areaMin, areaMax, permissionsByScope, buildingSlug, user?.role]);
 
   // Bulk-fetch all listings for units in this building (before any early
   // returns — hook order must be stable).
