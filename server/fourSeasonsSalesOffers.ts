@@ -2,8 +2,15 @@ export type FourSeasonsSalesOffer = {
   villaNumber: number;
   bedrooms: 5 | 6 | 7;
   askingPriceAed: number;
-  filename: "5Bedroom.pdf" | "6Bedroom.pdf" | "FourSeasons-7BedroomMansionsProposal..pdf";
+  filename: "5Bedroom.pdf" | "6Bedroom.pdf" | "FourSeasons-7BedroomMansionsProposal..pdf" | "7-OfferLetter.pdf";
   offerLabel: string;
+};
+
+export type FourSeasonsSupportingDocument = {
+  villaNumber: number;
+  bedrooms: 5 | 6 | 7;
+  filename: "Mansion7-FourSeasons.pdf";
+  documentLabel: string;
 };
 
 /**
@@ -27,6 +34,17 @@ export const FOUR_SEASONS_SALES_OFFERS: readonly FourSeasonsSalesOffer[] = [
   { villaNumber: 2, bedrooms: 7, askingPriceAed: 320_000_000, filename: "FourSeasons-7BedroomMansionsProposal..pdf", offerLabel: "Four Seasons 7 Bedroom Mansions Sales Offer" },
   { villaNumber: 3, bedrooms: 7, askingPriceAed: 320_000_000, filename: "FourSeasons-7BedroomMansionsProposal..pdf", offerLabel: "Four Seasons 7 Bedroom Mansions Sales Offer" },
   { villaNumber: 4, bedrooms: 7, askingPriceAed: 320_000_000, filename: "FourSeasons-7BedroomMansionsProposal..pdf", offerLabel: "Four Seasons 7 Bedroom Mansions Sales Offer" },
+  { villaNumber: 7, bedrooms: 7, askingPriceAed: 320_000_000, filename: "7-OfferLetter.pdf", offerLabel: "Four Seasons 7 Bedroom Villa 7 Sales Offer" },
+] as const;
+
+/** Supporting floor-plan/marketing documents that never replace an offer price. */
+export const FOUR_SEASONS_SUPPORTING_DOCUMENTS: readonly FourSeasonsSupportingDocument[] = [
+  {
+    villaNumber: 7,
+    bedrooms: 7,
+    filename: "Mansion7-FourSeasons.pdf",
+    documentLabel: "Four Seasons Beach Mansion 7 Floor Plan",
+  },
 ] as const;
 
 export const FOUR_SEASONS_OFFER_SOURCE_LABEL = "Owner-supplied Four Seasons Sales Offer PDFs · 2026-09-08";

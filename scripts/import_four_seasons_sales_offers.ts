@@ -7,6 +7,7 @@ import { getDb } from "../server/db";
 import {
   FOUR_SEASONS_OFFER_SOURCE_LABEL,
   FOUR_SEASONS_SALES_OFFERS,
+  FOUR_SEASONS_SUPPORTING_DOCUMENTS,
   fourSeasonsVillaKey,
 } from "../server/fourSeasonsSalesOffers";
 import {
@@ -23,7 +24,9 @@ const actor = "owner-supplied-four-seasons-offers-2026-09-08";
 const actorName = "Owner-supplied Four Seasons offers";
 const sourceFiles = new Map<string, { bytes: Buffer; mimeType: string }>();
 
-for (const filename of new Set(FOUR_SEASONS_SALES_OFFERS.map(offer => offer.filename))) {
+const offeredFilenames = FOUR_SEASONS_SALES_OFFERS.map(offer => offer.filename);
+const supportingFilenames = FOUR_SEASONS_SUPPORTING_DOCUMENTS.map(document => document.filename);
+for (const filename of new Set([...offeredFilenames, ...supportingFilenames])) {
   sourceFiles.set(filename, {
     bytes: Buffer.from(await readFile(resolve(uploadDir, filename))),
     mimeType: "application/pdf",
@@ -38,6 +41,8 @@ const configured = await getConfiguredOneDrive();
 let listingsUpdated = 0;
 let offersUploaded = 0;
 let existingOffersRetained = 0;
+let supportingDocumentsUploaded = 0;
+let existingSupportingDocumentsRetained = 0;
 for (const offer of FOUR_SEASONS_SALES_OFFERS) {
   const villaKey = fourSeasonsVillaKey(offer.villaNumber);
   if (!canonicalKeys.has(villaKey)) throw new Error(`Four Seasons canonical unit is missing: ${villaKey}`);
@@ -103,6 +108,18 @@ for (const offer of FOUR_SEASONS_SALES_OFFERS) {
     mimeType: file.mimeType,
   });
   if (!item.id) throw new Error(`OneDrive did not return an item for ${villaKey}.`);
+  const existingByDriveItem = (await db.select().from(unitDocuments).where(and(
+    eq(unitDocuments.driveId, configured.drive.id),
+    eq(unitDocuments.itemId, item.id),
+    isNull(unitDocuments.removedAt),
+  )).limit(1))[0];
+  if (existingByDriveItem) {
+    if (existingByDriveItem.villaKey !== villaKey) {
+      throw new Error(`OneDrive item ${item.id} is already linked to a different unit.`);
+    }
+    existingOffersRetained += 1;
+    continue;
+  }
   const shareUrl = await createOneDriveViewLink({ driveId: configured.drive.id, itemId: item.id });
   await db.insert(unitDocuments).values({
     villaKey,
@@ -124,6 +141,69 @@ for (const offer of FOUR_SEASONS_SALES_OFFERS) {
     uploadedByName: actorName,
   });
   offersUploaded += 1;
+}
+
+for (const document of FOUR_SEASONS_SUPPORTING_DOCUMENTS) {
+  const villaKey = fourSeasonsVillaKey(document.villaNumber);
+  if (!canonicalKeys.has(villaKey)) throw new Error(`Four Seasons canonical unit is missing: ${villaKey}`);
+  const existing = (await db.select().from(unitDocuments).where(and(
+    eq(unitDocuments.villaKey, villaKey),
+    eq(unitDocuments.filename, document.filename),
+    eq(unitDocuments.documentType, "marketing"),
+    isNull(unitDocuments.removedAt),
+  )).limit(1))[0];
+  if (existing) {
+    existingSupportingDocumentsRetained += 1;
+    continue;
+  }
+  const file = sourceFiles.get(document.filename);
+  if (!file) throw new Error(`Supporting document file missing: ${document.filename}`);
+  const folderId = await ensureFolderPath(configured.drive.id, configured.root.id, unitFolderPath({
+    community: "four-seasons",
+    villaKey,
+    documentType: "marketing",
+  }));
+  const item = await uploadOneDriveFile({
+    driveId: configured.drive.id,
+    parentItemId: folderId,
+    filename: document.filename,
+    bytes: file.bytes,
+    mimeType: file.mimeType,
+  });
+  if (!item.id) throw new Error(`OneDrive did not return an item for ${villaKey}.`);
+  const existingByDriveItem = (await db.select().from(unitDocuments).where(and(
+    eq(unitDocuments.driveId, configured.drive.id),
+    eq(unitDocuments.itemId, item.id),
+    isNull(unitDocuments.removedAt),
+  )).limit(1))[0];
+  if (existingByDriveItem) {
+    if (existingByDriveItem.villaKey !== villaKey) {
+      throw new Error(`OneDrive item ${item.id} is already linked to a different unit.`);
+    }
+    existingSupportingDocumentsRetained += 1;
+    continue;
+  }
+  const shareUrl = await createOneDriveViewLink({ driveId: configured.drive.id, itemId: item.id });
+  await db.insert(unitDocuments).values({
+    villaKey,
+    community: "four-seasons",
+    documentType: "marketing",
+    websiteVisibility: "card_link",
+    shareAccess: "anyone_link",
+    filename: item.name || document.filename,
+    mimeType: item.file?.mimeType || file.mimeType,
+    sizeBytes: item.size ?? file.bytes.length,
+    description: `${document.documentLabel} · Supporting document; does not set a price.`,
+    driveId: configured.drive.id,
+    itemId: item.id,
+    parentItemId: folderId,
+    webUrl: item.webUrl ?? null,
+    shareUrl,
+    etag: item.eTag ?? null,
+    uploadedBy: actor,
+    uploadedByName: actorName,
+  });
+  supportingDocumentsUploaded += 1;
 }
 
 const videos = [
@@ -176,6 +256,8 @@ console.log(JSON.stringify({
   listingsUpdated,
   offersUploaded,
   existingOffersRetained,
+  supportingDocumentsUploaded,
+  existingSupportingDocumentsRetained,
   videosArchived,
   unitRegister: { profileCount: unitRegister.profileCount },
 }, null, 2));

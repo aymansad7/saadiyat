@@ -23,3 +23,12 @@ The 7BR proposal identifies itself as a WhatsApp-shared document dated 12 July 2
 | `VIDEO-2026-09-08-10-44-53.mp4` | “Private Residences” only; no unit number, bedroom count, or offer label | Unassigned pending a documented 5BR/6BR/7BR label |
 
 The videos may be archived in OneDrive now as unassigned Four Seasons media. They must not be attached to a bedroom category or villa until the project owner supplies the mapping, because no category is demonstrated in the media itself.
+
+## Additional 7BR documents — 8 September 2026
+
+| File | Confirmed villa | Documented facts | Intended protected card relation |
+| --- | --- | --- | --- |
+| `7-OfferLetter.pdf` | Villa 7 | The Private Residences Saadiyat Beach, 7BR Villa, 28,013 sq ft saleable area, 23,746 sq ft plot area, AED 320,000,000 sale price, dated 8 September 2026 | Current Sales Offer for Villa 7 |
+| `Mansion7-FourSeasons.pdf` | Mansion/Villa 7 | Scanned Four Seasons Private Residences document; Beach Mansion, seven bedroom, Villa 7, 28,354 sq ft saleable area, 23,746 sq ft plot area | Supporting floor-plan/marketing document for Villa 7; no sale price shown in reviewed pages |
+
+Both documents identify Villa 7 directly. The Offer Letter is the only one of the two that supports the AED 320,000,000 commercial price. The supporting document must not overwrite the offer price or be represented as a separate unit.

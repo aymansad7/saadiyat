@@ -958,3 +958,9 @@
 - [x] Mark only confirmed matching Four Seasons units Available, preserving sale provenance and the green map/card state
 - [x] Archive each sales offer privately in OneDrive and create a permission-checked Open Sales Offer action on its exact unit card
 - [ ] When supplied, archive the three videos in OneDrive and attach them only to the documented 5BR, 6BR, or 7BR unit category
+
+### Four Seasons Additional 7BR Offers (Sep 8, 2026)
+- [x] Extract exact mansion/unit references and prices from 7-OfferLetter.pdf and Mansion7-FourSeasons.pdf; mark Villa 7 Available at AED 320,000,000 and attach the Offer Letter plus price-neutral Mansion7 supporting document
+
+### Sei Price Change Verification (Sep 8, 2026)
+- [x] Compare stored price history and the live official Sei source: no valid published price or price-change event exists; the verified AED 1 sample remains an excluded placeholder
