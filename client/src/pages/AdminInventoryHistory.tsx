@@ -250,7 +250,7 @@ export default function AdminInventoryHistory() {
   const syncNow = trpc.inventoryHistory.syncNow.useMutation({
     onSuccess: res => {
       toast.success(
-        `Sync complete — ${res.summary.headline}`,
+        `Sync complete — ${res.summary.headline} · Sei: ${res.liveSources.seiSaadiyat.skipped ?? `${res.liveSources.seiSaadiyat.publishedPriceCount} official prices`}`,
       );
       utils.inventoryHistory.latestRun.invalidate();
       utils.inventoryHistory.runs.invalidate();
@@ -366,6 +366,7 @@ export default function AdminInventoryHistory() {
             <div className="flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary"><History className="h-3.5 w-3.5" /> Aldar sales desk</div>
             <h1 className="mt-1 font-display text-3xl text-foreground">Current inventory, ready for a client meeting</h1>
             <p className="mt-1 text-sm text-muted-foreground">Last recorded snapshot: <span className="font-medium text-foreground">{fmtDateTime(run?.startedAt)}</span> · sync status <span className="font-medium">{run?.status ?? "—"}</span></p>
+            <p className="mt-1 text-xs text-muted-foreground">Run sync now refreshes enabled live official sources: Al Ghadeer and Sei Saadiyat. Other inventory remains on its latest recorded official snapshot until its own live source is enabled.</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" className="bg-card" onClick={() => setImportOpen(v => !v)}><Upload className="h-4 w-4 mr-2" /> Import updated JSON</Button>

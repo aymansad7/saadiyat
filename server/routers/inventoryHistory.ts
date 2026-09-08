@@ -23,7 +23,7 @@ import {
   listRuns,
   runInventorySync,
 } from "../inventorySync";
-import { refreshAlGhadeerOfficialInventory } from "../alGhadeerOfficialSync";
+import { runManualOfficialAldarRefresh } from "../manualOfficialAldarRefresh";
 
 /** Loose schema for an uploaded Aldar dataset (projects → buildings → units). */
 const rawDatasetSchema = z
@@ -93,14 +93,29 @@ export const inventoryHistoryRouter = router({
       return { events };
     }),
 
-  /** Manually refresh official Ghadeer first, then sync all current inventory. */
+  /** Refresh every enabled official live source, then record each source's result. */
   syncNow: adminProcedure.mutation(async ({ ctx }) => {
     const who = ctx.user?.email || ctx.user?.name || "admin";
-    const { captureDate, runId, counts, rollups, newProjects } = await refreshAlGhadeerOfficialInventory({
-      trigger: "manual",
-      triggeredBy: who,
-    });
-    return { captureDate, runId, counts, rollups, newProjects, summary: buildSyncChangeSummary(counts, rollups) };
+    const { ghadeer, sei } = await runManualOfficialAldarRefresh(who);
+    const ghadeerResult = ghadeer as Awaited<ReturnType<typeof import("../alGhadeerOfficialSync").refreshAlGhadeerOfficialInventory>>;
+    const seiResult = sei as Awaited<ReturnType<typeof import("../seiSaadiyatOfficialSync").refreshSeiSaadiyatOfficialInventory>>;
+    return {
+      captureDate: ghadeerResult.captureDate,
+      runId: ghadeerResult.runId,
+      counts: ghadeerResult.counts,
+      rollups: ghadeerResult.rollups,
+      newProjects: ghadeerResult.newProjects,
+      summary: buildSyncChangeSummary(ghadeerResult.counts, ghadeerResult.rollups),
+      liveSources: {
+        alGhadeer: { captureDate: ghadeerResult.captureDate, runId: ghadeerResult.runId },
+        seiSaadiyat: {
+          captureDate: seiResult.captureDate,
+          runId: "runId" in seiResult ? seiResult.runId : null,
+          publishedPriceCount: seiResult.publishedPriceCount,
+          skipped: "skipped" in seiResult ? seiResult.skipped : null,
+        },
+      },
+    };
   }),
 
   /**

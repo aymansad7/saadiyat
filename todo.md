@@ -949,3 +949,6 @@
 
 ### Aldar World Sync Integration Package Review (Sep 8, 2026)
 - [x] Inspect the uploaded integration package without executing its contents; independently verify and adopt the public locationId unit-detail endpoint with exact-unit provenance, bounded server-side concurrency, and AED 1 exclusion
+
+### Manual Sync Now Coverage (Sep 8, 2026)
+- [x] Audit the Master Admin Sync Now action and include every active live official capture—Al Ghadeer and Sei—sequentially, while clearly reporting their refreshed scope and excluding non-live snapshots
