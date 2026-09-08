@@ -5,10 +5,9 @@ import SiteHeader from "@/components/SiteHeader";
 import AreaFilterControls, { type AreaViewMode } from "@/components/AreaFilterControls";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { EditListingButton, ListingOwnerFacts, ListingPropertyFacts, ListingPriceLabel } from "@/components/ListingControls";
+import { EditListingButton, ListingOwnerFacts, ListingPropertyFacts, ListingPriceLabel, OneDriveCardLinks } from "@/components/ListingControls";
 import { useListingIndex, type ListingIndexEntry } from "@/hooks/useListingIndex";
 import {
-  FOUR_SEASONS_AVAILABILITY_DATE,
   FOUR_SEASONS_MASTERPLAN_IMAGE,
   FOUR_SEASONS_MASTERPLAN_PDF,
   FOUR_SEASONS_VILLAS,
@@ -31,6 +30,16 @@ const AED = new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 });
 
 function formatPrice(value: number | null) {
   return value ? `AED ${AED.format(value)}` : "—";
+}
+
+function isAvailableNow(villa: FourSeasonsVilla, listing?: ListingIndexEntry | null) {
+  return listing?.status && listing.status !== "draft"
+    ? listing.status === "available"
+    : villa.status === "available";
+}
+
+function currentAskingPrice(villa: FourSeasonsVilla, listing?: ListingIndexEntry | null) {
+  return listing?.askingPriceAed ?? villa.askingPriceAed;
 }
 
 function scrollToVilla(villaNumber: number) {
@@ -75,7 +84,7 @@ export default function FourSeasons() {
     return FOUR_SEASONS_VILLAS.filter((villa) => {
       const landArea = getVillaLandArea(villa);
       const totalArea = getVillaTotalArea(villa);
-      if (status === "available" && villa.status !== "available") return false;
+      if (status === "available" && !isAvailableNow(villa, listingIndex.get(villa.villaKey))) return false;
       if (!isWithinAreaRange(landArea, areaUnit, areaMin, areaMax)) return false;
       if (!normalized) return true;
       return [villa.label, villa.villaType, villa.view ?? "", `${villa.bedrooms} br`, villa.sdn3PlotNumber ? `sdn3 plot ${villa.sdn3PlotNumber}` : ""]
@@ -83,9 +92,9 @@ export default function FourSeasons() {
         || matchesAreaQuery(normalized, landArea)
         || matchesAreaQuery(normalized, totalArea);
     });
-  }, [query, status, areaUnit, areaMin, areaMax]);
+  }, [query, status, areaUnit, areaMin, areaMax, listingIndex]);
 
-  const availableCount = FOUR_SEASONS_VILLAS.filter(villa => villa.status === "available").length;
+  const availableCount = FOUR_SEASONS_VILLAS.filter(villa => isAvailableNow(villa, listingIndex.get(villa.villaKey))).length;
   const visibleNumbers = new Set(filtered.map(villa => villa.villaNumber));
 
   const selectFromPlan = (villa: FourSeasonsVilla) => {
@@ -107,7 +116,7 @@ export default function FourSeasons() {
               <p className="font-mono text-[0.68rem] uppercase tracking-[0.2em] text-primary">Saadiyat Island</p>
               <h1 className="mt-2 font-display text-3xl sm:text-5xl font-semibold">Four Seasons Private Residences</h1>
               <p className="mt-3 max-w-3xl text-sm sm:text-base text-muted-foreground">
-                56 villas from the official master plan. Current availability is limited to the {availableCount} villas in the 23 Aug 2026 availability sheet.
+                56 villas from the official master plan. Current availability shows {availableCount} operational listings, including the owner-supplied sales offers recorded on 8 Sep 2026.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -154,7 +163,9 @@ export default function FourSeasons() {
                 const transactions = getFourSeasonsTransactions(villa.villaNumber);
                 const hasConfirmed = transactions.some((transaction) => transaction.confidence === "confirmed");
                 const hasPossible = transactions.some((transaction) => transaction.confidence === "possible");
-                const markerClass = villa.status === "available"
+                const listing = listingIndex.get(villa.villaKey);
+                const available = isAvailableNow(villa, listing);
+                const markerClass = available
                   ? "bg-emerald-500 text-white"
                   : hasConfirmed
                   ? "bg-violet-600 text-white"
@@ -165,7 +176,7 @@ export default function FourSeasons() {
                   <button
                     key={villa.villaKey}
                     type="button"
-                    title={`${villa.label}${villa.status === "available" ? ` — ${formatPrice(villa.askingPriceAed)}` : hasConfirmed ? " — confirmed municipal sale" : hasPossible ? " — possible municipal match" : ""}`}
+                    title={`${villa.label}${available ? ` — ${formatPrice(currentAskingPrice(villa, listing))}` : hasConfirmed ? " — confirmed municipal sale" : hasPossible ? " — possible municipal match" : ""}`}
                     aria-label={`Open ${villa.label}`}
                     onClick={() => selectFromPlan(villa)}
                     className={`absolute -translate-x-1/2 -translate-y-1/2 h-6 min-w-6 px-1 rounded-full border-2 border-white shadow-md text-[9px] font-bold transition-transform hover:scale-125 focus:outline-none focus:ring-2 focus:ring-primary ${markerClass} ${visibleNumbers.has(villa.villaNumber) ? "opacity-100" : "opacity-20"}`}
@@ -217,7 +228,7 @@ export default function FourSeasons() {
         {viewMode === "cards" ? (
           <section className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {filtered.map((villa) => (
-              <article id={`villa-${villa.villaNumber}`} key={villa.villaKey} className={`rounded-xl border bg-card p-5 scroll-mt-28 ${villa.status === "available" ? "border-emerald-500/60 shadow-emerald-100 shadow-sm" : "border-border"}`}>
+              <article id={`villa-${villa.villaNumber}`} key={villa.villaKey} className={`rounded-xl border bg-card p-5 scroll-mt-28 ${isAvailableNow(villa, listingIndex.get(villa.villaKey)) ? "border-emerald-500/60 shadow-emerald-100 shadow-sm" : "border-border"}`}>
                 <VillaSummary villa={villa} listing={listingIndex.get(villa.villaKey)} areaUnit={areaUnit} />
                 <div className="mt-4 border-t border-border pt-3 flex justify-end">
                   <EditListingButton villaKey={villa.villaKey} community="four-seasons" villaLabel={`Four Seasons · Villa ${villa.villaNumber}`} />
@@ -250,12 +261,12 @@ export default function FourSeasons() {
                   return (
                   <tr id={`villa-${villa.villaNumber}`} key={villa.villaKey} className="border-t border-border scroll-mt-28">
                     <td className="px-4 py-3 font-semibold">Villa {villa.villaNumber}<div className="text-xs font-normal text-muted-foreground">{villa.bedrooms} BR{villa.sdn3PlotNumber ? ` · SDN3 Plot ${villa.sdn3PlotNumber}` : ""}</div></td>
-                    <td className="px-4 py-3"><StatusBadge available={villa.status === "available"} /></td>
+                    <td className="px-4 py-3"><StatusBadge available={isAvailableNow(villa, listingIndex.get(villa.villaKey))} /></td>
                     <td className="px-4 py-3">{villa.villaType}<div className="text-xs text-muted-foreground">{villa.view ?? "—"}</div></td>
                     <td className="px-4 py-3 text-right font-mono">{formatArea(landArea, areaUnit)}</td>
                     <td className="px-4 py-3 text-right font-mono">{formatArea(totalArea, areaUnit)}</td>
                     <td className="px-4 py-3 text-right">{latest ? <><div className="font-semibold">{formatPrice(latest.priceAed)}</div><div className={`text-[0.65rem] ${latest.confidence === "confirmed" ? "text-violet-700" : "text-amber-700"}`}>{latest.date} · {latest.confidence}</div></> : "—"}</td>
-                    <td className="px-4 py-3 text-right font-semibold">{formatPrice(villa.askingPriceAed)}</td>
+                    <td className="px-4 py-3 text-right font-semibold">{formatPrice(currentAskingPrice(villa, listingIndex.get(villa.villaKey)))}</td>
                     <td className="px-4 py-3 text-right whitespace-nowrap"><Link className="text-primary hover:underline" href={`/map?plot=${encodeURIComponent(villa.villaKey)}`}>Map</Link>{floorplan && <a className="ml-3 text-primary hover:underline" href={floorplan.pdfUrl} target="_blank" rel="noreferrer">Floorplan</a>}<span className="inline-flex ml-3 align-middle"><EditListingButton villaKey={villa.villaKey} community="four-seasons" villaLabel={`Four Seasons · Villa ${villa.villaNumber}`} /></span></td>
                   </tr>
                   );
@@ -302,11 +313,13 @@ function VillaSummary({ villa, listing, areaUnit }: { villa: FourSeasonsVilla; l
   const confirmed = getConfirmedTransaction(villa.villaNumber);
   const landArea = getVillaLandArea(villa);
   const totalArea = getVillaTotalArea(villa);
+  const available = isAvailableNow(villa, listing);
+  const askingPrice = currentAskingPrice(villa, listing);
   return (
     <div>
       <div className="flex items-start justify-between gap-3">
         <div><p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">{villa.villaType}</p><h3 className="font-display text-2xl font-semibold">Villa {villa.villaNumber}</h3></div>
-        <StatusBadge available={villa.status === "available"} />
+        <StatusBadge available={available} />
       </div>
       <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
         <div><span className="text-xs text-muted-foreground">{confirmed && !villa.plotAreaSqm && !floorplan ? "ADREC land" : "Land"}</span><div className="font-semibold">{formatArea(landArea, areaUnit)}</div></div>
@@ -317,10 +330,10 @@ function VillaSummary({ villa, listing, areaUnit }: { villa: FourSeasonsVilla; l
       {listing?.askingPriceAed ? <div className="mt-3"><ListingPriceLabel askingPriceAed={listing.askingPriceAed} /></div> : null}
       <ListingPropertyFacts listing={listing} />
       <ListingOwnerFacts listing={listing} />
-      {villa.status === "available" && <div className="mt-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 p-3"><p className="text-xs text-emerald-700 dark:text-emerald-300">Updated {FOUR_SEASONS_AVAILABILITY_DATE}</p><p className="text-xl font-semibold mt-0.5">{formatPrice(villa.askingPriceAed)}</p></div>}
+      {available && <div className="mt-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 p-3"><p className="text-xs text-emerald-700 dark:text-emerald-300">Available · offer updated 8 Sep 2026</p><p className="text-xl font-semibold mt-0.5">{formatPrice(askingPrice)}</p></div>}
       {transactions.length > 0 && <FourSeasonsTransactionTimeline transactions={transactions} areaUnit={areaUnit} />}
-      {floorplan && villa.status !== "available" && <p className="mt-3 text-[0.68rem] text-muted-foreground">Plot and Sellable Area from the developer Floorplan. No current availability implied.</p>}
-      {!floorplan && villa.historicalSpecSource && villa.status !== "available" && <p className="mt-3 text-[0.68rem] text-muted-foreground">Areas from historical specification reference only. No current availability implied.</p>}
+      {floorplan && !available && <p className="mt-3 text-[0.68rem] text-muted-foreground">Plot and Sellable Area from the developer Floorplan. No current availability implied.</p>}
+      {!floorplan && villa.historicalSpecSource && !available && <p className="mt-3 text-[0.68rem] text-muted-foreground">Areas from historical specification reference only. No current availability implied.</p>}
       <p className="mt-3 text-[0.68rem] text-muted-foreground">
         {villa.positionSource === "user_supplied_sdn3_coordinate"
           ? `Official SDN3 Plot ${villa.sdn3PlotNumber} coordinate supplied and mapped to Villa ${villa.villaNumber}.`
@@ -331,6 +344,7 @@ function VillaSummary({ villa, listing, areaUnit }: { villa: FourSeasonsVilla; l
         {floorplan && <Button asChild size="sm" variant="outline"><a href={floorplan.pdfUrl} target="_blank" rel="noreferrer"><FileText className="h-3.5 w-3.5 mr-1.5" />Floorplan</a></Button>}
         <Button asChild size="sm" variant="ghost"><a href={`https://www.google.com/maps?q=${villa.latitude},${villa.longitude}`} target="_blank" rel="noreferrer"><ExternalLink className="h-3.5 w-3.5 mr-1.5" />Google Maps</a></Button>
       </div>
+      <OneDriveCardLinks villaKey={villa.villaKey} />
     </div>
   );
 }

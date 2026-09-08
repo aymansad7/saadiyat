@@ -952,3 +952,9 @@
 
 ### Manual Sync Now Coverage (Sep 8, 2026)
 - [x] Audit the Master Admin Sync Now action and include every active live official capture—Al Ghadeer and Sei—sequentially, while clearly reporting their refreshed scope and excluding non-live snapshots
+
+### Four Seasons Sales Offers and Media (Sep 8, 2026)
+- [x] Extract exact Four Seasons unit references and documented offer facts from the 5BR, 6BR, and 7BR sales-offer PDFs; matched 15 canonical villa keys with documented prices
+- [x] Mark only confirmed matching Four Seasons units Available, preserving sale provenance and the green map/card state
+- [x] Archive each sales offer privately in OneDrive and create a permission-checked Open Sales Offer action on its exact unit card
+- [ ] When supplied, archive the three videos in OneDrive and attach them only to the documented 5BR, 6BR, or 7BR unit category
