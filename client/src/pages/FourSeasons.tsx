@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link, useSearch } from "wouter";
-import { AlertTriangle, BadgeCheck, ExternalLink, FileText, Map, Search } from "lucide-react";
+import { AlertTriangle, BadgeCheck, ExternalLink, FileText, Map, Search, Video } from "lucide-react";
+import { useAuth } from "@/_core/hooks/useAuth";
 import SiteHeader from "@/components/SiteHeader";
 import AreaFilterControls, { type AreaViewMode } from "@/components/AreaFilterControls";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ import {
 } from "@/data/fourSeasonsTransactions";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 import { getProjectViewMode } from "@/lib/viewMode";
+import { trpc } from "@/lib/trpc";
 
 const AED = new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 });
 
@@ -77,6 +79,8 @@ export default function FourSeasons() {
   const [areaMax, setAreaMax] = useState("");
   const [viewMode, setViewMode] = useState<AreaViewMode>(() => getProjectViewMode(searchString));
   const [selectedVilla, setSelectedVilla] = useState<FourSeasonsVilla | null>(null);
+  const { user } = useAuth();
+  const canViewCategoryMedia = user?.role === "master";
   const { index: listingIndex } = useListingIndex({ community: "four-seasons" });
 
   const filtered = useMemo(() => {
@@ -190,7 +194,7 @@ export default function FourSeasons() {
           </div>
           {selectedVilla && (
             <div className="border-t border-border p-4 sm:p-5 bg-emerald-50/60 dark:bg-emerald-950/20">
-              <VillaSummary villa={selectedVilla} listing={listingIndex.get(selectedVilla.villaKey)} areaUnit={areaUnit} />
+              <VillaSummary villa={selectedVilla} listing={listingIndex.get(selectedVilla.villaKey)} areaUnit={areaUnit} canViewCategoryMedia={canViewCategoryMedia} />
             </div>
           )}
         </section>
@@ -229,7 +233,7 @@ export default function FourSeasons() {
           <section className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {filtered.map((villa) => (
               <article id={`villa-${villa.villaNumber}`} key={villa.villaKey} className={`rounded-xl border bg-card p-5 scroll-mt-28 ${isAvailableNow(villa, listingIndex.get(villa.villaKey)) ? "border-emerald-500/60 shadow-emerald-100 shadow-sm" : "border-border"}`}>
-                <VillaSummary villa={villa} listing={listingIndex.get(villa.villaKey)} areaUnit={areaUnit} />
+                <VillaSummary villa={villa} listing={listingIndex.get(villa.villaKey)} areaUnit={areaUnit} canViewCategoryMedia={canViewCategoryMedia} />
                 <div className="mt-4 border-t border-border pt-3 flex justify-end">
                   <EditListingButton villaKey={villa.villaKey} community="four-seasons" villaLabel={`Four Seasons · Villa ${villa.villaNumber}`} />
                 </div>
@@ -307,7 +311,7 @@ function StatusBadge({ available }: { available: boolean }) {
     : <span className="inline-flex rounded-full bg-slate-100 text-slate-600 px-2 py-1 text-[0.68rem] font-semibold">Reference only</span>;
 }
 
-function VillaSummary({ villa, listing, areaUnit }: { villa: FourSeasonsVilla; listing?: ListingIndexEntry | null; areaUnit: AreaUnit }) {
+function VillaSummary({ villa, listing, areaUnit, canViewCategoryMedia }: { villa: FourSeasonsVilla; listing?: ListingIndexEntry | null; areaUnit: AreaUnit; canViewCategoryMedia: boolean }) {
   const floorplan = FOUR_SEASONS_FLOORPLAN_BY_VILLA.get(villa.villaNumber);
   const transactions = getFourSeasonsTransactions(villa.villaNumber);
   const confirmed = getConfirmedTransaction(villa.villaNumber);
@@ -345,6 +349,32 @@ function VillaSummary({ villa, listing, areaUnit }: { villa: FourSeasonsVilla; l
         <Button asChild size="sm" variant="ghost"><a href={`https://www.google.com/maps?q=${villa.latitude},${villa.longitude}`} target="_blank" rel="noreferrer"><ExternalLink className="h-3.5 w-3.5 mr-1.5" />Google Maps</a></Button>
       </div>
       <OneDriveCardLinks villaKey={villa.villaKey} />
+      <FourSeasonsCategoryVideo bedrooms={villa.bedrooms} enabled={canViewCategoryMedia} />
+    </div>
+  );
+}
+
+function FourSeasonsCategoryVideo({ bedrooms, enabled }: { bedrooms: number; enabled: boolean }) {
+  const category = bedrooms === 5 ? "5br" : bedrooms === 6 ? "6br" : bedrooms === 7 ? "7br" : null;
+  const media = trpc.oneDrive.fourSeasonsCategoryMedia.useQuery(
+    { category: category ?? "5br" },
+    { enabled: enabled && category !== null, staleTime: 60_000 },
+  );
+  const rows = media.data ?? [];
+  if (!enabled || category === null || rows.length === 0) return null;
+  return (
+    <div className="mt-3 flex flex-wrap gap-2">
+      {rows.map(video => (
+        <a
+          key={video.id}
+          href={video.shareUrl ?? undefined}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-sm border border-violet-500/30 bg-violet-500/5 px-2.5 py-1.5 text-xs font-medium text-violet-800 hover:bg-violet-500/10 dark:text-violet-200"
+        >
+          <Video className="h-3.5 w-3.5" /> View {bedrooms}BR video
+        </a>
+      ))}
     </div>
   );
 }

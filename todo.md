@@ -957,7 +957,10 @@
 - [x] Extract exact Four Seasons unit references and documented offer facts from the 5BR, 6BR, and 7BR sales-offer PDFs; matched 15 canonical villa keys with documented prices
 - [x] Mark only confirmed matching Four Seasons units Available, preserving sale provenance and the green map/card state
 - [x] Archive each sales offer privately in OneDrive and create a permission-checked Open Sales Offer action on its exact unit card
-- [ ] When supplied, archive the three videos in OneDrive and attach them only to the documented 5BR, 6BR, or 7BR unit category
+- [x] Archive the three videos in OneDrive and attach them only to the documented 5BR, 6BR, or 7BR unit category
+
+### Four Seasons Video Category Assignment (Sep 8, 2026)
+- [x] Apply the user's confirmed mapping: 9.5MB video → 7BR, 11MB video → 6BR, and remaining archived video → 5BR; expose each only through the permission-checked unit-category media action
 
 ### Four Seasons Additional 7BR Offers (Sep 8, 2026)
 - [x] Extract exact mansion/unit references and prices from 7-OfferLetter.pdf and Mansion7-FourSeasons.pdf; mark Villa 7 Available at AED 320,000,000 and attach the Offer Letter plus price-neutral Mansion7 supporting document

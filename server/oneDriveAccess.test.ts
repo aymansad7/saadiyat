@@ -1,11 +1,13 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { propertyAccessGrants, unitDocuments, villaListings } from "../drizzle/schema";
 import { getDb } from "./db";
 import { appRouter } from "./routers";
 
 const VILLA_KEY = "onedrive-access-test/Unit-1";
 const COMMUNITY = "onedrive-access-test";
+const FOUR_SEASONS_7BR_MEDIA_KEY = "four-seasons/media-7br";
+const TEST_DRIVE_IDS = ["test-access-drive", "test-category-media-drive"];
 const DELEGATED_EMAIL = "onedrive-owner-file-viewer@test.local";
 
 const masterCtx = {
@@ -21,7 +23,7 @@ const unscopedAdminCtx = {
 async function cleanup() {
   const db = await getDb();
   if (!db) return;
-  await db.delete(unitDocuments).where(and(eq(unitDocuments.villaKey, VILLA_KEY), eq(unitDocuments.community, COMMUNITY)));
+  await db.delete(unitDocuments).where(inArray(unitDocuments.driveId, TEST_DRIVE_IDS));
   await db.delete(villaListings).where(eq(villaListings.villaKey, VILLA_KEY));
   await db.delete(propertyAccessGrants).where(eq(propertyAccessGrants.email, DELEGATED_EMAIL));
 }
@@ -95,5 +97,32 @@ describe("OneDrive unit document access", () => {
 
     const publicCardLinks = await appRouter.createCaller({ user: null } as any).oneDrive.cardLinks({ villaKey: VILLA_KEY });
     expect(publicCardLinks).toEqual([]);
+  });
+
+  it("releases an owner-confirmed Four Seasons category video to Master Admin only", async () => {
+    const db = await getDb();
+    if (!db) return;
+    await db.insert(unitDocuments).values({
+      villaKey: FOUR_SEASONS_7BR_MEDIA_KEY,
+      community: "four-seasons",
+      documentType: "source_file",
+      websiteVisibility: "master_admin",
+      filename: "7br-private-residences.mp4",
+      mimeType: "video/mp4",
+      driveId: "test-category-media-drive",
+      itemId: "test-category-media-7br",
+      uploadedBy: masterCtx.user.email,
+      shareUrl: "https://example.test/7br-video",
+    });
+
+    const master = await appRouter.createCaller(masterCtx).oneDrive.fourSeasonsCategoryMedia({ category: "7br" });
+    expect(master).toContainEqual(expect.objectContaining({
+      villaKey: FOUR_SEASONS_7BR_MEDIA_KEY,
+      filename: "7br-private-residences.mp4",
+      shareUrl: "https://example.test/7br-video",
+    }));
+    await expect(
+      appRouter.createCaller(unscopedAdminCtx).oneDrive.fourSeasonsCategoryMedia({ category: "7br" }),
+    ).rejects.toBeTruthy();
   });
 });

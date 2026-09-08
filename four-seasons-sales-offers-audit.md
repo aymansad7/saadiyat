@@ -18,11 +18,11 @@ The 7BR proposal identifies itself as a WhatsApp-shared document dated 12 July 2
 
 | Video file | Directly visible evidence | Safe association state |
 | --- | --- | --- |
-| `VIDEO-2026-09-08-10-45-24.mp4` | “Private Residences” only; no unit number, bedroom count, or offer label | Unassigned pending a documented 5BR/6BR/7BR label |
-| `VIDEO-2026-09-08-10-44-33.mp4` | “Private Residences” only; no unit number, bedroom count, or offer label | Unassigned pending a documented 5BR/6BR/7BR label |
-| `VIDEO-2026-09-08-10-44-53.mp4` | “Private Residences” only; no unit number, bedroom count, or offer label | Unassigned pending a documented 5BR/6BR/7BR label |
+| `VIDEO-2026-09-08-10-45-24.mp4` (9.5MB) | “Private Residences” only; no unit number, bedroom count, or offer label | **7BR category** — owner-confirmed 8 September 2026 |
+| `VIDEO-2026-09-08-10-44-33.mp4` (11MB) | “Private Residences” only; no unit number, bedroom count, or offer label | **6BR category** — owner-confirmed 8 September 2026 |
+| `VIDEO-2026-09-08-10-44-53.mp4` (remaining video) | “Private Residences” only; no unit number, bedroom count, or offer label | **5BR category** — owner-confirmed 8 September 2026 |
 
-The videos may be archived in OneDrive now as unassigned Four Seasons media. They must not be attached to a bedroom category or villa until the project owner supplies the mapping, because no category is demonstrated in the media itself.
+The owner supplied the authoritative category mapping on 8 September 2026. Each video is registered once against its respective 5BR, 6BR, or 7BR media category, rather than being copied or attributed to a particular villa. It remains a private OneDrive source file and is offered only through the Master Admin category-media action.
 
 ## Additional 7BR documents — 8 September 2026
 

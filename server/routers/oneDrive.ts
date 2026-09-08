@@ -32,6 +32,7 @@ const documentTypeSchema = z.enum(["brochure", "spa", "owner_document", "floorpl
 const visibilitySchema = z.enum(["card_link", "master_admin"]);
 const villaKeySchema = z.string().min(3).max(128).regex(/^[A-Za-z0-9][A-Za-z0-9_\-/]*$/);
 const communitySchema = z.string().min(2).max(128).regex(/^[A-Za-z0-9][A-Za-z0-9_\-]*$/);
+const fourSeasonsMediaCategorySchema = z.enum(["5br", "6br", "7br"]);
 
 function isSensitive(type: UnitDocument["documentType"]) {
   return type === "spa" || type === "owner_document" || type === "source_file";
@@ -145,6 +146,25 @@ export const oneDriveRouter = router({
         isNull(unitDocuments.removedAt),
       )).orderBy(desc(unitDocuments.updatedAt));
       return rows.filter(row => Boolean(row.shareUrl)).map(toSafeCardDocument);
+    }),
+
+  /**
+   * Owner-confirmed Four Seasons category videos remain source files and are
+   * intentionally exposed to Master Admin only. They are not public card links.
+   */
+  fourSeasonsCategoryMedia: masterProcedure
+    .input(z.object({ category: fourSeasonsMediaCategorySchema }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const rows = await db.select().from(unitDocuments).where(and(
+        eq(unitDocuments.villaKey, `four-seasons/media-${input.category}`),
+        eq(unitDocuments.community, "four-seasons"),
+        eq(unitDocuments.documentType, "source_file"),
+        eq(unitDocuments.websiteVisibility, "master_admin"),
+        isNull(unitDocuments.removedAt),
+      )).orderBy(desc(unitDocuments.updatedAt));
+      return rows.filter(row => row.mimeType.toLowerCase().startsWith("video/") && Boolean(row.shareUrl)).map(toSafeCardDocument);
     }),
 
   forVilla: protectedProcedure
