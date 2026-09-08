@@ -19,8 +19,6 @@ type OfficialUnitDetail = {
   status: string | null;
   sellingPrice: number | null;
   reservationAmount: number | null;
-  paymentPlans: unknown[];
-  offers: unknown[];
 };
 
 function readSaadiyatDataset(): SeiDataset {
@@ -95,8 +93,6 @@ async function fetchOfficialSeiUnitDetails(sourceUnits: SourceUnit[], fetchImpl:
         status: text(detail.Status__c),
         sellingPrice: publishedPriceFromSeiDetail(payload),
         reservationAmount: numberOrNull(detail.ReservationAmount__c),
-        paymentPlans: Array.isArray(payload.data?.paymentPlans) ? payload.data.paymentPlans : [],
-        offers: Array.isArray(payload.data?.offerAndPromotions) ? payload.data.offerAndPromotions : [],
       };
     } finally {
       clearTimeout(timeout);
@@ -128,9 +124,12 @@ export async function captureSeiSaadiyatOfficialSnapshot(fetchImpl: typeof fetch
     const details = await fetchOfficialSeiUnitDetails(sourceUnits, fetchImpl);
     if (details.length !== sourceUnits.length) throw new Error("Sei Saadiyat: incomplete unit-detail capture.");
     const detailsByCode = new Map(details.map(detail => [detail.unitName, detail]));
-    const dataset = readSaadiyatDataset();
-    const project = dataset.projects.find(item => item.slug === SEI_PROJECT_SLUG);
+    let baseline = readSaadiyatDataset();
+    const project = baseline.projects.find(item => item.slug === SEI_PROJECT_SLUG);
     if (!project || !Array.isArray(project.buildings)) throw new Error("Sei Saadiyat is absent from the Saadiyat baseline dataset.");
+    // Release the full Saadiyat baseline before the diff; only Sei is relevant.
+    baseline = { projects: [] };
+    const dataset: SeiDataset = { projects: [project] };
 
     let publishedPriceCount = 0;
     for (const building of project.buildings as Array<Record<string, unknown>>) {
@@ -151,8 +150,10 @@ export async function captureSeiSaadiyatOfficialSnapshot(fetchImpl: typeof fetch
           price_source: detail.sellingPrice != null ? "World of Aldar unit-detail API" : (officialPrice != null ? "World of Aldar live capture" : unit.price_source ?? null),
           price_source_captured_at: officialPrice != null ? captureDate : unit.price_source_captured_at ?? null,
           reservation_amount: detail.reservationAmount ?? unit.reservation_amount ?? null,
-          payment_plans: detail.paymentPlans.length ? JSON.stringify(detail.paymentPlans) : unit.payment_plans ?? null,
-          offer_and_promotions: detail.offers.length ? JSON.stringify(detail.offers) : unit.offer_and_promotions ?? null,
+          // Price monitoring must never erase workbook-backed plans/promotions
+          // merely because the live unit-detail endpoint omits them.
+          payment_plans: unit.payment_plans ?? null,
+          offer_and_promotions: unit.offer_and_promotions ?? null,
           source_location_id: detail.locationId,
           source_unit_status: detail.status ?? (text(source.unitStatus) ?? unit.source_unit_status ?? null),
           source_captured_at: captureDate,

@@ -20,6 +20,7 @@ export async function refreshSeiSaadiyatOfficialInventory(input: {
     trigger: input.trigger,
     triggeredBy: input.triggeredBy,
     datasets: { saadiyat: capture.dataset as any },
+    projectScope: [{ dataset: "saadiyat", projectSlug: "sei-saadiyat" }],
   });
   const seiRollup = sync.rollups.find(row => row.dataset === "saadiyat" && row.projectSlug === "sei-saadiyat");
   const firstOfficialPriceDetected = capture.publishedPriceCount > 0 && (seiRollup?.priceChanges ?? 0) > 0;
@@ -39,7 +40,10 @@ export async function refreshSeiSaadiyatOfficialInventory(input: {
   }
 
   return {
-    ...sync,
+    runId: sync.runId,
+    counts: sync.counts,
+    rollups: sync.rollups,
+    newProjects: sync.newProjects,
     captureDate: capture.captureDate,
     publishedPriceCount: capture.publishedPriceCount,
     firstOfficialPriceDetected,

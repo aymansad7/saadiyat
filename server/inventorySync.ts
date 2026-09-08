@@ -15,7 +15,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { and, desc, eq, inArray, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, or, sql } from "drizzle-orm";
 import { getDb } from "./db";
 import { invalidateImportedAldarProjectCache } from "./importedAldarProjects";
 import {
@@ -73,6 +73,31 @@ export type DetectedInventoryProject = {
   priceMinAed: number | null;
   priceMaxAed: number | null;
 };
+
+export type InventoryProjectScope = {
+  dataset: Dataset;
+  projectSlug: string;
+};
+
+function scopeKey(scope: InventoryProjectScope): string {
+  return `${scope.dataset}::${scope.projectSlug}`;
+}
+
+/** Restrict a live refresh to the projects that it actually captured. */
+export function limitDatasetsToProjectScope(
+  datasets: { saadiyat: RawDataset; other: RawDataset },
+  scope: readonly InventoryProjectScope[],
+): { saadiyat: RawDataset; other: RawDataset } {
+  const permitted = new Set(scope.map(scopeKey));
+  return {
+    saadiyat: {
+      projects: datasets.saadiyat.projects.filter(project => permitted.has(scopeKey({ dataset: "saadiyat", projectSlug: project.slug }))),
+    },
+    other: {
+      projects: datasets.other.projects.filter(project => permitted.has(scopeKey({ dataset: "other", projectSlug: project.slug }))),
+    },
+  };
+}
 
 function readJsonFromCandidates(file: string): string {
   const candidates = [
@@ -561,6 +586,8 @@ export async function runInventorySync(opts: {
   trigger: "scheduled" | "manual" | "seed";
   triggeredBy?: string;
   datasets?: { saadiyat?: RawDataset; other?: RawDataset };
+  /** Restrict a live capture to its captured projects; all other state is left untouched. */
+  projectScope?: InventoryProjectScope[];
 }): Promise<{
   runId: number;
   counts: RunCounts;
@@ -584,11 +611,28 @@ export async function runInventorySync(opts: {
   const runId = run.id;
 
   try {
-    const datasets = loadSnapshotDatasets(opts.datasets);
+    const scope = opts.projectScope?.filter(item => item.projectSlug.trim()) ?? [];
+    const requestedDataset = (dataset: Dataset): RawDataset => {
+      if (!scope.length || scope.some(item => item.dataset === dataset)) {
+        if (opts.datasets?.[dataset]) return opts.datasets[dataset] as RawDataset;
+        return JSON.parse(readJsonFromCandidates(dataset === "saadiyat" ? "aldar_saadiyat.json" : "aldar_other.json")) as RawDataset;
+      }
+      return { projects: [] };
+    };
+    const unscopedDatasets = scope.length
+      ? { saadiyat: requestedDataset("saadiyat"), other: requestedDataset("other") }
+      : loadSnapshotDatasets(opts.datasets);
+    const datasets = scope.length ? limitDatasetsToProjectScope(unscopedDatasets, scope) : unscopedDatasets;
     const current = [...flatten(datasets.saadiyat, "saadiyat"), ...flatten(datasets.other, "other")];
 
     // load previous state
-    const prevRows = await db.select().from(inventoryUnitState);
+    const scopeConditions = scope.map(item => and(
+      eq(inventoryUnitState.dataset, item.dataset),
+      eq(inventoryUnitState.projectSlug, item.projectSlug),
+    ));
+    const prevRows = scopeConditions.length
+      ? await db.select().from(inventoryUnitState).where(or(...scopeConditions))
+      : await db.select().from(inventoryUnitState);
     const prev = new Map<string, PrevState>();
     const prevMeta = new Map<string, { dataset: Dataset; projectSlug: string; projectName: string | null }>();
     for (const r of prevRows) {

@@ -97,22 +97,37 @@ export const inventoryHistoryRouter = router({
   syncNow: adminProcedure.mutation(async ({ ctx }) => {
     const who = ctx.user?.email || ctx.user?.name || "admin";
     const { ghadeer, sei } = await runManualOfficialAldarRefresh(who);
-    const ghadeerResult = ghadeer as Awaited<ReturnType<typeof import("../alGhadeerOfficialSync").refreshAlGhadeerOfficialInventory>>;
-    const seiResult = sei as Awaited<ReturnType<typeof import("../seiSaadiyatOfficialSync").refreshSeiSaadiyatOfficialInventory>>;
+    const ghadeerResult = ghadeer.status === "success"
+      ? ghadeer.result as Awaited<ReturnType<typeof import("../alGhadeerOfficialSync").refreshAlGhadeerOfficialInventory>>
+      : null;
+    const seiResult = sei.status === "success"
+      ? sei.result as Awaited<ReturnType<typeof import("../seiSaadiyatOfficialSync").refreshSeiSaadiyatOfficialInventory>>
+      : null;
+    const zeroCounts = { unitsScanned: 0, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 };
+    const counts = ghadeerResult?.counts ?? zeroCounts;
+    const rollups = ghadeerResult?.rollups ?? [];
     return {
-      captureDate: ghadeerResult.captureDate,
-      runId: ghadeerResult.runId,
-      counts: ghadeerResult.counts,
-      rollups: ghadeerResult.rollups,
-      newProjects: ghadeerResult.newProjects,
-      summary: buildSyncChangeSummary(ghadeerResult.counts, ghadeerResult.rollups),
+      status: ghadeer.status === "success" && sei.status === "success" ? "success" : "partial",
+      captureDate: ghadeerResult?.captureDate ?? null,
+      runId: ghadeerResult?.runId ?? null,
+      counts,
+      rollups,
+      newProjects: ghadeerResult?.newProjects ?? [],
+      summary: buildSyncChangeSummary(counts, rollups),
       liveSources: {
-        alGhadeer: { captureDate: ghadeerResult.captureDate, runId: ghadeerResult.runId },
+        alGhadeer: {
+          status: ghadeer.status,
+          captureDate: ghadeerResult?.captureDate ?? null,
+          runId: ghadeerResult?.runId ?? null,
+          message: ghadeer.status === "error" ? ghadeer.message : null,
+        },
         seiSaadiyat: {
-          captureDate: seiResult.captureDate,
-          runId: "runId" in seiResult ? seiResult.runId : null,
-          publishedPriceCount: seiResult.publishedPriceCount,
-          skipped: "skipped" in seiResult ? seiResult.skipped : null,
+          status: sei.status,
+          captureDate: seiResult?.captureDate ?? null,
+          runId: seiResult && "runId" in seiResult ? seiResult.runId : null,
+          publishedPriceCount: seiResult?.publishedPriceCount ?? 0,
+          skipped: seiResult && "skipped" in seiResult ? seiResult.skipped : null,
+          message: sei.status === "error" ? sei.message : null,
         },
       },
     };

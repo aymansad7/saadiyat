@@ -9,6 +9,10 @@ export async function refreshAlGhadeerOfficialInventory(input: { trigger: "sched
     trigger: input.trigger,
     triggeredBy: input.triggeredBy,
     datasets: { other: capture.otherDataset as any },
+    projectScope: (capture.otherDataset.projects as Array<{ slug: string }>).map(project => ({
+      dataset: "other" as const,
+      projectSlug: project.slug,
+    })),
   });
   return { ...sync, captureDate: capture.captureDate, clusters: capture.clusters };
 }

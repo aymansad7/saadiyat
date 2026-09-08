@@ -8,6 +8,21 @@ export type ManualOfficialRefreshDependencies = {
   refreshSei: (input: RefreshInput) => Promise<Record<string, unknown>>;
 };
 
+export type ManualOfficialRefreshResult =
+  | { status: "success"; result: Record<string, unknown> }
+  | { status: "error"; message: string };
+
+async function safelyRefresh(
+  refresh: (input: RefreshInput) => Promise<Record<string, unknown>>,
+  input: RefreshInput,
+): Promise<ManualOfficialRefreshResult> {
+  try {
+    return { status: "success", result: await refresh(input) };
+  } catch (error) {
+    return { status: "error", message: String((error as Error)?.message ?? error).slice(0, 500) };
+  }
+}
+
 const defaultDependencies: ManualOfficialRefreshDependencies = {
   refreshGhadeer: refreshAlGhadeerOfficialInventory,
   refreshSei: refreshSeiSaadiyatOfficialInventory,
@@ -22,7 +37,7 @@ export async function runManualOfficialAldarRefresh(
   dependencies: ManualOfficialRefreshDependencies = defaultDependencies,
 ) {
   const input: RefreshInput = { trigger: "manual", triggeredBy };
-  const ghadeer = await dependencies.refreshGhadeer(input);
-  const sei = await dependencies.refreshSei(input);
+  const ghadeer = await safelyRefresh(dependencies.refreshGhadeer, input);
+  const sei = await safelyRefresh(dependencies.refreshSei, input);
   return { ghadeer, sei };
 }

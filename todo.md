@@ -964,3 +964,6 @@
 
 ### Sei Price Change Verification (Sep 8, 2026)
 - [x] Compare stored price history and the live official Sei source: no valid published price or price-change event exists; the verified AED 1 sample remains an excluded placeholder
+
+### Sync Now JSON Response Fix (Sep 8, 2026)
+- [x] Diagnose and fix the Sync Now path that returned an HTML response to a JSON client request: manual live refreshes are project-scoped, Sei detail payloads are compact, and each source now returns a JSON-safe success or error summary

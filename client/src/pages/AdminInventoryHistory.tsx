@@ -249,9 +249,15 @@ export default function AdminInventoryHistory() {
 
   const syncNow = trpc.inventoryHistory.syncNow.useMutation({
     onSuccess: res => {
-      toast.success(
-        `Sync complete — ${res.summary.headline} · Sei: ${res.liveSources.seiSaadiyat.skipped ?? `${res.liveSources.seiSaadiyat.publishedPriceCount} official prices`}`,
-      );
+      const seiSummary = res.liveSources.seiSaadiyat.status === "error"
+        ? `Sei unavailable: ${res.liveSources.seiSaadiyat.message ?? "source refresh failed"}`
+        : res.liveSources.seiSaadiyat.skipped ?? `${res.liveSources.seiSaadiyat.publishedPriceCount} official prices`;
+      const ghadeerSummary = res.liveSources.alGhadeer.status === "error"
+        ? `Al Ghadeer unavailable: ${res.liveSources.alGhadeer.message ?? "source refresh failed"}`
+        : null;
+      const message = `Sync ${res.status} — ${res.summary.headline} · Sei: ${seiSummary}${ghadeerSummary ? ` · ${ghadeerSummary}` : ""}`;
+      if (res.status === "partial") toast.error(message);
+      else toast.success(message);
       utils.inventoryHistory.latestRun.invalidate();
       utils.inventoryHistory.runs.invalidate();
       utils.inventoryHistory.currentSaleInventory.invalidate();
