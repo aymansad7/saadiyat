@@ -946,3 +946,6 @@
 ### Sei Official Price Monitoring (Sep 7, 2026)
 - [x] Verify Sei Saadiyat is included in the dedicated official monitoring path; the live official page returned 778 units and AED 1/blank/zero values are excluded from published-price detection
 - [x] Create Heartbeat task HXDpFLpNDP7FMuqLNLkYw6 for hourly official-price checks from 08:00–23:00 Gulf time beginning Sep 8, 2026; it notifies on first valid Sei price and pauses itself after archiving evidence
+
+### Aldar World Sync Integration Package Review (Sep 8, 2026)
+- [x] Inspect the uploaded integration package without executing its contents; independently verify and adopt the public locationId unit-detail endpoint with exact-unit provenance, bounded server-side concurrency, and AED 1 exclusion

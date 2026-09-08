@@ -31,6 +31,7 @@ The workbook is an owner-supplied Aldar export and records `New` as its source s
 - Its current unit `price` fields were blank; the known AED 1 placeholder is explicitly excluded from price-publication detection.
 - Heartbeat task `HXDpFLpNDP7FMuqLNLkYw6` (`sei-saadiyat-hourly-price-monitor`) invokes `/api/scheduled/seiPriceMonitor` each hour from 08:00 through 23:00 Gulf time (`0 0 4-19 * * *` UTC). The handler skips runs before 2026-09-08 08:00 Gulf, so its first effective monitoring window is tomorrow.
 - On the first valid official unit price, the handler records the unit-level price history, notifies the project owner, archives the captured official HTML privately in OneDrive, then pauses this monitoring task. It does not treat AED 0, a blank value, or AED 1 as a published price.
+- On 8 September 2026, the public official `unit-detail` response for the reviewed Sei unit confirmed `SellingPrice__c: 1`, AED currency, `New` source status, and an AED 100,000 reservation amount. The hourly monitor therefore now checks exact `locationId` detail records server-side as well as the project capture. This strengthens detection of the first published price while retaining the AED 1 exclusion.
 
 ## Preview verification
 
