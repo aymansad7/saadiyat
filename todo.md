@@ -975,3 +975,6 @@
 - [x] Investigate the newly reported production `Unexpected token '<'` response and restore a JSON-safe user-facing result by replacing the oversized Sei full capture in Sync Now with a bounded official price-release probe
 - [x] Audit the latest Sei price-monitoring runs, including the reported 11:00 Gulf run: it timed out before checking pricing; an independent full 778-unit official verification then found no valid AED price
 - [x] Check the official Aldar project feed: Sei Saadiyat is the confirmed 7 September launch already imported; current directory entries otherwise map to existing project aliases, with no additional source-complete new project confirmed
+
+### Daily Official Aldar Project Discovery (Sep 9, 2026)
+- [x] Extend the existing daily official Aldar refresh to identify newly listed projects, add only source-complete projects without duplicating existing aliases, and notify the Master Admin with the project name and discovery result

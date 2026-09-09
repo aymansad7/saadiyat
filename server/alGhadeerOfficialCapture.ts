@@ -66,7 +66,7 @@ function decodeObjectAt(raw: string, start: number): unknown | null {
   return null;
 }
 
-export function extractOfficialWorldAldarUnits(html: string, prefix: string): OfficialRawUnit[] {
+export function extractAllOfficialWorldAldarUnits(html: string): OfficialRawUnit[] {
   const decoded = unescapeHtml(html);
   const units = new Map<string, OfficialRawUnit>();
   let cursor = 0;
@@ -77,9 +77,13 @@ export function extractOfficialWorldAldarUnits(html: string, prefix: string): Of
     cursor = start + 12;
     if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) continue;
     const unitNumber = text((candidate as OfficialRawUnit).unitNumber);
-    if (unitNumber?.startsWith(prefix)) units.set(unitNumber, candidate as OfficialRawUnit);
+    if (unitNumber) units.set(unitNumber, candidate as OfficialRawUnit);
   }
   return Array.from(units.values()).sort((left, right) => String(left.unitNumber).localeCompare(String(right.unitNumber)));
+}
+
+export function extractOfficialWorldAldarUnits(html: string, prefix: string): OfficialRawUnit[] {
+  return extractAllOfficialWorldAldarUnits(html).filter(unit => text(unit.unitNumber)?.startsWith(prefix));
 }
 
 function normalizeUnit(cluster: Cluster, source: OfficialRawUnit, captureDate: string) {

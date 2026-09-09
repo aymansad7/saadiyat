@@ -722,6 +722,42 @@ export type OneDriveSyncEvent = typeof oneDriveSyncEvents.$inferSelect;
 export type InsertOneDriveSyncEvent = typeof oneDriveSyncEvents.$inferInsert;
 
 /**
+ * Durable official-directory discovery ledger. A directory card is recorded
+ * once when Aldar first publishes it, even when its project page has not yet
+ * exposed a complete unit inventory. Once complete, the source project is
+ * imported through the existing inventory ledger and this row is marked
+ * `imported`, preventing duplicate project notifications or cards.
+ */
+export const aldarProjectDiscoveries = mysqlTable(
+  "aldar_project_discoveries",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    sourcePath: varchar("sourcePath", { length: 255 }).notNull().unique(),
+    projectSlug: varchar("projectSlug", { length: 128 }).notNull(),
+    projectName: varchar("projectName", { length: 255 }).notNull(),
+    dataset: mysqlEnum("dataset", ["saadiyat", "other"]).notNull(),
+    areaKey: varchar("areaKey", { length: 64 }).notNull(),
+    status: mysqlEnum("status", ["discovered", "incomplete", "imported", "error"])
+      .default("discovered")
+      .notNull(),
+    unitCount: int("unitCount").default(0).notNull(),
+    firstSeenAt: timestamp("firstSeenAt").defaultNow().notNull(),
+    lastSeenAt: timestamp("lastSeenAt").defaultNow().notNull(),
+    lastCheckedAt: timestamp("lastCheckedAt"),
+    importedAt: timestamp("importedAt"),
+    lastError: text("lastError"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    statusIdx: index("aldarProjectDiscoveries_status_idx").on(t.status),
+    projectSlugIdx: index("aldarProjectDiscoveries_project_slug_idx").on(t.projectSlug),
+  }),
+);
+export type AldarProjectDiscovery = typeof aldarProjectDiscoveries.$inferSelect;
+export type InsertAldarProjectDiscovery = typeof aldarProjectDiscoveries.$inferInsert;
+
+/**
  * Append-only record of authenticated sign-ins and privileged changes. It is
  * intentionally separate from the per-listing audit table so Master Admin can
  * review activity across properties, user grants, and sessions in one place.

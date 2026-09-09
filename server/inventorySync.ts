@@ -50,7 +50,7 @@ export type SnapshotUnit = {
 
 /* ----------------------------- data loading ----------------------------- */
 
-type RawUnit = {
+export type RawUnit = {
   unit_name: string | null;
   aldar_link: string | null;
   unit_type: string | null;
@@ -59,9 +59,9 @@ type RawUnit = {
   source_unit_status?: string | null;
   price_aed: number | null;
 };
-type RawBuilding = { slug: string; name: string; units: RawUnit[] };
-type RawProject = { slug: string; name: string; buildings: RawBuilding[] };
-type RawDataset = { projects: RawProject[] };
+export type RawBuilding = { slug: string; name: string; units: RawUnit[] };
+export type RawProject = { slug: string; name: string; buildings: RawBuilding[]; area?: string };
+export type RawDataset = { projects: RawProject[] };
 
 export type DetectedInventoryProject = {
   dataset: Dataset;
@@ -202,7 +202,7 @@ function sourceProjects(datasets: { saadiyat: RawDataset; other: RawDataset }): 
           dataset,
           projectSlug: project.slug,
           projectName: project.name,
-          areaKey: dataset === "saadiyat" ? "saadiyat" : areaForProject(project.slug),
+          areaKey: dataset === "saadiyat" ? "saadiyat" : project.area ?? areaForProject(project.slug),
           unitCount: units.length,
           availableCount: units.filter(unit => isSaleAvailableStatus(unit.status)).length,
           priceMinAed: prices.length ? Math.min(...prices) : null,

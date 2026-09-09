@@ -16,6 +16,7 @@ import { buildSyncChangeSummary, shouldNotifyInventoryOwner } from "./inventoryS
 import { notifyOwner } from "./_core/notification";
 import { sdk } from "./_core/sdk";
 import { refreshAlGhadeerOfficialInventory } from "./alGhadeerOfficialSync";
+import { discoverAndImportOfficialAldarProjects } from "./aldarProjectDiscovery";
 import { refreshSeiSaadiyatOfficialInventory } from "./seiSaadiyatOfficialSync";
 
 /** Header Heartbeat sets to the triggering cron task UID. */
@@ -38,39 +39,65 @@ export async function inventorySyncScheduledHandler(req: Request, res: Response)
       headerMatchesIdentity: !headerTaskUid || headerTaskUid === taskUid,
     });
 
-    const { captureDate, runId, counts, rollups, newProjects } = await refreshAlGhadeerOfficialInventory({
-      trigger: "scheduled",
-      triggeredBy: `cron:${taskUid}`,
-    });
+    const trigger = `cron:${taskUid}`;
+    const [ghadeer, projectDiscovery] = await Promise.allSettled([
+      refreshAlGhadeerOfficialInventory({ trigger: "scheduled", triggeredBy: trigger }),
+      discoverAndImportOfficialAldarProjects({ trigger: "scheduled", triggeredBy: trigger }),
+    ]);
+    if (ghadeer.status === "rejected" && projectDiscovery.status === "rejected") {
+      throw new Error(`Al Ghadeer refresh failed: ${String(ghadeer.reason)}; official project discovery failed: ${String(projectDiscovery.reason)}`);
+    }
+    const ghadeerResult = ghadeer.status === "fulfilled" ? ghadeer.value : null;
+    const discoveryResult = projectDiscovery.status === "fulfilled" ? projectDiscovery.value : null;
+    const counts = ghadeerResult?.counts ?? {
+      unitsScanned: 0,
+      newUnits: 0,
+      soldUnits: 0,
+      statusChanges: 0,
+      sourceStatusChanges: 0,
+      priceChanges: 0,
+      removedUnits: 0,
+    };
+    const rollups = ghadeerResult?.rollups ?? [];
+    const newProjects = [...(ghadeerResult?.newProjects ?? []), ...(discoveryResult?.importedProjects ?? [])];
+    const newDirectoryProjects = discoveryResult?.newlyDetected ?? [];
     const summary = buildSyncChangeSummary(counts, rollups);
     let notificationSent = false;
-    if (shouldNotifyInventoryOwner(counts, newProjects)) {
+    if (shouldNotifyInventoryOwner(counts, newProjects) || newDirectoryProjects.length > 0) {
       notificationSent = await notifyOwner({
-        title: newProjects.length
-          ? `Aldar: ${newProjects.length} new project${newProjects.length === 1 ? "" : "s"} detected`
-          : `Aldar inventory sync #${runId}: ${summary.changed} change${summary.changed === 1 ? "" : "s"}`,
+        title: newDirectoryProjects.length
+          ? `Aldar: ${newDirectoryProjects.length} new official project${newDirectoryProjects.length === 1 ? "" : "s"} detected`
+          : `Aldar inventory sync: ${summary.changed} change${summary.changed === 1 ? "" : "s"}`,
         content: [
           summary.headline,
           summary.metrics || "No category totals reported.",
           newProjects.length
             ? `New source-complete projects: ${newProjects.map(project => `${project.projectName} [${project.areaKey}] · ${project.unitCount} units · ${project.availableCount} available${project.priceMinAed != null ? ` · AED ${project.priceMinAed.toLocaleString()}–${(project.priceMaxAed ?? project.priceMinAed).toLocaleString()}` : " · price not published"}`).join("\n")}`
             : "No new source-complete project detected.",
+          newDirectoryProjects.length
+            ? `New official directory projects: ${newDirectoryProjects.map(project => `${project.projectName} · ${project.status === "imported" ? "imported as a project" : project.status === "incomplete" ? "published but unit data is not complete yet" : "discovery check needs retry"}`).join("\n")}`
+            : "No newly listed official directory project detected.",
           summary.projects.length ? `Top affected projects: ${summary.projects.join(" · ")}` : "No project-level changes reported.",
-          `Source: bundled Aldar inventory snapshot plus complete World of Aldar Al Ghadeer capture dated ${captureDate}. Raw explorer labels are not NAS availability.`,
+          `Source: official World of Aldar directory plus complete Al Ghadeer capture${ghadeerResult ? ` dated ${ghadeerResult.captureDate}` : " (Ghadeer source refresh failed; directory check continued)"}. Raw explorer labels are not NAS availability.`,
         ].join("\n"),
       });
     }
 
     return res.json({
       ok: true,
-      runId,
+      runId: ghadeerResult?.runId ?? null,
       counts,
       summary,
       topProjects: rollups.slice(0, 10),
       newProjects,
+      projectDiscovery: discoveryResult ?? { error: String(projectDiscovery.status === "rejected" ? projectDiscovery.reason : "unknown") },
+      sourceErrors: {
+        alGhadeer: ghadeer.status === "rejected" ? String(ghadeer.reason) : null,
+        projectDiscovery: projectDiscovery.status === "rejected" ? String(projectDiscovery.reason) : null,
+      },
       notificationSent,
-      snapshotSource: "bundled Aldar inventory snapshot plus World of Aldar Al Ghadeer capture",
-      captureDate,
+      snapshotSource: "official World of Aldar directory plus World of Aldar Al Ghadeer capture",
+      captureDate: ghadeerResult?.captureDate ?? null,
     });
   } catch (err) {
     const e = err as Error;
