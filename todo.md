@@ -970,3 +970,8 @@
 
 ### Sync Now JSON Response Fix (Sep 8, 2026)
 - [x] Diagnose and fix the Sync Now path that returned an HTML response to a JSON client request: manual live refreshes are project-scoped, Sei detail payloads are compact, and each source now returns a JSON-safe success or error summary
+
+### Production Sync Now Follow-up (Sep 9, 2026)
+- [x] Investigate the newly reported production `Unexpected token '<'` response and restore a JSON-safe user-facing result by replacing the oversized Sei full capture in Sync Now with a bounded official price-release probe
+- [x] Audit the latest Sei price-monitoring runs, including the reported 11:00 Gulf run: it timed out before checking pricing; an independent full 778-unit official verification then found no valid AED price
+- [x] Check the official Aldar project feed: Sei Saadiyat is the confirmed 7 September launch already imported; current directory entries otherwise map to existing project aliases, with no additional source-complete new project confirmed

@@ -9,6 +9,7 @@ const SEI_ROUTE = "https://world.aldar.com/uae/abudhabi/seisaadiyat";
 const SEI_UNIT_DETAIL_ROUTE = "https://propertyservice.world.aldar.com/api/v2/units/unit-detail";
 const SEI_PREFIX = "SeiSaadiyat-";
 const DETAIL_CONCURRENCY = 8;
+const PRICE_PROBE_SAMPLES_PER_BUILDING = 4;
 
 type SourceUnit = Record<string, unknown> & { unitNumber?: string; locationId?: string };
 type SeiUnit = Record<string, unknown> & { unit_name?: string | null; price_aed?: number | null };
@@ -19,6 +20,14 @@ type OfficialUnitDetail = {
   status: string | null;
   sellingPrice: number | null;
   reservationAmount: number | null;
+};
+
+export type SeiOfficialPriceProbe = {
+  captureDate: string;
+  sourceUnitCount: number;
+  screenedUnitCount: number;
+  publishedPrices: Array<{ unitName: string; priceAed: number }>;
+  files: Array<{ filename: string; bytes: Buffer; mimeType: string }>;
 };
 
 function readSaadiyatDataset(): SeiDataset {
@@ -68,41 +77,117 @@ function validSeiCode(value: unknown): value is string {
   return typeof value === "string" && /^SeiSaadiyat-T[1-6]-(?:\d{2}|G)-\d{2}$/i.test(value);
 }
 
+async function fetchOfficialSeiUnitDetail(source: SourceUnit, fetchImpl: typeof fetch): Promise<OfficialUnitDetail> {
+  const unitName = text(source.unitNumber);
+  const locationId = text(source.locationId);
+  if (!unitName || !locationId) throw new Error("Sei Saadiyat: source unit omitted unitNumber or locationId.");
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12_000);
+  try {
+    const url = new URL(SEI_UNIT_DETAIL_ROUTE);
+    url.searchParams.set("location_id", locationId);
+    url.searchParams.set("kiosk", "false");
+    const response = await fetchImpl(url, {
+      headers: { Accept: "application/json", "User-Agent": "SaadiyatResaleHub/1.0" },
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(`Sei Saadiyat ${unitName}: unit-detail returned HTTP ${response.status}.`);
+    const payload = await response.json() as { data?: { unitDetail?: Record<string, unknown> } };
+    const detail = payload.data?.unitDetail;
+    if (!detail || text(detail.Name) !== unitName) throw new Error(`Sei Saadiyat ${unitName}: unit-detail identity mismatch.`);
+    return {
+      unitName,
+      locationId,
+      status: text(detail.Status__c),
+      sellingPrice: publishedPriceFromSeiDetail(payload),
+      reservationAmount: numberOrNull(detail.ReservationAmount__c),
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 async function fetchOfficialSeiUnitDetails(sourceUnits: SourceUnit[], fetchImpl: typeof fetch): Promise<OfficialUnitDetail[]> {
-  const operations = sourceUnits.map(source => async () => {
-    const unitName = text(source.unitNumber);
-    const locationId = text(source.locationId);
-    if (!unitName || !locationId) throw new Error("Sei Saadiyat: source unit omitted unitNumber or locationId.");
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12_000);
-    try {
-      const url = new URL(SEI_UNIT_DETAIL_ROUTE);
-      url.searchParams.set("location_id", locationId);
-      url.searchParams.set("kiosk", "false");
-      const response = await fetchImpl(url, {
-        headers: { Accept: "application/json", "User-Agent": "SaadiyatResaleHub/1.0" },
-        signal: controller.signal,
-      });
-      if (!response.ok) throw new Error(`Sei Saadiyat ${unitName}: unit-detail returned HTTP ${response.status}.`);
-      const payload = await response.json() as { data?: { unitDetail?: Record<string, unknown>; paymentPlans?: unknown[]; offerAndPromotions?: unknown[] } };
-      const detail = payload.data?.unitDetail;
-      if (!detail || text(detail.Name) !== unitName) throw new Error(`Sei Saadiyat ${unitName}: unit-detail identity mismatch.`);
-      return {
-        unitName,
-        locationId,
-        status: text(detail.Status__c),
-        sellingPrice: publishedPriceFromSeiDetail(payload),
-        reservationAmount: numberOrNull(detail.ReservationAmount__c),
-      };
-    } finally {
-      clearTimeout(timeout);
-    }
-  });
+  const operations = sourceUnits.map(source => () => fetchOfficialSeiUnitDetail(source, fetchImpl));
   const details: OfficialUnitDetail[] = [];
   for (let start = 0; start < operations.length; start += DETAIL_CONCURRENCY) {
     details.push(...await Promise.all(operations.slice(start, start + DETAIL_CONCURRENCY).map(operation => operation())));
   }
   return details;
+}
+
+/**
+ * Picks a representative set across all six official buildings. This is a
+ * release detector, not an inventory import: it stays within Heartbeat's
+ * callback window and never treats unprobed units as removed.
+ */
+export function selectSeiPriceProbeUnits(sourceUnits: SourceUnit[]): SourceUnit[] {
+  const groups = new Map<string, SourceUnit[]>();
+  for (const unit of sourceUnits) {
+    const code = text(unit.unitNumber);
+    const match = code ? /^SeiSaadiyat-T([1-6])-/.exec(code) : null;
+    if (!match) continue;
+    const group = groups.get(match[1]!) ?? [];
+    group.push(unit);
+    groups.set(match[1]!, group);
+  }
+  const selected: SourceUnit[] = [];
+  for (const building of ["1", "2", "3", "4", "5", "6"]) {
+    const units = groups.get(building) ?? [];
+    if (!units.length) continue;
+    for (let index = 0; index < PRICE_PROBE_SAMPLES_PER_BUILDING; index += 1) {
+      const position = Math.round((index * (units.length - 1)) / Math.max(1, PRICE_PROBE_SAMPLES_PER_BUILDING - 1));
+      const unit = units[position];
+      if (unit && !selected.includes(unit)) selected.push(unit);
+    }
+  }
+  return selected;
+}
+
+/**
+ * Fast official release detector for the hourly monitor and the Sync Now UI.
+ * It checks the full official project page, then representative exact unit
+ * details across Buildings 1–6. AED 1, zero, and blank values remain invalid.
+ */
+export async function probeSeiSaadiyatOfficialPricing(fetchImpl: typeof fetch = fetch): Promise<SeiOfficialPriceProbe> {
+  const captureDate = new Date().toISOString().slice(0, 10);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20_000);
+  try {
+    const response = await fetchImpl(SEI_ROUTE, {
+      headers: { Accept: "text/html", "User-Agent": "SaadiyatResaleHub/1.0" },
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(`Sei Saadiyat: World of Aldar returned HTTP ${response.status}.`);
+    const html = await response.text();
+    const sourceUnits = extractOfficialWorldAldarUnits(html, SEI_PREFIX) as SourceUnit[];
+    if (sourceUnits.length !== 778) throw new Error(`Sei Saadiyat: expected 778 official units, received ${sourceUnits.length}.`);
+    if (new Set(sourceUnits.map(unit => unit.unitNumber)).size !== sourceUnits.length) throw new Error("Sei Saadiyat: duplicate official unit code.");
+
+    const directPrices = sourceUnits.flatMap(unit => {
+      const price = numberOrNull(unit.price);
+      const unitName = text(unit.unitNumber);
+      return unitName && isPublishedSeiUnitPrice(price) ? [{ unitName, priceAed: price }] : [];
+    });
+    const probes = directPrices.length ? [] : selectSeiPriceProbeUnits(sourceUnits);
+    const details = probes.length ? await Promise.all(probes.map(unit => fetchOfficialSeiUnitDetail(unit, fetchImpl))) : [];
+    const detailPrices = details.flatMap(detail => detail.sellingPrice != null ? [{ unitName: detail.unitName, priceAed: detail.sellingPrice }] : []);
+    const publishedPrices = [...directPrices, ...detailPrices];
+    return {
+      captureDate,
+      sourceUnitCount: sourceUnits.length,
+      screenedUnitCount: directPrices.length ? sourceUnits.length : probes.length,
+      publishedPrices,
+      files: publishedPrices.length
+        ? [
+            { filename: `sei-saadiyat-live-${captureDate}.html`, bytes: Buffer.from(html), mimeType: "text/html" },
+            { filename: `sei-saadiyat-price-probe-${captureDate}.json`, bytes: Buffer.from(JSON.stringify({ screenedUnitCount: probes.length, publishedPrices, details })), mimeType: "application/json" },
+          ]
+        : [],
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 export async function captureSeiSaadiyatOfficialSnapshot(fetchImpl: typeof fetch = fetch) {

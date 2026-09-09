@@ -1,8 +1,7 @@
 import { updateHeartbeatJob } from "./_core/heartbeat";
 import { notifyOwner } from "./_core/notification";
-import { runInventorySync } from "./inventorySync";
 import { archiveSeiSaadiyatSourceFiles } from "./seiSaadiyatOfficialExport";
-import { captureSeiSaadiyatOfficialSnapshot } from "./seiSaadiyatOfficialCapture";
+import { probeSeiSaadiyatOfficialPricing } from "./seiSaadiyatOfficialCapture";
 
 export const SEI_PRICE_MONITOR_START_AT = "2026-09-08T04:00:00.000Z";
 
@@ -15,23 +14,16 @@ export async function refreshSeiSaadiyatOfficialInventory(input: {
     return { skipped: "before-monitor-window" as const, captureDate: null, publishedPriceCount: 0 };
   }
 
-  const capture = await captureSeiSaadiyatOfficialSnapshot();
-  const sync = await runInventorySync({
-    trigger: input.trigger,
-    triggeredBy: input.triggeredBy,
-    datasets: { saadiyat: capture.dataset as any },
-    projectScope: [{ dataset: "saadiyat", projectSlug: "sei-saadiyat" }],
-  });
-  const seiRollup = sync.rollups.find(row => row.dataset === "saadiyat" && row.projectSlug === "sei-saadiyat");
-  const firstOfficialPriceDetected = capture.publishedPriceCount > 0 && (seiRollup?.priceChanges ?? 0) > 0;
+  const probe = await probeSeiSaadiyatOfficialPricing();
+  const firstOfficialPriceDetected = probe.publishedPrices.length > 0;
 
   let notificationSent = false;
   let monitorPaused = false;
   if (firstOfficialPriceDetected) {
-    await archiveSeiSaadiyatSourceFiles(capture.files, capture.captureDate);
+    await archiveSeiSaadiyatSourceFiles(probe.files, probe.captureDate);
     notificationSent = await notifyOwner({
       title: "Sei Saadiyat: official unit pricing published",
-      content: `World of Aldar now publishes ${capture.publishedPriceCount} valid Sei unit price${capture.publishedPriceCount === 1 ? "" : "s"}. The sync recorded ${seiRollup?.priceChanges ?? 0} price event${(seiRollup?.priceChanges ?? 0) === 1 ? "" : "s"}. AED 1 placeholders were ignored. Open Sync History for unit-by-unit values.`,
+      content: `World of Aldar now returns ${probe.publishedPrices.length} valid sampled Sei unit price${probe.publishedPrices.length === 1 ? "" : "s"} after screening ${probe.screenedUnitCount} official records. First detected value: ${probe.publishedPrices[0]!.unitName} · AED ${probe.publishedPrices[0]!.priceAed.toLocaleString()}. AED 1 placeholders were ignored. Full unit-price capture can now be run as a follow-up source import.`,
     });
     if (input.monitorTaskUid) {
       await updateHeartbeatJob(input.monitorTaskUid, { enable: false }, "");
@@ -40,12 +32,16 @@ export async function refreshSeiSaadiyatOfficialInventory(input: {
   }
 
   return {
-    runId: sync.runId,
-    counts: sync.counts,
-    rollups: sync.rollups,
-    newProjects: sync.newProjects,
-    captureDate: capture.captureDate,
-    publishedPriceCount: capture.publishedPriceCount,
+    runId: null,
+    counts: { unitsScanned: probe.sourceUnitCount, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 },
+    rollups: [],
+    newProjects: [],
+    captureDate: probe.captureDate,
+    sourceUnitCount: probe.sourceUnitCount,
+    screenedUnitCount: probe.screenedUnitCount,
+    monitorMode: "official-price-probe" as const,
+    publishedPriceCount: probe.publishedPrices.length,
+    detectedPrices: probe.publishedPrices,
     firstOfficialPriceDetected,
     notificationSent,
     monitorPaused,
