@@ -22,6 +22,8 @@ type OfficialUnitDetail = {
   reservationAmount: number | null;
 };
 
+type SeiBuilding = Record<string, unknown> & { slug?: string; name?: string; units?: SeiUnit[] };
+
 export type SeiOfficialPriceProbe = {
   captureDate: string;
   sourceUnitCount: number;
@@ -73,8 +75,78 @@ export function publishedPriceFromSeiDetail(payload: unknown): number | null {
   return isPublishedSeiUnitPrice(price) ? price : null;
 }
 
+export function parseSeiUnitDetailPayload(input: { unitName: string; locationId: string }, payload: unknown): OfficialUnitDetail {
+  const detail = (payload as { data?: { unitDetail?: Record<string, unknown> } } | null)?.data?.unitDetail;
+  // Aldar currently returns HTTP 200 plus a "No unit details found" message for
+  // certain published location IDs. It is not a price release and must not stop
+  // the whole scheduled price probe.
+  if (!detail) {
+    return { unitName: input.unitName, locationId: input.locationId, status: null, sellingPrice: null, reservationAmount: null };
+  }
+  if (text(detail.Name) !== input.unitName) throw new Error(`Sei Saadiyat ${input.unitName}: unit-detail identity mismatch.`);
+  return {
+    unitName: input.unitName,
+    locationId: input.locationId,
+    status: text(detail.Status__c),
+    sellingPrice: publishedPriceFromSeiDetail(payload),
+    reservationAmount: numberOrNull(detail.ReservationAmount__c),
+  };
+}
+
 function validSeiCode(value: unknown): value is string {
   return typeof value === "string" && /^SeiSaadiyat-T[1-6]-(?:\d{2}|G)-\d{2}$/i.test(value);
+}
+
+function sourceBuildingNumber(value: unknown) {
+  return typeof value === "string" ? /^SeiSaadiyat-T([1-6])-/.exec(value)?.[1] ?? null : null;
+}
+
+function sourceUnitAsBaselineUnit(source: SourceUnit, captureDate: string): SeiUnit {
+  const unitName = text(source.unitNumber);
+  if (!validSeiCode(unitName)) throw new Error("Sei Saadiyat: source contains an invalid unit code.");
+  const fallbackPrice = numberOrNull(source.price);
+  return {
+    unit_name: unitName,
+    aldar_link: null,
+    unit_type: text(source.unitType),
+    unit_category: text(source.unitCategory),
+    unit_model: text(source.propertyName) ?? text(source.unitModel),
+    bedrooms: numberOrNull(source.bedroomCount) == null ? null : String(numberOrNull(source.bedroomCount)),
+    total_rooms: text(source.propertyName),
+    price_aed: isPublishedSeiUnitPrice(fallbackPrice) ? fallbackPrice : null,
+    plot_area_sqm: numberOrNull(source.plotArea),
+    saleable_area_sqm: numberOrNull(source.saleableArea),
+    total_area_sqm: numberOrNull(source.suiteArea) ?? numberOrNull(source.saleableArea),
+    balcony_area_sqm: numberOrNull(source.balconyArea),
+    payment_plans: text(source.paymentPlan),
+    source_location_id: text(source.locationId),
+    source_unit_status: text(source.unitStatus) ?? text(source.status),
+    source_captured_at: captureDate,
+    source_route: new URL(SEI_ROUTE).pathname,
+    project_field: "Captured from the official Sei Saadiyat World of Aldar release. AED 1, zero, and blank values are not stored as prices.",
+  };
+}
+
+/** Adds source-only Sei units to their exact existing building without treating stored units as removed. */
+export function mergeOfficialSeiSourceUnits(project: Record<string, unknown>, sourceUnits: SourceUnit[], captureDate: string) {
+  const buildings = (project.buildings as SeiBuilding[] | undefined) ?? [];
+  const knownUnitNames = new Set(buildings.flatMap(building => (building.units ?? []).map(unit => unit.unit_name).filter((value): value is string => Boolean(value))));
+  let added = 0;
+  for (const source of sourceUnits) {
+    const unitName = text(source.unitNumber);
+    if (!unitName || knownUnitNames.has(unitName)) continue;
+    const buildingNumber = sourceBuildingNumber(unitName);
+    const building = buildings.find(item => String(item.slug) === `sei-saadiyat-building-${buildingNumber}`);
+    if (!building) throw new Error(`Sei Saadiyat: no stored building matches official source unit ${unitName}.`);
+    const units = building.units ?? [];
+    units.push(sourceUnitAsBaselineUnit(source, captureDate));
+    building.units = units;
+    building.unit_count = units.length;
+    knownUnitNames.add(unitName);
+    added += 1;
+  }
+  project.unit_count = buildings.reduce((total, building) => total + (building.units?.length ?? 0), 0);
+  return added;
 }
 
 async function fetchOfficialSeiUnitDetail(source: SourceUnit, fetchImpl: typeof fetch): Promise<OfficialUnitDetail> {
@@ -93,15 +165,7 @@ async function fetchOfficialSeiUnitDetail(source: SourceUnit, fetchImpl: typeof 
     });
     if (!response.ok) throw new Error(`Sei Saadiyat ${unitName}: unit-detail returned HTTP ${response.status}.`);
     const payload = await response.json() as { data?: { unitDetail?: Record<string, unknown> } };
-    const detail = payload.data?.unitDetail;
-    if (!detail || text(detail.Name) !== unitName) throw new Error(`Sei Saadiyat ${unitName}: unit-detail identity mismatch.`);
-    return {
-      unitName,
-      locationId,
-      status: text(detail.Status__c),
-      sellingPrice: publishedPriceFromSeiDetail(payload),
-      reservationAmount: numberOrNull(detail.ReservationAmount__c),
-    };
+    return parseSeiUnitDetailPayload({ unitName, locationId }, payload);
   } finally {
     clearTimeout(timeout);
   }
@@ -161,7 +225,7 @@ export async function probeSeiSaadiyatOfficialPricing(fetchImpl: typeof fetch = 
     if (!response.ok) throw new Error(`Sei Saadiyat: World of Aldar returned HTTP ${response.status}.`);
     const html = await response.text();
     const sourceUnits = extractOfficialWorldAldarUnits(html, SEI_PREFIX) as SourceUnit[];
-    if (sourceUnits.length !== 778) throw new Error(`Sei Saadiyat: expected 778 official units, received ${sourceUnits.length}.`);
+    if (!sourceUnits.length) throw new Error("Sei Saadiyat: official project page returned no unit records.");
     if (new Set(sourceUnits.map(unit => unit.unitNumber)).size !== sourceUnits.length) throw new Error("Sei Saadiyat: duplicate official unit code.");
 
     const directPrices = sourceUnits.flatMap(unit => {
@@ -190,6 +254,43 @@ export async function probeSeiSaadiyatOfficialPricing(fetchImpl: typeof fetch = 
   }
 }
 
+/**
+ * Captures only newly published Sei unit identities and source fields. It is
+ * deliberately separate from the detail-price capture, whose endpoint may be
+ * unavailable before Aldar releases commercial unit details.
+ */
+export async function captureSeiSaadiyatOfficialSourceExpansion(fetchImpl: typeof fetch = fetch) {
+  const captureDate = new Date().toISOString().slice(0, 10);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20_000);
+  try {
+    const response = await fetchImpl(SEI_ROUTE, {
+      headers: { Accept: "text/html", "User-Agent": "SaadiyatResaleHub/1.0" },
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(`Sei Saadiyat: World of Aldar returned HTTP ${response.status}.`);
+    const html = await response.text();
+    const sourceUnits = extractOfficialWorldAldarUnits(html, SEI_PREFIX) as SourceUnit[];
+    if (!sourceUnits.length) throw new Error("Sei Saadiyat: official project page returned no unit records.");
+    if (new Set(sourceUnits.map(unit => unit.unitNumber)).size !== sourceUnits.length) throw new Error("Sei Saadiyat: duplicate official unit code.");
+    const baseline = readSaadiyatDataset();
+    const project = baseline.projects.find(item => item.slug === SEI_PROJECT_SLUG);
+    if (!project || !Array.isArray(project.buildings)) throw new Error("Sei Saadiyat is absent from the Saadiyat baseline dataset.");
+    const storedUnitCount = (project.buildings as SeiBuilding[]).reduce((total, building) => total + (building.units?.length ?? 0), 0);
+    if (sourceUnits.length < storedUnitCount) throw new Error(`Sei Saadiyat: official source count ${sourceUnits.length} is lower than stored count ${storedUnitCount}.`);
+    const addedUnitCount = mergeOfficialSeiSourceUnits(project, sourceUnits, captureDate);
+    return {
+      captureDate,
+      sourceUnitCount: sourceUnits.length,
+      addedUnitCount,
+      dataset: { projects: [project] },
+      files: addedUnitCount ? [{ filename: `sei-saadiyat-source-expansion-${captureDate}.html`, bytes: Buffer.from(html), mimeType: "text/html" }] : [],
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function captureSeiSaadiyatOfficialSnapshot(fetchImpl: typeof fetch = fetch) {
   const captureDate = new Date().toISOString().slice(0, 10);
   const controller = new AbortController();
@@ -202,16 +303,19 @@ export async function captureSeiSaadiyatOfficialSnapshot(fetchImpl: typeof fetch
     if (!response.ok) throw new Error(`Sei Saadiyat: World of Aldar returned HTTP ${response.status}.`);
     const html = await response.text();
     const sourceUnits = extractOfficialWorldAldarUnits(html, SEI_PREFIX) as SourceUnit[];
-    if (sourceUnits.length !== 778) throw new Error(`Sei Saadiyat: expected 778 official units, received ${sourceUnits.length}.`);
+    if (!sourceUnits.length) throw new Error("Sei Saadiyat: official project page returned no unit records.");
     if (new Set(sourceUnits.map(unit => unit.unitNumber)).size !== sourceUnits.length) throw new Error("Sei Saadiyat: duplicate official unit code.");
 
+    let baseline = readSaadiyatDataset();
+    const project = baseline.projects.find(item => item.slug === SEI_PROJECT_SLUG);
+    if (!project || !Array.isArray(project.buildings)) throw new Error("Sei Saadiyat is absent from the Saadiyat baseline dataset.");
+    const storedUnitCount = (project.buildings as SeiBuilding[]).reduce((total, building) => total + (building.units?.length ?? 0), 0);
+    if (sourceUnits.length < storedUnitCount) throw new Error(`Sei Saadiyat: official source count ${sourceUnits.length} is lower than stored count ${storedUnitCount}.`);
+    mergeOfficialSeiSourceUnits(project, sourceUnits, captureDate);
     const sourceByCode = new Map(sourceUnits.map(unit => [String(unit.unitNumber), unit]));
     const details = await fetchOfficialSeiUnitDetails(sourceUnits, fetchImpl);
     if (details.length !== sourceUnits.length) throw new Error("Sei Saadiyat: incomplete unit-detail capture.");
     const detailsByCode = new Map(details.map(detail => [detail.unitName, detail]));
-    let baseline = readSaadiyatDataset();
-    const project = baseline.projects.find(item => item.slug === SEI_PROJECT_SLUG);
-    if (!project || !Array.isArray(project.buildings)) throw new Error("Sei Saadiyat is absent from the Saadiyat baseline dataset.");
     // Release the full Saadiyat baseline before the diff; only Sei is relevant.
     baseline = { projects: [] };
     const dataset: SeiDataset = { projects: [project] };

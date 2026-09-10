@@ -986,3 +986,9 @@
 - [x] Reformat Sync History into a mobile-friendly change table showing unit, field, before value, after value, source, time, and a direct card action
 - [x] Add Master Admin home notifications for newly detected official projects and newly published official unit pricing, with a direct action to the relevant project or card
 - [x] Separate the activity interface into distinct System Changes and Aldar Sync tabs, each with its own table, filters, source label, and direct card action
+
+### Official Aldar Launch and Price Check (Sep 10, 2026)
+- [x] Inspect the current official Aldar directory and project endpoints for newly launched projects, distinguishing announced projects from source-complete inventory; no new source-complete project was found
+- [x] Verify newly published official project or unit pricing, with a dedicated check of Saadiyat projects and explicit exclusion of zero/AED 1 placeholders; Sei returned no valid unit price
+- [x] Report confirmed findings and update the system only if the official source contains enough data to preserve without inference; added 170 official Sei units after source expansion
+- [x] Update Sei monitoring to safely accommodate the official source expansion from 778 to 948 units, while retaining exact-unit validation and avoiding false removal events
