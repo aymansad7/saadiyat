@@ -5,7 +5,7 @@
  * The desk only displays source-backed Aldar statuses and routes every row to
  * the matching internal unit detail card.
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import {
   ArrowUpRight,
@@ -31,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
 import { inventoryUnitEventKey, matchesSalesStatusFilter, type SalesStatusFilter } from "@/lib/inventorySalesFilters";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 function fmtDateTime(d: Date | string | null | undefined) {
   if (!d) return "—";
@@ -119,6 +120,30 @@ type CardHistoryEvent = {
   changes: Record<string, { from: unknown; to: unknown }>;
 };
 
+type SystemActivityEvent = {
+  id: string;
+  createdAt: Date | string;
+  eventType: string;
+  actorName: string | null;
+  actorEmail: string;
+  entityType: string | null;
+  entityKey: string | null;
+  summary: string;
+};
+
+type SystemChangeRow = {
+  id: string;
+  source: "Card" | "System";
+  createdAt: Date | string;
+  project: string;
+  record: string;
+  field: string;
+  before: string;
+  after: string;
+  actor: string;
+  href: string | null;
+};
+
 const EVENT_OPTIONS: Array<{ value: InventoryEvent["eventType"] | "all"; label: string }> = [
   { value: "all", label: "All changes" },
   { value: "status_change", label: "Status changes" },
@@ -165,6 +190,21 @@ const cardFieldLabels: Record<string, string> = {
   rentPriceAed: "Rent price",
 };
 
+const systemEventLabels: Record<string, string> = {
+  sign_in: "Sign-in",
+  access_grant_create: "Access granted",
+  access_grant_update: "Access updated",
+  access_grant_delete: "Access removed",
+  access_role_update: "Role updated",
+  document_create: "Document added",
+  document_update: "Document updated",
+  document_remove: "Document removed",
+  onedrive_sync: "OneDrive sync",
+  owner_create: "Owner record added",
+  owner_update: "Owner record updated",
+  owner_unit_link: "Owner linked to unit",
+};
+
 export function describeCardHistoryEvent(event: CardHistoryEvent) {
   if (event.eventType === "manual_sold") {
     return `Operational sale: ${event.fromStatus ?? "Not stated"} → Sold${event.saleAgentName ? ` · responsible: ${event.saleAgentName}` : ""}${event.soldAt ? ` · sale date: ${fmtDateTime(event.soldAt)}` : ""}`;
@@ -175,6 +215,31 @@ export function describeCardHistoryEvent(event: CardHistoryEvent) {
     .slice(0, 3)
     .map(([field, change]) => `${cardFieldLabels[field] ?? field}: ${cardValue(change.from, field)} → ${cardValue(change.to, field)}`);
   return pairs.length ? pairs.join(" · ") : "Operational card updated";
+}
+
+export function systemRowsFromCardHistory(event: CardHistoryEvent): SystemChangeRow[] {
+  const changes = Object.entries(event.changes);
+  if (!changes.length) {
+    return [{
+      id: `${event.id}-summary`, source: "Card", createdAt: event.createdAt,
+      project: event.projectSlug ?? "Property card", record: event.unitName,
+      field: event.eventType === "manual_sold" ? "Operational sale" : "Card update",
+      before: event.fromStatus ?? "Not stated", after: event.toStatus ?? describeCardHistoryEvent(event),
+      actor: event.actorName || event.actorEmail, href: event.href,
+    }];
+  }
+  return changes.map(([field, change]) => ({
+    id: `${event.id}-${field}`,
+    source: "Card",
+    createdAt: event.createdAt,
+    project: event.projectSlug ?? "Property card",
+    record: event.unitName,
+    field: cardFieldLabels[field] ?? field,
+    before: cardValue(change.from, field),
+    after: cardValue(change.to, field),
+    actor: event.actorName || event.actorEmail,
+    href: event.href,
+  }));
 }
 
 function StatCard({
@@ -216,6 +281,8 @@ export default function AdminInventoryHistory() {
   const [eventProjectFilter, setEventProjectFilter] = useState("all");
   const [eventTypeFilter, setEventTypeFilter] = useState<InventoryEvent["eventType"] | "all">("all");
   const [eventQuery, setEventQuery] = useState("");
+  const [systemQuery, setSystemQuery] = useState("");
+  const [activityTab, setActivityTab] = useState("system");
 
   const latest = trpc.inventoryHistory.latestRun.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -239,6 +306,10 @@ export default function AdminInventoryHistory() {
     enabled: isAuthenticated && (user?.role === "admin" || user?.role === "master"),
   });
   const cardHistory = trpc.villaListings.history.useQuery(
+    { limit: 500 },
+    { enabled: isAuthenticated && user?.role === "master" },
+  );
+  const systemActivity = trpc.villaListings.systemActivity.useQuery(
     { limit: 500 },
     { enabled: isAuthenticated && user?.role === "master" },
   );
@@ -319,6 +390,7 @@ export default function AdminInventoryHistory() {
   const newCount = saleUnits.filter(unit => (unit.status ?? "").toLowerCase() === "new").length;
   const eventRows = (dailyEvents.data ?? []) as InventoryEvent[];
   const cardEvents = (cardHistory.data ?? []) as CardHistoryEvent[];
+  const systemActivityEvents = (systemActivity.data ?? []) as SystemActivityEvent[];
   const eventProjects = useMemo(
     () => Array.from(new Map(eventRows.map(event => [event.projectSlug, event.projectName ?? event.projectSlug])).entries())
       .map(([slug, label]) => ({ slug, label }))
@@ -330,6 +402,31 @@ export default function AdminInventoryHistory() {
     if (!q) return eventRows;
     return eventRows.filter(event => `${event.unitName} ${event.projectName ?? ""} ${event.buildingName ?? ""} ${event.fromStatus ?? ""} ${event.toStatus ?? ""}`.toLowerCase().includes(q));
   }, [eventQuery, eventRows]);
+  const systemRows = useMemo<SystemChangeRow[]>(() => {
+    const cardRows = cardEvents.flatMap(systemRowsFromCardHistory);
+    const auditRows = systemActivityEvents.map(activity => ({
+      id: activity.id,
+      source: "System" as const,
+      createdAt: activity.createdAt,
+      project: activity.entityType ?? "System",
+      record: activity.entityKey ?? "System activity",
+      field: systemEventLabels[activity.eventType] ?? activity.eventType.replace(/_/g, " "),
+      before: "—",
+      after: activity.summary,
+      actor: activity.actorName || activity.actorEmail,
+      href: null,
+    }));
+    return [...cardRows, ...auditRows].sort((left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime());
+  }, [cardEvents, systemActivityEvents]);
+  const displayedSystemRows = useMemo(() => {
+    const query = systemQuery.trim().toLowerCase();
+    if (!query) return systemRows;
+    return systemRows.filter(row => `${row.project} ${row.record} ${row.field} ${row.before} ${row.after} ${row.actor}`.toLowerCase().includes(query));
+  }, [systemQuery, systemRows]);
+
+  useEffect(() => {
+    if (window.location.hash === "#aldar-sync") setActivityTab("aldar");
+  }, []);
 
   function handleImport() {
     let parsed: unknown;
@@ -421,23 +518,58 @@ export default function AdminInventoryHistory() {
           )}
         </section>
 
-        {user?.role === "master" && <section className="overflow-hidden rounded-xl border border-border bg-card">
+        {user?.role === "master" && <Tabs value={activityTab} onValueChange={setActivityTab} className="gap-4">
+          <TabsList className="grid h-auto w-full grid-cols-2 rounded-xl border border-border bg-card p-1 sm:w-[430px]">
+            <TabsTrigger value="system" className="h-10 text-xs sm:text-sm">System changes</TabsTrigger>
+            <TabsTrigger value="aldar" className="h-10 text-xs sm:text-sm">Aldar Sync</TabsTrigger>
+          </TabsList>
+          <TabsContent value="system" className="m-0">
+          <section className="overflow-hidden rounded-xl border border-border bg-card">
           <div className="border-b border-border px-5 py-5 sm:px-6">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <div className="flex items-center gap-2 text-[0.68rem] font-mono uppercase tracking-[0.18em] text-primary"><UserRoundCheck className="h-3.5 w-3.5" /> Operational card changes</div>
-                <h2 className="mt-1 font-display text-2xl text-foreground">Sales and edits recorded on unit cards</h2>
-                <p className="mt-1 max-w-2xl text-sm text-muted-foreground">This is the operational ledger. It is separate from Aldar&apos;s source status and shows every recorded card change with values before and after.</p>
+                <div className="flex items-center gap-2 text-[0.68rem] font-mono uppercase tracking-[0.18em] text-primary"><UserRoundCheck className="h-3.5 w-3.5" /> System changes</div>
+                <h2 className="mt-1 font-display text-2xl text-foreground">Who changed what, before and after</h2>
+                <p className="mt-1 max-w-2xl text-sm text-muted-foreground">Internal edits, additions, removals and OneDrive or access actions. Aldar&apos;s developer-source changes are in the separate Aldar Sync tab.</p>
               </div>
-              <div className="font-mono text-xs text-muted-foreground">{cardEvents.length.toLocaleString()} records</div>
+              <div className="font-mono text-xs text-muted-foreground">{displayedSystemRows.length.toLocaleString()} records</div>
             </div>
           </div>
-          {cardHistory.isLoading ? <div className="px-5 py-8 text-sm text-muted-foreground sm:px-6">Loading card history…</div> : cardEvents.length === 0 ? <div className="px-5 py-8 text-sm text-muted-foreground sm:px-6">No operational card changes recorded yet.</div> : <>
-            <div className="hidden overflow-x-auto md:block"><table className="w-full min-w-[980px] text-left text-sm"><thead className="border-b border-border bg-muted/10 text-[0.65rem] font-mono uppercase tracking-[0.14em] text-muted-foreground"><tr><th className="px-5 py-3 sm:px-6">Date</th><th className="px-3 py-3">Project</th><th className="px-3 py-3">Unit</th><th className="px-3 py-3">Change</th><th className="px-3 py-3">Responsible / recorded by</th><th className="px-5 py-3 text-right sm:px-6">Card</th></tr></thead><tbody className="divide-y divide-border">{cardEvents.map(event => <tr key={event.id} className="transition-colors hover:bg-accent/35"><td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground sm:px-6">{fmtDateTime(event.createdAt)}</td><td className="max-w-[180px] truncate px-3 py-3 text-muted-foreground">{event.projectSlug ?? "Property card"}</td><td className="max-w-[240px] truncate px-3 py-3 font-medium text-foreground">{event.unitName}</td><td className="max-w-[420px] px-3 py-3 text-xs text-foreground">{describeCardHistoryEvent(event)}</td><td className="px-3 py-3 text-xs text-muted-foreground">{event.saleAgentName ?? "Not recorded"}<div className="mt-0.5">Recorded by {event.actorName || event.actorEmail}</div></td><td className="px-5 py-3 text-right sm:px-6">{event.href ? <Button asChild size="sm" variant="outline" className="bg-card"><Link href={event.href}>Open card <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></Link></Button> : <span className="text-xs text-muted-foreground">Route unavailable</span>}</td></tr>)}</tbody></table></div>
-            <div className="divide-y divide-border md:hidden">{cardEvents.map(event => <article key={event.id} className="space-y-2 px-5 py-4"><div className="flex items-start justify-between gap-3"><div><div className="font-medium text-foreground">{event.unitName}</div><div className="mt-0.5 text-xs text-muted-foreground">{event.projectSlug ?? "Property card"}</div></div><div className="text-right text-xs text-muted-foreground">{fmtDateTime(event.createdAt)}</div></div><div className="text-sm text-foreground">{describeCardHistoryEvent(event)}</div><div className="flex items-center justify-between gap-3"><span className="text-xs text-muted-foreground">{event.saleAgentName ? `Responsible: ${event.saleAgentName}` : "Responsible not recorded"}</span>{event.href ? <Button asChild size="sm" variant="outline" className="bg-card"><Link href={event.href}>Open card <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></Link></Button> : null}</div></article>)}</div>
+          <div className="border-b border-border bg-muted/20 px-5 py-4 sm:px-6"><label className="relative block"><Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" /><input value={systemQuery} onChange={event => setSystemQuery(event.target.value)} placeholder="Search unit, action, person or value" className="h-10 w-full rounded-md border border-border bg-background pl-9 pr-3 text-sm text-foreground outline-none transition focus:ring-2 focus:ring-primary/30" /></label></div>
+          {cardHistory.isLoading || systemActivity.isLoading ? <div className="px-5 py-8 text-sm text-muted-foreground sm:px-6">Loading system changes…</div> : displayedSystemRows.length === 0 ? <div className="px-5 py-8 text-sm text-muted-foreground sm:px-6">No system changes match this search.</div> : <>
+            <div className="hidden overflow-x-auto md:block">
+              <table className="w-full min-w-[1180px] text-left text-sm">
+                <thead className="border-b border-border bg-muted/10 text-[0.65rem] font-mono uppercase tracking-[0.14em] text-muted-foreground">
+                  <tr><th className="px-5 py-3 sm:px-6">Date</th><th className="px-3 py-3">Source</th><th className="px-3 py-3">Project</th><th className="px-3 py-3">Unit / record</th><th className="px-3 py-3">What changed</th><th className="px-3 py-3">Before</th><th className="px-3 py-3">After</th><th className="px-3 py-3">By</th><th className="px-5 py-3 text-right sm:px-6">Card</th></tr>
+                </thead>
+                <tbody className="divide-y divide-border">
+                  {displayedSystemRows.map(row => <tr key={row.id} className="transition-colors hover:bg-accent/35">
+                    <td className="whitespace-nowrap px-5 py-3 text-xs text-muted-foreground sm:px-6">{fmtDateTime(row.createdAt)}</td>
+                    <td className="px-3 py-3"><span className={`rounded-sm px-1.5 py-0.5 font-mono text-[0.62rem] uppercase tracking-wide ${row.source === "Card" ? "bg-primary/10 text-primary" : "bg-sky-500/10 text-sky-700 dark:text-sky-300"}`}>{row.source}</span></td>
+                    <td className="max-w-[150px] truncate px-3 py-3 text-xs text-muted-foreground">{row.project}</td>
+                    <td className="max-w-[200px] truncate px-3 py-3 font-medium text-foreground">{row.record}</td>
+                    <td className="max-w-[160px] truncate px-3 py-3 text-xs text-foreground">{row.field}</td>
+                    <td className="max-w-[220px] truncate px-3 py-3 text-xs text-muted-foreground">{row.before}</td>
+                    <td className="max-w-[280px] truncate px-3 py-3 text-xs text-foreground">{row.after}</td>
+                    <td className="max-w-[160px] truncate px-3 py-3 text-xs text-muted-foreground">{row.actor}</td>
+                    <td className="px-5 py-3 text-right sm:px-6">{row.href ? <Button asChild size="sm" variant="outline" className="bg-card"><Link href={row.href}>Open card <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></Link></Button> : <span className="text-xs text-muted-foreground">No card</span>}</td>
+                  </tr>)}
+                </tbody>
+              </table>
+            </div>
+            <div className="divide-y divide-border md:hidden">
+              {displayedSystemRows.map(row => <article key={row.id} className="space-y-3 px-5 py-4">
+                <div className="flex items-start justify-between gap-3"><div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className={`rounded-sm px-1.5 py-0.5 font-mono text-[0.62rem] uppercase tracking-wide ${row.source === "Card" ? "bg-primary/10 text-primary" : "bg-sky-500/10 text-sky-700 dark:text-sky-300"}`}>{row.source}</span><span className="truncate font-medium text-foreground">{row.record}</span></div><div className="mt-1 text-xs text-muted-foreground">{row.project} · {row.field}</div></div><div className="shrink-0 text-right text-xs text-muted-foreground">{fmtDateTime(row.createdAt)}</div></div>
+                <div className="grid grid-cols-2 gap-2 text-xs"><div className="rounded-md bg-muted/40 p-2"><div className="font-mono uppercase tracking-wide text-[0.58rem] text-muted-foreground">Before</div><div className="mt-1 text-foreground">{row.before}</div></div><div className="rounded-md bg-primary/5 p-2"><div className="font-mono uppercase tracking-wide text-[0.58rem] text-muted-foreground">After</div><div className="mt-1 text-foreground">{row.after}</div></div></div>
+                <div className="flex items-center justify-between gap-3"><span className="truncate text-xs text-muted-foreground">By {row.actor}</span>{row.href ? <Button asChild size="sm" variant="outline" className="bg-card"><Link href={row.href}>Open card <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></Link></Button> : <span className="text-xs text-muted-foreground">No card</span>}</div>
+              </article>)}
+            </div>
           </>}
-        </section>}
+          </section>
+          </TabsContent>
+        </Tabs>}
 
+        {(user?.role !== "master" || activityTab === "aldar") && <div id="aldar-sync" className="space-y-8">
         <section className="overflow-hidden rounded-xl border border-border bg-card">
           <div className="border-b border-border px-5 py-5 sm:px-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -466,12 +598,13 @@ export default function AdminInventoryHistory() {
 
         <section>
           <div className="mb-3 flex items-center gap-2"><Plus className="h-4 w-4 text-emerald-600" /><h2 className="font-display text-xl text-foreground">New projects detected</h2></div>
-          {newProjects.length === 0 ? <Card><CardContent className="p-5 text-sm text-muted-foreground">No source-complete project was first detected in the latest import. “Coming Soon” marketing without units is not added here.</CardContent></Card> : <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">{newProjects.map(project => <Card key={`${project.dataset}:${project.projectSlug}`}><CardContent className="p-5"><div className="flex items-start justify-between gap-3"><div><h3 className="font-display text-lg text-foreground">{project.projectName}</h3><p className="mt-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">{project.dataset} · {project.areaKey}</p></div><span className="rounded-sm bg-emerald-500/10 px-2 py-1 text-xs text-emerald-700 dark:text-emerald-300">New</span></div><div className="mt-4 grid grid-cols-2 gap-3 text-sm"><div><div className="text-xs text-muted-foreground">Source units</div><div className="mt-1 font-semibold text-foreground">{project.unitCount.toLocaleString()}</div></div><div><div className="text-xs text-muted-foreground">Available</div><div className="mt-1 font-semibold text-foreground">{project.availableCount.toLocaleString()}</div></div></div><p className="mt-4 text-sm font-medium text-foreground">{project.priceMinAed == null ? "Price not published" : project.priceMinAed === project.priceMaxAed ? fmtAed(project.priceMinAed) : `${fmtAed(project.priceMinAed)} – ${fmtAed(project.priceMaxAed)}`}</p></CardContent></Card>)}</div>}
+          {newProjects.length === 0 ? <Card><CardContent className="p-5 text-sm text-muted-foreground">No source-complete project was first detected in the latest import. “Coming Soon” marketing without units is not added here.</CardContent></Card> : <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">{newProjects.map(project => <Card key={`${project.dataset}:${project.projectSlug}`}><CardContent className="p-5"><div className="flex items-start justify-between gap-3"><div><h3 className="font-display text-lg text-foreground">{project.projectName}</h3><p className="mt-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">{project.dataset} · {project.areaKey}</p></div><span className="rounded-sm bg-emerald-500/10 px-2 py-1 text-xs text-emerald-700 dark:text-emerald-300">New</span></div><div className="mt-4 grid grid-cols-2 gap-3 text-sm"><div><div className="text-xs text-muted-foreground">Source units</div><div className="mt-1 font-semibold text-foreground">{project.unitCount.toLocaleString()}</div></div><div><div className="text-xs text-muted-foreground">Available</div><div className="mt-1 font-semibold text-foreground">{project.availableCount.toLocaleString()}</div></div></div><p className="mt-4 text-sm font-medium text-foreground">{project.priceMinAed == null ? "Price not published" : project.priceMinAed === project.priceMaxAed ? fmtAed(project.priceMinAed) : `${fmtAed(project.priceMinAed)} – ${fmtAed(project.priceMaxAed)}`}</p><Button asChild size="sm" variant="outline" className="mt-4 bg-card"><Link href={`/${project.dataset === "saadiyat" ? "aldar-saadiyat" : "aldar-other"}/${project.projectSlug}`}>Open project <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></Link></Button></CardContent></Card>)}</div>}
         </section>
 
         <section><h2 className="font-display text-xl text-foreground mb-3">Latest changes by project</h2>{rollups.length === 0 ? <Card><CardContent className="p-6 text-sm text-muted-foreground">No changes detected in the most recent run.</CardContent></Card> : <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">{rollups.map(r => <Card key={`${r.dataset}-${r.projectSlug}`}><CardContent className="p-5"><div className="flex items-center justify-between gap-2"><div className="font-display text-lg text-foreground">{r.projectName ?? r.projectSlug}</div><span className="text-[0.6rem] font-mono uppercase tracking-wider rounded bg-muted px-1.5 py-0.5 text-muted-foreground">{r.dataset}</span></div><div className="mt-3 flex flex-wrap gap-3 text-sm">{r.sold > 0 && <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400"><TrendingDown className="h-3.5 w-3.5" /> {r.sold} sold</span>}{r.newUnits > 0 && <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400"><Plus className="h-3.5 w-3.5" /> {r.newUnits} new</span>}{r.priceChanges > 0 && <span className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400"><TrendingUp className="h-3.5 w-3.5" /> {r.priceChanges} price</span>}{r.statusChanges > 0 && <span className="text-muted-foreground">{r.statusChanges} status</span>}{r.removed > 0 && <span className="text-muted-foreground">{r.removed} removed</span>}</div>{r.examples.length > 0 && <ul className="mt-3 space-y-1 text-xs text-muted-foreground font-mono">{r.examples.map((ex, i) => <li key={i} className="truncate">• {ex}</li>)}</ul>}</CardContent></Card>)}</div>}</section>
 
         <section><h2 className="font-display text-xl text-foreground mb-3">Recent source syncs</h2><Card><CardContent className="p-0"><div className="divide-y divide-border">{(runs.data ?? []).map(r => <div key={r.id} className="flex items-center justify-between gap-4 px-5 py-3 text-sm flex-wrap"><div className="flex items-center gap-3"><span className="font-mono text-xs text-muted-foreground">#{r.id}</span><span className="text-foreground">{fmtDateTime(r.startedAt)}</span><span className={"text-[0.6rem] font-mono uppercase tracking-wider rounded px-1.5 py-0.5 " + (r.status === "success" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : r.status === "error" ? "bg-rose-500/10 text-rose-600 dark:text-rose-400" : "bg-muted text-muted-foreground")}>{r.status}</span><span className="text-[0.6rem] font-mono uppercase tracking-wider text-muted-foreground">{r.trigger}</span></div><div className="flex items-center gap-4 text-xs text-muted-foreground"><span>{Number(r.unitsScanned ?? 0).toLocaleString()} scanned</span><span className="text-rose-600 dark:text-rose-400">{r.soldUnits ?? 0} source sold</span><span className="text-emerald-600 dark:text-emerald-400">{r.newUnits ?? 0} new</span><span className="text-amber-600 dark:text-amber-400">{r.priceChanges ?? 0} price</span></div></div>)}{(runs.data ?? []).length === 0 && <div className="px-5 py-6 text-sm text-muted-foreground">No runs recorded.</div>}</div></CardContent></Card></section>
+        </div>}
       </main>
     </div>
   );

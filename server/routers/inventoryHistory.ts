@@ -11,8 +11,12 @@
  *   syncNow()                 admin  — run a sync against the on-disk datasets
  *   importDataset(...)        admin  — diff an uploaded JSON without writing disk
  */
+import { TRPCError } from "@trpc/server";
+import { desc, ne } from "drizzle-orm";
 import { z } from "zod";
-import { adminProcedure, publicProcedure, router } from "../_core/trpc";
+import { aldarProjectDiscoveries } from "../../drizzle/schema";
+import { adminProcedure, protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { getDb } from "../db";
 import {
   getLatestRun,
   getUnitTimeline,
@@ -31,6 +35,13 @@ const rawDatasetSchema = z
     projects: z.array(z.any()),
   })
   .passthrough();
+
+const masterProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.user.role !== "master") {
+    throw new TRPCError({ code: "FORBIDDEN", message: "Master Admin access required." });
+  }
+  return next();
+});
 
 export const inventoryHistoryRouter = router({
   /** Timeline for a single Aldar unit. Public so it can render on unit pages. */
@@ -59,6 +70,54 @@ export const inventoryHistoryRouter = router({
     }
     return { run, rollups, newProjects };
   }),
+
+  /**
+   * Compact, Master-only alert feed used in the global header. It never
+   * exposes owner or private contact data; it only points to an imported
+   * official project or the Aldar Sync review tab for an incomplete release.
+   */
+  notifications: masterProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(20).default(8) }).default({ limit: 8 }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      const discoveries = db
+        ? await db
+          .select({
+            id: aldarProjectDiscoveries.id,
+            projectSlug: aldarProjectDiscoveries.projectSlug,
+            projectName: aldarProjectDiscoveries.projectName,
+            dataset: aldarProjectDiscoveries.dataset,
+            areaKey: aldarProjectDiscoveries.areaKey,
+            status: aldarProjectDiscoveries.status,
+            unitCount: aldarProjectDiscoveries.unitCount,
+            firstSeenAt: aldarProjectDiscoveries.firstSeenAt,
+            lastCheckedAt: aldarProjectDiscoveries.lastCheckedAt,
+            importedAt: aldarProjectDiscoveries.importedAt,
+          })
+          .from(aldarProjectDiscoveries)
+          .where(ne(aldarProjectDiscoveries.status, "error"))
+          .orderBy(desc(aldarProjectDiscoveries.firstSeenAt), desc(aldarProjectDiscoveries.id))
+          .limit(input.limit)
+        : [];
+      const priceEvents = await listRecentInventoryEvents({ limit: input.limit, eventType: "price_change" });
+      return {
+        projects: discoveries.map(project => ({
+          ...project,
+          href: project.status === "imported"
+            ? `/${project.dataset === "saadiyat" ? "aldar-saadiyat" : "aldar-other"}/${project.projectSlug}`
+            : "/admin/inventory-history#aldar-sync",
+        })),
+        prices: priceEvents.map(event => ({
+          id: event.id,
+          projectName: event.projectName ?? event.projectSlug,
+          unitName: event.unitName,
+          fromPriceAed: event.fromPriceAed,
+          toPriceAed: event.toPriceAed,
+          createdAt: event.createdAt,
+          href: event.href,
+        })),
+      };
+    }),
 
   /** Current purchasable Aldar units, with exact internal detail links. */
   currentSaleInventory: adminProcedure.query(async () => {

@@ -3,7 +3,7 @@
  * Editorial wordmark "Saadiyat" with breadcrumb-style sub-label.
  */
 import { Link, useLocation } from "wouter";
-import { ArrowLeft, ChevronDown, ChevronUp, FolderOpen, LogOut, User as UserIcon, ShieldCheck, History, Map, Search } from "lucide-react";
+import { ArrowLeft, Bell, ChevronDown, ChevronUp, FolderOpen, LogOut, User as UserIcon, ShieldCheck, History, Map, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,6 +16,7 @@ import {
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useCanAccessOther } from "@/hooks/useCanAccessOther";
 import { getLoginUrl } from "@/const";
+import { trpc } from "@/lib/trpc";
 import { useState, useRef, useEffect, type ReactNode } from "react";
 
 /** All navigable projects for quick search */
@@ -89,6 +90,11 @@ const ALL_PROJECTS = [
 
 const BRAND_LOGO_URL = "/manus-storage/saadiyat-logo-with-url_742d6090.png";
 
+function formatAed(value: number | null | undefined) {
+  if (value == null) return "Price published";
+  return `AED ${new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(value)}`;
+}
+
 interface Props {
   subTitle?: string;
   back?: { href: string; label: string };
@@ -103,6 +109,10 @@ export default function SiteHeader({ subTitle, back, fixed = false, compact = fa
   const showHomeLink = location !== "/";
   const { user, isAuthenticated, logout } = useAuth();
   const canAccessOther = useCanAccessOther();
+  const alertFeed = trpc.inventoryHistory.notifications.useQuery(
+    { limit: 6 },
+    { enabled: isAuthenticated && user?.role === "master", staleTime: 60_000, refetchOnWindowFocus: true },
+  );
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef<HTMLDivElement>(null);
@@ -111,6 +121,9 @@ export default function SiteHeader({ subTitle, back, fixed = false, compact = fa
   const filteredProjects = searchQuery.trim()
     ? ALL_PROJECTS.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
     : ALL_PROJECTS;
+  const projectAlerts = alertFeed.data?.projects ?? [];
+  const priceAlerts = alertFeed.data?.prices ?? [];
+  const alertCount = projectAlerts.length + priceAlerts.length;
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -359,6 +372,44 @@ export default function SiteHeader({ subTitle, back, fixed = false, compact = fa
               <span className="hidden sm:inline">Map</span>
             </Link>
           </Button>
+          {isAuthenticated && user?.role === "master" && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" aria-label="Open official updates" className="relative h-10 w-10 p-0 text-muted-foreground hover:text-primary sm:h-9 touch-manipulation">
+                  <Bell className="h-4 w-4" />
+                  {alertCount > 0 && <span className="absolute -right-0.5 -top-0.5 min-w-4 rounded-full bg-primary px-1 text-center font-mono text-[0.58rem] leading-4 text-primary-foreground">{alertCount > 9 ? "9+" : alertCount}</span>}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[min(92vw,25rem)]">
+                <DropdownMenuLabel className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">Official updates</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {alertFeed.isLoading ? <div className="px-3 py-4 text-sm text-muted-foreground">Checking latest updates…</div> : alertCount === 0 ? <div className="px-3 py-4 text-sm text-muted-foreground">No new official project or price event has been recorded.</div> : <>
+                  {projectAlerts.map(project => (
+                    <DropdownMenuItem key={`project-${project.id}`} asChild className="items-start py-2.5">
+                      <Link href={project.href} className="flex w-full flex-col gap-0.5">
+                        <span className="text-[0.62rem] font-mono uppercase tracking-[0.15em] text-emerald-700 dark:text-emerald-300">Project detected · {project.status === "imported" ? "ready to browse" : "waiting for official units"}</span>
+                        <span className="text-sm font-medium text-foreground">{project.projectName}</span>
+                        <span className="text-xs text-muted-foreground">{project.unitCount ? `${project.unitCount.toLocaleString()} official units` : "No complete unit set yet"}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                  {priceAlerts.map(price => (
+                    <DropdownMenuItem key={`price-${price.id}`} asChild className="items-start py-2.5">
+                      <Link href={price.href ?? "/admin/inventory-history#aldar-sync"} className="flex w-full flex-col gap-0.5">
+                        <span className="text-[0.62rem] font-mono uppercase tracking-[0.15em] text-amber-700 dark:text-amber-300">Official price update</span>
+                        <span className="text-sm font-medium text-foreground">{price.projectName} · {price.unitName}</span>
+                        <span className="text-xs text-muted-foreground">{formatAed(price.fromPriceAed)} → {formatAed(price.toPriceAed)}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </>}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/admin/inventory-history#aldar-sync" className="font-medium text-primary">Open Aldar Sync review</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

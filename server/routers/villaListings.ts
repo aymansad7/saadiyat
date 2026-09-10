@@ -17,6 +17,7 @@ import { and, asc, desc, eq, gte, lte, like, or, sql } from "drizzle-orm";
 import { z } from "zod";
 import {
   propertyAccessGrants,
+  activityAudit,
   oneDriveSyncEvents,
   villaListingAudit,
   villaListings,
@@ -571,5 +572,35 @@ export const villaListingsRouter = router({
           changes,
         };
       });
+    }),
+
+  /**
+   * Broader privileged activity, separate from card history and Aldar sync.
+   * Property edits stay visible via `history`, where their before/after values
+   * and exact card links are available, so they are excluded here to avoid a
+   * duplicate row in the System Changes tab.
+   */
+  systemActivity: masterProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(1000).default(500) }).default({ limit: 500 }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const rows = await db
+        .select()
+        .from(activityAudit)
+        .orderBy(desc(activityAudit.createdAt), desc(activityAudit.id))
+        .limit(input.limit);
+      return rows
+        .filter(row => row.eventType !== "property_edit")
+        .map(row => ({
+          id: `system-${row.id}`,
+          createdAt: row.createdAt,
+          eventType: row.eventType,
+          actorName: row.actorName,
+          actorEmail: row.actorEmail,
+          entityType: row.entityType,
+          entityKey: row.entityKey,
+          summary: row.summary,
+        }));
     }),
 });

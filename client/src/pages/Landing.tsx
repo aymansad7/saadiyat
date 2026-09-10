@@ -11,7 +11,7 @@
  *   - Terracotta accents only
  */
 import { Link } from "wouter";
-import { ArrowUpRight, Compass, Lock } from "lucide-react";
+import { ArrowUpRight, Bell, Compass, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SiteHeader from "@/components/SiteHeader";
 import { toast } from "sonner";
@@ -182,6 +182,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader subTitle="Saadiyat Island · Abu Dhabi" />
+      <MasterOfficialUpdates />
 
       {/* HERO — asymmetric two-column */}
       <section className="relative overflow-hidden">
@@ -436,6 +437,34 @@ Data sourced from DMT GeoSmart and Aldar (world.aldar.com).
         </div>
       </footer>
     </div>
+  );
+}
+
+function MasterOfficialUpdates() {
+  const { user, isAuthenticated } = useAuth();
+  const alerts = trpc.inventoryHistory.notifications.useQuery(
+    { limit: 4 },
+    { enabled: isAuthenticated && user?.role === "master", staleTime: 60_000, refetchOnWindowFocus: true },
+  );
+  if (!isAuthenticated || user?.role !== "master" || alerts.isLoading) return null;
+  const projects = alerts.data?.projects ?? [];
+  const prices = alerts.data?.prices ?? [];
+  if (!projects.length && !prices.length) return null;
+  return (
+    <section className="border-b border-primary/20 bg-primary/5">
+      <div className="container py-4 sm:py-5">
+        <div className="rounded-lg border border-primary/25 bg-card/85 p-4 shadow-sm sm:p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div><div className="flex items-center gap-2 text-[0.68rem] font-mono uppercase tracking-[0.18em] text-primary"><Bell className="h-3.5 w-3.5" /> Official updates</div><h2 className="mt-1 font-display text-xl text-foreground">New projects and price updates</h2><p className="mt-1 text-sm text-muted-foreground">You are seeing these updates immediately on entry. No need to search through Sync History.</p></div>
+            <Button asChild size="sm" variant="outline" className="shrink-0 bg-card"><Link href="/admin/inventory-history#aldar-sync">Open Aldar Sync <ArrowUpRight className="ml-1 h-3.5 w-3.5" /></Link></Button>
+          </div>
+          <div className="mt-4 grid gap-2 md:grid-cols-2">
+            {projects.map(project => <Link key={`project-${project.id}`} href={project.href} className="rounded-md border border-border bg-background/75 p-3 transition-colors hover:border-primary/50"><div className="text-[0.62rem] font-mono uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-300">Project detected · {project.status === "imported" ? "ready" : "awaiting official units"}</div><div className="mt-1 font-medium text-foreground">{project.projectName}</div><div className="mt-1 text-xs text-muted-foreground">{project.unitCount ? `${project.unitCount.toLocaleString()} official units` : "No complete unit set published yet"}</div></Link>)}
+            {prices.map(price => <Link key={`price-${price.id}`} href={price.href ?? "/admin/inventory-history#aldar-sync"} className="rounded-md border border-border bg-background/75 p-3 transition-colors hover:border-primary/50"><div className="text-[0.62rem] font-mono uppercase tracking-[0.14em] text-amber-700 dark:text-amber-300">Official price update</div><div className="mt-1 font-medium text-foreground">{price.projectName} · {price.unitName}</div><div className="mt-1 text-xs text-muted-foreground">{price.fromPriceAed == null ? "First official price" : `AED ${price.fromPriceAed.toLocaleString("en-AE")}`} → {price.toPriceAed == null ? "Not published" : `AED ${price.toPriceAed.toLocaleString("en-AE")}`}</div></Link>)}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
