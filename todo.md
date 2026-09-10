@@ -980,7 +980,7 @@
 - [x] Extend the existing daily official Aldar refresh to identify newly listed projects, add only source-complete projects without duplicating existing aliases, and notify the Master Admin with the project name and discovery result
 
 ### Project C Two-Bedroom Area Review (Sep 9, 2026)
-- [ ] Verify Project C's official two-bedroom unit areas, calculate the average square footage, and preserve the provided published starting-price/payment-plan summary only at project level
+- [x] Verify Project C's official two-bedroom unit areas, calculate the average square footage, and preserve the provided published starting-price/payment-plan summary only at project level
 
 ### Change Ledger and Home Notifications (Sep 10, 2026)
 - [x] Reformat Sync History into a mobile-friendly change table showing unit, field, before value, after value, source, time, and a direct card action
