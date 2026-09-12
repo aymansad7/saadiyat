@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isPublishedSeiUnitPrice, mergeOfficialSeiSourceUnits, parseSeiUnitDetailPayload, publishedPriceFromSeiDetail, selectSeiPriceProbeUnits } from "./seiSaadiyatOfficialCapture";
+import { assertSeiSourceCoverage, fulfilledSeiUnitDetails, isPublishedSeiUnitPrice, mergeOfficialSeiSourceUnits, parseSeiUnitDetailPayload, publishedPriceFromSeiDetail, selectSeiPriceProbeUnits } from "./seiSaadiyatOfficialCapture";
 
 describe("Sei official price eligibility", () => {
   it("rejects missing, zero, and the known AED 1 placeholder", () => {
@@ -32,6 +32,21 @@ describe("Sei official price eligibility", () => {
     });
   });
 
+  it("retains a valid sampled detail when another Aldar detail request times out", () => {
+    const valid = {
+      unitName: "SeiSaadiyat-T3-01-01",
+      locationId: "published-location",
+      status: "Available",
+      sellingPrice: 5_251_700,
+      reservationAmount: null,
+    };
+    const details = fulfilledSeiUnitDetails([
+      { status: "fulfilled", value: valid },
+      { status: "rejected", reason: new Error("timeout") },
+    ]);
+    expect(details).toEqual([valid]);
+  });
+
   it("selects a bounded representative probe across all six official buildings", () => {
     const units = Array.from({ length: 18 }, (_, index) => ({
       unitNumber: `SeiSaadiyat-T${Math.floor(index / 3) + 1}-01-${String((index % 3) + 1).padStart(2, "0")}`,
@@ -60,5 +75,10 @@ describe("Sei official price eligibility", () => {
     expect(project.buildings[1]?.units).toEqual(expect.arrayContaining([
       expect.objectContaining({ unit_name: "SeiSaadiyat-T2-01-01", price_aed: null, source_location_id: "new" }),
     ]));
+  });
+
+  it("rejects a temporary source page that is below verified Sei coverage", () => {
+    expect(() => assertSeiSourceCoverage(779, 778)).toThrow("lower than verified coverage 948");
+    expect(() => assertSeiSourceCoverage(948, 778)).not.toThrow();
   });
 });

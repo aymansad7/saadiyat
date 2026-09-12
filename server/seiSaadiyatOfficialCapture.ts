@@ -10,6 +10,8 @@ const SEI_UNIT_DETAIL_ROUTE = "https://propertyservice.world.aldar.com/api/v2/un
 const SEI_PREFIX = "SeiSaadiyat-";
 const DETAIL_CONCURRENCY = 8;
 const PRICE_PROBE_SAMPLES_PER_BUILDING = 4;
+/** Latest independently verified full World of Aldar coverage before temporary page variants began appearing. */
+const MINIMUM_VERIFIED_SEI_UNIT_COUNT = 948;
 
 type SourceUnit = Record<string, unknown> & { unitNumber?: string; locationId?: string };
 type SeiUnit = Record<string, unknown> & { unit_name?: string | null; price_aed?: number | null };
@@ -101,6 +103,14 @@ function sourceBuildingNumber(value: unknown) {
   return typeof value === "string" ? /^SeiSaadiyat-T([1-6])-/.exec(value)?.[1] ?? null : null;
 }
 
+/** Never let a temporary abbreviated World of Aldar page shrink a persisted Sei inventory. */
+export function assertSeiSourceCoverage(sourceUnitCount: number, storedUnitCount: number) {
+  const minimumExpected = Math.max(MINIMUM_VERIFIED_SEI_UNIT_COUNT, storedUnitCount);
+  if (sourceUnitCount < minimumExpected) {
+    throw new Error(`Sei Saadiyat: official source count ${sourceUnitCount} is lower than verified coverage ${minimumExpected}.`);
+  }
+}
+
 function sourceUnitAsBaselineUnit(source: SourceUnit, captureDate: string): SeiUnit {
   const unitName = text(source.unitNumber);
   if (!validSeiCode(unitName)) throw new Error("Sei Saadiyat: source contains an invalid unit code.");
@@ -180,6 +190,11 @@ async function fetchOfficialSeiUnitDetails(sourceUnits: SourceUnit[], fetchImpl:
   return details;
 }
 
+/** A transient failure in one official detail endpoint must not discard valid prices from other sampled units. */
+export function fulfilledSeiUnitDetails(results: PromiseSettledResult<OfficialUnitDetail>[]): OfficialUnitDetail[] {
+  return results.flatMap(result => result.status === "fulfilled" ? [result.value] : []);
+}
+
 /**
  * Picks a representative set across all six official buildings. This is a
  * release detector, not an inventory import: it stays within Heartbeat's
@@ -234,7 +249,10 @@ export async function probeSeiSaadiyatOfficialPricing(fetchImpl: typeof fetch = 
       return unitName && isPublishedSeiUnitPrice(price) ? [{ unitName, priceAed: price }] : [];
     });
     const probes = directPrices.length ? [] : selectSeiPriceProbeUnits(sourceUnits);
-    const details = probes.length ? await Promise.all(probes.map(unit => fetchOfficialSeiUnitDetail(unit, fetchImpl))) : [];
+    const detailResults = probes.length
+      ? await Promise.allSettled(probes.map(unit => fetchOfficialSeiUnitDetail(unit, fetchImpl)))
+      : [];
+    const details = fulfilledSeiUnitDetails(detailResults);
     const detailPrices = details.flatMap(detail => detail.sellingPrice != null ? [{ unitName: detail.unitName, priceAed: detail.sellingPrice }] : []);
     const publishedPrices = [...directPrices, ...detailPrices];
     return {
@@ -277,7 +295,7 @@ export async function captureSeiSaadiyatOfficialSourceExpansion(fetchImpl: typeo
     const project = baseline.projects.find(item => item.slug === SEI_PROJECT_SLUG);
     if (!project || !Array.isArray(project.buildings)) throw new Error("Sei Saadiyat is absent from the Saadiyat baseline dataset.");
     const storedUnitCount = (project.buildings as SeiBuilding[]).reduce((total, building) => total + (building.units?.length ?? 0), 0);
-    if (sourceUnits.length < storedUnitCount) throw new Error(`Sei Saadiyat: official source count ${sourceUnits.length} is lower than stored count ${storedUnitCount}.`);
+    assertSeiSourceCoverage(sourceUnits.length, storedUnitCount);
     const addedUnitCount = mergeOfficialSeiSourceUnits(project, sourceUnits, captureDate);
     return {
       captureDate,
@@ -310,7 +328,7 @@ export async function captureSeiSaadiyatOfficialSnapshot(fetchImpl: typeof fetch
     const project = baseline.projects.find(item => item.slug === SEI_PROJECT_SLUG);
     if (!project || !Array.isArray(project.buildings)) throw new Error("Sei Saadiyat is absent from the Saadiyat baseline dataset.");
     const storedUnitCount = (project.buildings as SeiBuilding[]).reduce((total, building) => total + (building.units?.length ?? 0), 0);
-    if (sourceUnits.length < storedUnitCount) throw new Error(`Sei Saadiyat: official source count ${sourceUnits.length} is lower than stored count ${storedUnitCount}.`);
+    assertSeiSourceCoverage(sourceUnits.length, storedUnitCount);
     mergeOfficialSeiSourceUnits(project, sourceUnits, captureDate);
     const sourceByCode = new Map(sourceUnits.map(unit => [String(unit.unitNumber), unit]));
     const details = await fetchOfficialSeiUnitDetails(sourceUnits, fetchImpl);

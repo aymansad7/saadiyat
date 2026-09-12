@@ -992,3 +992,11 @@
 - [x] Verify newly published official project or unit pricing, with a dedicated check of Saadiyat projects and explicit exclusion of zero/AED 1 placeholders; Sei returned no valid unit price
 - [x] Report confirmed findings and update the system only if the official source contains enough data to preserve without inference; added 170 official Sei units after source expansion
 - [x] Update Sei monitoring to safely accommodate the official source expansion from 778 to 948 units, while retaining exact-unit validation and avoiding false removal events
+
+### Sei Source Expansion Review (Sep 10, 2026)
+- [x] Extract and present the 170 exact Sei units newly added from the official Aldar source, grouped by building, floor, model, and source area
+
+### Sei Official Price Recheck (Sep 10, 2026)
+- [x] Recheck the live Aldar official source for newly published valid Sei unit pricing, excluding AED 1, zero, and blank placeholders; 14 valid sampled unit prices were detected
+- [x] Make the Sei price probe retain successful sampled prices when a subset of official unit-detail responses times out, rather than failing the entire check
+- [x] Protect Sei source-expansion sync from a temporary official page count below the verified 948-unit coverage, preventing false removals while allowing the price release probe to continue
