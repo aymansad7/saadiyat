@@ -27,6 +27,7 @@ import {
 } from "@/components/ListingControls";
 import FayaTransactionTimeline from "@/components/FayaTransactionTimeline";
 import { getFayaTransactions } from "@/data/fayaTransactions";
+import { getAldarOfficialPenthouseGallery } from "@/data/aldarOfficialPenthouseMedia";
 
 type ParsedPlan = {
   name: string;
@@ -143,6 +144,7 @@ export default function AldarUnit() {
   const dn = buildingDisplayName(building.name);
   const plans = unit.payment_plans ? parsePaymentPlans(unit.payment_plans) : [];
   const fayaTransactions = getFayaTransactions(unit.unit_name);
+  const officialPenthouseGallery = getAldarOfficialPenthouseGallery(project.slug, unit.unit_name);
   const listing = listingQuery.data as
     | {
         askingPriceAed: number | null;
@@ -218,6 +220,21 @@ export default function AldarUnit() {
               className="w-full justify-center"
             />
             <OneDriveCardLinks villaKey={villaKey} className="mt-0" />
+            {officialPenthouseGallery && (
+              <section className="overflow-hidden rounded-md border border-primary/25 bg-primary/[0.03]">
+                <div className="border-b border-primary/15 px-3 py-2.5">
+                  <div className="text-[0.65rem] uppercase tracking-[0.18em] font-mono text-primary">{officialPenthouseGallery.label}</div>
+                  <div className="mt-1 text-xs text-muted-foreground">{officialPenthouseGallery.sourceLabel} · Not an image of this exact unit</div>
+                </div>
+                <div className="grid grid-cols-2 gap-px bg-primary/15">
+                  {officialPenthouseGallery.images.map(image => (
+                    <a key={image.url} href={image.url} target="_blank" rel="noopener noreferrer" className="block bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                      <img src={image.url} alt={image.alt} loading="lazy" className="aspect-[16/10] w-full object-cover transition-transform hover:scale-[1.02]" />
+                    </a>
+                  ))}
+                </div>
+              </section>
+            )}
             {unit.virtual_tour && (
               <a
                 href={unit.virtual_tour}

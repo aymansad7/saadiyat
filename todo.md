@@ -1000,3 +1000,7 @@
 - [x] Recheck the live Aldar official source for newly published valid Sei unit pricing, excluding AED 1, zero, and blank placeholders; 14 valid sampled unit prices were detected
 - [x] Make the Sei price probe retain successful sampled prices when a subset of official unit-detail responses times out, rather than failing the entire check
 - [x] Protect Sei source-expansion sync from a temporary official page count below the verified 948-unit coverage, preventing false removals while allowing the price release probe to continue
+
+### Aldar Penthouse Media Review (Sep 12, 2026)
+- [x] Inspect official Aldar unit and project API responses for media tied to Baccarat Buildings 1–2, Arthouse Penthouse, Nobu Penthouse, and Mandarin Oriental's two penthouses; the unit API exposes no unit-specific image fields for these records
+- [x] Add the only positively identified official penthouse gallery to Mandarin Oriental's two documented penthouse cards, clearly labelled as a project-category gallery rather than an image of either exact unit; do not attach unverified project imagery to Baccarat, Arthouse, or Nobu units
