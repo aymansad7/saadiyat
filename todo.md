@@ -1037,8 +1037,8 @@
 - [x] Audit the supplied Abu Dhabi penthouse PDF and use only exact, attributable details or assets that can be linked to the matching penthouse
 
 ### Penthouse Service Charges (Sep 13, 2026)
-- [ ] Audit documented service-charge records and Aldar source materials for penthouse projects, distinguishing confirmed AED/sqft charges from absent or non-comparable figures
-- [ ] Add service-charge information to penthouse cards only where it is documented with a source and period; otherwise clearly show it as not published rather than estimating
+- [x] Audit documented service-charge records and Aldar source materials for penthouse projects, distinguishing confirmed AED/sqft charges from absent or non-comparable figures
+- [x] Add service-charge information to penthouse cards only where it is documented with a source; the underlying Aldar records do not state a billing period, so the interface makes no period assumption
 
 ### The Arthouse & Dover Penthouse Coverage (Sep 13, 2026)
 - [x] Verify and include The Arthouse top-of-building 5BR Sky Villa penthouses in the client-facing collection as user-designated top-floor penthouses; the two source records are currently Available

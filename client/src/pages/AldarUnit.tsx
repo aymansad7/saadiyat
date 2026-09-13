@@ -265,7 +265,7 @@ export default function AldarUnit() {
       {isPenthouse && (
         <section className="border-b border-border bg-[#f8f6f1]">
           <div className="container py-8 sm:py-10">
-            <PenthousePresentation projectSlug={project.slug} villaKey={villaKey} />
+            <PenthousePresentation projectSlug={project.slug} villaKey={villaKey} serviceChargeAedSqm={unit.service_charge_aed_sqm} serviceChargeEscalationPct={unit.service_charge_escalation_pct} />
           </div>
         </section>
       )}

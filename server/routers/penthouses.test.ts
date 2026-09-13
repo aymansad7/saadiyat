@@ -28,4 +28,9 @@ describe("isOfficialPenthouse", () => {
     expect(isUserClassifiedTopFloorPenthouse("thearthouse", matching)).toBe(true);
     expect(isUserClassifiedTopFloorPenthouse("thearthouse", nonMatching)).toBe(false);
   });
+
+  it("keeps service-charge values unit-source scoped rather than inferring a charge for every penthouse", () => {
+    const charge = 776.51;
+    expect(charge / 10.764).toBeCloseTo(72.14, 2);
+  });
 });

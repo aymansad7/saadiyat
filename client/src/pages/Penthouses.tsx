@@ -115,8 +115,8 @@ export default function Penthouses() {
             </div>
 
             {isLoading ? <div className="space-y-2">{Array.from({ length: 6 }).map((_, index) => <Skeleton key={index} className="h-16 bg-slate-200" />)}</div> : units.length === 0 ? <div className="rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">No penthouse matches the current presentation filters.</div> : <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-[0_18px_50px_rgba(15,23,32,0.08)]">
-              <table className="w-full min-w-[1190px] text-left">
-                <thead className="bg-[#132331] text-[0.65rem] font-mono uppercase tracking-[0.16em] text-slate-300"><tr><th className="px-5 py-4">Residence</th><th className="px-4 py-4">Location</th><th className="px-4 py-4">Unit</th><th className="px-4 py-4">Status</th><th className="px-4 py-4">Bedrooms / Type</th><th className="px-4 py-4">Documented area</th><th className="px-4 py-4">Official price</th><th className="px-4 py-4">AED / sqft</th><th className="px-4 py-4">AED / m²</th><th className="px-4 py-4 text-right">Presentation</th></tr></thead>
+              <table className="w-full min-w-[1320px] text-left">
+                <thead className="bg-[#132331] text-[0.65rem] font-mono uppercase tracking-[0.16em] text-slate-300"><tr><th className="px-5 py-4">Residence</th><th className="px-4 py-4">Location</th><th className="px-4 py-4">Unit</th><th className="px-4 py-4">Status</th><th className="px-4 py-4">Bedrooms / Type</th><th className="px-4 py-4">Documented area</th><th className="px-4 py-4">Official price</th><th className="px-4 py-4">AED / sqft</th><th className="px-4 py-4">AED / m²</th><th className="px-4 py-4">Service charge</th><th className="px-4 py-4 text-right">Presentation</th></tr></thead>
                 <tbody className="divide-y divide-slate-100">
                   {units.map(unit => {
                     const status = statusMeta(unit.status);
@@ -130,13 +130,14 @@ export default function Penthouses() {
                       <td className="px-4 py-4 font-display text-base">{unit.priceAed != null ? `AED ${fmtAed(unit.priceAed)}` : "Not published"}</td>
                       <td className="px-4 py-4 font-mono text-sm">{unit.pricePerSqftAed != null ? `AED ${fmtAed(unit.pricePerSqftAed)}` : "—"}</td>
                       <td className="px-4 py-4 font-mono text-sm">{unit.pricePerSqmAed != null ? `AED ${fmtAed(unit.pricePerSqmAed)}` : "—"}</td>
+                      <td className="px-4 py-4 text-sm">{unit.serviceChargeAedSqft != null ? <><div className="font-mono">AED {fmtAed(unit.serviceChargeAedSqft)} / sqft</div><div className="mt-0.5 font-mono text-xs text-slate-500">AED {fmtAed(unit.serviceChargeAedSqm)} / m²</div><div className="mt-1 text-[0.65rem] text-slate-500">{unit.serviceChargePeriod}{unit.serviceChargeEscalationPct != null ? ` · ${unit.serviceChargeEscalationPct}% escalation` : ""}</div></> : <span className="text-slate-500">Not published</span>}</td>
                       <td className="px-5 py-4 text-right"><Link href={unit.href} onClick={event => event.stopPropagation()} className="inline-flex items-center gap-1 rounded-md border border-amber-700/25 bg-white/70 px-3 py-2 text-sm font-medium text-amber-900 shadow-sm hover:border-amber-700/50 hover:bg-amber-50">Open presentation <ExternalLink className="h-3.5 w-3.5" /></Link></td>
                     </tr>;
                   })}
                 </tbody>
               </table>
             </div>}
-            <p className="mt-4 text-xs leading-5 text-slate-500">Marjan Island and Rosso Bay Residence are intentionally excluded from this client-facing collection. Prices and density figures appear only when Aldar publishes a valid unit price and documented saleable or total area. Project visuals are always labelled as project or category imagery, not exact-unit photography.</p>
+            <p className="mt-4 text-xs leading-5 text-slate-500">Marjan Island and Rosso Bay Residence are intentionally excluded from this client-facing collection. Prices, density figures and service charges appear only when a source record includes the relevant value. Service-charge source records do not state a billing period, so the interface does not assume one. Project visuals are always labelled as project or category imagery, not exact-unit photography.</p>
           </div>
         </section>
       </main>

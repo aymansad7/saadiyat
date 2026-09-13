@@ -15,6 +15,8 @@ type PenthouseSourceUnit = {
   price_aed: number | null;
   saleable_area_sqm: number | null;
   total_area_sqm: number | null;
+  service_charge_aed_sqm?: number | null;
+  service_charge_escalation_pct?: number | null;
 };
 
 type PenthouseSourceProject = {
@@ -72,6 +74,8 @@ function buildRecords(dataset: "saadiyat" | "other", projects: PenthouseSourcePr
       const saleableAreaSqm = numberOrNull(unit.saleable_area_sqm);
       const totalAreaSqm = numberOrNull(unit.total_area_sqm);
       const areaSqm = saleableAreaSqm ?? totalAreaSqm;
+      const serviceChargeAedSqm = numberOrNull(unit.service_charge_aed_sqm);
+      const serviceChargeAedSqft = serviceChargeAedSqm != null ? serviceChargeAedSqm / SQFT_PER_SQM : null;
       const pricePerSqmAed = priceAed != null && areaSqm != null ? priceAed / areaSqm : null;
       const pricePerSqftAed = pricePerSqmAed != null ? pricePerSqmAed / SQFT_PER_SQM : null;
       const hrefBase = dataset === "saadiyat" ? "/aldar-saadiyat" : "/aldar-other";
@@ -92,6 +96,10 @@ function buildRecords(dataset: "saadiyat" | "other", projects: PenthouseSourcePr
         priceAed,
         areaSqm,
         areaSource: saleableAreaSqm != null ? "saleable" as const : totalAreaSqm != null ? "total" as const : null,
+        serviceChargeAedSqm,
+        serviceChargeAedSqft,
+        serviceChargeEscalationPct: numberOrNull(unit.service_charge_escalation_pct),
+        serviceChargePeriod: serviceChargeAedSqm != null ? "Source period not stated" : null,
         pricePerSqmAed,
         pricePerSqftAed,
         href: `${hrefBase}/${project.slug}/${building.slug}/${encodeURIComponent(unit.unit_name!)}`,
