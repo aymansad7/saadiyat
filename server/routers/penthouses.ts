@@ -27,6 +27,10 @@ type PenthouseSourceProject = {
 
 const SQFT_PER_SQM = 10.764;
 const EXCLUDED_PROJECT_SLUGS = new Set(["almarjan", "rosso-bay-residences"]);
+const NOBU_TOP_FLOOR_PENTHOUSE_UNITS = new Set([
+  "NobuResidences-B2-East-05-01",
+  "NobuResidences-B2-West-05-01",
+]);
 
 export type PenthouseLocationKey = "saadiyat" | "yas-island" | "fahid-island" | "other";
 
@@ -54,9 +58,12 @@ export function isOfficialPenthouse(unit: PenthouseSourceUnit): boolean {
 }
 
 export function isUserClassifiedTopFloorPenthouse(projectSlug: string, unit: PenthouseSourceUnit): boolean {
-  return projectSlug === "thearthouse"
+  const artHouseSkyVilla = projectSlug === "thearthouse"
     && /-08-02$/i.test(unit.unit_name ?? "")
     && /5BR\+M\s*\(SV\)/i.test(unit.unit_category ?? unit.unit_model ?? "");
+  const nobuTopFloor = projectSlug === "nobu-residences"
+    && NOBU_TOP_FLOOR_PENTHOUSE_UNITS.has(unit.unit_name ?? "");
+  return artHouseSkyVilla || nobuTopFloor;
 }
 
 function numberOrNull(value: number | null | undefined) {

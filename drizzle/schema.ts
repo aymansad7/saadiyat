@@ -986,3 +986,47 @@ export const inventoryUnitEvents = mysqlTable(
 );
 export type InventoryUnitEvent = typeof inventoryUnitEvents.$inferSelect;
 export type InsertInventoryUnitEvent = typeof inventoryUnitEvents.$inferInsert;
+
+/**
+ * Append-only registered sale evidence imported from reviewed transaction exports.
+ * It is distinct from Aldar's live price and source status. A row with
+ * `matchType=area_group` has no exact unit evidence and must never be presented
+ * as the registered sale of a named unit.
+ */
+export const registeredSaleTransactions = mysqlTable(
+  "registered_sale_transactions",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    dataset: mysqlEnum("dataset", ["saadiyat", "other"]).notNull(),
+    projectSlug: varchar("projectSlug", { length: 128 }).notNull(),
+    projectName: varchar("projectName", { length: 255 }).notNull(),
+    sourceFile: varchar("sourceFile", { length: 255 }).notNull(),
+    sourceRow: int("sourceRow").notNull(),
+    saleApplicationDate: varchar("saleApplicationDate", { length: 10 }).notNull(),
+    assetClass: varchar("assetClass", { length: 64 }),
+    propertyType: varchar("propertyType", { length: 64 }),
+    propertyLayout: varchar("propertyLayout", { length: 64 }),
+    buildingLabel: varchar("buildingLabel", { length: 128 }),
+    saleableAreaSqm: double("saleableAreaSqm").notNull(),
+    registeredSellingPriceAed: bigint("registeredSellingPriceAed", { mode: "number" }).notNull(),
+    registeredRateAedSqm: double("registeredRateAedSqm"),
+    soldShare: double("soldShare"),
+    landPlotGroundAreaSqm: double("landPlotGroundAreaSqm"),
+    saleApplicationType: varchar("saleApplicationType", { length: 64 }),
+    saleSequence: varchar("saleSequence", { length: 32 }),
+    matchType: mysqlEnum("matchType", ["unit_exact", "area_group"]).notNull(),
+    matchedUnitName: varchar("matchedUnitName", { length: 191 }),
+    candidateUnitNamesJson: text("candidateUnitNamesJson"),
+    matchEvidence: text("matchEvidence").notNull(),
+    importedBy: varchar("importedBy", { length: 320 }).notNull(),
+    importedAt: timestamp("importedAt").defaultNow().notNull(),
+  },
+  (t) => ({
+    sourceRowUnique: uniqueIndex("registeredSale_source_row_unique").on(t.sourceFile, t.sourceRow),
+    projectIdx: index("registeredSale_project_idx").on(t.dataset, t.projectSlug),
+    unitIdx: index("registeredSale_unit_idx").on(t.matchedUnitName),
+    saleDateIdx: index("registeredSale_sale_date_idx").on(t.saleApplicationDate),
+  }),
+);
+export type RegisteredSaleTransaction = typeof registeredSaleTransactions.$inferSelect;
+export type InsertRegisteredSaleTransaction = typeof registeredSaleTransactions.$inferInsert;

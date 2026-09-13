@@ -16,6 +16,7 @@ import { penthousesRouter } from "./routers/penthouses";
 import { publicResaleRouter } from "./routers/publicResale";
 import { propertyAccessRouter } from "./routers/propertyAccess";
 import { propertyOwnersRouter } from "./routers/propertyOwners";
+import { registeredSalesRouter } from "./routers/registeredSales";
 import { resaleRouter } from "./routers/resale";
 import { unitSearchRouter } from "./routers/unitSearch";
 import { villaListingsRouter } from "./routers/villaListings";
@@ -54,6 +55,7 @@ export const appRouter = router({
   aldarOther: aldarOtherRouter,
   aldarSaadiyat: aldarSaadiyatRouter,
   penthouses: penthousesRouter,
+  registeredSales: registeredSalesRouter,
   lagoons: lagoonsRouter,
   resale: resaleRouter,
   publicResale: publicResaleRouter,

@@ -29,6 +29,13 @@ describe("isOfficialPenthouse", () => {
     expect(isUserClassifiedTopFloorPenthouse("thearthouse", nonMatching)).toBe(false);
   });
 
+  it("includes only the two documented Nobu Building 2 top-floor residences", () => {
+    const nobuTopFloor = { unit_name: "NobuResidences-B2-East-05-01", unit_type: "Apartment", unit_category: "3 Bedroom", unit_model: "3BHK", total_rooms: null, bedrooms: "3", status: "Available", price_aed: 150805578, saleable_area_sqm: 1435.42, total_area_sqm: 1435.42 };
+    const ordinaryNobuTopFloor = { ...nobuTopFloor, unit_name: "NobuResidences-B1-08-04", saleable_area_sqm: 300.62, total_area_sqm: 300.62 };
+    expect(isUserClassifiedTopFloorPenthouse("nobu-residences", nobuTopFloor)).toBe(true);
+    expect(isUserClassifiedTopFloorPenthouse("nobu-residences", ordinaryNobuTopFloor)).toBe(false);
+  });
+
   it("keeps service-charge values unit-source scoped rather than inferring a charge for every penthouse", () => {
     const charge = 776.51;
     expect(charge / 10.764).toBeCloseTo(72.14, 2);

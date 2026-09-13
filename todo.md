@@ -1045,3 +1045,11 @@
 - [ ] Verify official Dover Residences penthouse units from an Aldar link or exact source identifier before adding them to the collection
 - [x] Apply official Sold state to any verified sold unit, with the red presentation-row treatment and no assumed availability or price
 - [x] Add the user-designated The Arthouse top-floor residences (floor 08) to the collection as a clearly labelled top-floor penthouse classification, distinct from an Aldar-published penthouse label
+
+### Nobu Registered Selling Prices (Sep 13, 2026)
+- [x] Profile the uploaded Nobu transaction export and match every row only to the correct unit using a documented reference, type, and saleable-area check
+- [x] Preserve all official and prior records, importing the supplied transaction price as a dated Registered Selling Price history item instead of overwriting existing facts
+- [x] Display the latest matched Registered Selling Price alongside retained official pricing and prior records on the corresponding Nobu card
+
+### Nobu Penthouses Collection (Sep 13, 2026)
+- [x] Identify and add Nobu penthouses or documented top-floor equivalents to the Penthouses collection, keeping their classification distinct from ordinary Nobu apartments

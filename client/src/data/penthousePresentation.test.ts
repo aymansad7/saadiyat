@@ -13,4 +13,9 @@ describe("penthouse presentation data", () => {
     expect(isPenthousePresentationUnit({ unit_model: "Type A", total_rooms: "3BHK" })).toBe(false);
     expect(isPenthousePresentationUnit({ unit_name: "TheArthouse-R12-08-02", unit_category: "5BR+M (SV)" }, "thearthouse")).toBe(true);
   });
+
+  it("enables the presentation treatment for the two documented Nobu top-floor residences only", () => {
+    expect(isPenthousePresentationUnit({ unit_name: "NobuResidences-B2-East-05-01", unit_category: "3 Bedroom" }, "nobu-residences")).toBe(true);
+    expect(isPenthousePresentationUnit({ unit_name: "NobuResidences-B1-08-04", unit_category: "3 Bedroom" }, "nobu-residences")).toBe(false);
+  });
 });

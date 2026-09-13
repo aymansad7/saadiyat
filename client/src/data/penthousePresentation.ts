@@ -9,6 +9,13 @@ export type PenthousePresentationProject = {
 const DECK_SOURCE_LABEL = "User-supplied penthouse presentation deck · Project rendering · Illustrative, not an exact-unit view";
 
 const PROJECT_PRESENTATIONS: Record<string, PenthousePresentationProject> = {
+  "nobu-residences": {
+    title: "Nobu top-floor residences",
+    narrative: "A top-floor Nobu Residences presentation centred on its full-floor scale, coastal Saadiyat setting and private-residence character. Confirm the exact outlook, terrace, pool and parking from the official unit record and registered documents.",
+    imageUrl: "/manus-storage/penthouse-004_adead2cc.jpg",
+    imageAlt: "Illustrative Saadiyat project rendering for a Nobu Residences presentation",
+    sourceLabel: "Presentation image is an illustrative Saadiyat project rendering, not a Nobu exact-unit image",
+  },
   onesaadiyat: {
     title: "Cultural District panorama",
     narrative: "A refined Saadiyat Cultural District setting designed for a client conversation around landmark architecture, museum-side living and sunset-facing project context. Confirm exact unit outlook, terrace and parking against the official unit record.",
@@ -58,7 +65,9 @@ export function isPenthousePresentationUnit(unit: {
   const topFloorArthouse = projectSlug === "thearthouse"
     && /-08-02$/i.test(unit.unit_name ?? "")
     && /5BR\+M\s*\(SV\)/i.test(unit.unit_category ?? unit.unit_model ?? "");
-  return officialLabel || topFloorArthouse;
+  const topFloorNobu = projectSlug === "nobu-residences"
+    && ["NobuResidences-B2-East-05-01", "NobuResidences-B2-West-05-01"].includes(unit.unit_name ?? "");
+  return officialLabel || topFloorArthouse || topFloorNobu;
 }
 
 export function getPenthouseProjectPresentation(projectSlug: string | null | undefined) {

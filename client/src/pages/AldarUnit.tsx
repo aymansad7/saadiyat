@@ -121,6 +121,12 @@ export default function AldarUnit() {
     { enabled: Boolean(villaKey), staleTime: 60_000 },
   );
   const { user, loading: authLoading } = useAuth();
+  const isNobuResidence = params.project === "nobu-residences";
+  const canViewRegisteredSales = user?.role === "master";
+  const registeredSalesQuery = trpc.registeredSales.byUnit.useQuery(
+    { unitName },
+    { enabled: Boolean(isNobuResidence && canViewRegisteredSales && unitName) },
+  );
   const unitScope = ctx
     ? {
         projectKey: "aldar-saadiyat",
@@ -261,6 +267,43 @@ export default function AldarUnit() {
           </div>
         </div>
       </section>
+
+      {isNobuResidence && canViewRegisteredSales && (
+        <section className="border-b border-border bg-[#f7f3ea]">
+          <div className="container py-6 sm:py-8">
+            <div className="mb-4">
+              <div className="text-[0.65rem] uppercase tracking-[0.22em] font-mono text-amber-800">Registered transaction history</div>
+              <h2 className="mt-1 font-display text-2xl text-foreground">Registered Selling Price</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Recorded transaction evidence matched uniquely by project building, layout, property type and saleable area. It does not replace Aldar’s official price.</p>
+            </div>
+            {registeredSalesQuery.isLoading ? <div className="rounded-xl border border-amber-900/15 bg-background px-4 py-5 text-sm text-muted-foreground">Checking uniquely matched registered transaction evidence…</div>
+              : registeredSalesQuery.data && registeredSalesQuery.data.length > 0 ? <div className="overflow-x-auto rounded-xl border border-amber-900/15 bg-background">
+                <table className="min-w-[680px] w-full text-left text-sm">
+                  <thead className="bg-amber-950 text-amber-50">
+                    <tr className="text-[0.65rem] uppercase tracking-[0.14em]">
+                      <th className="px-4 py-3 font-medium">Date</th>
+                      <th className="px-4 py-3 font-medium">Registered selling price</th>
+                      <th className="px-4 py-3 font-medium">Registered AED / m²</th>
+                      <th className="px-4 py-3 font-medium">Sold area</th>
+                      <th className="px-4 py-3 font-medium">Sale sequence</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {registeredSalesQuery.data.map((sale, index) => (
+                      <tr key={`${sale.saleApplicationDate}-${sale.registeredSellingPriceAed}-${index}`} className="border-t border-border/70">
+                        <td className="px-4 py-3 font-mono text-xs">{sale.saleApplicationDate}</td>
+                        <td className="px-4 py-3 font-semibold">AED {fmtAed(sale.registeredSellingPriceAed)}</td>
+                        <td className="px-4 py-3">{sale.registeredRateAedSqm != null ? `AED ${fmtAed(sale.registeredRateAedSqm)}` : "—"}</td>
+                        <td className="px-4 py-3">{fmtArea(sale.saleableAreaSqm)}</td>
+                        <td className="px-4 py-3 capitalize">{sale.saleSequence ?? "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div> : <div className="rounded-xl border border-dashed border-amber-900/25 bg-background px-4 py-5 text-sm text-muted-foreground">No registered transaction is linked to this unit. Source rows that match more than one unit remain retained as project/model-area evidence and are not attributed to a card.</div>}
+          </div>
+        </section>
+      )}
 
       {isPenthouse && (
         <section className="border-b border-border bg-[#f8f6f1]">
