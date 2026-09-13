@@ -1030,3 +1030,66 @@ export const registeredSaleTransactions = mysqlTable(
 );
 export type RegisteredSaleTransaction = typeof registeredSaleTransactions.$inferSelect;
 export type InsertRegisteredSaleTransaction = typeof registeredSaleTransactions.$inferInsert;
+
+/**
+ * Owner-supplied non-Aldar development projects. These records are deliberately
+ * isolated from the Aldar inventory model so imported source statuses, areas and
+ * explorer links never become Aldar official data.
+ */
+export const externalDeveloperProjects = mysqlTable(
+  "external_developer_projects",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    projectSlug: varchar("projectSlug", { length: 128 }).notNull(),
+    displayName: varchar("displayName", { length: 255 }).notNull(),
+    developerName: varchar("developerName", { length: 255 }).notNull(),
+    locationLabel: varchar("locationLabel", { length: 255 }).notNull(),
+    sourceProjectName: varchar("sourceProjectName", { length: 255 }).notNull(),
+    sourceWorkbook: varchar("sourceWorkbook", { length: 255 }).notNull(),
+    sourceSheet: varchar("sourceSheet", { length: 255 }).notNull(),
+    sourceRowCount: int("sourceRowCount").default(0).notNull(),
+    sourceAvailableCount: int("sourceAvailableCount").default(0).notNull(),
+    importedBy: varchar("importedBy", { length: 320 }).notNull(),
+    importedAt: timestamp("importedAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    externalProjectSlugUnique: uniqueIndex("external_developer_projects_slug_unique").on(t.projectSlug),
+    externalDeveloperIdx: index("external_developer_projects_developer_idx").on(t.developerName),
+  }),
+);
+export type ExternalDeveloperProject = typeof externalDeveloperProjects.$inferSelect;
+
+/** Source-backed units from a private owner-supplied non-Aldar workbook. */
+export const externalDeveloperUnits = mysqlTable(
+  "external_developer_units",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    projectSlug: varchar("projectSlug", { length: 128 }).notNull(),
+    sourceId: int("sourceId").notNull(),
+    sourceRow: int("sourceRow").notNull(),
+    unitNumber: varchar("unitNumber", { length: 128 }).notNull(),
+    sourceTitle: varchar("sourceTitle", { length: 255 }),
+    sourceStatus: varchar("sourceStatus", { length: 64 }),
+    propertyType: varchar("propertyType", { length: 255 }),
+    internalAreaSqft: double("internalAreaSqft"),
+    externalAreaSqft: double("externalAreaSqft"),
+    totalAreaSqft: double("totalAreaSqft"),
+    floorLabel: varchar("floorLabel", { length: 64 }),
+    viewLabel: varchar("viewLabel", { length: 255 }),
+    sourceExplorerUrl: varchar("sourceExplorerUrl", { length: 1024 }),
+    sourceRating: varchar("sourceRating", { length: 64 }),
+    sourceDescription: text("sourceDescription"),
+    sourceWorkbook: varchar("sourceWorkbook", { length: 255 }).notNull(),
+    sourceSheet: varchar("sourceSheet", { length: 255 }).notNull(),
+    importedAt: timestamp("importedAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+  (t) => ({
+    externalUnitSourceUnique: uniqueIndex("external_developer_units_source_unique").on(t.projectSlug, t.sourceId),
+    externalUnitProjectIdx: index("external_developer_units_project_idx").on(t.projectSlug),
+    externalUnitStatusIdx: index("external_developer_units_status_idx").on(t.projectSlug, t.sourceStatus),
+    externalUnitNumberIdx: index("external_developer_units_number_idx").on(t.unitNumber),
+  }),
+);
+export type ExternalDeveloperUnit = typeof externalDeveloperUnits.$inferSelect;

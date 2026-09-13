@@ -86,6 +86,9 @@ const ALL_PROJECTS = [
   { name: "The Beach House Fahid", href: "/aldar-other/the-beach-house-fahid" },
   { name: "Fahid Beach Residences", href: "/aldar-other/fahid-beach-residences" },
   { name: "Athlon", href: "/aldar-other/athlon" },
+  { name: "Emirates · Jumeirah · Al Maryah Island", href: "/non-aldar-projects/emirates-jumeirah-al-maryah" },
+  { name: "Emirates · Elie Saab · Yas Island", href: "/non-aldar-projects/emirates-elie-saab-yas" },
+  { name: "Emirates · Hilton · Yas Island", href: "/non-aldar-projects/emirates-hilton-yas" },
 ];
 
 const BRAND_LOGO_URL = "/manus-storage/saadiyat-logo-with-url_742d6090.png";
@@ -234,6 +237,9 @@ export default function SiteHeader({ subTitle, back, fixed = false, compact = fa
               <Link href="/">Home</Link>
             </Button>
           )}
+          <Button asChild variant={location.startsWith("/non-aldar-projects") ? "outline" : "ghost"} size="sm" className="hidden lg:inline-flex text-muted-foreground hover:text-foreground">
+            <Link href="/non-aldar-projects">مشاريع غير الدار</Link>
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-10 px-3 sm:h-9 sm:px-3 bg-card border-primary/30 text-primary hover:bg-primary/10 hover:text-primary gap-1.5 touch-manipulation">
@@ -244,6 +250,12 @@ export default function SiteHeader({ subTitle, back, fixed = false, compact = fa
               <DropdownMenuLabel className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
                 Saadiyat Island
               </DropdownMenuLabel>
+              <DropdownMenuItem asChild>
+                <Link href="/non-aldar-projects" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">مشاريع غير الدار</span>
+                  <span className="text-[0.65rem] font-mono text-amber-800 border border-amber-500/40 px-1 rounded-sm">EMIRATES</span>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/st-regis" className="flex items-center justify-between w-full">

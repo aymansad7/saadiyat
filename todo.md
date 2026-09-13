@@ -1059,3 +1059,9 @@
 - [x] Replace the dark Penthouses hero background with the supplied Guggenheim-view image while maintaining readable text contrast
 - [x] Add an accessible interactive image gallery to the Penthouses cards, clearly labelled as project/category imagery rather than exact-unit imagery
 - [x] Verify desktop/mobile rendering, TypeScript, and unit tests before publishing
+
+### Emirates Non-Aldar Projects (Sep 13, 2026)
+- [x] Profile the owner-supplied Emirates workbook and preserve only documented project, unit, area, price, status, and payment facts
+- [x] Add a dedicated "مشاريع غير الدار" tab and Emirates developer entry with Jumeirah (Al Maryah Island), Elie Saab (Yas Island), and Hilton (Yas Island)
+- [x] Import the three Emirates projects and their source-backed units without overwriting Aldar inventory or inventing unavailable fields
+- [x] Add project/unit navigation, source-labelled cards, and regression coverage; then verify desktop/mobile rendering and publish

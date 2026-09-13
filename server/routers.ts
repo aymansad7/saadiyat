@@ -20,6 +20,7 @@ import { registeredSalesRouter } from "./routers/registeredSales";
 import { resaleRouter } from "./routers/resale";
 import { unitSearchRouter } from "./routers/unitSearch";
 import { villaListingsRouter } from "./routers/villaListings";
+import { externalDevelopersRouter } from "./routers/externalDevelopers";
 import { MAGIC_SESSION_COOKIE, revokeSessionToken } from "./magicAuth";
 
 export const appRouter = router({
@@ -56,6 +57,7 @@ export const appRouter = router({
   aldarSaadiyat: aldarSaadiyatRouter,
   penthouses: penthousesRouter,
   registeredSales: registeredSalesRouter,
+  externalDevelopers: externalDevelopersRouter,
   lagoons: lagoonsRouter,
   resale: resaleRouter,
   publicResale: publicResaleRouter,

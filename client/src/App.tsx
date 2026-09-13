@@ -55,6 +55,9 @@ import LagoonsDcrPhase from "./pages/LagoonsDcrPhase";
 import Nudra from "./pages/Nudra";
 import DcrCommunityPage from "./pages/DcrCommunityPage";
 import LagoonsSlGroup from "./pages/LagoonsSlGroup";
+import ExternalDeveloperProjects from "./pages/ExternalDeveloperProjects";
+import ExternalDeveloperProject from "./pages/ExternalDeveloperProject";
+import ExternalDeveloperUnit from "./pages/ExternalDeveloperUnit";
 
 function Router() {
   const lagoonsPhaseKeysByCluster = {
@@ -103,6 +106,9 @@ function Router() {
       <Route path="/aldar-other/:project/:building/:unit">{({ project }) => <PropertyProjectGate projectKey={project}><AldarOtherUnit /></PropertyProjectGate>}</Route>
       <Route path="/aldar-other/:project/:building">{({ project }) => <PropertyProjectGate projectKey={project}><AldarOtherBuilding /></PropertyProjectGate>}</Route>
       <Route path="/aldar-other/:project">{({ project }) => <PropertyProjectGate projectKey={project}><AldarOtherProject /></PropertyProjectGate>}</Route>
+      <Route path="/non-aldar-projects/:project/:sourceId">{() => <MasterGate><ExternalDeveloperUnit /></MasterGate>}</Route>
+      <Route path="/non-aldar-projects/:project">{() => <MasterGate><ExternalDeveloperProject /></MasterGate>}</Route>
+      <Route path="/non-aldar-projects">{() => <MasterGate><ExternalDeveloperProjects /></MasterGate>}</Route>
       <Route path="/penthouses">{() => <MasterGate><Penthouses /></MasterGate>}</Route>
       <Route path="/resale" component={Resale} />
       <Route path="/resale-search" component={PublicResaleSearch} />
