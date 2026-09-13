@@ -1013,3 +1013,6 @@
 
 ### Sei Building 6 Floor Price Review (Sep 13, 2026)
 - [x] Extract official prices for Sei Saadiyat Building 6 floors 14, 15, 16, and 17, grouped separately by floor and with unpublished prices clearly identified
+
+### Sei Building 6 API Recheck (Sep 13, 2026)
+- [x] Recheck the official Aldar API for new pricing or coverage changes affecting Sei Building 6 and compare the response with the recorded prices; 28 prices were returned and 27 newly recorded values were imported with zero removals
