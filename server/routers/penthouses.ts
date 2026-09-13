@@ -51,6 +51,12 @@ export function isOfficialPenthouse(unit: PenthouseSourceUnit): boolean {
     .some(value => /penthouse/i.test(value ?? ""));
 }
 
+export function isUserClassifiedTopFloorPenthouse(projectSlug: string, unit: PenthouseSourceUnit): boolean {
+  return projectSlug === "thearthouse"
+    && /-08-02$/i.test(unit.unit_name ?? "")
+    && /5BR\+M\s*\(SV\)/i.test(unit.unit_category ?? unit.unit_model ?? "");
+}
+
 function numberOrNull(value: number | null | undefined) {
   return value != null && Number.isFinite(value) && value > 0 ? value : null;
 }
@@ -59,7 +65,7 @@ function buildRecords(dataset: "saadiyat" | "other", projects: PenthouseSourcePr
   return projects
     .filter(isClientFacingPenthouseProject)
     .flatMap(project => project.buildings.flatMap(building => building.units
-    .filter(isOfficialPenthouse)
+    .filter(unit => isOfficialPenthouse(unit) || isUserClassifiedTopFloorPenthouse(project.slug, unit))
     .filter(unit => Boolean(unit.unit_name))
     .map(unit => {
       const priceAed = numberOrNull(unit.price_aed);
@@ -81,6 +87,7 @@ function buildRecords(dataset: "saadiyat" | "other", projects: PenthouseSourcePr
         unitName: unit.unit_name!,
         bedrooms: unit.bedrooms,
         unitType: unit.unit_model ?? unit.unit_category ?? unit.unit_type,
+        classification: isOfficialPenthouse(unit) ? "Official penthouse" : "Top-floor penthouse",
         status: unit.status,
         priceAed,
         areaSqm,

@@ -147,7 +147,7 @@ export default function AldarUnit() {
   const plans = unit.payment_plans ? parsePaymentPlans(unit.payment_plans) : [];
   const fayaTransactions = getFayaTransactions(unit.unit_name);
   const officialPenthouseGallery = getAldarOfficialPenthouseGallery(project.slug, unit.unit_name);
-  const isPenthouse = isPenthousePresentationUnit(unit);
+  const isPenthouse = isPenthousePresentationUnit(unit, project.slug);
   const unitPriceMetrics = canViewOriginalPrice
     ? getUnitPriceMetrics(unit.price_aed, unit.saleable_area_sqm, unit.total_area_sqm)
     : null;

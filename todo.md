@@ -1035,3 +1035,13 @@
 - [x] Render penthouse row availability clearly: green Available and red Sold, with a visible status label
 - [x] Enrich each penthouse detail with an accurate presentation overview, documented floor plan links, availability, and verified project or unit imagery labelled by provenance
 - [x] Audit the supplied Abu Dhabi penthouse PDF and use only exact, attributable details or assets that can be linked to the matching penthouse
+
+### Penthouse Service Charges (Sep 13, 2026)
+- [ ] Audit documented service-charge records and Aldar source materials for penthouse projects, distinguishing confirmed AED/sqft charges from absent or non-comparable figures
+- [ ] Add service-charge information to penthouse cards only where it is documented with a source and period; otherwise clearly show it as not published rather than estimating
+
+### The Arthouse & Dover Penthouse Coverage (Sep 13, 2026)
+- [x] Verify and include The Arthouse top-of-building 5BR Sky Villa penthouses in the client-facing collection as user-designated top-floor penthouses; the two source records are currently Available
+- [ ] Verify official Dover Residences penthouse units from an Aldar link or exact source identifier before adding them to the collection
+- [x] Apply official Sold state to any verified sold unit, with the red presentation-row treatment and no assumed availability or price
+- [x] Add the user-designated The Arthouse top-floor residences (floor 08) to the collection as a clearly labelled top-floor penthouse classification, distinct from an Aldar-published penthouse label

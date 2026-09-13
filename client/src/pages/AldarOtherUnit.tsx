@@ -146,7 +146,7 @@ function Inner() {
   const officialPlans = extendedUnit.official_payment_plans ?? [];
   const officialOffers = extendedUnit.official_offers ?? [];
   const unitPriceMetrics = getUnitPriceMetrics(unit.price_aed, unit.saleable_area_sqm, unit.total_area_sqm);
-  const isPenthouse = isPenthousePresentationUnit(unit);
+  const isPenthouse = isPenthousePresentationUnit(unit, project.slug);
   const yesNo = (value: boolean | null | undefined) => value == null ? "—" : value ? "Yes" : "No";
 
   return (

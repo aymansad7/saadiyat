@@ -47,13 +47,18 @@ const PROJECT_PRESENTATIONS: Record<string, PenthousePresentationProject> = {
 };
 
 export function isPenthousePresentationUnit(unit: {
+  unit_name?: string | null;
   unit_type?: string | null;
   unit_category?: string | null;
   unit_model?: string | null;
   total_rooms?: string | null;
-}) {
-  return [unit.unit_type, unit.unit_category, unit.unit_model, unit.total_rooms]
+}, projectSlug?: string | null) {
+  const officialLabel = [unit.unit_type, unit.unit_category, unit.unit_model, unit.total_rooms]
     .some(value => /penthouse/i.test(value ?? ""));
+  const topFloorArthouse = projectSlug === "thearthouse"
+    && /-08-02$/i.test(unit.unit_name ?? "")
+    && /5BR\+M\s*\(SV\)/i.test(unit.unit_category ?? unit.unit_model ?? "");
+  return officialLabel || topFloorArthouse;
 }
 
 export function getPenthouseProjectPresentation(projectSlug: string | null | undefined) {

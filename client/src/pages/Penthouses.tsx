@@ -125,7 +125,7 @@ export default function Penthouses() {
                       <td className="px-4 py-4"><div className="inline-flex items-center gap-1.5 text-sm text-slate-700"><MapPin className="h-3.5 w-3.5 text-amber-700" />{unit.locationLabel}</div></td>
                       <td className="px-4 py-4 font-mono text-sm font-medium text-slate-900">{unit.unitName}</td>
                       <td className="px-4 py-4"><span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${status.badgeClass}`}>{status.label}</span></td>
-                      <td className="px-4 py-4"><div className="text-sm font-medium">{unit.bedrooms ? `${unit.bedrooms} BR` : "—"}</div><div className="mt-0.5 max-w-48 truncate text-xs text-slate-500">{unit.unitType ?? "Penthouse"}</div></td>
+                      <td className="px-4 py-4"><div className="text-sm font-medium">{unit.bedrooms ? `${unit.bedrooms} BR` : "—"}</div><div className="mt-0.5 max-w-48 truncate text-xs text-slate-500">{unit.unitType ?? "Penthouse"}</div><div className="mt-1 text-[0.65rem] font-mono uppercase tracking-[0.12em] text-amber-800">{unit.classification}</div></td>
                       <td className="px-4 py-4 text-sm"><div>{fmtArea(unit.areaSqm)}</div><div className="mt-0.5 text-xs text-slate-500">{unit.areaSource === "saleable" ? "Saleable" : unit.areaSource === "total" ? "Total / BUA" : "Not published"}</div></td>
                       <td className="px-4 py-4 font-display text-base">{unit.priceAed != null ? `AED ${fmtAed(unit.priceAed)}` : "Not published"}</td>
                       <td className="px-4 py-4 font-mono text-sm">{unit.pricePerSqftAed != null ? `AED ${fmtAed(unit.pricePerSqftAed)}` : "—"}</td>

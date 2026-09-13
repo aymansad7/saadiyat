@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isClientFacingPenthouseProject, isOfficialPenthouse, penthouseLocationForProject } from "./penthouses";
+import { isClientFacingPenthouseProject, isOfficialPenthouse, isUserClassifiedTopFloorPenthouse, penthouseLocationForProject } from "./penthouses";
 
 describe("isOfficialPenthouse", () => {
   it("recognises Aldar penthouse labels across published unit fields", () => {
@@ -20,5 +20,12 @@ describe("isOfficialPenthouse", () => {
   it("classifies Saadiyat and Yas penthouses for the location filters", () => {
     expect(penthouseLocationForProject("saadiyat", "onesaadiyat")).toBe("saadiyat");
     expect(penthouseLocationForProject("other", "yas-links-luxury-living")).toBe("yas-island");
+  });
+
+  it("includes only the two user-designated 5BR Sky Villas on The Arthouse top floor", () => {
+    const matching = { unit_name: "TheArthouse-R11-08-02", unit_type: "Apartment", unit_category: "5BR+M (SV)", unit_model: null, total_rooms: null, bedrooms: "5", status: "Available", price_aed: 90979000, saleable_area_sqm: 1283.4, total_area_sqm: 1283.4 };
+    const nonMatching = { ...matching, unit_name: "TheArthouse-R11-08-01", unit_category: "1BR (A1)", bedrooms: "1" };
+    expect(isUserClassifiedTopFloorPenthouse("thearthouse", matching)).toBe(true);
+    expect(isUserClassifiedTopFloorPenthouse("thearthouse", nonMatching)).toBe(false);
   });
 });
