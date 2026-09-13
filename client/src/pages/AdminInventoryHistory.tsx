@@ -324,7 +324,7 @@ export default function AdminInventoryHistory() {
         ? `Sei unavailable: ${res.liveSources.seiSaadiyat.message ?? "source refresh failed"}`
         : res.liveSources.seiSaadiyat.skipped
         ?? (res.liveSources.seiSaadiyat.monitorMode === "official-price-probe"
-          ? `${res.liveSources.seiSaadiyat.publishedPriceCount} official prices after probing ${res.liveSources.seiSaadiyat.screenedUnitCount}/${res.liveSources.seiSaadiyat.sourceUnitCount} records`
+          ? `${res.liveSources.seiSaadiyat.importedPriceCount} official prices imported (${res.liveSources.seiSaadiyat.publishedPriceCount} detected) after probing ${res.liveSources.seiSaadiyat.screenedUnitCount}/${res.liveSources.seiSaadiyat.sourceUnitCount} records`
           : `${res.liveSources.seiSaadiyat.publishedPriceCount} official prices`);
       const ghadeerSummary = res.liveSources.alGhadeer.status === "error"
         ? `Al Ghadeer unavailable: ${res.liveSources.alGhadeer.message ?? "source refresh failed"}`

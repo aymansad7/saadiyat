@@ -1004,3 +1004,6 @@
 ### Aldar Penthouse Media Review (Sep 12, 2026)
 - [x] Inspect official Aldar unit and project API responses for media tied to Baccarat Buildings 1–2, Arthouse Penthouse, Nobu Penthouse, and Mandarin Oriental's two penthouses; the unit API exposes no unit-specific image fields for these records
 - [x] Add the only positively identified official penthouse gallery to Mandarin Oriental's two documented penthouse cards, clearly labelled as a project-category gallery rather than an image of either exact unit; do not attach unverified project imagery to Baccarat, Arthouse, or Nobu units
+
+### Sei Official Pricing Import (Sep 12, 2026)
+- [x] Recheck current official Sei coverage and import 16 valid unit prices only for units returned by the source, preserving the 948-unit registry when the source response is partial; the import recorded zero removals

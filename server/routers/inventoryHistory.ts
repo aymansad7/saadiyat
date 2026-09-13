@@ -185,6 +185,7 @@ export const inventoryHistoryRouter = router({
           captureDate: seiResult?.captureDate ?? null,
           runId: seiResult && "runId" in seiResult ? seiResult.runId : null,
           publishedPriceCount: seiResult?.publishedPriceCount ?? 0,
+          importedPriceCount: seiResult && "importedPriceCount" in seiResult ? seiResult.importedPriceCount : 0,
           sourceUnitCount: seiResult && "sourceUnitCount" in seiResult ? seiResult.sourceUnitCount : 0,
           screenedUnitCount: seiResult && "screenedUnitCount" in seiResult ? seiResult.screenedUnitCount : 0,
           monitorMode: seiResult && "monitorMode" in seiResult ? seiResult.monitorMode : null,

@@ -1,6 +1,6 @@
 import { updateHeartbeatJob } from "./_core/heartbeat";
 import { notifyOwner } from "./_core/notification";
-import { runInventorySync, type RawProject } from "./inventorySync";
+import { applyOfficialUnitPricePatch, runInventorySync, type RawProject } from "./inventorySync";
 import { archiveSeiSaadiyatSourceFiles } from "./seiSaadiyatOfficialExport";
 import { captureSeiSaadiyatOfficialSourceExpansion, probeSeiSaadiyatOfficialPricing } from "./seiSaadiyatOfficialCapture";
 
@@ -37,9 +37,20 @@ export async function refreshSeiSaadiyatOfficialInventory(input: {
   const probe = await probeSeiSaadiyatOfficialPricing();
   const firstOfficialPriceDetected = probe.publishedPrices.length > 0;
 
+  const priceSync = firstOfficialPriceDetected
+    ? await applyOfficialUnitPricePatch({
+        trigger: input.trigger,
+        triggeredBy: input.triggeredBy,
+        dataset: "saadiyat",
+        projectSlug: "sei-saadiyat",
+        prices: probe.publishedPrices.map(price => ({ unitName: price.unitName, priceAed: price.priceAed })),
+      })
+    : null;
+  const newlyImportedOfficialPrice = (priceSync?.appliedUnitCount ?? 0) > 0;
+
   let notificationSent = false;
   let monitorPaused = false;
-  if (firstOfficialPriceDetected) {
+  if (firstOfficialPriceDetected && newlyImportedOfficialPrice) {
     await archiveSeiSaadiyatSourceFiles(probe.files, probe.captureDate);
     notificationSent = await notifyOwner({
       title: "Sei Saadiyat: official unit pricing published",
@@ -52,9 +63,9 @@ export async function refreshSeiSaadiyatOfficialInventory(input: {
   }
 
   return {
-    runId: expansionSync?.runId ?? null,
-    counts: expansionSync?.counts ?? { unitsScanned: probe.sourceUnitCount, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 },
-    rollups: expansionSync?.rollups ?? [],
+    runId: priceSync?.runId ?? expansionSync?.runId ?? null,
+    counts: priceSync?.counts ?? expansionSync?.counts ?? { unitsScanned: probe.sourceUnitCount, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 },
+    rollups: priceSync?.rollups ?? expansionSync?.rollups ?? [],
     newProjects: expansionSync?.newProjects ?? [],
     captureDate: probe.captureDate,
     sourceUnitCount: probe.sourceUnitCount,
@@ -64,6 +75,7 @@ export async function refreshSeiSaadiyatOfficialInventory(input: {
     screenedUnitCount: probe.screenedUnitCount,
     monitorMode: "official-price-probe" as const,
     publishedPriceCount: probe.publishedPrices.length,
+    importedPriceCount: priceSync?.appliedUnitCount ?? 0,
     detectedPrices: probe.publishedPrices,
     firstOfficialPriceDetected,
     notificationSent,

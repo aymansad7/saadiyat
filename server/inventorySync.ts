@@ -281,11 +281,53 @@ export type PrevState = {
   unitName: string;
   dataset?: Dataset;
   projectSlug?: string;
+  projectName?: string | null;
   status: string | null;
   sourceStatus?: string | null;
   priceAed: number | null;
   isPresent: boolean;
 };
+
+export type OfficialPricePatch = {
+  unitName: string;
+  priceAed: number;
+};
+
+/**
+ * Emits only exact, published-price changes. Unlike a snapshot diff it never
+ * treats absent units as removed, so it is safe for temporarily partial feeds.
+ */
+export function computeOfficialPricePatchEvents(
+  prev: Map<string, PrevState>,
+  dataset: Dataset,
+  projectSlug: string,
+  prices: readonly OfficialPricePatch[],
+): DiffEvent[] {
+  const latestPrices = new Map<string, number>();
+  for (const price of prices) {
+    if (!price.unitName?.trim() || !Number.isFinite(price.priceAed) || price.priceAed <= 0) continue;
+    latestPrices.set(price.unitName, Math.round(price.priceAed));
+  }
+  const events: DiffEvent[] = [];
+  for (const [unitName, priceAed] of Array.from(latestPrices.entries())) {
+    const state = prev.get(inventoryUnitKey({ dataset, projectSlug, unitName }));
+    if (!state || !state.isPresent || state.priceAed === priceAed) continue;
+    events.push({
+      unitName,
+      dataset,
+      projectSlug,
+      projectName: state.projectName ?? null,
+      eventType: "price_change",
+      fromStatus: null,
+      toStatus: null,
+      fromSourceStatus: null,
+      toSourceStatus: null,
+      fromPriceAed: state.priceAed,
+      toPriceAed: priceAed,
+    });
+  }
+  return events;
+}
 
 /**
  * Pure diff function — given the previous state map and the new snapshot,
@@ -642,6 +684,7 @@ export async function runInventorySync(opts: {
         unitName: r.unitName,
         dataset: r.dataset,
         projectSlug: r.projectSlug,
+        projectName: r.projectName,
         status: r.status,
         sourceStatus: r.sourceStatus,
         priceAed: r.priceAed,
@@ -821,6 +864,142 @@ export async function runInventorySync(opts: {
         finishedAt: new Date(),
       })
       .where(eq(inventorySyncRuns.id, runId));
+    throw err;
+  }
+}
+
+/**
+ * Persists official prices returned for a subset of one project. This is used
+ * when a live source has released some detail records but its project page is
+ * temporarily incomplete. It intentionally does not upsert the whole snapshot
+ * and therefore cannot mark unseen units removed or overwrite their state.
+ */
+export async function applyOfficialUnitPricePatch(opts: {
+  trigger: "scheduled" | "manual";
+  triggeredBy?: string;
+  dataset: Dataset;
+  projectSlug: string;
+  prices: readonly OfficialPricePatch[];
+}): Promise<{
+  runId: number;
+  counts: RunCounts;
+  rollups: ProjectRollup[];
+  appliedUnitCount: number;
+}> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const latestPrices = new Map<string, number>();
+  for (const price of opts.prices) {
+    if (!price.unitName?.trim() || !Number.isFinite(price.priceAed) || price.priceAed <= 0) continue;
+    latestPrices.set(price.unitName, Math.round(price.priceAed));
+  }
+
+  await db.insert(inventorySyncRuns).values({
+    trigger: opts.trigger,
+    status: "running",
+    triggeredBy: opts.triggeredBy ?? (opts.trigger === "scheduled" ? "cron" : "system"),
+  });
+  const [run] = await db.select().from(inventorySyncRuns).orderBy(desc(inventorySyncRuns.id)).limit(1);
+  const runId = run.id;
+
+  try {
+    const unitNames = Array.from(latestPrices.keys());
+    const previousRows = unitNames.length
+      ? await db.select().from(inventoryUnitState).where(and(
+          eq(inventoryUnitState.dataset, opts.dataset),
+          eq(inventoryUnitState.projectSlug, opts.projectSlug),
+          inArray(inventoryUnitState.unitName, unitNames),
+        ))
+      : [];
+    const previous = new Map<string, PrevState>(previousRows.map(row => [
+      inventoryUnitKey(row),
+      {
+        id: row.id,
+        unitName: row.unitName,
+        dataset: row.dataset,
+        projectSlug: row.projectSlug,
+        projectName: row.projectName,
+        status: row.status,
+        sourceStatus: row.sourceStatus,
+        priceAed: row.priceAed,
+        isPresent: row.isPresent,
+      },
+    ]));
+    const events = computeOfficialPricePatchEvents(previous, opts.dataset, opts.projectSlug, Array.from(latestPrices.entries()).map(([unitName, priceAed]) => ({ unitName, priceAed })));
+
+    if (events.length) {
+      await db.insert(inventoryUnitEvents).values(events.map(event => ({
+        unitName: event.unitName,
+        dataset: event.dataset,
+        projectSlug: event.projectSlug,
+        projectName: event.projectName,
+        eventType: event.eventType,
+        fromStatus: event.fromStatus,
+        toStatus: event.toStatus,
+        fromSourceStatus: event.fromSourceStatus,
+        toSourceStatus: event.toSourceStatus,
+        fromPriceAed: event.fromPriceAed,
+        toPriceAed: event.toPriceAed,
+        runId,
+      })));
+    }
+
+    const now = new Date();
+    for (const event of events) {
+      const prior = previous.get(inventoryUnitKey(event));
+      if (!prior?.id) continue;
+      await db.update(inventoryUnitState)
+        .set({ priceAed: event.toPriceAed, lastSeenRunId: runId, lastSeenAt: now })
+        .where(eq(inventoryUnitState.id, prior.id));
+    }
+
+    const [importedProject] = await db
+      .select({ id: inventoryImportedProjects.id, sourceJson: inventoryImportedProjects.sourceJson })
+      .from(inventoryImportedProjects)
+      .where(and(eq(inventoryImportedProjects.dataset, opts.dataset), eq(inventoryImportedProjects.projectSlug, opts.projectSlug)))
+      .limit(1);
+    if (importedProject) {
+      try {
+        const project = JSON.parse(importedProject.sourceJson) as RawProject;
+        for (const building of project.buildings ?? []) {
+          for (const unit of building.units ?? []) {
+            const price = unit.unit_name ? latestPrices.get(unit.unit_name) : undefined;
+            if (price != null) unit.price_aed = price;
+          }
+        }
+        await db.update(inventoryImportedProjects)
+          .set({ sourceJson: JSON.stringify(project), lastImportedRunId: runId, importedBy: opts.triggeredBy ?? "system" })
+          .where(eq(inventoryImportedProjects.id, importedProject.id));
+      } catch {
+        // The authoritative unit-state updates/events remain valid even if a
+        // legacy cached source payload cannot be parsed.
+      }
+    }
+
+    const { counts, rollups } = summarize(events);
+    counts.unitsScanned = unitNames.length;
+    await db.update(inventorySyncRuns).set({
+      status: "success",
+      unitsScanned: counts.unitsScanned,
+      newUnits: counts.newUnits,
+      soldUnits: counts.soldUnits,
+      statusChanges: counts.statusChanges,
+      sourceStatusChanges: counts.sourceStatusChanges,
+      priceChanges: counts.priceChanges,
+      removedUnits: counts.removedUnits,
+      summaryJson: JSON.stringify(rollups).slice(0, 60000),
+      newProjectsJson: "[]",
+      finishedAt: now,
+    }).where(eq(inventorySyncRuns.id, runId));
+    invalidateImportedAldarProjectCache();
+    return { runId, counts, rollups, appliedUnitCount: events.length };
+  } catch (err) {
+    await db.update(inventorySyncRuns).set({
+      status: "error",
+      errorMessage: String((err as Error)?.message ?? err).slice(0, 2000),
+      finishedAt: new Date(),
+    }).where(eq(inventorySyncRuns.id, runId));
     throw err;
   }
 }
