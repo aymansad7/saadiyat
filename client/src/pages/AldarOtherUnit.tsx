@@ -23,7 +23,10 @@ import {
   UnitContactHistory,
   ListingOwnerFacts,
   ListingPriceLabel,
+  OneDriveCardLinks,
 } from "@/components/ListingControls";
+import { isPenthousePresentationUnit } from "@/data/penthousePresentation";
+import PenthousePresentation from "@/components/PenthousePresentation";
 
 function Inner() {
   const params = useParams<{ project: string; building: string; unit: string }>();
@@ -143,6 +146,7 @@ function Inner() {
   const officialPlans = extendedUnit.official_payment_plans ?? [];
   const officialOffers = extendedUnit.official_offers ?? [];
   const unitPriceMetrics = getUnitPriceMetrics(unit.price_aed, unit.saleable_area_sqm, unit.total_area_sqm);
+  const isPenthouse = isPenthousePresentationUnit(unit);
   const yesNo = (value: boolean | null | undefined) => value == null ? "—" : value ? "Yes" : "No";
 
   return (
@@ -218,9 +222,18 @@ function Inner() {
                 </div>
               </a>
             )}
+            {!isPenthouse && <OneDriveCardLinks villaKey={villaKey} className="mt-0" />}
           </div>
         </div>
       </section>
+
+      {isPenthouse && (
+        <section className="border-b border-border bg-[#f8f6f1]">
+          <div className="container py-8 sm:py-10">
+            <PenthousePresentation projectSlug={project.slug} villaKey={villaKey} />
+          </div>
+        </section>
+      )}
 
       {/* Resale listing card (admin manages, public sees price/status) */}
       <section className="border-b border-border bg-background">

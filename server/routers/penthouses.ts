@@ -1,4 +1,5 @@
 import { masterProcedure, router } from "../_core/trpc";
+import { AREAS, areaForProject, type AreaKey } from "../aldarAreas";
 import { mergeImportedAldarProjects } from "../importedAldarProjects";
 import { getDataset } from "./aldarOther";
 import { getSaadiyatDataset } from "./aldarSaadiyat";
@@ -23,6 +24,27 @@ type PenthouseSourceProject = {
 };
 
 const SQFT_PER_SQM = 10.764;
+const EXCLUDED_PROJECT_SLUGS = new Set(["almarjan", "rosso-bay-residences"]);
+
+export type PenthouseLocationKey = "saadiyat" | "yas-island" | "fahid-island" | "other";
+
+export function isClientFacingPenthouseProject(project: Pick<PenthouseSourceProject, "slug" | "name">): boolean {
+  const identity = `${project.slug} ${project.name}`.toLowerCase();
+  return !EXCLUDED_PROJECT_SLUGS.has(project.slug)
+    && !/(marjan|rosso\s*bay|stephanie)/i.test(identity);
+}
+
+export function penthouseLocationForProject(dataset: "saadiyat" | "other", projectSlug: string): PenthouseLocationKey {
+  const area = areaForProject(projectSlug);
+  if (area === "yas-island" || area === "fahid-island" || area === "saadiyat") return area;
+  return dataset === "saadiyat" ? "saadiyat" : "other";
+}
+
+function penthouseLocationLabel(locationKey: PenthouseLocationKey) {
+  if (locationKey === "saadiyat" || locationKey === "yas-island") return AREAS[locationKey].name;
+  if (locationKey === "fahid-island") return AREAS[locationKey].name;
+  return "Other Abu Dhabi";
+}
 
 export function isOfficialPenthouse(unit: PenthouseSourceUnit): boolean {
   return [unit.unit_type, unit.unit_category, unit.unit_model, unit.total_rooms]
@@ -34,7 +56,9 @@ function numberOrNull(value: number | null | undefined) {
 }
 
 function buildRecords(dataset: "saadiyat" | "other", projects: PenthouseSourceProject[]) {
-  return projects.flatMap(project => project.buildings.flatMap(building => building.units
+  return projects
+    .filter(isClientFacingPenthouseProject)
+    .flatMap(project => project.buildings.flatMap(building => building.units
     .filter(isOfficialPenthouse)
     .filter(unit => Boolean(unit.unit_name))
     .map(unit => {
@@ -45,10 +69,13 @@ function buildRecords(dataset: "saadiyat" | "other", projects: PenthouseSourcePr
       const pricePerSqmAed = priceAed != null && areaSqm != null ? priceAed / areaSqm : null;
       const pricePerSqftAed = pricePerSqmAed != null ? pricePerSqmAed / SQFT_PER_SQM : null;
       const hrefBase = dataset === "saadiyat" ? "/aldar-saadiyat" : "/aldar-other";
+      const locationKey = penthouseLocationForProject(dataset, project.slug);
       return {
         dataset,
         projectSlug: project.slug,
         projectName: project.name,
+        locationKey,
+        locationLabel: penthouseLocationLabel(locationKey),
         buildingSlug: building.slug,
         buildingName: building.name,
         unitName: unit.unit_name!,
@@ -65,6 +92,15 @@ function buildRecords(dataset: "saadiyat" | "other", projects: PenthouseSourcePr
     })));
 }
 
+function chooseMoreCompleteRecord<T extends { dataset: string; priceAed: number | null; areaSqm: number | null; status: string | null }>(current: T, candidate: T) {
+  const score = (record: T) =>
+    (record.priceAed != null ? 4 : 0)
+    + (record.areaSqm != null ? 2 : 0)
+    + (record.status != null ? 1 : 0)
+    + (record.dataset === "other" ? 0.1 : 0);
+  return score(candidate) > score(current) ? candidate : current;
+}
+
 export const penthousesRouter = router({
   /** Cross-dataset luxury inventory view; Other Aldar scope remains Master-only. */
   list: masterProcedure.query(async () => {
@@ -72,10 +108,17 @@ export const penthousesRouter = router({
       mergeImportedAldarProjects("saadiyat", getSaadiyatDataset().projects),
       mergeImportedAldarProjects("other", getDataset().projects),
     ]);
-    const units = [
+    const rawUnits = [
       ...buildRecords("saadiyat", saadiyatProjects as PenthouseSourceProject[]),
       ...buildRecords("other", otherProjects as PenthouseSourceProject[]),
-    ].sort((a, b) => a.projectName.localeCompare(b.projectName) || (b.priceAed ?? -1) - (a.priceAed ?? -1) || a.unitName.localeCompare(b.unitName));
+    ];
+    const unique = new Map<string, typeof rawUnits[number]>();
+    for (const unit of rawUnits) {
+      const key = `${unit.projectSlug}:${unit.unitName}`;
+      unique.set(key, unique.has(key) ? chooseMoreCompleteRecord(unique.get(key)!, unit) : unit);
+    }
+    const units = Array.from(unique.values())
+      .sort((a, b) => a.projectName.localeCompare(b.projectName) || (b.priceAed ?? -1) - (a.priceAed ?? -1) || a.unitName.localeCompare(b.unitName));
     const priced = units.filter(unit => unit.priceAed != null);
     return {
       summary: {

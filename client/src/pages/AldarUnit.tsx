@@ -28,6 +28,8 @@ import {
 import FayaTransactionTimeline from "@/components/FayaTransactionTimeline";
 import { getFayaTransactions } from "@/data/fayaTransactions";
 import { getAldarOfficialPenthouseGallery } from "@/data/aldarOfficialPenthouseMedia";
+import { isPenthousePresentationUnit } from "@/data/penthousePresentation";
+import PenthousePresentation from "@/components/PenthousePresentation";
 
 type ParsedPlan = {
   name: string;
@@ -145,6 +147,7 @@ export default function AldarUnit() {
   const plans = unit.payment_plans ? parsePaymentPlans(unit.payment_plans) : [];
   const fayaTransactions = getFayaTransactions(unit.unit_name);
   const officialPenthouseGallery = getAldarOfficialPenthouseGallery(project.slug, unit.unit_name);
+  const isPenthouse = isPenthousePresentationUnit(unit);
   const unitPriceMetrics = canViewOriginalPrice
     ? getUnitPriceMetrics(unit.price_aed, unit.saleable_area_sqm, unit.total_area_sqm)
     : null;
@@ -224,7 +227,7 @@ export default function AldarUnit() {
               label={seiBuildingFloorLabel(project.slug, unit.unit_name) ?? undefined}
               className="w-full justify-center"
             />
-            <OneDriveCardLinks villaKey={villaKey} className="mt-0" />
+            {!isPenthouse && <OneDriveCardLinks villaKey={villaKey} className="mt-0" />}
             {officialPenthouseGallery && (
               <section className="overflow-hidden rounded-md border border-primary/25 bg-primary/[0.03]">
                 <div className="border-b border-primary/15 px-3 py-2.5">
@@ -258,6 +261,14 @@ export default function AldarUnit() {
           </div>
         </div>
       </section>
+
+      {isPenthouse && (
+        <section className="border-b border-border bg-[#f8f6f1]">
+          <div className="container py-8 sm:py-10">
+            <PenthousePresentation projectSlug={project.slug} villaKey={villaKey} />
+          </div>
+        </section>
+      )}
 
       {/* Resale listing card (admin manages, public sees price/status) */}
       <section className="border-b border-border bg-background">

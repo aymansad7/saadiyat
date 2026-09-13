@@ -1027,3 +1027,11 @@
 ### Unit Price Metrics (Sep 13, 2026)
 - [x] Calculate and display official price per sqft and per sqm automatically on every unit card only when both the official price and a documented saleable/total area are present
 - [x] Keep price metrics absent rather than inferred when a unit has no valid price or no documented eligible area
+
+### Luxury Penthouses Presentation Upgrade (Sep 13, 2026)
+- [x] Exclude all Marjan Island penthouses from the client-facing Penthouses tab while retaining only Aldar Abu Dhabi inventory
+- [x] Exclude Stephanie/Rosso Bay Residence from the client-facing Penthouses classification even if the source includes a penthouse label
+- [x] Add Saadiyat Island, Yas Island, and combined location filters to the Penthouses presentation table
+- [x] Render penthouse row availability clearly: green Available and red Sold, with a visible status label
+- [x] Enrich each penthouse detail with an accurate presentation overview, documented floor plan links, availability, and verified project or unit imagery labelled by provenance
+- [x] Audit the supplied Abu Dhabi penthouse PDF and use only exact, attributable details or assets that can be linked to the matching penthouse
