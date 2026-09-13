@@ -1053,3 +1053,9 @@
 
 ### Nobu Penthouses Collection (Sep 13, 2026)
 - [x] Identify and add Nobu penthouses or documented top-floor equivalents to the Penthouses collection, keeping their classification distinct from ordinary Nobu apartments
+
+### Penthouses Image Gallery and Guggenheim Hero (Sep 13, 2026)
+- [x] Preserve the user-supplied Penthouses images in managed web storage with clear project/category provenance
+- [x] Replace the dark Penthouses hero background with the supplied Guggenheim-view image while maintaining readable text contrast
+- [x] Add an accessible interactive image gallery to the Penthouses cards, clearly labelled as project/category imagery rather than exact-unit imagery
+- [x] Verify desktop/mobile rendering, TypeScript, and unit tests before publishing

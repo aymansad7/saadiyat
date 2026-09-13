@@ -1,11 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { getPenthouseProjectPresentation, isPenthousePresentationUnit } from "./penthousePresentation";
+import { getPenthouseProjectPresentation, isPenthousePresentationUnit, PENTHOUSES_GUGGENHEIM_HERO } from "./penthousePresentation";
 
 describe("penthouse presentation data", () => {
   it("keeps Baccarat project imagery at the project level", () => {
     const presentation = getPenthouseProjectPresentation("onesaadiyat");
     expect(presentation?.imageUrl).toContain("/manus-storage/");
-    expect(presentation?.sourceLabel).toContain("Illustrative");
+    expect(presentation?.sourceLabel).toContain("Not an exact-unit view");
+    expect(presentation?.gallery).toHaveLength(10);
+    expect(presentation?.gallery?.every(image => image.url.includes("/manus-storage/"))).toBe(true);
+  });
+
+  it("uses the supplied Guggenheim project/category image as the Penthouse hero", () => {
+    expect(PENTHOUSES_GUGGENHEIM_HERO.url).toContain("/manus-storage/");
+    expect(PENTHOUSES_GUGGENHEIM_HERO.sourceLabel).toContain("Not an exact-unit view");
   });
 
   it("recognises only published penthouse labels for the presentation treatment", () => {

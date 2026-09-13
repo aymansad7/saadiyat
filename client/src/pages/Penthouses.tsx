@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/lib/trpc";
 import { fmtAed, fmtArea } from "@/data/aldar/format";
+import { getPenthouseProjectPresentation, PENTHOUSES_GUGGENHEIM_HERO } from "@/data/penthousePresentation";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 type LocationFilter = "all" | "saadiyat" | "yas-island" | "saadiyat-yas";
 type StatusFilter = "all" | "available" | "sold";
@@ -72,7 +74,9 @@ export default function Penthouses() {
     <div className="min-h-screen bg-[#0c1720] text-slate-100">
       <SiteHeader subTitle="Private Collection" back={{ href: "/aldar-saadiyat", label: "Aldar Saadiyat" }} />
       <main>
-        <section className="border-b border-amber-200/15 bg-[radial-gradient(circle_at_75%_5%,rgba(187,139,68,0.22),transparent_34%),linear-gradient(135deg,#0c1720_0%,#162937_55%,#0d1922_100%)]">
+        <section className="relative isolate overflow-hidden border-b border-amber-200/20 bg-[#07121a]">
+          <img src={PENTHOUSES_GUGGENHEIM_HERO.url} alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 -z-20 h-full w-full object-cover object-[68%_center]" />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,18,26,0.92)_0%,rgba(10,25,34,0.68)_43%,rgba(9,22,31,0.18)_100%),linear-gradient(0deg,rgba(7,18,26,0.56)_0%,rgba(7,18,26,0.04)_70%)]" />
           <div className="container py-12 sm:py-16">
             <div className="flex flex-wrap items-center gap-2 text-[0.68rem] font-mono uppercase tracking-[0.25em] text-amber-200/80">
               <Crown className="h-3.5 w-3.5" /> Aldar private collection
@@ -88,6 +92,7 @@ export default function Penthouses() {
               <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-300/30 bg-rose-300/10 px-3 py-1.5"><span className="h-2 w-2 rounded-full bg-rose-300" /> Red rows: Sold</span>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-400/30 bg-white/5 px-3 py-1.5"><Sparkles className="h-3.5 w-3.5 text-amber-200" /> Project imagery is labelled by provenance</span>
             </div>
+            <div className="mt-4 inline-flex max-w-lg rounded-md border border-amber-100/25 bg-black/25 px-3 py-2 text-[0.67rem] leading-5 text-slate-200 backdrop-blur-sm">{PENTHOUSES_GUGGENHEIM_HERO.sourceLabel}</div>
             {isLoading ? <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4"><Skeleton className="h-20 bg-white/10" /><Skeleton className="h-20 bg-white/10" /><Skeleton className="h-20 bg-white/10" /><Skeleton className="h-20 bg-white/10" /></div> : data && <div className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-amber-200/20 bg-amber-200/15 sm:grid-cols-4">
               <SummaryStat label="Private residences" value={data.summary.totalUnits.toLocaleString()} />
               <SummaryStat label="Aldar projects" value={data.summary.totalProjects.toLocaleString()} />
@@ -120,8 +125,9 @@ export default function Penthouses() {
                 <tbody className="divide-y divide-slate-100">
                   {units.map(unit => {
                     const status = statusMeta(unit.status);
+                    const presentation = getPenthouseProjectPresentation(unit.projectSlug);
                     return <tr key={`${unit.dataset}-${unit.projectSlug}-${unit.unitName}`} onClick={() => setLocation(unit.href)} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") setLocation(unit.href); }} role="link" tabIndex={0} className={`cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 ${status.rowClass}`}>
-                      <td className="px-5 py-4"><div className="font-display text-lg text-slate-950">{unit.projectName}</div><div className="mt-0.5 flex items-center gap-1.5 text-xs text-slate-500"><Building2 className="h-3 w-3" /> {unit.buildingName}</div></td>
+                      <td className="px-5 py-4"><div className="font-display text-lg text-slate-950">{presentation ? <HoverCard openDelay={120} closeDelay={160}><HoverCardTrigger asChild><button type="button" className="cursor-pointer text-left underline decoration-amber-700/35 underline-offset-4 hover:decoration-amber-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500">{unit.projectName}</button></HoverCardTrigger><HoverCardContent align="start" className="w-80 overflow-hidden border-amber-700/25 p-0 shadow-xl" onClick={event => event.stopPropagation()}><img src={presentation.imageUrl} alt={presentation.imageAlt} className="aspect-[16/10] w-full object-cover" /><div className="p-3"><div className="text-[0.62rem] font-mono uppercase tracking-[0.16em] text-amber-800">Project/category imagery</div><div className="mt-1 text-sm font-medium text-slate-900">{presentation.title}</div><p className="mt-1 text-xs leading-5 text-slate-600">Hover preview only. Open the card to browse the full image library where available.</p></div></HoverCardContent></HoverCard> : unit.projectName}</div><div className="mt-0.5 flex items-center gap-1.5 text-xs text-slate-500"><Building2 className="h-3 w-3" /> {unit.buildingName}</div></td>
                       <td className="px-4 py-4"><div className="inline-flex items-center gap-1.5 text-sm text-slate-700"><MapPin className="h-3.5 w-3.5 text-amber-700" />{unit.locationLabel}</div></td>
                       <td className="px-4 py-4 font-mono text-sm font-medium text-slate-900">{unit.unitName}</td>
                       <td className="px-4 py-4"><span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${status.badgeClass}`}>{status.label}</span></td>

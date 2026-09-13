@@ -4,9 +4,35 @@ export type PenthousePresentationProject = {
   imageUrl: string;
   imageAlt: string;
   sourceLabel: string;
+  gallery?: readonly PenthousePresentationImage[];
+};
+
+export type PenthousePresentationImage = {
+  url: string;
+  alt: string;
+  label: string;
 };
 
 const DECK_SOURCE_LABEL = "User-supplied penthouse presentation deck · Project rendering · Illustrative, not an exact-unit view";
+
+/** User-supplied One Saadiyat / Baccarat category imagery. None is asserted to depict an exact unit. */
+const ONE_SAADIYAT_PENTHOUSE_GALLERY = [
+  { url: "/manus-storage/IMG_0068_437a571c.png", alt: "One Saadiyat penthouse terrace pool with Guggenheim Abu Dhabi outlook", label: "Guggenheim outlook" },
+  { url: "/manus-storage/IMG_0069_998ac788.png", alt: "One Saadiyat penthouse spa and Guggenheim Abu Dhabi outlook", label: "Wellness suite" },
+  { url: "/manus-storage/IMG_0070_0b9c97a5.png", alt: "One Saadiyat arrival drive and residence façade", label: "Private arrival" },
+  { url: "/manus-storage/IMG_0071_1b65b739.png", alt: "Baccarat Residences lobby rendering", label: "Baccarat lobby" },
+  { url: "/manus-storage/IMG_0072_29263c50.png", alt: "Baccarat penthouse dining interior rendering", label: "Dining salon" },
+  { url: "/manus-storage/IMG_0073_f88cebce.png", alt: "Baccarat penthouse kitchen and dining interior rendering", label: "Kitchen & dining" },
+  { url: "/manus-storage/IMG_0074_134af0c3.png", alt: "Baccarat penthouse living interior rendering", label: "Living salon" },
+  { url: "/manus-storage/IMG_0075_3a85cc9a.png", alt: "Baccarat penthouse bedroom interior rendering", label: "Primary suite" },
+  { url: "/manus-storage/IMG_0076_1c6458ad.png", alt: "One Saadiyat residence pool with Guggenheim outlook", label: "Poolside outlook" },
+  { url: "/manus-storage/IMG_0077_e00d084e.png", alt: "Saadiyat Cultural District aerial rendering with Guggenheim Abu Dhabi", label: "Cultural District panorama" },
+] as const satisfies readonly PenthousePresentationImage[];
+
+export const PENTHOUSES_GUGGENHEIM_HERO = {
+  ...ONE_SAADIYAT_PENTHOUSE_GALLERY[0],
+  sourceLabel: "User-supplied One Saadiyat / Baccarat category rendering · Guggenheim outlook · Not an exact-unit view",
+} as const;
 
 const PROJECT_PRESENTATIONS: Record<string, PenthousePresentationProject> = {
   "nobu-residences": {
@@ -19,9 +45,10 @@ const PROJECT_PRESENTATIONS: Record<string, PenthousePresentationProject> = {
   onesaadiyat: {
     title: "Cultural District panorama",
     narrative: "A refined Saadiyat Cultural District setting designed for a client conversation around landmark architecture, museum-side living and sunset-facing project context. Confirm exact unit outlook, terrace and parking against the official unit record.",
-    imageUrl: "/manus-storage/penthouse-001_8d7858f4.jpg",
-    imageAlt: "Baccarat Residences project rendering in Saadiyat Cultural District",
-    sourceLabel: DECK_SOURCE_LABEL,
+    imageUrl: PENTHOUSES_GUGGENHEIM_HERO.url,
+    imageAlt: PENTHOUSES_GUGGENHEIM_HERO.alt,
+    sourceLabel: PENTHOUSES_GUGGENHEIM_HERO.sourceLabel,
+    gallery: ONE_SAADIYAT_PENTHOUSE_GALLERY,
   },
   fountainviewresidences: {
     title: "Branded cultural outlook",
