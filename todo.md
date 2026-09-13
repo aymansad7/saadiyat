@@ -1007,3 +1007,9 @@
 
 ### Sei Official Pricing Import (Sep 12, 2026)
 - [x] Recheck current official Sei coverage and import 16 valid unit prices only for units returned by the source, preserving the 948-unit registry when the source response is partial; the import recorded zero removals
+
+### Building 16 Floor Price Review (Sep 13, 2026)
+- [x] Clarified that the requested building is Sei Saadiyat Building 6, not Louvre Residences Grove-R16; the initially named building has no floors 14–17 in the recorded source
+
+### Sei Building 6 Floor Price Review (Sep 13, 2026)
+- [x] Extract official prices for Sei Saadiyat Building 6 floors 14, 15, 16, and 17, grouped separately by floor and with unpublished prices clearly identified
