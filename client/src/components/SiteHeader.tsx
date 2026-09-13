@@ -337,6 +337,14 @@ export default function SiteHeader({ subTitle, back, fixed = false, compact = fa
              </DropdownMenuItem>
              {canAccessOther && (
                <DropdownMenuItem asChild>
+                 <Link href="/penthouses" className="flex items-center justify-between w-full">
+                   <span className="font-display text-sm">Penthouses</span>
+                   <span className="text-[0.65rem] font-mono text-amber-700 border border-amber-500/40 px-1 rounded-sm">LUXURY</span>
+                 </Link>
+               </DropdownMenuItem>
+             )}
+             {canAccessOther && (
+               <DropdownMenuItem asChild>
                  <Link href="/aldar-other" className="flex items-center justify-between w-full">
                    <span className="font-display text-sm">Other Aldar projects</span>
                     <span className="text-[0.65rem] font-mono text-rose-600 dark:text-rose-300 border border-rose-500/40 px-1 rounded-sm">35</span>

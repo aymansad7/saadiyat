@@ -10,7 +10,7 @@ import SiteHeader from "@/components/SiteHeader";
 import { Skeleton } from "@/components/ui/skeleton";
 import MasterGate from "@/components/MasterGate";
 import { trpc } from "@/lib/trpc";
-import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
+import { fmtAed, shortUnitNumber, fmtArea, getUnitPriceMetrics } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
 import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
 import { parsePaymentPlans } from "./AldarUnit";
@@ -142,6 +142,7 @@ function Inner() {
   };
   const officialPlans = extendedUnit.official_payment_plans ?? [];
   const officialOffers = extendedUnit.official_offers ?? [];
+  const unitPriceMetrics = getUnitPriceMetrics(unit.price_aed, unit.saleable_area_sqm, unit.total_area_sqm);
   const yesNo = (value: boolean | null | undefined) => value == null ? "—" : value ? "Yes" : "No";
 
   return (
@@ -183,6 +184,8 @@ function Inner() {
                 label="Total / BUA"
                 value={fmtArea(unit.total_area_sqm ?? unit.saleable_area_sqm)}
               />
+              {unitPriceMetrics && <KeyFact label="Price / sqft" value={`AED ${fmtAed(unitPriceMetrics.pricePerSqftAed)}`} />}
+              {unitPriceMetrics && <KeyFact label="Price / m²" value={`AED ${fmtAed(unitPriceMetrics.pricePerSqmAed)}`} />}
               <KeyFact label="Terrace" value={fmtArea(unit.terrace_area_sqm)} />
               {unit.mandatory_premium != null && (
                 <KeyFact
@@ -451,8 +454,8 @@ function Inner() {
               label="Original price (without add-ons)"
               value={`AED ${fmtAed(unit.price_aed)}`}
             />
-            <Row label="Price per m²" value={extendedUnit.price_per_sqm_aed != null ? `AED ${fmtAed(extendedUnit.price_per_sqm_aed)}` : "—"} />
-            <Row label="Price per ft²" value={extendedUnit.price_per_sqft_aed != null ? `AED ${fmtAed(extendedUnit.price_per_sqft_aed)}` : "—"} />
+            <Row label="Price per m²" value={unitPriceMetrics ? `AED ${fmtAed(unitPriceMetrics.pricePerSqmAed)}` : "—"} />
+            <Row label="Price per ft²" value={unitPriceMetrics ? `AED ${fmtAed(unitPriceMetrics.pricePerSqftAed)}` : "—"} />
             <Row label="Expected completion" value={extendedUnit.completion_date ?? "—"} />
             <Row
               label="Reservation Amount"

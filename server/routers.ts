@@ -12,6 +12,7 @@ import { hiddRouter } from "./routers/hidd";
 import { inventoryHistoryRouter } from "./routers/inventoryHistory";
 import { magicRouter } from "./routers/magic";
 import { oneDriveRouter } from "./routers/oneDrive";
+import { penthousesRouter } from "./routers/penthouses";
 import { publicResaleRouter } from "./routers/publicResale";
 import { propertyAccessRouter } from "./routers/propertyAccess";
 import { propertyOwnersRouter } from "./routers/propertyOwners";
@@ -52,6 +53,7 @@ export const appRouter = router({
   hidd: hiddRouter,
   aldarOther: aldarOtherRouter,
   aldarSaadiyat: aldarSaadiyatRouter,
+  penthouses: penthousesRouter,
   lagoons: lagoonsRouter,
   resale: resaleRouter,
   publicResale: publicResaleRouter,

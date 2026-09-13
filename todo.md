@@ -1019,3 +1019,11 @@
 
 ### Sei Building 6 Detailed Price PDF (Sep 13, 2026)
 - [x] Generate a shareable PDF for Sei Saadiyat Building 6 floors 14–17 with unit number, official price, bedrooms, unit type, recorded area, price per sqft, floor subtotal, floor average price per sqft, and overall total
+
+### Aldar Penthouses Tab (Sep 13, 2026)
+- [x] Audit and surface every officially published Aldar penthouse in a dedicated client-ready Luxury Penthouses tab, with an executive summary, project, building, unit number, bedrooms, type, area, official price when published, and a direct card action
+- [x] Preserve scoped project access and protected data rules in the Penthouses view, without displaying unverified project imagery as an exact-unit image
+
+### Unit Price Metrics (Sep 13, 2026)
+- [x] Calculate and display official price per sqft and per sqm automatically on every unit card only when both the official price and a documented saleable/total area are present
+- [x] Keep price metrics absent rather than inferred when a unit has no valid price or no documented eligible area

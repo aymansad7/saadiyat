@@ -3,7 +3,7 @@
  */
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
-import { Search, Building2, Sparkles, ArrowRight } from "lucide-react";
+import { Search, Building2, Sparkles, ArrowRight, Crown } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -16,11 +16,15 @@ import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { fmtAed, shortUnitNumber } from "@/data/aldar/format";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { canAccessOtherProjects } from "@shared/otherAccess";
 
 export default function AldarSaadiyat() {
   const [availableOnly, setAvailableOnly] = useState(false);
   const [query, setQuery] = useState("");
+  const { user } = useAuth();
   const q = query.trim().toLowerCase();
+  const canOpenPenthouses = canAccessOtherProjects(user?.role, user?.email);
 
   const { data, isLoading } = trpc.aldarSaadiyat.listProjects.useQuery();
   const searchQuery = trpc.aldarSaadiyat.searchUnits.useQuery(
@@ -70,6 +74,15 @@ export default function AldarSaadiyat() {
               <span className="text-muted-foreground">Available only</span>
             </label>
           </div>
+          {canOpenPenthouses && (
+            <Link href="/penthouses" className="group mt-6 flex max-w-3xl items-center justify-between gap-4 rounded-md border border-amber-700/30 bg-[linear-gradient(110deg,#172a36,#294452)] px-4 py-3 text-amber-50 transition-colors hover:border-amber-300/80">
+              <div>
+                <div className="flex items-center gap-2 text-[0.62rem] font-mono uppercase tracking-[0.2em] text-amber-200"><Crown className="h-3.5 w-3.5" /> Private Collection</div>
+                <div className="mt-1 font-display text-xl">Present Aldar Penthouses</div>
+              </div>
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+          )}
         </div>
       </section>
 

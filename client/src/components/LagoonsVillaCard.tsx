@@ -31,6 +31,7 @@ import {
 } from "@/components/ListingControls";
 import { formatArea, type AreaUnit } from "@/lib/areaSearch";
 import { trpc } from "@/lib/trpc";
+import { UnitPriceMetrics } from "@/components/UnitPriceMetrics";
 
 function formatAed(value: number) {
   return new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(value);
@@ -198,6 +199,13 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
             <div className="font-display num-display text-lg text-foreground tabular">
               AED {formatAed(originalPrice)}
             </div>
+            <UnitPriceMetrics
+              priceAed={originalPrice}
+              saleableAreaSqm={villa.saleable_area_sqm}
+              totalAreaSqm={builtUpSqm}
+              compact
+              className="mt-1"
+            />
           </div>
         )}
         {availability.sources.length > 0 && (

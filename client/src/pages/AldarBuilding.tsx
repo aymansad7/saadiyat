@@ -36,6 +36,7 @@ import FayaTransactionTimeline from "@/components/FayaTransactionTimeline";
 import { getFayaTransactions } from "@/data/fayaTransactions";
 import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
 import { propertyScopeKey } from "@shared/propertyAccess";
+import { UnitPriceMetrics } from "@/components/UnitPriceMetrics";
 
 function aldarUnitScope(buildingKey: string, unit: any) {
   const bedrooms = unit.bedrooms == null ? null : Number(unit.bedrooms);
@@ -279,9 +280,9 @@ export default function AldarBuilding() {
           </div>
         ) : viewMode === "table" ? (
           <div className="rounded-lg border border-border bg-card overflow-x-auto">
-            <table className="w-full min-w-[860px] text-sm">
+            <table className="w-full min-w-[980px] text-sm">
               <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
-                <tr><th className="px-4 py-3">Unit</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Status</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">BUA / Saleable</th><th className="px-4 py-3">Original Price</th><th className="px-4 py-3">ADREC Transaction</th></tr>
+                <tr><th className="px-4 py-3">Unit</th><th className="px-4 py-3">Bedrooms</th><th className="px-4 py-3">Status</th><th className="px-4 py-3">Plot</th><th className="px-4 py-3">BUA / Saleable</th><th className="px-4 py-3">Original Price</th><th className="px-4 py-3">Price density</th><th className="px-4 py-3">ADREC Transaction</th></tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {units.map((u: any) => (
@@ -292,6 +293,7 @@ export default function AldarBuilding() {
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.plot_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.total_area_sqm ?? u.saleable_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-semibold">{canViewOriginalPriceFor(u) ? `AED ${fmtAed(u.price_aed)}` : "—"}</td>
+                    <td className="px-4 py-3">{canViewOriginalPriceFor(u) && <UnitPriceMetrics priceAed={u.price_aed} saleableAreaSqm={u.saleable_area_sqm} totalAreaSqm={u.total_area_sqm} compact />}</td>
                     <td className="px-4 py-3">
                       {getFayaTransactions(u.unit_name)[0] ? (
                         <div>
@@ -341,6 +343,7 @@ export default function AldarBuilding() {
                     <div className="font-display text-xl num-display text-foreground">
                       AED {fmtAed(u.price_aed)}
                     </div>
+                    <UnitPriceMetrics priceAed={u.price_aed} saleableAreaSqm={u.saleable_area_sqm} totalAreaSqm={u.total_area_sqm} compact className="mt-1" />
                   </div>}
                   <div className="grid grid-cols-2 gap-2 text-[0.7rem] font-mono text-muted-foreground">
                     <div>

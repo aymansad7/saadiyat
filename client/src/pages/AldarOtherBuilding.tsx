@@ -35,6 +35,7 @@ import {
 import AreaFilterControls from "@/components/AreaFilterControls";
 import { formatArea, isWithinAreaRange, matchesAreaQuery, type AreaUnit } from "@/lib/areaSearch";
 import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
+import { UnitPriceMetrics } from "@/components/UnitPriceMetrics";
 
 function Inner() {
   const { project: projectSlug, building: buildingSlug } = useParams<{
@@ -265,7 +266,7 @@ function Inner() {
           </div>
         ) : viewMode === "table" ? (
           <div className="rounded-lg border border-border bg-card overflow-x-auto">
-            <table className="w-full min-w-[980px] text-sm">
+            <table className="w-full min-w-[1080px] text-sm">
               <thead className="bg-accent/40 text-left text-[0.65rem] font-mono uppercase tracking-wider text-muted-foreground">
                 <tr>
                   <th className="px-4 py-3">Unit</th>
@@ -274,6 +275,7 @@ function Inner() {
                   <th className="px-4 py-3">Plot</th>
                   <th className="px-4 py-3">BUA / Saleable</th>
                   <th className="px-4 py-3">Price</th>
+                  <th className="px-4 py-3">Price density</th>
                   {showOwners && <th className="px-4 py-3">Owner</th>}
                 </tr>
               </thead>
@@ -292,6 +294,7 @@ function Inner() {
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.plot_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.total_area_sqm ?? u.saleable_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-semibold">AED {fmtAed(u.price_aed)}</td>
+                    <td className="px-4 py-3"><UnitPriceMetrics priceAed={u.price_aed} saleableAreaSqm={u.saleable_area_sqm} totalAreaSqm={u.total_area_sqm} compact /></td>
                     {showOwners && <td className="px-4 py-3"><ListingOwnerFacts listing={listing} className="mt-0" /></td>}
                   </tr>
                 })}
@@ -333,6 +336,7 @@ function Inner() {
                     <div className="font-display text-xl num-display text-foreground">
                       AED {fmtAed(u.price_aed)}
                     </div>
+                    <UnitPriceMetrics priceAed={u.price_aed} saleableAreaSqm={u.saleable_area_sqm} totalAreaSqm={u.total_area_sqm} compact className="mt-1" />
                   </div>
                   <div className="grid grid-cols-2 gap-2 text-[0.7rem] font-mono text-muted-foreground">
                     <div>

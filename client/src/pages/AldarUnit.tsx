@@ -10,7 +10,7 @@ import { ExternalLink, Sparkles, Tag } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { trpc } from "@/lib/trpc";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
-import { fmtAed, shortUnitNumber, fmtArea } from "@/data/aldar/format";
+import { fmtAed, shortUnitNumber, fmtArea, getUnitPriceMetrics } from "@/data/aldar/format";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
 import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
 import { ResaleCard } from "@/components/ResaleCard";
@@ -145,6 +145,9 @@ export default function AldarUnit() {
   const plans = unit.payment_plans ? parsePaymentPlans(unit.payment_plans) : [];
   const fayaTransactions = getFayaTransactions(unit.unit_name);
   const officialPenthouseGallery = getAldarOfficialPenthouseGallery(project.slug, unit.unit_name);
+  const unitPriceMetrics = canViewOriginalPrice
+    ? getUnitPriceMetrics(unit.price_aed, unit.saleable_area_sqm, unit.total_area_sqm)
+    : null;
   const listing = listingQuery.data as
     | {
         askingPriceAed: number | null;
@@ -199,6 +202,8 @@ export default function AldarUnit() {
               <KeyFact label="Type" value={unit.unit_model ?? unit.unit_category ?? "—"} />
               <KeyFact label="Plot area" value={fmtArea(unit.plot_area_sqm)} />
               <KeyFact label="Total / BUA" value={fmtArea(unit.total_area_sqm ?? unit.saleable_area_sqm)} />
+              {unitPriceMetrics && <KeyFact label="Price / sqft" value={`AED ${fmtAed(unitPriceMetrics.pricePerSqftAed)}`} />}
+              {unitPriceMetrics && <KeyFact label="Price / m²" value={`AED ${fmtAed(unitPriceMetrics.pricePerSqmAed)}`} />}
               <KeyFact label="Terrace" value={fmtArea(unit.terrace_area_sqm)} />
               {unit.mandatory_premium != null && (
                 <KeyFact label="Premium finishing" value={unit.mandatory_premium ? "Yes" : "No"} />
@@ -429,6 +434,8 @@ export default function AldarUnit() {
             <Row label="Property Status" value={unit.property_status ?? "—"} />
             <Row label="Inventory Category" value={unit.inventory_category ?? "—"} />
             {canViewOriginalPrice && <Row label="Original price (without add-ons)" value={`AED ${fmtAed(unit.price_aed)}`} />}
+            {unitPriceMetrics && <Row label="Price per ft²" value={`AED ${fmtAed(unitPriceMetrics.pricePerSqftAed)}`} />}
+            {unitPriceMetrics && <Row label="Price per m²" value={`AED ${fmtAed(unitPriceMetrics.pricePerSqmAed)}`} />}
             <Row label="Reservation Amount" value={unit.reservation_amount != null ? `AED ${fmtAed(unit.reservation_amount)}` : "—"} />
             <Row label="Online Reservation Fee" value={unit.online_reservation_fee != null ? `AED ${fmtAed(unit.online_reservation_fee)}` : "—"} />
             <Row label="Plot Area" value={fmtArea(unit.plot_area_sqm)} />

@@ -13,6 +13,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import EmailGate from "./components/EmailGate";
+import MasterGate from "./components/MasterGate";
 import { PropertyProjectGate } from "./components/PropertyProjectGate";
 import Landing from "./pages/Landing";
 import StRegis from "./pages/StRegis";
@@ -32,6 +33,7 @@ import AldarOther from "./pages/AldarOther";
 import AldarOtherProject from "./pages/AldarOtherProject";
 import AldarOtherBuilding from "./pages/AldarOtherBuilding";
 import AldarOtherUnit from "./pages/AldarOtherUnit";
+import Penthouses from "./pages/Penthouses";
 import AdminPage from "./pages/Admin";
 import AdminAvailability from "./pages/AdminAvailability";
 import AdminListings from "./pages/AdminListings";
@@ -101,6 +103,7 @@ function Router() {
       <Route path="/aldar-other/:project/:building/:unit">{({ project }) => <PropertyProjectGate projectKey={project}><AldarOtherUnit /></PropertyProjectGate>}</Route>
       <Route path="/aldar-other/:project/:building">{({ project }) => <PropertyProjectGate projectKey={project}><AldarOtherBuilding /></PropertyProjectGate>}</Route>
       <Route path="/aldar-other/:project">{({ project }) => <PropertyProjectGate projectKey={project}><AldarOtherProject /></PropertyProjectGate>}</Route>
+      <Route path="/penthouses">{() => <MasterGate><Penthouses /></MasterGate>}</Route>
       <Route path="/resale" component={Resale} />
       <Route path="/resale-search" component={PublicResaleSearch} />
       <Route path="/admin" component={AdminPage} />
