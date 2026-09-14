@@ -1065,3 +1065,6 @@
 - [x] Add a dedicated "مشاريع غير الدار" tab and Emirates developer entry with Jumeirah (Al Maryah Island), Elie Saab (Yas Island), and Hilton (Yas Island)
 - [x] Import the three Emirates projects and their source-backed units without overwriting Aldar inventory or inventing unavailable fields
 - [x] Add project/unit navigation, source-labelled cards, and regression coverage; then verify desktop/mobile rendering and publish
+
+### Aldar Available Inventory Value Review (Sep 13, 2026)
+- [x] Calculate the total documented official price of all Available units across every Aldar project in the system, and disclose units without a published price separately
