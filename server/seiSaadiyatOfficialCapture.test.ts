@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { assertSeiSourceCoverage, fulfilledSeiUnitDetails, isPublishedSeiUnitPrice, mergeOfficialSeiSourceUnits, parseSeiUnitDetailPayload, publishedPriceFromSeiDetail, selectSeiPriceProbeUnits } from "./seiSaadiyatOfficialCapture";
+import { assertSeiSourceCoverage, collectPublishedSeiPrices, fulfilledSeiUnitDetails, isPublishedSeiUnitPrice, mergeOfficialSeiSourceUnits, parseSeiUnitDetailPayload, publishedPriceFromSeiDetail, selectSeiPriceProbeUnits } from "./seiSaadiyatOfficialCapture";
 
 describe("Sei official price eligibility", () => {
   it("rejects missing, zero, and the known AED 1 placeholder", () => {
@@ -45,6 +45,17 @@ describe("Sei official price eligibility", () => {
       { status: "rejected", reason: new Error("timeout") },
     ]);
     expect(details).toEqual([valid]);
+  });
+
+  it("keeps only valid prices and prefers the exact unit-detail price for a price-only capture", () => {
+    const prices = collectPublishedSeiPrices([
+      { unitNumber: "SeiSaadiyat-T1-01-01", price: 2_000_000 },
+      { unitNumber: "SeiSaadiyat-T1-01-02", price: 1 },
+    ], [
+      { unitName: "SeiSaadiyat-T1-01-01", locationId: "first", status: "Available", sellingPrice: 2_050_000, reservationAmount: null },
+      { unitName: "SeiSaadiyat-T1-01-02", locationId: "second", status: "Available", sellingPrice: null, reservationAmount: null },
+    ]);
+    expect(prices).toEqual([{ unitName: "SeiSaadiyat-T1-01-01", priceAed: 2_050_000 }]);
   });
 
   it("selects a bounded representative probe across all six official buildings", () => {

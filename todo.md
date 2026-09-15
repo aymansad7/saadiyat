@@ -1068,3 +1068,9 @@
 
 ### Aldar Available Inventory Value Review (Sep 13, 2026)
 - [x] Calculate the total documented official price of all Available units across every Aldar project in the system, and disclose units without a published price separately
+
+### Sei Saadiyat Official Price Refresh (Sep 15, 2026)
+- [x] Pull the current official Aldar prices for all Sei Saadiyat units, import only valid confirmed AED prices, preserve status/history, and verify the recorded before/after changes
+
+### Eliane Access Repair — Lagoons and Dunes (Sep 15, 2026)
+- [x] Identify Eliane's exact account, grant access to all Saadiyat Lagoons phases and Saadiyat Reserve Dunes, and verify post-refresh route access

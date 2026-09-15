@@ -36,3 +36,11 @@ The workbook is an owner-supplied Aldar export and records `New` as its source s
 ## Preview verification
 
 On 7 September 2026, the Sei project route in the preview resolved to the protected Saadiyat Resale Hub sign-in gate without a session. This confirms that project data is not exposed in the unauthenticated preview. Server tests verify the imported six-building structure; an authenticated Master Admin session is needed for a visual card review.
+
+## Owner-requested full official price refresh — Sep 15, 2026
+
+- The live World of Aldar Sei page returned **778** exact source unit records. The persisted project coverage remains **948** units, so the page was treated as a partial source view rather than a replacement inventory snapshot.
+- The refresh fetched unit-detail responses for all 778 returned records. Every detail request completed; **513** units supplied a valid AED selling price above the known AED 1 placeholder.
+- The price-only patch recorded **509** before/after price events under sync run `2910001`. The four remaining published prices matched the previously stored amount and therefore did not create a duplicate price-change event.
+- The patch did not create any status, source-status, sale, removal, or unit-identity events. The 170 persisted units absent from the current live page were deliberately retained without a price or status change.
+- The captured official page and the structured price-capture evidence were archived privately through the configured source archive. Prices remain linked to exact Sei unit codes and do not rely on model, area, or inferred matching.

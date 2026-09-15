@@ -34,6 +34,13 @@ export type SeiOfficialPriceProbe = {
   files: Array<{ filename: string; bytes: Buffer; mimeType: string }>;
 };
 
+export type SeiOfficialFullPriceCapture = SeiOfficialPriceProbe & {
+  detailResponseCount: number;
+  detailFailureCount: number;
+  /** True only when the live page preserves the previously verified coverage. */
+  hasCompleteSourceCoverage: boolean;
+};
+
 function readSaadiyatDataset(): SeiDataset {
   const candidates = [
     resolve(__dirname, "data/aldar_saadiyat.json"),
@@ -193,6 +200,79 @@ async function fetchOfficialSeiUnitDetails(sourceUnits: SourceUnit[], fetchImpl:
 /** A transient failure in one official detail endpoint must not discard valid prices from other sampled units. */
 export function fulfilledSeiUnitDetails(results: PromiseSettledResult<OfficialUnitDetail>[]): OfficialUnitDetail[] {
   return results.flatMap(result => result.status === "fulfilled" ? [result.value] : []);
+}
+
+/**
+ * Merges direct project-page prices with unit-detail responses. Detail prices
+ * take precedence when both are valid because they are unit-specific.
+ */
+export function collectPublishedSeiPrices(sourceUnits: SourceUnit[], details: OfficialUnitDetail[]) {
+  const prices = new Map<string, number>();
+  for (const source of sourceUnits) {
+    const unitName = text(source.unitNumber);
+    const price = numberOrNull(source.price);
+    if (unitName && isPublishedSeiUnitPrice(price)) prices.set(unitName, price);
+  }
+  for (const detail of details) {
+    if (isPublishedSeiUnitPrice(detail.sellingPrice)) prices.set(detail.unitName, detail.sellingPrice);
+  }
+  return Array.from(prices, ([unitName, priceAed]) => ({ unitName, priceAed })).sort((a, b) => a.unitName.localeCompare(b.unitName));
+}
+
+/**
+ * Full, price-only capture for an owner-requested refresh. A temporary World
+ * of Aldar page can list fewer than the persisted 948 units; this capture may
+ * update valid prices for the units it does list, but it never publishes a
+ * replacement snapshot and therefore cannot remove unseen units or change
+ * their status. Any failed detail call is recorded as coverage, not guessed.
+ */
+export async function captureSeiSaadiyatOfficialFullPricePatch(fetchImpl: typeof fetch = fetch): Promise<SeiOfficialFullPriceCapture> {
+  const captureDate = new Date().toISOString().slice(0, 10);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 25_000);
+  try {
+    const response = await fetchImpl(SEI_ROUTE, {
+      headers: { Accept: "text/html", "User-Agent": "SaadiyatResaleHub/1.0" },
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error(`Sei Saadiyat: World of Aldar returned HTTP ${response.status}.`);
+    const html = await response.text();
+    const sourceUnits = extractOfficialWorldAldarUnits(html, SEI_PREFIX) as SourceUnit[];
+    if (!sourceUnits.length) throw new Error("Sei Saadiyat: official project page returned no unit records.");
+    if (new Set(sourceUnits.map(unit => unit.unitNumber)).size !== sourceUnits.length) throw new Error("Sei Saadiyat: duplicate official unit code.");
+
+    const detailResults: PromiseSettledResult<OfficialUnitDetail>[] = [];
+    for (let start = 0; start < sourceUnits.length; start += DETAIL_CONCURRENCY) {
+      detailResults.push(...await Promise.allSettled(sourceUnits.slice(start, start + DETAIL_CONCURRENCY).map(unit => fetchOfficialSeiUnitDetail(unit, fetchImpl))));
+    }
+    const details = fulfilledSeiUnitDetails(detailResults);
+    const publishedPrices = collectPublishedSeiPrices(sourceUnits, details);
+    return {
+      captureDate,
+      sourceUnitCount: sourceUnits.length,
+      screenedUnitCount: sourceUnits.length,
+      publishedPrices,
+      detailResponseCount: details.length,
+      detailFailureCount: detailResults.length - details.length,
+      hasCompleteSourceCoverage: sourceUnits.length >= MINIMUM_VERIFIED_SEI_UNIT_COUNT,
+      files: [
+        { filename: `sei-saadiyat-full-price-page-${captureDate}.html`, bytes: Buffer.from(html), mimeType: "text/html" },
+        {
+          filename: `sei-saadiyat-full-price-capture-${captureDate}.json`,
+          bytes: Buffer.from(JSON.stringify({
+            sourceUnitCount: sourceUnits.length,
+            detailResponseCount: details.length,
+            detailFailureCount: detailResults.length - details.length,
+            hasCompleteSourceCoverage: sourceUnits.length >= MINIMUM_VERIFIED_SEI_UNIT_COUNT,
+            publishedPrices,
+          })),
+          mimeType: "application/json",
+        },
+      ],
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 /**
