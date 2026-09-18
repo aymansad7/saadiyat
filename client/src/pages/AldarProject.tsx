@@ -3,7 +3,7 @@
  */
 import { useMemo, useState } from "react";
 import { Redirect, useParams, Link } from "wouter";
-import { Building2, ArrowRight, Sparkles } from "lucide-react";
+import { Building2, ArrowRight, Sparkles, ExternalLink, Info } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Switch } from "@/components/ui/switch";
 import { actionableCount } from "@/data/aldar";
@@ -11,6 +11,63 @@ import type { StatusBreakdown } from "@/data/aldar";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { trpc } from "@/lib/trpc";
+
+function fmtAed(value: number | null | undefined) {
+  return value == null ? "Not published" : `AED ${value.toLocaleString("en-US")}`;
+}
+
+function ProjectReleaseSummary({ summary }: { summary: any }) {
+  if (!summary) return null;
+  const typologies = Array.isArray(summary.typologies) ? summary.typologies : [];
+  return (
+    <section className="border-b border-border bg-primary/[0.025]">
+      <div className="container py-6 sm:py-8">
+        <div className="flex items-start gap-3 rounded-md border border-primary/20 bg-card/70 p-4">
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+          <div className="min-w-0">
+            <div className="text-[0.68rem] font-mono uppercase tracking-[0.18em] text-primary">Release status</div>
+            <p className="mt-1 text-sm text-foreground">{summary.phase_status ?? "Project release information"}</p>
+            {summary.unit_registry_status && <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{summary.unit_registry_status}</p>}
+            {summary.price_notice && <p className="mt-2 text-xs leading-relaxed text-amber-800 dark:text-amber-200">Pricing: {summary.price_notice}</p>}
+          </div>
+        </div>
+
+        {typologies.length > 0 && (
+          <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {typologies.map((type: any) => (
+              <article key={type.label} className="rounded-md border border-border bg-card p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="font-display text-xl text-foreground">{type.label}</div>
+                    <div className="mt-1 text-[0.68rem] font-mono uppercase tracking-[0.16em] text-muted-foreground">{type.count} planned villas</div>
+                  </div>
+                  <div className="rounded-sm border border-border bg-muted px-2 py-1 text-xs font-mono text-muted-foreground">{type.bedrooms} BR</div>
+                </div>
+                <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-3 text-sm">
+                  <div><dt className="text-[0.62rem] font-mono uppercase tracking-[0.14em] text-muted-foreground">Villa area</dt><dd className="mt-1 text-foreground">{type.villa_area_sqm == null ? "Not published" : `${type.villa_area_sqm.toLocaleString()} m²`}</dd></div>
+                  <div><dt className="text-[0.62rem] font-mono uppercase tracking-[0.14em] text-muted-foreground">Plot area</dt><dd className="mt-1 text-foreground">{type.plot_area_sqm == null ? "Not published" : `${type.plot_area_sqm.toLocaleString()} m²`}</dd></div>
+                  <div className="col-span-2"><dt className="text-[0.62rem] font-mono uppercase tracking-[0.14em] text-muted-foreground">Starting price</dt><dd className="mt-1 text-foreground">{fmtAed(type.starting_price_aed)}{type.price_status && <span className="ml-1 text-xs text-muted-foreground">· {type.price_status}</span>}</dd></div>
+                </dl>
+              </article>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
+          {summary.location && <span>Location: {summary.location}</span>}
+          {summary.developer && <span>Developer: {summary.developer}</span>}
+          {summary.payment_plan && <span>Payment plan: {summary.payment_plan}</span>}
+          {summary.handover && <span>Handover: {summary.handover}</span>}
+          {summary.source_urls?.map((source: any) => (
+            <a key={source.url} href={source.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
+              {source.label}{source.classification ? ` · ${source.classification}` : ""}<ExternalLink className="h-3 w-3" />
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function AldarProject() {
   const { project: slug } = useParams<{ project: string }>();
@@ -38,7 +95,11 @@ export default function AldarProject() {
         <div className="container py-8 sm:py-10">
           <Link href="/aldar-saadiyat" className="text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary hover:underline mb-2 inline-block">← All projects</Link>
           <h1 className="font-display text-3xl sm:text-[2.4rem] leading-tight text-foreground">{project.name}</h1>
-          <p className="mt-2 text-sm text-muted-foreground">{project.building_count} buildings · {project.unit_count} units</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {project.unit_count === 0 && (project as any).release_summary?.total_villas
+              ? `${(project as any).release_summary.total_villas} planned villas · official unit registry pending`
+              : `${project.building_count} buildings · ${project.unit_count} units`}
+          </p>
           <div className="mt-4">
             <label className="flex items-center gap-2 text-sm">
               <Switch checked={availableOnly} onCheckedChange={setAvailableOnly} />
@@ -47,6 +108,7 @@ export default function AldarProject() {
           </div>
         </div>
       </section>
+      <ProjectReleaseSummary summary={(project as any).release_summary} />
       <section className="container py-8 sm:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {buildings.map((b: any) => {

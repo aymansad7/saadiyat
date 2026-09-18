@@ -113,6 +113,7 @@ describe("official Aldar unit link validation", () => {
     ["yas-park-place", "YasParkPlace-B1-01-01", "yasparkplace", "B1-01-01"],
     ["faya-al-saadiyat", "FayaAlSaadiyat-SB45-V-21-01", "fayaalsaadiyat", "FayaAlSaadiyat-SB45-V-21-01"],
     ["faya-al-saadiyat-ii", "FayaAlSaadiyatII-SDN2-V-01-01", "fayaalsaadiyatii", "SDN2-01-01"],
+    ["talay-at-marsa-al-saadiyat", "Talay-MarsaAlSaadiyat-V-001-01", "talay", "MarsaAlSaadiyat-001-01"],
     ["mamsha-palm", "MamshaPalm-Residence-05-08", "mamshapalm", "Residence-05-08"],
     ["the-row-saadiyat", "TheRowSaadiyat-B1-02-12", "therowsaadiyat", "B1-02-12"],
   ])("generates only the verified current format for %s", (projectSlug, unitName, projectPath, code) => {

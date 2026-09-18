@@ -138,13 +138,20 @@ function currentAldarUnitUrl(projectSlug: string | null | undefined, unitName: s
               ? prefixed(/^yasparkplace-(.+)$/i, "yasparkplace")
               : project === "faya-al-saadiyat"
                 ? prefixed(/^(fayaalsaadiyat-.+)$/i, "fayaalsaadiyat")
-                : project === "faya-al-saadiyat-ii"
-                  ? (() => {
-                      const match = /^fayaalsaadiyatii-(.+?)-v-(.+)$/i.exec(unit);
-                      return match ? { projectPath: "fayaalsaadiyatii", code: `${match[1]}-${match[2]}` } : null;
-                    })()
-                  : project === "mamsha-gardens"
-                    ? prefixed(/^mamshagarden-(.+)$/i, "mamshagarden")
+                  : project === "faya-al-saadiyat-ii"
+                    ? (() => {
+                        const match = /^fayaalsaadiyatii-(.+?)-v-(.+)$/i.exec(unit);
+                        return match ? { projectPath: "fayaalsaadiyatii", code: `${match[1]}-${match[2]}` } : null;
+                      })()
+                    : project === "talay-at-marsa-al-saadiyat"
+                      ? (() => {
+                          // Verified from the official Talay unit page: the card's
+                          // canonical code retains MarsaAlSaadiyat but omits Talay-V.
+                          const match = /^talay-marsaalsaadiyat-v-(\d{3}-01)$/i.exec(unit);
+                          return match ? { projectPath: "talay", code: `MarsaAlSaadiyat-${match[1]}` } : null;
+                        })()
+                    : project === "mamsha-gardens"
+                      ? prefixed(/^mamshagarden-(.+)$/i, "mamshagarden")
                     : project === "mamsha-palm"
                       ? prefixed(/^mamshapalm-(.+)$/i, "mamshapalm")
                       : project === "the-row-saadiyat"

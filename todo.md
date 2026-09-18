@@ -1074,3 +1074,14 @@
 
 ### Eliane Access Repair — Lagoons and Dunes (Sep 15, 2026)
 - [x] Identify Eliane's exact account, grant access to all Saadiyat Lagoons phases and Saadiyat Reserve Dunes, and verify post-refresh route access
+
+### Faya, One Saadiyat, Talay, and Talay Beach Official Update (Sep 18, 2026)
+- [x] Audit exact World of Aldar records for Faya Al Saadiyat, Faya Al Saadiyat II, and One Saadiyat (Baccarat) without replacing prices from third-party sources
+- [x] Apply 21 verified status changes only: Faya SB45-V-21-01 Available→Blocked and 20 One Saadiyat updates; retain zero official price changes
+- [x] Store the supplied Faya project brochure in the approved OneDrive Business folder as an anyone-with-link, project-level brochure rather than assigning it to a specific residence
+- [x] Add Talay at Marsa Al Saadiyat as an Aldar Saadiyat project using 167 exact production units; exclude the explicit `_TEST` record and retain valid official price count at zero until Aldar publishes prices
+- [x] Add a verified exact World of Aldar route generator for Talay unit cards
+- [x] Register Talay Beach Villas as a distinct 184-villa Marsa Al Saadiyat phase with source-labelled 4BR/5BR/6BR typology cards and clearly marked indicative prices only
+- [x] Do not invent Talay Beach unit cards, unit availability, exact plot assignments, Aldar links, payment dates, or official pricing before Aldar publishes its registry
+- [x] Archive Talay and Talay Beach source evidence plus Faya/Baccarat audit evidence in the approved OneDrive project archive
+- [x] Verify database state, exact Talay unit redirect, TypeScript, `git diff --check`, and 76 Vitest files / 420 tests before checkpoint

@@ -120,18 +120,25 @@ export default function AldarSaadiyat() {
           {projects.map((p: any) => {
             const bd = p.breakdown as StatusBreakdown;
             const live = actionableCount(bd);
+            const registryPending = p.unit_count === 0 && Boolean(p.releaseSummary?.unit_registry_status);
             return (
               <Link key={p.slug} href={`/aldar-saadiyat/${p.slug}`} className="group block rounded-md border border-border bg-card overflow-hidden hover:border-primary/60 transition-colors">
                 <div className="p-5">
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.22em] font-mono text-primary"><Sparkles className="h-3 w-3" />Aldar</div>
-                    {live > 0 ? (<span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-sm">{live} live</span>) : (<span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">Sold out</span>)}
+                    {registryPending ? (
+                      <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-200 px-2 py-0.5 rounded-sm">Registry pending</span>
+                    ) : live > 0 ? (
+                      <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-sm">{live} live</span>
+                    ) : (
+                      <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">Sold out</span>
+                    )}
                   </div>
                   <h2 className="font-display text-xl text-foreground group-hover:text-primary transition-colors">{p.name}</h2>
                   <div className="mt-2 text-[0.72rem] font-mono uppercase tracking-[0.18em] text-muted-foreground flex items-center gap-3">
                     <span className="flex items-center gap-1"><Building2 className="h-3 w-3" /> {p.building_count} buildings</span>
                     <span>·</span>
-                    <span className="num-display">{p.unit_count} units</span>
+                    <span className="num-display">{registryPending ? `${p.releaseSummary.total_villas ?? "—"} planned villas` : `${p.unit_count} units`}</span>
                   </div>
                   <div className="mt-3 pt-3 border-t border-border/60"><AldarStatusPills breakdown={bd} size="xs" /></div>
                   <div className="mt-3 flex items-center justify-end text-[0.72rem] font-mono uppercase tracking-[0.18em] text-primary">Explore <ArrowRight className="ml-1 h-3 w-3" /></div>

@@ -43,6 +43,8 @@ export type SaadiyatUnit = {
   payment_plans: string | null;
   building_section: string | null;
   project_field: string | null;
+  /** Raw official World of Aldar state when an operational status is not separately supplied. */
+  source_unit_status?: string | null;
 };
 type SaadiyatBuilding = {
   slug: string;
@@ -55,9 +57,31 @@ type SaadiyatProject = {
   slug: string;
   name: string;
   source_file: string;
+  source_url?: string;
   unit_count: number;
   available_count: number;
   building_count: number;
+  release_summary?: {
+    phase_status?: string;
+    unit_registry_status?: string;
+    source_note?: string;
+    source_urls?: Array<{ label: string; url: string; classification?: string }>;
+    total_villas?: number;
+    location?: string;
+    developer?: string;
+    payment_plan?: string;
+    handover?: string;
+    price_notice?: string;
+    typologies?: Array<{
+      label: string;
+      bedrooms: number;
+      count: number;
+      villa_area_sqm: number | null;
+      plot_area_sqm: number | null;
+      starting_price_aed: number | null;
+      price_status?: string;
+    }>;
+  };
   buildings: SaadiyatBuilding[];
 };
 type Dataset = {
@@ -124,6 +148,15 @@ function statusGroup(status: string | null): string {
   return "other";
 }
 
+/**
+ * An official release can publish an explorer state such as New before it has
+ * a distinct operational state. Present the exact source label on inventory
+ * cards without treating it as an NAS broker-listing status.
+ */
+function displayStatus(unit: Pick<SaadiyatUnit, "status" | "source_unit_status">) {
+  return unit.status ?? unit.source_unit_status ?? null;
+}
+
 type StatusBreakdown = {
   available: number; new: number; booked: number; blocked: number;
   reserved: number; sold: number; other: number; total: number;
@@ -143,7 +176,14 @@ const LIVE_STATUSES = new Set(["available", "new", "booked", "blocked", "reserve
 function isLive(s: string | null) { return LIVE_STATUSES.has(statusGroup(s)); }
 
 async function getMergedProjects() {
-  return mergeImportedAldarProjects("saadiyat", getSaadiyatDataset().projects);
+  const projects = await mergeImportedAldarProjects("saadiyat", getSaadiyatDataset().projects);
+  return projects.map(project => ({
+    ...project,
+    buildings: project.buildings.map(building => ({
+      ...building,
+      units: building.units.map(unit => ({ ...unit, status: displayStatus(unit) })),
+    })),
+  }));
 }
 
 // ---------------------------------------------------------------------------
@@ -160,6 +200,7 @@ export const aldarSaadiyatRouter = router({
         name: p.name,
         unit_count: p.unit_count,
         building_count: p.building_count,
+        releaseSummary: p.release_summary ?? null,
         breakdown: breakdown(allUnits),
         live_count: allUnits.filter(u => isLive(u.status)).length,
       };
@@ -184,8 +225,10 @@ export const aldarSaadiyatRouter = router({
         slug: p.slug,
         name: p.name,
         source_file: p.source_file,
+        source_url: p.source_url ?? null,
         unit_count: p.unit_count,
         building_count: p.building_count,
+        release_summary: p.release_summary ?? null,
         buildings: p.buildings.map(b => ({
           slug: b.slug,
           name: b.name,
