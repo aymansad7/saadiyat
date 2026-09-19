@@ -472,7 +472,7 @@ export default function AdminInventoryHistory() {
             <div className="flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary"><History className="h-3.5 w-3.5" /> Aldar sales desk</div>
             <h1 className="mt-1 font-display text-3xl text-foreground">Current inventory, ready for a client meeting</h1>
             <p className="mt-1 text-sm text-muted-foreground">Last recorded snapshot: <span className="font-medium text-foreground">{fmtDateTime(run?.startedAt)}</span> · sync status <span className="font-medium">{run?.status ?? "—"}</span></p>
-            <p className="mt-1 text-xs text-muted-foreground">Run sync now refreshes Al Ghadeer and performs a fast official price-release probe across Sei Saadiyat Buildings 1–6. Other inventory remains on its latest recorded official snapshot until its own live source is enabled.</p>
+            <p className="mt-1 text-xs text-muted-foreground">Run sync now refreshes the official Al Ghadeer, Sei Saadiyat, and Talay sources, logs exact source-state and published-price changes, and archives evidence in OneDrive. Other inventory remains on its latest recorded official snapshot until its own live source is enabled.</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" className="bg-card" onClick={() => setImportOpen(v => !v)}><Upload className="h-4 w-4 mr-2" /> Import updated JSON</Button>

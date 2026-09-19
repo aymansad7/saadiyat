@@ -1092,3 +1092,11 @@
 - [x] Preserve every individual Talay villa price as blank because the live Aldar detail API still returns the invalid AED 1 placeholder for sampled exact units
 - [x] Exclude starting-price references from unit price metrics, price-per-area calculations, and Aldar Available inventory totals
 - [x] Archive the live Aldar page and the source-labelled price reference in the approved OneDrive operation archive
+
+### Daily Talay and Sei Source-State Monitoring (Sep 19, 2026)
+- [x] Correct the daily 06:00 Gulf Heartbeat (`g9NVEjr3E2mneqMf9Xq3nF`) so it refreshes Al Ghadeer, Sei Saadiyat, Talay, and official project discovery rather than a stale bundled snapshot only
+- [x] Add guarded exact-unit Talay source capture: accept only the 167 production records, exclude the one explicit `_TEST` record, never infer availability, and archive the daily evidence in OneDrive
+- [x] Add non-destructive raw official-source status patches for Talay and the currently partial Sei page; source-absent units are never removed and NAS operational availability is not overwritten
+- [x] Log raw official transitions such as `New → Sold` as clickable source-status history, including in daily sold rollups, while retaining the source provenance
+- [x] Clarify UI semantics across Aldar cards: green is only confirmed `Available`; Aldar `New` is blue source-state; no source record is labelled `Sold out` merely because availability is unknown
+- [x] Run TypeScript and full regression suite: 77 Vitest files / 425 tests passed

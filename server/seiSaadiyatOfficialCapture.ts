@@ -41,6 +41,14 @@ export type SeiOfficialFullPriceCapture = SeiOfficialPriceProbe & {
   hasCompleteSourceCoverage: boolean;
 };
 
+/** A partial page can safely update source labels for units it still names. */
+export type SeiOfficialSourceStatusCapture = {
+  captureDate: string;
+  sourceUnitCount: number;
+  statuses: Array<{ unitName: string; sourceStatus: string }>;
+  files: Array<{ filename: string; bytes: Buffer; mimeType: string }>;
+};
+
 function readSaadiyatDataset(): SeiDataset {
   const candidates = [
     resolve(__dirname, "data/aldar_saadiyat.json"),
@@ -142,6 +150,47 @@ function sourceUnitAsBaselineUnit(source: SourceUnit, captureDate: string): SeiU
     source_route: new URL(SEI_ROUTE).pathname,
     project_field: "Captured from the official Sei Saadiyat World of Aldar release. AED 1, zero, and blank values are not stored as prices.",
   };
+}
+
+/**
+ * Reads exact raw World of Aldar source labels without treating a temporarily
+ * partial page as an inventory replacement. This can never remove a unit.
+ */
+export async function captureSeiSaadiyatOfficialSourceStatusPatch(fetchImpl: typeof fetch = fetch): Promise<SeiOfficialSourceStatusCapture> {
+  const captureDate = new Date().toISOString().slice(0, 10);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20_000);
+  try {
+    const response = await Promise.race([
+      fetchImpl(SEI_ROUTE, {
+        headers: { Accept: "text/html", "User-Agent": "SaadiyatResaleHub/1.0" },
+        signal: controller.signal,
+      }),
+      new Promise<Response>((_, reject) => setTimeout(() => reject(new Error("Sei Saadiyat official source timed out after 20 seconds.")), 20_500)),
+    ]);
+    if (!response.ok) throw new Error(`Sei Saadiyat: World of Aldar returned HTTP ${response.status}.`);
+    const html = await response.text();
+    const sourceUnits = extractOfficialWorldAldarUnits(html, SEI_PREFIX) as SourceUnit[];
+    if (!sourceUnits.length) throw new Error("Sei Saadiyat: official project page returned no unit records.");
+    if (new Set(sourceUnits.map(unit => unit.unitNumber)).size !== sourceUnits.length) throw new Error("Sei Saadiyat: duplicate official unit code.");
+    const statuses = sourceUnits.map(unit => {
+      const unitName = text(unit.unitNumber);
+      const sourceStatus = text(unit.unitStatus) ?? text(unit.status);
+      if (!unitName || !sourceStatus) throw new Error(`Sei Saadiyat: ${unitName ?? "unknown unit"} omitted an official source state.`);
+      return { unitName, sourceStatus };
+    });
+    return {
+      captureDate,
+      sourceUnitCount: statuses.length,
+      statuses,
+      files: [
+        { filename: `sei-saadiyat-source-status-${captureDate}.html`, bytes: Buffer.from(html), mimeType: "text/html" },
+        { filename: `sei-saadiyat-source-status-${captureDate}.json`, bytes: Buffer.from(JSON.stringify({ sourceUnitCount: statuses.length, statuses })), mimeType: "application/json" },
+      ],
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 /** Adds source-only Sei units to their exact existing building without treating stored units as removed. */

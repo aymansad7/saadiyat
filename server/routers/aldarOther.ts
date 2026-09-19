@@ -335,6 +335,7 @@ export const aldarOtherRouter = router({
         building_count: p.building_count,
         breakdown: breakdown(allUnits),
         live_count: allUnits.filter(u => isLive(u.status)).length,
+        available_count: allUnits.filter(u => statusGroup(u.status) === "available").length,
       };
     });
     projects.sort((a, b) => b.live_count - a.live_count || a.name.localeCompare(b.name));

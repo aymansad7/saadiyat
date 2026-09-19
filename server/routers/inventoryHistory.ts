@@ -155,20 +155,35 @@ export const inventoryHistoryRouter = router({
   /** Refresh every enabled official live source, then record each source's result. */
   syncNow: adminProcedure.mutation(async ({ ctx }) => {
     const who = ctx.user?.email || ctx.user?.name || "admin";
-    const { ghadeer, sei } = await runManualOfficialAldarRefresh(who);
+    const { ghadeer, sei, talay } = await runManualOfficialAldarRefresh(who);
     const ghadeerResult = ghadeer.status === "success"
       ? ghadeer.result as Awaited<ReturnType<typeof import("../alGhadeerOfficialSync").refreshAlGhadeerOfficialInventory>>
       : null;
     const seiResult = sei.status === "success"
       ? sei.result as Awaited<ReturnType<typeof import("../seiSaadiyatOfficialSync").refreshSeiSaadiyatOfficialInventory>>
       : null;
+    const talayResult = talay.status === "success"
+      ? talay.result as Awaited<ReturnType<typeof import("../talayOfficialSync").refreshTalayOfficialInventory>>
+      : null;
     const zeroCounts = { unitsScanned: 0, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 };
-    const counts = ghadeerResult?.counts ?? zeroCounts;
-    const rollups = ghadeerResult?.rollups ?? [];
+    const ghadeerCounts = ghadeerResult?.counts ?? zeroCounts;
+    const seiCounts = seiResult && "counts" in seiResult && seiResult.counts ? seiResult.counts : zeroCounts;
+    const talayCounts = talayResult?.counts ?? zeroCounts;
+    const counts = [ghadeerCounts, seiCounts, talayCounts].reduce((total, next) => ({
+      unitsScanned: total.unitsScanned + next.unitsScanned,
+      newUnits: total.newUnits + next.newUnits,
+      soldUnits: total.soldUnits + next.soldUnits,
+      statusChanges: total.statusChanges + next.statusChanges,
+      sourceStatusChanges: total.sourceStatusChanges + next.sourceStatusChanges,
+      priceChanges: total.priceChanges + next.priceChanges,
+      removedUnits: total.removedUnits + next.removedUnits,
+    }), zeroCounts);
+    const seiRollups = seiResult && "rollups" in seiResult && Array.isArray(seiResult.rollups) ? seiResult.rollups : [];
+    const rollups = [...(ghadeerResult?.rollups ?? []), ...seiRollups, ...(talayResult?.rollups ?? [])];
     return {
-      status: ghadeer.status === "success" && sei.status === "success" ? "success" : "partial",
-      captureDate: ghadeerResult?.captureDate ?? null,
-      runId: ghadeerResult?.runId ?? null,
+      status: ghadeer.status === "success" && sei.status === "success" && talay.status === "success" ? "success" : "partial",
+      captureDate: ghadeerResult?.captureDate ?? (seiResult && "captureDate" in seiResult ? seiResult.captureDate : null) ?? talayResult?.captureDate ?? null,
+      runId: ghadeerResult?.runId ?? (seiResult && "runId" in seiResult ? seiResult.runId : null) ?? talayResult?.statusRunId ?? null,
       counts,
       rollups,
       newProjects: ghadeerResult?.newProjects ?? [],
@@ -191,6 +206,17 @@ export const inventoryHistoryRouter = router({
           monitorMode: seiResult && "monitorMode" in seiResult ? seiResult.monitorMode : null,
           skipped: seiResult && "skipped" in seiResult ? seiResult.skipped : null,
           message: sei.status === "error" ? sei.message : null,
+        },
+        talay: {
+          status: talay.status,
+          captureDate: talayResult?.captureDate ?? null,
+          statusRunId: talayResult?.statusRunId ?? null,
+          priceRunId: talayResult?.priceRunId ?? null,
+          sourceUnitCount: talayResult?.sourceUnitCount ?? 0,
+          sourceStatusChangeCount: talayResult?.sourceStatusChangeCount ?? 0,
+          publishedPriceCount: talayResult?.publishedPriceCount ?? 0,
+          priceChangeCount: talayResult?.priceChangeCount ?? 0,
+          message: talay.status === "error" ? talay.message : null,
         },
       },
     };

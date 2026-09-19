@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { villas } from "@/data/villas";
 import { COMMUNITIES } from "@/data/communities";
 
-import { actionableCount } from "@/data/aldar";
+import { confirmedAvailableCount } from "@/data/aldar";
 import type { StatusBreakdown } from "@/data/aldar";
 import { trpc } from "@/lib/trpc";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
@@ -359,7 +359,7 @@ export default function Landing() {
                 All other Aldar Saadiyat projects
               </h2>
               <p className="mt-2 text-sm text-muted-foreground max-w-2xl">
-                Live status breakdown for every Aldar inventory file we have ingested.
+                Source-status breakdown for every Aldar inventory file we have ingested.
                 Apartments and townhouses across {aldarData?.project_count ?? 0} projects · {(aldarData?.total_units ?? 0).toLocaleString()} units.
               </p>
             </div>
@@ -375,14 +375,14 @@ export default function Landing() {
             {(aldarData?.projects ?? [])
               .slice()
               .sort((a: any, b: any) => {
-                const ba = actionableCount(a.breakdown);
-                const bb = actionableCount(b.breakdown);
+                const ba = confirmedAvailableCount(a.breakdown);
+                const bb = confirmedAvailableCount(b.breakdown);
                 if (ba !== bb) return bb - ba;
                 return b.unit_count - a.unit_count;
               })
               .map((p: any) => {
                 const bd = p.breakdown as StatusBreakdown;
-                const live = actionableCount(bd);
+                const available = confirmedAvailableCount(bd);
                 return (
                   <Link
                     key={p.slug}
@@ -393,13 +393,17 @@ export default function Landing() {
                       <span className="text-[0.6rem] uppercase tracking-[0.22em] font-mono text-muted-foreground">
                         Aldar · {p.building_count} bld
                       </span>
-                      {live > 0 ? (
+                      {available > 0 ? (
                         <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded-sm">
-                          {live} live
+                          {available} available
+                        </span>
+                      ) : bd.new > 0 ? (
+                        <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono border border-sky-500/50 bg-sky-500/10 text-sky-700 dark:text-sky-300 px-1.5 py-0.5 rounded-sm">
+                          {bd.new} new · source
                         </span>
                       ) : (
                         <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono border border-border bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm">
-                          Sold out
+                          No confirmed availability
                         </span>
                       )}
                     </div>
@@ -481,7 +485,7 @@ function AldarOtherRail() {
 
   if (!canAccessOther) return null;
   const projects = list.data?.projects ?? [];
-  const totalLive = projects.reduce((s, p) => s + p.live_count, 0);
+  const totalAvailable = projects.reduce((s, p) => s + p.available_count, 0);
 
   return (
     <section id="aldar-other" className="border-t border-border bg-background">
@@ -501,7 +505,7 @@ function AldarOtherRail() {
               <span className="num-display">
                 {list.data?.total_units.toLocaleString() ?? "…"}
               </span>{" "}
-              units · <span className="text-primary num-display">{totalLive}</span> live.
+              units · <span className="text-emerald-600 dark:text-emerald-300 num-display">{totalAvailable}</span> confirmed Available.
             </p>
           </div>
           <Button
@@ -538,13 +542,17 @@ function AldarOtherRail() {
                   <span className="text-[0.6rem] uppercase tracking-[0.22em] font-mono text-muted-foreground">
                     Aldar · {p.building_count} bld
                   </span>
-                  {p.live_count > 0 ? (
+                  {p.available_count > 0 ? (
                     <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded-sm">
-                      {p.live_count} live
+                      {p.available_count} available
+                    </span>
+                  ) : p.live_count > 0 ? (
+                    <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono border border-sky-500/50 bg-sky-500/10 text-sky-700 dark:text-sky-300 px-1.5 py-0.5 rounded-sm">
+                      {p.live_count} source active
                     </span>
                   ) : (
                     <span className="text-[0.6rem] uppercase tracking-[0.18em] font-mono border border-border bg-muted text-muted-foreground px-1.5 py-0.5 rounded-sm">
-                      Sold out
+                      No confirmed availability
                     </span>
                   )}
                 </div>

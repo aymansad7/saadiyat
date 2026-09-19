@@ -15,6 +15,6 @@ describe("getInventoryPublicationState", () => {
 
   it("prioritizes documented current inventory counts", () => {
     expect(getInventoryPublicationState("al-ghadeer-parks-1", 2, 0)).toEqual({ label: "available", tone: "available" });
-    expect(getInventoryPublicationState("al-ghadeer-parks-1", 0, 1)).toEqual({ label: "live", tone: "live" });
+    expect(getInventoryPublicationState("al-ghadeer-parks-1", 0, 1)).toEqual({ label: "source activity", tone: "source" });
   });
 });

@@ -8,7 +8,7 @@ import SiteHeader from "@/components/SiteHeader";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { actionableCount } from "@/data/aldar";
+import { confirmedAvailableCount } from "@/data/aldar";
 import type { StatusBreakdown } from "@/data/aldar";
 import { AldarStatusBadge } from "@/components/AldarStatusBadge";
 import AldarOfficialUnitLink from "@/components/AldarOfficialUnitLink";
@@ -34,7 +34,7 @@ export default function AldarSaadiyat() {
 
   const projects = useMemo(() => {
     if (!data) return [];
-    if (availableOnly) return data.projects.filter((p: any) => actionableCount(p.breakdown) > 0);
+    if (availableOnly) return data.projects.filter((p: any) => confirmedAvailableCount(p.breakdown) > 0);
     return data.projects;
   }, [data, availableOnly]);
 
@@ -119,7 +119,7 @@ export default function AldarSaadiyat() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map((p: any) => {
             const bd = p.breakdown as StatusBreakdown;
-            const live = actionableCount(bd);
+            const available = confirmedAvailableCount(bd);
             const registryPending = p.unit_count === 0 && Boolean(p.releaseSummary?.unit_registry_status);
             return (
               <Link key={p.slug} href={`/aldar-saadiyat/${p.slug}`} className="group block rounded-md border border-border bg-card overflow-hidden hover:border-primary/60 transition-colors">
@@ -128,10 +128,12 @@ export default function AldarSaadiyat() {
                     <div className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.22em] font-mono text-primary"><Sparkles className="h-3 w-3" />Aldar</div>
                     {registryPending ? (
                       <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-amber-500/40 bg-amber-500/10 text-amber-800 dark:text-amber-200 px-2 py-0.5 rounded-sm">Registry pending</span>
-                    ) : live > 0 ? (
-                      <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-sm">{live} live</span>
+                    ) : available > 0 ? (
+                      <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-sm">{available} available</span>
+                    ) : bd.new > 0 ? (
+                      <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-sky-500/50 bg-sky-500/10 text-sky-700 dark:text-sky-300 px-2 py-0.5 rounded-sm">{bd.new} new · source</span>
                     ) : (
-                      <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">Sold out</span>
+                      <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">No confirmed availability</span>
                     )}
                   </div>
                   <h2 className="font-display text-xl text-foreground group-hover:text-primary transition-colors">{p.name}</h2>

@@ -78,9 +78,9 @@ describe("buildingDisplayName Grove → Heart mappings", () => {
 });
 
 describe("statusTone semantics", () => {
-  it("Available + New count as available", () => {
+  it("keeps confirmed Available and source New visually distinct", () => {
     expect(statusTone("Available")).toBe("available");
-    expect(statusTone("New")).toBe("available");
+    expect(statusTone("New")).toBe("new");
   });
   it("Sold and Booked/Blocked map to sold / reserved", () => {
     expect(statusTone("Sold")).toBe("sold");
@@ -94,9 +94,9 @@ describe("statusTone semantics", () => {
 });
 
 
-describe("breakdownForUnits + actionableCount", () => {
+describe("breakdownForUnits + availability counts", () => {
   it("buckets statuses correctly", async () => {
-    const { breakdownForUnits, actionableCount } = await import("@/data/aldar");
+    const { breakdownForUnits, actionableCount, confirmedAvailableCount } = await import("@/data/aldar");
     const units = [
       { status: "Available" },
       { status: "Available" },
@@ -121,6 +121,7 @@ describe("breakdownForUnits + actionableCount", () => {
     expect(bd.total).toBe(10);
     // actionable = available + new + booked + blocked + reserved
     expect(actionableCount(bd)).toBe(6);
+    expect(confirmedAvailableCount(bd)).toBe(2);
   });
 });
 

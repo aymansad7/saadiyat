@@ -3,6 +3,8 @@ import { statusTone } from "@/data/aldar";
 const TONE_STYLES: Record<string, string> = {
   available:
     "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+  new:
+    "border-sky-500/50 bg-sky-500/10 text-sky-700 dark:text-sky-300",
   sold:
     "border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300",
   reserved:

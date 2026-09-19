@@ -120,7 +120,7 @@ function Inner() {
                 <label className="inline-flex items-center gap-2 text-sm">
                   <Switch checked={liveOnly} onCheckedChange={setLiveOnly} />
                   <span className="text-muted-foreground">
-                    Live inventory only ({totalLive})
+                    Source-active only ({totalLive})
                   </span>
                 </label>
               </div>
@@ -149,9 +149,13 @@ function Inner() {
                     <div className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.22em] font-mono text-rose-600 dark:text-rose-300">
                       <Building2 className="h-3 w-3" /> Building
                     </div>
-                    {b.live_count > 0 ? (
+                    {b.breakdown.available > 0 ? (
                       <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-sm">
-                        {b.live_count} live
+                        {b.breakdown.available} available
+                      </span>
+                    ) : b.live_count > 0 ? (
+                      <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-sky-500/50 bg-sky-500/10 text-sky-700 dark:text-sky-300 px-2 py-0.5 rounded-sm">
+                        {b.live_count} source active
                       </span>
                     ) : (
                       <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">

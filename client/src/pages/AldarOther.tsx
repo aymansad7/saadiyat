@@ -283,9 +283,9 @@ function Inner() {
                           <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-sm">
                             {p.available_count} available
                           </span>
-                        ) : getInventoryPublicationState(p.slug, p.available_count, p.live_count).tone === "live" ? (
-                          <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-amber-500/50 bg-amber-500/10 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-sm">
-                            {p.live_count} live
+                        ) : getInventoryPublicationState(p.slug, p.available_count, p.live_count).tone === "source" ? (
+                          <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-sky-500/50 bg-sky-500/10 text-sky-700 dark:text-sky-300 px-2 py-0.5 rounded-sm">
+                            {p.live_count} source active
                           </span>
                         ) : getInventoryPublicationState(p.slug, p.available_count, p.live_count).tone === "registration" ? (
                           <span className="text-[0.65rem] font-mono uppercase tracking-[0.18em] border border-sky-500/50 bg-sky-500/10 text-sky-800 dark:text-sky-200 px-2 py-0.5 rounded-sm">

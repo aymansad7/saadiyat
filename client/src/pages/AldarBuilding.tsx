@@ -16,7 +16,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
-import { actionableCount, statusBucket } from "@/data/aldar";
+import { confirmedAvailableCount, statusBucket } from "@/data/aldar";
 import type { StatusBreakdown } from "@/data/aldar";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -120,11 +120,7 @@ export default function AldarBuilding() {
         || matchesAreaQuery(q, plotArea)
         || matchesAreaQuery(q, builtArea);
     });
-    if (availableOnly)
-      list = list.filter((u: any) => {
-        const b = statusBucket(u.status);
-        return b !== "sold" && b !== "other";
-      });
+    if (availableOnly) list = list.filter((u: any) => statusBucket(u.status) === "available");
     if (bedroomFilter !== "all") list = list.filter((u: any) => String(u.bedrooms) === bedroomFilter);
 
     // Status priority — live inventory first, sold last (lower number = earlier)
@@ -234,7 +230,7 @@ export default function AldarBuilding() {
             <label className="inline-flex items-center gap-2 text-sm">
               <Switch checked={availableOnly} onCheckedChange={setAvailableOnly} />
               <span className="text-muted-foreground">
-                Live inventory only ({actionableCount(bldgData!.breakdown as StatusBreakdown)})
+                Confirmed Available only ({confirmedAvailableCount(bldgData!.breakdown as StatusBreakdown)})
               </span>
             </label>
             {bedroomOptions.length > 1 && (

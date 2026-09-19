@@ -1,8 +1,8 @@
 import { updateHeartbeatJob } from "./_core/heartbeat";
 import { notifyOwner } from "./_core/notification";
-import { applyOfficialUnitPricePatch, runInventorySync, type RawProject } from "./inventorySync";
+import { applyOfficialUnitPricePatch, applyOfficialUnitSourceStatusPatch, runInventorySync, type RawProject } from "./inventorySync";
 import { archiveSeiSaadiyatSourceFiles } from "./seiSaadiyatOfficialExport";
-import { captureSeiSaadiyatOfficialSourceExpansion, probeSeiSaadiyatOfficialPricing } from "./seiSaadiyatOfficialCapture";
+import { captureSeiSaadiyatOfficialSourceExpansion, captureSeiSaadiyatOfficialSourceStatusPatch, probeSeiSaadiyatOfficialPricing } from "./seiSaadiyatOfficialCapture";
 
 export const SEI_PRICE_MONITOR_START_AT = "2026-09-08T04:00:00.000Z";
 
@@ -13,6 +13,24 @@ export async function refreshSeiSaadiyatOfficialInventory(input: {
 }) {
   if (input.trigger === "scheduled" && Date.now() < Date.parse(SEI_PRICE_MONITOR_START_AT)) {
     return { skipped: "before-monitor-window" as const, captureDate: null, publishedPriceCount: 0 };
+  }
+
+  let sourceStatusError: string | null = null;
+  let sourceStatusSync: Awaited<ReturnType<typeof applyOfficialUnitSourceStatusPatch>> | null = null;
+  try {
+    const capturedStatus = await captureSeiSaadiyatOfficialSourceStatusPatch();
+    sourceStatusSync = await applyOfficialUnitSourceStatusPatch({
+      trigger: input.trigger,
+      triggeredBy: input.triggeredBy,
+      dataset: "saadiyat",
+      projectSlug: "sei-saadiyat",
+      statuses: capturedStatus.statuses,
+    });
+    await archiveSeiSaadiyatSourceFiles(capturedStatus.files, capturedStatus.captureDate);
+  } catch (error) {
+    // The separate price monitor remains useful if the official page has a
+    // transient source-state issue.
+    sourceStatusError = String((error as Error).message ?? error).slice(0, 500);
   }
 
   let sourceExpansionError: string | null = null;
@@ -63,15 +81,25 @@ export async function refreshSeiSaadiyatOfficialInventory(input: {
   }
 
   return {
-    runId: priceSync?.runId ?? expansionSync?.runId ?? null,
-    counts: priceSync?.counts ?? expansionSync?.counts ?? { unitsScanned: probe.sourceUnitCount, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 },
-    rollups: priceSync?.rollups ?? expansionSync?.rollups ?? [],
+    runId: priceSync?.runId ?? sourceStatusSync?.runId ?? expansionSync?.runId ?? null,
+    counts: {
+      unitsScanned: sourceStatusSync?.counts.unitsScanned ?? priceSync?.counts.unitsScanned ?? expansionSync?.counts.unitsScanned ?? probe.sourceUnitCount,
+      newUnits: 0,
+      soldUnits: sourceStatusSync?.counts.soldUnits ?? 0,
+      statusChanges: 0,
+      sourceStatusChanges: sourceStatusSync?.counts.sourceStatusChanges ?? 0,
+      priceChanges: priceSync?.counts.priceChanges ?? 0,
+      removedUnits: 0,
+    },
+    rollups: [...(sourceStatusSync?.rollups ?? []), ...(priceSync?.rollups ?? []), ...(expansionSync?.rollups ?? [])],
     newProjects: expansionSync?.newProjects ?? [],
     captureDate: probe.captureDate,
     sourceUnitCount: probe.sourceUnitCount,
     sourceExpansionUnitCount: sourceExpansion.sourceUnitCount,
     sourceExpansionAddedUnitCount: sourceExpansion.addedUnitCount,
     sourceExpansionError,
+    sourceStatusChangeCount: sourceStatusSync?.appliedUnitCount ?? 0,
+    sourceStatusError,
     screenedUnitCount: probe.screenedUnitCount,
     monitorMode: "official-price-probe" as const,
     publishedPriceCount: probe.publishedPrices.length,

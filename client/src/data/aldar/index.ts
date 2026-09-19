@@ -69,9 +69,10 @@ export function isAvailable(status: string | null | undefined): boolean {
 
 export function statusTone(
   status: string | null | undefined,
-): "available" | "sold" | "reserved" | "other" {
+): "available" | "new" | "sold" | "reserved" | "other" {
   const s = (status ?? "").toLowerCase();
-  if (s === "available" || s === "new") return "available";
+  if (s === "available") return "available";
+  if (s === "new") return "new";
   if (s === "sold") return "sold";
   if (s === "booked" || s === "blocked" || s === "reserved") return "reserved";
   return "other";
@@ -136,4 +137,9 @@ export function breakdownForProject(p: AldarProject): StatusBreakdown {
 
 export function actionableCount(b: StatusBreakdown): number {
   return b.available + b.new + b.booked + b.blocked + b.reserved;
+}
+
+/** Confirmed World of Aldar Available labels only — never includes New. */
+export function confirmedAvailableCount(b: StatusBreakdown): number {
+  return b.available;
 }

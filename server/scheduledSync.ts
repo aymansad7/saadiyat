@@ -18,6 +18,7 @@ import { sdk } from "./_core/sdk";
 import { refreshAlGhadeerOfficialInventory } from "./alGhadeerOfficialSync";
 import { discoverAndImportOfficialAldarProjects } from "./aldarProjectDiscovery";
 import { refreshSeiSaadiyatOfficialInventory } from "./seiSaadiyatOfficialSync";
+import { refreshTalayOfficialInventory } from "./talayOfficialSync";
 
 /** Header Heartbeat sets to the triggering cron task UID. */
 const CRON_TASK_HEADER = "x-manus-cron-task-uid";
@@ -40,25 +41,39 @@ export async function inventorySyncScheduledHandler(req: Request, res: Response)
     });
 
     const trigger = `cron:${taskUid}`;
-    const [ghadeer, projectDiscovery] = await Promise.allSettled([
+    const [ghadeer, projectDiscovery, sei, talay] = await Promise.allSettled([
       refreshAlGhadeerOfficialInventory({ trigger: "scheduled", triggeredBy: trigger }),
       discoverAndImportOfficialAldarProjects({ trigger: "scheduled", triggeredBy: trigger }),
+      refreshSeiSaadiyatOfficialInventory({ trigger: "scheduled", triggeredBy: trigger }),
+      refreshTalayOfficialInventory({ trigger: "scheduled", triggeredBy: trigger }),
     ]);
-    if (ghadeer.status === "rejected" && projectDiscovery.status === "rejected") {
-      throw new Error(`Al Ghadeer refresh failed: ${String(ghadeer.reason)}; official project discovery failed: ${String(projectDiscovery.reason)}`);
+    if ([ghadeer, projectDiscovery, sei, talay].every(result => result.status === "rejected")) {
+      throw new Error("Every official inventory source failed during the scheduled refresh.");
     }
     const ghadeerResult = ghadeer.status === "fulfilled" ? ghadeer.value : null;
     const discoveryResult = projectDiscovery.status === "fulfilled" ? projectDiscovery.value : null;
-    const counts = ghadeerResult?.counts ?? {
-      unitsScanned: 0,
-      newUnits: 0,
-      soldUnits: 0,
-      statusChanges: 0,
-      sourceStatusChanges: 0,
-      priceChanges: 0,
-      removedUnits: 0,
-    };
-    const rollups = ghadeerResult?.rollups ?? [];
+    const seiResult = sei.status === "fulfilled" ? sei.value : null;
+    const talayResult = talay.status === "fulfilled" ? talay.value : null;
+    const zeroCounts = { unitsScanned: 0, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 };
+    const ghadeerCounts = ghadeerResult?.counts ?? zeroCounts;
+    const seiCounts = seiResult && "counts" in seiResult && seiResult.counts ? seiResult.counts : zeroCounts;
+    const talayCounts = talayResult?.counts ?? zeroCounts;
+    const sourceCounts: Array<typeof zeroCounts> = [ghadeerCounts, seiCounts, talayCounts];
+    const counts = sourceCounts.reduce((total, next) => ({
+      unitsScanned: total.unitsScanned + next.unitsScanned,
+      newUnits: total.newUnits + next.newUnits,
+      soldUnits: total.soldUnits + next.soldUnits,
+      statusChanges: total.statusChanges + next.statusChanges,
+      sourceStatusChanges: total.sourceStatusChanges + next.sourceStatusChanges,
+      priceChanges: total.priceChanges + next.priceChanges,
+      removedUnits: total.removedUnits + next.removedUnits,
+    }), { unitsScanned: 0, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 });
+    const seiRollups = seiResult && "rollups" in seiResult && Array.isArray(seiResult.rollups) ? seiResult.rollups : [];
+    const rollups = [
+      ...(ghadeerResult?.rollups ?? []),
+      ...seiRollups,
+      ...(talayResult?.rollups ?? []),
+    ];
     const newProjects = [...(ghadeerResult?.newProjects ?? []), ...(discoveryResult?.importedProjects ?? [])];
     const newDirectoryProjects = discoveryResult?.newlyDetected ?? [];
     const summary = buildSyncChangeSummary(counts, rollups);
@@ -78,14 +93,14 @@ export async function inventorySyncScheduledHandler(req: Request, res: Response)
             ? `New official directory projects: ${newDirectoryProjects.map(project => `${project.projectName} · ${project.status === "imported" ? "imported as a project" : project.status === "incomplete" ? "published but unit data is not complete yet" : "discovery check needs retry"}`).join("\n")}`
             : "No newly listed official directory project detected.",
           summary.projects.length ? `Top affected projects: ${summary.projects.join(" · ")}` : "No project-level changes reported.",
-          `Source: official World of Aldar directory plus complete Al Ghadeer capture${ghadeerResult ? ` dated ${ghadeerResult.captureDate}` : " (Ghadeer source refresh failed; directory check continued)"}. Raw explorer labels are not NAS availability.`,
+          `Sources: World of Aldar directory; Al Ghadeer${ghadeerResult ? ` (${ghadeerResult.captureDate})` : " (refresh failed)"}; Sei Saadiyat${seiResult ? ` (${seiResult.captureDate})` : " (refresh failed)"}; Talay${talayResult ? ` (${talayResult.captureDate})` : " (refresh failed)"}. Raw explorer labels are not NAS availability.`,
         ].join("\n"),
       });
     }
 
     return res.json({
       ok: true,
-      runId: ghadeerResult?.runId ?? null,
+      runId: ghadeerResult?.runId ?? (seiResult && "runId" in seiResult ? seiResult.runId : null) ?? talayResult?.statusRunId ?? null,
       counts,
       summary,
       topProjects: rollups.slice(0, 10),
@@ -94,10 +109,12 @@ export async function inventorySyncScheduledHandler(req: Request, res: Response)
       sourceErrors: {
         alGhadeer: ghadeer.status === "rejected" ? String(ghadeer.reason) : null,
         projectDiscovery: projectDiscovery.status === "rejected" ? String(projectDiscovery.reason) : null,
+        seiSaadiyat: sei.status === "rejected" ? String(sei.reason) : seiResult && "sourceStatusError" in seiResult ? seiResult.sourceStatusError ?? null : null,
+        talay: talay.status === "rejected" ? String(talay.reason) : null,
       },
       notificationSent,
-      snapshotSource: "official World of Aldar directory plus World of Aldar Al Ghadeer capture",
-      captureDate: ghadeerResult?.captureDate ?? null,
+      snapshotSource: "official World of Aldar directory plus Al Ghadeer, Sei Saadiyat, and Talay captures",
+      captureDate: ghadeerResult?.captureDate ?? seiResult?.captureDate ?? talayResult?.captureDate ?? null,
     });
   } catch (err) {
     const e = err as Error;

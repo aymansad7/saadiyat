@@ -293,6 +293,12 @@ export type OfficialPricePatch = {
   priceAed: number;
 };
 
+/** A raw World of Aldar explorer state for one exact persisted unit. */
+export type OfficialSourceStatusPatch = {
+  unitName: string;
+  sourceStatus: string;
+};
+
 /**
  * Emits only exact, published-price changes. Unlike a snapshot diff it never
  * treats absent units as removed, so it is safe for temporarily partial feeds.
@@ -324,6 +330,45 @@ export function computeOfficialPricePatchEvents(
       toSourceStatus: null,
       fromPriceAed: state.priceAed,
       toPriceAed: priceAed,
+    });
+  }
+  return events;
+}
+
+/**
+ * Emits only raw official-source status changes. This deliberately never
+ * changes an NAS operational listing status or infers a sale from a missing
+ * unit. It is therefore safe for an abbreviated World of Aldar project page.
+ */
+export function computeOfficialSourceStatusPatchEvents(
+  prev: Map<string, PrevState>,
+  dataset: Dataset,
+  projectSlug: string,
+  statuses: readonly OfficialSourceStatusPatch[],
+): DiffEvent[] {
+  const latestStatuses = new Map<string, string>();
+  for (const status of statuses) {
+    const unitName = status.unitName?.trim();
+    const sourceStatus = status.sourceStatus?.trim();
+    if (unitName && sourceStatus) latestStatuses.set(unitName, sourceStatus);
+  }
+  const events: DiffEvent[] = [];
+  for (const [unitName, sourceStatus] of Array.from(latestStatuses.entries())) {
+    const state = prev.get(inventoryUnitKey({ dataset, projectSlug, unitName }));
+    // A first source value only establishes a baseline; it is not a change.
+    if (!state || !state.isPresent || state.sourceStatus == null || normStatus(state.sourceStatus) === normStatus(sourceStatus)) continue;
+    events.push({
+      unitName,
+      dataset,
+      projectSlug,
+      projectName: state.projectName ?? null,
+      eventType: "source_status_change",
+      fromStatus: null,
+      toStatus: null,
+      fromSourceStatus: state.sourceStatus,
+      toSourceStatus: sourceStatus,
+      fromPriceAed: null,
+      toPriceAed: null,
     });
   }
   return events;
@@ -587,7 +632,13 @@ export function summarize(events: DiffEvent[]): {
       case "source_status_change":
         counts.sourceStatusChanges += 1;
         r.sourceStatusChanges += 1;
-        if (r.examples.length < 5) r.examples.push(`source: ${e.unitName} ${e.fromSourceStatus ?? "?"}→${e.toSourceStatus ?? "?"}`);
+        if (isSoldStatus(e.toSourceStatus)) {
+          counts.soldUnits += 1;
+          r.sold += 1;
+          if (r.examples.length < 5) r.examples.push(`SOURCE SOLD: ${e.unitName}`);
+        } else if (r.examples.length < 5) {
+          r.examples.push(`source: ${e.unitName} ${e.fromSourceStatus ?? "?"}→${e.toSourceStatus ?? "?"}`);
+        }
         break;
       case "price_change":
         counts.priceChanges += 1;
@@ -974,6 +1025,151 @@ export async function applyOfficialUnitPricePatch(opts: {
       } catch {
         // The authoritative unit-state updates/events remain valid even if a
         // legacy cached source payload cannot be parsed.
+      }
+    }
+
+    const { counts, rollups } = summarize(events);
+    counts.unitsScanned = unitNames.length;
+    await db.update(inventorySyncRuns).set({
+      status: "success",
+      unitsScanned: counts.unitsScanned,
+      newUnits: counts.newUnits,
+      soldUnits: counts.soldUnits,
+      statusChanges: counts.statusChanges,
+      sourceStatusChanges: counts.sourceStatusChanges,
+      priceChanges: counts.priceChanges,
+      removedUnits: counts.removedUnits,
+      summaryJson: JSON.stringify(rollups).slice(0, 60000),
+      newProjectsJson: "[]",
+      finishedAt: now,
+    }).where(eq(inventorySyncRuns.id, runId));
+    invalidateImportedAldarProjectCache();
+    return { runId, counts, rollups, appliedUnitCount: events.length };
+  } catch (err) {
+    await db.update(inventorySyncRuns).set({
+      status: "error",
+      errorMessage: String((err as Error)?.message ?? err).slice(0, 2000),
+      finishedAt: new Date(),
+    }).where(eq(inventorySyncRuns.id, runId));
+    throw err;
+  }
+}
+
+/**
+ * Persists only published World of Aldar explorer-state changes for exact
+ * stored units. Unlike a complete snapshot, it never removes a unit, changes
+ * NAS operational availability, or changes an official price.
+ */
+export async function applyOfficialUnitSourceStatusPatch(opts: {
+  trigger: "scheduled" | "manual";
+  triggeredBy?: string;
+  dataset: Dataset;
+  projectSlug: string;
+  statuses: readonly OfficialSourceStatusPatch[];
+}): Promise<{
+  runId: number;
+  counts: RunCounts;
+  rollups: ProjectRollup[];
+  appliedUnitCount: number;
+}> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const latestStatuses = new Map<string, string>();
+  for (const status of opts.statuses) {
+    const unitName = status.unitName?.trim();
+    const sourceStatus = status.sourceStatus?.trim();
+    if (unitName && sourceStatus) latestStatuses.set(unitName, sourceStatus);
+  }
+
+  await db.insert(inventorySyncRuns).values({
+    trigger: opts.trigger,
+    status: "running",
+    triggeredBy: opts.triggeredBy ?? (opts.trigger === "scheduled" ? "cron" : "system"),
+  });
+  const [run] = await db.select().from(inventorySyncRuns).orderBy(desc(inventorySyncRuns.id)).limit(1);
+  const runId = run.id;
+
+  try {
+    const unitNames = Array.from(latestStatuses.keys());
+    const previousRows = unitNames.length
+      ? await db.select().from(inventoryUnitState).where(and(
+          eq(inventoryUnitState.dataset, opts.dataset),
+          eq(inventoryUnitState.projectSlug, opts.projectSlug),
+          inArray(inventoryUnitState.unitName, unitNames),
+        ))
+      : [];
+    const previous = new Map<string, PrevState>(previousRows.map(row => [
+      inventoryUnitKey(row),
+      {
+        id: row.id,
+        unitName: row.unitName,
+        dataset: row.dataset,
+        projectSlug: row.projectSlug,
+        projectName: row.projectName,
+        status: row.status,
+        sourceStatus: row.sourceStatus,
+        priceAed: row.priceAed,
+        isPresent: row.isPresent,
+      },
+    ]));
+    const events = computeOfficialSourceStatusPatchEvents(
+      previous,
+      opts.dataset,
+      opts.projectSlug,
+      Array.from(latestStatuses, ([unitName, sourceStatus]) => ({ unitName, sourceStatus })),
+    );
+
+    if (events.length) {
+      await db.insert(inventoryUnitEvents).values(events.map(event => ({
+        unitName: event.unitName,
+        dataset: event.dataset,
+        projectSlug: event.projectSlug,
+        projectName: event.projectName,
+        eventType: event.eventType,
+        fromStatus: event.fromStatus,
+        toStatus: event.toStatus,
+        fromSourceStatus: event.fromSourceStatus,
+        toSourceStatus: event.toSourceStatus,
+        fromPriceAed: event.fromPriceAed,
+        toPriceAed: event.toPriceAed,
+        runId,
+      })));
+    }
+
+    const now = new Date();
+    // A source page can contain hundreds of rows (Sei currently has 778 on
+    // the live page). Update in compact CASE batches, rather than serial
+    // per-unit writes that would make the scheduled refresh exceed its window.
+    const rowsToUpdate = previousRows.filter(row => latestStatuses.has(row.unitName));
+    for (let index = 0; index < rowsToUpdate.length; index += 400) {
+      const batch = rowsToUpdate.slice(index, index + 400);
+      const sourceStatusCase = sql`CASE ${sql.join(batch.map(row => sql`WHEN ${inventoryUnitState.id} = ${row.id} THEN ${latestStatuses.get(row.unitName)!}`), sql` `)} ELSE ${inventoryUnitState.sourceStatus} END`;
+      await db.update(inventoryUnitState)
+        .set({ sourceStatus: sourceStatusCase, lastSeenRunId: runId, lastSeenAt: now })
+        .where(inArray(inventoryUnitState.id, batch.map(row => row.id)));
+    }
+
+    const [importedProject] = await db
+      .select({ id: inventoryImportedProjects.id, sourceJson: inventoryImportedProjects.sourceJson })
+      .from(inventoryImportedProjects)
+      .where(and(eq(inventoryImportedProjects.dataset, opts.dataset), eq(inventoryImportedProjects.projectSlug, opts.projectSlug)))
+      .limit(1);
+    if (importedProject) {
+      try {
+        const project = JSON.parse(importedProject.sourceJson) as RawProject;
+        for (const building of project.buildings ?? []) {
+          for (const unit of building.units ?? []) {
+            const sourceStatus = unit.unit_name ? latestStatuses.get(unit.unit_name) : undefined;
+            if (sourceStatus) unit.source_unit_status = sourceStatus;
+          }
+        }
+        await db.update(inventoryImportedProjects)
+          .set({ sourceJson: JSON.stringify(project), lastImportedRunId: runId, importedBy: opts.triggeredBy ?? "system" })
+          .where(eq(inventoryImportedProjects.id, importedProject.id));
+      } catch {
+        // The authoritative state/events remain valid if a historic source
+        // payload cannot be parsed.
       }
     }
 

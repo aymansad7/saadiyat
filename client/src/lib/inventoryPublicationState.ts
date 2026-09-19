@@ -1,6 +1,6 @@
 export type InventoryPublicationState =
   | { label: "available"; tone: "available" }
-  | { label: "live"; tone: "live" }
+  | { label: "source activity"; tone: "source" }
   | { label: "registration open"; tone: "registration" }
   | { label: "no active inventory published"; tone: "unpublished" };
 
@@ -14,7 +14,7 @@ export function getInventoryPublicationState(
   liveCount: number,
 ): InventoryPublicationState {
   if (availableCount > 0) return { label: "available", tone: "available" };
-  if (liveCount > 0) return { label: "live", tone: "live" };
+  if (liveCount > 0) return { label: "source activity", tone: "source" };
   if (slug === "al-ghadeer-parks-1" || slug === "al-ghadeer-parks-2") {
     return { label: "registration open", tone: "registration" };
   }

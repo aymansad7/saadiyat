@@ -6,7 +6,7 @@ import { Redirect, useParams, Link } from "wouter";
 import { Building2, ArrowRight, Sparkles, ExternalLink, Info } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Switch } from "@/components/ui/switch";
-import { actionableCount } from "@/data/aldar";
+import { confirmedAvailableCount } from "@/data/aldar";
 import type { StatusBreakdown } from "@/data/aldar";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
@@ -112,7 +112,7 @@ export default function AldarProject() {
 
   const buildings = useMemo(() => {
     if (!project) return [];
-    if (availableOnly) return project.buildings.filter((b: any) => actionableCount(b.breakdown) > 0);
+    if (availableOnly) return project.buildings.filter((b: any) => confirmedAvailableCount(b.breakdown) > 0);
     return project.buildings;
   }, [project, availableOnly]);
 
@@ -147,14 +147,14 @@ export default function AldarProject() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {buildings.map((b: any) => {
             const bd = b.breakdown as StatusBreakdown;
-            const live = actionableCount(bd);
+            const available = confirmedAvailableCount(bd);
             const bld = buildingDisplayName(b.name);
             return (
               <Link key={b.slug} href={`/aldar-saadiyat/${slug}/${b.slug}`} className="group block rounded-md border border-border bg-card overflow-hidden hover:border-primary/60 transition-colors">
                 <div className="p-5">
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.22em] font-mono text-primary"><Building2 className="h-3 w-3" />{bld.primary}</div>
-                    {live > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 px-2 py-0.5 rounded-sm">{live} live</span>) : (<span className="text-[0.65rem] font-mono uppercase border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">Sold out</span>)}
+                    {available > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 px-2 py-0.5 rounded-sm">{available} available</span>) : bd.new > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-sky-500/50 bg-sky-500/10 text-sky-700 px-2 py-0.5 rounded-sm">{bd.new} new · source</span>) : (<span className="text-[0.65rem] font-mono uppercase border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">No confirmed availability</span>)}
                   </div>
                   {bld.secondary && <p className="text-xs text-muted-foreground mb-2">{bld.secondary}</p>}
                   <div className="text-[0.72rem] font-mono text-muted-foreground">{b.unit_count} units</div>

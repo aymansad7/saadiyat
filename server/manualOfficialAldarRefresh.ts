@@ -1,11 +1,13 @@
 import { refreshAlGhadeerOfficialInventory } from "./alGhadeerOfficialSync";
 import { refreshSeiSaadiyatOfficialInventory } from "./seiSaadiyatOfficialSync";
+import { refreshTalayOfficialInventory } from "./talayOfficialSync";
 
 type RefreshInput = { trigger: "manual"; triggeredBy: string };
 
 export type ManualOfficialRefreshDependencies = {
   refreshGhadeer: (input: RefreshInput) => Promise<Record<string, unknown>>;
   refreshSei: (input: RefreshInput) => Promise<Record<string, unknown>>;
+  refreshTalay: (input: RefreshInput) => Promise<Record<string, unknown>>;
 };
 
 export type ManualOfficialRefreshResult =
@@ -26,6 +28,7 @@ async function safelyRefresh(
 const defaultDependencies: ManualOfficialRefreshDependencies = {
   refreshGhadeer: refreshAlGhadeerOfficialInventory,
   refreshSei: refreshSeiSaadiyatOfficialInventory,
+  refreshTalay: refreshTalayOfficialInventory,
 };
 
 /**
@@ -39,5 +42,6 @@ export async function runManualOfficialAldarRefresh(
   const input: RefreshInput = { trigger: "manual", triggeredBy };
   const ghadeer = await safelyRefresh(dependencies.refreshGhadeer, input);
   const sei = await safelyRefresh(dependencies.refreshSei, input);
-  return { ghadeer, sei };
+  const talay = await safelyRefresh(dependencies.refreshTalay, input);
+  return { ghadeer, sei, talay };
 }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   computeDiff,
+  computeOfficialSourceStatusPatchEvents,
   buildSyncChangeSummary,
   detectNewInventoryProjects,
   decorateInventoryEvents,
@@ -231,6 +232,62 @@ describe("computeDiff", () => {
     ]);
     expect(events).toHaveLength(1);
     expect(events[0]).toMatchObject({ eventType: "first_seen", projectSlug: "two", unitName: "A-101" });
+  });
+});
+
+describe("official source-status patch events", () => {
+  it("records a raw official-source sale without changing NAS operational availability", () => {
+    const prev = prevMap([{
+      unitName: "Talay-MarsaAlSaadiyat-V-001-01",
+      projectSlug: "talay-at-marsa-al-saadiyat",
+      status: null,
+      sourceStatus: "New",
+      priceAed: null,
+      isPresent: true,
+    }]);
+    const events = computeOfficialSourceStatusPatchEvents(prev, "saadiyat", "talay-at-marsa-al-saadiyat", [{
+      unitName: "Talay-MarsaAlSaadiyat-V-001-01",
+      sourceStatus: "Sold",
+    }]);
+    expect(events).toEqual([expect.objectContaining({
+      eventType: "source_status_change",
+      fromStatus: null,
+      toStatus: null,
+      fromSourceStatus: "New",
+      toSourceStatus: "Sold",
+    })]);
+  });
+
+  it("does not treat a first raw label as a historical change", () => {
+    const prev = prevMap([{
+      unitName: "Talay-MarsaAlSaadiyat-V-001-01",
+      projectSlug: "talay-at-marsa-al-saadiyat",
+      status: null,
+      sourceStatus: null,
+      priceAed: null,
+      isPresent: true,
+    }]);
+    expect(computeOfficialSourceStatusPatchEvents(prev, "saadiyat", "talay-at-marsa-al-saadiyat", [{
+      unitName: "Talay-MarsaAlSaadiyat-V-001-01",
+      sourceStatus: "New",
+    }])).toEqual([]);
+  });
+
+  it("counts an official source transition to Sold in the daily sold rollup", () => {
+    const prev = prevMap([{
+      unitName: "Talay-MarsaAlSaadiyat-V-001-01",
+      projectSlug: "talay-at-marsa-al-saadiyat",
+      status: null,
+      sourceStatus: "New",
+      priceAed: null,
+      isPresent: true,
+    }]);
+    const { counts, rollups } = summarize(computeOfficialSourceStatusPatchEvents(prev, "saadiyat", "talay-at-marsa-al-saadiyat", [{
+      unitName: "Talay-MarsaAlSaadiyat-V-001-01",
+      sourceStatus: "Sold",
+    }]));
+    expect(counts).toMatchObject({ soldUnits: 1, sourceStatusChanges: 1 });
+    expect(rollups[0]).toMatchObject({ sold: 1, sourceStatusChanges: 1 });
   });
 });
 
