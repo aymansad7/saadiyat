@@ -69,6 +69,39 @@ function ProjectReleaseSummary({ summary }: { summary: any }) {
   );
 }
 
+function ProjectStartingPrices({ pricing }: { pricing: any }) {
+  const prices = Array.isArray(pricing?.prices) ? pricing.prices : [];
+  if (!pricing || prices.length === 0) return null;
+  return (
+    <section className="border-b border-border bg-amber-500/[0.035]">
+      <div className="container py-6 sm:py-8">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <div className="text-[0.68rem] font-mono uppercase tracking-[0.18em] text-amber-800 dark:text-amber-200">Launch pricing</div>
+            <h2 className="mt-1 font-display text-2xl text-foreground">{pricing.label ?? "Project starting prices"}</h2>
+          </div>
+          {pricing.payment_plan && <div className="text-sm text-muted-foreground">Payment plan: <span className="text-foreground">{pricing.payment_plan}</span></div>}
+        </div>
+        {pricing.price_notice && <p className="mt-3 max-w-4xl text-sm leading-relaxed text-muted-foreground">{pricing.price_notice}</p>}
+        <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {prices.map((price: any) => (
+            <article key={`${price.unit_type}-${price.bedrooms ?? ""}`} className="rounded-md border border-amber-900/15 bg-card p-4">
+              <div className="text-[0.65rem] uppercase tracking-[0.16em] font-mono text-muted-foreground">{price.unit_type}</div>
+              <div className="mt-2 font-display text-2xl text-foreground">from {fmtAed(price.starting_price_aed)}</div>
+              {price.bedrooms != null && <div className="mt-1 text-xs text-muted-foreground">{price.bedrooms} bedrooms</div>}
+            </article>
+          ))}
+        </div>
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+          {pricing.source && <span>Source: {pricing.source}</span>}
+          {pricing.captured_at && <span>Captured: {pricing.captured_at}</span>}
+          {pricing.source_url && <a href={pricing.source_url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">View source <ExternalLink className="h-3 w-3" /></a>}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function AldarProject() {
   const { project: slug } = useParams<{ project: string }>();
   const { data: project, isLoading } = trpc.aldarSaadiyat.getProject.useQuery(
@@ -109,6 +142,7 @@ export default function AldarProject() {
         </div>
       </section>
       <ProjectReleaseSummary summary={(project as any).release_summary} />
+      <ProjectStartingPrices pricing={(project as any).published_starting_prices} />
       <section className="container py-8 sm:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {buildings.map((b: any) => {

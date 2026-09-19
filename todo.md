@@ -1085,3 +1085,10 @@
 - [x] Do not invent Talay Beach unit cards, unit availability, exact plot assignments, Aldar links, payment dates, or official pricing before Aldar publishes its registry
 - [x] Archive Talay and Talay Beach source evidence plus Faya/Baccarat audit evidence in the approved OneDrive project archive
 - [x] Verify database state, exact Talay unit redirect, TypeScript, `git diff --check`, and 76 Vitest files / 420 tests before checkpoint
+
+### Talay Launch Starting Prices (Sep 19, 2026)
+- [x] Verify the live Talay World of Aldar registry and three representative exact unit-detail responses before recording any pricing
+- [x] Record Talay 4BR from AED 13.5M, 5BR from AED 15.5M, and 6BR from AED 17.2M as source-labelled, non-unit-specific launch starting prices with the 50/50 plan and 5% booking reference
+- [x] Preserve every individual Talay villa price as blank because the live Aldar detail API still returns the invalid AED 1 placeholder for sampled exact units
+- [x] Exclude starting-price references from unit price metrics, price-per-area calculations, and Aldar Available inventory totals
+- [x] Archive the live Aldar page and the source-labelled price reference in the approved OneDrive operation archive

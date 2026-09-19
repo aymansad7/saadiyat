@@ -82,6 +82,19 @@ type SaadiyatProject = {
       price_status?: string;
     }>;
   };
+  published_starting_prices?: {
+    label?: string;
+    source?: string;
+    source_url?: string;
+    captured_at?: string;
+    payment_plan?: string;
+    price_notice?: string;
+    prices?: Array<{
+      unit_type: string;
+      bedrooms: number | null;
+      starting_price_aed: number;
+    }>;
+  };
   buildings: SaadiyatBuilding[];
 };
 type Dataset = {
@@ -229,6 +242,7 @@ export const aldarSaadiyatRouter = router({
         unit_count: p.unit_count,
         building_count: p.building_count,
         release_summary: p.release_summary ?? null,
+        published_starting_prices: p.published_starting_prices ?? null,
         buildings: p.buildings.map(b => ({
           slug: b.slug,
           name: b.name,
