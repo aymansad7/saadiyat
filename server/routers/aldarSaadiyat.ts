@@ -166,8 +166,12 @@ function statusGroup(status: string | null): string {
  * a distinct operational state. Present the exact source label on inventory
  * cards without treating it as an NAS broker-listing status.
  */
-function displayStatus(unit: Pick<SaadiyatUnit, "status" | "source_unit_status">) {
-  return unit.status ?? unit.source_unit_status ?? null;
+export function displayStatus(unit: Pick<SaadiyatUnit, "status" | "source_unit_status">) {
+  // Imported release rows historically copied the raw World of Aldar label into
+  // `status`. A later guarded source patch writes the newer label to
+  // `source_unit_status`; it must take precedence or the UI would keep showing
+  // the old `New` state even after Aldar reports Booked, Blocked, or Sold.
+  return unit.source_unit_status ?? unit.status ?? null;
 }
 
 type StatusBreakdown = {

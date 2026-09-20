@@ -12,6 +12,70 @@ import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { trpc } from "@/lib/trpc";
 
+type SourceStatusFilter = "all" | keyof Omit<StatusBreakdown, "total">;
+
+const SOURCE_STATUS_OPTIONS: Array<{
+  key: SourceStatusFilter;
+  label: string;
+  className: string;
+}> = [
+  { key: "all", label: "All", className: "border-border bg-muted text-muted-foreground" },
+  { key: "available", label: "Available", className: "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300" },
+  { key: "new", label: "New", className: "border-sky-500/50 bg-sky-500/10 text-sky-700 dark:text-sky-300" },
+  { key: "booked", label: "Booked", className: "border-amber-500/50 bg-amber-500/10 text-amber-700 dark:text-amber-300" },
+  { key: "blocked", label: "Blocked", className: "border-orange-500/50 bg-orange-500/10 text-orange-700 dark:text-orange-300" },
+  { key: "reserved", label: "Reserved", className: "border-violet-500/50 bg-violet-500/10 text-violet-700 dark:text-violet-300" },
+  { key: "sold", label: "Sold", className: "border-rose-400/40 bg-rose-500/5 text-rose-700 dark:text-rose-300" },
+];
+
+export function filterProjectBuildingsByStatus<T extends { breakdown: StatusBreakdown }>(
+  buildings: T[],
+  filter: SourceStatusFilter,
+) {
+  if (filter === "all") return buildings;
+  return buildings.filter(building => building.breakdown[filter] > 0);
+}
+
+function ProjectSourceStatusSummary({
+  breakdown,
+  selected,
+  onSelect,
+}: {
+  breakdown: StatusBreakdown;
+  selected: SourceStatusFilter;
+  onSelect: (filter: SourceStatusFilter) => void;
+}) {
+  return (
+    <section className="mt-5 rounded-md border border-border bg-background/65 p-4">
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <div className="text-[0.66rem] font-mono uppercase tracking-[0.18em] text-primary">Official Aldar source status</div>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Tap a status to show the buildings containing those exact official records. These are Aldar source labels, separate from NAS resale availability.</p>
+        </div>
+        <div className="shrink-0 text-xs font-mono text-muted-foreground">{breakdown.total.toLocaleString()} stored units</div>
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {SOURCE_STATUS_OPTIONS.map(option => {
+          const count = option.key === "all" ? breakdown.total : breakdown[option.key];
+          return (
+            <button
+              key={option.key}
+              type="button"
+              onClick={() => onSelect(option.key)}
+              aria-pressed={selected === option.key}
+              className={`inline-flex min-h-8 items-center gap-1.5 rounded-sm border px-2 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 ${option.className} ${selected === option.key ? "ring-2 ring-primary/35" : "opacity-90 hover:opacity-100"}`}
+            >
+              <span className="num-display font-semibold">{count.toLocaleString()}</span>
+              <span>{option.label}</span>
+            </button>
+          );
+        })}
+        {breakdown.other > 0 && <span className="inline-flex min-h-8 items-center gap-1.5 rounded-sm border border-border bg-muted/60 px-2 py-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground"><span className="num-display font-semibold">{breakdown.other.toLocaleString()}</span><span>Not stated</span></span>}
+      </div>
+    </section>
+  );
+}
+
 function fmtAed(value: number | null | undefined) {
   return value == null ? "Not published" : `AED ${value.toLocaleString("en-US")}`;
 }
@@ -109,12 +173,30 @@ export default function AldarProject() {
     { enabled: !!slug },
   );
   const [availableOnly, setAvailableOnly] = useState(false);
+  const [sourceStatusFilter, setSourceStatusFilter] = useState<SourceStatusFilter>("all");
+
+  const projectBreakdown = useMemo<StatusBreakdown>(() => {
+    const total: StatusBreakdown = { available: 0, new: 0, booked: 0, blocked: 0, reserved: 0, sold: 0, other: 0, total: 0 };
+    for (const building of project?.buildings ?? []) {
+      const breakdown = building.breakdown as StatusBreakdown;
+      total.available += breakdown.available;
+      total.new += breakdown.new;
+      total.booked += breakdown.booked;
+      total.blocked += breakdown.blocked;
+      total.reserved += breakdown.reserved;
+      total.sold += breakdown.sold;
+      total.other += breakdown.other;
+      total.total += breakdown.total;
+    }
+    return total;
+  }, [project]);
 
   const buildings = useMemo(() => {
     if (!project) return [];
-    if (availableOnly) return project.buildings.filter((b: any) => confirmedAvailableCount(b.breakdown) > 0);
-    return project.buildings;
-  }, [project, availableOnly]);
+    const sourceFiltered = filterProjectBuildingsByStatus(project.buildings as Array<{ breakdown: StatusBreakdown }>, sourceStatusFilter);
+    if (availableOnly) return sourceFiltered.filter((b: any) => confirmedAvailableCount(b.breakdown) > 0);
+    return sourceFiltered;
+  }, [project, availableOnly, sourceStatusFilter]);
 
   if (isLoading) {
     return (<div className="min-h-screen bg-background flex flex-col"><SiteHeader /><div className="flex-1 flex items-center justify-center"><div className="text-muted-foreground font-mono text-sm">Loading...</div></div></div>);
@@ -139,6 +221,7 @@ export default function AldarProject() {
               <span className="text-muted-foreground">Available only</span>
             </label>
           </div>
+          <ProjectSourceStatusSummary breakdown={projectBreakdown} selected={sourceStatusFilter} onSelect={setSourceStatusFilter} />
         </div>
       </section>
       <ProjectReleaseSummary summary={(project as any).release_summary} />
@@ -154,7 +237,13 @@ export default function AldarProject() {
                 <div className="p-5">
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2 text-[0.65rem] uppercase tracking-[0.22em] font-mono text-primary"><Building2 className="h-3 w-3" />{bld.primary}</div>
-                    {available > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 px-2 py-0.5 rounded-sm">{available} available</span>) : bd.new > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-sky-500/50 bg-sky-500/10 text-sky-700 px-2 py-0.5 rounded-sm">{bd.new} new · source</span>) : (<span className="text-[0.65rem] font-mono uppercase border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">No confirmed availability</span>)}
+                    {available > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 px-2 py-0.5 rounded-sm">{available} available</span>)
+                      : bd.new > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-sky-500/50 bg-sky-500/10 text-sky-700 px-2 py-0.5 rounded-sm">{bd.new} new · source</span>)
+                      : bd.booked > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-amber-500/50 bg-amber-500/10 text-amber-700 px-2 py-0.5 rounded-sm">{bd.booked} booked · source</span>)
+                      : bd.blocked > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-orange-500/50 bg-orange-500/10 text-orange-700 px-2 py-0.5 rounded-sm">{bd.blocked} blocked · source</span>)
+                      : bd.reserved > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-violet-500/50 bg-violet-500/10 text-violet-700 px-2 py-0.5 rounded-sm">{bd.reserved} reserved · source</span>)
+                      : bd.sold > 0 ? (<span className="text-[0.65rem] font-mono uppercase border border-rose-400/40 bg-rose-500/5 text-rose-700 px-2 py-0.5 rounded-sm">{bd.sold} sold · source</span>)
+                      : (<span className="text-[0.65rem] font-mono uppercase border border-border bg-muted text-muted-foreground px-2 py-0.5 rounded-sm">No source state published</span>)}
                   </div>
                   {bld.secondary && <p className="text-xs text-muted-foreground mb-2">{bld.secondary}</p>}
                   <div className="text-[0.72rem] font-mono text-muted-foreground">{b.unit_count} units</div>
@@ -165,7 +254,7 @@ export default function AldarProject() {
             );
           })}
         </div>
-        {buildings.length === 0 && (<div className="text-center text-muted-foreground py-10">No buildings match your filter.</div>)}
+        {buildings.length === 0 && (<div className="text-center text-muted-foreground py-10">No buildings match the selected official source state.</div>)}
       </section>
     </div>
   );

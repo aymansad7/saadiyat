@@ -1100,3 +1100,8 @@
 - [x] Log raw official transitions such as `New → Sold` as clickable source-status history, including in daily sold rollups, while retaining the source provenance
 - [x] Clarify UI semantics across Aldar cards: green is only confirmed `Available`; Aldar `New` is blue source-state; no source record is labelled `Sold out` merely because availability is unknown
 - [x] Run TypeScript and full regression suite: 77 Vitest files / 425 tests passed
+
+### Sei Source-State Visibility (Sep 20, 2026)
+- [x] Correct source-status precedence so the latest guarded Aldar label (`Available`, `Booked`, `Blocked`, or `Sold`) overrides the historical imported `New` label on Sei cards
+- [x] Add a mobile-first, project-wide official-source summary with explicit Available, New, Booked, Blocked, Reserved, and Sold counts and tap-to-filter building cards
+- [x] Keep green exclusive to confirmed Available and label all raw Aldar source states distinctly; verified the live Sei breakdown and focused regression tests
