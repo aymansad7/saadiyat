@@ -11,6 +11,8 @@ import type { StatusBreakdown } from "@/data/aldar";
 import { buildingDisplayName } from "@/data/aldar/buildingLabels";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { trpc } from "@/lib/trpc";
+import TalayProjectGallery from "@/components/TalayProjectGallery";
+import { isTalayProjectSlug } from "@/data/talayProjectMedia";
 
 type SourceStatusFilter = "all" | keyof Omit<StatusBreakdown, "total">;
 
@@ -226,6 +228,7 @@ export default function AldarProject() {
       </section>
       <ProjectReleaseSummary summary={(project as any).release_summary} />
       <ProjectStartingPrices pricing={(project as any).published_starting_prices} />
+      {isTalayProjectSlug(project.slug) && <TalayProjectGallery />}
       <section className="container py-8 sm:py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {buildings.map((b: any) => {

@@ -1105,3 +1105,8 @@
 - [x] Correct source-status precedence so the latest guarded Aldar label (`Available`, `Booked`, `Blocked`, or `Sold`) overrides the historical imported `New` label on Sei cards
 - [x] Add a mobile-first, project-wide official-source summary with explicit Available, New, Booked, Blocked, Reserved, and Sold counts and tap-to-filter building cards
 - [x] Keep green exclusive to confirmed Available and label all raw Aldar source states distinctly; verified the live Sei breakdown and focused regression tests
+
+### Talay Project Imagery (Sep 20, 2026)
+- [x] Upload all 10 supplied Talay / Marsa Al Saadiyat visuals to managed web storage
+- [x] Add a project-level Talay visual collection with a hero perspective, mobile carousel, full-screen gallery, and explicit project-not-unit provenance
+- [x] Preserve every supplied image without attaching it to an exact villa, plot, view, or floor plan
