@@ -6,7 +6,7 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
 import { registerDcrZipRoute } from "./dcrZip";
-import { inventorySyncScheduledHandler, seiPriceMonitorScheduledHandler } from "../scheduledSync";
+import { inventorySyncScheduledHandler, seiPriceMonitorScheduledHandler, yasRivaReservePriceMonitorScheduledHandler } from "../scheduledSync";
 import { aldarOfficialLinkHandler } from "../aldarOfficialLink";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
@@ -44,6 +44,7 @@ async function startServer() {
   // Vite/static fallthrough. /api/scheduled/* is not auto-registered.
   app.post("/api/scheduled/inventorySync", inventorySyncScheduledHandler);
   app.post("/api/scheduled/seiPriceMonitor", seiPriceMonitorScheduledHandler);
+  app.post("/api/scheduled/yasRivaReservePriceMonitor", yasRivaReservePriceMonitorScheduledHandler);
   app.get("/api/aldar/official-link", aldarOfficialLinkHandler);
   // tRPC API
   app.use(

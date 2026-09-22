@@ -101,6 +101,7 @@ function Inner() {
   }
 
   const { project, building, unit } = ctxq.data;
+  const displayStatus = unit.source_unit_status ?? unit.status;
   const plans = unit.payment_plans ? parsePaymentPlans(unit.payment_plans) : [];
   const extendedUnit = unit as typeof unit & {
     price_per_sqm_aed?: number | null;
@@ -170,11 +171,16 @@ function Inner() {
               <h1 className="font-display text-4xl sm:text-[3.2rem] leading-none text-foreground">
                 Unit <span className="num-display">{shortUnitNumber(unit.unit_name)}</span>
               </h1>
-              <AldarStatusBadge status={unit.status} />
+              <AldarStatusBadge status={displayStatus} />
             </div>
             <div className="mt-2 font-mono text-[0.72rem] uppercase tracking-[0.18em] text-muted-foreground">
               {unit.unit_name}
             </div>
+            {unit.source_unit_status && (
+              <p className="mt-2 text-xs text-muted-foreground">
+                Aldar Explorer source state: <span className="font-medium text-foreground">{unit.source_unit_status}</span>. This is distinct from NAS resale availability.
+              </p>
+            )}
             <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4">
               <KeyFact
                 label="Original price (without add-ons)"

@@ -161,6 +161,11 @@ export function statusGroup(status: string | null): string {
   return "other";
 }
 
+/** Prefer a live World of Aldar explorer label for presentation only. */
+export function displayStatus(unit: Pick<AldarOtherUnit, "status" | "source_unit_status">): string | null {
+  return unit.source_unit_status ?? unit.status;
+}
+
 type StatusBreakdown = {
   available: number;
   new: number;
@@ -172,7 +177,7 @@ type StatusBreakdown = {
   total: number;
 };
 
-export function breakdown(units: { status: string | null }[]): StatusBreakdown {
+export function breakdown(units: Array<Pick<AldarOtherUnit, "status" | "source_unit_status">>): StatusBreakdown {
   const out: StatusBreakdown = {
     available: 0,
     new: 0,
@@ -184,7 +189,7 @@ export function breakdown(units: { status: string | null }[]): StatusBreakdown {
     total: 0,
   };
   for (const u of units) {
-    const k = statusGroup(u.status) as keyof Omit<StatusBreakdown, "total">;
+    const k = statusGroup(displayStatus(u)) as keyof Omit<StatusBreakdown, "total">;
     out[k] += 1;
     out.total += 1;
   }
@@ -249,7 +254,7 @@ export const aldarOtherRouter = router({
       const cards: ProjectCard[] = [];
       for (const p of importedRows) {
         const allUnits = p.buildings.flatMap(b => b.units);
-        const liveUnits = allUnits.filter(u => isLive(u.status));
+        const liveUnits = allUnits.filter(u => isLive(displayStatus(u)));
         const documentedPrices = allUnits
           .map(u => u.price_aed)
           .filter((n): n is number => typeof n === "number" && n > 0);
@@ -334,7 +339,7 @@ export const aldarOtherRouter = router({
         unit_count: p.unit_count,
         building_count: p.building_count,
         breakdown: breakdown(allUnits),
-        live_count: allUnits.filter(u => isLive(u.status)).length,
+        live_count: allUnits.filter(u => isLive(displayStatus(u))).length,
         available_count: allUnits.filter(u => statusGroup(u.status) === "available").length,
       };
     });
@@ -366,7 +371,7 @@ export const aldarOtherRouter = router({
           name: b.name,
           unit_count: b.unit_count,
           breakdown: breakdown(b.units),
-          live_count: b.units.filter(u => isLive(u.status)).length,
+          live_count: b.units.filter(u => isLive(displayStatus(u))).length,
           price_min: (() => {
             const prices = b.units.map(u => u.price_aed).filter((value): value is number => typeof value === "number" && value > 0);
             return prices.length ? Math.min(...prices) : null;
@@ -459,14 +464,14 @@ export const aldarOtherRouter = router({
           for (const u of b.units) {
             if (!u.unit_name) continue;
             if (!u.unit_name.toLowerCase().includes(q)) continue;
-            if (input.liveOnly && !isLive(u.status)) continue;
+            if (input.liveOnly && !isLive(displayStatus(u))) continue;
             hits.push({
               projectSlug: p.slug,
               projectName: p.name,
               buildingSlug: b.slug,
               buildingName: b.name,
               unitName: u.unit_name,
-              status: u.status,
+              status: displayStatus(u),
               price_aed: u.price_aed,
               aldar_link: u.aldar_link,
               bedrooms: u.bedrooms,

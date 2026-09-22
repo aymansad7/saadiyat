@@ -125,13 +125,18 @@ function currentAldarUnitUrl(projectSlug: string | null | undefined, unitName: s
                               })()
       : ["rise-by-athlon-1", "rise-by-athlon-2", "rise-by-athlon-3", "rise-by-athlon-4"].includes(project)
         ? prefixed(/^risebyathlon-(.+)$/i, "risebyathlon")
-        : project === "the-sustainable-city-yas-island"
+          : project === "the-sustainable-city-yas-island"
           ? (() => {
               const match = /^sc-yn7-th-(\d+)$/i.exec(unit);
               return match ? { projectPath: "sc", code: `YN7-${match[1]}-01` } : null;
             })()
-        : project === "sama-yas"
-          ? prefixed(/^samayas-(.+)$/i, "samayas")
+          : project === "yas-riva-reserve"
+            ? (() => {
+                const match = /^yasrivareserve-(il|wf)-v-(\d{3})-01$/i.exec(unit);
+                return match ? { projectPath: "yasrivareserve", code: `${match[1].toUpperCase()}-${match[2]}-01` } : null;
+              })()
+          : project === "sama-yas"
+            ? prefixed(/^samayas-(.+)$/i, "samayas")
           : project === "yas-links-luxury-living"
             ? prefixed(/^yaslinksluxury-(.+)$/i, "yaslinksluxury")
             : project === "yas-park-place"

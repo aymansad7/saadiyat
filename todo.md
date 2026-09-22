@@ -1110,3 +1110,11 @@
 - [x] Upload all 10 supplied Talay / Marsa Al Saadiyat visuals to managed web storage
 - [x] Add a project-level Talay visual collection with a hero perspective, mobile carousel, full-screen gallery, and explicit project-not-unit provenance
 - [x] Preserve every supplied image without attaching it to an exact villa, plot, view, or floor plan
+
+### Yas Riva Reserve — Yas Island (22 Sep 2026)
+- [x] Verified the official World of Aldar community route and captured its complete 292-villa release: 247 Inland (96 × 4BR, 116 × 5BR, 35 × 6BR) and 45 Waterfront (17 × 5BR, 28 × 6BR).
+- [x] Added the project as **Yas Riva Reserve** under Yas Island in Other Aldar, with exact Aldar unit links, floorplan availability, saleable/total area, and raw `New` source state shown separately from NAS resale availability.
+- [x] Saved the official source HTML and capture summary to the configured OneDrive operations archive; imported 292 exact cards and source-state records.
+- [x] Checked the official project page and representative unit-detail API records: no valid official prices are published yet; blank and AED 1 placeholders are excluded.
+- [x] Added safe daily source refresh plus an hourly official price-release monitor: on first valid pricing it will capture all 292 exact unit prices, write unit history, archive source evidence in OneDrive, notify the owner, and pause its release monitor.
+- [ ] Create and enable the production hourly Yas Riva Reserve price-monitor heartbeat after the checkpoint is published.

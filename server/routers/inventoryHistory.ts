@@ -155,7 +155,7 @@ export const inventoryHistoryRouter = router({
   /** Refresh every enabled official live source, then record each source's result. */
   syncNow: adminProcedure.mutation(async ({ ctx }) => {
     const who = ctx.user?.email || ctx.user?.name || "admin";
-    const { ghadeer, sei, talay } = await runManualOfficialAldarRefresh(who);
+    const { ghadeer, sei, talay, yasRivaReserve } = await runManualOfficialAldarRefresh(who);
     const ghadeerResult = ghadeer.status === "success"
       ? ghadeer.result as Awaited<ReturnType<typeof import("../alGhadeerOfficialSync").refreshAlGhadeerOfficialInventory>>
       : null;
@@ -165,11 +165,15 @@ export const inventoryHistoryRouter = router({
     const talayResult = talay.status === "success"
       ? talay.result as Awaited<ReturnType<typeof import("../talayOfficialSync").refreshTalayOfficialInventory>>
       : null;
+    const yasRivaReserveResult = yasRivaReserve.status === "success"
+      ? yasRivaReserve.result as Awaited<ReturnType<typeof import("../yasRivaReserveOfficialSync").refreshYasRivaReserveOfficialInventory>>
+      : null;
     const zeroCounts = { unitsScanned: 0, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 };
     const ghadeerCounts = ghadeerResult?.counts ?? zeroCounts;
     const seiCounts = seiResult && "counts" in seiResult && seiResult.counts ? seiResult.counts : zeroCounts;
     const talayCounts = talayResult?.counts ?? zeroCounts;
-    const counts = [ghadeerCounts, seiCounts, talayCounts].reduce((total, next) => ({
+    const yasRivaReserveCounts = yasRivaReserveResult?.counts ?? zeroCounts;
+    const counts = [ghadeerCounts, seiCounts, talayCounts, yasRivaReserveCounts].reduce((total, next) => ({
       unitsScanned: total.unitsScanned + next.unitsScanned,
       newUnits: total.newUnits + next.newUnits,
       soldUnits: total.soldUnits + next.soldUnits,
@@ -179,14 +183,14 @@ export const inventoryHistoryRouter = router({
       removedUnits: total.removedUnits + next.removedUnits,
     }), zeroCounts);
     const seiRollups = seiResult && "rollups" in seiResult && Array.isArray(seiResult.rollups) ? seiResult.rollups : [];
-    const rollups = [...(ghadeerResult?.rollups ?? []), ...seiRollups, ...(talayResult?.rollups ?? [])];
+    const rollups = [...(ghadeerResult?.rollups ?? []), ...seiRollups, ...(talayResult?.rollups ?? []), ...(yasRivaReserveResult?.rollups ?? [])];
     return {
-      status: ghadeer.status === "success" && sei.status === "success" && talay.status === "success" ? "success" : "partial",
-      captureDate: ghadeerResult?.captureDate ?? (seiResult && "captureDate" in seiResult ? seiResult.captureDate : null) ?? talayResult?.captureDate ?? null,
-      runId: ghadeerResult?.runId ?? (seiResult && "runId" in seiResult ? seiResult.runId : null) ?? talayResult?.statusRunId ?? null,
+      status: ghadeer.status === "success" && sei.status === "success" && talay.status === "success" && yasRivaReserve.status === "success" ? "success" : "partial",
+      captureDate: ghadeerResult?.captureDate ?? (seiResult && "captureDate" in seiResult ? seiResult.captureDate : null) ?? talayResult?.captureDate ?? yasRivaReserveResult?.captureDate ?? null,
+      runId: ghadeerResult?.runId ?? (seiResult && "runId" in seiResult ? seiResult.runId : null) ?? talayResult?.statusRunId ?? yasRivaReserveResult?.runId ?? null,
       counts,
       rollups,
-      newProjects: ghadeerResult?.newProjects ?? [],
+      newProjects: [...(ghadeerResult?.newProjects ?? []), ...(yasRivaReserveResult?.newProjects ?? [])],
       summary: buildSyncChangeSummary(counts, rollups),
       liveSources: {
         alGhadeer: {
@@ -217,6 +221,16 @@ export const inventoryHistoryRouter = router({
           publishedPriceCount: talayResult?.publishedPriceCount ?? 0,
           priceChangeCount: talayResult?.priceChangeCount ?? 0,
           message: talay.status === "error" ? talay.message : null,
+        },
+        yasRivaReserve: {
+          status: yasRivaReserve.status,
+          captureDate: yasRivaReserveResult?.captureDate ?? null,
+          runId: yasRivaReserveResult?.runId ?? null,
+          sourceUnitCount: yasRivaReserveResult?.sourceUnitCount ?? 0,
+          sourceStatusChangeCount: yasRivaReserveResult?.sourceStatusChangeCount ?? 0,
+          publishedPriceCount: yasRivaReserveResult?.publishedPriceCount ?? 0,
+          priceChangeCount: yasRivaReserveResult?.priceChangeCount ?? 0,
+          message: yasRivaReserve.status === "error" ? yasRivaReserve.message : null,
         },
       },
     };

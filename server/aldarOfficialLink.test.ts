@@ -111,6 +111,7 @@ describe("official Aldar unit link validation", () => {
     ["sama-yas", "SamaYas-B1-02-02", "samayas", "B1-02-02"],
     ["yas-links-luxury-living", "YasLinksLuxury-B1-08-01", "yaslinksluxury", "B1-08-01"],
     ["yas-park-place", "YasParkPlace-B1-01-01", "yasparkplace", "B1-01-01"],
+    ["yas-riva-reserve", "YasRivaReserve-WF-V-100-01", "yasrivareserve", "WF-100-01"],
     ["faya-al-saadiyat", "FayaAlSaadiyat-SB45-V-21-01", "fayaalsaadiyat", "FayaAlSaadiyat-SB45-V-21-01"],
     ["faya-al-saadiyat-ii", "FayaAlSaadiyatII-SDN2-V-01-01", "fayaalsaadiyatii", "SDN2-01-01"],
     ["talay-at-marsa-al-saadiyat", "Talay-MarsaAlSaadiyat-V-001-01", "talay", "MarsaAlSaadiyat-001-01"],

@@ -62,6 +62,7 @@ function Inner() {
   );
 
   const allUnits = building.data?.units ?? [];
+  const displayStatus = (unit: typeof allUnits[number]) => unit.source_unit_status ?? unit.status;
 
   // Bulk-fetch villa-listing rows for every unit in this building.
   const listingPrefix =
@@ -89,7 +90,7 @@ function Inner() {
     });
     if (liveOnly)
       list = list.filter(u => {
-        const b = statusBucket(u.status);
+        const b = statusBucket(displayStatus(u));
         return b !== "sold" && b !== "other";
       });
     if (bedroomFilter !== "all")
@@ -104,8 +105,8 @@ function Inner() {
       other: 5,
       sold: 6,
     };
-    const statusRank = (u: { status: string | null }) =>
-      statusOrder[statusBucket(u.status)] ?? 9;
+    const statusRank = (u: typeof allUnits[number]) =>
+      statusOrder[statusBucket(displayStatus(u))] ?? 9;
 
     if (sort === "price_asc") {
       list.sort((a, b) => {
@@ -140,7 +141,7 @@ function Inner() {
   const totalLive = useMemo(
     () =>
       (allUnits ?? []).filter(u => {
-        const b = statusBucket(u.status);
+        const b = statusBucket(displayStatus(u));
         return b !== "sold" && b !== "other";
       }).length,
     [allUnits],
@@ -290,7 +291,7 @@ function Inner() {
                       </Link>
                     </td>
                     <td className="px-4 py-3">{u.bedrooms ? `${u.bedrooms} BR` : "—"}</td>
-                    <td className="px-4 py-3"><AldarStatusBadge status={u.status} /></td>
+                    <td className="px-4 py-3"><AldarStatusBadge status={displayStatus(u)} /></td>
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.plot_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-mono">{formatArea({ sqm: u.total_area_sqm ?? u.saleable_area_sqm }, areaUnit)}</td>
                     <td className="px-4 py-3 font-semibold">AED {fmtAed(u.price_aed)}</td>
@@ -319,7 +320,7 @@ function Inner() {
                     </div>
                     <div className="flex items-center gap-1.5 flex-wrap justify-end">
                       <ListingBadge status={listing?.status ?? null} />
-                      <AldarStatusBadge status={u.status} />
+                      <AldarStatusBadge status={displayStatus(u)} />
                     </div>
                   </div>
                   <div className="font-display text-2xl text-foreground leading-none">
