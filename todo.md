@@ -1117,4 +1117,4 @@
 - [x] Saved the official source HTML and capture summary to the configured OneDrive operations archive; imported 292 exact cards and source-state records.
 - [x] Checked the official project page and representative unit-detail API records: no valid official prices are published yet; blank and AED 1 placeholders are excluded.
 - [x] Added safe daily source refresh plus an hourly official price-release monitor: on first valid pricing it will capture all 292 exact unit prices, write unit history, archive source evidence in OneDrive, notify the owner, and pause its release monitor.
-- [ ] Create and enable the production hourly Yas Riva Reserve price-monitor heartbeat after the checkpoint is published.
+- [x] Created and verified the enabled production hourly Yas Riva Reserve price-monitor heartbeat (`3nJAfFkdayU5PAhzxYnuqH`), scheduled from 08:00 through 23:00 Gulf time.

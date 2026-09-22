@@ -329,7 +329,10 @@ export default function AdminInventoryHistory() {
       const ghadeerSummary = res.liveSources.alGhadeer.status === "error"
         ? `Al Ghadeer unavailable: ${res.liveSources.alGhadeer.message ?? "source refresh failed"}`
         : null;
-      const message = `Sync ${res.status} — ${res.summary.headline} · Sei: ${seiSummary}${ghadeerSummary ? ` · ${ghadeerSummary}` : ""}`;
+      const yasRivaReserveSummary = res.liveSources.yasRivaReserve.status === "error"
+        ? `Yas Riva Reserve unavailable: ${res.liveSources.yasRivaReserve.message ?? "source refresh failed"}`
+        : `${res.liveSources.yasRivaReserve.publishedPriceCount} official Yas Riva Reserve prices (${res.liveSources.yasRivaReserve.sourceUnitCount} source units)`;
+      const message = `Sync ${res.status} — ${res.summary.headline} · Sei: ${seiSummary} · Yas Riva Reserve: ${yasRivaReserveSummary}${ghadeerSummary ? ` · ${ghadeerSummary}` : ""}`;
       if (res.status === "partial") toast.error(message);
       else toast.success(message);
       utils.inventoryHistory.latestRun.invalidate();
