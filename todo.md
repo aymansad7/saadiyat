@@ -1118,3 +1118,10 @@
 - [x] Checked the official project page and representative unit-detail API records: no valid official prices are published yet; blank and AED 1 placeholders are excluded.
 - [x] Added safe daily source refresh plus an hourly official price-release monitor: on first valid pricing it will capture all 292 exact unit prices, write unit history, archive source evidence in OneDrive, notify the owner, and pause its release monitor.
 - [x] Created and verified the enabled production hourly Yas Riva Reserve price-monitor heartbeat (`3nJAfFkdayU5PAhzxYnuqH`), scheduled from 08:00 through 23:00 Gulf time.
+
+### Talay & Talay Beach Official Inventory Refresh (23 Sep 2026)
+- [x] Captured live World of Aldar exact-unit details for Talay and Talay Beach: current official AED price, raw source status, bedroom count, typology, plot area, saleable/BUA area, balcony, configuration/facade fields, floor-plan/interior availability, and AED 100,000 reservation amount where published.
+- [x] Updated Talay’s 167 verified production villas with 167 current official prices (AED 13,376,066–18,600,201); current official source states: 76 Available, 68 New, 14 Booked, 7 Blocked, 1 Reserved, and 1 In-Progress. The exact Talay unit URLs were verified and retained.
+- [x] Added Talay Beach Villas as a separate Saadiyat / Marsa Al Saadiyat project with 184 official villa cards and 184 current official prices (AED 14,070,586–19,765,273): 108 Available, 36 New, 30 Booked, 7 Blocked, and 3 In-Progress. Direct Talay Beach property-page links are intentionally not shown because Aldar’s current direct route returned 404; no URL was invented.
+- [x] Added both phases to the daily World of Aldar sync and the Master Admin Sync Now response. A full snapshot is allowed only on verified coverage; otherwise only price/source-status/descriptive fields for observed exact units patch, never removing unseen inventory.
+- [x] Archived the current official HTML/detail evidence privately in OneDrive and local private audit storage; customer-facing cards expose only documented unit data.

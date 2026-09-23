@@ -155,7 +155,7 @@ export const inventoryHistoryRouter = router({
   /** Refresh every enabled official live source, then record each source's result. */
   syncNow: adminProcedure.mutation(async ({ ctx }) => {
     const who = ctx.user?.email || ctx.user?.name || "admin";
-    const { ghadeer, sei, talay, yasRivaReserve } = await runManualOfficialAldarRefresh(who);
+    const { ghadeer, sei, talay, talayBeach, yasRivaReserve } = await runManualOfficialAldarRefresh(who);
     const ghadeerResult = ghadeer.status === "success"
       ? ghadeer.result as Awaited<ReturnType<typeof import("../alGhadeerOfficialSync").refreshAlGhadeerOfficialInventory>>
       : null;
@@ -165,6 +165,9 @@ export const inventoryHistoryRouter = router({
     const talayResult = talay.status === "success"
       ? talay.result as Awaited<ReturnType<typeof import("../talayOfficialSync").refreshTalayOfficialInventory>>
       : null;
+    const talayBeachResult = talayBeach.status === "success"
+      ? talayBeach.result as Awaited<ReturnType<typeof import("../talayBeachOfficialSync").refreshTalayBeachOfficialInventory>>
+      : null;
     const yasRivaReserveResult = yasRivaReserve.status === "success"
       ? yasRivaReserve.result as Awaited<ReturnType<typeof import("../yasRivaReserveOfficialSync").refreshYasRivaReserveOfficialInventory>>
       : null;
@@ -172,8 +175,9 @@ export const inventoryHistoryRouter = router({
     const ghadeerCounts = ghadeerResult?.counts ?? zeroCounts;
     const seiCounts = seiResult && "counts" in seiResult && seiResult.counts ? seiResult.counts : zeroCounts;
     const talayCounts = talayResult?.counts ?? zeroCounts;
+    const talayBeachCounts = talayBeachResult?.counts ?? zeroCounts;
     const yasRivaReserveCounts = yasRivaReserveResult?.counts ?? zeroCounts;
-    const counts = [ghadeerCounts, seiCounts, talayCounts, yasRivaReserveCounts].reduce((total, next) => ({
+    const counts = [ghadeerCounts, seiCounts, talayCounts, talayBeachCounts, yasRivaReserveCounts].reduce((total, next) => ({
       unitsScanned: total.unitsScanned + next.unitsScanned,
       newUnits: total.newUnits + next.newUnits,
       soldUnits: total.soldUnits + next.soldUnits,
@@ -183,11 +187,11 @@ export const inventoryHistoryRouter = router({
       removedUnits: total.removedUnits + next.removedUnits,
     }), zeroCounts);
     const seiRollups = seiResult && "rollups" in seiResult && Array.isArray(seiResult.rollups) ? seiResult.rollups : [];
-    const rollups = [...(ghadeerResult?.rollups ?? []), ...seiRollups, ...(talayResult?.rollups ?? []), ...(yasRivaReserveResult?.rollups ?? [])];
+    const rollups = [...(ghadeerResult?.rollups ?? []), ...seiRollups, ...(talayResult?.rollups ?? []), ...(talayBeachResult?.rollups ?? []), ...(yasRivaReserveResult?.rollups ?? [])];
     return {
-      status: ghadeer.status === "success" && sei.status === "success" && talay.status === "success" && yasRivaReserve.status === "success" ? "success" : "partial",
-      captureDate: ghadeerResult?.captureDate ?? (seiResult && "captureDate" in seiResult ? seiResult.captureDate : null) ?? talayResult?.captureDate ?? yasRivaReserveResult?.captureDate ?? null,
-      runId: ghadeerResult?.runId ?? (seiResult && "runId" in seiResult ? seiResult.runId : null) ?? talayResult?.statusRunId ?? yasRivaReserveResult?.runId ?? null,
+      status: ghadeer.status === "success" && sei.status === "success" && talay.status === "success" && talayBeach.status === "success" && yasRivaReserve.status === "success" ? "success" : "partial",
+      captureDate: ghadeerResult?.captureDate ?? (seiResult && "captureDate" in seiResult ? seiResult.captureDate : null) ?? talayResult?.captureDate ?? talayBeachResult?.captureDate ?? yasRivaReserveResult?.captureDate ?? null,
+      runId: ghadeerResult?.runId ?? (seiResult && "runId" in seiResult ? seiResult.runId : null) ?? talayResult?.runId ?? talayBeachResult?.runId ?? yasRivaReserveResult?.runId ?? null,
       counts,
       rollups,
       newProjects: [...(ghadeerResult?.newProjects ?? []), ...(yasRivaReserveResult?.newProjects ?? [])],
@@ -214,13 +218,23 @@ export const inventoryHistoryRouter = router({
         talay: {
           status: talay.status,
           captureDate: talayResult?.captureDate ?? null,
-          statusRunId: talayResult?.statusRunId ?? null,
+          statusRunId: talayResult?.runId ?? null,
           priceRunId: talayResult?.priceRunId ?? null,
           sourceUnitCount: talayResult?.sourceUnitCount ?? 0,
           sourceStatusChangeCount: talayResult?.sourceStatusChangeCount ?? 0,
           publishedPriceCount: talayResult?.publishedPriceCount ?? 0,
           priceChangeCount: talayResult?.priceChangeCount ?? 0,
           message: talay.status === "error" ? talay.message : null,
+        },
+        talayBeach: {
+          status: talayBeach.status,
+          captureDate: talayBeachResult?.captureDate ?? null,
+          runId: talayBeachResult?.runId ?? null,
+          sourceUnitCount: talayBeachResult?.sourceUnitCount ?? 0,
+          sourceStatusChangeCount: talayBeachResult?.sourceStatusChangeCount ?? 0,
+          publishedPriceCount: talayBeachResult?.publishedPriceCount ?? 0,
+          priceChangeCount: talayBeachResult?.priceChangeCount ?? 0,
+          message: talayBeach.status === "error" ? talayBeach.message : null,
         },
         yasRivaReserve: {
           status: yasRivaReserve.status,

@@ -15,6 +15,6 @@ describe("Talay official source selection", () => {
 
   it("fails closed if the official page coverage is incomplete", () => {
     const source = [unit("Talay-MarsaAlSaadiyat-V-000-01_TEST"), ...Array.from({ length: 166 }, (_, index) => unit(`Talay-MarsaAlSaadiyat-V-${String(index + 1).padStart(3, "0")}-01`))];
-    expect(() => selectTalayProductionSourceUnits(source)).toThrow(/coverage is incomplete/i);
+    expect(() => selectTalayProductionSourceUnits(source)).toThrow(/source coverage/i);
   });
 });
