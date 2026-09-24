@@ -14,5 +14,7 @@ describe("inventory sales price-change filter", () => {
     expect(matchesSalesStatusFilter(unit, "available", new Set())).toBe(true);
     expect(matchesSalesStatusFilter({ ...unit, status: "New" }, "available", new Set())).toBe(false);
     expect(matchesSalesStatusFilter({ ...unit, status: "New" }, "new", new Set())).toBe(true);
+    expect(matchesSalesStatusFilter({ ...unit, status: "Blocked" }, "blocked", new Set())).toBe(true);
+    expect(matchesSalesStatusFilter({ ...unit, status: "Sold" }, "sold", new Set())).toBe(true);
   });
 });

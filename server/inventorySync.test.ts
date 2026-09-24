@@ -90,20 +90,19 @@ describe("sales-desk detail routes", () => {
     expect(getInventoryUnitHref(unit({ unitName: "No building", buildingSlug: null }))).toBeNull();
   });
 
-  it("retains same-named purchasable units from different projects", () => {
+  it("retains same-named units from different projects across all official states", () => {
     const units = toCurrentSaleInventoryUnits([
       unit({ unitName: "A-101", projectSlug: "one", projectName: "One", status: "Available" }),
       unit({ unitName: "A-101", projectSlug: "two", projectName: "Two", status: "New" }),
       unit({ unitName: "A-102", projectSlug: "two", projectName: "Two", status: "Sold" }),
     ]);
-    expect(units).toHaveLength(2);
-    expect(units.map(item => item.projectSlug)).toEqual(["one", "two"]);
+    expect(units).toHaveLength(3);
+    expect(units.map(item => item.status)).toEqual(["Available", "New", "Sold"]);
   });
 
-  it("keeps every purchasable record from the deployed Aldar snapshot linked to its exact unit route", () => {
+  it("keeps every deployed Aldar record linked to its exact unit route", () => {
     const units = toCurrentSaleInventoryUnits(loadSnapshotUnits());
     expect(units.length).toBeGreaterThan(0);
-    expect(units.every(item => isSaleAvailableStatus(item.status))).toBe(true);
     expect(units.every(item => item.href !== null)).toBe(true);
   });
 
@@ -271,6 +270,27 @@ describe("official source-status patch events", () => {
       unitName: "Talay-MarsaAlSaadiyat-V-001-01",
       sourceStatus: "New",
     }])).toEqual([]);
+  });
+
+  it("can backfill an official source change from a prior legacy snapshot status", () => {
+    const prev = prevMap([{
+      unitName: "YasParkPlace-B1-02-03",
+      dataset: "other",
+      projectSlug: "yas-park-place",
+      status: "Available",
+      sourceStatus: null,
+      priceAed: 3_297_751,
+      isPresent: true,
+    }]);
+    const events = computeOfficialSourceStatusPatchEvents(prev, "other", "yas-park-place", [{
+      unitName: "YasParkPlace-B1-02-03",
+      sourceStatus: "Sold",
+    }], { legacyStatusFallback: true });
+    expect(events).toEqual([expect.objectContaining({
+      eventType: "source_status_change",
+      fromSourceStatus: "Available",
+      toSourceStatus: "Sold",
+    })]);
   });
 
   it("counts an official source transition to Sold in the daily sold rollup", () => {

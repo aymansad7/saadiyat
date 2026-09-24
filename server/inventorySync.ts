@@ -345,6 +345,7 @@ export function computeOfficialSourceStatusPatchEvents(
   dataset: Dataset,
   projectSlug: string,
   statuses: readonly OfficialSourceStatusPatch[],
+  opts?: { legacyStatusFallback?: boolean },
 ): DiffEvent[] {
   const latestStatuses = new Map<string, string>();
   for (const status of statuses) {
@@ -355,8 +356,13 @@ export function computeOfficialSourceStatusPatchEvents(
   const events: DiffEvent[] = [];
   for (const [unitName, sourceStatus] of Array.from(latestStatuses.entries())) {
     const state = prev.get(inventoryUnitKey({ dataset, projectSlug, unitName }));
-    // A first source value only establishes a baseline; it is not a change.
-    if (!state || !state.isPresent || state.sourceStatus == null || normStatus(state.sourceStatus) === normStatus(sourceStatus)) continue;
+    if (!state || !state.isPresent) continue;
+    // A first raw source value normally establishes a baseline. A narrowly
+    // requested legacy backfill may compare it with the last stored official
+    // snapshot status instead, while retaining the event as a source-state
+    // change rather than touching NAS operational availability.
+    const previousSourceStatus = state.sourceStatus ?? (opts?.legacyStatusFallback ? state.status : null);
+    if (previousSourceStatus == null || normStatus(previousSourceStatus) === normStatus(sourceStatus)) continue;
     events.push({
       unitName,
       dataset,
@@ -365,7 +371,7 @@ export function computeOfficialSourceStatusPatchEvents(
       eventType: "source_status_change",
       fromStatus: null,
       toStatus: null,
-      fromSourceStatus: state.sourceStatus,
+      fromSourceStatus: previousSourceStatus,
       toSourceStatus: sourceStatus,
       fromPriceAed: null,
       toPriceAed: null,
@@ -1066,6 +1072,8 @@ export async function applyOfficialUnitSourceStatusPatch(opts: {
   dataset: Dataset;
   projectSlug: string;
   statuses: readonly OfficialSourceStatusPatch[];
+  /** Compare a missing raw source baseline to the prior official snapshot status. */
+  legacyStatusFallback?: boolean;
 }): Promise<{
   runId: number;
   counts: RunCounts;
@@ -1118,6 +1126,7 @@ export async function applyOfficialUnitSourceStatusPatch(opts: {
       opts.dataset,
       opts.projectSlug,
       Array.from(latestStatuses, ([unitName, sourceStatus]) => ({ unitName, sourceStatus })),
+      { legacyStatusFallback: opts.legacyStatusFallback },
     );
 
     if (events.length) {
@@ -1320,14 +1329,13 @@ export async function listRecentInventoryEvents(input?: {
 }
 
 /**
- * Current purchasable Aldar units for the admin sales desk.
- * The database state is preferred because a manual JSON import is persisted
- * there. A bundled-data fallback keeps the first-run experience useful while
- * explicitly reporting that it has not yet been synced.
+ * Current Aldar units for the admin sales desk, across every published source
+ * state. The source explorer label wins whenever it is freshly captured; this
+ * lets the desk filter Sold, Blocked, Booked, Reserved, Available, and New
+ * rather than hiding non-purchasable records.
  */
 export function toCurrentSaleInventoryUnits(rows: SnapshotUnit[]) {
   return rows
-    .filter(unit => isSaleAvailableStatus(unit.status))
     .map(unit => ({
       dataset: unit.dataset,
       projectSlug: unit.projectSlug,
@@ -1336,7 +1344,8 @@ export function toCurrentSaleInventoryUnits(rows: SnapshotUnit[]) {
       buildingName: unit.buildingName,
       unitName: unit.unitName,
       aldarLink: unit.aldarLink,
-      status: unit.status,
+      status: unit.sourceStatus ?? unit.status,
+      sourceStatus: unit.sourceStatus,
       priceAed: unit.priceAed,
       bedrooms: unit.bedrooms,
       unitType: unit.unitType,

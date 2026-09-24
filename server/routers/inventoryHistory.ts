@@ -119,7 +119,7 @@ export const inventoryHistoryRouter = router({
       };
     }),
 
-  /** Current purchasable Aldar units, with exact internal detail links. */
+  /** Current Aldar source states, with exact internal detail links. */
   currentSaleInventory: adminProcedure.query(async () => {
     return listCurrentSaleInventory();
   }),
@@ -155,7 +155,7 @@ export const inventoryHistoryRouter = router({
   /** Refresh every enabled official live source, then record each source's result. */
   syncNow: adminProcedure.mutation(async ({ ctx }) => {
     const who = ctx.user?.email || ctx.user?.name || "admin";
-    const { ghadeer, sei, talay, talayBeach, yasRivaReserve } = await runManualOfficialAldarRefresh(who);
+    const { ghadeer, sei, talay, talayBeach, yasRivaReserve, yasParkPlace } = await runManualOfficialAldarRefresh(who);
     const ghadeerResult = ghadeer.status === "success"
       ? ghadeer.result as Awaited<ReturnType<typeof import("../alGhadeerOfficialSync").refreshAlGhadeerOfficialInventory>>
       : null;
@@ -171,13 +171,17 @@ export const inventoryHistoryRouter = router({
     const yasRivaReserveResult = yasRivaReserve.status === "success"
       ? yasRivaReserve.result as Awaited<ReturnType<typeof import("../yasRivaReserveOfficialSync").refreshYasRivaReserveOfficialInventory>>
       : null;
+    const yasParkPlaceResult = yasParkPlace.status === "success"
+      ? yasParkPlace.result as Awaited<ReturnType<typeof import("../yasParkPlaceOfficialSync").refreshYasParkPlaceOfficialInventory>>
+      : null;
     const zeroCounts = { unitsScanned: 0, newUnits: 0, soldUnits: 0, statusChanges: 0, sourceStatusChanges: 0, priceChanges: 0, removedUnits: 0 };
     const ghadeerCounts = ghadeerResult?.counts ?? zeroCounts;
     const seiCounts = seiResult && "counts" in seiResult && seiResult.counts ? seiResult.counts : zeroCounts;
     const talayCounts = talayResult?.counts ?? zeroCounts;
     const talayBeachCounts = talayBeachResult?.counts ?? zeroCounts;
     const yasRivaReserveCounts = yasRivaReserveResult?.counts ?? zeroCounts;
-    const counts = [ghadeerCounts, seiCounts, talayCounts, talayBeachCounts, yasRivaReserveCounts].reduce((total, next) => ({
+    const yasParkPlaceCounts = yasParkPlaceResult?.counts ?? zeroCounts;
+    const counts = [ghadeerCounts, seiCounts, talayCounts, talayBeachCounts, yasRivaReserveCounts, yasParkPlaceCounts].reduce((total, next) => ({
       unitsScanned: total.unitsScanned + next.unitsScanned,
       newUnits: total.newUnits + next.newUnits,
       soldUnits: total.soldUnits + next.soldUnits,
@@ -187,11 +191,11 @@ export const inventoryHistoryRouter = router({
       removedUnits: total.removedUnits + next.removedUnits,
     }), zeroCounts);
     const seiRollups = seiResult && "rollups" in seiResult && Array.isArray(seiResult.rollups) ? seiResult.rollups : [];
-    const rollups = [...(ghadeerResult?.rollups ?? []), ...seiRollups, ...(talayResult?.rollups ?? []), ...(talayBeachResult?.rollups ?? []), ...(yasRivaReserveResult?.rollups ?? [])];
+    const rollups = [...(ghadeerResult?.rollups ?? []), ...seiRollups, ...(talayResult?.rollups ?? []), ...(talayBeachResult?.rollups ?? []), ...(yasRivaReserveResult?.rollups ?? []), ...(yasParkPlaceResult?.rollups ?? [])];
     return {
-      status: ghadeer.status === "success" && sei.status === "success" && talay.status === "success" && talayBeach.status === "success" && yasRivaReserve.status === "success" ? "success" : "partial",
-      captureDate: ghadeerResult?.captureDate ?? (seiResult && "captureDate" in seiResult ? seiResult.captureDate : null) ?? talayResult?.captureDate ?? talayBeachResult?.captureDate ?? yasRivaReserveResult?.captureDate ?? null,
-      runId: ghadeerResult?.runId ?? (seiResult && "runId" in seiResult ? seiResult.runId : null) ?? talayResult?.runId ?? talayBeachResult?.runId ?? yasRivaReserveResult?.runId ?? null,
+      status: ghadeer.status === "success" && sei.status === "success" && talay.status === "success" && talayBeach.status === "success" && yasRivaReserve.status === "success" && yasParkPlace.status === "success" ? "success" : "partial",
+      captureDate: ghadeerResult?.captureDate ?? (seiResult && "captureDate" in seiResult ? seiResult.captureDate : null) ?? talayResult?.captureDate ?? talayBeachResult?.captureDate ?? yasRivaReserveResult?.captureDate ?? yasParkPlaceResult?.captureDate ?? null,
+      runId: ghadeerResult?.runId ?? (seiResult && "runId" in seiResult ? seiResult.runId : null) ?? talayResult?.runId ?? talayBeachResult?.runId ?? yasRivaReserveResult?.runId ?? yasParkPlaceResult?.runId ?? null,
       counts,
       rollups,
       newProjects: [...(ghadeerResult?.newProjects ?? []), ...(yasRivaReserveResult?.newProjects ?? [])],
@@ -245,6 +249,15 @@ export const inventoryHistoryRouter = router({
           publishedPriceCount: yasRivaReserveResult?.publishedPriceCount ?? 0,
           priceChangeCount: yasRivaReserveResult?.priceChangeCount ?? 0,
           message: yasRivaReserve.status === "error" ? yasRivaReserve.message : null,
+        },
+        yasParkPlace: {
+          status: yasParkPlace.status,
+          captureDate: yasParkPlaceResult?.captureDate ?? null,
+          runId: yasParkPlaceResult?.runId ?? null,
+          sourceUnitCount: yasParkPlaceResult?.sourceUnitCount ?? 0,
+          sourceStatusChangeCount: yasParkPlaceResult?.counts.sourceStatusChanges ?? 0,
+          availableCount: yasParkPlaceResult?.availableCount ?? 0,
+          message: yasParkPlace.status === "error" ? yasParkPlace.message : null,
         },
       },
     };

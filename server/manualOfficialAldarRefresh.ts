@@ -3,6 +3,7 @@ import { refreshSeiSaadiyatOfficialInventory } from "./seiSaadiyatOfficialSync";
 import { refreshTalayOfficialInventory } from "./talayOfficialSync";
 import { refreshTalayBeachOfficialInventory } from "./talayBeachOfficialSync";
 import { refreshYasRivaReserveOfficialInventory } from "./yasRivaReserveOfficialSync";
+import { refreshYasParkPlaceOfficialInventory } from "./yasParkPlaceOfficialSync";
 
 type RefreshInput = { trigger: "manual"; triggeredBy: string };
 
@@ -12,6 +13,7 @@ export type ManualOfficialRefreshDependencies = {
   refreshTalay: (input: RefreshInput) => Promise<Record<string, unknown>>;
   refreshTalayBeach: (input: RefreshInput) => Promise<Record<string, unknown>>;
   refreshYasRivaReserve: (input: RefreshInput) => Promise<Record<string, unknown>>;
+  refreshYasParkPlace: (input: RefreshInput) => Promise<Record<string, unknown>>;
 };
 
 export type ManualOfficialRefreshResult =
@@ -35,6 +37,7 @@ const defaultDependencies: ManualOfficialRefreshDependencies = {
   refreshTalay: refreshTalayOfficialInventory,
   refreshTalayBeach: refreshTalayBeachOfficialInventory,
   refreshYasRivaReserve: refreshYasRivaReserveOfficialInventory,
+  refreshYasParkPlace: refreshYasParkPlaceOfficialInventory,
 };
 
 /**
@@ -51,5 +54,6 @@ export async function runManualOfficialAldarRefresh(
   const talay = await safelyRefresh(dependencies.refreshTalay, input);
   const talayBeach = await safelyRefresh(dependencies.refreshTalayBeach, input);
   const yasRivaReserve = await safelyRefresh(dependencies.refreshYasRivaReserve, input);
-  return { ghadeer, sei, talay, talayBeach, yasRivaReserve };
+  const yasParkPlace = await safelyRefresh(dependencies.refreshYasParkPlace, input);
+  return { ghadeer, sei, talay, talayBeach, yasRivaReserve, yasParkPlace };
 }

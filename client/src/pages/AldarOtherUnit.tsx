@@ -178,7 +178,7 @@ function Inner() {
             </div>
             {unit.source_unit_status && (
               <p className="mt-2 text-xs text-muted-foreground">
-                Aldar Explorer source state: <span className="font-medium text-foreground">{unit.source_unit_status}</span>. This is distinct from NAS resale availability.
+                Current World of Aldar source state: <span className="font-medium text-foreground">{unit.source_unit_status}</span>{unit.source_captured_at ? ` · checked ${new Date(unit.source_captured_at).toLocaleString()}` : ""}. This is distinct from NAS resale availability.
               </p>
             )}
             <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-4">

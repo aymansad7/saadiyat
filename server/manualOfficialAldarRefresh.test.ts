@@ -24,15 +24,20 @@ describe("manual official Aldar refresh", () => {
       order.push(`yas-riva-reserve:${input.trigger}:${input.triggeredBy}`);
       return { runId: 5, sourceUnitCount: 292 };
     });
+    const refreshYasParkPlace = vi.fn(async input => {
+      order.push(`yas-park-place:${input.trigger}:${input.triggeredBy}`);
+      return { runId: 6, sourceUnitCount: 780 };
+    });
 
-    await expect(runManualOfficialAldarRefresh("master@example.com", { refreshGhadeer, refreshSei, refreshTalay, refreshTalayBeach, refreshYasRivaReserve })).resolves.toEqual({
+    await expect(runManualOfficialAldarRefresh("master@example.com", { refreshGhadeer, refreshSei, refreshTalay, refreshTalayBeach, refreshYasRivaReserve, refreshYasParkPlace })).resolves.toEqual({
       ghadeer: { status: "success", result: { runId: 1 } },
       sei: { status: "success", result: { runId: 2, publishedPriceCount: 0 } },
       talay: { status: "success", result: { runId: 3, sourceUnitCount: 167 } },
       talayBeach: { status: "success", result: { runId: 4, sourceUnitCount: 184 } },
       yasRivaReserve: { status: "success", result: { runId: 5, sourceUnitCount: 292 } },
+      yasParkPlace: { status: "success", result: { runId: 6, sourceUnitCount: 780 } },
     });
-    expect(order).toEqual(["ghadeer:manual:master@example.com", "sei:manual:master@example.com", "talay:manual:master@example.com", "talay-beach:manual:master@example.com", "yas-riva-reserve:manual:master@example.com"]);
+    expect(order).toEqual(["ghadeer:manual:master@example.com", "sei:manual:master@example.com", "talay:manual:master@example.com", "talay-beach:manual:master@example.com", "yas-riva-reserve:manual:master@example.com", "yas-park-place:manual:master@example.com"]);
   });
 
   it("returns a JSON-safe source error while continuing with the remaining capture", async () => {
@@ -41,12 +46,14 @@ describe("manual official Aldar refresh", () => {
     const refreshTalay = vi.fn(async () => ({ runId: 3, sourceUnitCount: 167 }));
     const refreshTalayBeach = vi.fn(async () => ({ runId: 4, sourceUnitCount: 184 }));
     const refreshYasRivaReserve = vi.fn(async () => ({ runId: 5, sourceUnitCount: 292 }));
-    await expect(runManualOfficialAldarRefresh("master@example.com", { refreshGhadeer, refreshSei, refreshTalay, refreshTalayBeach, refreshYasRivaReserve })).resolves.toEqual({
+    const refreshYasParkPlace = vi.fn(async () => ({ runId: 6, sourceUnitCount: 780 }));
+    await expect(runManualOfficialAldarRefresh("master@example.com", { refreshGhadeer, refreshSei, refreshTalay, refreshTalayBeach, refreshYasRivaReserve, refreshYasParkPlace })).resolves.toEqual({
       ghadeer: { status: "error", message: "official source timed out" },
       sei: { status: "success", result: { runId: 2, publishedPriceCount: 0 } },
       talay: { status: "success", result: { runId: 3, sourceUnitCount: 167 } },
       talayBeach: { status: "success", result: { runId: 4, sourceUnitCount: 184 } },
       yasRivaReserve: { status: "success", result: { runId: 5, sourceUnitCount: 292 } },
+      yasParkPlace: { status: "success", result: { runId: 6, sourceUnitCount: 780 } },
     });
   });
 });

@@ -50,8 +50,13 @@ function fmtAed(value: number | null | undefined) {
 }
 
 function sourceStatusClass(status: string | null) {
-  if ((status ?? "").toLowerCase() === "available") {
+  const normalized = (status ?? "").toLowerCase();
+  if (normalized === "available") {
     return "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300";
+  }
+  if (normalized === "sold") return "bg-rose-500/10 text-rose-700 dark:text-rose-300";
+  if (normalized === "blocked" || normalized === "booked" || normalized === "reserved") {
+    return "bg-amber-500/10 text-amber-700 dark:text-amber-300";
   }
   return "bg-amber-500/10 text-amber-700 dark:text-amber-300";
 }
@@ -277,12 +282,12 @@ export default function AdminInventoryHistory() {
   const [importTarget, setImportTarget] = useState<"saadiyat" | "other">("saadiyat");
   const [inventoryQuery, setInventoryQuery] = useState("");
   const [projectFilter, setProjectFilter] = useState("all");
-  const [statusFilter, setStatusFilter] = useState<SalesStatusFilter>("available");
+  const [statusFilter, setStatusFilter] = useState<SalesStatusFilter>("all");
   const [eventProjectFilter, setEventProjectFilter] = useState("all");
   const [eventTypeFilter, setEventTypeFilter] = useState<InventoryEvent["eventType"] | "all">("all");
   const [eventQuery, setEventQuery] = useState("");
   const [systemQuery, setSystemQuery] = useState("");
-  const [activityTab, setActivityTab] = useState("system");
+  const [activityTab, setActivityTab] = useState("aldar");
 
   const latest = trpc.inventoryHistory.latestRun.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -332,7 +337,10 @@ export default function AdminInventoryHistory() {
       const yasRivaReserveSummary = res.liveSources.yasRivaReserve.status === "error"
         ? `Yas Riva Reserve unavailable: ${res.liveSources.yasRivaReserve.message ?? "source refresh failed"}`
         : `${res.liveSources.yasRivaReserve.publishedPriceCount} official Yas Riva Reserve prices (${res.liveSources.yasRivaReserve.sourceUnitCount} source units)`;
-      const message = `Sync ${res.status} — ${res.summary.headline} · Sei: ${seiSummary} · Yas Riva Reserve: ${yasRivaReserveSummary}${ghadeerSummary ? ` · ${ghadeerSummary}` : ""}`;
+      const yasParkPlaceSummary = res.liveSources.yasParkPlace.status === "error"
+        ? `Yas Park Place unavailable: ${res.liveSources.yasParkPlace.message ?? "source refresh failed"}`
+        : `${res.liveSources.yasParkPlace.sourceUnitCount} Yas Park Place source units · ${res.liveSources.yasParkPlace.sourceStatusChangeCount} state changes`;
+      const message = `Sync ${res.status} — ${res.summary.headline} · Sei: ${seiSummary} · Yas Riva Reserve: ${yasRivaReserveSummary} · Yas Park Place: ${yasParkPlaceSummary}${ghadeerSummary ? ` · ${ghadeerSummary}` : ""}`;
       if (res.status === "partial") toast.error(message);
       else toast.success(message);
       utils.inventoryHistory.latestRun.invalidate();
@@ -391,6 +399,8 @@ export default function AdminInventoryHistory() {
   }, [inventoryQuery, priceChangedUnitKeys, projectFilter, saleUnits, statusFilter]);
   const availableCount = saleUnits.filter(unit => (unit.status ?? "").toLowerCase() === "available").length;
   const newCount = saleUnits.filter(unit => (unit.status ?? "").toLowerCase() === "new").length;
+  const soldCount = saleUnits.filter(unit => (unit.status ?? "").toLowerCase() === "sold").length;
+  const blockedCount = saleUnits.filter(unit => ["blocked", "booked", "reserved"].includes((unit.status ?? "").toLowerCase())).length;
   const eventRows = (dailyEvents.data ?? []) as InventoryEvent[];
   const cardEvents = (cardHistory.data ?? []) as CardHistoryEvent[];
   const systemActivityEvents = (systemActivity.data ?? []) as SystemActivityEvent[];
@@ -475,7 +485,7 @@ export default function AdminInventoryHistory() {
             <div className="flex items-center gap-2 text-[0.7rem] uppercase tracking-[0.22em] font-mono text-primary"><History className="h-3.5 w-3.5" /> Aldar sales desk</div>
             <h1 className="mt-1 font-display text-3xl text-foreground">Current inventory, ready for a client meeting</h1>
             <p className="mt-1 text-sm text-muted-foreground">Last recorded snapshot: <span className="font-medium text-foreground">{fmtDateTime(run?.startedAt)}</span> · sync status <span className="font-medium">{run?.status ?? "—"}</span></p>
-            <p className="mt-1 text-xs text-muted-foreground">Run sync now refreshes the official Al Ghadeer, Sei Saadiyat, and Talay sources, logs exact source-state and published-price changes, and archives evidence in OneDrive. Other inventory remains on its latest recorded official snapshot until its own live source is enabled.</p>
+            <p className="mt-1 text-xs text-muted-foreground">Run sync now refreshes enabled World of Aldar sources, logs exact source-state and published-price changes, and archives evidence in OneDrive. The desk always labels whether a row is a live checked source state or the latest recorded official snapshot.</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" className="bg-card" onClick={() => setImportOpen(v => !v)}><Upload className="h-4 w-4 mr-2" /> Import updated JSON</Button>
@@ -496,17 +506,17 @@ export default function AdminInventoryHistory() {
           <div className="border-b border-border px-5 py-5 sm:px-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <div className="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.18em] font-mono text-primary"><Building2 className="h-3.5 w-3.5" /> Current Aldar inventory</div>
-              <h2 className="mt-1 font-display text-2xl text-foreground">Purchasable units</h2>
-              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">This desk preserves Aldar&apos;s own status labels. <strong className="font-medium text-foreground">Available</strong> is shown by default; <strong className="font-medium text-foreground">New</strong> release inventory is available as a separate filter. Every row opens the exact internal unit card.</p>
+              <h2 className="mt-1 font-display text-2xl text-foreground">Current Aldar unit states</h2>
+              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">Every current source-backed unit is shown by default. Filter <strong className="font-medium text-foreground">Available, New, Booked, Blocked, Reserved</strong>, or <strong className="font-medium text-foreground">Sold</strong>; every row opens its exact internal unit card.</p>
             </div>
-            <div className="flex flex-wrap gap-2 text-xs"><span className="rounded-sm border border-emerald-500/30 bg-emerald-500/5 px-2 py-1 text-emerald-700 dark:text-emerald-300">{availableCount.toLocaleString()} Available</span><span className="rounded-sm border border-amber-500/30 bg-amber-500/5 px-2 py-1 text-amber-700 dark:text-amber-300">{newCount.toLocaleString()} New</span></div>
+            <div className="flex flex-wrap gap-2 text-xs"><span className="rounded-sm border border-emerald-500/30 bg-emerald-500/5 px-2 py-1 text-emerald-700 dark:text-emerald-300">{availableCount.toLocaleString()} Available</span><span className="rounded-sm border border-sky-500/30 bg-sky-500/5 px-2 py-1 text-sky-700 dark:text-sky-300">{newCount.toLocaleString()} New</span><span className="rounded-sm border border-amber-500/30 bg-amber-500/5 px-2 py-1 text-amber-700 dark:text-amber-300">{blockedCount.toLocaleString()} Blocked / Booked / Reserved</span><span className="rounded-sm border border-rose-500/30 bg-rose-500/5 px-2 py-1 text-rose-700 dark:text-rose-300">{soldCount.toLocaleString()} Sold</span></div>
           </div>
           <div className="border-b border-border bg-muted/20 px-5 py-4 sm:px-6 grid gap-3 md:grid-cols-[minmax(0,1fr)_220px_150px]">
             <label className="relative block"><Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" /><input value={inventoryQuery} onChange={event => setInventoryQuery(event.target.value)} placeholder="Search unit, project, building, type or bedrooms" className="h-10 w-full rounded-md border border-border bg-background pl-9 pr-3 text-sm text-foreground outline-none transition focus:ring-2 focus:ring-primary/30" /></label>
             <select value={projectFilter} onChange={event => setProjectFilter(event.target.value)} className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"><option value="all">All projects</option>{projects.map(project => <option key={project.key} value={project.key}>{project.label}</option>)}</select>
-            <select value={statusFilter} onChange={event => setStatusFilter(event.target.value as SalesStatusFilter)} className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"><option value="available">Available</option><option value="new">New release</option><option value="price-changed">Price changed</option><option value="all">Available + New</option></select>
+            <select value={statusFilter} onChange={event => setStatusFilter(event.target.value as SalesStatusFilter)} className="h-10 rounded-md border border-border bg-background px-3 text-sm text-foreground"><option value="all">All current states</option><option value="available">Available</option><option value="new">New release</option><option value="booked">Booked</option><option value="blocked">Blocked</option><option value="reserved">Reserved</option><option value="sold">Sold</option><option value="price-changed">Price changed</option></select>
           </div>
-          <div className="flex items-center justify-between gap-3 px-5 py-3 text-xs text-muted-foreground sm:px-6"><span>Source: {salesInventory.data?.source === "latest-recorded-import" ? "latest recorded Aldar import" : "deployed Aldar inventory snapshot"}. Importing fresh JSON records change history and source-complete projects; a genuine live API feed is not configured.</span><span className="shrink-0 font-mono">{displayedUnits.length.toLocaleString()} shown</span></div>
+          <div className="flex items-center justify-between gap-3 px-5 py-3 text-xs text-muted-foreground sm:px-6"><span>Source: {salesInventory.data?.source === "latest-recorded-import" ? "latest recorded Aldar import" : "deployed Aldar inventory snapshot"}. A raw World of Aldar source label takes precedence when it has been directly checked; otherwise the latest retained official snapshot is shown.</span><span className="shrink-0 font-mono">{displayedUnits.length.toLocaleString()} shown</span></div>
           {salesInventory.isLoading ? <div className="px-5 py-10 text-sm text-muted-foreground sm:px-6">Loading current inventory…</div> : salesInventory.isError ? <div className="px-5 py-10 text-sm text-rose-600 sm:px-6">Could not load the current sales inventory. {salesInventory.error.message}</div> : displayedUnits.length === 0 ? <div className="px-5 py-10 text-sm text-muted-foreground sm:px-6">No units match these sales-desk filters.</div> : (
             <div className="max-h-[660px] divide-y divide-border overflow-y-auto">
               {displayedUnits.map(unit => (

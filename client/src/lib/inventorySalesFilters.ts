@@ -1,4 +1,12 @@
-export type SalesStatusFilter = "all" | "available" | "new" | "price-changed";
+export type SalesStatusFilter =
+  | "all"
+  | "available"
+  | "new"
+  | "booked"
+  | "blocked"
+  | "reserved"
+  | "sold"
+  | "price-changed";
 
 export type InventoryUnitKey = {
   dataset: string;

@@ -1125,3 +1125,12 @@
 - [x] Added Talay Beach Villas as a separate Saadiyat / Marsa Al Saadiyat project with 184 official villa cards and 184 current official prices (AED 14,070,586–19,765,273): 108 Available, 36 New, 30 Booked, 7 Blocked, and 3 In-Progress. Direct Talay Beach property-page links are intentionally not shown because Aldar’s current direct route returned 404; no URL was invented.
 - [x] Added both phases to the daily World of Aldar sync and the Master Admin Sync Now response. A full snapshot is allowed only on verified coverage; otherwise only price/source-status/descriptive fields for observed exact units patch, never removing unseen inventory.
 - [x] Archived the current official HTML/detail evidence privately in OneDrive and local private audit storage; customer-facing cards expose only documented unit data.
+
+### Yas Park Place Official State Repair (24 Sep 2026)
+- [x] Verify the live World of Aldar page for Yas Park Place B1 Unit 02-03: official explorer state is Sold, not Available
+- [x] Add a guarded daily Yas Park Place source-state capture for all 780 exact published unit identities, including ground-floor `G` units
+- [x] Apply the first direct source snapshot: 780 units checked, 66 currently Available, 261 recorded source-state transitions, and 246 transitions to Sold
+- [x] Update Unit B1-02-03 to show the current World of Aldar state Sold, checked 24 Sep 2026; preserve the separate NAS operational sale record
+- [x] Make the sales desk show all official Aldar source states by default with filters for Available, New, Booked, Blocked, Reserved, Sold, and price changes
+- [x] Make the Aldar Sync tab the default Master view, expose Yas Park Place in Run Sync Now and the daily source job, and show current source-check time on other-Aldar unit cards
+- [x] Verify TypeScript, `git diff --check`, and full Vitest: 83 files / 440 tests
