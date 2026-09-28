@@ -1134,3 +1134,12 @@
 - [x] Make the sales desk show all official Aldar source states by default with filters for Available, New, Booked, Blocked, Reserved, Sold, and price changes
 - [x] Make the Aldar Sync tab the default Master view, expose Yas Park Place in Run Sync Now and the daily source job, and show current source-check time on other-Aldar unit cards
 - [x] Verify TypeScript, `git diff --check`, and full Vitest: 83 files / 440 tests
+
+### Waldorf Astoria / Yas Links B3 Listings (28 Sep 2026)
+- [x] Read and validate both supplied Aldar SPA files against exact current Yas Links Luxury Living records: B3-07-04 (3BR, 267.64 m² / 2,881 ft², developer price AED 8,595,800) and B3-07-05 (2BR, 206.47 m² / 2,222 ft², developer price AED 6,181,400)
+- [x] Add draft resale listings with the Master-supplied asking prices: B3-07-04 AED 10,582,000 and B3-07-05 AED 8,165,000; record the supplied AED 3,672.50/ft² reference rate without changing either original developer price
+- [x] Create and link Christopher King Piche as the SPA-verified owner of both exact units
+- [x] Create and link Charan Owner FSPR AND WALDORF ASTORIA as the Master-supplied operational representative for both units; do not mislabel as co-owner because the supplied SPAs do not evidence a second owner
+- [x] Upload both supplied SPAs to the matching OneDrive Business unit folders as Master-only restricted files; no anonymous link was created
+- [x] Export the OneDrive Unit Register, retain listing/owner/document activity audits, and make Master Admin restricted OneDrive files open through their normal Microsoft-authenticated OneDrive URL
+- [x] Keep the listings as Draft because no instruction to publish them as Available for resale was supplied

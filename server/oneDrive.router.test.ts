@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { oneDriveRouter } from "./routers/oneDrive";
+import { documentShareAccess, oneDriveRouter } from "./routers/oneDrive";
 
 function callerFor(role: "admin" | "master") {
   return oneDriveRouter.createCaller({
@@ -15,5 +15,12 @@ describe("OneDrive administration access", () => {
 
   it("keeps the router callable for Master Admin context", () => {
     expect(callerFor("master")).toBeDefined();
+  });
+
+  it("does not create anonymous sharing access for confidential unit files", () => {
+    expect(documentShareAccess("spa")).toBe("restricted");
+    expect(documentShareAccess("owner_document")).toBe("restricted");
+    expect(documentShareAccess("source_file")).toBe("restricted");
+    expect(documentShareAccess("brochure")).toBe("anyone_link");
   });
 });

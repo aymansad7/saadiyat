@@ -44,6 +44,11 @@ function isOwnerFile(type: UnitDocument["documentType"]) {
   return type === "owner_document";
 }
 
+/** Confidential documents never receive an anonymous OneDrive sharing link. */
+export function documentShareAccess(type: UnitDocument["documentType"]) {
+  return isSensitive(type) ? "restricted" as const : "anyone_link" as const;
+}
+
 function toSafeCardDocument(row: UnitDocument) {
   return {
     id: row.id,
@@ -266,7 +271,11 @@ export const oneDriveRouter = router({
       const folderId = await ensureFolderPath(configured.drive.id, configured.root.id, unitFolderPath(input));
       const item = await uploadOneDriveFile({ driveId: configured.drive.id, parentItemId: folderId, filename: input.filename, bytes, mimeType: input.mimeType });
       if (!item.id) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "OneDrive did not return a document identifier." });
-      const shareUrl = await createOneDriveViewLink({ driveId: configured.drive.id, itemId: item.id });
+      // SPAs, owner documents, and source files remain inside the approved OneDrive
+      // folder without an anonymous share URL. Their website visibility is enforced
+      // separately, but withholding a link also prevents circulation outside it.
+      const shareAccess = documentShareAccess(input.documentType);
+      const shareUrl = shareAccess === "restricted" ? null : await createOneDriveViewLink({ driveId: configured.drive.id, itemId: item.id });
       await db.insert(unitDocuments).values({
         villaKey: input.villaKey,
         ownerId: input.ownerId ?? null,
@@ -274,7 +283,7 @@ export const oneDriveRouter = router({
         phaseKey: input.phaseKey ?? null,
         documentType: input.documentType,
         websiteVisibility: input.websiteVisibility,
-        shareAccess: "anyone_link",
+        shareAccess,
         filename: item.name || input.filename,
         mimeType: item.file?.mimeType || input.mimeType,
         sizeBytes: item.size ?? bytes.length,
@@ -297,6 +306,7 @@ export const oneDriveRouter = router({
           parentItemId: folderId,
           webUrl: item.webUrl ?? null,
           shareUrl,
+          shareAccess,
           etag: item.eTag ?? null,
           documentType: input.documentType,
           websiteVisibility: input.websiteVisibility,
