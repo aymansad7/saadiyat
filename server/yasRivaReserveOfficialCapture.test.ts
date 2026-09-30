@@ -6,6 +6,7 @@ import {
   officialYasRivaReserveUnitUrl,
   selectYasRivaReservePriceProbeUnits,
 } from "./yasRivaReserveOfficialCapture";
+import { applyYasRivaReservePriceEvidence } from "./yasRivaReserveOfficialSync";
 
 function sourceUnit(index: number) {
   const waterfront = index > 247;
@@ -56,5 +57,19 @@ describe("Yas Riva Reserve official capture", () => {
       { unitName: "YasRivaReserve-WF-V-248-01", locationId: "d", sourceStatus: "New", sourcePriceAed: null, raw: sourceUnit(248) },
     ];
     expect(selectYasRivaReservePriceProbeUnits(rows).map(unit => unit.unitName)).toEqual(rows.map(unit => unit.unitName));
+  });
+
+  it("retains a prior exact price only when the fresh community payload has no price", () => {
+    const first = sourceUnit(1);
+    const second = sourceUnit(2);
+    const project = buildYasRivaReserveProject([first, second], "2026-10-01");
+    const prices = applyYasRivaReservePriceEvidence(
+      project,
+      [{ unitName: first.unitNumber!, priceAed: 10_780_356 }],
+      new Map([[second.unitNumber!, 10_570_280]]),
+    );
+    const units = prices.buildings.flatMap(building => building.units);
+    expect(units.find(unit => unit.unit_name === first.unitNumber)?.price_aed).toBe(10_780_356);
+    expect(units.find(unit => unit.unit_name === second.unitNumber)?.price_aed).toBe(10_570_280);
   });
 });

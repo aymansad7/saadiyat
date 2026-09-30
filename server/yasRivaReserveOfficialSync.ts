@@ -1,6 +1,9 @@
 import { updateHeartbeatJob } from "./_core/heartbeat";
 import { notifyOwner } from "./_core/notification";
 import { applyOfficialUnitPricePatch, applyOfficialUnitSourceStatusPatch, runInventorySync } from "./inventorySync";
+import { and, eq } from "drizzle-orm";
+import { inventoryUnitState } from "../drizzle/schema";
+import { getDb } from "./db";
 import { ensureFolderPath, getConfiguredOneDrive, uploadOneDriveFile } from "./oneDrive";
 import {
   captureYasRivaReserveOfficialFullPricePatch,
@@ -9,7 +12,46 @@ import {
   sourceProjectFromCapture,
   verifiedYasRivaReserveSourceStatusPatch,
   YAS_RIVA_RESERVE_PROJECT_SLUG,
+  type YasRivaReservePrice,
 } from "./yasRivaReserveOfficialCapture";
+
+type YasRivaProject = ReturnType<typeof sourceProjectFromCapture>;
+
+/**
+ * Builds the source project used for the complete status snapshot without
+ * dropping a previously confirmed price when an individual unit-detail call is
+ * briefly unavailable. A current official price always wins; retained values
+ * are used only for exact units absent from the fresh price response.
+ */
+export function applyYasRivaReservePriceEvidence(
+  project: YasRivaProject,
+  currentPrices: readonly YasRivaReservePrice[],
+  retainedPrices: ReadonlyMap<string, number>,
+): YasRivaProject {
+  const current = new Map(currentPrices.map(price => [price.unitName, price.priceAed]));
+  return {
+    ...project,
+    buildings: project.buildings.map(building => ({
+      ...building,
+      units: building.units.map(unit => ({
+        ...unit,
+        price_aed: current.get(unit.unit_name ?? "") ?? unit.price_aed ?? retainedPrices.get(unit.unit_name ?? "") ?? null,
+      })),
+    })),
+  };
+}
+
+async function loadStoredYasRivaReservePrices(): Promise<Map<string, number>> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  const rows = await db.select({ unitName: inventoryUnitState.unitName, priceAed: inventoryUnitState.priceAed })
+    .from(inventoryUnitState)
+    .where(and(
+      eq(inventoryUnitState.dataset, "other"),
+      eq(inventoryUnitState.projectSlug, YAS_RIVA_RESERVE_PROJECT_SLUG),
+    ));
+  return new Map(rows.flatMap(row => row.priceAed != null ? [[row.unitName, row.priceAed] as const] : []));
+}
 
 async function archiveYasRivaReserveOfficialSourceFiles(
   files: Array<{ filename: string; bytes: Buffer; mimeType: string }>,
@@ -46,10 +88,31 @@ export async function refreshYasRivaReserveOfficialInventory(input: {
   triggeredBy: string;
 }) {
   const capture = await captureYasRivaReserveOfficialSource();
+  const pagePrices = capture.units.flatMap(unit => unit.sourcePriceAed != null
+    ? [{ unitName: unit.unitName, priceAed: unit.sourcePriceAed }]
+    : []);
+  // Aldar currently exposes Yas Riva Reserve's published prices only through
+  // its exact unit-detail endpoint, not on the community payload. A daily
+  // status-only refresh would otherwise never detect a later price change.
+  // The detail capture remains a non-destructive patch: missing/placeholder
+  // results never clear an existing price and never remove a unit.
+  const pricePatch = pagePrices.length
+    ? { prices: pagePrices, sourceUnitCount: capture.sourceUnitCount, files: capture.files }
+    : await captureYasRivaReserveOfficialFullPricePatch().then(full => ({
+      prices: full.publishedPrices,
+      sourceUnitCount: full.sourceUnitCount,
+      files: full.files,
+    }));
+  const retainedPrices = await loadStoredYasRivaReservePrices();
+  const snapshotProject = applyYasRivaReservePriceEvidence(
+    sourceProjectFromCapture(capture),
+    pricePatch.prices,
+    retainedPrices,
+  );
   const snapshotSync = await runInventorySync({
     trigger: input.trigger,
     triggeredBy: input.triggeredBy,
-    datasets: { other: { projects: [sourceProjectFromCapture(capture)] } },
+    datasets: { other: { projects: [snapshotProject] } },
     projectScope: [{ dataset: "other", projectSlug: YAS_RIVA_RESERVE_PROJECT_SLUG }],
   });
   const sourceStatusSync = await applyOfficialUnitSourceStatusPatch({
@@ -59,39 +122,27 @@ export async function refreshYasRivaReserveOfficialInventory(input: {
     projectSlug: YAS_RIVA_RESERVE_PROJECT_SLUG,
     statuses: verifiedYasRivaReserveSourceStatusPatch(capture.units),
   });
-  const pagePrices = capture.units.flatMap(unit => unit.sourcePriceAed != null
-    ? [{ unitName: unit.unitName, priceAed: unit.sourcePriceAed }]
-    : []);
-  const priceSync = pagePrices.length
-    ? await applyOfficialUnitPricePatch({
-      trigger: input.trigger,
-      triggeredBy: input.triggeredBy,
-      dataset: "other",
-      projectSlug: YAS_RIVA_RESERVE_PROJECT_SLUG,
-      prices: pagePrices,
-    })
-    : null;
-  const archive = await archiveYasRivaReserveOfficialSourceFiles(capture.files, capture.captureDate);
+  const archive = await archiveYasRivaReserveOfficialSourceFiles(pricePatch.files, capture.captureDate);
   return {
     captureDate: capture.captureDate,
     sourceUnitCount: capture.sourceUnitCount,
     runId: snapshotSync.runId,
     sourceStatusRunId: sourceStatusSync.runId,
-    priceRunId: priceSync?.runId ?? null,
+    priceRunId: snapshotSync.runId,
     counts: {
       unitsScanned: snapshotSync.counts.unitsScanned,
       newUnits: snapshotSync.counts.newUnits,
       soldUnits: snapshotSync.counts.soldUnits,
       statusChanges: snapshotSync.counts.statusChanges,
       sourceStatusChanges: snapshotSync.counts.sourceStatusChanges + sourceStatusSync.counts.sourceStatusChanges,
-      priceChanges: snapshotSync.counts.priceChanges + (priceSync?.counts.priceChanges ?? 0),
+      priceChanges: snapshotSync.counts.priceChanges,
       removedUnits: snapshotSync.counts.removedUnits,
     },
-    rollups: [...snapshotSync.rollups, ...sourceStatusSync.rollups, ...(priceSync?.rollups ?? [])],
+    rollups: [...snapshotSync.rollups, ...sourceStatusSync.rollups],
     newProjects: snapshotSync.newProjects,
     sourceStatusChangeCount: sourceStatusSync.appliedUnitCount,
-    publishedPriceCount: pagePrices.length,
-    priceChangeCount: priceSync?.appliedUnitCount ?? 0,
+    publishedPriceCount: pricePatch.prices.length,
+    priceChangeCount: snapshotSync.counts.priceChanges,
     archive,
   };
 }

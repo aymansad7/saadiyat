@@ -1143,3 +1143,9 @@
 - [x] Upload both supplied SPAs to the matching OneDrive Business unit folders as Master-only restricted files; no anonymous link was created
 - [x] Export the OneDrive Unit Register, retain listing/owner/document activity audits, and make Master Admin restricted OneDrive files open through their normal Microsoft-authenticated OneDrive URL
 - [x] Keep the listings as Draft because no instruction to publish them as Available for resale was supplied
+
+### Yas Riva Reserve — Official Price Release (1 Oct 2026)
+- [x] Recaptured all 292 published World of Aldar units and refreshed the official source-state snapshot: 64 Available, 121 New, 94 Booked, and 13 Blocked; no unit is currently labelled Sold by Aldar.
+- [x] Stored a valid exact-unit official AED price on all 292 cards (AED 8,227,972–15,885,705). The latest detail pass reconfirmed 268 directly; the other 24 retained their exact official values from the same refresh window when individual detail calls were transiently unavailable. AED 1 / zero / blank placeholders remain excluded.
+- [x] Recorded four official state movements: IL-V-246-01 and IL-V-280-01 Available→Booked; IL-V-261-01 and WF-V-124-01 Available→Blocked.
+- [x] Archived the updated World of Aldar source evidence privately in OneDrive. Daily sync now retains confirmed exact prices during a transient detail-call miss and records only genuine price changes.
