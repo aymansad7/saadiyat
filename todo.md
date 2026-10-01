@@ -1169,3 +1169,10 @@
 - [x] Client mode renders only the selected residences as numbered dots, and tapping a dot scrolls to its corresponding property card.
 - [x] Kept the client presentation discreet: no green Available badges, stock totals, owner data, or sale history appear on the plan.
 - [x] Preserved the production map’s established villa-to-master-plan anchors; full regression validation passed: 87 Vitest files / 452 tests.
+
+### Four Seasons Broker Portal Integration (1 Oct 2026)
+- [x] Accessed the supplied Al Ain Broker Info Portal source and extracted the official V5 fact sheet plus both V3 master plans from its Four Seasons project folder.
+- [x] Replaced the presentation master-plan backdrop with the official numbered/collection plan and retained only filtered exact-villa markers; the project legend is not misrepresented as an individual unit attribute.
+- [x] Added project-level, source-labelled details to the Four Seasons main page: villa families, the fact-sheet amenity program, interior palettes, indicative specification summary, and stated nearby-destination timings.
+- [x] Copied the fact sheet and both master plans into `Communities/Four Seasons/Project-Reference/Marketing` in the approved OneDrive; project-level fact-sheet/master-plan links now appear on both Four Seasons main and Presentation pages.
+- [x] Added a resumable Microsoft Graph upload path for broker PDFs larger than 3 MiB; validated the new functionality, TypeScript, and 87 local test files / 454 local tests, then retried the one external OneDrive credential test successfully after a transient Microsoft connection timeout.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { safeOneDriveName, unitFolderPath } from "./oneDrive";
+import { requiresOneDriveUploadSession, safeOneDriveName, unitFolderPath } from "./oneDrive";
 
 describe("OneDrive unit-folder boundaries", () => {
   it("uses the canonical community, phase, and unit key below the approved root", () => {
@@ -20,5 +20,10 @@ describe("OneDrive unit-folder boundaries", () => {
   it("routes marketing and owner files to distinct, deterministic category folders", () => {
     expect(unitFolderPath({ community: "hidd", villaKey: "Hidd/100", documentType: "marketing" }).at(-1)).toBe("Marketing");
     expect(unitFolderPath({ community: "hidd", villaKey: "Hidd/100", documentType: "owner_document" }).at(-1)).toBe("Owner-Documents");
+  });
+
+  it("uses a resumable Graph upload session for broker files over the simple-upload limit", () => {
+    expect(requiresOneDriveUploadSession(3 * 1024 * 1024)).toBe(false);
+    expect(requiresOneDriveUploadSession(3 * 1024 * 1024 + 1)).toBe(true);
   });
 });

@@ -55,7 +55,7 @@ describe("Four Seasons source integrity", () => {
 
   it("uses the official master-plan assets and separates direct SDN3 controls from calibrated positions", () => {
     expect(FOUR_SEASONS_MASTERPLAN_IMAGE).toBe(
-      "/manus-storage/FourSeasons_MasterPlan_aa0ee03b.png",
+      "/manus-storage/four-seasons-masterplan-collections_7c7f0637.png",
     );
     expect(FOUR_SEASONS_MASTERPLAN_PDF).toBe(
       "/manus-storage/FourSeasons_MasterPlan_f2902c89.pdf",

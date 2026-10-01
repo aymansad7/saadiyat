@@ -7,13 +7,14 @@ import AreaFilterControls, { type AreaViewMode } from "@/components/AreaFilterCo
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EditListingButton, ListingOwnerFacts, ListingPropertyFacts, ListingPriceLabel, OneDriveCardLinks } from "@/components/ListingControls";
+import { FourSeasonsProjectDetails } from "@/components/FourSeasonsProjectDetails";
 import { useListingIndex, type ListingIndexEntry } from "@/hooks/useListingIndex";
 import {
   FOUR_SEASONS_MASTERPLAN_IMAGE,
-  FOUR_SEASONS_MASTERPLAN_PDF,
   FOUR_SEASONS_VILLAS,
   type FourSeasonsVilla,
 } from "@/data/fourSeasons";
+import { FOUR_SEASONS_PROJECT_DOCUMENT_LINKS } from "@/data/fourSeasonsProjectDetails";
 import {
   FOUR_SEASONS_PENDING_SUMMARY,
 } from "@/data/fourSeasonsPendingTransactions";
@@ -125,8 +126,13 @@ export default function FourSeasons() {
             </div>
             <div className="flex flex-wrap gap-2">
               <Button asChild variant="outline" className="gap-2">
-                <a href={FOUR_SEASONS_MASTERPLAN_PDF} target="_blank" rel="noreferrer">
+                <a href={FOUR_SEASONS_PROJECT_DOCUMENT_LINKS.numberedMasterPlanUrl} target="_blank" rel="noreferrer">
                   <FileText className="h-4 w-4" /> Open Master Plan
+                </a>
+              </Button>
+              <Button asChild variant="outline" className="gap-2">
+                <a href={FOUR_SEASONS_PROJECT_DOCUMENT_LINKS.factSheetUrl} target="_blank" rel="noreferrer">
+                  <ExternalLink className="h-4 w-4" /> Official Fact Sheet
                 </a>
               </Button>
               <Button asChild className="gap-2">
@@ -146,6 +152,8 @@ export default function FourSeasons() {
             <Stat label="Updated" value="23 Aug 2026" />
           </div>
         </section>
+
+        <FourSeasonsProjectDetails />
 
         <section className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
           <div className="p-4 sm:p-5 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">

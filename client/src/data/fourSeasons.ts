@@ -26,7 +26,8 @@ export type FourSeasonsVilla = {
   positionSource: "user_supplied_sdn3_coordinate" | "masterplan_quadratic_calibrated_to_sdn3_controls";
 };
 
-export const FOUR_SEASONS_MASTERPLAN_IMAGE = "/manus-storage/FourSeasons_MasterPlan_aa0ee03b.png";
+/** Official broker master plan V3 (17 Jul 2025), with project-level collection legend. */
+export const FOUR_SEASONS_MASTERPLAN_IMAGE = "/manus-storage/four-seasons-masterplan-collections_7c7f0637.png";
 export const FOUR_SEASONS_MASTERPLAN_PDF = "/manus-storage/FourSeasons_MasterPlan_f2902c89.pdf";
 export const FOUR_SEASONS_AVAILABILITY_DATE = "2026-08-23";
 

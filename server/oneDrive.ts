@@ -86,7 +86,10 @@ async function graph<T>(path: string, init: RequestInit = {}): Promise<T> {
       ...(init.headers ?? {}),
     },
   });
-  if (!response.ok) throw new Error(`OneDrive request failed (HTTP ${response.status}).`);
+  if (!response.ok) {
+    const detail = (await response.text()).replace(/\s+/g, " ").trim().slice(0, 500);
+    throw new Error(`OneDrive request failed (HTTP ${response.status})${detail ? `: ${detail}` : "."}`);
+  }
   return (await response.json()) as T;
 }
 
@@ -145,6 +148,78 @@ export async function uploadOneDriveFile(input: {
       body: new Uint8Array(input.bytes),
     },
   );
+}
+
+const SIMPLE_UPLOAD_MAX_BYTES = 3 * 1024 * 1024;
+const UPLOAD_SESSION_CHUNK_BYTES = 3_276_800; // 10 × 320 KiB, required by Microsoft Graph.
+
+export function requiresOneDriveUploadSession(bytesLength: number) {
+  return bytesLength > SIMPLE_UPLOAD_MAX_BYTES;
+}
+
+/**
+ * Upload a file to the approved OneDrive root. Small files use Graph's simple
+ * upload endpoint; larger broker PDFs use an upload session so source material
+ * is not silently truncated by Graph's 4 MiB simple-upload limit.
+ */
+export async function uploadOneDriveFileSafely(input: {
+  driveId: string;
+  parentItemId: string;
+  filename: string;
+  bytes: Buffer;
+  mimeType: string;
+}) {
+  if (!requiresOneDriveUploadSession(input.bytes.length)) return uploadOneDriveFile(input);
+
+  const filename = safeOneDriveName(input.filename, "File name");
+  // Graph's path-form upload-session endpoint returns an opaque invalidRequest
+  // for this Business OneDrive tenant. Resolve (or seed) the target file first,
+  // then use the item-ID endpoint, which is supported for both new and updated
+  // broker documents.
+  const existing = await graphOrNull<OneDriveItem>(
+    `/drives/${graphSegment(input.driveId)}/items/${graphSegment(input.parentItemId)}:/${graphSegment(filename)}?$select=id,name,file`,
+  );
+  const target = existing?.id
+    ? existing
+    : await uploadOneDriveFile({
+      driveId: input.driveId,
+      parentItemId: input.parentItemId,
+      filename,
+      bytes: Buffer.alloc(0),
+      mimeType: input.mimeType,
+    });
+  if (!target.id) throw new Error("OneDrive did not return a target item for the upload session.");
+  const session = await graph<{ uploadUrl?: string }>(
+    `/drives/${graphSegment(input.driveId)}/items/${graphSegment(target.id)}/createUploadSession`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        item: {
+          "@microsoft.graph.conflictBehavior": "replace",
+        },
+      }),
+    },
+  );
+  if (!session.uploadUrl) throw new Error("OneDrive did not return an upload session URL.");
+
+  let item: OneDriveItem | null = null;
+  for (let start = 0; start < input.bytes.length; start += UPLOAD_SESSION_CHUNK_BYTES) {
+    const end = Math.min(start + UPLOAD_SESSION_CHUNK_BYTES, input.bytes.length) - 1;
+    const response = await fetch(session.uploadUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Length": String(end - start + 1),
+        "Content-Range": `bytes ${start}-${end}/${input.bytes.length}`,
+        "Content-Type": input.mimeType,
+      },
+      body: new Uint8Array(input.bytes.subarray(start, end + 1)),
+    });
+    if (!response.ok) throw new Error(`OneDrive resumable upload failed (HTTP ${response.status}).`);
+    if (response.status === 200 || response.status === 201) item = (await response.json()) as OneDriveItem;
+  }
+  if (!item?.id) throw new Error("OneDrive upload session finished without a file item.");
+  return item;
 }
 
 export async function createOneDriveViewLink(input: { driveId: string; itemId: string }) {

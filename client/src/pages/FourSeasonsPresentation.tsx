@@ -5,6 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { OneDriveCardLinks } from "@/components/ListingControls";
 import { FourSeasonsPresentationPlan } from "@/components/FourSeasonsPresentationPlan";
+import { FourSeasonsProjectDetails, FourSeasonsProjectDocumentLinks } from "@/components/FourSeasonsProjectDetails";
 import { FOUR_SEASONS_VILLAS } from "@/data/fourSeasons";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import {
@@ -92,6 +93,7 @@ export default function FourSeasonsPresentation() {
                 ? `A considered selection of ${bedroom}-bedroom private residences.`
                 : "Choose only the residences that fit the conversation. This is a discreet client presentation—not an inventory screen."}
             </p>
+            <div className="mt-5"><FourSeasonsProjectDocumentLinks compact /></div>
           </div>
         </section>
 
@@ -170,6 +172,7 @@ export default function FourSeasonsPresentation() {
               clientMode={clientMode}
               onVillaClick={handlePlanVilla}
             />
+            <FourSeasonsProjectDetails compact />
             <section className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {displayed.map(({ villa, listing }) => {
                 const selected = selectedNumberSet.has(villa.villaNumber);

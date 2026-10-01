@@ -75,6 +75,7 @@ export function FourSeasonsPresentationPlan({
               {clientMode ? "Private selection" : "Active private listings"}
             </div>
           </div>
+          <p className="px-1 pt-3 text-xs leading-5 text-stone-500">Official Four Seasons master plan V3 (17 Jul 2025). Markers indicate only the residences included in this presentation.</p>
         </div>
       )}
     </section>
