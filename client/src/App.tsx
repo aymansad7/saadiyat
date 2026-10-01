@@ -50,6 +50,7 @@ import AvailabilityResults from "./pages/AvailabilityResults";
 import SaadiyatMap from "./pages/SaadiyatMap";
 import SaadiyatReserve from "./pages/SaadiyatReserve";
 import FourSeasons from "./pages/FourSeasons";
+import FourSeasonsPresentation from "./pages/FourSeasonsPresentation";
 import LagoonsHiddenSL9 from "./pages/LagoonsHiddenSL9";
 import LagoonsDcrPhase from "./pages/LagoonsDcrPhase";
 import Nudra from "./pages/Nudra";
@@ -78,6 +79,7 @@ function Router() {
       <Route path="/building-plots-sdw4">{() => <PropertyProjectGate projectKey="building-plots-sdw4"><DcrCommunityPage kind="building-plots-sdw4" /></PropertyProjectGate>}</Route>
       <Route path="/saadiyat-reserve">{() => <PropertyProjectGate projectKey="saadiyat-reserve"><SaadiyatReserve /></PropertyProjectGate>}</Route>
       <Route path="/four-seasons">{() => <PropertyProjectGate projectKey="four-seasons"><FourSeasons /></PropertyProjectGate>}</Route>
+      <Route path="/presentation">{() => <PropertyProjectGate projectKey="four-seasons"><FourSeasonsPresentation /></PropertyProjectGate>}</Route>
       <Route path="/lagoons-hidden-sl9">{() => <PropertyProjectGate projectKey="lagoons-hidden-sl9"><LagoonsHiddenSL9 /></PropertyProjectGate>}</Route>
       <Route path="/lagoons-hidden-sl10">{() => <PropertyProjectGate projectKey="lagoons-hidden-sl10"><LagoonsDcrPhase phase="SL10" /></PropertyProjectGate>}</Route>
       <Route path="/lagoons-sl13">{() => <PropertyProjectGate projectKey="lagoons-sl13"><LagoonsDcrPhase phase="SL13" /></PropertyProjectGate>}</Route>

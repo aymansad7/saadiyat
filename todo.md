@@ -1156,3 +1156,9 @@
 - [x] Reconciled all six card area references to the proposal’s exact sq ft and derived m² values. Added previously missing Villa 45 plot/BUA and Park view; aligned Villa 20 to the proposal’s Golf view. No owner field or sale history was altered.
 - [x] Stored the supplied five-bedroom proposal in the approved OneDrive folder for each exact villa, exposed it on the respective cards as **Open proposal**, and refreshed the OneDrive Unit Register.
 - [x] Added unit/data and proposal-label regression coverage. TypeScript, 85 local test files / 447 local tests, and the Microsoft OneDrive credential test all passed (the external test passed on a single retry after one transient network timeout).
+
+### Curated Four Seasons Presentation (1 Oct 2026)
+- [x] Added `/presentation`, guarded by Four Seasons project access, for focused private residence discussions rather than an inventory screen.
+- [x] Starts with the six exact owner-supplied 5 Bedroom listings (Villas 16, 19, 20, 21, 44, 45) and allows a presenter to switch to current active 6 Bedroom or 7 Bedroom listings.
+- [x] Presenter can select exact residences and open or copy a scoped client view. Client view omits availability badges, stock totals, owner data, sale history, and green inventory signals; it only shows curated property, area, view, price, location, and approved proposal links.
+- [x] Added filter/selection tests and ran TypeScript plus complete regression validation: 87 Vitest files / 451 tests passed.

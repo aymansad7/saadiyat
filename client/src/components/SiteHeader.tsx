@@ -22,6 +22,7 @@ import { useState, useRef, useEffect, type ReactNode } from "react";
 /** All navigable projects for quick search */
 const ALL_PROJECTS = [
   { name: "Four Seasons Private Residences", href: "/four-seasons" },
+  { name: "Four Seasons · Client Presentation", href: "/presentation" },
   { name: "Saadiyat Reserve · Phase 1, Phase 2 & Dunes", href: "/saadiyat-reserve" },
   { name: "Nudra by IMKAN", href: "/nudra" },
   { name: "Private Owners VIP", href: "/private-owners-vip" },
@@ -267,6 +268,12 @@ export default function SiteHeader({ subTitle, back, fixed = false, compact = fa
                 <Link href="/four-seasons" className="flex items-center justify-between w-full">
                   <span className="font-display text-sm">Four Seasons Private Residences</span>
                   <span className="text-[0.65rem] font-mono text-emerald-700 border border-emerald-400 px-1 rounded-sm">11 AVAIL</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/presentation" className="flex items-center justify-between w-full">
+                  <span className="font-display text-sm">Four Seasons · Presentation</span>
+                  <span className="text-[0.65rem] font-mono text-[#765f39] border border-[#c3a368] px-1 rounded-sm">PRIVATE</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
