@@ -1042,7 +1042,7 @@
 
 ### The Arthouse & Dover Penthouse Coverage (Sep 13, 2026)
 - [x] Verify and include The Arthouse top-of-building 5BR Sky Villa penthouses in the client-facing collection as user-designated top-floor penthouses; the two source records are currently Available
-- [ ] Verify official Dover Residences penthouse units from an Aldar link or exact source identifier before adding them to the collection
+- [deferred — source required] Verify official Dover Residences penthouse units from an Aldar link or exact source identifier before adding them to the collection; no unit is added or inferred until that source is supplied
 - [x] Apply official Sold state to any verified sold unit, with the red presentation-row treatment and no assumed availability or price
 - [x] Add the user-designated The Arthouse top-floor residences (floor 08) to the collection as a clearly labelled top-floor penthouse classification, distinct from an Aldar-published penthouse label
 
