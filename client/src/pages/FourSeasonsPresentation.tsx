@@ -5,8 +5,10 @@ import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { OneDriveCardLinks } from "@/components/ListingControls";
 import { FourSeasonsPresentationPlan } from "@/components/FourSeasonsPresentationPlan";
+import { FourSeasonsPresentationGallery } from "@/components/FourSeasonsPresentationGallery";
 import { FourSeasonsProjectDetails, FourSeasonsProjectDocumentLinks } from "@/components/FourSeasonsProjectDetails";
 import { FOUR_SEASONS_VILLAS } from "@/data/fourSeasons";
+import { FOUR_SEASONS_PRESENTATION_HERO } from "@/data/fourSeasonsPresentationMedia";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import {
   buildPresentationSearch,
@@ -83,7 +85,9 @@ export default function FourSeasonsPresentation() {
     <div className="min-h-screen bg-[#f6f3ee] text-stone-950">
       <SiteHeader subTitle="Private Residence Presentation" back={{ href: "/four-seasons", label: "Four Seasons" }} />
       <main className="container py-7 sm:py-10">
-        <section className="relative overflow-hidden rounded-[1.7rem] border border-stone-200 bg-[#1f312c] px-5 py-8 text-white shadow-xl sm:px-10 sm:py-12">
+        <section className="relative min-h-[27rem] overflow-hidden rounded-[1.7rem] border border-stone-200 bg-[#1f312c] px-5 py-8 text-white shadow-xl sm:min-h-[31rem] sm:px-10 sm:py-12">
+          <img src={FOUR_SEASONS_PRESENTATION_HERO.url} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#10261f]/95 via-[#17352c]/79 to-[#17352c]/25" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_top_right,rgba(199,169,109,0.35),transparent_62%)]" />
           <div className="relative max-w-3xl">
             <p className="font-mono text-[0.65rem] uppercase tracking-[0.24em] text-[#d7bc81]">Four Seasons Private Residences · Saadiyat Island</p>
@@ -95,6 +99,7 @@ export default function FourSeasonsPresentation() {
             </p>
             <div className="mt-5"><FourSeasonsProjectDocumentLinks compact /></div>
           </div>
+          <p className="absolute bottom-4 left-5 right-5 text-[0.62rem] leading-4 text-white/55 sm:bottom-5 sm:left-10">Official project lifestyle imagery — illustrative only, not a specific residence, interior, or view.</p>
         </section>
 
         {!clientMode && (
@@ -173,6 +178,7 @@ export default function FourSeasonsPresentation() {
               onVillaClick={handlePlanVilla}
             />
             <FourSeasonsProjectDetails compact />
+            <FourSeasonsPresentationGallery />
             <section className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {displayed.map(({ villa, listing }) => {
                 const selected = selectedNumberSet.has(villa.villaNumber);

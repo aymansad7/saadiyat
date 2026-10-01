@@ -28,6 +28,11 @@ export const FOUR_SEASONS_PROJECT_DETAILS = {
     "Multi-function room",
   ],
   interiorPalettes: ["Light", "Semi-Dark"],
+  serviceCharges: [
+    { residenceType: "Villas", aedPerSqft: 24, aedPerSqm: 258.33 },
+    { residenceType: "Apartments", aedPerSqft: 61, aedPerSqm: 656.6 },
+  ],
+  serviceChargeSource: "Owner-supplied service-charge reference · 1 October 2026. The source did not specify a fiscal period or escalation.",
   indicativeSpecifications: [
     "Chef’s kitchens by Molteni with Gaggenau appliances; secondary kitchens by Fabal Casa or Nolte with Miele appliances.",
     "Bathrooms with Gessi fittings, Agape bathtubs and basins, and Toto WC units.",

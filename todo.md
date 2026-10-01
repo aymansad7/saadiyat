@@ -1176,3 +1176,9 @@
 - [x] Added project-level, source-labelled details to the Four Seasons main page: villa families, the fact-sheet amenity program, interior palettes, indicative specification summary, and stated nearby-destination timings.
 - [x] Copied the fact sheet and both master plans into `Communities/Four Seasons/Project-Reference/Marketing` in the approved OneDrive; project-level fact-sheet/master-plan links now appear on both Four Seasons main and Presentation pages.
 - [x] Added a resumable Microsoft Graph upload path for broker PDFs larger than 3 MiB; validated the new functionality, TypeScript, and 87 local test files / 454 local tests, then retried the one external OneDrive credential test successfully after a transient Microsoft connection timeout.
+
+### Four Seasons Presentation Imagery & Service Charge (1 Oct 2026)
+- [x] Selected and imported seven official project assets from the authorized Al Ain Broker portal: four sales-centre images plus three Saadiyat lifestyle images; saved originals under `Communities/Four Seasons/Project-Reference/Imagery` in OneDrive.
+- [x] Added a full-bleed project-lifestyle hero and a responsive, expandable luxury gallery to Presentation. Every visual is explicitly labelled project / lifestyle / sales-centre imagery and never attributed to a specific villa, interior, terrace, or view.
+- [x] Added the owner-supplied Four Seasons service-charge reference to both main and Presentation project-reference panels: Villas AED 24/ft² (AED 258.33/m²) and Apartments AED 61/ft² (AED 656.60/m²). Fiscal period and escalation were not supplied, so neither is inferred.
+- [x] Added media-provenance and service-charge regression coverage; focused TypeScript and 4 test files / 13 tests passed.

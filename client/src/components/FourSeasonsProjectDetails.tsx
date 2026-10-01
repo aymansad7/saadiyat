@@ -40,6 +40,18 @@ export function FourSeasonsProjectDetails({ compact = false }: { compact?: boole
             <span key={amenity} className="rounded-full bg-[#f6f3ee] px-3 py-1 text-xs text-stone-700">{amenity}</span>
           ))}
         </div>
+        <div className="mt-5 rounded-xl border border-[#c3a368]/35 bg-[#fbf7ef] p-3">
+          <p className="text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-[#765f39]">Service charge reference</p>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            {details.serviceCharges.map((charge) => (
+              <div key={charge.residenceType}>
+                <p className="text-xs text-stone-600">{charge.residenceType}</p>
+                <p className="font-display text-lg font-semibold text-[#23483f]">AED {charge.aedPerSqft}/ft²</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-2 text-[0.65rem] leading-4 text-stone-500">Owner-supplied reference; fiscal period and escalation not stated.</p>
+        </div>
         <div className="mt-5"><FourSeasonsProjectDocumentLinks /></div>
       </section>
     );
@@ -75,6 +87,25 @@ export function FourSeasonsProjectDetails({ compact = false }: { compact?: boole
           <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">Interior direction</h3>
           <p className="mt-3 text-sm leading-6 text-foreground">Two curated palettes: <strong>{details.interiorPalettes.join(" and ")}</strong>.</p>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">{details.indicativeSpecifications[0]}</p>
+        </div>
+      </div>
+
+      <div className="mt-6 rounded-xl border border-[#c3a368]/35 bg-[#fbf7ef] p-4 sm:p-5">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-[#765f39]">Service charge reference</h3>
+            <p className="mt-1 text-sm leading-5 text-stone-600">Project-level reference provided by the owner. It is not an official developer service-charge schedule.</p>
+          </div>
+          <p className="max-w-lg text-xs leading-5 text-stone-500">{details.serviceChargeSource}</p>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {details.serviceCharges.map((charge) => (
+            <div key={charge.residenceType} className="rounded-lg border border-[#c3a368]/30 bg-white/80 p-4">
+              <p className="text-sm font-medium text-stone-700">{charge.residenceType}</p>
+              <p className="mt-1 font-display text-2xl font-semibold text-[#23483f]">AED {charge.aedPerSqft}/ft²</p>
+              <p className="mt-1 text-xs text-stone-500">AED {charge.aedPerSqm.toLocaleString("en-AE", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/m² · converted for comparison</p>
+            </div>
+          ))}
         </div>
       </div>
 

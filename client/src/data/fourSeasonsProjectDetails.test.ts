@@ -24,4 +24,12 @@ describe("Four Seasons official broker project details", () => {
     expect(FOUR_SEASONS_PROJECT_DETAILS.amenities).toContain("Owners lounge");
     expect(FOUR_SEASONS_PROJECT_DETAILS.indicativeSpecifications.length).toBeGreaterThan(3);
   });
+
+  it("records owner-supplied service charge references separately for villas and apartments", () => {
+    expect(FOUR_SEASONS_PROJECT_DETAILS.serviceCharges).toEqual([
+      { residenceType: "Villas", aedPerSqft: 24, aedPerSqm: 258.33 },
+      { residenceType: "Apartments", aedPerSqft: 61, aedPerSqm: 656.6 },
+    ]);
+    expect(FOUR_SEASONS_PROJECT_DETAILS.serviceChargeSource).toContain("Owner-supplied");
+  });
 });
