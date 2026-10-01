@@ -46,6 +46,17 @@ export function getAvailablePresentationCandidates(
     .sort((left, right) => left.villa.villaNumber - right.villa.villaNumber);
 }
 
+/** The builder shows all current residences of the chosen type; client mode shows the curated selection only. */
+export function getPresentationPlanCandidates(
+  candidates: readonly PresentationCandidate[],
+  selectedVillaNumbers: ReadonlySet<number>,
+  clientMode: boolean,
+) {
+  return clientMode
+    ? candidates.filter((row) => selectedVillaNumbers.has(row.villa.villaNumber))
+    : [...candidates];
+}
+
 export function buildPresentationSearch(input: {
   bedrooms: PresentationBedroom;
   villaNumbers: readonly number[];

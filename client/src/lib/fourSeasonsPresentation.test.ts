@@ -4,6 +4,7 @@ import type { ListingIndexEntry } from "@/hooks/useListingIndex";
 import {
   buildPresentationSearch,
   getAvailablePresentationCandidates,
+  getPresentationPlanCandidates,
   parsePresentationBedroom,
   parsePresentationVillaSelection,
 } from "./fourSeasonsPresentation";
@@ -68,5 +69,19 @@ describe("Four Seasons presentation selection", () => {
   it("creates a stable selected-residence client view URL", () => {
     expect(buildPresentationSearch({ bedrooms: 5, villaNumbers: [45, 16, 16], clientView: true }))
       .toBe("?beds=5&villas=16%2C45&mode=present");
+  });
+
+  it("renders all available category residences for the builder and only selected residences for the client plan", () => {
+    const candidates = getAvailablePresentationCandidates(
+      [villa(16, 5), villa(19, 5)],
+      new Map<string, ListingIndexEntry>([
+        ["four-seasons/villa-16", listing("four-seasons/villa-16", "available")],
+        ["four-seasons/villa-19", listing("four-seasons/villa-19", "available")],
+      ]),
+      5,
+    );
+    const selected = new Set([19]);
+    expect(getPresentationPlanCandidates(candidates, selected, false).map((row) => row.villa.villaNumber)).toEqual([16, 19]);
+    expect(getPresentationPlanCandidates(candidates, selected, true).map((row) => row.villa.villaNumber)).toEqual([19]);
   });
 });

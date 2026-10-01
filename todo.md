@@ -1162,3 +1162,10 @@
 - [x] Starts with the six exact owner-supplied 5 Bedroom listings (Villas 16, 19, 20, 21, 44, 45) and allows a presenter to switch to current active 6 Bedroom or 7 Bedroom listings.
 - [x] Presenter can select exact residences and open or copy a scoped client view. Client view omits availability badges, stock totals, owner data, sale history, and green inventory signals; it only shows curated property, area, view, price, location, and approved proposal links.
 - [x] Added filter/selection tests and ran TypeScript plus complete regression validation: 87 Vitest files / 451 tests passed.
+
+### Presentation Master Plan Enhancement (1 Oct 2026)
+- [x] Embedded the existing verified Four Seasons master plan in the Presentation page.
+- [x] Builder mode now renders dots for every active listing in the selected 5, 6, or 7 Bedroom category; tapping a dot selects or removes that exact villa.
+- [x] Client mode renders only the selected residences as numbered dots, and tapping a dot scrolls to its corresponding property card.
+- [x] Kept the client presentation discreet: no green Available badges, stock totals, owner data, or sale history appear on the plan.
+- [x] Preserved the production map’s established villa-to-master-plan anchors; full regression validation passed: 87 Vitest files / 452 tests.

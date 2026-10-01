@@ -1,14 +1,16 @@
 import { useMemo } from "react";
 import { Link, useLocation, useSearch } from "wouter";
-import { ArrowLeft, Check, ChevronRight, Copy, FileText, MapPin, Presentation, Sparkles } from "lucide-react";
+import { ArrowLeft, Check, Copy, MapPin, Presentation, Sparkles } from "lucide-react";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { OneDriveCardLinks } from "@/components/ListingControls";
+import { FourSeasonsPresentationPlan } from "@/components/FourSeasonsPresentationPlan";
 import { FOUR_SEASONS_VILLAS } from "@/data/fourSeasons";
 import { useListingIndex } from "@/hooks/useListingIndex";
 import {
   buildPresentationSearch,
   getAvailablePresentationCandidates,
+  getPresentationPlanCandidates,
   isClientPresentation,
   parsePresentationBedroom,
   parsePresentationVillaSelection,
@@ -47,6 +49,7 @@ export default function FourSeasonsPresentation() {
     : selectedNumbers.length > 0
     ? candidates.filter((row) => selectedNumberSet.has(row.villa.villaNumber))
     : candidates;
+  const planCandidates = getPresentationPlanCandidates(candidates, selectedNumberSet, clientMode);
 
   const navigate = (nextBedroom: PresentationBedroom, nextNumbers: readonly number[], nextClientMode = false) => {
     setLocation(`/presentation${buildPresentationSearch({ bedrooms: nextBedroom, villaNumbers: nextNumbers, clientView: nextClientMode })}`);
@@ -58,6 +61,13 @@ export default function FourSeasonsPresentation() {
       ? selectedNumbers.filter((number) => number !== villaNumber)
       : [...selectedNumbers, villaNumber];
     navigate(bedroom, next, false);
+  };
+  const handlePlanVilla = (villaNumber: number) => {
+    if (!clientMode) {
+      toggleResidence(villaNumber);
+      return;
+    }
+    document.getElementById(`presentation-villa-${villaNumber}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
   const copyClientLink = async () => {
     const url = `${window.location.origin}/presentation${buildPresentationSearch({
@@ -152,55 +162,64 @@ export default function FourSeasonsPresentation() {
             </p>
           </div>
         ) : (
-          <section className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {displayed.map(({ villa, listing }) => {
-              const selected = selectedNumberSet.has(villa.villaNumber);
-              return (
-                <article key={villa.villaKey} className="group overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md">
-                  <div className="h-2 bg-gradient-to-r from-[#23483f] via-[#3c6757] to-[#c3a368]" />
-                  <div className="p-5 sm:p-6">
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-[#8f7444]">Four Seasons Private Residences</p>
-                        <h2 className="mt-1 font-display text-3xl font-semibold">Villa {villa.villaNumber}</h2>
-                        <p className="mt-1 text-sm text-stone-600">{villa.villaType}{villa.view ? ` · ${villa.view}` : ""}</p>
+          <>
+            <FourSeasonsPresentationPlan
+              candidates={planCandidates}
+              selectedVillaNumbers={selectedNumberSet}
+              bedroom={bedroom}
+              clientMode={clientMode}
+              onVillaClick={handlePlanVilla}
+            />
+            <section className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {displayed.map(({ villa, listing }) => {
+                const selected = selectedNumberSet.has(villa.villaNumber);
+                return (
+                  <article id={`presentation-villa-${villa.villaNumber}`} key={villa.villaKey} className="group scroll-mt-28 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                    <div className="h-2 bg-gradient-to-r from-[#23483f] via-[#3c6757] to-[#c3a368]" />
+                    <div className="p-5 sm:p-6">
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-[#8f7444]">Four Seasons Private Residences</p>
+                          <h2 className="mt-1 font-display text-3xl font-semibold">Villa {villa.villaNumber}</h2>
+                          <p className="mt-1 text-sm text-stone-600">{villa.villaType}{villa.view ? ` · ${villa.view}` : ""}</p>
+                        </div>
+                        {!clientMode && (
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant={selected ? "default" : "outline"}
+                            onClick={() => toggleResidence(villa.villaNumber)}
+                            className={selected ? "bg-[#23483f] text-white hover:bg-[#183932]" : "border-stone-300 text-stone-700"}
+                          >
+                            {selected ? <><Check className="mr-1 h-3.5 w-3.5" /> Selected</> : "Add"}
+                          </Button>
+                        )}
                       </div>
-                      {!clientMode && (
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant={selected ? "default" : "outline"}
-                          onClick={() => toggleResidence(villa.villaNumber)}
-                          className={selected ? "bg-[#23483f] text-white hover:bg-[#183932]" : "border-stone-300 text-stone-700"}
-                        >
-                          {selected ? <><Check className="mr-1 h-3.5 w-3.5" /> Selected</> : "Add"}
+
+                      <dl className="mt-6 grid grid-cols-2 gap-x-5 gap-y-4 border-y border-stone-100 py-5 text-sm">
+                        <div><dt className="text-[0.63rem] uppercase tracking-[0.13em] text-stone-500">Bedrooms</dt><dd className="mt-1 font-medium">{villa.bedrooms} Bedroom</dd></div>
+                        <div><dt className="text-[0.63rem] uppercase tracking-[0.13em] text-stone-500">View</dt><dd className="mt-1 font-medium">{villa.view ?? "Private residence"}</dd></div>
+                        <div><dt className="text-[0.63rem] uppercase tracking-[0.13em] text-stone-500">Land</dt><dd className="mt-1 font-medium">{formatArea(listing.landAreaSqm ?? villa.plotAreaSqm)}</dd></div>
+                        <div><dt className="text-[0.63rem] uppercase tracking-[0.13em] text-stone-500">Total area</dt><dd className="mt-1 font-medium">{formatArea(listing.builtUpAreaSqm ?? villa.builtUpAreaSqm)}</dd></div>
+                      </dl>
+
+                      <div className="mt-5">
+                        <p className="text-[0.63rem] uppercase tracking-[0.13em] text-stone-500">Asking price</p>
+                        <p className="mt-1 font-display text-3xl font-semibold text-[#23483f]">{formatPrice(listing.askingPriceAed ?? villa.askingPriceAed)}</p>
+                      </div>
+
+                      <div className="mt-5 flex flex-wrap items-center gap-2">
+                        <Button asChild size="sm" variant="outline" className="border-stone-300 text-stone-700">
+                          <Link href={`/map?plot=${encodeURIComponent(villa.villaKey)}`}><MapPin className="mr-1.5 h-3.5 w-3.5" /> Location</Link>
                         </Button>
-                      )}
+                        <OneDriveCardLinks villaKey={villa.villaKey} />
+                      </div>
                     </div>
-
-                    <dl className="mt-6 grid grid-cols-2 gap-x-5 gap-y-4 border-y border-stone-100 py-5 text-sm">
-                      <div><dt className="text-[0.63rem] uppercase tracking-[0.13em] text-stone-500">Bedrooms</dt><dd className="mt-1 font-medium">{villa.bedrooms} Bedroom</dd></div>
-                      <div><dt className="text-[0.63rem] uppercase tracking-[0.13em] text-stone-500">View</dt><dd className="mt-1 font-medium">{villa.view ?? "Private residence"}</dd></div>
-                      <div><dt className="text-[0.63rem] uppercase tracking-[0.13em] text-stone-500">Land</dt><dd className="mt-1 font-medium">{formatArea(listing.landAreaSqm ?? villa.plotAreaSqm)}</dd></div>
-                      <div><dt className="text-[0.63rem] uppercase tracking-[0.13em] text-stone-500">Total area</dt><dd className="mt-1 font-medium">{formatArea(listing.builtUpAreaSqm ?? villa.builtUpAreaSqm)}</dd></div>
-                    </dl>
-
-                    <div className="mt-5">
-                      <p className="text-[0.63rem] uppercase tracking-[0.13em] text-stone-500">Asking price</p>
-                      <p className="mt-1 font-display text-3xl font-semibold text-[#23483f]">{formatPrice(listing.askingPriceAed ?? villa.askingPriceAed)}</p>
-                    </div>
-
-                    <div className="mt-5 flex flex-wrap items-center gap-2">
-                      <Button asChild size="sm" variant="outline" className="border-stone-300 text-stone-700">
-                        <Link href={`/map?plot=${encodeURIComponent(villa.villaKey)}`}><MapPin className="mr-1.5 h-3.5 w-3.5" /> Location</Link>
-                      </Button>
-                      <OneDriveCardLinks villaKey={villa.villaKey} />
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </section>
+                  </article>
+                );
+              })}
+            </section>
+          </>
         )}
 
         {!clientMode && displayed.length > 0 && (
