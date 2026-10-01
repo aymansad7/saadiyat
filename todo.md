@@ -1149,3 +1149,10 @@
 - [x] Stored a valid exact-unit official AED price on all 292 cards (AED 8,227,972–15,885,705). The latest detail pass reconfirmed 268 directly; the other 24 retained their exact official values from the same refresh window when individual detail calls were transiently unavailable. AED 1 / zero / blank placeholders remain excluded.
 - [x] Recorded four official state movements: IL-V-246-01 and IL-V-280-01 Available→Booked; IL-V-261-01 and WF-V-124-01 Available→Blocked.
 - [x] Archived the updated World of Aldar source evidence privately in OneDrive. Daily sync now retains confirmed exact prices during a transient detail-call miss and records only genuine price changes.
+
+### Four Seasons Five Bedroom Proposal (1 Oct 2026)
+- [x] Verified and marked Available as **owner-supplied operational listings** (not developer availability or a municipal sale) for Villas 16, 19, 20, 21, 44, and 45.
+- [x] Applied the supplied exact prices: Villa 16 AED 95.0M; Villa 19 AED 69.9M; Villas 20 and 21 AED 77.0M each; Villa 44 AED 90.0M; Villa 45 AED 80.0M.
+- [x] Reconciled all six card area references to the proposal’s exact sq ft and derived m² values. Added previously missing Villa 45 plot/BUA and Park view; aligned Villa 20 to the proposal’s Golf view. No owner field or sale history was altered.
+- [x] Stored the supplied five-bedroom proposal in the approved OneDrive folder for each exact villa, exposed it on the respective cards as **Open proposal**, and refreshed the OneDrive Unit Register.
+- [x] Added unit/data and proposal-label regression coverage. TypeScript, 85 local test files / 447 local tests, and the Microsoft OneDrive credential test all passed (the external test passed on a single retry after one transient network timeout).

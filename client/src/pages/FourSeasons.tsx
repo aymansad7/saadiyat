@@ -333,8 +333,14 @@ function VillaSummary({ villa, listing, areaUnit, canViewCategoryMedia }: { vill
       </div>
       {listing?.askingPriceAed ? <div className="mt-3"><ListingPriceLabel askingPriceAed={listing.askingPriceAed} /></div> : null}
       <ListingPropertyFacts listing={listing} />
+      {listing?.publicNotes ? (
+        <p className="mt-2 rounded-sm border border-sky-500/20 bg-sky-500/5 px-2.5 py-2 text-[0.65rem] text-muted-foreground">
+          <span className="mr-1 font-mono text-[0.55rem] uppercase tracking-[0.14em] text-sky-700 dark:text-sky-300">Listing reference</span>
+          {listing.publicNotes}
+        </p>
+      ) : null}
       <ListingOwnerFacts listing={listing} />
-      {available && <div className="mt-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 p-3"><p className="text-xs text-emerald-700 dark:text-emerald-300">Available · offer updated 8 Sep 2026</p><p className="text-xl font-semibold mt-0.5">{formatPrice(askingPrice)}</p></div>}
+      {available && <div className="mt-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/30 p-3"><p className="text-xs text-emerald-700 dark:text-emerald-300">Available · {listing?.publicNotes?.includes("1 Oct 2026") ? "owner-supplied proposal dated 1 Oct 2026" : "offer updated 8 Sep 2026"}</p><p className="text-xl font-semibold mt-0.5">{formatPrice(askingPrice)}</p></div>}
       {transactions.length > 0 && <FourSeasonsTransactionTimeline transactions={transactions} areaUnit={areaUnit} />}
       {floorplan && !available && <p className="mt-3 text-[0.68rem] text-muted-foreground">Plot and Sellable Area from the developer Floorplan. No current availability implied.</p>}
       {!floorplan && villa.historicalSpecSource && !available && <p className="mt-3 text-[0.68rem] text-muted-foreground">Areas from historical specification reference only. No current availability implied.</p>}

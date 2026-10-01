@@ -76,6 +76,15 @@ export type ListingPropertyFactsData = {
   rentPriceAed?: number | null;
 };
 
+export function cardDocumentAction(documentType: string, description?: string | null) {
+  const normalizedDescription = description?.toLowerCase() ?? "";
+  if (documentType === "brochure") return "Open brochure";
+  if (documentType === "floorplan") return "Open floorplan";
+  if (normalizedDescription.includes("proposal")) return "Open proposal";
+  if (normalizedDescription.includes("sales offer")) return "Open Sales Offer";
+  return "Open document";
+}
+
 /** Protected owner fields are returned only when the server grants visibility. */
 export function ListingOwnerFacts({
   listing,
@@ -276,13 +285,7 @@ export function OneDriveCardLinks({ villaKey, className }: { villaKey: string; c
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 rounded-sm border border-primary/30 bg-primary/5 px-2.5 py-1.5 text-xs font-medium text-primary hover:bg-primary/10"
         >
-          {document.documentType === "brochure"
-            ? "Open brochure"
-            : document.documentType === "floorplan"
-            ? "Open floorplan"
-            : document.description?.toLowerCase().includes("sales offer")
-            ? "Open Sales Offer"
-            : "Open document"}
+          {cardDocumentAction(document.documentType, document.description)}
           {document.documentType === "brochure" || document.documentType === "floorplan" ? <FileText className="h-3.5 w-3.5" /> : <ExternalLink className="h-3.5 w-3.5" />}
         </a>
       ))}
