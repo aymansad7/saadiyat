@@ -51,7 +51,7 @@ export type MarsaProjectConfig = {
   name: string;
   projectPath: "talay" | "talaybeach";
   unitPrefix: "Talay-MarsaAlSaadiyat-V-" | "TalayBeach-MarsaAlSaadiyat-V-";
-  /** Talay Beach has no verified direct property route at the capture date. */
+  /** Direct property routes are checked against the live World of Aldar response. */
   hasVerifiedUnitLinks: boolean;
   expectedUnitCount: number;
 };
@@ -70,7 +70,7 @@ export const TALAY_BEACH_CONFIG: MarsaProjectConfig = {
   name: "Talay Beach Villas",
   projectPath: "talaybeach",
   unitPrefix: "TalayBeach-MarsaAlSaadiyat-V-",
-  hasVerifiedUnitLinks: false,
+  hasVerifiedUnitLinks: true,
   expectedUnitCount: 184,
 };
 
@@ -100,7 +100,7 @@ function knownDirectAldarLink(unitName: string, config: MarsaProjectConfig): str
   if (!config.hasVerifiedUnitLinks) return null;
   const code = unitCode(unitName, config);
   if (!code) return null;
-  return `https://world.aldar.com/uae/abudhabi/talay/property/MarsaAlSaadiyat-${code}/0?unitstate=floorplan&scheme=S1&furnished=true`;
+  return `https://world.aldar.com/uae/abudhabi/${config.projectPath}/property/MarsaAlSaadiyat-${code}/0?unitstate=floorplan&scheme=S1&furnished=true`;
 }
 
 function sourceUnitIdentity(unit: SourceUnit): string | null {

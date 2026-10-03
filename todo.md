@@ -1188,3 +1188,11 @@
 - [x] Talay: 167 / 167 exact prices refreshed (AED 13,376,066–18,786,203), with 115 price changes and 124 raw Aldar source-state changes recorded. Current source state: 58 Available, 91 Booked, 15 Blocked, 3 New, 0 Sold.
 - [x] Talay Beach: 184 / 184 exact prices refreshed (AED 14,073,376–20,765,395), with 25 price changes and 35 raw Aldar source-state changes recorded. Current source state: 22 Available, 159 Booked, 3 Blocked, 0 Sold.
 - [x] Archived the official HTML and unit-detail summaries in OneDrive under Operations / Official-Snapshots / World-of-Aldar / 2026-10-03; the card history retains every price and source-state transition.
+
+### Aldar Official Links & Visible Card Prices (3 Oct 2026)
+- [x] Verified and enabled exact World of Aldar unit routes for Talay Beach, Louvre Residences (legacy Grove identity), Grove, Manarat III, and Haven. The direct links were checked live against the official source.
+- [x] Updated the official-link verifier to accept the same canonical parameters in any query-string order, preserving exact unit/project matching while avoiding false rejections of valid Aldar URLs.
+- [x] Replaced the avoidable unavailable message with a safe verified **Open Aldar** project fallback if Aldar does not publish an exact unit page or a previously exact page now returns 404/410. It never guesses a different unit. Known withdrawn units remain protected.
+- [x] Talay Beach property cards now generate their verified exact direct link even for earlier stored records that do not yet contain a raw link value.
+- [x] Made price visible in the global unit-search card without opening the unit, and corrected its source-state colour semantics: green is Available only; New blue, Booked/Reserved amber, Blocked orange, Sold red. Existing full unit cards already expose official price, bedroom count, plot area and BUA/saleable area directly.
+- [x] Verified live local redirects for Talay Beach, Louvre, Grove, Manarat and Haven, including a safe Louvre project fallback for a protected withdrawn unit. `git diff --check`, TypeScript and the complete suite passed: 89 files / 465 tests.

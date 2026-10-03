@@ -21,11 +21,13 @@ describe("Marsa Al Saadiyat official captures", () => {
     expect(() => selectMarsaProductionSourceUnits(units("Talay-MarsaAlSaadiyat-V-", 166), TALAY_CONFIG)).toThrow(/coverage/i);
   });
 
-  it("generates only the verified Talay exact unit URL and does not invent a Talay Beach page", () => {
+  it("generates verified exact unit URLs for both Talay phases", () => {
     expect(__testables.knownDirectAldarLink("Talay-MarsaAlSaadiyat-V-001-01", TALAY_CONFIG)).toBe(
       "https://world.aldar.com/uae/abudhabi/talay/property/MarsaAlSaadiyat-001-01/0?unitstate=floorplan&scheme=S1&furnished=true",
     );
-    expect(__testables.knownDirectAldarLink("TalayBeach-MarsaAlSaadiyat-V-001-01", TALAY_BEACH_CONFIG)).toBeNull();
+    expect(__testables.knownDirectAldarLink("TalayBeach-MarsaAlSaadiyat-V-001-01", TALAY_BEACH_CONFIG)).toBe(
+      "https://world.aldar.com/uae/abudhabi/talaybeach/property/MarsaAlSaadiyat-001-01/0?unitstate=floorplan&scheme=S1&furnished=true",
+    );
   });
 
   it("derives a price range only from exact official unit-detail prices", () => {

@@ -14,9 +14,18 @@ import { Input } from "@/components/ui/input";
 function statusColor(status: string | null): string {
   if (!status) return "text-muted-foreground";
   const s = status.toLowerCase();
-  if (s === "available" || s === "new") return "text-emerald-600 dark:text-emerald-400";
+  if (s === "available") return "text-emerald-600 dark:text-emerald-400";
+  if (s === "new") return "text-sky-600 dark:text-sky-400";
   if (s === "booked" || s === "reserved") return "text-amber-600 dark:text-amber-400";
+  if (s === "blocked") return "text-orange-600 dark:text-orange-400";
+  if (s === "sold") return "text-rose-600 dark:text-rose-400";
   return "text-muted-foreground";
+}
+
+function formatAed(value: number | null | undefined) {
+  return value != null && Number.isFinite(value)
+    ? `AED ${value.toLocaleString("en-AE", { maximumFractionDigits: 0 })}`
+    : null;
 }
 
 function datasetLabel(dataset: string): string {
@@ -132,6 +141,11 @@ export default function GlobalUnitSearch() {
                         <div className="text-[0.65rem] font-mono text-muted-foreground mt-0.5">
                           {r.areaSqm.toLocaleString(undefined, { maximumFractionDigits: 1 })} m²
                           {r.areaSqft != null ? ` · ${r.areaSqft.toLocaleString(undefined, { maximumFractionDigits: 0 })} sqft` : ""}
+                        </div>
+                      )}
+                      {formatAed(r.priceAed) && (
+                        <div className="mt-1 text-sm font-semibold tabular-nums text-foreground">
+                          {formatAed(r.priceAed)}
                         </div>
                       )}
                     </div>

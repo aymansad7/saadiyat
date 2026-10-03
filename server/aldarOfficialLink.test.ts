@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { getExactOfficialAldarUnitUrl, isGeneratedCurrentAldarUnitUrl } from "./aldarOfficialLink";
+import {
+  getExactOfficialAldarUnitUrl,
+  getOfficialAldarProjectFallbackUrl,
+  isGeneratedCurrentAldarUnitUrl,
+} from "./aldarOfficialLink";
 
 describe("official Aldar unit link validation", () => {
   const exactUrl = "https://world.aldar.com/uae/abudhabi/mamshagarden/property/MamshaGarden-B5-01-05";
@@ -85,6 +89,27 @@ describe("official Aldar unit link validation", () => {
     )).toBe(false);
   });
 
+  it("treats query-parameter order as equivalent for a verified current unit URL", () => {
+    const current = getExactOfficialAldarUnitUrl(null, "TalayBeach-MarsaAlSaadiyat-V-001-01", "talay-beach-villas");
+    expect(getExactOfficialAldarUnitUrl(
+      "https://world.aldar.com/uae/abudhabi/talaybeach/property/MarsaAlSaadiyat-001-01/0?furnished=true&scheme=S1&unitstate=floorplan",
+      "TalayBeach-MarsaAlSaadiyat-V-001-01",
+      "talay-beach-villas",
+    )).toBe(current);
+  });
+
+  it.each([
+    ["talay-beach-villas", "TalayBeach-MarsaAlSaadiyat-V-001-01", "abudhabi", "talaybeach", "MarsaAlSaadiyat-001-01"],
+    ["louvreresidences", "Grove-R17-07-16", "abudhabi", "louvreresidences", "R17-07-16"],
+    ["grove", "Grove-Heart2-08-10", "abudhabi", "grove", "Heart2-08-10"],
+    ["manaratresidences3", "ManaratIII-B1-04-24", "abudhabi", "manarat", "B1-04-24"],
+    ["haven", "Haven-Serenity-V-95_01", "dubai", "haven", "Serenity-95-01"],
+  ])("generates the verified direct route for %s", (projectSlug, unitName, city, projectPath, code) => {
+    expect(getExactOfficialAldarUnitUrl(null, unitName, projectSlug)).toBe(
+      `https://world.aldar.com/uae/${city}/${projectPath}/property/${code}/0?unitstate=floorplan&scheme=S1&furnished=true`,
+    );
+  });
+
   it.each([
     ["al-deem-townhomes", "AlDeemTownhomes-AlDeem-TH-399", "aldeemtownhomes", "AlDeem-399-01"],
     ["almarjan", "AlMarjan-B3-19-03", "almarjan", "B3-19-03"],
@@ -130,6 +155,15 @@ describe("official Aldar unit link validation", () => {
     expect(getExactOfficialAldarUnitUrl(null, "TheCanopies-B1-02-04", "the-canopies")).toBeNull();
     expect(getExactOfficialAldarUnitUrl(null, "FahidBeachResidences-B5-01-04", "fahidbeachresidences")).toBeNull();
     expect(getExactOfficialAldarUnitUrl(null, "Grove-R16-05-09", "louvreresidences")).toBeNull();
+  });
+
+  it("uses a verified project explorer only when exact routing is unavailable", () => {
+    expect(getOfficialAldarProjectFallbackUrl("haven")).toBe("https://world.aldar.com/uae/dubai/haven");
+    expect(getOfficialAldarProjectFallbackUrl(
+      "untracked-project",
+      "https://world.aldar.com/uae/abudhabi/example/property/example-unit",
+    )).toBe("https://world.aldar.com/uae/abudhabi/example");
+    expect(getOfficialAldarProjectFallbackUrl("untracked-project")).toBeNull();
   });
 
   it("rejects unknown hosts and links that are not individual property routes", () => {

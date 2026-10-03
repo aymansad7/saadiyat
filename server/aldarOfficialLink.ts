@@ -5,6 +5,19 @@ const ALDAR_HOST = "world.aldar.com";
 const TIMEOUT_MS = 12_000;
 
 const CURRENT_UNIT_QUERY = "unitstate=floorplan&scheme=S1&furnished=true";
+
+/**
+ * Official project explorers used only when Aldar does not publish an exact
+ * unit route any longer. Every entry below was checked against a live World of
+ * Aldar response on 3 October 2026. The fallback never pretends to be an exact
+ * unit URL.
+ */
+const OFFICIAL_PROJECT_FALLBACKS: Record<string, { city: "abudhabi" | "dubai"; project: string }> = {
+  "louvreresidences": { city: "abudhabi", project: "louvreresidences" },
+  "grove": { city: "abudhabi", project: "grove" },
+  "manaratresidences3": { city: "abudhabi", project: "manarat" },
+  "haven": { city: "dubai", project: "haven" },
+};
 const WITHDRAWN_CURRENT_UNIT_KEYS = new Set([
   "the-row-saadiyat:therowsaadiyat-b1-01-15",
   "the-row-saadiyat:therowsaadiyat-b2-01-05",
@@ -143,7 +156,7 @@ function currentAldarUnitUrl(projectSlug: string | null | undefined, unitName: s
               ? prefixed(/^yasparkplace-(.+)$/i, "yasparkplace")
               : project === "faya-al-saadiyat"
                 ? prefixed(/^(fayaalsaadiyat-.+)$/i, "fayaalsaadiyat")
-                  : project === "faya-al-saadiyat-ii"
+      : project === "faya-al-saadiyat-ii"
                     ? (() => {
                         const match = /^fayaalsaadiyatii-(.+?)-v-(.+)$/i.exec(unit);
                         return match ? { projectPath: "fayaalsaadiyatii", code: `${match[1]}-${match[2]}` } : null;
@@ -155,6 +168,22 @@ function currentAldarUnitUrl(projectSlug: string | null | undefined, unitName: s
                           const match = /^talay-marsaalsaadiyat-v-(\d{3}-01)$/i.exec(unit);
                           return match ? { projectPath: "talay", code: `MarsaAlSaadiyat-${match[1]}` } : null;
                         })()
+                      : project === "talay-beach-villas"
+                        ? (() => {
+                            const match = /^talaybeach-marsaalsaadiyat-v-(\d{3}-01)$/i.exec(unit);
+                            return match ? { projectPath: "talaybeach", code: `MarsaAlSaadiyat-${match[1]}` } : null;
+                          })()
+                        : project === "louvreresidences"
+                          ? prefixed(/^grove-(r\d+-\d+-\d+)$/i, "louvreresidences")
+                          : project === "grove"
+                            ? prefixed(/^grove-(.+)$/i, "grove")
+                            : project === "manaratresidences3"
+                              ? prefixed(/^manaratiii-(b\d+-\d+-\d+)$/i, "manarat")
+                              : project === "haven"
+                                ? (() => {
+                                    const match = /^haven-(.+?)-(?:v|th)-(\d+)[_-](\d+)$/i.exec(unit);
+                                    return match ? { projectPath: "haven", code: `${match[1]}-${match[2]}-${match[3]}`, cityPath: "dubai" } : null;
+                                  })()
                     : project === "mamsha-gardens"
                       ? prefixed(/^mamshagarden-(.+)$/i, "mamshagarden")
                     : project === "mamsha-palm"
@@ -187,10 +216,41 @@ function isCurrentVerifiedAldarUnitUrl(rawUrl: string, unitName: string, project
   const current = currentAldarUnitUrl(projectSlug, unitName);
   if (!current) return false;
   try {
-    return new URL(rawUrl).toString() === new URL(current).toString();
+    const raw = new URL(rawUrl);
+    const expected = new URL(current);
+    if (raw.protocol !== expected.protocol || raw.hostname !== expected.hostname || raw.pathname !== expected.pathname) return false;
+    const canonicalEntries = (url: URL) => Array.from(url.searchParams.entries())
+      .sort(([keyA, valueA], [keyB, valueB]) => keyA.localeCompare(keyB) || valueA.localeCompare(valueB));
+    return JSON.stringify(canonicalEntries(raw)) === JSON.stringify(canonicalEntries(expected));
   } catch {
     return false;
   }
+}
+
+/** Returns a checked World of Aldar project explorer when exact unit routing is unavailable. */
+export function getOfficialAldarProjectFallbackUrl(
+  projectSlug: string | null | undefined,
+  rawUrl?: string | null,
+) {
+  if (rawUrl) {
+    try {
+      const url = new URL(rawUrl);
+      const parts = url.pathname.split("/").filter(Boolean);
+      if (
+        url.protocol === "https:" &&
+        url.hostname === ALDAR_HOST &&
+        parts[0] === "uae" &&
+        (parts[1] === "abudhabi" || parts[1] === "dubai") &&
+        parts[2]
+      ) {
+        return `https://${ALDAR_HOST}/uae/${parts[1]}/${parts[2]}`;
+      }
+    } catch {
+      // Fall through to the strictly controlled project map.
+    }
+  }
+  const fallback = OFFICIAL_PROJECT_FALLBACKS[(projectSlug ?? "").trim().toLowerCase()];
+  return fallback ? `https://${ALDAR_HOST}/uae/${fallback.city}/${fallback.project}` : null;
 }
 
 /**
@@ -247,14 +307,12 @@ export async function aldarOfficialLinkHandler(req: Request, res: Response) {
   const projectSlug = typeof req.query.project === "string" ? req.query.project : null;
   const target = getExactOfficialAldarUnitUrl(rawUrl, unitName, projectSlug);
   if (!target) {
+    const fallback = getOfficialAldarProjectFallbackUrl(projectSlug, rawUrl);
+    if (fallback) return res.redirect(302, fallback);
     return res.status(404).type("html").send(unavailableHtml(
       "Official unit link unavailable",
       "This unit does not currently have a verified official Aldar URL format that matches its recorded project and unit code. No replacement link has been guessed.",
     ));
-  }
-
-  if (isGeneratedCurrentAldarUnitUrl(target, unitName, projectSlug)) {
-    return res.redirect(302, target);
   }
 
   const controller = new AbortController();
@@ -271,6 +329,8 @@ export async function aldarOfficialLinkHandler(req: Request, res: Response) {
       return res.redirect(302, target);
     }
     const withdrawn = response.status === 404 || response.status === 410;
+    const fallback = withdrawn ? getOfficialAldarProjectFallbackUrl(projectSlug, rawUrl) : null;
+    if (fallback) return res.redirect(302, fallback);
     return res.status(withdrawn ? 410 : 502).type("html").send(unavailableHtml(
       withdrawn ? "Aldar no longer publishes this unit page" : "Official Aldar page could not be verified",
       withdrawn

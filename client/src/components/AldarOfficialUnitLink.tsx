@@ -10,10 +10,14 @@ type Props = {
   className?: string;
 };
 
-/** Opens only the exact source-backed Aldar unit URL through the safe verifier. */
+/**
+ * Opens the verified exact World of Aldar unit page where Aldar publishes one.
+ * If Aldar has withdrawn / never exposed that individual route, the server only
+ * falls back to a verified official project explorer — it never guesses a unit.
+ */
 export default function AldarOfficialUnitLink({ aldarLink, unitName, projectSlug, label, compact = false, className }: Props) {
   if (!unitName || !projectSlug) {
-    return <span className={cn("text-xs text-muted-foreground", className)}>Official Aldar unit link unavailable</span>;
+    return <span className={cn("text-xs text-muted-foreground", className)}>Official Aldar page unavailable</span>;
   }
   const params = new URLSearchParams({ unit: unitName, project: projectSlug });
   if (aldarLink) params.set("url", aldarLink);
@@ -30,7 +34,7 @@ export default function AldarOfficialUnitLink({ aldarLink, unitName, projectSlug
         className,
       )}
     >
-      {label ?? (compact ? "Official Aldar" : "Open exact Aldar unit page")} <ExternalLink className={compact ? "h-3 w-3" : "h-3.5 w-3.5"} />
+      {label ?? (compact ? "Official Aldar" : "Open Aldar") } <ExternalLink className={compact ? "h-3 w-3" : "h-3.5 w-3.5"} />
     </a>
   );
 }
