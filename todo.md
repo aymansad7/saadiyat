@@ -1182,3 +1182,9 @@
 - [x] Added a full-bleed project-lifestyle hero and a responsive, expandable luxury gallery to Presentation. Every visual is explicitly labelled project / lifestyle / sales-centre imagery and never attributed to a specific villa, interior, terrace, or view.
 - [x] Added the owner-supplied Four Seasons service-charge reference to both main and Presentation project-reference panels: Villas AED 24/ft² (AED 258.33/m²) and Apartments AED 61/ft² (AED 656.60/m²). Fiscal period and escalation were not supplied, so neither is inferred.
 - [x] Added media-provenance and service-charge regression coverage; focused TypeScript and 4 test files / 13 tests passed.
+
+### Talay & Talay Beach — Official Price Confirmation (3 Oct 2026)
+- [x] Refreshed the complete current World of Aldar inventory and exact unit-detail prices for both projects; source coverage was complete with no inferred, placeholder, or missing unit values.
+- [x] Talay: 167 / 167 exact prices refreshed (AED 13,376,066–18,786,203), with 115 price changes and 124 raw Aldar source-state changes recorded. Current source state: 58 Available, 91 Booked, 15 Blocked, 3 New, 0 Sold.
+- [x] Talay Beach: 184 / 184 exact prices refreshed (AED 14,073,376–20,765,395), with 25 price changes and 35 raw Aldar source-state changes recorded. Current source state: 22 Available, 159 Booked, 3 Blocked, 0 Sold.
+- [x] Archived the official HTML and unit-detail summaries in OneDrive under Operations / Official-Snapshots / World-of-Aldar / 2026-10-03; the card history retains every price and source-state transition.
