@@ -8,12 +8,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EditListingButton, ListingOwnerFacts, ListingPropertyFacts, ListingPriceLabel, OneDriveCardLinks } from "@/components/ListingControls";
 import { FourSeasonsProjectDetails } from "@/components/FourSeasonsProjectDetails";
+import { FourSeasonsApartments } from "@/components/FourSeasonsApartments";
+import { FourSeasonsSourceStatusBadge } from "@/components/FourSeasonsSourceStatusBadge";
 import { useListingIndex, type ListingIndexEntry } from "@/hooks/useListingIndex";
 import {
   FOUR_SEASONS_MASTERPLAN_IMAGE,
   FOUR_SEASONS_VILLAS,
   type FourSeasonsVilla,
 } from "@/data/fourSeasons";
+import {
+  FOUR_SEASONS_ALAIN_SNAPSHOT,
+  FOUR_SEASONS_ALAIN_VILLA_BY_NUMBER,
+  type FourSeasonsAlainUnit,
+} from "@/data/fourSeasonsAlainExplore";
 import { FOUR_SEASONS_PROJECT_DOCUMENT_LINKS } from "@/data/fourSeasonsProjectDetails";
 import {
   FOUR_SEASONS_PENDING_SUMMARY,
@@ -35,10 +42,12 @@ function formatPrice(value: number | null) {
   return value ? `AED ${AED.format(value)}` : "—";
 }
 
-function isAvailableNow(villa: FourSeasonsVilla, listing?: ListingIndexEntry | null) {
+function isAvailableNow(villa: FourSeasonsVilla, source?: FourSeasonsAlainUnit, listing?: ListingIndexEntry | null) {
   return listing?.status && listing.status !== "draft"
     ? listing.status === "available"
-    : villa.status === "available";
+    : source
+      ? source.sourceStatus === "Available"
+      : villa.status === "available";
 }
 
 function currentAskingPrice(villa: FourSeasonsVilla, listing?: ListingIndexEntry | null) {
@@ -62,12 +71,12 @@ function getVillaLandArea(villa: FourSeasonsVilla) {
   };
 }
 
-function getVillaTotalArea(villa: FourSeasonsVilla) {
+function getVillaTotalArea(villa: FourSeasonsVilla, source?: FourSeasonsAlainUnit) {
   const floorplan = FOUR_SEASONS_FLOORPLAN_BY_VILLA.get(villa.villaNumber);
   const confirmed = getConfirmedTransaction(villa.villaNumber);
   return {
-    sqm: floorplan?.sellableAreaSqmPrinted ?? villa.builtUpAreaSqm ?? confirmed?.builtUpAreaSqm ?? null,
-    sqft: floorplan?.sellableAreaSqft ?? villa.builtUpAreaSqft ?? (confirmed ? confirmed.builtUpAreaSqm * 10.764 : null),
+    sqm: source?.saleableAreaSqm ?? floorplan?.sellableAreaSqmPrinted ?? villa.builtUpAreaSqm ?? confirmed?.builtUpAreaSqm ?? null,
+    sqft: source?.saleableAreaSqft ?? floorplan?.sellableAreaSqft ?? villa.builtUpAreaSqft ?? (confirmed ? confirmed.builtUpAreaSqm * 10.764 : null),
   };
 }
 
@@ -83,23 +92,25 @@ export default function FourSeasons() {
   const { user } = useAuth();
   const canViewCategoryMedia = user?.role === "master";
   const { index: listingIndex } = useListingIndex({ community: "four-seasons" });
+  const sourceVillaByNumber = FOUR_SEASONS_ALAIN_VILLA_BY_NUMBER;
 
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     return FOUR_SEASONS_VILLAS.filter((villa) => {
       const landArea = getVillaLandArea(villa);
-      const totalArea = getVillaTotalArea(villa);
-      if (status === "available" && !isAvailableNow(villa, listingIndex.get(villa.villaKey))) return false;
+      const source = sourceVillaByNumber.get(villa.villaNumber);
+      const totalArea = getVillaTotalArea(villa, source);
+      if (status === "available" && !isAvailableNow(villa, source, listingIndex.get(villa.villaKey))) return false;
       if (!isWithinAreaRange(landArea, areaUnit, areaMin, areaMax)) return false;
       if (!normalized) return true;
-      return [villa.label, villa.villaType, villa.view ?? "", `${villa.bedrooms} br`, villa.sdn3PlotNumber ? `sdn3 plot ${villa.sdn3PlotNumber}` : ""]
+      return [villa.label, villa.villaType, villa.view ?? "", `${villa.bedrooms} br`, source?.unitCode ?? "", source?.displayType ?? "", villa.sdn3PlotNumber ? `sdn3 plot ${villa.sdn3PlotNumber}` : ""]
         .some((value) => value.toLowerCase().includes(normalized))
         || matchesAreaQuery(normalized, landArea)
         || matchesAreaQuery(normalized, totalArea);
     });
-  }, [query, status, areaUnit, areaMin, areaMax, listingIndex]);
+  }, [query, status, areaUnit, areaMin, areaMax, listingIndex, sourceVillaByNumber]);
 
-  const availableCount = FOUR_SEASONS_VILLAS.filter(villa => isAvailableNow(villa, listingIndex.get(villa.villaKey))).length;
+  const availableCount = FOUR_SEASONS_VILLAS.filter(villa => isAvailableNow(villa, sourceVillaByNumber.get(villa.villaNumber), listingIndex.get(villa.villaKey))).length;
   const visibleNumbers = new Set(filtered.map(villa => villa.villaNumber));
 
   const selectFromPlan = (villa: FourSeasonsVilla) => {
@@ -121,7 +132,7 @@ export default function FourSeasons() {
               <p className="font-mono text-[0.68rem] uppercase tracking-[0.2em] text-primary">Saadiyat Island</p>
               <h1 className="mt-2 font-display text-3xl sm:text-5xl font-semibold">Four Seasons Private Residences</h1>
               <p className="mt-3 max-w-3xl text-sm sm:text-base text-muted-foreground">
-                56 villas from the official master plan. Current availability shows {availableCount} operational listings, including the owner-supplied sales offers recorded on 8 Sep 2026.
+                56 master-plan villas and 60 Tower 1 residences. Live developer-source status is shown separately from NAS owner/resale listings and municipal transaction history.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -145,11 +156,11 @@ export default function FourSeasons() {
 
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
             <Stat label="Master plan villas" value="56" />
-            <Stat label="Available" value={String(availableCount)} accent />
+            <Stat label="Tower 1 residences" value="60" />
+            <Stat label="Source available" value={String(FOUR_SEASONS_ALAIN_SNAPSHOT.villaStatusCounts.Available)} accent />
             <Stat label="Confirmed sales" value={String(FOUR_SEASONS_TRANSACTION_SUMMARY.confirmed)} />
             <Stat label="Possible matches" value={String(FOUR_SEASONS_TRANSACTION_SUMMARY.possible)} />
-            <Stat label="Unmatched records" value={String(FOUR_SEASONS_TRANSACTION_SUMMARY.unmatched)} />
-            <Stat label="Updated" value="23 Aug 2026" />
+            <Stat label="Source sold" value={String(FOUR_SEASONS_ALAIN_SNAPSHOT.statusCounts.Sold)} />
           </div>
         </section>
 
@@ -159,7 +170,7 @@ export default function FourSeasons() {
           <div className="p-4 sm:p-5 border-b border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <h2 className="font-display text-2xl font-semibold">Clickable Master Plan</h2>
-              <p className="text-xs text-muted-foreground mt-1">Green means Available now. Purple marks a confirmed municipal sale; amber marks a possible area match. Availability and sale history are separate.</p>
+              <p className="text-xs text-muted-foreground mt-1">Green means current source Available or a NAS Available listing. Purple marks a confirmed municipal sale; amber marks a possible area match. Source state, NAS listing and sale history remain separate.</p>
             </div>
             <div className="flex items-center gap-4 text-xs font-mono">
               <span className="inline-flex items-center gap-1.5"><i className="h-3 w-3 rounded-full bg-emerald-500" /> Available</span>
@@ -176,7 +187,8 @@ export default function FourSeasons() {
                 const hasConfirmed = transactions.some((transaction) => transaction.confidence === "confirmed");
                 const hasPossible = transactions.some((transaction) => transaction.confidence === "possible");
                 const listing = listingIndex.get(villa.villaKey);
-                const available = isAvailableNow(villa, listing);
+                const source = sourceVillaByNumber.get(villa.villaNumber);
+                const available = isAvailableNow(villa, source, listing);
                 const markerClass = available
                   ? "bg-emerald-500 text-white"
                   : hasConfirmed
@@ -202,7 +214,7 @@ export default function FourSeasons() {
           </div>
           {selectedVilla && (
             <div className="border-t border-border p-4 sm:p-5 bg-emerald-50/60 dark:bg-emerald-950/20">
-              <VillaSummary villa={selectedVilla} listing={listingIndex.get(selectedVilla.villaKey)} areaUnit={areaUnit} canViewCategoryMedia={canViewCategoryMedia} />
+              <VillaSummary villa={selectedVilla} source={sourceVillaByNumber.get(selectedVilla.villaNumber)} listing={listingIndex.get(selectedVilla.villaKey)} areaUnit={areaUnit} canViewCategoryMedia={canViewCategoryMedia} />
             </div>
           )}
         </section>
@@ -240,8 +252,8 @@ export default function FourSeasons() {
         {viewMode === "cards" ? (
           <section className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {filtered.map((villa) => (
-              <article id={`villa-${villa.villaNumber}`} key={villa.villaKey} className={`rounded-xl border bg-card p-5 scroll-mt-28 ${isAvailableNow(villa, listingIndex.get(villa.villaKey)) ? "border-emerald-500/60 shadow-emerald-100 shadow-sm" : "border-border"}`}>
-                <VillaSummary villa={villa} listing={listingIndex.get(villa.villaKey)} areaUnit={areaUnit} canViewCategoryMedia={canViewCategoryMedia} />
+              <article id={`villa-${villa.villaNumber}`} key={villa.villaKey} className={`rounded-xl border bg-card p-5 scroll-mt-28 ${isAvailableNow(villa, sourceVillaByNumber.get(villa.villaNumber), listingIndex.get(villa.villaKey)) ? "border-emerald-500/60 shadow-emerald-100 shadow-sm" : "border-border"}`}>
+                <VillaSummary villa={villa} source={sourceVillaByNumber.get(villa.villaNumber)} listing={listingIndex.get(villa.villaKey)} areaUnit={areaUnit} canViewCategoryMedia={canViewCategoryMedia} />
                 <div className="mt-4 border-t border-border pt-3 flex justify-end">
                   <EditListingButton villaKey={villa.villaKey} community="four-seasons" villaLabel={`Four Seasons · Villa ${villa.villaNumber}`} />
                 </div>
@@ -269,11 +281,12 @@ export default function FourSeasons() {
                   const transactions = getFourSeasonsTransactions(villa.villaNumber);
                   const latest = transactions[transactions.length - 1];
                   const landArea = getVillaLandArea(villa);
-                  const totalArea = getVillaTotalArea(villa);
+                  const source = sourceVillaByNumber.get(villa.villaNumber);
+                  const totalArea = getVillaTotalArea(villa, source);
                   return (
                   <tr id={`villa-${villa.villaNumber}`} key={villa.villaKey} className="border-t border-border scroll-mt-28">
                     <td className="px-4 py-3 font-semibold">Villa {villa.villaNumber}<div className="text-xs font-normal text-muted-foreground">{villa.bedrooms} BR{villa.sdn3PlotNumber ? ` · SDN3 Plot ${villa.sdn3PlotNumber}` : ""}</div></td>
-                    <td className="px-4 py-3"><StatusBadge available={isAvailableNow(villa, listingIndex.get(villa.villaKey))} /></td>
+                    <td className="px-4 py-3 space-y-1"><StatusBadge available={isAvailableNow(villa, source, listingIndex.get(villa.villaKey))} /><FourSeasonsSourceStatusBadge status={source?.sourceStatus} compact /></td>
                     <td className="px-4 py-3">{villa.villaType}<div className="text-xs text-muted-foreground">{villa.view ?? "—"}</div></td>
                     <td className="px-4 py-3 text-right font-mono">{formatArea(landArea, areaUnit)}</td>
                     <td className="px-4 py-3 text-right font-mono">{formatArea(totalArea, areaUnit)}</td>
@@ -287,6 +300,8 @@ export default function FourSeasons() {
             </table>
           </section>
         )}
+
+        <FourSeasonsApartments listingIndex={listingIndex} areaUnit={areaUnit} />
 
         <details className="rounded-xl border border-amber-300/60 bg-amber-50/60 dark:bg-amber-950/20 p-4">
           <summary className="cursor-pointer font-semibold">Municipal transactions still unmatched ({FOUR_SEASONS_TRANSACTION_SUMMARY.unmatched} of {FOUR_SEASONS_PENDING_SUMMARY.recordCount})</summary>
@@ -319,19 +334,19 @@ function StatusBadge({ available }: { available: boolean }) {
     : <span className="inline-flex rounded-full bg-slate-100 text-slate-600 px-2 py-1 text-[0.68rem] font-semibold">Reference only</span>;
 }
 
-function VillaSummary({ villa, listing, areaUnit, canViewCategoryMedia }: { villa: FourSeasonsVilla; listing?: ListingIndexEntry | null; areaUnit: AreaUnit; canViewCategoryMedia: boolean }) {
+function VillaSummary({ villa, source, listing, areaUnit, canViewCategoryMedia }: { villa: FourSeasonsVilla; source?: FourSeasonsAlainUnit; listing?: ListingIndexEntry | null; areaUnit: AreaUnit; canViewCategoryMedia: boolean }) {
   const floorplan = FOUR_SEASONS_FLOORPLAN_BY_VILLA.get(villa.villaNumber);
   const transactions = getFourSeasonsTransactions(villa.villaNumber);
   const confirmed = getConfirmedTransaction(villa.villaNumber);
   const landArea = getVillaLandArea(villa);
-  const totalArea = getVillaTotalArea(villa);
-  const available = isAvailableNow(villa, listing);
+  const totalArea = getVillaTotalArea(villa, source);
+  const available = isAvailableNow(villa, source, listing);
   const askingPrice = currentAskingPrice(villa, listing);
   return (
     <div>
       <div className="flex items-start justify-between gap-3">
-        <div><p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">{villa.villaType}</p><h3 className="font-display text-2xl font-semibold">Villa {villa.villaNumber}</h3></div>
-        <StatusBadge available={available} />
+        <div><p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">{source?.displayType ?? villa.villaType}</p><h3 className="font-display text-2xl font-semibold">Villa {villa.villaNumber}</h3>{source ? <p className="mt-0.5 font-mono text-[0.58rem] text-muted-foreground">{source.unitCode}</p> : null}</div>
+        <div className="flex flex-col items-end gap-1"><StatusBadge available={available} /><FourSeasonsSourceStatusBadge status={source?.sourceStatus} compact /></div>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
         <div><span className="text-xs text-muted-foreground">{confirmed && !villa.plotAreaSqm && !floorplan ? "ADREC land" : "Land"}</span><div className="font-semibold">{formatArea(landArea, areaUnit)}</div></div>
@@ -339,6 +354,18 @@ function VillaSummary({ villa, listing, areaUnit, canViewCategoryMedia }: { vill
         <div><span className="text-xs text-muted-foreground">Bedrooms</span><div className="font-semibold">{villa.bedrooms} BR</div></div>
         <div><span className="text-xs text-muted-foreground">View</span><div className="font-semibold">{villa.view ?? "—"}</div></div>
       </div>
+      {source ? (
+        <div className="mt-4 rounded-lg border border-sky-500/20 bg-sky-500/5 p-3">
+          <p className="font-mono text-[0.58rem] uppercase tracking-[0.14em] text-sky-700 dark:text-sky-300">Alain Explore source · 9 Oct 2026</p>
+          <div className="mt-2 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+            <div><span className="text-xs text-muted-foreground">Type</span><div className="font-semibold">{source.displayType}</div></div>
+            <div><span className="text-xs text-muted-foreground">Saleable</span><div className="font-semibold">{formatArea({ sqm: source.saleableAreaSqm, sqft: source.saleableAreaSqft }, areaUnit)}</div></div>
+            <div><span className="text-xs text-muted-foreground">Internal</span><div className="font-semibold">{formatArea({ sqm: source.internalAreaSqm, sqft: source.internalAreaSqft }, areaUnit)}</div></div>
+            <div><span className="text-xs text-muted-foreground">Balcony</span><div className="font-semibold">{formatArea({ sqm: source.balconyAreaSqm, sqft: source.balconyAreaSqft }, areaUnit)}</div></div>
+          </div>
+          <p className="mt-2 text-[0.65rem] text-muted-foreground">Developer public price: {source.priceAed ? formatPrice(source.priceAed) : "not published in this source response"}.</p>
+        </div>
+      ) : null}
       {listing?.askingPriceAed ? <div className="mt-3"><ListingPriceLabel askingPriceAed={listing.askingPriceAed} /></div> : null}
       <ListingPropertyFacts listing={listing} />
       {listing?.publicNotes ? (

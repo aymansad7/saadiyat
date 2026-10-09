@@ -1196,3 +1196,11 @@
 - [x] Talay Beach property cards now generate their verified exact direct link even for earlier stored records that do not yet contain a raw link value.
 - [x] Made price visible in the global unit-search card without opening the unit, and corrected its source-state colour semantics: green is Available only; New blue, Booked/Reserved amber, Blocked orange, Sold red. Existing full unit cards already expose official price, bedroom count, plot area and BUA/saleable area directly.
 - [x] Verified live local redirects for Talay Beach, Louvre, Grove, Manarat and Haven, including a safe Louvre project fallback for a protected withdrawn unit. `git diff --check`, TypeScript and the complete suite passed: 89 files / 465 tests.
+
+### Four Seasons Alain Explore Inventory Update (9 Oct 2026)
+- [x] Extracted the `Four_Seasons` sheet from the owner-supplied Alain Explore export and excluded all test rows. Published snapshot: 116 exact commercial records — 56 villas and 60 Tower 1 residences.
+- [x] Refreshed every existing Four Seasons villa card with its latest source status, source type/unit code, saleable, internal and balcony area. Current source state across the 56 villas: 11 Available, 20 Blocked, 2 Booked, 3 Reserved, and 20 Sold.
+- [x] Added a dedicated **Tower 1 · Apartments & Penthouses** catalogue with searchable/filterable 60 residences: unit/floor, type, bedroom count, source state, saleable/internal/balcony areas, NAS listing controls, authorized owner info and linked documents. Apartments are intentionally not plotted on the villa master plan because the workbook supplies no map coordinates.
+- [x] Kept developer-source state, NAS owner/resale listing state, and municipal transaction history separate. The source publishes no public AED price for any of its 116 Four Seasons records, so no price was invented; a NAS asking price appears only when independently added to its card.
+- [x] Archived the original source workbook to OneDrive at `Operations/Source-Imports/Four-Seasons/2026-10-09` and committed a typed display snapshot plus a repeatable generator script.
+- [x] Validation passed: `git diff --check`, TypeScript, and the complete Vitest suite — 90 files / 468 tests.
