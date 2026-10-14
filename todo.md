@@ -1204,3 +1204,10 @@
 - [x] Kept developer-source state, NAS owner/resale listing state, and municipal transaction history separate. The source publishes no public AED price for any of its 116 Four Seasons records, so no price was invented; a NAS asking price appears only when independently added to its card.
 - [x] Archived the original source workbook to OneDrive at `Operations/Source-Imports/Four-Seasons/2026-10-09` and committed a typed display snapshot plus a repeatable generator script.
 - [x] Validation passed: `git diff --check`, TypeScript, and the complete Vitest suite — 90 files / 468 tests.
+
+### Sei Saadiyat Buildings 1 & 2 — Official Price Review (14 Oct 2026)
+- [x] Captured current World of Aldar page data and 265 exact unit-detail prices for Buildings 1 and 2. All 57 Building 1 units returned a valid official price; Building 2 returned a valid official price for all 208 units present in the current partial source page.
+- [x] Applied the non-destructive official price-only patch under sync run 4710001: 257 real before→after price changes, zero status/source-status/removal/identity changes. The corresponding raw source evidence is archived privately in OneDrive.
+- [x] Building 1 official total: AED 245,930,400 across 57 priced units. Building 2 current official subtotal: AED 848,215,200 across 208 precisely priced units. Its 170 registry units omitted from the current source page remain untouched, rather than being marked missing or priced by inference.
+- [x] Produced a clearly labelled, non-persistent Building 2 planning indication from same-building official bedroom medians for the 170 source-absent records; it is not saved as an Aldar price and is not displayed as an official project value.
+- [x] Added a Master review report: `reports/Sei-Saadiyat-Buildings-1-2-Price-Review-2026-10-14.md`.
