@@ -11,4 +11,9 @@ describe("cardDocumentAction", () => {
     expect(cardDocumentAction("floorplan", "proposal")).toBe("Open floorplan");
     expect(cardDocumentAction("marketing", "Owner-supplied sales offer")).toBe("Open Sales Offer");
   });
+
+  it("labels card-facing property media clearly", () => {
+    expect(cardDocumentAction("marketing", "Property video supplied by Master")).toBe("Watch video");
+    expect(cardDocumentAction("marketing", "Premium finishes reference supplied by Master")).toBe("Open finishes");
+  });
 });

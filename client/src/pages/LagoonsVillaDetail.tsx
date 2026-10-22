@@ -15,8 +15,10 @@ import { trpc } from "@/lib/trpc";
 import type { LagoonsVilla } from "@/data/lagoons";
 import { ResaleCard } from "@/components/ResaleCard";
 import { getAvailability, SOURCE_META } from "@/data/lagoonsAvailability";
-import { ListingOwnerCrmData, ListingOwnerFacts, ListingPropertyFacts, UnitContactHistory } from "@/components/ListingControls";
+import { ListingInternalNotes, ListingOwnerCrmData, ListingOwnerFacts, ListingPropertyFacts, ListingPublicNotes, OneDriveCardLinks, UnitContactHistory } from "@/components/ListingControls";
 import { getLagoonsDetailState } from "@/lib/lagoonsDetailState";
+import { lagoonsPhaseForUnit } from "@/lib/lagoonsPhaseDisplay";
+import { lagoonsVillaCoords } from "@/data/lagoonsCoordinates";
 
 function fmtAed(n: number): string {
   return new Intl.NumberFormat("en-AE", { maximumFractionDigits: 0 }).format(n);
@@ -40,6 +42,7 @@ export default function LagoonsVillaDetail() {
     );
   }
   if (detailState === "not-found" || !villa) return <Redirect to={`/saadiyat-lagoons/${params.cluster ?? ""}`} />;
+  const phaseKey = lagoonsPhaseForUnit(villa.unit_name, lagoonsVillaCoords);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -58,6 +61,7 @@ export default function LagoonsVillaDetail() {
               <span className="h-px w-6 bg-primary/60" />
               {villa.cluster_label} · {villa.model ?? ""}
               {villa.variant ? ` · ${villa.variant}` : ""}
+              {phaseKey ? ` · ${phaseKey}` : ""}
             </div>
             <h1 className="font-display text-4xl sm:text-[3rem] leading-tight text-foreground">
               Villa{" "}
@@ -225,8 +229,11 @@ export default function LagoonsVillaDetail() {
             ].filter(Boolean)}
           />
           <ListingPropertyFacts listing={listing ?? null} />
+          <ListingPublicNotes listing={listing ?? null} />
           <ListingOwnerFacts listing={ownerListing} />
           <ListingOwnerCrmData listing={listing ?? null} />
+          <OneDriveCardLinks villaKey={listingKey} />
+          <ListingInternalNotes listing={listing ?? null} />
         </div>
       </section>
 

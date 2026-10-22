@@ -80,6 +80,8 @@ export function cardDocumentAction(documentType: string, description?: string | 
   const normalizedDescription = description?.toLowerCase() ?? "";
   if (documentType === "brochure") return "Open brochure";
   if (documentType === "floorplan") return "Open floorplan";
+  if (normalizedDescription.includes("property video") || normalizedDescription.includes("video")) return "Watch video";
+  if (normalizedDescription.includes("finishes reference") || normalizedDescription.includes("finish reference")) return "Open finishes";
   if (normalizedDescription.includes("proposal")) return "Open proposal";
   if (normalizedDescription.includes("sales offer")) return "Open Sales Offer";
   return "Open document";
@@ -259,6 +261,56 @@ export function ListingPropertyFacts({
   return (
     <div className={`mt-2 text-[0.65rem] font-mono text-muted-foreground ${className ?? ""}`}>
       {facts.join(" · ")}
+    </div>
+  );
+}
+
+export type ListingNotesData = {
+  publicNotes?: string | null;
+  internalNotes?: string | null;
+};
+
+function normalizedNote(value: string | null | undefined) {
+  return value?.replace(/\s+/g, " ").trim() ?? "";
+}
+
+/** Public, provenance-labelled listing remarks. Financial or owner-only material belongs in internalNotes. */
+export function ListingPublicNotes({
+  listing,
+  className,
+  maxCharacters,
+}: {
+  listing?: ListingNotesData | null;
+  className?: string;
+  maxCharacters?: number;
+}) {
+  const note = normalizedNote(listing?.publicNotes);
+  if (!note) return null;
+  const truncated = maxCharacters != null && note.length > maxCharacters;
+  const display = truncated ? `${note.slice(0, Math.max(1, maxCharacters - 1)).trimEnd()}…` : note;
+  return (
+    <div className={`mt-2 rounded-sm border border-sky-500/20 bg-sky-500/5 px-2.5 py-2 text-[0.68rem] leading-5 text-foreground/90 ${className ?? ""}`}>
+      <div className="mb-0.5 font-mono text-[0.55rem] uppercase tracking-[0.14em] text-sky-700 dark:text-sky-300">Listing highlights</div>
+      <p>{display}</p>
+    </div>
+  );
+}
+
+/** Operational and financial references remain visible only to the Master Admin. */
+export function ListingInternalNotes({
+  listing,
+  className,
+}: {
+  listing?: ListingNotesData | null;
+  className?: string;
+}) {
+  const { user } = useAuth();
+  const note = listing?.internalNotes?.trim() ?? "";
+  if (user?.role !== "master" || !note) return null;
+  return (
+    <div className={`mt-3 rounded-md border border-violet-500/25 bg-violet-500/5 px-3 py-3 text-xs leading-5 text-foreground ${className ?? ""}`}>
+      <div className="mb-1.5 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-violet-700 dark:text-violet-300">Master-only listing reference</div>
+      <p className="whitespace-pre-line">{note}</p>
     </div>
   );
 }

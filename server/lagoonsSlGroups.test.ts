@@ -3,6 +3,7 @@ import source from "./data/lagoons.json";
 import { getLagoonsSlPhase } from "../client/src/pages/LagoonsSlGroup";
 import type { LagoonsVilla } from "../client/src/data/lagoons";
 import { buildMarkers } from "../client/src/pages/SaadiyatMap";
+import { LAGOONS_CLUSTER_PHASES } from "../client/src/lib/lagoonsPhaseDisplay";
 
 describe("Lagoons SL groups from Aldar card codes", () => {
   const villas = source.villas as LagoonsVilla[];
@@ -36,5 +37,13 @@ describe("Lagoons SL groups from Aldar card codes", () => {
       expect(markers.some((marker) => marker.slPhase === phase)).toBe(true);
     }
     expect(markers.filter((marker) => marker.slPhase).every((marker) => /^SL[234578]$/.test(marker.slPhase!))).toBe(true);
+  });
+
+  it("labels each outer village card with the exact Aldar-coded SL groups", () => {
+    expect(LAGOONS_CLUSTER_PHASES).toEqual({
+      ethir: ["SL2"],
+      "al-sidr": ["SL3", "SL5"],
+      "al-ghaf": ["SL4", "SL7", "SL8"],
+    });
   });
 });

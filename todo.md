@@ -1221,3 +1221,13 @@
 - [x] Prevented unauthenticated pre-session search requests from producing false errors in the header, map, or Available Units page.
 - [x] Verified direct permission resolution for Muhammad: Lagoons and Saadiyat Reserve each return `canAccess: true` with original-price access.
 - [x] Completed `git diff --check`, TypeScript, and full regression validation: 90 Vitest files / 470 tests passed.
+
+### Lagoons Wilds SL7 Villa 219 and Phase Visibility (22 Oct 2026)
+- [x] Resolve `Lagoons – Wilds – SL7 – V-219` to the exact Aldar source identity `AlGhaf-219-02`; it is a 6-bedroom SL7 Wilds villa, not the similarly numbered Al Ghaf/Sidr units.
+- [x] Mark the exact villa Available with NAS Luxury, without inventing a resale asking price. Preserve the official developer base price separately from the Master-supplied original purchase total and paid-to-date financial reference.
+- [x] Attach Master-supplied public property highlights plus Master-only owner/location/payment notes; the owner is described only as an American resident in Chicago because no personal identity/contact was supplied.
+- [x] Upload the supplied floorplan, premium-finish comparison, and property video to the exact OneDrive unit folder; expose them as documented card links and export the updated Unit Register.
+- [x] Confirm card, map, and listing identity use the same canonical key `lagoons/AlGhaf-219-02`, phase SL7, and a live map anchor.
+- [x] Show source-backed SL labels on every Lagoons villa card and full detail header. Show the exact outer village phase groups: Ethir SL2; Al Sidr SL3/SL5; Al Ghaf SL4/SL7/SL8. No unsupported SLH label was invented.
+- [x] Fix Lagoons outer-page availability arithmetic so the new Available listing is reflected correctly in the counters rather than being hidden by nullish-coalescing precedence.
+- [x] Verify TypeScript, `git diff --check`, focused access/map/Lagoons tests, app health after restart, and complete regression suite: 91 Vitest files / 474 tests.

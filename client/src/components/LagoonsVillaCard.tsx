@@ -28,8 +28,11 @@ import {
   ListingOwnerFacts,
   ListingPropertyFacts,
   ListingPriceLabel,
+  ListingPublicNotes,
+  OneDriveCardLinks,
 } from "@/components/ListingControls";
 import { formatArea, type AreaUnit } from "@/lib/areaSearch";
+import { lagoonsPhaseForUnit } from "@/lib/lagoonsPhaseDisplay";
 import { trpc } from "@/lib/trpc";
 import { UnitPriceMetrics } from "@/components/UnitPriceMetrics";
 
@@ -71,7 +74,7 @@ function positionBadge(villa: LagoonsVilla): { label: string; cls: string } | nu
 export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: Props) {
   const { user } = useAuth();
   const [, navigate] = useLocation();
-  const phaseKey = lagoonsVillaCoords.find(item => item.unit_name === villa.unit_name)?.sl_phase ?? null;
+  const phaseKey = lagoonsPhaseForUnit(villa.unit_name, lagoonsVillaCoords);
   const buildingKey = scopeKeyPart(`cluster-${villa.cluster}`);
   const unitTypeKey = scopeKeyPart(villa.aldar_data?.unit_type ?? villa.variant);
   const bedrooms = villa.bedrooms == null ? null : Number.parseInt(String(villa.bedrooms), 10);
@@ -119,6 +122,11 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
               <span className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground">
                 {villa.cluster_label}
               </span>
+              {phaseKey && (
+                <span className="text-[0.58rem] uppercase tracking-[0.16em] font-mono px-1.5 py-0.5 rounded-sm border border-primary/40 bg-primary/5 text-primary leading-none">
+                  {phaseKey}
+                </span>
+              )}
               <ListingBadge status={listing?.status ?? null} />
               {badge && (
                 <span
@@ -189,6 +197,7 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
           </div>
         ) : null}
         <ListingPropertyFacts listing={listing} />
+        <ListingPublicNotes listing={listing} maxCharacters={220} />
         <ListingOwnerFacts listing={listing} />
         <ListingOwnerCrmData listing={listing} />
         {originalPrice != null && canViewOriginalPrice && (
@@ -224,6 +233,8 @@ export default function LagoonsVillaCard({ villa, listing, areaUnit = "sqm" }: P
           </div>
         )}
       </Link>
+
+      <OneDriveCardLinks villaKey={lagoonsVillaKey(villa)} className="px-4 sm:px-5 pb-1" />
 
       <div className="px-4 sm:px-5 pb-4 sm:pb-5 mt-auto">
         <div className="divider-rule mb-3" />

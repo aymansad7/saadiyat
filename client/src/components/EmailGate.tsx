@@ -63,6 +63,14 @@ export default function EmailGate({ children }: Props) {
     setSubmitting(true);
     try {
       await passwordSignIn.mutateAsync({ email: email.trim(), password });
+      // The password mutation sets the HttpOnly session cookie. Do not render
+      // protected routes until auth.me has fetched that new cookie; otherwise
+      // a project gate can briefly evaluate the just-signed-in user as null
+      // and show a false “Project access required” denial.
+      const refreshed = await meQuery.refetch();
+      if (!refreshed.data?.id && !refreshed.data?.email) {
+        throw new Error("Your session was created but could not be verified. Please try again.");
+      }
       setUnlocked(true);
     } catch (err: any) {
       setSignInError(err?.message || "Invalid email or password.");

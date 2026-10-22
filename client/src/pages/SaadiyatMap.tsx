@@ -137,6 +137,7 @@ export interface MapMarkerData {
   availabilityStatus?: "available";
   availabilityDate?: string;
   askingPrice?: number;
+  publicNotes?: string;
   availableForRent?: boolean;
   rentPrice?: number;
   floorplanHref?: string;
@@ -809,6 +810,7 @@ export default function SaadiyatMap() {
         builtUpSqft: override?.builtUpAreaSqm != null ? Math.round(override.builtUpAreaSqm * 10.7639) : marker.builtUpSqft,
         status: hasManualStatus ? override?.status : marker.status,
         askingPrice: override?.askingPriceAed ?? marker.askingPrice,
+        publicNotes: override?.publicNotes ?? marker.publicNotes,
         availableForRent: override?.availableForRent ?? marker.availableForRent,
         rentPrice: override?.rentPriceAed ?? marker.rentPrice,
         availabilityStatus: hasManualStatus
@@ -972,6 +974,9 @@ export default function SaadiyatMap() {
         m.developer ? `Developer: ${m.developer}` : "",
       ].filter(Boolean);
       if (facts.length) html += `<div style="font-size:11px;color:#555;margin:5px 0 4px;line-height:1.45">${facts.join(" · ")}</div>`;
+    }
+    if (m.publicNotes) {
+      html += `<div style="margin-top:6px;padding:7px;background:#f0f9ff;border-radius:6px;border:1px solid #bae6fd"><div style="font-size:10px;color:#0369a1;font-weight:700;text-transform:uppercase">Listing highlights</div><div style="font-size:11px;color:#334155;line-height:1.45;margin-top:3px">${escapeHtml(m.publicNotes)}</div></div>`;
     }
     if (m.originalPrice && canViewOriginalPrice) {
       html += `<div style="margin-top:6px;padding:6px;background:#f6f3ff;border-radius:4px;border:1px solid #ddd6fe"><div style="font-size:10px;color:#6d28d9;font-weight:700;text-transform:uppercase">Original Price</div><div style="font-size:15px;font-weight:700;margin-top:2px">AED ${fmt(m.originalPrice)}</div></div>`;

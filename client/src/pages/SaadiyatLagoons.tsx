@@ -14,6 +14,8 @@ import SiteHeader from "@/components/SiteHeader";
 import { Input } from "@/components/ui/input";
 import { trpc } from "@/lib/trpc";
 import { getAvailability } from "@/data/lagoonsAvailability";
+import { useListingIndex } from "@/hooks/useListingIndex";
+import { LAGOONS_CLUSTER_PHASES } from "@/lib/lagoonsPhaseDisplay";
 
 const CLUSTERS = [
   {
@@ -56,6 +58,7 @@ type AvailFilter = "all" | "any" | "nas-luxury" | "aldar" | "others" | "none";
 export default function SaadiyatLagoons() {
   const { data: lagoonsSummary, isLoading: summaryLoading } = trpc.lagoons.summary.useQuery();
   const { data: lagoonsAllData } = trpc.lagoons.allVillas.useQuery({ limit: 2000 });
+  const { index: listingIndex } = useListingIndex({ community: "lagoons" });
   const lagoonsVillas = lagoonsAllData?.villas ?? [];
 
   const totals = lagoonsSummary?.summary ?? {};
@@ -72,7 +75,7 @@ export default function SaadiyatLagoons() {
       if (out.length >= 30) break;
     }
     return out;
-  }, [uq]);
+  }, [lagoonsVillas, uq]);
 
   // Per-cluster availability counters
   const counters: Record<
@@ -91,13 +94,16 @@ export default function SaadiyatLagoons() {
     const a = getAvailability(v.unit_name);
     const c = counters[v.cluster];
     if (!c) continue;
-    if (a.sources.length > 0) {
+    const listing = listingIndex.get(`lagoons/${v.unit_name}`);
+    const listingAvailable = listing?.status === "available";
+    const listingWithNas = listingAvailable && listing?.listingPartners?.toLowerCase().includes("nas luxury") === true;
+    if (a.sources.length > 0 || listingAvailable) {
       c.any += 1;
       totalAny += 1;
     } else {
       c.none += 1;
     }
-    if (a.sources.includes("nas-luxury")) {
+    if (a.sources.includes("nas-luxury") || listingWithNas) {
       c["nas-luxury"] += 1;
       totalNas += 1;
     }
@@ -110,7 +116,7 @@ export default function SaadiyatLagoons() {
       totalOthers += 1;
     }
   }
-  const totalNone = lagoonsSummary?.total_villas ?? 1549 - totalAny;
+  const totalNone = Math.max(0, (lagoonsSummary?.total_villas ?? 1549) - totalAny);
 
   // Build hrefs that pre-apply the status filter on the cluster page
   const filterHref = (slug: string, filter: AvailFilter) =>
@@ -318,6 +324,13 @@ export default function SaadiyatLagoons() {
                   <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
                     {c.blurb}
                   </p>
+                  <div className="mt-4 flex flex-wrap gap-1.5" aria-label={`${c.name} Aldar-coded phases`}>
+                    {LAGOONS_CLUSTER_PHASES[c.slug].map((phase) => (
+                      <span key={phase} className="rounded-sm border border-primary/35 bg-primary/5 px-2 py-1 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-primary">
+                        {phase}
+                      </span>
+                    ))}
+                  </div>
 
                   <dl className="mt-5 grid grid-cols-3 gap-2 font-mono text-[0.7rem]">
                     <dt className="uppercase tracking-[0.16em] text-muted-foreground col-span-1">
