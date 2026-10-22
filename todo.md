@@ -1211,3 +1211,13 @@
 - [x] Building 1 official total: AED 245,930,400 across 57 priced units. Building 2 current official subtotal: AED 848,215,200 across 208 precisely priced units. Its 170 registry units omitted from the current source page remain untouched, rather than being marked missing or priced by inference.
 - [x] Produced a clearly labelled, non-persistent Building 2 planning indication from same-building official bedroom medians for the 170 source-absent records; it is not saved as an Aldar price and is not displayed as an official project value.
 - [x] Added a Master review report: `reports/Sei-Saadiyat-Buildings-1-2-Price-Review-2026-10-14.md`.
+
+### Muhammad Mardini — Scoped Map & Search Repair (22 Oct 2026)
+- [x] Verified account `m.mardini@nasluxury.com` is active and has whole-project grants for Saadiyat Lagoons and Saadiyat Reserve, plus the existing SL2/SL3/SL4/SL5/SL7/SL8 and Reserve Phase 1/2/3 grant history; original price, owner name, and owner phone permissions remain enabled.
+- [x] Fixed the interactive map’s delegated-user loading state: it now waits for the scoped permission response rather than briefly rendering an empty map, and gives a clear retry/re-login message only if the permission request actually fails.
+- [x] Added the legacy `/maps` route so shared plural map links and browser refreshes open the same interactive map as `/map`.
+- [x] Made Global Unit Search and Available Units server-authoritative and grant-scoped; they now return only cards the signed-in user can actually open, redact price without the associated price permission, and never expose Other Aldar inventory to non-Master users while that dataset remains Master-gated.
+- [x] Added exact Saadiyat Reserve / Dunes plot and villa records to the global search index, including direct detail links; confirmed live search as Muhammad returns Lagoons and Reserve cards and excludes unassigned inventory.
+- [x] Prevented unauthenticated pre-session search requests from producing false errors in the header, map, or Available Units page.
+- [x] Verified direct permission resolution for Muhammad: Lagoons and Saadiyat Reserve each return `canAccess: true` with original-price access.
+- [x] Completed `git diff --check`, TypeScript, and full regression validation: 90 Vitest files / 470 tests passed.

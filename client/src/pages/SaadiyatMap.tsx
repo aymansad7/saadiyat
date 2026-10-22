@@ -12,7 +12,7 @@ import { Link, useSearch } from "wouter";
 import SiteHeader from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChevronDown, Eye, EyeOff, Layers, Search, X } from "lucide-react";
+import { AlertTriangle, ChevronDown, Eye, EyeOff, Layers, Search, X } from "lucide-react";
 import { villas } from "@/data/villas";
 import { COMMUNITIES } from "@/data/communities";
 import { getPlotLandArea } from "@/data/plotLandAreas";
@@ -754,7 +754,7 @@ export default function SaadiyatMap() {
   });
   const fahidSearch = trpc.unitSearch.search.useQuery(
     { q: mapQuery, dataset: "other", projectSlug: "thebeachhouse", limit: 100 },
-    { enabled: mapSearchOpen && mapQuery.trim().length >= 2 },
+    { enabled: Boolean(user) && mapSearchOpen && mapQuery.trim().length >= 2 },
   );
   const permissionScopes = useMemo(() => {
     const overridesByKey = new Map((propertyOverrides.data ?? []).map(row => [row.villaKey, row]));
@@ -779,6 +779,9 @@ export default function SaadiyatMap() {
     () => new Map(projectPermissions.data?.map(item => [propertyScopeKey(item.scope), item.permissions]) ?? []),
     [projectPermissions.data],
   );
+  const isDelegatedUser = user != null && user.role !== "master";
+  const isCheckingDelegatedMapAccess = isDelegatedUser && projectPermissions.isLoading;
+  const didDelegatedMapAccessFail = isDelegatedUser && projectPermissions.isError;
   const markerData = useMemo(() => {
     const overridesByKey = new Map((propertyOverrides.data ?? []).map(row => [row.villaKey, row]));
     const hiddSensitiveByKey = new Map((hiddSensitiveFacts.data ?? []).map(row => [row.villaKey, row]));
@@ -827,8 +830,12 @@ export default function SaadiyatMap() {
         tenancyEnd: user?.role === "master" ? hiddSensitive?.tenancyEnd : undefined,
         tenancyContractReceived: user?.role === "master" ? hiddSensitive?.tenancyContractReceived : undefined,
       };
-    }).filter(marker => !user || user.role === "master" || permissionsByScope.get(propertyScopeKey(mapMarkerScope(marker)))?.canAccess === true);
-  }, [baseMarkerData, hiddSensitiveFacts.data, permissionsByScope, propertyOverrides.data, user?.role]);
+    }).filter(marker => user?.role === "master" || (
+      Boolean(user)
+      && projectPermissions.isSuccess
+      && permissionsByScope.get(propertyScopeKey(mapMarkerScope(marker)))?.canAccess === true
+    ));
+  }, [baseMarkerData, hiddSensitiveFacts.data, permissionsByScope, projectPermissions.isSuccess, propertyOverrides.data, user?.role]);
 
   const smartSearchResults = useMemo(
     () => findMapSearchResults(markerData, mapQuery),
@@ -1421,6 +1428,24 @@ export default function SaadiyatMap() {
           onMapReady={handleMapReady}
           layoutVersion={isHeaderCollapsed ? 1 : 0}
         />
+        {isCheckingDelegatedMapAccess && (
+          <div className="absolute inset-0 z-20 grid place-items-center bg-background/55 p-6 backdrop-blur-[1px]" aria-live="polite">
+            <div className="rounded-lg border border-border bg-card px-5 py-4 text-center shadow-lg">
+              <div className="mx-auto mb-2 h-5 w-5 animate-spin rounded-full border-2 border-primary/25 border-t-primary" aria-hidden="true" />
+              <p className="text-sm font-medium text-foreground">Checking your project access…</p>
+              <p className="mt-1 text-xs text-muted-foreground">Only the communities assigned to your account will appear on the map.</p>
+            </div>
+          </div>
+        )}
+        {didDelegatedMapAccessFail && (
+          <div className="absolute inset-0 z-20 grid place-items-center bg-background/55 p-6 backdrop-blur-[1px]" role="alert">
+            <div className="max-w-sm rounded-lg border border-amber-300 bg-card px-5 py-4 text-center shadow-lg">
+              <AlertTriangle className="mx-auto mb-2 h-5 w-5 text-amber-600" aria-hidden="true" />
+              <p className="text-sm font-medium text-foreground">We could not confirm map access</p>
+              <p className="mt-1 text-xs text-muted-foreground">Refresh this page or sign out and sign in again with your assigned email address.</p>
+            </div>
+          </div>
+        )}
         {selectedMarker && (
           <aside
             aria-label={`${selectedMarker.label} details`}

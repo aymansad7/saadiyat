@@ -8,6 +8,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "wouter";
 import { Search, X, MapPin, ArrowRight } from "lucide-react";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { Input } from "@/components/ui/input";
 
@@ -32,10 +33,12 @@ function datasetLabel(dataset: string): string {
   if (dataset === "saadiyat") return "Saadiyat";
   if (dataset === "other") return "Other";
   if (dataset === "lagoons") return "Lagoons";
+  if (dataset === "reserve") return "Reserve / Dunes";
   return dataset;
 }
 
 export default function GlobalUnitSearch() {
+  const { user } = useAuth();
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -55,7 +58,7 @@ export default function GlobalUnitSearch() {
 
   const { data, isLoading } = trpc.unitSearch.search.useQuery(
     { q: debouncedQuery, limit: 20 },
-    { enabled: debouncedQuery.length >= 2 },
+    { enabled: Boolean(user) && debouncedQuery.length >= 2 },
   );
 
   // Close dropdown when clicking outside

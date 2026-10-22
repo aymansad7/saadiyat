@@ -8,8 +8,13 @@
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { propertyAccessGrants } from "../../drizzle/schema";
+import { getPropertyScope, resolvePropertyPermissions, type GrantLike, type PropertyScope } from "../../shared/propertyAccess";
+import { SAADIYAT_RESERVE_RECORDS } from "../../client/src/data/saadiyatReserve";
+import { getDb } from "../db";
+import { protectedProcedure, router } from "../_core/trpc";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -22,7 +27,7 @@ export type SearchableUnit = {
   projectSlug: string;
   buildingName: string | null;
   buildingSlug: string | null;
-  dataset: "saadiyat" | "other" | "lagoons";
+  dataset: "saadiyat" | "other" | "lagoons" | "reserve";
   status: string | null;
   priceAed: number | null;
   bedrooms: string | null;
@@ -33,10 +38,16 @@ export type SearchableUnit = {
   href: string;
 };
 
+/** Internal-only authorization data. It is intentionally removed before any API response. */
+export type ScopedSearchableUnit = SearchableUnit & {
+  scope: PropertyScope;
+  priceAedRequiresOriginalPricePermission: boolean;
+};
+
 // ---------------------------------------------------------------------------
 // Data loading (cached in-process)
 // ---------------------------------------------------------------------------
-let UNITS: SearchableUnit[] | null = null;
+let UNITS: ScopedSearchableUnit[] | null = null;
 const SQFT_PER_SQM = 10.764;
 
 function getAreaSqm(unit: {
@@ -98,10 +109,15 @@ export function scoreSmartUnitSearch(query: string, unit: SearchableUnit): numbe
   return score;
 }
 
-function loadAllUnits(): SearchableUnit[] {
+function lagoonsPhaseFromSource(unit: { aldar_data?: { building_section?: string | null; aldar_unit_name?: string | null } | null }): string | null {
+  const source = `${unit.aldar_data?.building_section ?? ""} ${unit.aldar_data?.aldar_unit_name ?? ""}`;
+  return source.match(/(?:^|[-\s])(SL(?:2|3|4|5|7|8))(?:[-\s]|$)/i)?.[1]?.toUpperCase() ?? null;
+}
+
+function loadAllUnits(): ScopedSearchableUnit[] {
   if (UNITS) return UNITS;
 
-  const units: SearchableUnit[] = [];
+  const units: ScopedSearchableUnit[] = [];
 
   // Helper to resolve files from multiple candidate paths
   function readJson(file: string): string {
@@ -154,6 +170,13 @@ function loadAllUnits(): SearchableUnit[] {
             areaSqm,
             areaSqft: areaSqm != null ? Math.round(areaSqm * SQFT_PER_SQM * 100) / 100 : null,
             href: `/aldar-saadiyat/${p.slug}/${b.slug}/${encodeURIComponent(u.unit_name)}`,
+            scope: {
+              ...getPropertyScope(p.slug),
+              buildingKey: b.slug,
+              unitTypeKey: u.unit_type ?? null,
+              bedrooms: u.bedrooms != null && /^\d+$/.test(u.bedrooms) ? Number(u.bedrooms) : null,
+            },
+            priceAedRequiresOriginalPricePermission: true,
           });
         }
       }
@@ -194,6 +217,13 @@ function loadAllUnits(): SearchableUnit[] {
             areaSqm,
             areaSqft: areaSqm != null ? Math.round(areaSqm * SQFT_PER_SQM * 100) / 100 : null,
             href: `/aldar-other/${p.slug}/${b.slug}/${encodeURIComponent(u.unit_name)}`,
+            scope: {
+              ...getPropertyScope(p.slug),
+              buildingKey: b.slug,
+              unitTypeKey: u.unit_type ?? null,
+              bedrooms: u.bedrooms != null && /^\d+$/.test(u.bedrooms) ? Number(u.bedrooms) : null,
+            },
+            priceAedRequiresOriginalPricePermission: true,
           });
         }
       }
@@ -217,6 +247,7 @@ function loadAllUnits(): SearchableUnit[] {
         plot_area_sqm?: number | null;
         total_area_sqm?: number | null;
         saleable_area_sqm?: number | null;
+        aldar_data?: { building_section?: string | null; aldar_unit_name?: string | null } | null;
       }[];
     };
     for (const v of lagoons.villas) {
@@ -233,13 +264,54 @@ function loadAllUnits(): SearchableUnit[] {
         priceAed: v.price_aed ?? null,
         bedrooms: v.bedrooms != null ? String(v.bedrooms) : null,
         unitType: v.type ?? "Villa",
-        areaSqm,
-        areaSqft: areaSqm != null ? Math.round(areaSqm * SQFT_PER_SQM * 100) / 100 : null,
-        href: `/saadiyat-lagoons/${v.cluster}/${v.villa_key}`,
-      });
+            areaSqm,
+            areaSqft: areaSqm != null ? Math.round(areaSqm * SQFT_PER_SQM * 100) / 100 : null,
+            href: `/saadiyat-lagoons/${v.cluster}/${v.villa_key}`,
+            scope: {
+              ...getPropertyScope("lagoons"),
+              phaseKey: lagoonsPhaseFromSource(v),
+              buildingKey: v.cluster,
+              unitTypeKey: v.type ?? null,
+              bedrooms: v.bedrooms ?? null,
+            },
+            priceAedRequiresOriginalPricePermission: true,
+          });
     }
   } catch (err) {
     console.warn("[unitSearch] Failed to load lagoons:", err);
+  }
+
+  // Reserve and Dunes are maintained in their official master-plan registry,
+  // rather than the generic Aldar catalogue. Include them by exact plot/villa
+  // identity so a scoped user can search the same units they may open.
+  for (const record of SAADIYAT_RESERVE_RECORDS) {
+    const unitName = record.dunes?.unitName ?? record.label;
+    const bedrooms = record.dunes?.bedrooms ?? record.saleInventory?.bedrooms ?? null;
+    const unitType = record.dunes?.villaType ?? record.saleInventory?.unitType ?? "Residential Land";
+    const areaSqm = record.dunes?.totalAreaSqm ?? record.saleInventory?.landAreaSqm ?? record.plotAreaSqm;
+    units.push({
+      unitName,
+      projectName: "Saadiyat Reserve",
+      projectSlug: "saadiyat-reserve",
+      buildingName: `Phase ${record.phase}`,
+      buildingSlug: `phase-${record.phase}`,
+      dataset: "reserve",
+      status: record.availability === "available_for_sale" ? "Available" : record.availability === "sold" ? "Sold" : record.dunes?.launchStatus ?? null,
+      priceAed: record.askingPriceAed ?? record.dunes?.launchPriceAed ?? null,
+      bedrooms: bedrooms != null ? String(bedrooms) : null,
+      unitType,
+      areaSqm,
+      areaSqft: areaSqm != null ? Math.round(areaSqm * SQFT_PER_SQM * 100) / 100 : null,
+      href: `/saadiyat-reserve?plot=${record.plotNumber}`,
+      scope: {
+        ...getPropertyScope("saadiyat-reserve"),
+        phaseKey: `PHASE-${record.phase}`,
+        unitTypeKey: unitType,
+        bedrooms,
+        inventoryKey: record.inventoryKind,
+      },
+      priceAedRequiresOriginalPricePermission: true,
+    });
   }
 
   UNITS = units;
@@ -251,6 +323,39 @@ export function invalidateSearchIndex() {
   UNITS = null;
 }
 
+async function grantsForEmail(email: string | null | undefined): Promise<GrantLike[]> {
+  if (!email) return [];
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(propertyAccessGrants).where(eq(propertyAccessGrants.email, email.toLowerCase()));
+}
+
+function publicSearchResult(unit: ScopedSearchableUnit, canViewOriginalPrice: boolean): SearchableUnit {
+  const { scope: _scope, priceAedRequiresOriginalPricePermission, ...result } = unit;
+  return {
+    ...result,
+    priceAed: priceAedRequiresOriginalPricePermission && !canViewOriginalPrice ? null : result.priceAed,
+  };
+}
+
+/**
+ * Server-authoritative search projection. It prevents a result from exposing an
+ * inaccessible unit or returning a link which that user cannot subsequently open.
+ * Other Aldar remains Master-only until its underlying routers use the same
+ * scope-aware guard.
+ */
+export function visibleSearchUnitsForUser(
+  units: readonly ScopedSearchableUnit[],
+  role: string | null | undefined,
+  grants: GrantLike[],
+): SearchableUnit[] {
+  return units.flatMap(unit => {
+    if (unit.dataset === "other" && role !== "master") return [];
+    const permissions = resolvePropertyPermissions(role, grants, unit.scope);
+    return permissions.canAccess ? [publicSearchResult(unit, permissions.canViewOriginalPrice)] : [];
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Router
 // ---------------------------------------------------------------------------
@@ -259,19 +364,20 @@ export const unitSearchRouter = router({
    * Search units by name/number substring. Case-insensitive.
    * Returns up to `limit` results (default 30, max 100).
    */
-  search: publicProcedure
+  search: protectedProcedure
     .input(
       z.object({
         q: z.string().min(1).max(200),
         limit: z.number().int().min(1).max(100).optional().default(30),
         /** Optionally restrict to a single dataset */
-        dataset: z.enum(["saadiyat", "other", "lagoons"]).optional(),
+        dataset: z.enum(["saadiyat", "other", "lagoons", "reserve"]).optional(),
         /** Optionally restrict to a single project slug */
         projectSlug: z.string().optional(),
       }),
     )
-    .query(({ input }) => {
-      const all = loadAllUnits();
+    .query(async ({ input, ctx }) => {
+      const grants = await grantsForEmail(ctx.user.email);
+      const all = visibleSearchUnitsForUser(loadAllUnits(), ctx.user.role, grants);
       const rankedResults: Array<{ unit: SearchableUnit; score: number }> = [];
 
       for (const u of all) {
@@ -294,12 +400,12 @@ export const unitSearchRouter = router({
    * Public so it can be used without login (behind passcode gate anyway).
    * Use case: "show me all available 1BR units across all projects"
    */
-  filter: publicProcedure
+  filter: protectedProcedure
     .input(
       z.object({
         availableOnly: z.boolean().optional().default(true),
         bedrooms: z.string().optional(), // "1", "2", "3", "4", "5", "Studio"
-        dataset: z.enum(["saadiyat", "other", "lagoons", "all"]).optional().default("all"),
+        dataset: z.enum(["saadiyat", "other", "lagoons", "reserve", "all"]).optional().default("all"),
         priceMin: z.number().optional(),
         priceMax: z.number().optional(),
         areaMinSqm: z.number().nonnegative().optional(),
@@ -307,8 +413,9 @@ export const unitSearchRouter = router({
         limit: z.number().int().min(1).max(1000).optional().default(500),
       }),
     )
-    .query(({ input }) => {
-      const all = loadAllUnits();
+    .query(async ({ input, ctx }) => {
+      const grants = await grantsForEmail(ctx.user.email);
+      const all = visibleSearchUnitsForUser(loadAllUnits(), ctx.user.role, grants);
       const results: SearchableUnit[] = [];
       for (const u of all) {
         if (results.length >= input.limit) break;

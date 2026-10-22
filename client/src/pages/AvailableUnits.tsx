@@ -1,7 +1,7 @@
 /**
  * /available-units — Global filter page
  *
- * Shows all available units across ALL projects (Saadiyat, Other, Lagoons)
+ * Shows available units across the user's assigned projects (Saadiyat, Other, Lagoons, Reserve)
  * with bedroom filter buttons, price range inputs, and results grouped by project.
  * Public (behind passcode gate) — no login required.
  */
@@ -24,6 +24,7 @@ import { trpc } from "@/lib/trpc";
 import { fmtAed } from "@/data/aldar/format";
 import AreaFilterControls from "@/components/AreaFilterControls";
 import { sqftToSqm, type AreaUnit } from "@/lib/areaSearch";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 const BEDROOM_OPTIONS = [
   { label: "Studio", value: "Studio" },
@@ -47,15 +48,17 @@ function datasetBadge(dataset: string) {
   if (dataset === "saadiyat") return <span className="text-[0.6rem] font-mono uppercase tracking-wider text-primary border border-primary/40 px-1 rounded-sm">Saadiyat</span>;
   if (dataset === "other") return <span className="text-[0.6rem] font-mono uppercase tracking-wider text-rose-600 dark:text-rose-300 border border-rose-500/40 px-1 rounded-sm">Other</span>;
   if (dataset === "lagoons") return <span className="text-[0.6rem] font-mono uppercase tracking-wider text-blue-600 dark:text-blue-300 border border-blue-500/40 px-1 rounded-sm">Lagoons</span>;
+  if (dataset === "reserve") return <span className="text-[0.6rem] font-mono uppercase tracking-wider text-violet-700 dark:text-violet-300 border border-violet-500/40 px-1 rounded-sm">Reserve</span>;
   return null;
 }
 
 export default function AvailableUnits() {
+  const { user } = useAuth();
   const [bedrooms, setBedrooms] = useState<string | undefined>(undefined);
   const [availableOnly, setAvailableOnly] = useState(true);
   const [priceMinStr, setPriceMinStr] = useState("");
   const [priceMaxStr, setPriceMaxStr] = useState("");
-  const [dataset, setDataset] = useState<"all" | "saadiyat" | "other" | "lagoons">("all");
+  const [dataset, setDataset] = useState<"all" | "saadiyat" | "other" | "lagoons" | "reserve">("all");
   const [areaUnit, setAreaUnit] = useState<AreaUnit>("sqm");
   const [areaMinStr, setAreaMinStr] = useState("");
   const [areaMaxStr, setAreaMaxStr] = useState("");
@@ -88,6 +91,8 @@ export default function AvailableUnits() {
     areaMinSqm,
     areaMaxSqm,
     limit: 500,
+  }, {
+    enabled: Boolean(user),
   });
 
   const results = data?.results ?? [];
@@ -195,6 +200,7 @@ export default function AvailableUnits() {
                 <option value="saadiyat">Saadiyat Only</option>
                 <option value="other">Other Only</option>
                 <option value="lagoons">Lagoons Only</option>
+                <option value="reserve">Reserve / Dunes Only</option>
               </select>
             </div>
             {hasFilters && (

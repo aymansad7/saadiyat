@@ -74,6 +74,8 @@ function Router() {
       <Route path="/available-units" component={AvailableUnits} />
       <Route path="/availability" component={AvailabilityResults} />
       <Route path="/map" component={SaadiyatMap} />
+      {/* Keep the historically shared plural URL working on refresh and direct links. */}
+      <Route path="/maps" component={SaadiyatMap} />
       <Route path="/nudra">{() => <PropertyProjectGate projectKey="nudra"><Nudra /></PropertyProjectGate>}</Route>
       <Route path="/private-owners-vip">{() => <PropertyProjectGate projectKey="private-owners-vip"><DcrCommunityPage kind="private-owners-vip" /></PropertyProjectGate>}</Route>
       <Route path="/building-plots-sdw4">{() => <PropertyProjectGate projectKey="building-plots-sdw4"><DcrCommunityPage kind="building-plots-sdw4" /></PropertyProjectGate>}</Route>
