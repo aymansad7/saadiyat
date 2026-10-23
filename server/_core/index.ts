@@ -52,6 +52,10 @@ async function startServer() {
     createExpressMiddleware({
       router: appRouter,
       createContext,
+      // The interactive map batches its high-cardinality access-scope query as
+      // POST to avoid exceeding mobile/browser URL limits. tRPC otherwise
+      // rejects a query sent by POST before the access router can evaluate it.
+      allowMethodOverride: true,
     })
   );
   // development mode uses Vite, production mode uses static files

@@ -1231,3 +1231,10 @@
 - [x] Show source-backed SL labels on every Lagoons villa card and full detail header. Show the exact outer village phase groups: Ethir SL2; Al Sidr SL3/SL5; Al Ghaf SL4/SL7/SL8. No unsupported SLH label was invented.
 - [x] Fix Lagoons outer-page availability arithmetic so the new Available listing is reflected correctly in the counters rather than being hidden by nullish-coalescing precedence.
 - [x] Verify TypeScript, `git diff --check`, focused access/map/Lagoons tests, app health after restart, and complete regression suite: 91 Vitest files / 474 tests.
+
+### Muhammad Mardini — Production Map Transport Fix (23 Oct 2026)
+- [x] Reproduced the exact failure: the map intentionally sent `propertyAccess.permissions` by POST because its 112 access scopes create an unsafe ~20.7 KB GET URL, while the tRPC server rejected queries via POST with HTTP 405 `METHOD_NOT_SUPPORTED` before any grants were evaluated.
+- [x] Enabled tRPC `allowMethodOverride` for the existing authenticated API middleware, so the scoped map and project-gate permission queries can use their intended POST transport.
+- [x] Rechecked the endpoint after the server hot restart: it now reaches authentication and returns the expected 401 without a session instead of 405 `Unsupported POST-request`; application health is clean.
+- [x] Confirmed Muhammad’s existing whole-project Lagoons and Saadiyat Reserve grants remain sufficient; no access was broadened and no owner/pricing permission was changed.
+- [x] Verified `git diff --check`, TypeScript, and the complete regression suite: 91 Vitest files / 474 tests passed.
