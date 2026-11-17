@@ -64,6 +64,7 @@ const PROJECT_AREA: Record<string, AreaKey> = {
   "yasacres-the-magnolias": "yas-island",
   "al-deem-townhomes": "yas-island",
   "the-canopies": "yas-island",
+  "the-canopies-sanctuary": "yas-island",
 
   // --- Al Shamkha ---
   "fay-alreeman": "al-shamkha",

@@ -1238,3 +1238,15 @@
 - [x] Rechecked the endpoint after the server hot restart: it now reaches authentication and returns the expected 401 without a session instead of 405 `Unsupported POST-request`; application health is clean.
 - [x] Confirmed Muhammad’s existing whole-project Lagoons and Saadiyat Reserve grants remain sufficient; no access was broadened and no owner/pricing permission was changed.
 - [x] Verified `git diff --check`, TypeScript, and the complete regression suite: 91 Vitest files / 474 tests passed.
+
+### The Canopies Sanctuary — Brochure & Official API (17 Nov 2026)
+- [x] Verified the distinct official `thecanopies2` release as The Canopies Sanctuary at Yas Point / Yas Island, not Saadiyat Lagoons.
+- [x] Uploaded the supplied original, unmodified brochure to website storage and added its button on both Sanctuary and the original Canopies project, with cross-phase navigation and a project-search entry.
+- [x] Archived the byte-identical brochure in configured OneDrive under Projects / The Canopies Sanctuary / Brochures; SHA-256 verified, document ID 2460001, upload event 3930001. Confidential document permissions unchanged.
+- [x] Captured and exact-identity-verified all 273 currently exposed unit details: B1 79, B2 97, B3 97. Bedroom mix: 1 studio, 146 one-bedroom, 100 two-bedroom, 26 three-bedroom. Current exposed count is not a confirmed full physical-release total.
+- [x] Registered 273 exact unit cards under a separate Yas Island project through scoped initial sync run 5880001: 273 additions, 0 removals, 0 price changes, and 0 inferred sold events. Original Canopies inventory untouched.
+- [x] Preserved source state New on all 273 records and kept operational status null. Every selling price was AED 1 placeholder and was excluded; all published selling prices remain null. AED 100,000 reservation amount is not a selling price.
+- [x] Preserved sourced categories, bedrooms, saleable/balcony areas, parking and identifiers. No unseen units, owners, coordinates, layouts, availability or prices fabricated.
+- [x] Added a guarded first-import tool refusing existing-project replacement, and a verified official project fallback while exact public unit routes are unavailable.
+- [x] Verified Master router results for project, all buildings and exact studio, brochure storage redirect and official project redirect. Browser remains access-protected; initial screenshot tool captured loading states, not a verified loaded layout.
+- [x] Validation: git diff check, TypeScript and complete Vitest suite passed — 93 files / 480 tests.

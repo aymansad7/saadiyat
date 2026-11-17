@@ -12,6 +12,7 @@ import MasterGate from "@/components/MasterGate";
 import { trpc } from "@/lib/trpc";
 import { AldarStatusPills } from "@/components/AldarStatusPills";
 import { fmtAed } from "@/data/aldar/format";
+import { CANOPIES_SANCTUARY } from "@/data/canopiesSanctuary";
 
 function Inner() {
   const { project: slug } = useParams<{ project: string }>();
@@ -104,6 +105,38 @@ function Inner() {
                   <p className="mt-3 text-xs text-muted-foreground">
                     Payment plan: {project.data.published_starting_prices.payment_plan}. These are project starting prices by home type, not prices for NC/ND individual units.
                   </p>
+                </div>
+              )}
+              {(slug === "the-canopies" || slug === CANOPIES_SANCTUARY.slug) && (
+                <div className="mt-5 rounded-md border border-primary/25 bg-background/60 p-4 sm:p-5">
+                  <p className="text-[0.68rem] font-mono uppercase tracking-[0.18em] text-muted-foreground">
+                    {CANOPIES_SANCTUARY.location} · New phase
+                  </p>
+                  <h2 className="mt-2 font-display text-2xl text-foreground">{CANOPIES_SANCTUARY.name}</h2>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {CANOPIES_SANCTUARY.homeTypes}. A separate release from the original Canopies buildings.
+                  </p>
+                  {slug === CANOPIES_SANCTUARY.slug && (
+                    <p className="mt-3 rounded border border-sky-500/25 bg-sky-500/5 p-3 text-sm leading-6 text-foreground">
+                      These {project.data.unit_count} cards represent the exact units currently published by World of Aldar, not a confirmed full-release total.
+                      New is Aldar’s launch label, not confirmed availability. AED 1 placeholders are excluded; an unpublished price is not a sale or sold-out signal.
+                    </p>
+                  )}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <Button asChild variant="outline" size="sm" className="gap-1.5">
+                      <a href={CANOPIES_SANCTUARY.brochure} target="_blank" rel="noopener noreferrer">
+                        <FileText className="h-3.5 w-3.5" /> Open Sanctuary brochure
+                      </a>
+                    </Button>
+                    {slug === "the-canopies" && (
+                      <Button asChild variant="outline" size="sm" className="gap-1.5">
+                        <Link href={`/aldar-other/${CANOPIES_SANCTUARY.slug}`}>
+                          View Sanctuary <ArrowRight className="h-3.5 w-3.5" />
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
+                  <p className="mt-3 text-xs text-muted-foreground">{CANOPIES_SANCTUARY.documentScope}</p>
                 </div>
               )}
               {slug === "the-sustainable-city-yas-island" && (

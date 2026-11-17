@@ -12,6 +12,13 @@ describe("official Aldar unit link validation", () => {
     expect(getExactOfficialAldarUnitUrl(exactUrl, "MamshaGarden-B5-01-05")).toBe(exactUrl);
   });
 
+  it("uses the verified Sanctuary project fallback without inventing an unpublished exact-unit URL", () => {
+    expect(getExactOfficialAldarUnitUrl(null, "TheCanopies2-B1-02-10", "the-canopies-sanctuary")).toBeNull();
+    expect(getOfficialAldarProjectFallbackUrl("the-canopies-sanctuary")).toBe(
+      "https://world.aldar.com/uae/abudhabi/thecanopies2",
+    );
+  });
+
   it("uses the verified current Aldar format when a legacy Source Terraces path has been withdrawn", () => {
     const legacyUrl = "https://world.aldar.com/uae/abudhabi/thesourceterraces/property/TheSourceTerraces-R22-05-02";
     expect(getExactOfficialAldarUnitUrl(legacyUrl, "THESOURCETERRACES-R22-05-02", "the-source-terraces")).toBe(

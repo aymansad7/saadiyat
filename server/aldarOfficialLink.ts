@@ -17,6 +17,9 @@ const OFFICIAL_PROJECT_FALLBACKS: Record<string, { city: "abudhabi" | "dubai"; p
   "grove": { city: "abudhabi", project: "grove" },
   "manaratresidences3": { city: "abudhabi", project: "manarat" },
   "haven": { city: "dubai", project: "haven" },
+  // Official new-phase project page checked on 17 November 2026. Its exact
+  // public unit pages are not published yet; never fabricate a unit locator.
+  "the-canopies-sanctuary": { city: "abudhabi", project: "thecanopies2" },
 };
 const WITHDRAWN_CURRENT_UNIT_KEYS = new Set([
   "the-row-saadiyat:therowsaadiyat-b1-01-15",

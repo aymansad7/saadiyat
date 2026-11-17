@@ -74,6 +74,7 @@ const ALL_PROJECTS = [
   { name: "The Sustainable City", href: "/aldar-other/the-sustainable-city-yas-island" },
   { name: "Al Ghadeer Gardens", href: "/aldar-other/al-ghadeer-gardens" },
   { name: "The Canopies", href: "/aldar-other/the-canopies" },
+  { name: "The Canopies Sanctuary · Yas Point", href: "/aldar-other/the-canopies-sanctuary" },
   { name: "Haven", href: "/aldar-other/haven" },
   { name: "Verdes", href: "/aldar-other/verdes" },
   { name: "The Wilds", href: "/aldar-other/the-wilds" },
